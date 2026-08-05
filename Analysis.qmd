@@ -1,0 +1,154 @@
+---
+title: "Analysis"
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+```{r}
+library(data.table)
+library(dplyr)
+library(readxl)
+
+vistypes <- c(
+  "adjacent", "animation", "bivariate_corner", "bivariate_range",
+  "triple_CI", "uncert_markers",  "basic"
+)
+```
+
+```{r}
+correct1 <- read_excel("correct.xlsx", sheet = 1)
+answers1 <- setNames(correct1$`Solution ID`, correct1$Variable)
+correct1$Vistype
+```
+
+```{r}
+data = fread("data_uncertain_topoplots_pilot1.csv") %>% filter(`STATUS` == "complete")
+```
+
+
+```{r}
+# ---------- Task 1 ----------
+task1 <- data[, A101:A121]
+task1_correct <- sweep(
+  as.matrix(task1),
+  2,
+  answers1[colnames(task1)],
+  FUN = "=="
+)
+
+task1_scores <- data.frame(
+  vistype = unname(vistypes),
+
+  task1_mean = unname(sapply(vistypes, function(v) {
+    cols <- correct1$Variable[correct1$Vistype == v]
+    mean(task1_correct[, cols, drop = FALSE], na.rm = TRUE)
+  })),
+
+  task1_rowsum = unname(sapply(vistypes, function(v) {
+    cols <- correct1$Variable[correct1$Vistype == v]
+    mean(rowSums(task1_correct[, cols, drop = FALSE], na.rm = TRUE))
+  }))
+)
+task1_scores
+```
+
+```{r}
+# ---------- Task 2 ----------
+task2 <- data[, A204_01:A204_07]
+
+task2_scores <- data.frame(
+  vistype = vistypes,
+
+  task2_mean_raw = as.numeric(colMeans(task2, na.rm = TRUE)),
+  task2_mean_norm = unname(as.numeric(colMeans(task2, na.rm = TRUE))) / 8,
+
+  task2_rowsum = as.numeric(colSums(task2, na.rm = TRUE))
+)
+task2_scores
+```
+```{r}
+# ---------- Task 3 ----------
+eval1 <- data[, A301_01:A301_07]
+eval2 <- data[, A302_01:A302_07]
+eval3 <- data[, A303_01:A303_07]
+eval4 <- data[, A304_01:A304_07]
+
+# temporary
+eval_order <- c(
+  "adjacent", "bivariate_corner", "bivariate_range",
+  "triple_CI", "uncert_markers", "animation", "basic"
+)
+
+eval_mean_by_vistype <- function(eval_data, eval_order, score_name) {
+  out <- data.frame(
+    vistype = eval_order,
+    mean = as.numeric(colMeans(eval_data, na.rm = TRUE))
+  )
+
+  names(out)[2] <- score_name
+  out
+}
+
+eval1_scores <- eval_mean_by_vistype(eval1, eval_order, "comparison_mean")
+eval2_scores <- eval_mean_by_vistype(eval2, eval_order, "detection_mean")
+eval3_scores <- eval_mean_by_vistype(eval3, eval_order, "usage_mean")
+eval4_scores <- eval_mean_by_vistype(eval4, eval_order, "appealing_mean")
+
+eval_scores <- eval1_scores %>%
+  left_join(eval2_scores, by = "vistype") %>%
+  left_join(eval3_scores, by = "vistype") %>%
+  left_join(eval4_scores, by = "vistype")
+
+eval_scores
+```
+
+```{r}
+time_detection <-  data[, TIME008:TIME028]
+
+time_key <- data.frame(
+  time_col = colnames(time_detection),
+  inputId = sprintf("A201_%02d", 1:21),
+  vistype = c(
+    "adjacent", "animation", "bivariate_corner", "bivariate_range", "triple_CI", "uncert_markers", "basic",
+    "adjacent", "animation", "bivariate_corner", "bivariate_range", "triple_CI", "uncert_markers", "basic",
+    "adjacent", "animation", "bivariate_corner", "bivariate_range", "triple_CI", "uncert_markers", "basic"
+  )
+)
+
+time_scores <- data.frame(
+  vistype = vistypes,
+
+  time_mean = sapply(vistypes, function(v) {
+    cols <- time_key$time_col[time_key$vistype == v]
+    mean(as.matrix(time_detection[, ..cols]), na.rm = TRUE)
+  }),
+
+  time_sum = sapply(vistypes, function(v) {
+    cols <- time_key$time_col[time_key$vistype == v]
+    sum(as.matrix(time_detection[, ..cols]), na.rm = TRUE)
+  }),
+
+  row.names = NULL
+)
+
+time_scores
+```
+
+
+```{r}
+# ---------- Combine ----------
+vistype_scores <- left_join(
+  task1_scores,
+  task2_scores,
+  by = "vistype"
+) %>% left_join(
+  .,
+  time_scores,
+  by = "vistype"
+)
+
+vistype_scores
+```
+

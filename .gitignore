@@ -14,3 +14,5 @@ Analysis.pre-refactor.qmd
 
 # Aggregate figures are tracked because they are published on the website.
 **/*.quarto_ipynb
+
+/.quarto/
