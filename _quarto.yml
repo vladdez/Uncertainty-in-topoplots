@@ -3,16 +3,25 @@ project:
   output-dir: docs
   render:
     - index.qmd
-    - Analysis.qmd
+    - task1.qmd
+    - task2.qmd
+    - subjective.qmd
+    - figures.qmd
 
 website:
   title: "Uncertainty in topoplots"
   navbar:
     left:
       - href: index.qmd
-        text: Figures
-      - href: Analysis.qmd
-        text: Full analysis
+        text: Sample
+      - href: task1.qmd
+        text: Task 1
+      - href: task2.qmd
+        text: Task 2
+      - href: subjective.qmd
+        text: Subjective evaluation
+      - href: figures.qmd
+        text: Publication figures
 
 format:
   html:

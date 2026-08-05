@@ -1,5 +1,5 @@
 ---
-title: "Sample"
+title: "Task 1"
 execute:
   warning: false
   message: false
@@ -12,4 +12,4 @@ params:
 source("_analysis_setup.R")
 ```
 
-{{< include _sections/sample.qmd >}}
+{{< include _sections/task1.qmd >}}

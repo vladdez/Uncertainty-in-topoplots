@@ -24,17 +24,31 @@ The analysis includes:
 - subjective ratings of helpfulness and aesthetic appeal; and
 - summaries of open-ended participant feedback.
 
-The main analysis document is [`Analysis.qmd`](Analysis.qmd). It produces the
-statistical results, tables, and figures used to evaluate the visualization
-conditions.
+The website analysis is organized into separate Sample, Task 1, Task 2,
+Subjective evaluation, and Publication figures pages. Shared data preparation
+is defined in `_analysis_setup.R`, and the analysis sections are stored in
+`_sections/`.
 
 ## Reproducing the analysis
 
-Open `Analysis.Rproj` in RStudio and render `Analysis.qmd`, or run:
+Open `Analysis.Rproj` in RStudio and render the website, or run:
 
 ```sh
-quarto render Analysis.qmd
+quarto render
 ```
+
+The five pages can also be rendered individually:
+
+```sh
+quarto render index.qmd
+quarto render task1.qmd
+quarto render task2.qmd
+quarto render subjective.qmd
+quarto render figures.qmd
+```
+
+Task 1 and Task 2 regenerate their publication PNGs automatically. Other
+optional standalone exports remain disabled during normal website rendering.
 
 The analysis uses R packages including `dplyr`, `ggplot2`, `tidyr`, `forcats`,
 `lme4`, `glmmTMB`, `ordinal`, `emmeans`, `purrr`, `patchwork`, `showtext`, and
@@ -45,7 +59,7 @@ The analysis uses R packages including `dplyr`, `ggplot2`, `tidyr`, `forcats`,
 The raw survey data and participant feedback are not included in this
 repository because they may contain sensitive research information. To run the
 complete analysis, an authorized researcher must place the source data file in
-the project directory using the filename expected by `Analysis.qmd`.
+the project directory as `data_uncertain_topoplots.csv`.
 
 The rendered website is generated in `docs/` and is included in version
 control for publication with GitHub Pages. It contains the figure gallery and

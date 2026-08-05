@@ -10,10 +10,7 @@ feedback_*.pdf
 
 # Quarto generated files
 .quarto/
-Analysis_files/
-Analysis.html
-Analysis.pre-refactor.qmd
 Analysis.pre-refactor.qmd
 
-# Generated figures
-*.png
+# Aggregate figures are tracked because they are published on the website.
+**/*.quarto_ipynb
