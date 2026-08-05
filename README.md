@@ -1,5 +1,20 @@
 # Uncertainty in topoplots
 
+<p align="center">
+  <strong>How should uncertainty be communicated in topographic visualizations?</strong>
+</p>
+
+<p align="center">
+  <a href="https://vladdez.github.io/Uncertainty-in-topoplots/">
+    <img src="https://img.shields.io/badge/Explore_the_interactive_analysis-View_website-2563EB?style=for-the-badge&amp;logo=githubpages&amp;logoColor=white" alt="Explore the interactive analysis website">
+  </a>
+</p>
+
+<p align="center">
+  Browse the sample description, task results, subjective evaluations, and
+  publication-ready figures.
+</p>
+
 This repository contains the R/Quarto analysis for a study investigating how
 different visual representations of uncertainty influence the interpretation
 of topographic plots (topoplots).
