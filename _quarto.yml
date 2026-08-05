@@ -1,5 +1,24 @@
 project:
-  title: "Analysis"
+  type: website
+  output-dir: docs
+  render:
+    - index.qmd
+    - Analysis.qmd
+
+website:
+  title: "Uncertainty in topoplots"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Figures
+      - href: Analysis.qmd
+        text: Full analysis
+
+format:
+  html:
+    toc: true
+    code-fold: true
+    grid:
+      body-width: 1200px
 
 editor: visual
-

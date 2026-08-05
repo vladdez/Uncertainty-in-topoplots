@@ -1,0 +1,25 @@
+---
+title: "Uncertainty in topoplots"
+---
+
+This website presents aggregate figures from a study investigating how
+different visual representations of uncertainty affect the interpretation of
+topoplots.
+
+The study compares adjacent plots, animation, bivariate corner, bivariate
+range, confidence intervals, uncertainty markers, and a basic topoplot.
+
+The [full analysis](Analysis.qmd) includes the rendered statistical output,
+respondent-level tables, figures, and open-ended feedback.
+
+## Participant characteristics
+
+![](participant_characteristics_figure.png){fig-alt="Participant characteristics, including experience, research field, country of work, and software used."}
+
+## Participant characteristics: categories above 3%
+
+![](participant_characteristics_over_3_figure.png){fig-alt="Participant-characteristics panels showing categories above the specified percentage threshold."}
+
+## Model-estimated ratings
+
+![](likert_estimate_figure.png){fig-alt="Model-estimated ratings for comparison, detection and integration, representation, and aesthetic appeal."}

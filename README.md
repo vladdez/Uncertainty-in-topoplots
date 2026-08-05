@@ -1,1 +1,72 @@
-# Uncertainty-in-topoplots
+# Uncertainty in topoplots
+
+This repository contains the R/Quarto analysis for a study investigating how
+different visual representations of uncertainty influence the interpretation
+of topographic plots (topoplots).
+
+The study compares seven visualization types:
+
+- adjacent plots;
+- animation;
+- bivariate corner;
+- bivariate range;
+- confidence intervals;
+- uncertainty markers; and
+- a basic topoplot.
+
+## Analysis
+
+The analysis includes:
+
+- participant characteristics;
+- accuracy and completion time for comparison and detection tasks;
+- mixed-effects models and model-estimated contrasts;
+- subjective ratings of helpfulness and aesthetic appeal; and
+- summaries of open-ended participant feedback.
+
+The main analysis document is [`Analysis.qmd`](Analysis.qmd). It produces the
+statistical results, tables, and figures used to evaluate the visualization
+conditions.
+
+## Reproducing the analysis
+
+Open `Analysis.Rproj` in RStudio and render `Analysis.qmd`, or run:
+
+```sh
+quarto render Analysis.qmd
+```
+
+The analysis uses R packages including `dplyr`, `ggplot2`, `tidyr`, `forcats`,
+`lme4`, `glmmTMB`, `ordinal`, `emmeans`, `purrr`, `patchwork`, `showtext`, and
+`sysfonts`.
+
+## Data availability
+
+The raw survey data and participant feedback are not included in this
+repository because they may contain sensitive research information. To run the
+complete analysis, an authorized researcher must place the source data file in
+the project directory using the filename expected by `Analysis.qmd`.
+
+The rendered website is generated in `docs/` and is included in version
+control for publication with GitHub Pages. It contains the figure gallery and
+the complete rendered analysis, including respondent-level output and
+open-ended feedback. Standalone feedback exports and local R/RStudio state
+remain excluded.
+
+## Website
+
+Render the site locally with:
+
+```sh
+quarto render
+```
+
+The generated site is written to `docs/`. In the GitHub repository settings,
+open **Pages**, select **Deploy from a branch**, and choose the `main` branch
+and `/docs` folder. The published site will then be available at:
+
+<https://vladdez.github.io/Uncertainty-in-topoplots/>
+
+## License
+
+The code in this repository is available under the [MIT License](LICENSE).
