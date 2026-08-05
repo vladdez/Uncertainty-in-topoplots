@@ -227,7 +227,22 @@ task2_score_differences <- pairs(
   confint() |>
   as.data.frame()
 
-task2_score_differences
+task2_score_differences |>
+  mutate(
+    across(where(is.numeric), \(x) round(x, 3))
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Contrast",
+      "Difference",
+      "SE",
+      "df",
+      "Lower 95% CI",
+      "Upper 95% CI"
+    ),
+    table.attr = "class='table table-striped table-hover table-sm'"
+  )
 ```
 
 
