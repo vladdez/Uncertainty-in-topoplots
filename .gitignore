@@ -1,0 +1,19 @@
+# Private research data
+data_uncertain_topoplots.csv
+feedback_*.pdf
+
+# R/RStudio state
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# Quarto generated files
+.quarto/
+Analysis_files/
+Analysis.html
+Analysis.pre-refactor.qmd
+Analysis.pre-refactor.qmd
+
+# Generated figures
+*.png
