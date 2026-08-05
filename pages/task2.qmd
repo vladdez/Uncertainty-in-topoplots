@@ -12,4 +12,4 @@ params:
 source("_analysis_setup.R")
 ```
 
-{{< include _sections/task2.qmd >}}
+{{< include ../_sections/task2.qmd >}}

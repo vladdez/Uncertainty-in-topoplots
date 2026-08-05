@@ -290,7 +290,7 @@ likert_estimate_figure
 
 if (isTRUE(params$export_artifacts)) {
   ggsave(
-    "figures/likert_estimate_figure.png",
+    project_path("figures", "likert_estimate_figure.png"),
     likert_estimate_figure,
     width = 14,
     height = 12,

@@ -348,7 +348,7 @@ participant_characteristics_figure
 
 if (isTRUE(params$export_artifacts)) {
   ggsave(
-    "figures/participant_characteristics_figure.png",
+    project_path("figures", "participant_characteristics_figure.png"),
     participant_characteristics_figure,
     width = 15,
     height = 13,
@@ -407,7 +407,7 @@ participant_characteristics_over_3_figure
 
 if (isTRUE(params$export_artifacts)) {
   ggsave(
-    "figures/participant_characteristics_over_3_figure.png",
+    project_path("figures", "participant_characteristics_over_3_figure.png"),
     participant_characteristics_over_3_figure,
     width = 15,
     height = 13,

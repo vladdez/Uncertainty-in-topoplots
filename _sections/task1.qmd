@@ -204,7 +204,7 @@ comparison_accuracy_figure <- ggplot(
 comparison_accuracy_figure
 
 ggsave(
-  "figures/comparison_accuracy_figure.png",
+  project_path("figures", "comparison_accuracy_figure.png"),
   comparison_accuracy_figure,
   width = 9,
   height = 5.5,

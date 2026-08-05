@@ -9,10 +9,13 @@ library(purrr)
 library(lme4)
 library(patchwork)
 
+analysis_project_dir <- normalizePath(".", winslash = "/")
+project_path <- function(...) file.path(analysis_project_dir, ...)
+
 sysfonts::font_add_google("Lato", family = "Lato")
 showtext::showtext_auto()
 
-dir.create("figures", showWarnings = FALSE)
+dir.create(project_path("figures"), showWarnings = FALSE)
 
 vistypes <- c(
   "adjacent", "animation", "bivariate_corner", "bivariate_range",
@@ -64,7 +67,7 @@ get_field <- function(x, field) {
 }
 
 survey_raw <- read.csv2(
-  "data_uncertain_topoplots.csv",
+  project_path("data_uncertain_topoplots.csv"),
   fileEncoding = "UTF-16LE",
   check.names = FALSE
 )

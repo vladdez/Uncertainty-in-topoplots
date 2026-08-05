@@ -1,26 +1,30 @@
 project:
   type: website
   output-dir: docs
+  execute-dir: project
   render:
     - index.qmd
-    - task1.qmd
-    - task2.qmd
-    - subjective.qmd
-    - figures.qmd
+    - pages/sample.qmd
+    - pages/task1.qmd
+    - pages/task2.qmd
+    - pages/subjective.qmd
+    - pages/figures.qmd
 
 website:
   title: "Uncertainty in topoplots"
   navbar:
     left:
       - href: index.qmd
+        text: Home
+      - href: pages/sample.qmd
         text: Sample
-      - href: task1.qmd
+      - href: pages/task1.qmd
         text: Task 1
-      - href: task2.qmd
+      - href: pages/task2.qmd
         text: Task 2
-      - href: subjective.qmd
+      - href: pages/subjective.qmd
         text: Subjective evaluation
-      - href: figures.qmd
+      - href: pages/figures.qmd
         text: Publication figures
 
 format:

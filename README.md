@@ -42,7 +42,8 @@ The analysis includes:
 The website analysis is organized into separate Sample, Task 1, Task 2,
 Subjective evaluation, and Publication figures pages. Shared data preparation
 is defined in `_analysis_setup.R`, and the analysis sections are stored in
-`_sections/`.
+`_sections/`. The homepage remains at `index.qmd`; the analysis page wrappers
+are grouped under `pages/`.
 
 ## Reproducing the analysis
 
@@ -56,10 +57,11 @@ The five pages can also be rendered individually:
 
 ```sh
 quarto render index.qmd
-quarto render task1.qmd
-quarto render task2.qmd
-quarto render subjective.qmd
-quarto render figures.qmd
+quarto render pages/sample.qmd
+quarto render pages/task1.qmd
+quarto render pages/task2.qmd
+quarto render pages/subjective.qmd
+quarto render pages/figures.qmd
 ```
 
 Task 1 and Task 2 regenerate their publication PNGs automatically. Other

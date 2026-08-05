@@ -1,0 +1,20 @@
+---
+title: "Sample"
+execute:
+  warning: false
+  message: false
+params:
+  export_artifacts: false
+---
+
+```{r shared-setup}
+#| include: false
+source("_analysis_setup.R")
+```
+
+## Included sample: N = `r nrow(data)`
+
+The analysis includes `r nrow(data)` respondents after applying the study's
+date and completion criteria.
+
+{{< include ../_sections/sample.qmd >}}

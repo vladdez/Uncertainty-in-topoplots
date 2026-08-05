@@ -45,7 +45,7 @@ task2_responses <- data %>%
 
 ```{r}
 score_text <- paste(
-  readLines("regions.txt", encoding = "UTF-8"),
+  readLines(project_path("regions.txt"), encoding = "UTF-8"),
   collapse = "\n"
 )
 score_matches <- stringr::str_match_all(
@@ -292,7 +292,7 @@ detection_score_figure <- ggplot(
 detection_score_figure
 
 ggsave(
-  "figures/detection_score_figure.png",
+  project_path("figures", "detection_score_figure.png"),
   detection_score_figure,
   width = 9,
   height = 5.5,
