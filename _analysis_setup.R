@@ -84,6 +84,6 @@ data_full <- survey_raw
 data <- survey_raw %>%
   dplyr::slice(-1) %>%
   filter(as.Date(STARTED) >= as.Date("2026-07-24")) %>%
-  filter(!is.na(suppressWarnings(as.numeric(TIME051)))) %>%
+  filter(!is.na(readr::parse_number(TIME051))) %>%
   select(-(1:5)) %>%
   mutate(ID = row_number(), .before = 1)

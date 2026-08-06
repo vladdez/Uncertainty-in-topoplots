@@ -243,7 +243,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>likert</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2,632 × 4
+<pre><code># A tibble: 2,716 × 4
       ID question                              vistype          rating
    &lt;int&gt; &lt;fct&gt;                                 &lt;fct&gt;             &lt;int&gt;
  1     1 Helpful for comparison                adjacent              2
@@ -256,7 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8     1 Helpful for detection and integration adjacent              2
  9     1 Helpful for detection and integration animation             1
 10     1 Helpful for detection and integration bivariate_corner      4
-# ℹ 2,622 more rows</code></pre>
+# ℹ 2,706 more rows</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -282,13 +282,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 7 × 6
   vistype   Helpful for comparis…¹ Helpful for detectio…² Helpful for represen…³
   &lt;fct&gt;                      &lt;dbl&gt;                  &lt;dbl&gt;                  &lt;dbl&gt;
-1 adjacent                    3.87                   4.14                   4.11
-2 uncert_m…                   3.17                   3.77                   2.95
-3 triple_CI                   4.04                   3.57                   3.31
-4 animation                   3.69                   3.39                   2.86
-5 basic                       3.84                   2.28                   2.52
-6 bivariat…                   2.37                   3.33                   2.45
-7 bivariat…                   2.2                    3.29                   2.14
+1 adjacent                    3.88                   4.14                   4.11
+2 uncert_m…                   3.16                   3.76                   2.93
+3 triple_CI                   4.05                   3.59                   3.3 
+4 animation                   3.71                   3.42                   2.85
+5 basic                       3.81                   2.24                   2.51
+6 bivariat…                   2.35                   3.35                   2.43
+7 bivariat…                   2.18                   3.29                   2.13
 # ℹ abbreviated names: ¹​`Helpful for comparison`,
 #   ²​`Helpful for detection and integration`, ³​`Helpful for representation`
 # ℹ 2 more variables: `Aesthetically appealing` &lt;dbl&gt;, sum &lt;dbl&gt;</code></pre>
@@ -343,63 +343,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                question          vistype estimated_rating
-1                 Helpful for comparison         adjacent         3.903007
-2                 Helpful for comparison        animation         3.780508
-3                 Helpful for comparison bivariate_corner         2.146243
-4                 Helpful for comparison  bivariate_range         2.333764
-5                 Helpful for comparison        triple_CI         4.019989
-6                 Helpful for comparison   uncert_markers         3.184066
-7                 Helpful for comparison            basic         3.812700
-8  Helpful for detection and integration         adjacent         4.090086
-9  Helpful for detection and integration        animation         3.426927
-10 Helpful for detection and integration bivariate_corner         3.343131
-11 Helpful for detection and integration  bivariate_range         3.395177
-12 Helpful for detection and integration        triple_CI         3.539621
-13 Helpful for detection and integration   uncert_markers         3.729976
-14 Helpful for detection and integration            basic         2.252729
-15            Helpful for representation         adjacent         4.072503
-16            Helpful for representation        animation         2.853792
-17            Helpful for representation bivariate_corner         2.069751
-18            Helpful for representation  bivariate_range         2.413649
-19            Helpful for representation        triple_CI         3.295917
-20            Helpful for representation   uncert_markers         2.952010
-21            Helpful for representation            basic         2.507783
-22               Aesthetically appealing         adjacent         4.059183
-23               Aesthetically appealing        animation         2.233119
-24               Aesthetically appealing bivariate_corner         2.595306
-25               Aesthetically appealing  bivariate_range         3.528038
-26               Aesthetically appealing        triple_CI         2.373914
-27               Aesthetically appealing   uncert_markers         3.824820
-28               Aesthetically appealing            basic         3.302975
+1                 Helpful for comparison         adjacent         3.906414
+2                 Helpful for comparison        animation         3.798001
+3                 Helpful for comparison bivariate_corner         2.113584
+4                 Helpful for comparison  bivariate_range         2.310637
+5                 Helpful for comparison        triple_CI         4.031777
+6                 Helpful for comparison   uncert_markers         3.179394
+7                 Helpful for comparison            basic         3.788932
+8  Helpful for detection and integration         adjacent         4.092550
+9  Helpful for detection and integration        animation         3.454791
+10 Helpful for detection and integration bivariate_corner         3.349901
+11 Helpful for detection and integration  bivariate_range         3.414464
+12 Helpful for detection and integration        triple_CI         3.550602
+13 Helpful for detection and integration   uncert_markers         3.720531
+14 Helpful for detection and integration            basic         2.209709
+15            Helpful for representation         adjacent         4.076372
+16            Helpful for representation        animation         2.837297
+17            Helpful for representation bivariate_corner         2.063154
+18            Helpful for representation  bivariate_range         2.397427
+19            Helpful for representation        triple_CI         3.286598
+20            Helpful for representation   uncert_markers         2.933524
+21            Helpful for representation            basic         2.488546
+22               Aesthetically appealing         adjacent         4.064415
+23               Aesthetically appealing        animation         2.214524
+24               Aesthetically appealing bivariate_corner         2.564729
+25               Aesthetically appealing  bivariate_range         3.532282
+26               Aesthetically appealing        triple_CI         2.371855
+27               Aesthetically appealing   uncert_markers         3.822570
+28               Aesthetically appealing            basic         3.300352
    lower_ci upper_ci
-1  3.700378 4.105636
-2  3.565237 3.995779
-3  1.907838 2.384648
-4  2.086370 2.581157
-5  3.827850 4.212129
-6  2.947366 3.420765
-7  3.610321 4.015080
-8  3.902265 4.277907
-9  3.175247 3.678606
-10 3.077691 3.608571
-11 3.134597 3.655756
-12 3.306914 3.772329
-13 3.509109 3.950843
-14 1.982716 2.522742
-15 3.856439 4.288566
-16 2.569579 3.138004
-17 1.808871 2.330631
-18 2.134286 2.693012
-19 3.027068 3.564765
-20 2.673168 3.230851
-21 2.227549 2.788018
-22 3.863819 4.254548
-23 1.977408 2.488830
-24 2.335620 2.854992
-25 3.299393 3.756683
-26 2.131752 2.616075
-27 3.604064 4.045576
-28 3.074322 3.531627</code></pre>
+1  3.707540 4.105289
+2  3.587509 4.008493
+3  1.882061 2.345106
+4  2.069695 2.551578
+5  3.843039 4.220515
+6  2.947203 3.411585
+7  3.588412 3.989451
+8  3.908370 4.276730
+9  3.209172 3.700410
+10 3.088514 3.611288
+11 3.160129 3.668799
+12 3.322470 3.778734
+13 3.503095 3.937967
+14 1.945876 2.473541
+15 3.864591 4.288153
+16 2.556750 3.117844
+17 1.805995 2.320312
+18 2.122086 2.672769
+19 3.020694 3.552502
+20 2.658515 3.208534
+21 2.211787 2.765306
+22 3.873361 4.255468
+23 1.966070 2.462979
+24 2.309859 2.819599
+25 3.307299 3.757265
+26 2.133990 2.609720
+27 3.605073 4.040067
+28 3.076324 3.524380</code></pre>
 </div>
 </div>
 </section>
@@ -627,63 +627,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                question          vistype estimated_rating
-1                Aesthetically appealing         adjacent         4.059183
-2                Aesthetically appealing        animation         2.233119
-3                Aesthetically appealing bivariate_corner         2.595306
-4                Aesthetically appealing  bivariate_range         3.528038
-5                Aesthetically appealing        triple_CI         2.373914
-6                Aesthetically appealing   uncert_markers         3.824820
-7                Aesthetically appealing            basic         3.302975
-8                 Helpful for comparison         adjacent         3.903007
-9                 Helpful for comparison        animation         3.780508
-10                Helpful for comparison bivariate_corner         2.146243
-11                Helpful for comparison  bivariate_range         2.333764
-12                Helpful for comparison        triple_CI         4.019989
-13                Helpful for comparison   uncert_markers         3.184066
-14                Helpful for comparison            basic         3.812700
-15 Helpful for detection and integration         adjacent         4.090086
-16 Helpful for detection and integration        animation         3.426927
-17 Helpful for detection and integration bivariate_corner         3.343131
-18 Helpful for detection and integration  bivariate_range         3.395177
-19 Helpful for detection and integration        triple_CI         3.539621
-20 Helpful for detection and integration   uncert_markers         3.729976
-21 Helpful for detection and integration            basic         2.252729
-22            Helpful for representation         adjacent         4.072503
-23            Helpful for representation        animation         2.853792
-24            Helpful for representation bivariate_corner         2.069751
-25            Helpful for representation  bivariate_range         2.413649
-26            Helpful for representation        triple_CI         3.295917
-27            Helpful for representation   uncert_markers         2.952010
-28            Helpful for representation            basic         2.507783
+1                Aesthetically appealing         adjacent         4.064415
+2                Aesthetically appealing        animation         2.214524
+3                Aesthetically appealing bivariate_corner         2.564729
+4                Aesthetically appealing  bivariate_range         3.532282
+5                Aesthetically appealing        triple_CI         2.371855
+6                Aesthetically appealing   uncert_markers         3.822570
+7                Aesthetically appealing            basic         3.300352
+8                 Helpful for comparison         adjacent         3.906414
+9                 Helpful for comparison        animation         3.798001
+10                Helpful for comparison bivariate_corner         2.113584
+11                Helpful for comparison  bivariate_range         2.310637
+12                Helpful for comparison        triple_CI         4.031777
+13                Helpful for comparison   uncert_markers         3.179394
+14                Helpful for comparison            basic         3.788932
+15 Helpful for detection and integration         adjacent         4.092550
+16 Helpful for detection and integration        animation         3.454791
+17 Helpful for detection and integration bivariate_corner         3.349901
+18 Helpful for detection and integration  bivariate_range         3.414464
+19 Helpful for detection and integration        triple_CI         3.550602
+20 Helpful for detection and integration   uncert_markers         3.720531
+21 Helpful for detection and integration            basic         2.209709
+22            Helpful for representation         adjacent         4.076372
+23            Helpful for representation        animation         2.837297
+24            Helpful for representation bivariate_corner         2.063154
+25            Helpful for representation  bivariate_range         2.397427
+26            Helpful for representation        triple_CI         3.286598
+27            Helpful for representation   uncert_markers         2.933524
+28            Helpful for representation            basic         2.488546
    lower_ci upper_ci  ci_width lower_half upper_half
-1  3.863819 4.254548 0.3907290  0.1953645  0.1953645
-2  1.977408 2.488830 0.5114220  0.2557110  0.2557110
-3  2.335620 2.854992 0.5193716  0.2596858  0.2596858
-4  3.299393 3.756683 0.4572901  0.2286450  0.2286450
-5  2.131752 2.616075 0.4843233  0.2421617  0.2421617
-6  3.604064 4.045576 0.4415124  0.2207562  0.2207562
-7  3.074322 3.531627 0.4573042  0.2286521  0.2286521
-8  3.700378 4.105636 0.4052577  0.2026288  0.2026288
-9  3.565237 3.995779 0.4305415  0.2152708  0.2152708
-10 1.907838 2.384648 0.4768101  0.2384050  0.2384050
-11 2.086370 2.581157 0.4947871  0.2473936  0.2473936
-12 3.827850 4.212129 0.3842791  0.1921396  0.1921396
-13 2.947366 3.420765 0.4733987  0.2366993  0.2366993
-14 3.610321 4.015080 0.4047587  0.2023794  0.2023794
-15 3.902265 4.277907 0.3756425  0.1878213  0.1878213
-16 3.175247 3.678606 0.5033583  0.2516792  0.2516792
-17 3.077691 3.608571 0.5308802  0.2654401  0.2654401
-18 3.134597 3.655756 0.5211595  0.2605797  0.2605797
-19 3.306914 3.772329 0.4654147  0.2327074  0.2327074
-20 3.509109 3.950843 0.4417346  0.2208673  0.2208673
-21 1.982716 2.522742 0.5400268  0.2700134  0.2700134
-22 3.856439 4.288566 0.4321271  0.2160635  0.2160635
-23 2.569579 3.138004 0.5684248  0.2842124  0.2842124
-24 1.808871 2.330631 0.5217601  0.2608801  0.2608801
-25 2.134286 2.693012 0.5587255  0.2793628  0.2793628
-26 3.027068 3.564765 0.5376973  0.2688486  0.2688486
-27 2.673168 3.230851 0.5576832  0.2788416  0.2788416
-28 2.227549 2.788018 0.5604695  0.2802347  0.2802347</code></pre>
+1  3.873361 4.255468 0.3821068  0.1910534  0.1910534
+2  1.966070 2.462979 0.4969090  0.2484545  0.2484545
+3  2.309859 2.819599 0.5097401  0.2548700  0.2548700
+4  3.307299 3.757265 0.4499657  0.2249828  0.2249828
+5  2.133990 2.609720 0.4757302  0.2378651  0.2378651
+6  3.605073 4.040067 0.4349938  0.2174969  0.2174969
+7  3.076324 3.524380 0.4480556  0.2240278  0.2240278
+8  3.707540 4.105289 0.3977496  0.1988748  0.1988748
+9  3.587509 4.008493 0.4209844  0.2104922  0.2104922
+10 1.882061 2.345106 0.4630453  0.2315226  0.2315226
+11 2.069695 2.551578 0.4818829  0.2409415  0.2409415
+12 3.843039 4.220515 0.3774754  0.1887377  0.1887377
+13 2.947203 3.411585 0.4643828  0.2321914  0.2321914
+14 3.588412 3.989451 0.4010394  0.2005197  0.2005197
+15 3.908370 4.276730 0.3683605  0.1841802  0.1841802
+16 3.209172 3.700410 0.4912386  0.2456193  0.2456193
+17 3.088514 3.611288 0.5227741  0.2613871  0.2613871
+18 3.160129 3.668799 0.5086699  0.2543350  0.2543350
+19 3.322470 3.778734 0.4562642  0.2281321  0.2281321
+20 3.503095 3.937967 0.4348721  0.2174361  0.2174361
+21 1.945876 2.473541 0.5276644  0.2638322  0.2638322
+22 3.864591 4.288153 0.4235620  0.2117810  0.2117810
+23 2.556750 3.117844 0.5610947  0.2805473  0.2805473
+24 1.805995 2.320312 0.5143167  0.2571584  0.2571584
+25 2.122086 2.672769 0.5506838  0.2753419  0.2753419
+26 3.020694 3.552502 0.5318079  0.2659039  0.2659039
+27 2.658515 3.208534 0.5500192  0.2750096  0.2750096
+28 2.211787 2.765306 0.5535189  0.2767595  0.2767595</code></pre>
 </div>
 </div>
 </section>
@@ -1108,6 +1108,11 @@ really dislike the uncertainty markers.
 ID:94
 Odd color conventions can be confusing and distracting. The same with images that morph -- static is
 more helpful.
+----------------------------------------------------------------------------------------------------
+
+ID:96
+Animations won't work in printed PDFs so that is a big blocker for adoption I think. The confidence
+interval plot is the most easy to interpret for me.
 ----------------------------------------------------------------------------------------------------</code></pre>
 </div>
 </div>
