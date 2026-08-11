@@ -9,7 +9,329 @@ params:
 
 ```{r shared-setup}
 #| include: false
-source("_analysis_setup.R")
+source("scripts/analysis_setup.R")
 ```
 
-{{< include ../_sections/subjective.qmd >}}
+
+## Rating data preparation and descriptive summary
+
+```{r}
+
+question_labels <- c(
+  A301 = "Helpful for comparison",
+  A302 = "Helpful for detection and integration",
+  A303 = "Helpful for representation",
+  A304 = "Aesthetically appealing"
+)
+
+likert <- data %>%
+  select(ID, matches("^A30[1-4]_\\d{2}$")) %>%
+  pivot_longer(
+    -ID,
+    names_to = c("question_code", "number"),
+    names_pattern = "(A30[1-4])_(\\d{2})",
+    values_to = "rating_raw"
+  ) %>%
+  mutate(
+    number = as.integer(number),
+
+    vistype = factor(
+      vistypes[number],
+      levels = vistypes
+    ),
+
+    question = factor(
+      question_code,
+      levels = names(question_labels),
+      labels = unname(question_labels)
+    ),
+
+    rating = as.integer(
+      stringr::str_extract(as.character(rating_raw), "^-?\\d+")
+    ),
+
+    rating = if_else(
+      rating %in% 1:5,
+      rating,
+      NA_integer_
+    )
+  ) %>%
+  select(ID, question, vistype, rating)
+likert
+```
+```{r likert-summary-table}
+likert_table <- likert %>%
+  group_by(vistype, question) %>%
+  summarise(
+    mean_rating = round(mean(rating, na.rm = TRUE), 2),
+    .groups = "drop"
+  ) %>%
+  tidyr::pivot_wider(
+    names_from = question,
+    values_from = mean_rating
+  ) %>% mutate(
+    sum = rowSums(across(where(is.numeric)), na.rm = TRUE)
+  ) %>%
+  arrange(desc(sum))
+
+likert_table
+```
+## Ordinal mixed-effects models
+
+```{r}
+likert_model_data <- likert |>
+  filter(!is.na(rating)) |>
+  mutate(
+    ID = factor(ID),
+    vistype = droplevels(factor(vistype)),
+    rating_ord = ordered(rating, levels = 1:5)
+  )
+
+likert_models <- likert_model_data |>
+  (\(data) split(data, data$question))() |>
+  map(
+    \(data_question) clmm(
+      rating_ord ~ vistype + (1 | ID),
+      data = data_question,
+      Hess = TRUE
+    )
+  )
+
+likert_estimates <- imap_dfr(
+  likert_models,
+  function(model, question_name) {
+
+    emmeans(
+      model,
+      ~ vistype,
+      mode = "mean.class"
+    ) |>
+      confint() |>
+      as.data.frame() |>
+      transmute(
+        question = question_name,
+        vistype,
+        estimated_rating = mean.class,
+        lower_ci = asymp.LCL,
+        upper_ci = asymp.UCL
+      )
+  }
+)
+
+likert_estimates
+```
+
+## Model-estimated ratings
+
+```{r}
+#| fig-width: 14
+#| fig-height: 12
+question_columns <- unname(question_labels)
+
+make_likert_estimate_plot <- function(question_name, show_x = TRUE) {
+
+  plot_data <- likert_estimates |>
+    filter(question == question_name) |>
+    arrange(estimated_rating) |>
+    mutate(
+      colour_group = case_when(
+        vistype %in% c("adjacent", "triple_CI") ~ "red",
+        vistype == "basic" ~ "blue",
+        TRUE ~ "other"
+      ),
+    
+      display_label = unname(
+        vistype_labels[as.character(vistype)]
+      ),
+    
+      vistype = factor(
+        vistype,
+        levels = unique(vistype)
+      )
+    )
+
+  p <- ggplot(
+    plot_data,
+      aes(
+    x = estimated_rating,
+    y = vistype,
+    colour = colour_group
+  )
+  ) +
+    geom_errorbar(
+      aes(
+        xmin = lower_ci,
+        xmax = upper_ci
+      ),
+      orientation = "y",
+      width = 0.16,
+      linewidth = 0.7
+    ) +
+    geom_point(size = 3.5) +
+
+    # Estimated values
+    geom_text(
+      aes(label = sprintf("%.2f", estimated_rating)),
+      nudge_y = 0.32,
+      vjust = 0.5,
+      size = 6
+    ) +
+
+    # Custom y-axis labels
+    geom_text(
+      data = plot_data,
+      aes(
+        x = 0.78,
+        y = vistype,
+        label = display_label,
+        colour = colour_group
+      ),
+      inherit.aes = FALSE,
+      hjust = 1,
+      size = 8,
+      lineheight = 0.9
+    ) +
+
+    scale_colour_manual(
+  values = c(
+    red = "#D1495B",
+    blue = "#3B78B4",
+    other = "#222222"
+  ),
+  guide = "none"
+) +
+
+    scale_x_continuous(
+      breaks = 1:5,
+      labels = function(x) sprintf("%.0f", x),
+      expand = expansion(mult = c(0.02, 0.02))
+    ) +
+
+    # Hide ordinary y-axis labels
+    scale_y_discrete(
+      labels = NULL,
+      expand = expansion(add = 0.5)
+    ) +
+
+    # Show custom labels placed slightly outside the panel
+    coord_cartesian(
+      xlim = c(1, 5),
+      clip = "off"
+    ) +
+
+    labs(
+      title = question_name,
+      x = "Model-estimated\nexpected rating",
+      y = NULL
+    ) +
+
+    theme_classic(base_family = "Lato", base_size = 20) +
+
+    theme(
+      plot.title = element_text(
+        hjust = 0.5,
+        face = "bold",
+        size = 22
+      ),
+      axis.text.x = element_text(size = 20),
+      axis.title.x = element_text(size = 20),
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank(),
+
+      # Space for custom labels
+       plot.margin = margin(
+    t = 5.5,
+    r = 5.5,
+        b = 14,
+    l = 200
+  )
+    )
+
+  if (!show_x) {
+    p <- p +
+      theme(
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()
+      )
+  }
+
+  p
+}
+
+p1 <- make_likert_estimate_plot(
+  question_columns[1],
+  show_x = FALSE
+)
+
+p2 <- make_likert_estimate_plot(
+  question_columns[2],
+  show_x = FALSE
+)
+
+p3 <- make_likert_estimate_plot(
+  question_columns[3],
+  show_x = TRUE
+)
+
+p4 <- make_likert_estimate_plot(
+  question_columns[4],
+  show_x = TRUE
+)
+
+likert_estimate_figure <-
+  (p1 + p2) /
+  (p3 + p4) +
+  plot_annotation(
+    caption = paste0(
+      "Points show model-estimated expected ratings.\n",
+      "Error bars indicate 95% confidence intervals."
+    ),
+    theme = theme(
+      plot.caption = element_text(
+        hjust = 0.5,
+        size = 18,
+        face = "italic",
+        family = "Lato",
+        margin = margin(t = 8, b = 8)
+      ),
+      plot.margin = margin(6, 12, 12, 12)
+    )
+  )
+
+
+likert_estimate_figure
+
+if (isTRUE(params$export_artifacts)) {
+  ggsave(
+    project_path("figures", "likert_estimate_figure.png"),
+    likert_estimate_figure,
+    width = 14,
+    height = 12,
+    dpi = 90
+  )
+}
+```
+
+
+```{r}
+likert_estimates |>
+  mutate(
+    ci_width = upper_ci - lower_ci,
+    lower_half = estimated_rating - lower_ci,
+    upper_half = upper_ci - estimated_rating
+  ) |>
+  arrange(question, vistype) |>
+  select(
+    question,
+    vistype,
+    estimated_rating,
+    lower_ci,
+    upper_ci,
+    ci_width,
+    lower_half,
+    upper_half
+  )
+```
+
+

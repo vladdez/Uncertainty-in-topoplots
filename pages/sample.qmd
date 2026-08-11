@@ -9,7 +9,7 @@ params:
 
 ```{r shared-setup}
 #| include: false
-source("_analysis_setup.R")
+source("scripts/analysis_setup.R")
 ```
 
 ## Included sample: N = `r nrow(data)`
@@ -17,4 +17,425 @@ source("_analysis_setup.R")
 The analysis includes `r nrow(data)` respondents after applying the study's
 date and completion criteria.
 
-{{< include ../_sections/sample.qmd >}}
+```{r sample-summary}
+tibble(
+  respondents = nrow(data),
+  mean_completion_minutes = mean(as.numeric(data$TIME_SUM), na.rm = TRUE) / 60,
+  median_completion_minutes = median(as.numeric(data$TIME_SUM), na.rm = TRUE) / 60
+)
+```
+
+# Participant characteristics
+
+## Self-assessed visualization experience
+```{r}
+n_total <- data %>%
+  filter(!is.na(A001)) %>%
+  nrow()
+
+data$A001 %>% table() %>%  data.frame() %>% dplyr::rename(level = !!names(.)[1]) %>%
+    mutate(percent_score = round(Freq / sum(Freq) * 100)) %>% 
+    mutate(level = factor(level, levels = rev(c("Beginner", "Intermediate", "Expert")))) %>% 
+    ggplot(data = ., aes(y = level, x = percent_score)) +  
+    geom_col(stat="identity",  width = 0.8, fill ="#6BAED6") + labs(x = "Percent of respondents", y = "", title="Self-assessed level") +
+    geom_text(aes(label = paste0(percent_score, "%")), hjust = -0.2)  +  theme_classic(base_family = "Lato", base_size = 20) + 
+ scale_x_continuous(
+    name = "Percent of respondents",
+    labels = \(x) paste0(x, "%"),
+    breaks = seq(0, 50, 10),
+
+    sec.axis = sec_axis(
+      transform = ~ . * n_total / 100,
+      name = "Number of respondents"
+    ),
+
+    expand = expansion(mult = c(0, 0.12))
+  ) + theme(
+    plot.title = element_text(
+      size = 22,
+      face = "bold", hjust = 0.5,
+      margin = margin(b = 14)
+    ),
+    axis.title.x = element_text(
+      size = 20, hjust = 0.5,
+      margin = margin(t = 10),
+    ),
+    axis.text = element_text(size = 20),
+    axis.ticks.y = element_blank(),
+    legend.position = "none"
+  )  + coord_cartesian(clip = "off")
+```
+
+## Country of work
+```{r}
+country <- data %>%
+  transmute(
+    country_work = case_when(
+      A004 == "-2" & !is.na(A004s) & A004s != "" ~ A004s,
+      TRUE ~ A004
+    )
+  ) %>% mutate(
+    country_work = trimws(country_work),
+
+    country_work = case_when(
+      country_work %in% c("NL", "The Netherlands") ~ "Netherlands",
+      country_work %in% c("United States", "United States of America") ~ "USA",
+      country_work %in% c(
+        "Prefer not to say",
+        "Professor",
+        "Senior Researcher"
+      ) ~ NA_character_,
+      TRUE ~ country_work
+    )) %>%
+  filter(!is.na(country_work), country_work != "") %>%
+  mutate(
+    country_work = fct_lump_min(
+      factor(country_work),
+      min = 2,
+      other_level = "Other"
+    )
+  ) %>% count(country_work, name = "Freq") %>%
+  mutate(
+    percent_score = round(Freq / sum(Freq) * 100),
+    country_work = fct_reorder(
+      country_work,
+      percent_score
+    )
+  )
+country
+
+```
+
+### Diagnostic: responses grouped as “Other”
+
+```{r country-other-diagnostic}
+country_other <- data %>%
+  transmute(
+    country_original = case_when(
+      A004 == "-2" & !is.na(A004s) & A004s != "" ~ A004s,
+      TRUE ~ A004
+    )
+  ) %>%
+  mutate(
+    country_original = trimws(country_original),
+    country_original = case_when(
+      country_original %in% c("NL", "The Netherlands") ~ "Netherlands",
+      country_original %in% c("United States", "United States of America") ~ "USA",
+      country_original %in% c(
+        "Prefer not to say",
+        "Professor",
+        "Senior Researcher"
+      ) ~ NA_character_,
+      TRUE ~ country_original
+    )
+  ) %>%
+  filter(!is.na(country_original), country_original != "") %>%
+  count(country_original, name = "respondents", sort = TRUE) %>%
+  filter(respondents < 2)
+
+country_other
+```
+
+```{r}
+
+country %>%
+  ggplot(aes(percent_score, reorder(country_work, percent_score))) +
+  geom_col(width = 0.7, fill = "#6BAED6") +
+  geom_text(aes(label = paste0(round(percent_score), "%")),
+            hjust = -0.15, size = 6) +
+  scale_x_continuous(
+    "Percent of respondents",
+    labels = \(x) paste0(x, "%"),
+    sec.axis = sec_axis(~ . * n_total / 100, name = "Number of respondents"),
+    expand = expansion(mult = c(0, 0.15))
+  ) +
+  labs(
+    title = "Country of work",
+    y = NULL,
+   # caption = paste("N of respondents =", n_total)
+  ) +
+  coord_cartesian(clip = "off") +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
+    axis.text = element_text(size = 20),
+    axis.ticks.y = element_blank(),
+    plot.caption.position = "plot",
+    plot.caption = element_text(hjust = 0)
+  )
+```
+
+## Research field
+```{r}
+field <- data %>%
+  mutate(field = stringr::word(A005, 1)) %>%
+  count(field, name = "Freq") %>%
+  mutate(percent_score = Freq / sum(Freq) * 100)
+field
+```
+```{r}
+field %>%
+  ggplot(aes(percent_score, reorder(field, percent_score))) +
+  geom_col(width = 0.7, fill = "#6BAED6") +
+  geom_text(aes(label = paste0(round(percent_score), "%")),
+            hjust = -0.15, size = 6) +
+  scale_x_continuous(
+    "Percent of respondents",
+    labels = \(x) paste0(x, "%"),
+    sec.axis = sec_axis(~ . * n_total / 100,
+                        name = "Number of respondents"),
+    expand = expansion(mult = c(0, 0.15))
+  ) +
+  labs(title = "Research field", y = NULL) +
+  coord_cartesian(clip = "off") +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
+    axis.text = element_text(size = 20),
+    axis.ticks.y = element_blank()
+  )
+```
+## Software used
+
+```{r}
+software_names <- legend %>%
+  select(matches("^A006_\\d{2}$")) %>%
+  pivot_longer(everything(), names_to = "item", values_to = "software")  %>%
+  mutate(
+    software = stringr::word(software, 2, -1),
+    software = if_else(item == "A006_27", "Other", software)
+  )
+
+
+software <- data %>%
+  select(matches("^A006_\\d{2}$")) %>%
+  pivot_longer(everything(), names_to = "item", values_to = "response") %>%
+  filter(response == "Checked") %>%
+  count(item, name = "Freq") %>%
+  right_join(software_names, by = "item") %>%
+  mutate(
+    Freq = coalesce(Freq, 0L),
+    percent_score = Freq / n_total * 100
+  )
+software
+```
+```{r}
+software %>% filter(Freq != 0) %>% 
+  ggplot(aes(percent_score, reorder(software, percent_score))) +
+  geom_col(width = 0.7, fill = "#6BAED6") +
+  geom_text(aes(label = paste0(round(percent_score), "%")),
+            hjust = -0.15, size = 6) +
+  scale_x_continuous(
+    "Percent of respondents",
+    labels = \(x) paste0(x, "%"),
+    sec.axis = sec_axis(~ . * n_total / 100,
+                        name = "Number of respondents"),
+    expand = expansion(mult = c(0, 0.18))
+  ) +
+  labs(title = "Software used", y = NULL) +
+  coord_cartesian(clip = "off") +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
+    axis.text = element_text(size = 20),
+    axis.ticks.y = element_blank()
+  )
+```
+
+## Combined participant-characteristics figure
+
+```{r participant-characteristics-figure}
+#| fig-width: 15
+#| fig-height: 13
+
+format_category_labels <- function(labels) {
+  lapply(
+    labels,
+    \(label) {
+      if (identical(label, "Other")) {
+        bquote(italic(.(label)))
+      } else {
+        label
+      }
+    }
+  )
+}
+
+make_characteristic_plot <- function(
+  plot_data,
+  label_column,
+  title,
+  bar_width = 0.7,
+  label_size = 20
+) {
+  plot_data <- plot_data %>%
+    filter(!is.na(.data[[label_column]])) %>%
+    mutate(
+      display_label = forcats::fct_reorder(
+        factor(.data[[label_column]]),
+        percent_score
+      )
+    )
+
+  ggplot(plot_data, aes(x = percent_score, y = display_label)) +
+    geom_col(width = bar_width, fill = "#6BAED6") +
+    geom_text(
+      aes(label = paste0(round(percent_score), "%")),
+      hjust = -0.15,
+      size = 8
+    ) +
+    scale_x_continuous(
+      limits = c(0, 100),
+      breaks = seq(0, 100, 25),
+      labels = \(x) paste0(x, "%"),
+      expand = expansion(mult = c(0, 0.02))
+    ) +
+    scale_y_discrete(labels = format_category_labels) +
+    labs(title = title, x = "Percent of respondents", y = NULL) +
+    coord_cartesian(clip = "off") +
+    theme_classic(base_family = "Lato", base_size = 20) +
+    theme(
+      plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
+      axis.title.x = element_text(size = 20),
+      axis.text.x = element_text(size = 20),
+      axis.text.y = element_text(size = label_size),
+      axis.ticks.y = element_blank(),
+      plot.margin = margin(8, 20, 8, 8)
+    )
+}
+
+experience_combined <- data %>%
+  filter(!is.na(A001), A001 != "") %>%
+  count(level = A001, name = "Freq") %>%
+  mutate(percent_score = Freq / sum(Freq) * 100)
+
+country_combined <- country %>%
+  transmute(
+    country_work = as.character(country_work),
+    Freq,
+    percent_score
+  )
+
+field_combined <- field %>%
+  filter(!is.na(field), field != "")
+
+software_combined <- software %>%
+  filter(Freq > 0, !is.na(software), software != "")
+
+p_experience <- make_characteristic_plot(
+  experience_combined,
+  "level",
+  "Self-assessed level"
+)
+p_country <- make_characteristic_plot(
+  country_combined,
+  "country_work",
+  "Country of work"
+)
+p_field <- make_characteristic_plot(
+  field_combined,
+  "field",
+  "Research field"
+)
+p_software <- make_characteristic_plot(
+  software_combined,
+  "software",
+  "Software used"
+)
+
+participant_characteristics_figure <-
+  (p_experience + p_field) /
+  (p_country + p_software) +
+  plot_layout(heights = c(0.65, 1.35)) +
+  plot_annotation(
+    tag_levels = "A",
+    caption = paste0(
+      "Bars show percentages of respondents with valid responses. ",
+      "Multiple software selections were permitted."
+    ),
+    theme = theme(
+      plot.tag = element_text(face = "bold", size = 18),
+      plot.caption = element_text(
+        hjust = 0.5,
+        face = "italic",
+        family = "Lato",
+        size = 18
+      )
+    )
+  )
+
+participant_characteristics_figure
+
+if (isTRUE(params$export_artifacts)) {
+  ggsave(
+    project_path("figures", "participant_characteristics_figure.png"),
+    participant_characteristics_figure,
+    width = 15,
+    height = 13,
+    dpi = 140
+  )
+}
+```
+
+### Reduced figure excluding categories at or below 3%
+
+```{r participant-characteristics-figure-over-3-percent}
+#| fig-width: 15
+#| fig-height: 9
+
+country_over_3 <- country_combined %>%
+  mutate(percent_score = Freq / sum(Freq) * 100) %>%
+  filter(round(percent_score) > 3)
+
+software_over_3 <- software_combined %>%
+  filter(round(percent_score) > 3)
+
+p_country_over_3 <- make_characteristic_plot(
+  country_over_3,
+  "country_work",
+  "Country of work",
+  label_size = 24
+)
+
+p_software_over_3 <- make_characteristic_plot(
+  software_over_3,
+  "software",
+  "Software used"
+)
+
+participant_characteristics_over_3_figure <-
+  (p_experience + p_field) /
+  (p_country_over_3 + p_software_over_3) +
+  plot_layout(heights = c(0.65, 1.35)) +
+  plot_annotation(
+    tag_levels = "A",
+    caption = paste0(
+      "Categories ≥ 3% are combined into 'Other' in panels C and D. ",
+      "Multiple software selections were permitted."
+    ),
+    theme = theme(
+      plot.tag = element_text(face = "bold", size = 18),
+      plot.caption = element_text(
+        hjust = 0.5,
+        face = "italic",
+        family = "Lato",
+        size = 18
+      )
+    )
+  )
+
+participant_characteristics_over_3_figure
+
+if (isTRUE(params$export_artifacts)) {
+  ggsave(
+    project_path("figures", "participant_characteristics_over_3_figure.png"),
+    participant_characteristics_over_3_figure,
+    width = 15,
+    height = 13,
+    dpi = 140
+  )
+}
+
+```
+
+

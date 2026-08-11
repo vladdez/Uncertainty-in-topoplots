@@ -9,7 +9,548 @@ params:
 
 ```{r shared-setup}
 #| include: false
-source("_analysis_setup.R")
+source("scripts/analysis_setup.R")
 ```
 
-{{< include ../_sections/task2.qmd >}}
+
+## Response scoring and trial reconstruction
+
+```{r}
+task2_order <- data %>%
+  select(ID, A207_01:A207_21) %>%
+  pivot_longer(
+    -ID,
+    names_to = "trial",
+    names_prefix = "A207_",
+    values_to = "position"
+  ) %>%
+  mutate(
+    ID = as.character(ID),
+    trial = as.integer(trial),
+    position = as.integer(position)
+  )
+```
+
+```{r}
+task2_design <- data %>%
+  select(ID, A205_01) %>%
+  tidyr::separate_rows(A205_01, sep = "###") %>%
+  filter(A205_01 != "") %>%
+  transmute(
+    ID,
+    trial   = as.integer(get_field(A205_01, "trial")),
+    vistype = get_field(A205_01, "vistype"),
+    pattern = get_field(A205_01, "pattern"),
+    subject = as.integer(get_field(A205_01, "subject")),
+    stimulus = get_field(A205_01, "stim"),
+    img_url  = get_field(A205_01, "imgUrl"),
+    input_id = get_field(A205_01, "inputId")
+  )
+
+task2_responses <- data %>%
+  select(ID, A201_01:A201_21) %>%
+  pivot_longer(
+    -ID,
+    names_to = "input_id",
+    values_to = "selected_region"
+  )
+```
+
+
+```{r}
+score_text <- paste(
+  readLines(project_path("regions.txt"), encoding = "UTF-8"),
+  collapse = "\n"
+)
+score_matches <- stringr::str_match_all(
+  score_text,
+  '"([^"]+)"\\s*=>\\s*array\\(([^)]*)\\)'
+)[[1]]
+region_scores <- tibble::tibble(
+  stimulus = score_matches[, 2],
+  values = score_matches[, 3]
+) %>%
+  tidyr::separate_rows(values, sep = ",\\s*") %>%
+  group_by(stimulus) %>%
+  mutate(
+    region = sprintf("R%02d", row_number()),
+    score = as.numeric(values)
+  ) %>%
+  ungroup() %>%
+  select(stimulus, region, score)
+```
+
+```{r}
+task2 <- task2_design %>%
+  mutate(ID = as.character(ID)) %>%
+  left_join(task2_responses %>% mutate(ID = as.character(ID)),
+            by = c("ID", "input_id")) %>%
+  mutate(
+    region_number = readr::parse_number(selected_region),
+    region = sprintf("R%02d", region_number)
+  ) %>%
+  left_join(region_scores, by = c("stimulus", "region")) %>%
+  left_join(task2_order, by = c("ID", "trial")) %>%
+  select(ID, trial, position, vistype, stimulus, region, score)
+
+task2
+```
+
+
+
+
+## Descriptive detection scores
+
+```{r}
+task2_model <- task2 %>%
+  transmute(
+    ID = factor(ID),
+    stimulus = factor(stimulus),
+    vistype = relevel(factor(vistype), ref = "basic"),
+    position_c = as.integer(position) - 11,
+    score = as.numeric(score)
+  ) %>%
+  filter(complete.cases(.))
+task2_model
+```
+
+```{r}
+task2_model[task2_model$stimulus == "MMN_30",]
+```
+
+```{r task2-descriptive-summary}
+task2_table <- task2_model %>%
+  group_by(vistype) %>%
+  summarise(
+    n = n(),
+    mean = round(mean(score), 3),
+    median = round(median(score), 3),
+    sd = round(sd(score), 3),
+    .groups = "drop"
+  )
+
+task2_table |> arrange(desc(median))
+```
+
+```{r task2-descriptive-plot}
+task2_table |>
+  ggplot(aes(median, reorder(vistype, median))) +
+  geom_col(width = 0.7, fill = "#6BAED6") +
+  geom_errorbar(
+    aes(
+      xmin = pmax(median - sd, 0),
+      xmax = pmin(median + sd, 1)
+    ),
+    orientation = "y",
+    width = 0.18,
+    linewidth = 0.7
+  ) +
+  geom_text(
+    aes(label = sprintf("%.2f", median)),
+    hjust = -0.15,
+    nudge_y = -0.20,
+    size = 6
+  ) +
+  scale_x_continuous(
+    "Median score",
+    limits = c(0, 1),
+    breaks = seq(0, 1, 0.2),
+    expand = expansion(mult = c(0, 0.10))
+  ) +
+  scale_y_discrete(labels = vistype_labels) +
+  labs(title = "Detection task accuracy", y = NULL) +
+  coord_cartesian(clip = "off") +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
+    axis.text = element_text(size = 20),
+    axis.ticks.y = element_blank()
+  )
+```
+
+## Detection-score analysis
+
+```{r}
+model_task2 <- glmmTMB(
+  score ~ vistype + 
+    (1 | ID),
+  family = ordbeta(link = "logit"),
+  data = task2_model
+)
+
+summary(model_task2)
+```
+
+```{r}
+model_task2_no_vistype <- update(
+  model_task2,
+  . ~ . - vistype
+)
+
+anova(model_task2_no_vistype, model_task2)
+```
+
+```{r task2-estimates}
+task2_estimates <- emmeans(
+  model_task2,
+  ~ vistype,
+  type = "response"
+) |>
+  confint() |>
+  as.data.frame() |>
+  transmute(
+    vistype,
+    predicted_score = response,
+    lower_ci = asymp.LCL,
+    upper_ci = asymp.UCL
+  ) |>
+  arrange(predicted_score) |>
+  mutate(
+    vistype = factor(vistype, levels = vistype)
+  )
+
+task2_estimates
+```
+```{r task2-pairwise-comparisons}
+emm_task2 <- emmeans(
+  model_task2,
+  ~ vistype
+)
+
+task2_pairs <- pairs(
+  emm_task2,
+  adjust = "tukey"
+)
+
+task2_pairs
+
+task2_pairs |>
+  as.data.frame() |>
+  dplyr::filter(p.value < 0.05)
+```
+```{r task2-response-scale-comparisons}
+emm_task2_response <- regrid(
+  emm_task2,
+  transform = "response"
+)
+
+task2_score_differences <- pairs(
+  emm_task2_response,
+  adjust = "tukey"
+) |>
+  confint() |>
+  as.data.frame()
+
+task2_score_differences |>
+  mutate(
+    across(where(is.numeric), \(x) round(x, 3))
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Contrast",
+      "Difference",
+      "SE",
+      "df",
+      "Lower 95% CI",
+      "Upper 95% CI"
+    ),
+    table.attr = "class='table table-striped table-hover table-sm'"
+  )
+```
+
+
+```{r}
+
+detection_score_figure <- ggplot(
+  task2_estimates,
+  aes(
+    x = predicted_score,
+    y = vistype,
+    colour = vistype == "basic"
+  )
+) +
+  geom_errorbar(
+    aes(
+      xmin = lower_ci,
+      xmax = upper_ci
+    ),
+    orientation = "y",
+    width = 0.18,
+    linewidth = 0.7
+  ) +
+  geom_point(size = 3.5) +
+  geom_text(
+    aes(label = sprintf("%.2f", predicted_score)),
+    nudge_y = 0.36,
+    vjust = 0.5,
+    size = 6
+  ) +
+  scale_y_discrete(
+    labels = function(x) {
+      publication_labels <- c(
+        basic = "<span style='color:#377EB8'>Basic<br>topoplot</span>",
+        adjacent = "Adjacent<br>plots",
+        bivariate_corner = "Bivariate<br>corner",
+        bivariate_range = "Bivariate<br>range",
+        triple_CI = "Confidence<br>intervals",
+        uncert_markers = "Uncertainty<br>markers",
+        animation = "Animation"
+      )
+      unname(publication_labels[x])
+    },
+    expand = expansion(add = 0.5)
+  ) +
+  scale_colour_manual(
+    values = c(`FALSE` = "#222222", `TRUE` = "#377EB8"),
+    guide = "none"
+  ) +
+  scale_x_continuous(
+    labels = function(x) sprintf("%.2f", x),
+    limits = c(0.5, 0.8),
+    breaks = seq(0.5, 0.8, 0.1)
+  ) +
+  labs(
+    title = "Detection task score",
+    x = "Model-estimated score",
+    y = NULL,
+    caption = paste(
+      "Points show model-estimated scores;",
+      "error bars indicate 95% confidence intervals."
+    )
+  ) +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(
+      hjust = 0.5,
+      face = "bold",
+      size = 22
+    ),
+    plot.caption = element_text(
+      hjust = 0.5,
+      face = "italic"
+    ),
+    axis.text.x = element_text(size = 20),
+    axis.text.y = ggtext::element_markdown(
+      size = 24,
+      lineheight = 0.72,
+      margin = margin(r = 12)
+    ),
+    axis.ticks.y = element_blank()
+  )
+
+detection_score_figure
+
+ggsave(
+  project_path("figures", "detection_score_figure.png"),
+  detection_score_figure,
+  width = 9,
+  height = 5.5,
+  dpi = 180
+)
+```
+
+<!-- Descriptive code moved before the model analysis. -->
+```{r}
+#| eval: false
+#| include: false
+task2_table <- task2_model %>%
+  group_by(vistype) %>%
+  summarise(
+    n = n(),
+    mean = round(mean(score), 3),
+    median = round(median(score), 3),
+    sd = round(sd(score), 3),
+    .groups = "drop"
+  )
+
+task2_table |> arrange(desc(median))
+```
+```{r}
+#| eval: false
+#| include: false
+task2_table |>
+  ggplot(aes(median, reorder(vistype, median))) +
+  geom_col(
+    width = 0.7,
+    fill = "#6BAED6"
+  ) +
+  geom_errorbar(
+    aes(
+      xmin = pmax(median - sd, 0),
+      xmax = pmin(median + sd, 1)
+    ),
+    orientation = "y",
+    width = 0.18,
+    linewidth = 0.7
+  ) +
+  geom_text(
+    aes(label = sprintf("%.2f", median)),
+    hjust = -0.15,
+    nudge_y = -0.20,
+    size = 6
+  ) +
+  scale_x_continuous(
+    "Median score",
+    limits = c(0, 1),
+    breaks = seq(0, 1, 0.2),
+    expand = expansion(mult = c(0, 0.10))
+  ) +
+  scale_y_discrete(
+    labels = c(
+      adjacent = "Adjacent\nplots",
+      animation = "Animation",
+      bivariate_corner = "Bivariate\ncorner",
+      bivariate_range = "Bivariate\nrange",
+      triple_CI = "Confidence\nintervals",
+      uncert_markers = "Uncertainty\nmarkers",
+      basic = "Basic\ntopoplot"
+    )
+  ) +
+  labs(
+    title = "Detection task accuracy",
+    y = NULL
+  ) +
+  coord_cartesian(clip = "off") +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(
+      hjust = 0.5,
+      face = "bold",
+      size = 22
+    ),
+    axis.text = element_text(size = 20),
+    axis.ticks.y = element_blank()
+  )
+```
+
+
+## Completion-time analysis
+
+```{r task2-time-data}
+task2_time <- data %>%
+  select(ID, TIME029:TIME049) %>%
+  pivot_longer(
+    -ID,
+    names_to = "time_var",
+    values_to = "time_sec"
+  ) %>%
+  mutate(
+    ID = as.character(ID),
+    # TIME029:TIME049 correspond to experimental positions 1:21.
+    position = as.integer(stringr::str_remove(time_var, "TIME")) - 28L,
+    time_sec = readr::parse_double(as.character(time_sec))
+  ) %>%
+  left_join(
+    task2 %>%
+      transmute(
+        ID = as.character(ID),
+        position,
+        trial,
+        vistype
+      ),
+    by = c("ID", "position")
+  ) %>%
+  filter(!is.na(time_sec), !is.na(vistype), time_sec > 0)
+
+task2_time
+```
+
+```{r task2-time-summary}
+task2_time_table <- task2_time %>%
+  remove_group_iqr_outliers(time_sec, vistype) %>%
+  group_by(vistype) %>%
+  summarise(
+    n = n(),
+    median_sec = median(time_sec, na.rm = TRUE),
+    mean_sec = mean(time_sec, na.rm = TRUE),
+    sd_sec = sd(time_sec, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+task2_time_table |> arrange(median_sec)
+```
+
+### Model-estimated completion time
+
+```{r task2-time-model}
+task2_time_model <- task2_time %>%
+  transmute(
+    ID = factor(ID),
+    vistype = relevel(factor(vistype), ref = "basic"),
+    position = as.integer(position),
+    time_sec = as.numeric(time_sec)
+  ) %>%
+  filter(complete.cases(.), time_sec > 0) %>%
+  mutate(position_c = position - mean(position))
+
+task2_time_fit <- lmer(
+  log(time_sec) ~ vistype + position_c + (1 | ID),
+  data = task2_time_model
+)
+
+task2_time_estimates <- emmeans(
+  task2_time_fit,
+  ~ vistype,
+  type = "response"
+) %>%
+  confint() %>%
+  as.data.frame() %>%
+  transmute(
+    vistype,
+    estimated_time = response,
+    lower_ci = lower.CL,
+    upper_ci = upper.CL
+  ) %>%
+  arrange(estimated_time) %>%
+  mutate(vistype = factor(vistype, levels = vistype))
+
+task2_time_estimates
+```
+
+```{r task2-time-estimate-plot}
+#| fig-width: 9
+#| fig-height: 5.5
+ggplot(
+  task2_time_estimates,
+  aes(x = estimated_time, y = vistype)
+) +
+  geom_errorbar(
+    aes(xmin = lower_ci, xmax = upper_ci),
+    orientation = "y",
+    width = 0.18,
+    linewidth = 0.7
+  ) +
+  geom_point(size = 3.5) +
+  geom_text(
+    aes(label = sprintf("%.1f s", estimated_time)),
+    nudge_y = 0.36,
+    vjust = 0.5,
+    size = 6
+  ) +
+  scale_y_discrete(
+    expand = expansion(add = 0.5),
+    labels = vistype_labels
+  ) +
+  scale_x_continuous(
+    labels = \(x) sprintf("%.0f s", x),
+    expand = expansion(mult = c(0.05, 0.12))
+  ) +
+  labs(
+    title = "Detection task completion time",
+    x = "Model-estimated time (seconds)",
+    y = NULL,
+    caption = paste0(
+      "Points show back-transformed model estimates.\n",
+      "Error bars indicate 95% confidence intervals."
+    )
+  ) +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.caption = element_text(hjust = 0.5, face = "italic"),
+    axis.ticks.y = element_blank(),
+    plot.margin = margin(8, 16, 12, 16)
+  )
+```
+
