@@ -262,6 +262,12 @@ task2_score_differences |>
 
 ```{r}
 
+detection_axis_colours <- ifelse(
+  levels(task2_estimates$vistype) == "basic",
+  "#377EB8",
+  "#222222"
+)
+
 detection_score_figure <- ggplot(
   task2_estimates,
   aes(
@@ -276,25 +282,25 @@ detection_score_figure <- ggplot(
       xmax = upper_ci
     ),
     orientation = "y",
-    width = 0.18,
-    linewidth = 0.7
+    width = 0.14,
+    linewidth = 0.55
   ) +
-  geom_point(size = 3.5) +
+  geom_point(size = 3) +
   geom_text(
-    aes(label = sprintf("%.2f", predicted_score)),
+    aes(label = scales::percent(predicted_score, accuracy = 1)),
     nudge_y = 0.36,
     vjust = 0.5,
-    size = 6
+    size = 5.5
   ) +
   scale_y_discrete(
     labels = function(x) {
       publication_labels <- c(
-        basic = "<span style='color:#377EB8'>Basic<br>topoplot</span>",
-        adjacent = "Adjacent<br>plots",
-        bivariate_corner = "Bivariate<br>corner",
-        bivariate_range = "Bivariate<br>range",
-        triple_CI = "Confidence<br>intervals",
-        uncert_markers = "Uncertainty<br>markers",
+        basic = "Basic topoplot",
+        adjacent = "Adjacent plots",
+        bivariate_corner = "Bivariate corners",
+        bivariate_range = "Bivariate range",
+        triple_CI = "Confidence intervals",
+        uncert_markers = "Uncertainty markers",
         animation = "Animation"
       )
       unname(publication_labels[x])
@@ -306,18 +312,16 @@ detection_score_figure <- ggplot(
     guide = "none"
   ) +
   scale_x_continuous(
-    labels = function(x) sprintf("%.2f", x),
-    limits = c(0.5, 0.8),
-    breaks = seq(0.5, 0.8, 0.1)
+    labels = scales::label_percent(accuracy = 1),
+    limits = c(0.60, 0.75),
+    breaks = seq(0.60, 0.75, 0.05),
+    expand = expansion(mult = c(0, 0.03))
   ) +
   labs(
     title = "Detection task score",
-    x = "Model-estimated score",
-    y = NULL,
-    caption = paste(
-      "Points show model-estimated scores;",
-      "error bars indicate 95% confidence intervals."
-    )
+    subtitle = "Model-estimated detection score with 95% confidence intervals",
+    x = "Model-estimated detection score",
+    y = NULL
   ) +
   theme_classic(base_family = "Lato", base_size = 20) +
   theme(
@@ -326,17 +330,16 @@ detection_score_figure <- ggplot(
       face = "bold",
       size = 22
     ),
-    plot.caption = element_text(
-      hjust = 0.5,
-      face = "italic"
-    ),
+    plot.title.position = "plot",
+    plot.subtitle = element_text(hjust = 0.5, size = 18),
     axis.text.x = element_text(size = 20),
-    axis.text.y = ggtext::element_markdown(
+    axis.text.y = element_text(
       size = 24,
-      lineheight = 0.72,
+      colour = detection_axis_colours,
       margin = margin(r = 12)
     ),
-    axis.ticks.y = element_blank()
+    axis.ticks.y = element_blank(),
+    axis.line.y = element_blank()
   )
 
 detection_score_figure
@@ -346,6 +349,163 @@ ggsave(
   detection_score_figure,
   width = 9,
   height = 5.5,
+  dpi = 180
+)
+```
+
+### Detection-score differences relative to Basic topoplot
+
+This plot shows response-scale differences from Basic topoplot. Confidence intervals crossing zero indicate that the corresponding visualization is not clearly different from Basic at the 95% confidence level.
+
+```{r task2-basic-contrast-figure}
+task2_basic_reference <- which(
+  emm_task2_response@levels$vistype == "basic"
+)
+
+task2_basic_contrasts_raw <- contrast(
+  emm_task2_response,
+  method = "trt.vs.ctrl",
+  ref = task2_basic_reference
+) |>
+  confint() |>
+  as.data.frame()
+
+task2_lower_ci_column <- grep(
+  "lower.CL$|asymp.LCL$",
+  names(task2_basic_contrasts_raw),
+  value = TRUE
+)[1]
+task2_upper_ci_column <- grep(
+  "upper.CL$|asymp.UCL$",
+  names(task2_basic_contrasts_raw),
+  value = TRUE
+)[1]
+
+task2_basic_contrasts <- task2_basic_contrasts_raw |>
+  transmute(
+    vistype = stringr::str_remove(contrast, " - basic$"),
+    difference = estimate,
+    lower_ci = .data[[task2_lower_ci_column]],
+    upper_ci = .data[[task2_upper_ci_column]]
+  ) |>
+  mutate(
+    vistype = factor(vistype, levels = levels(task2_estimates$vistype))
+  )
+
+task2_contrast_limit <- max(
+  abs(c(task2_basic_contrasts$lower_ci, task2_basic_contrasts$upper_ci)),
+  na.rm = TRUE
+)
+task2_contrast_limit <- max(
+  0.05,
+  ceiling(task2_contrast_limit / 0.05) * 0.05
+)
+
+task2_contrast_labels <- c(
+  adjacent = "Adjacent plots",
+  bivariate_corner = "Bivariate corners",
+  bivariate_range = "Bivariate range",
+  triple_CI = "Confidence intervals",
+  uncert_markers = "Uncertainty markers",
+  animation = "Animation"
+)
+
+detection_score_contrast_figure <- ggplot(
+  task2_basic_contrasts,
+  aes(x = difference, y = vistype)
+) +
+  geom_vline(
+    xintercept = 0,
+    linetype = "dashed",
+    linewidth = 0.6,
+    colour = "#377EB8"
+  ) +
+  geom_errorbar(
+    aes(xmin = lower_ci, xmax = upper_ci),
+    orientation = "y",
+    width = 0.14,
+    linewidth = 0.55,
+    colour = "#333333"
+  ) +
+  geom_point(size = 3, colour = "#333333") +
+  geom_text(
+    aes(label = ifelse(
+      abs(difference) < 0.005,
+      "0 pp",
+      sprintf("%+.0f pp", 100 * difference)
+    )),
+    nudge_y = 0.32,
+    vjust = 0.5,
+    size = 5.5,
+    colour = "#333333"
+  ) +
+  scale_y_discrete(
+    labels = function(x) unname(task2_contrast_labels[x]),
+    expand = expansion(add = 0.5)
+  ) +
+  scale_x_continuous(
+    limits = c(-task2_contrast_limit, task2_contrast_limit),
+    labels = function(x) ifelse(
+      abs(x) < 0.005,
+      "0 pp",
+      sprintf("%+.0f pp", 100 * x)
+    ),
+    breaks = scales::breaks_pretty(n = 5),
+    expand = expansion(mult = 0.04)
+  ) +
+  labs(
+    title = "Detection task score differences",
+    subtitle = "Response-scale contrasts with 95% confidence intervals",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
+    plot.subtitle = element_text(hjust = 0.5, size = 18),
+    plot.title.position = "plot",
+    axis.text.y = element_text(size = 24, margin = margin(r = 12)),
+    axis.text.x = element_text(size = 20),
+    axis.ticks.y = element_blank(),
+    axis.line.y = element_blank()
+  )
+
+detection_score_contrast_caption <- ggplot() +
+  annotate(
+    "text",
+    x = 0.497,
+    y = 0.5,
+    label = "Difference in estimated detection score vs",
+    hjust = 1,
+    size = 20 / ggplot2::.pt,
+    family = "Lato",
+    colour = "#222222"
+  ) +
+  annotate(
+    "text",
+    x = 0.503,
+    y = 0.5,
+    label = "Basic topoplot",
+    hjust = 0,
+    size = 20 / ggplot2::.pt,
+    family = "Lato",
+    colour = "#377EB8"
+  ) +
+  coord_cartesian(xlim = c(0, 1), ylim = c(0, 1), clip = "off") +
+  theme_void()
+
+detection_score_contrast_figure <-
+  detection_score_contrast_figure /
+  detection_score_contrast_caption +
+  plot_layout(heights = c(1, 0.10))
+
+detection_score_contrast_figure
+
+ggsave(
+  project_path("figures", "detection_score_contrast_figure.png"),
+  detection_score_contrast_figure,
+  width = 9,
+  height = 5.25,
   dpi = 180
 )
 ```
@@ -553,4 +713,3 @@ ggplot(
     plot.margin = margin(8, 16, 12, 16)
   )
 ```
-

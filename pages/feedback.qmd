@@ -16,7 +16,7 @@ source("scripts/analysis_setup.R")
 
 ## Qualitative content analysis
 
-The analysis contains 213 evaluative meaning units from 49 participants. `ID` links every unit to its original A305 response and supports participant-level counting. Participant wording is retained as closely as possible; the theme and intensity are researcher-assigned codes. Use the search box or column filters to explore the table.
+The analysis contains 213 evaluative meaning units from 49 participants. `ID` links every unit to its original A305 response. Participant wording is retained as closely as possible; the theme and intensity are researcher-assigned codes. Use the search box or column filters to explore the table.
 
 [Download the coded content analysis as an Excel workbook](../data/a305_content_analysis.xlsx)
 
@@ -197,9 +197,9 @@ a305_intensity_by_theme_figure <- ggplot(
   theme(
     strip.text = element_text(face = "bold", size = 18),
     axis.text.x = ggtext::element_markdown(
-      size = 18,
-      lineheight = 0.75,
-      margin = margin(t = 4)
+      size = 24,
+      lineheight = 0.85,
+      margin = margin(t = 6)
     ),
     axis.text.y = element_text(size = 16),
     axis.title.y = element_text(size = 18),

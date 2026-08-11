@@ -15,10 +15,22 @@ image to copy it at full resolution.
 
 ![](../figures/comparison_accuracy_figure.png){fig-alt="Model-estimated probability of a correct response for each visualization type, with 95% confidence intervals."}
 
+## Comparison task: differences relative to Basic topoplot
+
+![](../figures/comparison_accuracy_contrast_figure.png){fig-alt="Differences in model-estimated comparison-task accuracy relative to Basic topoplot, with 95% confidence intervals."}
+
 ## Detection-score analysis: estimated values
 
 ![](../figures/detection_score_figure.png){fig-alt="Model-estimated detection scores for each visualization type, with 95% confidence intervals."}
 
+## Detection-score analysis: differences relative to Basic topoplot
+
+![](../figures/detection_score_contrast_figure.png){fig-alt="Differences in model-estimated detection scores relative to Basic topoplot, with 95% confidence intervals."}
+
 ## Model-estimated subjective ratings
 
 ![](../figures/likert_estimate_figure.png){fig-alt="Model-estimated ratings for comparison, detection and integration, representation, and aesthetic appeal."}
+
+## Subjective-rating differences relative to Basic topoplot
+
+![](../figures/likert_contrast_figure.png){fig-alt="Differences in model-estimated expected ratings relative to Basic topoplot across four subjective-evaluation criteria, with 95% confidence intervals."}
