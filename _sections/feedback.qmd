@@ -4,6 +4,36 @@ The analysis contains 213 evaluative meaning units from 49 participants. `ID` li
 
 [Download the coded content analysis as an Excel workbook](../data/a305_content_analysis.xlsx)
 
+### Theme codebook
+
+```{r a305-theme-codebook}
+#| echo: false
+
+tribble(
+  ~Theme, ~Explanation,
+  "Accessibility", "Usability across color vision, devices, or other viewer needs.",
+  "Aesthetics", "Visual attractiveness, cleanliness, or perceived ugliness.",
+  "Information integration", "How well multiple quantities are combined without obscuring one another.",
+  "Informativeness", "Amount or usefulness of information communicated.",
+  "Interpretability", "Ease or difficulty of understanding what the visualization means.",
+  "Learnability", "Whether interpretation becomes easier with exposure or practice.",
+  "Legend/color mapping", "Clarity and intuitiveness of colors, scales, and their legends.",
+  "Medium compatibility", "Suitability for print, papers, presentations, screens, or animation.",
+  "Preference", "An explicit choice, ranking, liking, or dislike.",
+  "Reading effort", "Time, attention, or cognitive effort required to extract information.",
+  "SNR visibility", "How clearly signal-to-noise ratio or uncertainty can be identified.",
+  "Space/scalability", "Figure size, visual density, or ability to accommodate multiple plots.",
+  "Task suitability", "Usefulness for a particular analytical or comparison task."
+) |>
+  knitr::kable(
+    format = "html",
+    col.names = c("Theme", "Explanation"),
+    table.attr = "class='table table-striped table-hover table-sm'"
+  )
+```
+
+### Coded meaning units
+
 ```{r a305-content-analysis}
 #| echo: false
 
@@ -81,7 +111,7 @@ a305_intensity_summary <- a305_participant_theme |>
 
 ```{r a305-intensity-theme-figure}
 #| fig-width: 15
-#| fig-height: 14
+#| fig-height: 19
 #| out-width: 100%
 #| fig-alt: "Faceted boxplots of participant-level median evaluation intensity by visualization type and qualitative theme, with individual participant points."
 
@@ -96,10 +126,10 @@ intensity_axis_labels <- c(
 visualization_axis_labels <- c(
   Basic = "Basic",
   Adjacent = "Adjacent",
-  `Bivariate corner` = "Bivariate\ncorner",
-  `Bivariate range` = "Bivariate\nrange",
-  `Confidence interval` = "Confidence\ninterval",
-  `Uncertainty markers` = "Uncertainty\nmarkers",
+  `Bivariate corner` = "Bivariate<br>corner",
+  `Bivariate range` = "Bivariate<br>range",
+  `Confidence interval` = "Confidence<br>interval",
+  `Uncertainty markers` = "Uncertainty<br>markers",
   Animation = "Animation"
 )
 
@@ -121,7 +151,7 @@ a305_intensity_by_theme_figure <- ggplot(
     alpha = 0.8,
     colour = "#173F5F"
   ) +
-  facet_wrap(vars(theme), scales = "free_x", ncol = 3) +
+  facet_wrap(vars(theme), scales = "free_x", ncol = 2) +
   scale_x_discrete(labels = visualization_axis_labels, drop = TRUE) +
   scale_y_continuous(
     limits = c(-2.15, 2.15),
@@ -140,7 +170,11 @@ a305_intensity_by_theme_figure <- ggplot(
   theme_classic(base_family = "Lato", base_size = 18) +
   theme(
     strip.text = element_text(face = "bold", size = 18),
-    axis.text.x = element_text(size = 13, lineheight = 0.9),
+    axis.text.x = ggtext::element_markdown(
+      size = 13,
+      lineheight = 0.75,
+      margin = margin(t = 4)
+    ),
     axis.text.y = element_text(size = 16),
     axis.title.y = element_text(size = 18),
     axis.ticks.x = element_blank(),

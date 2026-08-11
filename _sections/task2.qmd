@@ -274,11 +274,16 @@ detection_score_figure <- ggplot(
   ) +
   scale_y_discrete(
     labels = function(x) {
-      labels <- unname(vistype_labels[x])
-      labels[x == "basic"] <- paste0(
-        "<span style='color:#377EB8'>", labels[x == "basic"], "</span>"
+      publication_labels <- c(
+        basic = "<span style='color:#377EB8'>Basic<br>topoplot</span>",
+        adjacent = "Adjacent<br>plots",
+        bivariate_corner = "Bivariate<br>corner",
+        bivariate_range = "Bivariate<br>range",
+        triple_CI = "Confidence<br>intervals",
+        uncert_markers = "Uncertainty<br>markers",
+        animation = "Animation"
       )
-      labels
+      unname(publication_labels[x])
     },
     expand = expansion(add = 0.5)
   ) +
@@ -312,7 +317,7 @@ detection_score_figure <- ggplot(
       face = "italic"
     ),
     axis.text.x = element_text(size = 20),
-    axis.text.y = ggtext::element_markdown(size = 24),
+    axis.text.y = ggtext::element_markdown(size = 24, lineheight = 0.9),
     axis.ticks.y = element_blank()
   )
 
