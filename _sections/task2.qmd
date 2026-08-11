@@ -252,7 +252,8 @@ detection_score_figure <- ggplot(
   task2_estimates,
   aes(
     x = predicted_score,
-    y = vistype
+    y = vistype,
+    colour = vistype == "basic"
   )
 ) +
   geom_errorbar(
@@ -272,8 +273,18 @@ detection_score_figure <- ggplot(
     size = 6
   ) +
   scale_y_discrete(
-    labels = vistype_labels,
+    labels = function(x) {
+      labels <- unname(vistype_labels[x])
+      labels[x == "basic"] <- paste0(
+        "<span style='color:#377EB8'>", labels[x == "basic"], "</span>"
+      )
+      labels
+    },
     expand = expansion(add = 0.5)
+  ) +
+  scale_colour_manual(
+    values = c(`FALSE` = "#222222", `TRUE` = "#377EB8"),
+    guide = "none"
   ) +
   scale_x_continuous(
     labels = function(x) sprintf("%.2f", x),
@@ -300,7 +311,8 @@ detection_score_figure <- ggplot(
       hjust = 0.5,
       face = "italic"
     ),
-    axis.text = element_text(size = 20),
+    axis.text.x = element_text(size = 20),
+    axis.text.y = ggtext::element_markdown(size = 24),
     axis.ticks.y = element_blank()
   )
 

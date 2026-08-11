@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Open-ended feedback – Uncertainty in topoplots</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-8dccdcbb03bb7b7d2c84fc59fef643f4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../site_libs/core-js-2.5.3/shim.min.js"></script>
+
+<script src="../site_libs/react-18.2.0/react.min.js"></script>
+
+<script src="../site_libs/react-18.2.0/react-dom.min.js"></script>
+
+<script src="../site_libs/reactwidget-2.0.0/react-tools.js"></script>
+
+<link href="../site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<link href="../site_libs/reactable-0.4.5/reactable.css" rel="stylesheet">
+
+<script src="../site_libs/reactable-binding-0.4.5/reactable.js"></script>
+
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Uncertainty in topoplots</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/sample.html"> 
+<span class="menu-text">Sample</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/task1.html"> 
+<span class="menu-text">Task 1</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/task2.html"> 
+<span class="menu-text">Task 2</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/subjective.html"> 
+<span class="menu-text">Subjective evaluation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../pages/feedback.html" aria-current="page"> 
+<span class="menu-text">Open-ended feedback</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/figures.html"> 
+<span class="menu-text">Publication figures</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#qualitative-content-analysis" id="toc-qualitative-content-analysis" class="nav-link active" data-scroll-target="#qualitative-content-analysis">Qualitative content analysis</a></li>
+  <li><a href="#original-responses" id="toc-original-responses" class="nav-link" data-scroll-target="#original-responses">Original responses</a></li>
+  <li><a href="#optional-feedback-export-to-pdf" id="toc-optional-feedback-export-to-pdf" class="nav-link" data-scroll-target="#optional-feedback-export-to-pdf">Optional feedback export to PDF</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Open-ended feedback</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Participant comments are presented in two groups. Select an <strong>Expand</strong> button to read the responses.</p>
+<section id="qualitative-content-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="qualitative-content-analysis">Qualitative content analysis</h2>
+<p>Each row represents one evaluative meaning unit from A305. Participant wording is retained as closely as possible; the theme and intensity are researcher-assigned codes. Use the search box or column filters to explore the table.</p>
+<p><a href="../data/a305_content_analysis.xlsx">Download the coded content analysis as an Excel workbook</a></p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="reactable html-widget html-fill-item" id="htmlwidget-96c0f2f571dfaebc1715" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-96c0f2f571dfaebc1715">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Visualization":["Bivariate corner","Bivariate corner","Bivariate corner","Bivariate corner","Bivariate range","Bivariate range","Bivariate range","Basic","Basic","Adjacent","Adjacent","Adjacent","Adjacent","Animation","Confidence interval","Confidence interval","Confidence interval","Confidence interval","Uncertainty markers","Uncertainty markers","Bivariate corner","Bivariate range","General","Confidence interval","Confidence interval","General","Bivariate corner","Bivariate range","Bivariate range","Bivariate range","Bivariate corner","Bivariate corner","Animation","Animation","Adjacent","Bivariate corner","Bivariate range","Uncertainty markers","General","Adjacent","Confidence interval","Animation","Basic","Bivariate corner","Bivariate range","Uncertainty markers","Bivariate corner","Bivariate range","General","Uncertainty markers","Uncertainty markers","Adjacent","Basic","Animation","Confidence interval","Bivariate corner","Bivariate range","Adjacent","Adjacent","Adjacent","Uncertainty markers","Adjacent","Adjacent","Adjacent","Bivariate range","Bivariate corner","Basic","Bivariate range","Bivariate corner","Uncertainty markers","Uncertainty markers","Bivariate corner","Bivariate range","Confidence interval","Uncertainty markers","Uncertainty markers","Animation","General","Bivariate corner","Bivariate range","Bivariate corner","Bivariate range","Uncertainty markers","Animation","Animation","Adjacent","Basic","Adjacent","Adjacent","Bivariate corner","Bivariate corner","Bivariate range","Confidence interval","Uncertainty markers","Uncertainty markers","Animation","Animation","Bivariate corner","Bivariate range","Bivariate corner","Bivariate range","Uncertainty markers","Confidence interval","Uncertainty markers","Uncertainty markers","Animation","Animation","Bivariate corner","Bivariate range","Animation","Adjacent","Confidence interval","Bivariate range","Uncertainty markers","Uncertainty markers","Animation","Animation","Uncertainty markers","Uncertainty markers","Bivariate corner","Bivariate range","Bivariate corner","Confidence interval","Animation","Animation","Basic","Basic","Adjacent","Confidence interval","Uncertainty markers","Uncertainty markers","Bivariate corner","Bivariate range","Adjacent","Basic","Adjacent","Bivariate corner","Bivariate range","Confidence interval","Uncertainty markers","Animation","Animation","Confidence interval","Bivariate range","Adjacent","Uncertainty markers","Animation","Animation","Animation","Bivariate corner","Bivariate range","Bivariate corner","Bivariate range","Uncertainty markers","Confidence interval","Confidence interval","Confidence interval","Confidence interval","Bivariate corner","Bivariate range","Animation","Uncertainty markers","Adjacent","Basic","Basic","Uncertainty markers","Uncertainty markers","Bivariate corner","Bivariate range","Bivariate corner","Bivariate corner","Animation","Bivariate corner","Bivariate range","Animation","Bivariate corner","Uncertainty markers","Uncertainty markers","Bivariate corner","Bivariate range","Bivariate range","Uncertainty markers","Uncertainty markers","Bivariate corner","Bivariate corner","Bivariate corner","Bivariate range","Uncertainty markers","General","Animation","Animation","Confidence interval","Uncertainty markers","Uncertainty markers","Animation","Animation","Bivariate corner","Bivariate range","Basic","Bivariate corner","Bivariate range","Confidence interval","Uncertainty markers","Uncertainty markers","Animation","Basic","Adjacent","Bivariate corner","Bivariate range"],"Meaning unit":["(“Forget about it”)","(“couldn't distinguish colors mapping from legend to scalp”)","(“Horrible, hard”)","(“informative”)","(“the most useful if limited by figure number / size”)","(“contains all the information in one scalp”)","(“straightforward and intuitive”)","(“not sure that helps so much inferring the SNR”)","(“matches aesthetic expectations for us in the field”)","(“Probably the most informative one”)","(“takes a bit more to readout”)","(“the cleanest way to show SE distributions and scalp potential”)","(“I would go for this one”)","(“I challenge you to use it in a printed paper”)","(“informative”)","(“less intuitive”)","(“clean readout”)","(“overdensity of figures and small scalp sizes”)","(“maybe useful”)","(“horrible and not so straightforward”)","(“very easy to pinpoint SNR at specific site”)","(“very easy to pinpoint SNR at specific site”)","(“hard to make sense from overall”)","(“My favourite was the confidence interval plot”)","(“have the mean a bit larger”)","(“adding more color adds complexity”)","(“too confusing and not colorblind friendly”)","(“rich in information”)","(“difficult at first to interpret”)","(“a few exposures would do the trick for me”)","(“very hard to parse”)","(“impossible to parse for a color blind person”)","(“looks like a good idea”)","(“hard to get when the cycle is starting/stopping”)","(“look like the best alternative to me”)","(“really difficult to read and understand”)","(“really difficult to read and understand”)","(“counterintuitive that the most salient uncertainty markers reflect the electrodes with highest uncertainty”)","(“precise, but a bit time-consuming”)","(“very little time to find the region with the highest SNR”)","(“very little time to find the region with the highest SNR”)","(“very little time to find the region with the highest SNR”)","(“literally adds nothing new”)","(“really hard to look at”)","(“really hard to look at”)","(“straight up looks ugly”)","(“just unintuitive”)","(“Is it colorblind friendly?”)","(“Other plots add bloat”)","(“the easiest to catch”)","(“larger means less relevant which is a bit confusing”)","(“inverting the SE colormap feels like something that could be helpful”)","(“very easy to interpret”)","(“very easy to interpret”)","(“very easy to interpret”)","(“confusing to ascertain the ROI”)","(“confusing to ascertain the ROI”)","(“easy to interpret for anyone who is used to interpreting traditional topoplots”)","(“adds information re error”)","(“I really like the adjacent plots best”)","(“hideous”)","(“I really love adjacent plots”)","(“don't get any more cognitive load”)","(“the most simple and beautiful”)","(“helpful to distinguish SNR”)","(“too colorful, requiring more time to find the maximum and minimum”)","(“fastest to recognize the position of activity”)","(“a good choice to include SE information, keeping the colormap and maximizing the space”)","(“completely horrendous”)","(“helpful”)","(“similar information and cleaner”)","(“too complex”)","(“too complex”)","(“might lead to the impression that the SE is either subtracted or added for all sensors”)","(“somewhat messy”)","(“informative regions are not covered by markings”)","(“useful but likely too confusing when adding additional temporal information”)","(“obscured the actual pattern of voltage at the scalp”)","(“color gradations are hard to parse”)","(“color gradations are hard to parse”)","(“overlapping lines make it confusing to parse which contours go with voltage vs. SE”)","(“overlapping lines make it confusing to parse which contours go with voltage vs. SE”)","(“ugly and distracting”)","(“it took a while”)","(“movies like this are typically used to convey changes in voltage over time”)","(“most straightforward”)","(“relevant information is missing”)","(“easiest to relate to experience with other plots”)","(“somewhat hard to compare”)","(“very confusing”)","(“concerns about accessibility”)","(“as above”)","(“pretty easy to interpret”)","(“hard to understand voltage”)","(“easy to compare information”)","(“I really like this visualization”)","(“distracting if displayed next to text”)","(“visually busy”)","(“visually busy”)","(“difficult for viewers with color blindness”)","(“may not reproduce well in grayscale”)","(“interfere with the overall topo view”)","(“can become very busy if topographies for several time windows or conditions are presented”)","(“made it harder for me to read the plot as a whole”)","(“felt more incomplete or less accurate”)","(“useful if the error in general is rather small”)","(“more confusing than helpful”)","(“the worst illustration of data I have ever seen”)","(“the worst illustration of data I have ever seen”)","(“will not translate to static documents”)","(“more accessible than bivariate plots”)","(“more accessible than bivariate plots”)","(“makes SNR directly accessible”)","(“a middle ground”)","(“a bit messy and may occlude voltage colors”)","(“fancy and might be especially useful for presentations”)","(“less for traditional online publishing”)","(“a concise single plot”)","(“the marker scale should be reversed”)","(“effective job in jointly showing mean and SE”)","(“effective job in jointly showing mean and SE”)","(“really hard to parse”)","(“a solid choice, very easy to read without any additional thinking costs”)","(“a nice idea, quite engaging for talks and presentations”)","(“temporal order could be misleading”)","(“familiar and easy to read for voltages”)","(“ultimately useless for SNR estimations”)","(“a nice balance”)","(“a nice balance”)","(“probably the best visualization from an information perspective”)","(“visually crowded”)","(“too granular to be able to interpret”)","(“preferred the range version”)","(“probably the best”)","(“very easy to read where the greatest activity is”)","(“you notice the error immediately”)","(“too many overlapping shapes—it's confusing”)","(“too many overlapping shapes—it's confusing”)","(“interesting because it lets you see three images”)","(“interesting due to the intensity of the effect in the region”)","(“the one I liked best”)","(“easy to read and interpret”)","(“easiest to interpret”)","(“more useful”)","(“made inter-sensor comparisons easier”)","(“made inter-sensor comparisons easier”)","(“the most difficult for me”)","(“intuitive interpretation is changes over time, rather than signal uncertainty”)","(“makes comparison between plots extremely difficult”)","(“most aesthetically pleasing”)","(“most aesthetically pleasing”)","(“too much information to process in terms of colour legend”)","(“too much information to process in terms of colour legend”)","(“difficult to see the voltage sometimes”)","(“I prefer the confidence interval plots”)","(“far most readable plot”)","(“least time to gather the information”)","(“the most tasteful”)","(“unreadable”)","(“unreadable”)","(“unreadable”)","(“awful”)","(“quite neutral”)","(“simple”)","(“does not feel overwhelming”)","(“hard to see if there is really dark color”)","(“not visually pleasing or appealing”)","(“too colorful”)","(“not color-blind friendly”)","(“one of the most accurate”)","(“not immediate”)","(“allows you to visualize the possible alternative topographies”)","(“hard to tell the voltage and SE”)","(“hard to tell the voltage and SE”)","(“not working throughout the whole survey”)","(“most appealing and relatively easy to read”)","(“the quickest read”)","(“not very pretty”)","(“contain a lot of useful information”)","(“contain too much noise”)","(“completely forgot how to interpret”)","(“requiring the least amount of effort to read”)","(“interpreting comes intuitively”)","(“hard to decipher”)","(“the easier it became”)","(“pretty”)","(“more intuitive”)","(“really dislike”)","(“Odd color conventions can be confusing and distracting”)","(“static is more helpful”)","(“won't work in printed PDFs”)","(“the most easy to interpret for me”)","(“not very helpful”)","(“would probably look very cluttered”)","(“nice”)","(“cannot be used in written publications”)","(“a very long time to process how colours map to voltage and SE”)","(“easier to interpret”)","(“intuitive and easy to interpret”)","(“too much and overlapping information”)","(“less intuitive and harder to digest”)","(“easy to read”)","(“easy to read”)","(“not very appealing”)","(“looks nice for talks/presentations”)","(“the most useful and easiest to derive information from”)","(“only helpful in certain contexts”)","(“the most difficult to understand at first glance”)","(“the most difficult to understand at first glance”)"],"Theme":["Preference","Legend/color mapping","Interpretability","Informativeness","Space/scalability","Information integration","Interpretability","SNR visibility","Aesthetics","Informativeness","Reading effort","Information integration","Preference","Medium compatibility","Informativeness","Interpretability","Interpretability","Space/scalability","Informativeness","Interpretability","SNR visibility","SNR visibility","Interpretability","Preference","Space/scalability","Reading effort","Accessibility","Informativeness","Interpretability","Learnability","Interpretability","Accessibility","Preference","Interpretability","Preference","Interpretability","Interpretability","Interpretability","Reading effort","SNR visibility","SNR visibility","SNR visibility","Informativeness","Interpretability","Interpretability","Aesthetics","Interpretability","Accessibility","Space/scalability","Reading effort","Interpretability","Legend/color mapping","Interpretability","Interpretability","Interpretability","Task suitability","Task suitability","Interpretability","Informativeness","Preference","Aesthetics","Preference","Reading effort","Aesthetics","SNR visibility","Reading effort","Task suitability","Information integration","Aesthetics","Informativeness","Aesthetics","Interpretability","Interpretability","Interpretability","Aesthetics","Information integration","Medium compatibility","Information integration","Legend/color mapping","Legend/color mapping","Information integration","Information integration","Aesthetics","Reading effort","Interpretability","Interpretability","Informativeness","Interpretability","Reading effort","Interpretability","Accessibility","Accessibility","Interpretability","Interpretability","Task suitability","Preference","Medium compatibility","Reading effort","Reading effort","Accessibility","Medium compatibility","Information integration","Space/scalability","Reading effort","Informativeness","Task suitability","Interpretability","Preference","Preference","Medium compatibility","Accessibility","Accessibility","SNR visibility","Information integration","Information integration","Medium compatibility","Medium compatibility","Space/scalability","Legend/color mapping","Information integration","Information integration","Interpretability","Reading effort","Medium compatibility","Interpretability","Interpretability","SNR visibility","Information integration","Information integration","Informativeness","Aesthetics","Interpretability","Preference","Preference","Task suitability","SNR visibility","Interpretability","Interpretability","Informativeness","Informativeness","Preference","Interpretability","Task suitability","Task suitability","Task suitability","Task suitability","Interpretability","Interpretability","Task suitability","Aesthetics","Aesthetics","Legend/color mapping","Legend/color mapping","Information integration","Preference","Interpretability","Reading effort","Aesthetics","Interpretability","Interpretability","Interpretability","Aesthetics","Preference","Interpretability","Space/scalability","Legend/color mapping","Aesthetics","Aesthetics","Accessibility","Informativeness","Reading effort","Informativeness","Information integration","Information integration","Medium compatibility","Aesthetics","Reading effort","Aesthetics","Informativeness","Reading effort","Interpretability","Reading effort","Interpretability","Interpretability","Learnability","Aesthetics","Interpretability","Preference","Legend/color mapping","Preference","Medium compatibility","Interpretability","Task suitability","Space/scalability","Aesthetics","Medium compatibility","Legend/color mapping","Interpretability","Interpretability","Information integration","Interpretability","Interpretability","Interpretability","Aesthetics","Medium compatibility","Task suitability","Task suitability","Interpretability","Interpretability"],"Evaluation intensity":["-2","-2","-2","+1","+2","+1","+2","-1","+1","+2","-1","+2","+2","-2","+1","-1","+1","-2","+1","-2","+2","+2","-1","+2","-1","-1","-2","+1","-1","+1","-2","-2","+1","-1","+2","-2","-2","-2","-1","+2","+2","+2","-2","-2","-2","-2","-2","-1","-1","+1","-1","+1","+2","+2","+2","-2","-2","+2","+1","+2","-2","+2","+2","+2","+1","-2","+2","+2","-2","+1","+1","-2","-2","-2","-1","+1","-1","-2","-2","-2","-2","-2","-2","-1","-1","+2","-2","+2","-1","-2","-2","-2","+1","-1","+1","+2","-1","-1","-1","-2","-2","-1","-1","-2","-1","+1","-2","-2","-2","-2","+1","+1","+2","+1","-1","+1","-1","+1","-1","+1","+1","-2","+2","+2","-1","+2","-2","+1","+1","+2","-1","-2","+1","+2","+2","+2","-2","-2","+1","+1","+2","+2","+2","+1","+1","+1","-2","-2","-2","+2","+2","-2","-2","-1","+2","+2","+2","+2","-2","-2","-2","-2","0","+1","+1","-2","-2","-1","-2","+2","-1","+1","-2","-2","-2","+2","+2","-1","+1","-2","-2","+2","+2","-1","+1","+1","+1","-2","-2","-1","-2","+2","-1","-1","+1","-2","-2","+1","+2","-2","-2","+1","+1","-1","+1","+2","0","-2","-2"]},"columns":[{"id":"Visualization","name":"Visualization","type":"character","minWidth":145},{"id":"Meaning unit","name":"Meaning unit","type":"character","minWidth":420},{"id":"Theme","name":"Theme","type":"character","minWidth":160},{"id":"Evaluation intensity","name":"Evaluation intensity","type":"character","minWidth":150,"align":"center"}],"filterable":true,"searchable":true,"defaultPageSize":20,"showPageSizeOptions":true,"pageSizeOptions":[10,20,50,100],"highlight":true,"bordered":true,"striped":true,"dataKey":"f9ac26e91a2d7d91ce571ca6b65d2ca5"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="original-responses" class="level2">
+<h2 class="anchored" data-anchor-id="original-responses">Original responses</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>feedback_A305 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    ID,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">feedback =</span> stringr<span class="sc">::</span><span class="fu">str_squish</span>(<span class="fu">as.character</span>(A305_01))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">feedback =</span> <span class="fu">na_if</span>(feedback, <span class="st">""</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">feedback =</span> <span class="fu">na_if</span>(feedback, <span class="st">"-9"</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">feedback =</span> <span class="fu">na_if</span>(feedback, <span class="st">"NA"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(feedback))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>feedback_A306 <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    ID,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">feedback =</span> stringr<span class="sc">::</span><span class="fu">str_squish</span>(<span class="fu">as.character</span>(A306_01))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">feedback =</span> <span class="fu">na_if</span>(feedback, <span class="st">""</span>),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">feedback =</span> <span class="fu">na_if</span>(feedback, <span class="st">"-9"</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">feedback =</span> <span class="fu">na_if</span>(feedback, <span class="st">"NA"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(feedback))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Comments specifically about the visualizations used in the study.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Visualization feedback — Expand
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>feedback_A305 <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">feedback =</span> stringr<span class="sc">::</span><span class="fu">str_wrap</span>(feedback, <span class="at">width =</span> <span class="dv">100</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">split</span>(.<span class="sc">$</span>ID) <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">iwalk</span>(<span class="cf">function</span>(x, id) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"</span><span class="sc">\n</span><span class="st">ID:"</span>, id, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      x<span class="sc">$</span>feedback,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="fu">rep</span>(<span class="st">"-"</span>, <span class="dv">100</span>), <span class="at">collapse =</span> <span class="st">""</span>),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">sep =</span> <span class="st">""</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  })</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ID:2
+,
+----------------------------------------------------------------------------------------------------
+
+ID:6
+Bivariate color plot: corner version Forget about it, I am not a color blind person and even so I
+couldn't distinguish colors mapping from legend to scalp. Horrible, hard, but informative. Bivariate
+color plot: range version: I think overall this can be the most useful if limited by figure number /
+size, ebcause it contains all the information in one scalp and it's pretty much straightforward and
+intuitive. Basic topoplot: I am not sure that helps so much inferring the SNR, although it always
+matches aesthetic expectations for us in the field. Adjacent plots: Probably the most informative
+one. Maybe it takes a bit more to readout, but it's the cleanest way to show SE distributions and
+scalp potential. I would go for this one. Hypothetitcal outcome plot: I challange you to use it in
+a printed paper!! Confidence interval plot: Also informative, less intuitive, but clean readout. I
+don't like the overdensity of figures and small scalp sizes. Uncertainty markers: maybe useful, but
+horrible and not so straightforward. Forget about it!!
+----------------------------------------------------------------------------------------------------
+
+ID:7
+Bivariate plots make it very easy to pinpoint SNR at specific site if this is the task, but they are
+hard make sense from overall. Maybe, if i really needed to show specifically SNR, i would just add
+3rd SNR plot to adjacent plots.
+----------------------------------------------------------------------------------------------------
+
+ID:9
+My favourite was the confidence interval plot if I wanted to show the range of topos. Instead of
+having all three the same size I would have the mean a bit larger with the Mean-SE and Mean+SE a bit
+smaller.
+----------------------------------------------------------------------------------------------------
+
+ID:10
+some of the visualizations added more uncertanity about the decision to make. I think adding more
+color adds complexity.
+----------------------------------------------------------------------------------------------------
+
+ID:11
+The colors of the mixed colors plot are too comfising and not coloblind friendly
+----------------------------------------------------------------------------------------------------
+
+ID:13
+The bivariate color plot is rich in information, but difficult at first to interpret. I imagine a
+few exposures would do the trick for me. Also, the polar colors need to be very distinct. Perhaps
+complementary colors would work.
+----------------------------------------------------------------------------------------------------
+
+ID:14
+The Bivariate color plot was very hard to parse. I imagine it is impossible to parse for a color
+blind person. The Hypothetical outcome plot looks like a good idea, but I find hard to get when the
+cycle is starting/stoping. Adjacent plots look like the best alternative to me.
+----------------------------------------------------------------------------------------------------
+
+ID:15
+I find really difficult to read and understand the bivariate plots
+----------------------------------------------------------------------------------------------------
+
+ID:16
+Its very counterintuitive that the most salient uncertainty markers reflect the electrodes with
+highest uncertainty.
+----------------------------------------------------------------------------------------------------
+
+ID:17
+Some of the plots seemed precise, but they were a bit time-consuming, as it was hard to spot the
+area of interest at a glance. However, it took me very little time to find the region with the
+highest SNR in: - Confidence interval plot - Adjacent plots - Hypothetical outcome plot
+----------------------------------------------------------------------------------------------------
+
+ID:18
+Well the basic topoplot literally adds nothing new, the bivariate color plots are really hard to
+look at unless you're just searching for the areas with the highest/lowest snr, uncertainty markers
+straight up looks ugly, the other three are so good that I can't choose a favorite.
+----------------------------------------------------------------------------------------------------
+
+ID:21
+Bivariate color plots are difficult to interpret in general
+----------------------------------------------------------------------------------------------------
+
+ID:22
+The bivariate corner version is just unintuitive!? Can't anything be done with the colors?
+Concerning the color for the range... Is it colorblind friendly? Other plots add bloat. The
+uncertainty markers are the easiest to catch but I'd be happy if size was reversed or marker type
+changed: larger means less relevant which is a bit confusing. Is standard error the only and right
+way to look at it? How does it looks when using standard deviation or signed effect size?
+----------------------------------------------------------------------------------------------------
+
+ID:25
+I find the bivariate plots difficult to read and understand
+----------------------------------------------------------------------------------------------------
+
+ID:27
+In adjacent plots, inverting the SE colormap feels like something that could be helpful
+----------------------------------------------------------------------------------------------------
+
+ID:30
+Overall I would prefer Basic topolot &gt; Hypothetial Outcome plot &gt; Confidence Interval Plot All these
+point were very easy to interpret. Bivariate plots are confusing to ascertain the ROI as they are
+lines different from basic topoplot
+----------------------------------------------------------------------------------------------------
+
+ID:31
+I think adjacent plots is nice as it's easy to interpret for anyone who is used to interpreting
+traditional topoplots but also adds information re error
+----------------------------------------------------------------------------------------------------
+
+ID:33
+i really like the adjacent plots best. the uncertainty markers are hideous.
+----------------------------------------------------------------------------------------------------
+
+ID:34
+I really love adjacent plots, because I don't get any more cognitive load while reading the graph
+and I find it the most simple and beautiful! I've also used CI plots, but only for lab meetings and
+presentations for colleagues.
+----------------------------------------------------------------------------------------------------
+
+ID:37
+The bivariate color plot is helpful to distinguish SNR in the plot. However, the corner version is
+to colorfull, requiring more time to find the maximum and minimum in the plot. The basic topoplot
+does not include the SE, but the basic plot is the fastest to recognize the position of activity.
+Thus, the bivariate color plot: range version seems to be the good choice for me to include SE
+information, keeping the colormap and maximizing the space available for the head (circle) shape.
+----------------------------------------------------------------------------------------------------
+
+ID:40
+I find the Bivariate color plot: corner version to be completely horrendous - please do not
+encourage this to be a norm in the field! The uncertainty markers are helpful. Often in my plots
+I just include markers of similar form for statistically significant effects, which will provide
+similar information and I find cleaner.
+----------------------------------------------------------------------------------------------------
+
+ID:41
+The bivariate plots just seem to complex. The allow to identify regions with high SNR (at least
+that's what I felt like), but it's very hard to understand the underlying topography. The "Mean
++/- SE" plots seem questionable to me, since they might lead to the impression that the SE is
+either subtracted or added for all sensors, which is obviously not the case. For the uncertainty
+markers, why not scale the circles with the SNR directly instead of the SE, which by itself is not
+necessarily telling?
+----------------------------------------------------------------------------------------------------
+
+ID:49
+I found the bivariate plots generally informative, but the range version was more intuitive. In
+the uncertainty markers plot, the visualization appears somewhat messy but I realized I should be
+looking for regions that are dark and have no cirecles in them. However, it is somewhat confusing
+to mark the information to receive less weighting. On the other hand, it is nice the the informative
+regions are not covered by markings. The hypothetical outcome plot is useful but likely too
+confusing when adding additional temporal infromation that we often need to visualize.
+----------------------------------------------------------------------------------------------------
+
+ID:51
+While I understand the goal of conveying the uncertainty in topoplot estimates, some of the
+visualizations seemed less than ideal because they obscured the actual pattern of voltage at the
+scalp. I found the bivariate plots the most difficult to read: the color gradations are hard to
+parse, and the overlapping lines make it confusing to parse which contours go with voltage vs. SE.
+The uncertainty markers are just ugly and distracting. I think I eventually got the gist of the
+hypothetical outcome plot, but it took a while because movies like this are typically used to convey
+changes in voltage over time, rather than uncertainty estimates. Of the different plots, I think the
+adjacent plots are most straightforward (though maybe it would be better if brighter/more saturated
+colors denoted both high voltage and low SE?), followed by the confidence interval plots.
+----------------------------------------------------------------------------------------------------
+
+ID:52
+Basic Topoplot - relevant information is missing. Adjacent plots - easiest to relate to experience
+with other plots, somewhat hard to compare Bivariate color plot, corner - very confusing, and I have
+concerns about accessibility. Bivariate color plot, range version - as above Confidence interval
+plot - pretty easy to interpret. Uncertainty markers - hard to understand voltage, but easy to
+compare information - maybe if the markers themselves had the voltage color, and thick markers
+would mark high certainty, and thin markers low certainty, and the brain itself had no color,
+this could be a relatively easy plot to interpret. Hypothetical outcome plot - I really like this
+visualization, but it would be distracting if displayed next to text, and I still like to print
+publications.
+----------------------------------------------------------------------------------------------------
+
+ID:54
+Bivariate color plots are visually busy, could be difficult for viewers with color blindness, may
+not reproduce well in grayscale; the uncertainty markers interfere with the overall topo view;
+confidence interval plot can become very busy if topographies for several time windows or conditions
+are presented in the same figure
+----------------------------------------------------------------------------------------------------
+
+ID:55
+I disliked the variant with the uncertainty markers because they made it harder for me to read the
+plot as a whole. Compared to the other visualitsations the information given by uncertainty markers
+felt more incomplete or less accurate because of their more discrete representation (e.g. what does
+the absence of markers in some regions really mean? How to interprete that felt more difficult).
+Regarding the hypothetical outcome plot I would say that it cn be useful if the error in general is
+rather small, so the plot doesn't vary too much. But as soon as there is a lot of error/variation in
+the plot it gets more confusing than helpful.
+----------------------------------------------------------------------------------------------------
+
+ID:56
+The overlay of two parameters in one plot (bivariate color plot) is likely the worst illustration of
+data I have ever seen. The hypothetical outcome plot will not translate to static documents and will
+therefore likely be unreadable in the near future.
+----------------------------------------------------------------------------------------------------
+
+ID:58
+I think separate plots for different metrics (adjacent plots, confidence interval plot) are more
+accessible than bivariate plots, esp. the corner version I find difficult to interpret as the
+different color hues are sometimes not easy to decipher, which might even depend on the presented
+device (and its dynamic contrast). The range version makes SNR directly accessible (esp. if some
+gradients are hatched), however, I would probably use it side by side with an adjacent voltage plot
+when SNR is not the main focus (but voltage). The voltage plot with uncertainty markers could be a
+middle ground but looks, to my eyes, a bit messy and may occlude voltage colors when SE is large.
+The hypothetical outcome plot is fancy and might be especially useful for presentations but less for
+traditional online publishing (could of course change in the future).
+----------------------------------------------------------------------------------------------------
+
+ID:60
+-
+----------------------------------------------------------------------------------------------------
+
+ID:61
+i much like the "uncertainty markers" as a concise single plot. however, for my intuition the marker
+scale should be reversed (i.e. highlighting low se, not high se). another marker type or perhaps
+color scheme might look better and acchieve a similar goal (e.g. one-size circles with a color
+scheme from intense [low se] to white [high se]? just brainstorming here). tl;dr i think some tweaks
+could make it even better for me the bivariate plot do an effective job in jointly showing mean and
+se, but they are getting really hard to parse. especially the corner version seems to make sense
+only under the assumption that low se is equally if not more (as it hides the mean under current
+viewing conventions) important than the mean itself. another option could be an adjacent plot of
+conventional topo + bivariate. while partly redundant, it's arguably easier to read thus bringing
+across the main point (ie highlighting regions of high-vs-low uncertainty) confidence interval
+plot is a solid choice, very easy to read without any additional thinking costs. the hypothetical
+outcome gif is a nice idea, quite engaging for talks + presentations! it's also the only viz showing
+different combinations of signage (mean+err / mean-err) across the map. however, i wonder if we
+can be biased by the temporal order. perhaps we only watch half the video, and given the supposedly
+random order that could be misleading?
+----------------------------------------------------------------------------------------------------
+
+ID:62
+The basic topo is familiar and easy to read for voltages, but ulitmately useless for SNR
+estimations. The familiarity of the topo with the added variablity info in the Adjacent &amp; CI plots
+find a nice balance. The Uncertainty markers are probably the best visualization from an information
+perspective as they include the familiarity of the basic topo with SE in the same plot, but visually
+I find them crowded and prefer the Adjacent &amp; CI plots, even though they require more "computation"
+visually. I had a hard time with both versions of the bivariate plots (though prefered the range
+version of the two) for scalp voltages. I think they could be useful/interested if trying to
+visualize how various dipoles or generators contributed to scalp voltages with the over laps between
+areas, etc., but found it the two-dimentional subdivision of each area to be too granular to be able
+to interpret. Perhaps this is just inexperience with this type of visualization?
+----------------------------------------------------------------------------------------------------
+
+ID:64
+'Adjacent plots' is probably the best.
+----------------------------------------------------------------------------------------------------
+
+ID:65
+I like the Basic Topoplot Because it is very easy to read where the greatest activity is. The
+Adjacent Plots I like them because you notice the error immediately. I didn't quite understand the
+Bivariate colors; it seems like there are too many overlapping shapes—it's confusing. The Confidence
+interval plot It's interesting because it lets you see three images of the same subject or value.
+The Uncertainty markers They are interesting due to the intensity of the effect in the region. The
+one I liked best was the Hypothetical outcome plot because of the animation and because it is easy
+to read and interpret.
+----------------------------------------------------------------------------------------------------
+
+ID:67
+I prefered visualizations that clearly showed voltage and range in a single color. That made it
+quick to determine which region(s) I should be attending to.
+----------------------------------------------------------------------------------------------------
+
+ID:71
+I would suggest that some visualizations are more intuitive for interpretation in certain contexts.
+For example if the focus was on a specific region of interest/ localization (e.g. clinical
+localization) and wanted to illustrate the magnitude of the signal at that position, then the
+Confidence Interval Plot would be easiest to interpret. On the other hand, if a cognitive function
+was the focus (i.e. irrespective of a ROI) then I would find the Bivariate Color Plot: Range
+Version more useful. For the specific task of finding a single sensor with the highest SNR, both the
+Adjacent Plots &amp; Uncertainty markers made inter-sensor comparisons easier. The Hypothetical Outcome
+Plot it the most difficult for me since the intuitive interpretation of a movie-like animation is as
+changes over time, rather than signal uncertainty. I also found that the animation makes comparison
+between plots extremely difficult due to the rapid rate of change in the plot (perhaps slower rate
+of change would help?).
+----------------------------------------------------------------------------------------------------
+
+ID:74
+I disliked the "Bivariate color plot: corner version" and "Bivariate color plot: range version"
+despite finding them the most aesthetically pleasing. My reason for this is that there was too
+much information to process in terms of colour legend. While it is nice to have all information
+on one plot, like with the "Uncertainty markers", I found it difficult to see the voltage (colour)
+sometimes. The "Adjacent plots" are nice but when I see standard error I prefer to see the ±, which
+is why I prefer the "Confidence Interval plots".
+----------------------------------------------------------------------------------------------------
+
+ID:76
+I would prefer the confidence interval plot. For me, it is the far most readable plot. It also takes
+me the least time to gather the information. For me, it is also the most tasteful. Maybe, the "mean"
+part could be slightly different from the other two, e.g. slightly bigger. I consider the bivariate
+and hypothetical outcome plots unreadable. It takes a lot of energy to uderstand the information.
+The uncertainty markers plot is awful. I am quite neutral to the adjacent plot.
+----------------------------------------------------------------------------------------------------
+
+ID:77
+I like both basic and hypothetical outcome plot because it give idea and connect story with your
+main statistical analysis / finding. For example, if we say group A exhibit greater P3 amplitude
+than group B in the ROI A - basic topoplot will show that clearly. SE with the mean can be reported
+in the main text. Hypothetical outcome plot is with the similar reason even though its purpose is
+slightly different. And, because of that CI plot seems a bit redundant because I noticed that many
+of the reviewer does not like main text finding to be repeated with what figure is showing. They
+want author to report the finding in one or the another. uncertainty marker plot is really hard
+to see if there is really dark color (darker red or darker blue) in the topoplot, and that seems
+happens a lot when we are generating topoplot, and it just visually not pleasing or appealing.
+Bivariate color plot is just too colorful and just not red-green color blindness and any other
+color blindness. Those plots make audience to search for information to understand which ROI has the
+highest SNR so I think it is losing purpose But overall, I genuinely prefer basic topoplot because
+it is simple and when you have multiple topoplot to be generated and put together, it does not feel
+overwhelm
+----------------------------------------------------------------------------------------------------
+
+ID:78
+It took me some time to interpret the bivariate, then I found it one of the most accurate, albeit
+not immediate. Cannot fully appreciate the corner/range difference.
+----------------------------------------------------------------------------------------------------
+
+ID:79
+I like how the hypothetical outcome plot allows you to visualize the possible alternative
+topographies. I disliked the bivariate plots because it was hard to tell the voltage and SE.
+----------------------------------------------------------------------------------------------------
+
+ID:80
+FYI: the hypothetical outcome plot is not working (throughout the whole survey), at least for
+me (Chrome browser). The bivariate color plot: corner version is definitely most appealing and
+relatively easy to read. The uncertainty marker is the quickest read, but it's not very pretty to
+me.
+----------------------------------------------------------------------------------------------------
+
+ID:82
+The bivariate color plots contain a lot of useful information; however, at a certain point the plots
+themselves contain too much noise that I imagine the average reader would not read them as it is in
+our nature as humans to not look at ugly things.
+----------------------------------------------------------------------------------------------------
+
+ID:83
+No comment
+----------------------------------------------------------------------------------------------------
+
+ID:85
+N/A
+----------------------------------------------------------------------------------------------------
+
+ID:88
+While going through the exercise I completely forgot how to interpret the bivariate color plot
+(maybe because I don't see them often). The topoplot with the uncertainty markers, even though
+it's not the MOST appealing, I find as the plot requiring the least amount of effort to read,
+interpreting comes intuitively.
+----------------------------------------------------------------------------------------------------
+
+ID:93
+At first, I found the bicariate color plot: corner version hard to decipher, but the more I worked
+with it, the easier it became and it's pretty. The range version seems more intuitive though. I
+really dislike the uncertainty markers.
+----------------------------------------------------------------------------------------------------
+
+ID:94
+Odd color conventions can be confusing and distracting. The same with images that morph -- static is
+more helpful.
+----------------------------------------------------------------------------------------------------
+
+ID:96
+Animations won't work in printed PDFs so that is a big blocker for adoption I think. The confidence
+interval plot is the most easy to interpret for me.
+----------------------------------------------------------------------------------------------------
+
+ID:98
+I think the uncertainty markers where not very helpful (especially for the second task) because they
+so not cover the whole area and if there were more electrodes/uncertaincy markers it would probably
+look very cluttered. The hypothetical outcome plot is nice. However, it cannot be used in written
+publications. For the bivariate color plot: corner version it took me a very long time to process
+how colours map to voltage and SE. I think it got a bit better over the course of the survey but
+still I found the range version easier to interpret.
+----------------------------------------------------------------------------------------------------
+
+ID:101
+The basic plot is intuitive and easy to interpret as it is very familiar. The bivariate color plots
+hold too much and overlapping information, which makes it less intutive and harder to digest. The
+confidence plot are easy to read but the voltage plot should be larger then the other two plots
+to my eyes. The uncertainty plot are easy to read but not very appaeling and the circles appear in
+parts irritating. The hypothetical outcome plots looks nice for talks/prsentations.
+----------------------------------------------------------------------------------------------------
+
+ID:102
+I found the Basic topoplots to be the most useful and easiest to derive information from (even for
+someone who is new to EEG research). Adjacent plots are only helpful in certain contexts. Both of
+the Bivariate color plots are the most difficult to unterstand at first glance.
+----------------------------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Broader comments about the study, tasks, or participants’ experience.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>General feedback — Expand
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>feedback_A306 <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">feedback =</span> stringr<span class="sc">::</span><span class="fu">str_wrap</span>(feedback, <span class="at">width =</span> <span class="dv">100</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">split</span>(.<span class="sc">$</span>ID) <span class="sc">%&gt;%</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">iwalk</span>(<span class="cf">function</span>(x, id) {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"</span><span class="sc">\n</span><span class="st">ID:"</span>, id, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      x<span class="sc">$</span>feedback,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="fu">rep</span>(<span class="st">"-"</span>, <span class="dv">100</span>), <span class="at">collapse =</span> <span class="st">""</span>),</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">sep =</span> <span class="st">""</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  })</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ID:2
+,
+----------------------------------------------------------------------------------------------------
+
+ID:4
+jet is still the best
+----------------------------------------------------------------------------------------------------
+
+ID:6
+Are you training an IA? I think it was useful for me as I may make use of some of th graphic ideas
+you just proposed! Thank you!
+----------------------------------------------------------------------------------------------------
+
+ID:9
+Very enjoyable. Maybe give the answers just for fun.
+----------------------------------------------------------------------------------------------------
+
+ID:10
+I liked your study.
+----------------------------------------------------------------------------------------------------
+
+ID:11
+Interesting plots!
+----------------------------------------------------------------------------------------------------
+
+ID:13
+Transparency is a Gestalt of certainty... Thinking here of Casper the ghost. Perhaps transparency
+could be used.
+----------------------------------------------------------------------------------------------------
+
+ID:16
+Yes, just show actual signed SNR instead of voltage and/or SE: voltage/SE (with negative values
+colored more blue and positive colored more red, and those with values around 0 SE colored white).
+Combines all the info you need in single topo with a single color bar.
+----------------------------------------------------------------------------------------------------
+
+ID:17
+The only idea for improvement that comes to mind is to ask participants how much effort (or time) it
+takes to find the answer from a plot.
+----------------------------------------------------------------------------------------------------
+
+ID:20
+No - good luck!!
+----------------------------------------------------------------------------------------------------
+
+ID:21
+Thank you for this nice contribution to the community!
+----------------------------------------------------------------------------------------------------
+
+ID:22
+Have fun interpreting the results {EM_WINKING_FACE}
+----------------------------------------------------------------------------------------------------
+
+ID:30
+Good work! Hope I get Muse 2 from raffle as I can use it for my independent research
+----------------------------------------------------------------------------------------------------
+
+ID:34
+You're great!! Thank you!!
+----------------------------------------------------------------------------------------------------
+
+ID:40
+Interesting and well-put-together study, thank you.
+----------------------------------------------------------------------------------------------------
+
+ID:46
+Adjacent and confidence interval plots would be difficult to use for sequences of topoplots (over
+time).
+----------------------------------------------------------------------------------------------------
+
+ID:49
+Thank you! Good point and cool format..
+----------------------------------------------------------------------------------------------------
+
+ID:53
+Without specifying the distribution you have computed the S.E. over, I couldn't say for sure...
+----------------------------------------------------------------------------------------------------
+
+ID:55
+Would be interesting to get some sort of feedback of how well one performed after the questionnaire
+is completed ;)
+----------------------------------------------------------------------------------------------------
+
+ID:56
+The survey crashed on the first run, so please watch out for incomplete datasets.
+----------------------------------------------------------------------------------------------------
+
+ID:59
+It was quite challenging to identify the correct spot. I found myself hesitating between PO7 and O1.
+Overall, it was excellent practice. Thanks ~
+----------------------------------------------------------------------------------------------------
+
+ID:60
+-
+----------------------------------------------------------------------------------------------------
+
+ID:61
+nice game! enjoyed it :)
+----------------------------------------------------------------------------------------------------
+
+ID:63
+Amplitude and standard error are not synonymous with effect size and statistical significance,
+although they are related. I think what people really want to see is the estimated effect and its
+uncertainty.
+----------------------------------------------------------------------------------------------------
+
+ID:65
+Great work... Thank you!
+----------------------------------------------------------------------------------------------------
+
+ID:71
+This is a very interesting and necessary study. A fundamental challenge to accurately interpretting
+M/EEG signal processing results is the diffuclty in visualizing the nuances inherent in the complex
+signals. Once the study is completed, the dissemination of these plotting options could be a
+game-changer in presenting M/EEG results.
+----------------------------------------------------------------------------------------------------
+
+ID:74
+Very interesting and important research question!
+----------------------------------------------------------------------------------------------------
+
+ID:77
+I think it is great that you guys are doing this study. It also gave me some thought about my
+topoplot visualization to different scientific and non-scientific audience. Thank you for doing this
+study! And, excited to see what is the conclusion that you guys reach to.
+----------------------------------------------------------------------------------------------------
+
+ID:78
+One of the target patterns in the second part was not visible nor downloadable so I had to guess.
+----------------------------------------------------------------------------------------------------
+
+ID:82
+Very interesting study, it did expose me to some designs for reporting SE that I had not been
+exposed to before, and was an interesting intellectual exercise.
+----------------------------------------------------------------------------------------------------
+
+ID:83
+No comment
+----------------------------------------------------------------------------------------------------
+
+ID:85
+N/A
+----------------------------------------------------------------------------------------------------
+
+ID:88
+I would like to read the outcomes!
+----------------------------------------------------------------------------------------------------
+
+ID:93
+Really interesting. Perhaps looking at speed of responses as well would be interesting? I can't
+imagine that the majority of readers spend a long time looking at topo plots and so having something
+that inuitively makes sense and leads to the most appropriate conclusion would be best. Looking
+forward to seeing the results and implementing them in future papers!!!
+----------------------------------------------------------------------------------------------------
+
+ID:101
+Thanks for making the effort and all the best!
+----------------------------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="optional-feedback-export-to-pdf" class="level2">
+<h2 class="anchored" data-anchor-id="optional-feedback-export-to-pdf">Optional feedback export to PDF</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>feedback_to_pdf <span class="ot">&lt;-</span> <span class="cf">function</span>(df, title, filename) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(feedback), feedback <span class="sc">!=</span> <span class="st">""</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(ID)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  comments <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;section class='comment'&gt;"</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;div class='id'&gt;ID: "</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    htmltools<span class="sc">::</span><span class="fu">htmlEscape</span>(<span class="fu">as.character</span>(df<span class="sc">$</span>ID)),</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;/div&gt;"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;div class='text'&gt;"</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    htmltools<span class="sc">::</span><span class="fu">htmlEscape</span>(df<span class="sc">$</span>feedback),</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;/div&gt;"</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;/section&gt;"</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  html <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;!DOCTYPE html&gt;</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;html&gt;</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;head&gt;</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;meta charset='UTF-8'&gt;</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;style&gt;</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="st">      @page {</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="st">        size: A4;</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="st">        margin: 18mm;</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="st">      }</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="st">      body {</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="st">        font-family: Arial, sans-serif;</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="st">        font-size: 11pt;</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="st">        line-height: 1.45;</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="st">        color: #222;</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="st">      }</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="st">      h1 {</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="st">        font-size: 18pt;</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="st">        margin-bottom: 20px;</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="st">      }</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="st">      .comment {</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="st">        padding: 10px 0 14px 0;</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="st">        border-bottom: 1px solid #cccccc;</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="st">        page-break-inside: avoid;</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="st">      }</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="st">      .id {</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="st">        font-weight: bold;</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="st">        margin-bottom: 5px;</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="st">      }</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="st">      .text {</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="st">        white-space: pre-wrap;</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="st">        overflow-wrap: anywhere;</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="st">      }</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/style&gt;</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/head&gt;</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;body&gt;</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a><span class="st">      &lt;h1&gt;"</span>, htmltools<span class="sc">::</span><span class="fu">htmlEscape</span>(title), <span class="st">"&lt;/h1&gt;"</span>,</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(comments, <span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>),</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;/body&gt;</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;/html&gt;"</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>  html_file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">".html"</span>)</span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeLines</span>(html, html_file, <span class="at">useBytes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>  output_file <span class="ot">&lt;-</span> <span class="fu">normalizePath</span>(filename, <span class="at">mustWork =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>  pagedown<span class="sc">::</span><span class="fu">chrome_print</span>(</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">input =</span> html_file,</span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">output =</span> output_file</span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">"Saved to: "</span>, output_file)</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">isTRUE</span>(params<span class="sc">$</span>export_artifacts)) {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">feedback_to_pdf</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    feedback_A305,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Feedback - A305"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">filename =</span> <span class="st">"feedback_A305.pdf"</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">feedback_to_pdf</span>(</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    feedback_A306,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Feedback - A306"</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">filename =</span> <span class="st">"feedback_A306.pdf"</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

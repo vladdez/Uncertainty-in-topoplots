@@ -161,7 +161,8 @@ comparison_accuracy_figure <- ggplot(
   accuracy_estimates,
   aes(
     x = accuracy,
-    y = vistype
+    y = vistype,
+    colour = vistype == "basic"
   )
 ) +
   geom_errorbar(
@@ -182,7 +183,17 @@ comparison_accuracy_figure <- ggplot(
   ) +
   scale_y_discrete(
     expand = expansion(add = 0.5),
-    labels = vistype_labels
+    labels = function(x) {
+      labels <- unname(vistype_labels[x])
+      labels[x == "basic"] <- paste0(
+        "<span style='color:#377EB8'>", labels[x == "basic"], "</span>"
+      )
+      labels
+    }
+  ) +
+  scale_colour_manual(
+    values = c(`FALSE` = "#222222", `TRUE` = "#377EB8"),
+    guide = "none"
   ) +
   scale_x_continuous(
   labels = function(x) sprintf("%.2f", x),
@@ -198,7 +209,9 @@ comparison_accuracy_figure <- ggplot(
   theme_classic(base_family = "Lato", base_size = 20) +
   theme(
     plot.title = element_text(hjust = 0.5, face = "bold"),
-    plot.caption = element_text(hjust = 0.5, face = "italic")
+    plot.caption = element_text(hjust = 0.5, face = "italic"),
+    axis.text.y = ggtext::element_markdown(size = 24),
+    axis.text.x = element_text(size = 20)
   )
 
 comparison_accuracy_figure

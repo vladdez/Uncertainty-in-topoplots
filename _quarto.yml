@@ -8,6 +8,7 @@ project:
     - pages/task1.qmd
     - pages/task2.qmd
     - pages/subjective.qmd
+    - pages/feedback.qmd
     - pages/figures.qmd
 
 website:
@@ -24,6 +25,8 @@ website:
         text: Task 2
       - href: pages/subjective.qmd
         text: Subjective evaluation
+      - href: pages/feedback.qmd
+        text: Open-ended feedback
       - href: pages/figures.qmd
         text: Publication figures
 

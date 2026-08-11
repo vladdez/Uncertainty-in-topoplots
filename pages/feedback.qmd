@@ -1,0 +1,17 @@
+---
+title: "Open-ended feedback"
+execute:
+  warning: false
+  message: false
+params:
+  export_artifacts: false
+---
+
+Participant comments are presented in two groups. Select an **Expand** button to read the responses.
+
+```{r shared-setup}
+#| include: false
+source("_analysis_setup.R")
+```
+
+{{< include ../_sections/feedback.qmd >}}
