@@ -29,6 +29,11 @@ website:
         text: Open-ended feedback
       - href: pages/figures.qmd
         text: Publication figures
+    right:
+      - icon: github
+        text: GitHub project
+        href: https://github.com/vladdez/Uncertainty-in-topoplots
+        target: _blank
 
 format:
   html:
