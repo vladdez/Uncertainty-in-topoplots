@@ -281,13 +281,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 7 × 6
   vistype              n n_correct n_incorrect accuracy sd_accuracy
   &lt;fct&gt;            &lt;int&gt;     &lt;int&gt;       &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
-1 basic              291       230          61    0.790       0.408
-2 adjacent           291       219          72    0.753       0.432
-3 animation          291       228          63    0.784       0.413
-4 bivariate_corner   291       216          75    0.742       0.438
-5 bivariate_range    291       226          65    0.777       0.417
-6 triple_CI          291       230          61    0.790       0.408
-7 uncert_markers     291       223          68    0.766       0.424</code></pre>
+1 basic              306       242          64    0.791       0.407
+2 adjacent           306       231          75    0.755       0.431
+3 animation          306       239          67    0.781       0.414
+4 bivariate_corner   306       227          79    0.742       0.438
+5 bivariate_range    306       237          69    0.775       0.419
+6 triple_CI          306       241          65    0.788       0.410
+7 uncert_markers     306       236          70    0.771       0.421</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -387,13 +387,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           vistype  accuracy  lower_ci  upper_ci
-1        triple_CI 0.7988641 0.7463831 0.8427728
-2            basic 0.7986545 0.7460987 0.8426262
-3        animation 0.7919479 0.7388768 0.8366179
-4  bivariate_range 0.7850990 0.7314495 0.8305142
-5   uncert_markers 0.7747689 0.7202932 0.8212675
-6         adjacent 0.7607484 0.7052287 0.8086484
-7 bivariate_corner 0.7503839 0.6941714 0.7992523</code></pre>
+1            basic 0.7997558 0.7486316 0.8426674
+2        triple_CI 0.7962945 0.7448911 0.8395711
+3        animation 0.7898195 0.7378842 0.8337824
+4  bivariate_range 0.7832016 0.7307161 0.8278672
+5   uncert_markers 0.7799009 0.7271472 0.8249110
+6         adjacent 0.7635827 0.7096234 0.8101969
+7 bivariate_corner 0.7503395 0.6954744 0.7981881</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -482,25 +482,25 @@ Formula:          correct ~ vistype + position_c + (1 | ID)
 Data: task1_model
 
       AIC       BIC    logLik -2*log(L)  df.resid 
-   2189.2    2239.8   -1085.6    2171.2      2028 
+   2300.6    2351.6   -1141.3    2282.6      2133 
 
 Random effects:
 
 Conditional model:
  Groups Name        Variance Std.Dev.
- ID     (Intercept) 0.1804   0.4248  
-Number of obs: 2037, groups:  ID, 97
+ ID     (Intercept) 0.1884   0.434   
+Number of obs: 2142, groups:  ID, 102
 
 Conditional model:
                          Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)              1.378066   0.153574   8.973   &lt;2e-16 ***
-vistypeadjacent         -0.221160   0.201114  -1.100    0.271    
-vistypeanimation        -0.041204   0.205667  -0.200    0.841    
-vistypebivariate_corner -0.277303   0.199954  -1.387    0.165    
-vistypebivariate_range  -0.082282   0.204650  -0.402    0.688    
-vistypetriple_CI         0.001318   0.206937   0.006    0.995    
-vistypeuncert_markers   -0.142501   0.203179  -0.701    0.483    
-position_c              -0.001129   0.008889  -0.127    0.899    
+(Intercept)              1.384934   0.150246   9.218   &lt;2e-16 ***
+vistypeadjacent         -0.212380   0.196629  -1.080    0.280    
+vistypeanimation        -0.060936   0.200318  -0.304    0.761    
+vistypebivariate_corner -0.284393   0.195135  -1.457    0.145    
+vistypebivariate_range  -0.100358   0.199425  -0.503    0.615    
+vistypetriple_CI        -0.021470   0.201481  -0.107    0.915    
+vistypeuncert_markers   -0.119680   0.198984  -0.601    0.548    
+position_c               0.001186   0.008667   0.137    0.891    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -528,8 +528,8 @@ Models:
 model_no_vistype: correct ~ position_c + (1 | ID), zi=~0, disp=~1
 model_vistype: correct ~ vistype + position_c + (1 | ID), zi=~0, disp=~1
                  Df    AIC    BIC  logLik deviance  Chisq Chi Df Pr(&gt;Chisq)
-model_no_vistype  3 2180.8 2197.6 -1087.4   2174.8                         
-model_vistype     9 2189.2 2239.8 -1085.6   2171.2 3.5931      6     0.7315</code></pre>
+model_no_vistype  3 2291.9 2308.9 -1143.0   2285.9                         
+model_vistype     9 2300.6 2351.6 -1141.3   2282.6 3.3576      6     0.7628</code></pre>
 </div>
 </div>
 </section>
@@ -562,7 +562,7 @@ model_vistype     9 2189.2 2239.8 -1085.6   2171.2 3.5931      6     0.7315</cod
 <span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>task1_time</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2,037 × 6
+<pre><code># A tibble: 2,142 × 6
    ID    time_var time_sec position trial vistype         
    &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;    &lt;int&gt; &lt;int&gt; &lt;chr&gt;           
  1 1     TIME005        17        1     1 adjacent        
@@ -575,7 +575,7 @@ model_vistype     9 2189.2 2239.8 -1085.6   2171.2 3.5931      6     0.7315</cod
  8 1     TIME012         8        8    18 animation       
  9 1     TIME013        15        9    21 basic           
 10 1     TIME014        20       10     6 bivariate_corner
-# ℹ 2,027 more rows</code></pre>
+# ℹ 2,132 more rows</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -598,13 +598,13 @@ model_vistype     9 2189.2 2239.8 -1085.6   2171.2 3.5931      6     0.7315</cod
 <pre><code># A tibble: 7 × 5
   vistype              n median_sec mean_sec sd_sec
   &lt;chr&gt;            &lt;int&gt;      &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
-1 animation          259         10     13.1   8.92
-2 adjacent           267         11     13.3   8.62
-3 basic              266         11     13.2   8.10
-4 bivariate_corner   263         11     12.8   7.39
-5 triple_CI          268         11     13.4   8.33
-6 uncert_markers     265         11     13.9   8.94
-7 bivariate_range    265         12     13.9   9.06</code></pre>
+1 adjacent           282         11     13.6   8.73
+2 animation          273         11     13.3   8.88
+3 basic              278         11     13.2   8.06
+4 bivariate_corner   282         11     13.4   8.13
+5 bivariate_range    280         12     14.0   9.04
+6 triple_CI          285         12     13.9   8.79
+7 uncert_markers     279         12     14.1   9.15</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -679,13 +679,13 @@ model_vistype     9 2189.2 2239.8 -1085.6   2171.2 3.5931      6     0.7315</cod
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           vistype estimated_time lower_ci upper_ci
-1 bivariate_corner       12.42781 11.00523 14.03428
-2            basic       12.68602 11.23334 14.32656
-3         adjacent       12.69984 11.24594 14.34171
-4        triple_CI       12.84850 11.37756 14.50961
-5        animation       13.11543 11.61414 14.81079
-6  bivariate_range       13.45225 11.91232 15.19124
-7   uncert_markers       13.61024 12.05215 15.36977</code></pre>
+1 bivariate_corner       12.49647 11.11539 14.04914
+2            basic       12.89558 11.46998 14.49837
+3         adjacent       12.90513 11.47882 14.50866
+4        triple_CI       12.99639 11.55992 14.61136
+5        animation       13.19531 11.73702 14.83478
+6  bivariate_range       13.40235 11.92108 15.06768
+7   uncert_markers       13.69986 12.18566 15.40221</code></pre>
 </div>
 </div>
 <div class="cell">
