@@ -1,6 +1,6 @@
 ## Qualitative content analysis
 
-Each row represents one evaluative meaning unit from A305. Participant wording is retained as closely as possible; the theme and intensity are researcher-assigned codes. Use the search box or column filters to explore the table.
+The analysis contains 213 evaluative meaning units from 49 participants. `ID` links every unit to its original A305 response and supports participant-level counting. Participant wording is retained as closely as possible; the theme and intensity are researcher-assigned codes. Use the search box or column filters to explore the table.
 
 [Download the coded content analysis as an Excel workbook](../data/a305_content_analysis.xlsx)
 
@@ -24,6 +24,7 @@ reactable::reactable(
   showPageSizeOptions = TRUE,
   pageSizeOptions = c(10, 20, 50, 100),
   columns = list(
+    ID = reactable::colDef(minWidth = 70, align = "center"),
     Visualization = reactable::colDef(minWidth = 145),
     `Meaning unit` = reactable::colDef(minWidth = 420),
     Theme = reactable::colDef(minWidth = 160),
@@ -33,6 +34,158 @@ reactable::reactable(
     )
   )
 )
+```
+
+## Evaluation intensity by theme and visualization type
+
+This descriptive analysis gives each participant at most one value within each visualization–theme combination. It therefore avoids treating multiple meaning units from the same participant as independent observations. Comments coded as `General` are retained in the original dataset but excluded here because they do not identify one of the seven visualization types.
+
+```{r a305-participant-theme-aggregation}
+#| include: false
+
+visualization_order <- c(
+  "Basic",
+  "Adjacent",
+  "Bivariate corner",
+  "Bivariate range",
+  "Confidence interval",
+  "Uncertainty markers",
+  "Animation"
+)
+
+a305_participant_theme <- a305_content_analysis |>
+  transmute(
+    participant = ID,
+    visualization = factor(Visualization, levels = visualization_order),
+    theme = Theme,
+    intensity = as.numeric(gsub("+", "", `Evaluation intensity`, fixed = TRUE))
+  ) |>
+  filter(!is.na(visualization), !is.na(theme), !is.na(intensity)) |>
+  group_by(participant, visualization, theme) |>
+  summarise(
+    n_units = n(),
+    median_intensity = median(intensity),
+    .groups = "drop"
+  )
+
+a305_intensity_summary <- a305_participant_theme |>
+  group_by(theme, visualization) |>
+  summarise(
+    n_participants = n_distinct(participant),
+    median_intensity = median(median_intensity),
+    mean_intensity = mean(median_intensity),
+    .groups = "drop"
+  ) |>
+  arrange(theme, visualization)
+```
+
+```{r a305-intensity-theme-figure}
+#| fig-width: 15
+#| fig-height: 14
+#| out-width: 100%
+#| fig-alt: "Faceted boxplots of participant-level median evaluation intensity by visualization type and qualitative theme, with individual participant points."
+
+intensity_axis_labels <- c(
+  `-2` = "−2",
+  `-1` = "−1",
+  `0` = "0",
+  `1` = "+1",
+  `2` = "+2"
+)
+
+visualization_axis_labels <- c(
+  Basic = "Basic",
+  Adjacent = "Adjacent",
+  `Bivariate corner` = "Bivariate\ncorner",
+  `Bivariate range` = "Bivariate\nrange",
+  `Confidence interval` = "Confidence\ninterval",
+  `Uncertainty markers` = "Uncertainty\nmarkers",
+  Animation = "Animation"
+)
+
+a305_intensity_by_theme_figure <- ggplot(
+  a305_participant_theme,
+  aes(x = visualization, y = median_intensity)
+) +
+  geom_boxplot(
+    width = 0.62,
+    outlier.shape = NA,
+    fill = "#BFD7EA",
+    colour = "#315A7D",
+    linewidth = 0.6
+  ) +
+  geom_jitter(
+    width = 0.16,
+    height = 0.06,
+    size = 2.4,
+    alpha = 0.8,
+    colour = "#173F5F"
+  ) +
+  facet_wrap(vars(theme), scales = "free_x", ncol = 3) +
+  scale_x_discrete(labels = visualization_axis_labels, drop = TRUE) +
+  scale_y_continuous(
+    limits = c(-2.15, 2.15),
+    breaks = -2:2,
+    labels = intensity_axis_labels,
+    minor_breaks = NULL
+  ) +
+  labs(
+    x = NULL,
+    y = "Participant-level median evaluation intensity",
+    caption = paste(
+      "Points represent participants, not individual meaning units.",
+      "−2 = strongly negative; +2 = strongly positive."
+    )
+  ) +
+  theme_classic(base_family = "Lato", base_size = 18) +
+  theme(
+    strip.text = element_text(face = "bold", size = 18),
+    axis.text.x = element_text(size = 13, lineheight = 0.9),
+    axis.text.y = element_text(size = 16),
+    axis.title.y = element_text(size = 18),
+    axis.ticks.x = element_blank(),
+    panel.spacing = unit(1.2, "lines"),
+    plot.caption = element_text(hjust = 0.5, face = "italic", size = 14)
+  )
+
+a305_intensity_by_theme_figure
+```
+
+### Participant-based summary
+
+Sample sizes count unique participants. Medians and means are calculated from the participant-level medians shown in the figure, not directly from meaning units.
+
+```{r a305-intensity-summary-table}
+a305_intensity_summary |>
+  mutate(
+    visualization = as.character(visualization),
+    median_intensity = round(median_intensity, 2),
+    mean_intensity = round(mean_intensity, 2)
+  ) |>
+  rename(
+    `theme` = theme,
+    `visualization` = visualization,
+    `n_participants` = n_participants,
+    `median_intensity` = median_intensity,
+    `mean_intensity` = mean_intensity
+  ) |>
+  reactable::reactable(
+    searchable = TRUE,
+    filterable = TRUE,
+    striped = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    defaultPageSize = 20,
+    showPageSizeOptions = TRUE,
+    pageSizeOptions = c(10, 20, 50, 100),
+    columns = list(
+      theme = reactable::colDef(minWidth = 170),
+      visualization = reactable::colDef(minWidth = 160),
+      n_participants = reactable::colDef(align = "center"),
+      median_intensity = reactable::colDef(align = "center"),
+      mean_intensity = reactable::colDef(align = "center")
+    )
+  )
 ```
 
 ## Original responses
