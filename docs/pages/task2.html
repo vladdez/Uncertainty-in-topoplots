@@ -302,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>task2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2,142 × 7
+<pre><code># A tibble: 2,247 × 7
    ID    trial position vistype          stimulus region score
    &lt;chr&gt; &lt;int&gt;    &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt;
  1 1         1       17 adjacent         MMN_30   R62     0.45
@@ -315,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8 1         8        8 bivariate_range  P3_8     R51     1   
  9 1         9       11 bivariate_range  N170_26  R61     1   
 10 1        10       13 triple_CI        MMN_15   R53     0.76
-# ℹ 2,132 more rows</code></pre>
+# ℹ 2,237 more rows</code></pre>
 </div>
 </div>
 </section>
@@ -336,7 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>task2_model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2,142 × 5
+<pre><code># A tibble: 2,247 × 5
    ID    stimulus vistype          position_c score
    &lt;fct&gt; &lt;fct&gt;    &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt;
  1 1     MMN_30   adjacent                  6  0.45
@@ -349,7 +349,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8 1     P3_8     bivariate_range          -3  1   
  9 1     N170_26  bivariate_range           0  1   
 10 1     MMN_15   triple_CI                 2  0.76
-# ℹ 2,132 more rows</code></pre>
+# ℹ 2,237 more rows</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -358,7 +358,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>task2_model[task2_model<span class="sc">$</span>stimulus <span class="sc">==</span> <span class="st">"MMN_30"</span>,]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 65 × 5
+<pre><code># A tibble: 67 × 5
    ID    stimulus vistype          position_c score
    &lt;fct&gt; &lt;fct&gt;    &lt;fct&gt;                 &lt;dbl&gt; &lt;dbl&gt;
  1 1     MMN_30   adjacent                  6  0.45
@@ -371,7 +371,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8 8     MMN_30   adjacent                  4  0.82
  9 12    MMN_30   bivariate_range          -3  0.36
 10 13    MMN_30   basic                     2  0.54
-# ℹ 55 more rows</code></pre>
+# ℹ 57 more rows</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -393,13 +393,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 7 × 5
   vistype              n  mean median    sd
   &lt;fct&gt;            &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-1 triple_CI          306 0.74    0.82 0.248
-2 adjacent           306 0.732   0.8  0.259
-3 uncert_markers     306 0.731   0.8  0.247
-4 bivariate_range    306 0.72    0.78 0.252
-5 animation          306 0.712   0.77 0.251
-6 bivariate_corner   306 0.682   0.74 0.266
-7 basic              306 0.702   0.7  0.237</code></pre>
+1 triple_CI          321 0.74    0.81 0.245
+2 adjacent           321 0.732   0.8  0.258
+3 uncert_markers     321 0.731   0.8  0.246
+4 bivariate_range    321 0.718   0.78 0.251
+5 animation          321 0.713   0.77 0.25 
+6 bivariate_corner   321 0.685   0.75 0.267
+7 basic              321 0.701   0.7  0.239</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -468,26 +468,26 @@ Formula:          score ~ vistype + (1 | ID)
 Data: task2_model
 
       AIC       BIC    logLik -2*log(L)  df.resid 
-   1250.6    1312.9    -614.3    1228.6      2131 
+   1305.4    1368.3    -641.7    1283.4      2236 
 
 Random effects:
 
 Conditional model:
  Groups Name        Variance Std.Dev.
- ID     (Intercept) 0.1572   0.3965  
-Number of obs: 2142, groups:  ID, 102
+ ID     (Intercept) 0.1541   0.3925  
+Number of obs: 2247, groups:  ID, 107
 
-Dispersion parameter for ordbeta family (): 3.69 
+Dispersion parameter for ordbeta family ():  3.7 
 
 Conditional model:
                         Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)              0.64434    0.06812   9.459   &lt;2e-16 ***
-vistypeadjacent          0.10287    0.07813   1.317   0.1880    
-vistypeanimation         0.02454    0.07734   0.317   0.7510    
-vistypebivariate_corner -0.09588    0.07724  -1.241   0.2145    
-vistypebivariate_range   0.09457    0.07738   1.222   0.2216    
-vistypetriple_CI         0.17884    0.07765   2.303   0.0213 *  
-vistypeuncert_markers    0.08992    0.07791   1.154   0.2484    
+(Intercept)              0.64100    0.06617   9.687   &lt;2e-16 ***
+vistypeadjacent          0.10745    0.07615   1.411   0.1582    
+vistypeanimation         0.02953    0.07553   0.391   0.6958    
+vistypebivariate_corner -0.08852    0.07557  -1.171   0.2415    
+vistypebivariate_range   0.08543    0.07539   1.133   0.2572    
+vistypetriple_CI         0.18221    0.07553   2.412   0.0158 *  
+vistypeuncert_markers    0.10329    0.07572   1.364   0.1725    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -508,11 +508,11 @@ Models:
 model_task2_no_vistype: score ~ (1 | ID), zi=~0, disp=~1
 model_task2: score ~ vistype + (1 | ID), zi=~0, disp=~1
                        Df    AIC    BIC  logLik deviance  Chisq Chi Df
-model_task2_no_vistype  5 1254.1 1282.4 -622.04   1244.1              
-model_task2            11 1250.6 1312.9 -614.28   1228.6 15.518      6
+model_task2_no_vistype  5 1309.3 1337.9 -649.66   1299.3              
+model_task2            11 1305.4 1368.3 -641.69   1283.4 15.954      6
                        Pr(&gt;Chisq)  
 model_task2_no_vistype             
-model_task2               0.01659 *
+model_task2               0.01401 *
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -542,13 +542,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           vistype predicted_score  lower_ci  upper_ci
-1 bivariate_corner       0.6337771 0.6023547 0.6641012
-2            basic       0.6557335 0.6250019 0.6852152
-3        animation       0.6612528 0.6306716 0.6905443
-4   uncert_markers       0.6757402 0.6454061 0.7046667
-5  bivariate_range       0.6767582 0.6467425 0.7053853
-6         adjacent       0.6785699 0.6482578 0.7074488
-7        triple_CI       0.6949116 0.6655600 0.7227602</code></pre>
+1 bivariate_corner       0.6347122 0.6040608 0.6643095
+2            basic       0.6549802 0.6251122 0.6836728
+3        animation       0.6616232 0.6318451 0.6901738
+4  bivariate_range       0.6740212 0.6447608 0.7019854
+5   uncert_markers       0.6779337 0.6486578 0.7058763
+6         adjacent       0.6788415 0.6494036 0.7069231
+7        triple_CI       0.6949185 0.6664752 0.7219481</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -568,27 +568,27 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast                           estimate     SE  df z.ratio p.value
- basic - adjacent                   -0.10287 0.0781 Inf  -1.317  0.8444
- basic - animation                  -0.02454 0.0773 Inf  -0.317  0.9999
- basic - bivariate_corner            0.09588 0.0772 Inf   1.241  0.8780
- basic - bivariate_range            -0.09457 0.0774 Inf  -1.222  0.8858
- basic - triple_CI                  -0.17884 0.0776 Inf  -2.303  0.2422
- basic - uncert_markers             -0.08992 0.0779 Inf  -1.154  0.9110
- adjacent - animation                0.07833 0.0783 Inf   1.000  0.9542
- adjacent - bivariate_corner         0.19875 0.0783 Inf   2.539  0.1455
- adjacent - bivariate_range          0.00829 0.0784 Inf   0.106  1.0000
- adjacent - triple_CI               -0.07598 0.0787 Inf  -0.966  0.9613
- adjacent - uncert_markers           0.01294 0.0790 Inf   0.164  1.0000
- animation - bivariate_corner        0.12043 0.0775 Inf   1.554  0.7115
- animation - bivariate_range        -0.07003 0.0776 Inf  -0.903  0.9722
- animation - triple_CI              -0.15430 0.0778 Inf  -1.982  0.4261
- animation - uncert_markers         -0.06538 0.0781 Inf  -0.837  0.9811
- bivariate_corner - bivariate_range -0.19046 0.0776 Inf  -2.455  0.1761
- bivariate_corner - triple_CI       -0.27473 0.0778 Inf  -3.532  0.0075
- bivariate_corner - uncert_markers  -0.18581 0.0780 Inf  -2.382  0.2061
- bivariate_range - triple_CI        -0.08427 0.0779 Inf  -1.081  0.9338
- bivariate_range - uncert_markers    0.00465 0.0783 Inf   0.059  1.0000
- triple_CI - uncert_markers          0.08892 0.0784 Inf   1.134  0.9179
+ basic - adjacent                   -0.10745 0.0762 Inf  -1.411  0.7961
+ basic - animation                  -0.02953 0.0755 Inf  -0.391  0.9997
+ basic - bivariate_corner            0.08852 0.0756 Inf   1.171  0.9050
+ basic - bivariate_range            -0.08543 0.0754 Inf  -1.133  0.9180
+ basic - triple_CI                  -0.18221 0.0755 Inf  -2.412  0.1932
+ basic - uncert_markers             -0.10329 0.0757 Inf  -1.364  0.8209
+ adjacent - animation                0.07792 0.0765 Inf   1.018  0.9500
+ adjacent - bivariate_corner         0.19597 0.0766 Inf   2.559  0.1387
+ adjacent - bivariate_range          0.02202 0.0764 Inf   0.288  1.0000
+ adjacent - triple_CI               -0.07476 0.0766 Inf  -0.976  0.9591
+ adjacent - uncert_markers           0.00416 0.0768 Inf   0.054  1.0000
+ animation - bivariate_corner        0.11805 0.0759 Inf   1.554  0.7116
+ animation - bivariate_range        -0.05589 0.0757 Inf  -0.738  0.9902
+ animation - triple_CI              -0.15268 0.0759 Inf  -2.011  0.4073
+ animation - uncert_markers         -0.07376 0.0761 Inf  -0.970  0.9605
+ bivariate_corner - bivariate_range -0.17394 0.0759 Inf  -2.292  0.2477
+ bivariate_corner - triple_CI       -0.27073 0.0760 Inf  -3.562  0.0068
+ bivariate_corner - uncert_markers  -0.19181 0.0761 Inf  -2.519  0.1522
+ bivariate_range - triple_CI        -0.09679 0.0758 Inf  -1.276  0.8629
+ bivariate_range - uncert_markers   -0.01786 0.0761 Inf  -0.235  1.0000
+ triple_CI - uncert_markers          0.07892 0.0761 Inf   1.037  0.9454
 
 Results are given on the log odds ratio (not the response) scale. 
 P value adjustment: tukey method for comparing a family of 7 estimates </code></pre>
@@ -601,7 +601,7 @@ P value adjustment: tukey method for comparing a family of 7 estimates </code></
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast                       estimate         SE  df z.ratio p.value
- bivariate_corner - triple_CI -0.2747277 0.07779181 Inf  -3.532  0.0075
+ bivariate_corner - triple_CI -0.2707293 0.07600216 Inf  -3.562  0.0068
 
 Results are given on the log odds ratio (not the response) scale. 
 P value adjustment: tukey method for comparing a family of 7 estimates </code></pre>
@@ -654,171 +654,171 @@ P value adjustment: tukey method for comparing a family of 7 estimates </code></
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">basic - adjacent</td>
-<td style="text-align: right;">-0.023</td>
+<td style="text-align: right;">-0.024</td>
 <td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
 <td style="text-align: right;">-0.074</td>
-<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">0.026</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">basic - animation</td>
-<td style="text-align: right;">-0.006</td>
+<td style="text-align: right;">-0.007</td>
 <td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
 <td style="text-align: right;">-0.057</td>
-<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.043</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">basic - bivariate_corner</td>
-<td style="text-align: right;">0.022</td>
-<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.030</td>
-<td style="text-align: right;">0.074</td>
+<td style="text-align: right;">-0.031</td>
+<td style="text-align: right;">0.071</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">basic - bivariate_range</td>
-<td style="text-align: right;">-0.021</td>
+<td style="text-align: right;">-0.019</td>
 <td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.072</td>
+<td style="text-align: right;">-0.069</td>
 <td style="text-align: right;">0.030</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">basic - triple_CI</td>
-<td style="text-align: right;">-0.039</td>
+<td style="text-align: right;">-0.040</td>
 <td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
 <td style="text-align: right;">-0.089</td>
-<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">0.009</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">basic - uncert_markers</td>
-<td style="text-align: right;">-0.020</td>
+<td style="text-align: right;">-0.023</td>
 <td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.071</td>
-<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">-0.073</td>
+<td style="text-align: right;">0.027</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">adjacent - animation</td>
 <td style="text-align: right;">0.017</td>
 <td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.034</td>
-<td style="text-align: right;">0.068</td>
+<td style="text-align: right;">-0.033</td>
+<td style="text-align: right;">0.067</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">adjacent - bivariate_corner</td>
-<td style="text-align: right;">0.045</td>
-<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">0.044</td>
+<td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
 <td style="text-align: right;">-0.007</td>
-<td style="text-align: right;">0.097</td>
+<td style="text-align: right;">0.095</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">adjacent - bivariate_range</td>
-<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">0.005</td>
 <td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.049</td>
-<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">-0.044</td>
+<td style="text-align: right;">0.054</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">adjacent - triple_CI</td>
 <td style="text-align: right;">-0.016</td>
-<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">0.016</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.066</td>
-<td style="text-align: right;">0.034</td>
+<td style="text-align: right;">-0.065</td>
+<td style="text-align: right;">0.032</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">adjacent - uncert_markers</td>
-<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">0.001</td>
 <td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
 <td style="text-align: right;">-0.048</td>
-<td style="text-align: right;">0.054</td>
+<td style="text-align: right;">0.050</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">animation - bivariate_corner</td>
 <td style="text-align: right;">0.027</td>
-<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.025</td>
-<td style="text-align: right;">0.080</td>
+<td style="text-align: right;">-0.024</td>
+<td style="text-align: right;">0.078</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">animation - bivariate_range</td>
-<td style="text-align: right;">-0.016</td>
+<td style="text-align: right;">-0.012</td>
 <td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.066</td>
-<td style="text-align: right;">0.035</td>
+<td style="text-align: right;">-0.062</td>
+<td style="text-align: right;">0.037</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">animation - triple_CI</td>
-<td style="text-align: right;">-0.034</td>
+<td style="text-align: right;">-0.033</td>
 <td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.084</td>
+<td style="text-align: right;">-0.082</td>
 <td style="text-align: right;">0.016</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">animation - uncert_markers</td>
-<td style="text-align: right;">-0.014</td>
+<td style="text-align: right;">-0.016</td>
 <td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.065</td>
-<td style="text-align: right;">0.037</td>
+<td style="text-align: right;">-0.066</td>
+<td style="text-align: right;">0.033</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">bivariate_corner - bivariate_range</td>
-<td style="text-align: right;">-0.043</td>
-<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">-0.039</td>
+<td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.095</td>
-<td style="text-align: right;">0.009</td>
+<td style="text-align: right;">-0.090</td>
+<td style="text-align: right;">0.011</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">bivariate_corner - triple_CI</td>
-<td style="text-align: right;">-0.061</td>
+<td style="text-align: right;">-0.060</td>
 <td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.112</td>
+<td style="text-align: right;">-0.110</td>
 <td style="text-align: right;">-0.010</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">bivariate_corner - uncert_markers</td>
-<td style="text-align: right;">-0.042</td>
-<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">-0.043</td>
+<td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
 <td style="text-align: right;">-0.094</td>
-<td style="text-align: right;">0.010</td>
+<td style="text-align: right;">0.007</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">bivariate_range - triple_CI</td>
-<td style="text-align: right;">-0.018</td>
-<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-0.021</td>
+<td style="text-align: right;">0.016</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.068</td>
-<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">-0.069</td>
+<td style="text-align: right;">0.027</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">bivariate_range - uncert_markers</td>
-<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">-0.004</td>
 <td style="text-align: right;">0.017</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.050</td>
-<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">-0.053</td>
+<td style="text-align: right;">0.045</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">triple_CI - uncert_markers</td>
-<td style="text-align: right;">0.019</td>
 <td style="text-align: right;">0.017</td>
+<td style="text-align: right;">0.016</td>
 <td style="text-align: right;">Inf</td>
 <td style="text-align: right;">-0.031</td>
-<td style="text-align: right;">0.069</td>
+<td style="text-align: right;">0.065</td>
 </tr>
 </tbody>
 </table>
@@ -1130,7 +1130,7 @@ P value adjustment: tukey method for comparing a family of 7 estimates </code></
 <span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>task2_time</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2,142 × 6
+<pre><code># A tibble: 2,247 × 6
    ID    time_var time_sec position trial vistype         
    &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;    &lt;int&gt; &lt;int&gt; &lt;chr&gt;           
  1 1     TIME029        38        1     2 adjacent        
@@ -1143,7 +1143,7 @@ P value adjustment: tukey method for comparing a family of 7 estimates </code></
  8 1     TIME036        12        8     8 bivariate_range 
  9 1     TIME037         9        9    16 animation       
 10 1     TIME038        11       10    18 animation       
-# ℹ 2,132 more rows</code></pre>
+# ℹ 2,237 more rows</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1166,13 +1166,13 @@ P value adjustment: tukey method for comparing a family of 7 estimates </code></
 <pre><code># A tibble: 7 × 5
   vistype              n median_sec mean_sec sd_sec
   &lt;chr&gt;            &lt;int&gt;      &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
-1 animation          288       13       15.8   9.86
-2 basic              287       13       15.4   9.49
-3 bivariate_corner   278       13       14.3   8.46
-4 bivariate_range    281       13       15.7  10.0 
-5 triple_CI          290       13       15.9   9.59
-6 uncert_markers     277       13       14.5   8.32
-7 adjacent           286       13.5     16.1  10.3 </code></pre>
+1 animation          301         12     15.5   9.99
+2 bivariate_corner   291         12     13.9   8.20
+3 adjacent           299         13     15.6   9.91
+4 basic              302         13     15.4   9.57
+5 bivariate_range    296         13     15.7  10.1 
+6 triple_CI          305         13     15.6   9.56
+7 uncert_markers     291         13     14.3   8.49</code></pre>
 </div>
 </div>
 <section id="model-estimated-completion-time" class="level3">
@@ -1215,13 +1215,13 @@ P value adjustment: tukey method for comparing a family of 7 estimates </code></
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>           vistype estimated_time lower_ci upper_ci
-1 bivariate_corner       14.09662 12.53821 15.84872
-2            basic       14.14442 12.58070 15.90249
-3   uncert_markers       14.34838 12.76214 16.13178
-4        triple_CI       14.57018 12.95924 16.38136
-5        animation       14.61315 12.99766 16.42943
-6         adjacent       14.92164 13.27207 16.77623
-7  bivariate_range       15.11879 13.44730 16.99804</code></pre>
+1 bivariate_corner       13.79078 12.27406 15.49492
+2            basic       13.93687 12.40406 15.65910
+3   uncert_markers       14.00993 12.46903 15.74125
+4        triple_CI       14.16023 12.60265 15.91031
+5        animation       14.20844 12.64570 15.96430
+6         adjacent       14.43370 12.84626 16.21731
+7  bivariate_range       14.96704 13.32088 16.81662</code></pre>
 </div>
 </div>
 <div class="cell">
