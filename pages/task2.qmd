@@ -93,7 +93,24 @@ task2 <- task2_design %>%
   left_join(task2_order, by = c("ID", "trial")) %>%
   select(ID, trial, position, vistype, stimulus, region, score)
 
-task2
+task2 |>
+  slice_head(n = 20) |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    digits = 3,
+    col.names = c(
+      "Participant ID",
+      "Trial",
+      "Presentation position",
+      "Visualization type",
+      "Stimulus",
+      "Selected region",
+      "Score"
+    ),
+    caption = "Diagnostic preview: first 20 reconstructed detection-task responses",
+    table.attr = kable_table_attributes
+  )
 ```
 
 
@@ -111,11 +128,42 @@ task2_model <- task2 %>%
     score = as.numeric(score)
   ) %>%
   filter(complete.cases(.))
-task2_model
+task2_model |>
+  slice_head(n = 20) |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    digits = 3,
+    col.names = c(
+      "Participant ID",
+      "Stimulus",
+      "Visualization type",
+      "Centered presentation position",
+      "Score"
+    ),
+    caption = "Diagnostic preview: first 20 detection-task model records",
+    table.attr = kable_table_attributes
+  )
 ```
 
 ```{r}
-task2_model[task2_model$stimulus == "MMN_30",]
+task2_model |>
+  filter(stimulus == "MMN_30") |>
+  slice_head(n = 20) |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    digits = 3,
+    col.names = c(
+      "Participant ID",
+      "Stimulus",
+      "Visualization type",
+      "Centered presentation position",
+      "Score"
+    ),
+    caption = "Diagnostic preview: first 20 model records for stimulus MMN_30",
+    table.attr = kable_table_attributes
+  )
 ```
 
 ```{r task2-descriptive-summary}
@@ -129,7 +177,22 @@ task2_table <- task2_model %>%
     .groups = "drop"
   )
 
-task2_table |> arrange(desc(median))
+task2_table |>
+  arrange(desc(median)) |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    digits = 3,
+    col.names = c(
+      "Visualization type",
+      "Responses",
+      "Mean score",
+      "Median score",
+      "SD"
+    ),
+    caption = "Observed detection-task scores by visualization type",
+    table.attr = kable_table_attributes
+  )
 ```
 
 ```{r task2-descriptive-plot}
@@ -178,7 +241,43 @@ model_task2 <- glmmTMB(
   data = task2_model
 )
 
-summary(model_task2)
+summary(model_task2)$coefficients$cond |>
+  as.data.frame() |>
+  tibble::rownames_to_column("term") |>
+  transmute(
+    term = dplyr::recode(
+      term,
+      `(Intercept)` = "Basic topoplot (intercept)",
+      vistypeadjacent = "Adjacent plots vs Basic topoplot",
+      vistypeanimation = "Animation vs Basic topoplot",
+      vistypebivariate_corner = "Bivariate corner vs Basic topoplot",
+      vistypebivariate_range = "Bivariate range vs Basic topoplot",
+      vistypetriple_CI = "Confidence intervals vs Basic topoplot",
+      vistypeuncert_markers = "Uncertainty markers vs Basic topoplot",
+      .default = term
+    ),
+    estimate = Estimate,
+    standard_error = .data[["Std. Error"]],
+    z_value = .data[["z value"]],
+    p_value = format.pval(
+      .data[["Pr(>|z|)"]],
+      digits = 3,
+      eps = 0.001
+    )
+  ) |>
+  knitr::kable(
+    format = "html",
+    digits = 3,
+    col.names = c(
+      "Term",
+      "Estimate (logit scale)",
+      "Standard error",
+      "z value",
+      "p value"
+    ),
+    caption = "Fixed effects for the detection-score model",
+    table.attr = kable_table_attributes
+  )
 ```
 
 ```{r}
@@ -187,7 +286,39 @@ model_task2_no_vistype <- update(
   . ~ . - vistype
 )
 
-anova(model_task2_no_vistype, model_task2)
+anova(model_task2_no_vistype, model_task2) |>
+  as.data.frame() |>
+  tibble::rownames_to_column("model") |>
+  mutate(
+    model = dplyr::recode(
+      model,
+      model_task2_no_vistype = "Intercept only",
+      model_task2 = "Visualization type",
+      .default = model
+    ),
+    `Pr(>Chisq)` = format.pval(
+      .data[["Pr(>Chisq)"]],
+      digits = 3,
+      eps = 0.001
+    )
+  ) |>
+  knitr::kable(
+    format = "html",
+    digits = 3,
+    col.names = c(
+      "Model",
+      "Parameters",
+      "AIC",
+      "BIC",
+      "Log likelihood",
+      "Deviance",
+      "Likelihood-ratio chi-square",
+      "df difference",
+      "p value"
+    ),
+    caption = "Likelihood-ratio test of visualization type for detection score",
+    table.attr = kable_table_attributes
+  )
 ```
 
 ```{r task2-estimates}
@@ -209,7 +340,25 @@ task2_estimates <- emmeans(
     vistype = factor(vistype, levels = vistype)
   )
 
-task2_estimates
+task2_estimates |>
+  mutate(
+    vistype = table_vistype(vistype),
+    across(
+      c(predicted_score, lower_ci, upper_ci),
+      \(x) scales::percent(x, accuracy = 0.1)
+    )
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Estimated detection score",
+      "Lower 95% CI",
+      "Upper 95% CI"
+    ),
+    caption = "Model-estimated detection scores by visualization type",
+    table.attr = kable_table_attributes
+  )
 ```
 ```{r task2-pairwise-comparisons}
 emm_task2 <- emmeans(
@@ -222,11 +371,42 @@ task2_pairs <- pairs(
   adjust = "tukey"
 )
 
-task2_pairs
+task2_pairs |>
+  as.data.frame() |>
+  mutate(contrast = table_contrast(contrast)) |>
+  knitr::kable(
+    format = "html",
+    digits = 3,
+    col.names = c(
+      "Comparison",
+      "Difference (logit scale)",
+      "SE",
+      "df",
+      "z ratio",
+      "Tukey-adjusted p value"
+    ),
+    caption = "Tukey-adjusted pairwise comparisons of detection scores",
+    table.attr = kable_table_attributes
+  )
 
 task2_pairs |>
   as.data.frame() |>
-  dplyr::filter(p.value < 0.05)
+  dplyr::filter(p.value < 0.05) |>
+  mutate(contrast = table_contrast(contrast)) |>
+  knitr::kable(
+    format = "html",
+    digits = 3,
+    col.names = c(
+      "Comparison",
+      "Difference (logit scale)",
+      "SE",
+      "df",
+      "z ratio",
+      "Tukey-adjusted p value"
+    ),
+    caption = "Statistically significant Tukey-adjusted pairwise comparisons",
+    table.attr = kable_table_attributes
+  )
 ```
 ```{r task2-response-scale-comparisons}
 emm_task2_response <- regrid(
@@ -243,6 +423,7 @@ task2_score_differences <- pairs(
 
 task2_score_differences |>
   mutate(
+    contrast = table_contrast(contrast),
     across(where(is.numeric), \(x) round(x, 3))
   ) |>
   knitr::kable(
@@ -255,7 +436,8 @@ task2_score_differences |>
       "Lower 95% CI",
       "Upper 95% CI"
     ),
-    table.attr = "class='table table-striped table-hover table-sm'"
+    caption = "Response-scale pairwise differences in detection scores",
+    table.attr = kable_table_attributes
   )
 ```
 
@@ -613,7 +795,23 @@ task2_time <- data %>%
   ) %>%
   filter(!is.na(time_sec), !is.na(vistype), time_sec > 0)
 
-task2_time
+task2_time |>
+  slice_head(n = 20) |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    digits = 2,
+    col.names = c(
+      "Participant ID",
+      "Timing variable",
+      "Time (seconds)",
+      "Presentation position",
+      "Trial",
+      "Visualization type"
+    ),
+    caption = "Diagnostic preview: first 20 detection-task completion-time records",
+    table.attr = kable_table_attributes
+  )
 ```
 
 ```{r task2-time-summary}
@@ -628,7 +826,24 @@ task2_time_table <- task2_time %>%
     .groups = "drop"
   )
 
-task2_time_table |> arrange(median_sec)
+task2_time_table |>
+  arrange(median_sec) |>
+  mutate(
+    vistype = table_vistype(vistype),
+    across(c(median_sec, mean_sec, sd_sec), \(x) round(x, 1))
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Responses",
+      "Median time (seconds)",
+      "Mean time (seconds)",
+      "SD (seconds)"
+    ),
+    caption = "Observed detection-task completion time by visualization type",
+    table.attr = kable_table_attributes
+  )
 ```
 
 ### Model-estimated completion time
@@ -665,7 +880,25 @@ task2_time_estimates <- emmeans(
   arrange(estimated_time) %>%
   mutate(vistype = factor(vistype, levels = vistype))
 
-task2_time_estimates
+task2_time_estimates |>
+  mutate(
+    vistype = table_vistype(vistype),
+    across(
+      c(estimated_time, lower_ci, upper_ci),
+      \(x) round(x, 1)
+    )
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Estimated time (seconds)",
+      "Lower 95% CI",
+      "Upper 95% CI"
+    ),
+    caption = "Model-estimated detection-task completion time",
+    table.attr = kable_table_attributes
+  )
 ```
 
 ```{r task2-time-estimate-plot}

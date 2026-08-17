@@ -82,7 +82,25 @@ vistype_table <- task1_model |>
     sd_accuracy = sd(correct, na.rm = TRUE),
     .groups = "drop"
   )
-vistype_table
+vistype_table |>
+  mutate(
+    vistype = table_vistype(vistype),
+    accuracy = scales::percent(accuracy, accuracy = 0.1),
+    sd_accuracy = scales::percent(sd_accuracy, accuracy = 0.1)
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Responses",
+      "Correct",
+      "Incorrect",
+      "Mean accuracy",
+      "SD"
+    ),
+    caption = "Observed comparison-task accuracy by visualization type",
+    table.attr = kable_table_attributes
+  )
 ```
 ```{r}
 vistype_table |>
@@ -167,7 +185,25 @@ accuracy_estimates <- emmeans(
     vistype = factor(vistype, levels = rev(vistype))
   )
 
-accuracy_estimates
+accuracy_estimates |>
+  mutate(
+    vistype = table_vistype(vistype),
+    across(
+      c(accuracy, lower_ci, upper_ci),
+      \(x) scales::percent(x, accuracy = 0.1)
+    )
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Estimated accuracy",
+      "Lower 95% CI",
+      "Upper 95% CI"
+    ),
+    caption = "Model-estimated comparison-task accuracy",
+    table.attr = kable_table_attributes
+  )
 ```
 ```{r}
 # Model-estimated probability of a correct response for each visualization type.
@@ -430,7 +466,44 @@ model_order <- glmmTMB(
   data = task1_model
 )
 
-summary(model_order)
+summary(model_order)$coefficients$cond |>
+  as.data.frame() |>
+  tibble::rownames_to_column("term") |>
+  transmute(
+    term = dplyr::recode(
+      term,
+      `(Intercept)` = "Basic topoplot (intercept)",
+      vistypeadjacent = "Adjacent plots vs Basic topoplot",
+      vistypeanimation = "Animation vs Basic topoplot",
+      vistypebivariate_corner = "Bivariate corner vs Basic topoplot",
+      vistypebivariate_range = "Bivariate range vs Basic topoplot",
+      vistypetriple_CI = "Confidence intervals vs Basic topoplot",
+      vistypeuncert_markers = "Uncertainty markers vs Basic topoplot",
+      position_c = "Presentation position (centered)",
+      .default = term
+    ),
+    estimate = Estimate,
+    standard_error = .data[["Std. Error"]],
+    z_value = .data[["z value"]],
+    p_value = format.pval(
+      .data[["Pr(>|z|)"]],
+      digits = 3,
+      eps = 0.001
+    )
+  ) |>
+  knitr::kable(
+    format = "html",
+    digits = 3,
+    col.names = c(
+      "Term",
+      "Estimate (log odds)",
+      "Standard error",
+      "z value",
+      "p value"
+    ),
+    caption = "Fixed effects for the comparison-task accuracy model",
+    table.attr = kable_table_attributes
+  )
 ```
 ```{r}
 model_no_vistype <- glmmTMB(
@@ -445,7 +518,39 @@ model_vistype <- glmmTMB(
   data = task1_model
 )
 
-anova(model_no_vistype, model_vistype)
+anova(model_no_vistype, model_vistype) |>
+  as.data.frame() |>
+  tibble::rownames_to_column("model") |>
+  mutate(
+    model = dplyr::recode(
+      model,
+      model_no_vistype = "Presentation position only",
+      model_vistype = "Presentation position and visualization type",
+      .default = model
+    ),
+    `Pr(>Chisq)` = format.pval(
+      .data[["Pr(>Chisq)"]],
+      digits = 3,
+      eps = 0.001
+    )
+  ) |>
+  knitr::kable(
+    format = "html",
+    digits = 3,
+    col.names = c(
+      "Model",
+      "Parameters",
+      "AIC",
+      "BIC",
+      "Log likelihood",
+      "Deviance",
+      "Likelihood-ratio chi-square",
+      "df difference",
+      "p value"
+    ),
+    caption = "Likelihood-ratio test of visualization type for comparison-task accuracy",
+    table.attr = kable_table_attributes
+  )
 ```
 ## Completion-time analysis
 
@@ -471,7 +576,23 @@ task1_time <- data %>%
   ) %>%
   filter(!is.na(time_sec), !is.na(vistype))
 
-task1_time
+task1_time |>
+  slice_head(n = 20) |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    digits = 2,
+    col.names = c(
+      "Participant ID",
+      "Timing variable",
+      "Time (seconds)",
+      "Presentation position",
+      "Trial",
+      "Visualization type"
+    ),
+    caption = "Diagnostic preview: first 20 comparison-task completion-time records",
+    table.attr = kable_table_attributes
+  )
 ```
 
 ```{r}
@@ -486,7 +607,24 @@ time_table <- task1_time %>%
     .groups = "drop"
   )
 
-time_table |> arrange((median_sec))
+time_table |>
+  arrange(median_sec) |>
+  mutate(
+    vistype = table_vistype(vistype),
+    across(c(median_sec, mean_sec, sd_sec), \(x) round(x, 1))
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Responses",
+      "Median time (seconds)",
+      "Mean time (seconds)",
+      "SD (seconds)"
+    ),
+    caption = "Observed comparison-task completion time by visualization type",
+    table.attr = kable_table_attributes
+  )
 ```
 ```{r}
 task1_time %>%
@@ -545,7 +683,25 @@ time_estimates <- emmeans(
   arrange(estimated_time) %>%
   mutate(vistype = factor(vistype, levels = vistype))
 
-time_estimates
+time_estimates |>
+  mutate(
+    vistype = table_vistype(vistype),
+    across(
+      c(estimated_time, lower_ci, upper_ci),
+      \(x) round(x, 1)
+    )
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Estimated time (seconds)",
+      "Lower 95% CI",
+      "Upper 95% CI"
+    ),
+    caption = "Model-estimated comparison-task completion time",
+    table.attr = kable_table_attributes
+  )
 ```
 
 ```{r task1-time-estimate-plot}

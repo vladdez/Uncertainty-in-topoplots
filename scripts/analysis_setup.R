@@ -32,6 +32,24 @@ vistype_labels <- c(
   basic = "Basic topoplot"
 )
 
+table_vistype <- function(x) {
+  raw_labels <- as.character(x)
+  display_labels <- stringr::str_replace_all(vistype_labels, "\n", " ")
+  matched_labels <- unname(display_labels[raw_labels])
+
+  ifelse(is.na(matched_labels), raw_labels, matched_labels)
+}
+
+table_contrast <- function(x) {
+  stringr::str_split(as.character(x), " - ") |>
+    purrr::map_chr(
+      \(parts) paste(table_vistype(parts), collapse = " vs ")
+    )
+}
+
+kable_table_attributes <-
+  "class='table table-striped table-hover table-sm'"
+
 plot_theme <- function(base_size = 20) {
   theme_classic(base_size = base_size) +
     theme(
@@ -87,4 +105,3 @@ data <- survey_raw %>%
   filter(!is.na(readr::parse_number(TIME051))) %>%
   select(-(1:5)) %>%
   mutate(ID = row_number(), .before = 1)
-

@@ -15,12 +15,39 @@ vistypes <- c(
   "adjacent", "animation", "bivariate_corner", "bivariate_range",
   "triple_CI", "uncert_markers",  "basic"
 )
+
+vistype_labels <- c(
+  adjacent = "Adjacent plots",
+  animation = "Animation",
+  bivariate_corner = "Bivariate corner",
+  bivariate_range = "Bivariate range",
+  triple_CI = "Confidence intervals",
+  uncert_markers = "Uncertainty markers",
+  basic = "Basic topoplot"
+)
+
+table_vistype <- function(x) {
+  raw_labels <- as.character(x)
+  matched_labels <- unname(vistype_labels[raw_labels])
+
+  ifelse(is.na(matched_labels), raw_labels, matched_labels)
+}
+
+kable_table_attributes <-
+  "class='table table-striped table-hover table-sm'"
 ```
 
 ```{r}
 correct1 <- read_excel("correct.xlsx", sheet = 1)
 answers1 <- setNames(correct1$`Solution ID`, correct1$Variable)
-correct1$Vistype
+
+data.frame(vistype = table_vistype(correct1$Vistype)) |>
+  knitr::kable(
+    format = "html",
+    col.names = "Visualization type",
+    caption = "Visualization types in the answer key",
+    table.attr = kable_table_attributes
+  )
 ```
 
 ```{r}
@@ -51,7 +78,19 @@ task1_scores <- data.frame(
     mean(rowSums(task1_correct[, cols, drop = FALSE], na.rm = TRUE))
   }))
 )
-task1_scores
+task1_scores |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    digits = 2,
+    col.names = c(
+      "Visualization type",
+      "Proportion correct",
+      "Mean correct answers per participant"
+    ),
+    caption = "Comparison-task performance",
+    table.attr = kable_table_attributes
+  )
 ```
 
 ```{r}
@@ -66,7 +105,20 @@ task2_scores <- data.frame(
 
   task2_rowsum = as.numeric(colSums(task2, na.rm = TRUE))
 )
-task2_scores
+task2_scores |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    digits = 2,
+    col.names = c(
+      "Visualization type",
+      "Mean raw score",
+      "Mean normalized score",
+      "Total score across participants"
+    ),
+    caption = "Detection-task performance",
+    table.attr = kable_table_attributes
+  )
 ```
 ```{r}
 # ---------- Task 3 ----------
@@ -101,7 +153,21 @@ eval_scores <- eval1_scores %>%
   left_join(eval3_scores, by = "vistype") %>%
   left_join(eval4_scores, by = "vistype")
 
-eval_scores
+eval_scores |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    digits = 2,
+    col.names = c(
+      "Visualization type",
+      "Helpful for comparison",
+      "Helpful for detection and integration",
+      "Helpful for representation",
+      "Aesthetically appealing"
+    ),
+    caption = "Mean subjective ratings",
+    table.attr = kable_table_attributes
+  )
 ```
 
 ```{r}
@@ -133,7 +199,19 @@ time_scores <- data.frame(
   row.names = NULL
 )
 
-time_scores
+time_scores |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    digits = 2,
+    col.names = c(
+      "Visualization type",
+      "Mean completion time",
+      "Total completion time"
+    ),
+    caption = "Completion times by visualization type",
+    table.attr = kable_table_attributes
+  )
 ```
 
 
@@ -149,6 +227,23 @@ vistype_scores <- left_join(
   by = "vistype"
 )
 
-vistype_scores
+vistype_scores |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    digits = 2,
+    col.names = c(
+      "Visualization type",
+      "Task 1 proportion correct",
+      "Task 1 mean correct answers",
+      "Task 2 mean raw score",
+      "Task 2 mean normalized score",
+      "Task 2 total score",
+      "Mean completion time",
+      "Total completion time"
+    ),
+    caption = "Combined performance and completion-time summary",
+    table.attr = kable_table_attributes
+  )
 ```
 

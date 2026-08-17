@@ -22,7 +22,19 @@ tibble(
   respondents = nrow(data),
   mean_completion_minutes = mean(as.numeric(data$TIME_SUM), na.rm = TRUE) / 60,
   median_completion_minutes = median(as.numeric(data$TIME_SUM), na.rm = TRUE) / 60
-)
+) |>
+  knitr::kable(
+    format = "html",
+    digits = c(0, 1, 1),
+    col.names = c(
+      "Respondents",
+      "Mean completion time (minutes)",
+      "Median completion time (minutes)"
+    ),
+    caption = "Summary of the included sample.",
+    align = c("r", "r", "r"),
+    table.attr = kable_table_attributes
+  )
 ```
 
 # Participant characteristics
@@ -79,6 +91,7 @@ country <- data %>%
 
     country_work = case_when(
       country_work %in% c("NL", "The Netherlands") ~ "Netherlands",
+      country_work == "UK" ~ "United Kingdom",
       country_work %in% c("United States", "United States of America") ~ "USA",
       country_work %in% c(
         "Prefer not to say",
@@ -102,7 +115,22 @@ country <- data %>%
       percent_score
     )
   )
-country
+country |>
+  mutate(
+    country_work = as.character(country_work),
+    percent_score = paste0(percent_score, "%")
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Country of work",
+      "Respondents",
+      "Percent of respondents"
+    ),
+    caption = "Respondents by country of work.",
+    align = c("l", "r", "r"),
+    table.attr = kable_table_attributes
+  )
 
 ```
 
@@ -120,6 +148,7 @@ country_other <- data %>%
     country_original = trimws(country_original),
     country_original = case_when(
       country_original %in% c("NL", "The Netherlands") ~ "Netherlands",
+      country_original == "UK" ~ "United Kingdom",
       country_original %in% c("United States", "United States of America") ~ "USA",
       country_original %in% c(
         "Prefer not to say",
@@ -133,7 +162,17 @@ country_other <- data %>%
   count(country_original, name = "respondents", sort = TRUE) %>%
   filter(respondents < 2)
 
-country_other
+country_other |>
+  knitr::kable(
+    format = "html",
+    col.names = c("Country response", "Respondents"),
+    caption = paste(
+      "Country responses grouped as Other because they were given by",
+      "fewer than two respondents."
+    ),
+    align = c("l", "r"),
+    table.attr = kable_table_attributes
+  )
 ```
 
 ```{r}
@@ -171,7 +210,19 @@ field <- data %>%
   mutate(field = stringr::word(A005, 1)) %>%
   count(field, name = "Freq") %>%
   mutate(percent_score = Freq / sum(Freq) * 100)
-field
+field |>
+  mutate(percent_score = sprintf("%.1f%%", percent_score)) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Research field",
+      "Respondents",
+      "Percent of respondents"
+    ),
+    caption = "Respondents by research field.",
+    align = c("l", "r", "r"),
+    table.attr = kable_table_attributes
+  )
 ```
 ```{r}
 field %>%
@@ -217,7 +268,24 @@ software <- data %>%
     Freq = coalesce(Freq, 0L),
     percent_score = Freq / n_total * 100
   )
-software
+software |>
+  arrange(desc(Freq), software) |>
+  transmute(
+    software,
+    respondents = Freq,
+    percent = sprintf("%.1f%%", percent_score)
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Software",
+      "Respondents",
+      "Percent of respondents"
+    ),
+    caption = "Software used by respondents; multiple selections were permitted.",
+    align = c("l", "r", "r"),
+    table.attr = kable_table_attributes
+  )
 ```
 ```{r}
 software %>% filter(Freq != 0) %>% 
@@ -437,5 +505,4 @@ if (isTRUE(params$export_artifacts)) {
 }
 
 ```
-
 

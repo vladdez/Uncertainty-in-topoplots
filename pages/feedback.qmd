@@ -16,7 +16,7 @@ source("scripts/analysis_setup.R")
 
 ## Qualitative content analysis
 
-The analysis contains 213 evaluative meaning units from 49 participants. `ID` links every unit to its original A305 response. Participant wording is retained as closely as possible; the theme and intensity are researcher-assigned codes. Use the search box or column filters to explore the table.
+The analysis contains 213 evaluative meaning units from 49 participants. `ID` links every unit to its original A305 response. Participant wording is retained as closely as possible; the theme and intensity are researcher-assigned codes. The complete coded table is shown below.
 
 [Download the coded content analysis as an Excel workbook](../data/a305_content_analysis.xlsx)
 
@@ -44,7 +44,7 @@ tribble(
   knitr::kable(
     format = "html",
     col.names = c("Theme", "Explanation"),
-    table.attr = "class='table table-striped table-hover table-sm'"
+    table.attr = kable_table_attributes
   )
 ```
 
@@ -59,27 +59,21 @@ a305_content_analysis <- readxl::read_xlsx(
   col_types = "text"
 )
 
-reactable::reactable(
-  a305_content_analysis,
-  searchable = TRUE,
-  filterable = TRUE,
-  striped = TRUE,
-  highlight = TRUE,
-  bordered = TRUE,
-  defaultPageSize = 20,
-  showPageSizeOptions = TRUE,
-  pageSizeOptions = c(10, 20, 50, 100),
-  columns = list(
-    ID = reactable::colDef(minWidth = 70, align = "center"),
-    Visualization = reactable::colDef(minWidth = 145),
-    `Meaning unit` = reactable::colDef(minWidth = 420),
-    Theme = reactable::colDef(minWidth = 160),
-    `Evaluation intensity` = reactable::colDef(
-      minWidth = 150,
-      align = "center"
-    )
+a305_content_analysis |>
+  select(ID, Visualization, `Meaning unit`, Theme, `Evaluation intensity`) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Participant ID",
+      "Visualization type",
+      "Meaning unit",
+      "Theme",
+      "Evaluation intensity"
+    ),
+    caption = "Coded evaluative meaning units from A305 responses.",
+    align = c("c", "l", "l", "l", "c"),
+    table.attr = kable_table_attributes
   )
-)
 ```
 
 ## Evaluation intensity by theme and visualization type
@@ -195,14 +189,14 @@ a305_intensity_by_theme_figure <- ggplot(
   ) +
   theme_classic(base_family = "Lato", base_size = 18) +
   theme(
-    strip.text = element_text(face = "bold", size = 18),
+    strip.text = element_text(face = "bold", size = 40),
     axis.text.x = ggtext::element_markdown(
       size = 24,
       lineheight = 0.85,
       margin = margin(t = 6)
     ),
     axis.text.y = element_text(size = 16),
-    axis.title.y = element_text(size = 18),
+    axis.title.y = element_text(size = 40),
     axis.ticks.x = element_blank(),
     panel.spacing = unit(1.2, "lines"),
     plot.caption = element_text(hjust = 0.5, face = "italic", size = 14)
@@ -219,32 +213,28 @@ Sample sizes count unique participants. Medians and means are calculated from th
 a305_intensity_summary |>
   mutate(
     visualization = as.character(visualization),
-    median_intensity = round(median_intensity, 2),
-    mean_intensity = round(mean_intensity, 2)
+    median_intensity = sprintf("%.2f", median_intensity),
+    mean_intensity = sprintf("%.2f", mean_intensity)
   ) |>
-  rename(
-    `theme` = theme,
-    `visualization` = visualization,
-    `n_participants` = n_participants,
-    `median_intensity` = median_intensity,
-    `mean_intensity` = mean_intensity
+  select(
+    theme,
+    visualization,
+    n_participants,
+    median_intensity,
+    mean_intensity
   ) |>
-  reactable::reactable(
-    searchable = TRUE,
-    filterable = TRUE,
-    striped = TRUE,
-    highlight = TRUE,
-    bordered = TRUE,
-    defaultPageSize = 20,
-    showPageSizeOptions = TRUE,
-    pageSizeOptions = c(10, 20, 50, 100),
-    columns = list(
-      theme = reactable::colDef(minWidth = 170),
-      visualization = reactable::colDef(minWidth = 160),
-      n_participants = reactable::colDef(align = "center"),
-      median_intensity = reactable::colDef(align = "center"),
-      mean_intensity = reactable::colDef(align = "center")
-    )
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Theme",
+      "Visualization type",
+      "Participants",
+      "Median intensity",
+      "Mean intensity"
+    ),
+    caption = "Participant-based evaluation-intensity summary.",
+    align = c("l", "l", "r", "r", "r"),
+    table.attr = kable_table_attributes
   )
 ```
 

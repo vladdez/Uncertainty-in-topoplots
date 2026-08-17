@@ -57,7 +57,21 @@ likert <- data %>%
     )
   ) %>%
   select(ID, question, vistype, rating)
-likert
+
+likert |>
+  slice_head(n = 20) |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Participant ID",
+      "Evaluation criterion",
+      "Visualization type",
+      "Rating"
+    ),
+    caption = "Preview of participant ratings (first 20 rows)",
+    table.attr = kable_table_attributes
+  )
 ```
 ```{r likert-summary-table}
 likert_table <- likert %>%
@@ -74,7 +88,22 @@ likert_table <- likert %>%
   ) %>%
   arrange(desc(sum))
 
-likert_table
+likert_table |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    digits = 2,
+    col.names = c(
+      "Visualization type",
+      "Helpful for comparison",
+      "Helpful for detection and integration",
+      "Helpful for representation",
+      "Aesthetically appealing",
+      "Sum of mean ratings"
+    ),
+    caption = "Mean subjective ratings by visualization type",
+    table.attr = kable_table_attributes
+  )
 ```
 ## Ordinal mixed-effects models
 
@@ -118,7 +147,21 @@ likert_estimates <- imap_dfr(
   }
 )
 
-likert_estimates
+likert_estimates |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    digits = 2,
+    col.names = c(
+      "Evaluation criterion",
+      "Visualization type",
+      "Estimated rating",
+      "Lower 95% CI",
+      "Upper 95% CI"
+    ),
+    caption = "Model-estimated subjective ratings",
+    table.attr = kable_table_attributes
+  )
 ```
 
 ## Model-estimated ratings
@@ -567,6 +610,7 @@ likert_estimates |>
     upper_half = upper_ci - estimated_rating
   ) |>
   arrange(question, vistype) |>
+  mutate(vistype = table_vistype(vistype)) |>
   select(
     question,
     vistype,
@@ -576,5 +620,21 @@ likert_estimates |>
     ci_width,
     lower_half,
     upper_half
+  ) |>
+  knitr::kable(
+    format = "html",
+    digits = 2,
+    col.names = c(
+      "Evaluation criterion",
+      "Visualization type",
+      "Estimated rating",
+      "Lower 95% CI",
+      "Upper 95% CI",
+      "CI width",
+      "Distance to lower bound",
+      "Distance to upper bound"
+    ),
+    caption = "Confidence-interval diagnostics for estimated ratings",
+    table.attr = kable_table_attributes
   )
 ```
