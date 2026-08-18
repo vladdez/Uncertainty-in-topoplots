@@ -157,8 +157,27 @@ visualization_axis_labels <- c(
   Animation = "Animation"
 )
 
+theme_panel_counts <- a305_participant_theme |>
+  count(theme, name = "n_entries") |>
+  arrange(desc(n_entries), theme)
+
+theme_panel_order <- theme_panel_counts$theme
+
+theme_panel_labels <- setNames(
+  paste0(
+    theme_panel_counts$theme,
+    " (N = ",
+    theme_panel_counts$n_entries,
+    ")"
+  ),
+  theme_panel_counts$theme
+)
+
+a305_intensity_plot_data <- a305_participant_theme |>
+  mutate(theme = factor(theme, levels = theme_panel_order))
+
 a305_intensity_by_theme_figure <- ggplot(
-  a305_participant_theme,
+  a305_intensity_plot_data,
   aes(
     x = visualization,
     y = median_intensity,
@@ -171,13 +190,21 @@ a305_intensity_by_theme_figure <- ggplot(
     outlier.shape = NA,
     linewidth = 0.6
   ) +
-  geom_jitter(
-    width = 0.16,
-    height = 0.06,
+  geom_point(
+    position = position_jitter(
+      width = 0.16,
+      height = 0.06,
+      seed = 2025
+    ),
     size = 2.4,
     alpha = 0.8
   ) +
-  facet_wrap(vars(theme), scales = "free_x", ncol = 2) +
+  facet_wrap(
+    vars(theme),
+    scales = "free_x",
+    ncol = 2,
+    labeller = as_labeller(theme_panel_labels)
+  ) +
   scale_x_discrete(labels = visualization_axis_labels, drop = TRUE) +
   scale_colour_manual(
     values = c(`FALSE` = "#333333", `TRUE` = "#377EB8"),
@@ -198,6 +225,7 @@ a305_intensity_by_theme_figure <- ggplot(
     y = "Participant-level median evaluation intensity",
     caption = paste(
       "Points represent participants, not individual meaning units.",
+      "Panel N is the number of plotted participant–visualization entries.",
       "−2 = strongly negative; +2 = strongly positive."
     )
   ) +
@@ -217,6 +245,14 @@ a305_intensity_by_theme_figure <- ggplot(
   )
 
 a305_intensity_by_theme_figure
+
+ggsave(
+  project_path("figures", "a305_intensity_by_theme_figure.png"),
+  a305_intensity_by_theme_figure,
+  width = 15,
+  height = 19,
+  dpi = 180
+)
 ```
 
 ### Participant-based summary
