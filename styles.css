@@ -1,9 +1,11 @@
 /* Keep high-resolution source images while displaying figures at a readable size. */
-main.content img.figure-img {
+.publication-figures img.figure-img {
   display: block;
-  width: 100%;
-  max-width: 800px;
+  width: auto;
+  max-width: min(800px, 100%);
+  max-height: calc(100vh - 160px);
   height: auto;
+  object-fit: contain;
   margin-right: auto;
   margin-left: auto;
 }
