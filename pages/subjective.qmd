@@ -593,8 +593,6 @@ likert_contrast_figure <-
   plot_layout(heights = c(1, 1, 0.16)) &
   theme(plot.margin = margin(6, 12, 6, 12))
 
-likert_contrast_figure
-
 ggsave(
   project_path("figures", "likert_contrast_figure.png"),
   likert_contrast_figure,
@@ -606,6 +604,8 @@ ggsave(
   bg = "white"
 )
 ```
+
+![Differences in model-estimated expected ratings relative to Basic topoplot across four subjective-evaluation criteria, with 95% confidence intervals.](../figures/likert_contrast_figure.png)
 
 
 ```{r}
