@@ -11,6 +11,11 @@ project:
     - pages/feedback.qmd
     - pages/figures.qmd
 
+knitr:
+  opts_chunk:
+    dev: ragg_png
+    dpi: 180
+
 website:
   title: "Uncertainty in topoplots"
   navbar:

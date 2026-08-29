@@ -380,7 +380,10 @@ ggsave(
   likert_estimate_figure,
   width = 16,
   height = 11,
-  dpi = 180
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
 )
 ```
 
@@ -597,7 +600,10 @@ ggsave(
   likert_contrast_figure,
   width = 16,
   height = 11,
-  dpi = 180
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
 )
 ```
 

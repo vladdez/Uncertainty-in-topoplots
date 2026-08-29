@@ -440,7 +440,10 @@ if (isTRUE(params$export_artifacts)) {
     participant_characteristics_figure,
     width = 15,
     height = 13,
-    dpi = 140
+    units = "in",
+    dpi = 180,
+    device = ragg::agg_png,
+    bg = "white"
   )
 }
 ```
@@ -500,9 +503,11 @@ if (isTRUE(params$export_artifacts)) {
     participant_characteristics_over_3_figure,
     width = 15,
     height = 13,
-    dpi = 140
+    units = "in",
+    dpi = 180,
+    device = ragg::agg_png,
+    bg = "white"
   )
 }
 
 ```
-

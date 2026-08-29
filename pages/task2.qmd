@@ -531,7 +531,10 @@ ggsave(
   detection_score_figure,
   width = 9,
   height = 5.5,
-  dpi = 180
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
 )
 ```
 
@@ -688,7 +691,10 @@ ggsave(
   detection_score_contrast_figure,
   width = 9,
   height = 5.25,
-  dpi = 180
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
 )
 ```
 

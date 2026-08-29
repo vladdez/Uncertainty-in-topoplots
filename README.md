@@ -70,8 +70,8 @@ Task 1 and Task 2 regenerate their publication PNGs automatically. Other
 optional standalone exports remain disabled during normal website rendering.
 
 The analysis uses R packages including `dplyr`, `ggplot2`, `tidyr`, `forcats`,
-`lme4`, `glmmTMB`, `ordinal`, `emmeans`, `purrr`, `patchwork`, `showtext`, and
-`sysfonts`.
+`lme4`, `glmmTMB`, `ordinal`, `emmeans`, `purrr`, `patchwork`, `showtext`,
+`sysfonts`, and `ragg`.
 
 ## Data availability
 

@@ -290,7 +290,10 @@ ggsave(
   comparison_accuracy_figure,
   width = 9,
   height = 5.5,
-  dpi = 180
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
 )
 ```
 
@@ -454,7 +457,10 @@ ggsave(
   comparison_accuracy_contrast_figure,
   width = 9,
   height = 5.25,
-  dpi = 180
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
 )
 ```
 

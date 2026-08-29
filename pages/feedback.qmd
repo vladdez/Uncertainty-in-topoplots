@@ -251,7 +251,10 @@ ggsave(
   a305_intensity_by_theme_figure,
   width = 15,
   height = 19,
-  dpi = 180
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
 )
 ```
 
