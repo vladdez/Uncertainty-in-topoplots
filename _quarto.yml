@@ -15,6 +15,7 @@ knitr:
   opts_chunk:
     dev: ragg_png
     dpi: 180
+    fig-retina: 1
 
 website:
   title: "Uncertainty in topoplots"
@@ -44,6 +45,7 @@ format:
   html:
     toc: true
     code-fold: true
+    css: styles.css
     grid:
       body-width: 1200px
 
