@@ -9,6 +9,10 @@
   scroll-margin-top: 64px;
 }
 
+.publication-figures section.level2:first-of-type {
+  height: calc(100svh - 64px);
+}
+
 .publication-figures section.level2 > h2 {
   flex: 0 0 auto;
 }
