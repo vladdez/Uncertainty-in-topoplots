@@ -71,7 +71,7 @@ optional standalone exports remain disabled during normal website rendering.
 
 The analysis uses R packages including `dplyr`, `ggplot2`, `tidyr`, `forcats`,
 `lme4`, `glmmTMB`, `ordinal`, `emmeans`, `purrr`, `patchwork`, `showtext`,
-`sysfonts`, and `ragg`.
+`sysfonts`, `ragg`, and `countrycode`.
 
 ## Data availability
 

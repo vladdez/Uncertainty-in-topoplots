@@ -80,17 +80,18 @@ data$A001 %>% table() %>%  data.frame() %>% dplyr::rename(level = !!names(.)[1])
 
 ## Country of work
 ```{r}
-country <- data %>%
+country_responses <- data %>%
   transmute(
     country_work = case_when(
       A004 == "-2" & !is.na(A004s) & A004s != "" ~ A004s,
       TRUE ~ A004
     )
-  ) %>% mutate(
+  ) %>%
+  mutate(
     country_work = trimws(country_work),
-
     country_work = case_when(
-      country_work %in% c("NL", "The Netherlands") ~ "Netherlands",
+      country_work %in% c("NL", "Nl", "The Netherlands") ~ "Netherlands",
+      country_work == "fr" ~ "France",
       country_work == "UK" ~ "United Kingdom",
       country_work %in% c("United States", "United States of America") ~ "USA",
       country_work %in% c(
@@ -99,8 +100,44 @@ country <- data %>%
         "Senior Researcher"
       ) ~ NA_character_,
       TRUE ~ country_work
-    )) %>%
-  filter(!is.na(country_work), country_work != "") %>%
+    )
+  ) %>%
+  filter(!is.na(country_work), country_work != "")
+
+make_geography_plot <- function(summary_data, category, title) {
+  category <- rlang::enquo(category)
+  respondent_total <- sum(summary_data$Freq)
+
+  summary_data %>%
+    ggplot(aes(percent_score, fct_reorder(!!category, percent_score))) +
+    geom_col(width = 0.7, fill = "#6BAED6") +
+    geom_text(
+      aes(label = paste0(round(percent_score), "%")),
+      hjust = -0.15,
+      size = 6
+    ) +
+    scale_x_continuous(
+      "Percent of respondents",
+      labels = \(x) paste0(x, "%"),
+      sec.axis = sec_axis(
+        ~ . * respondent_total / 100,
+        name = "Number of respondents"
+      ),
+      expand = expansion(mult = c(0, 0.15))
+    ) +
+    labs(title = title, y = NULL) +
+    coord_cartesian(clip = "off") +
+    theme_classic(base_family = "Lato", base_size = 20) +
+    theme(
+      plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
+      axis.text = element_text(size = 20),
+      axis.ticks.y = element_blank(),
+      plot.caption.position = "plot",
+      plot.caption = element_text(hjust = 0)
+    )
+}
+
+country <- country_responses %>%
   mutate(
     country_work = fct_lump_min(
       factor(country_work),
@@ -109,7 +146,7 @@ country <- data %>%
     )
   ) %>% count(country_work, name = "Freq") %>%
   mutate(
-    percent_score = round(Freq / sum(Freq) * 100),
+    percent_score = Freq / sum(Freq) * 100,
     country_work = fct_reorder(
       country_work,
       percent_score
@@ -118,7 +155,7 @@ country <- data %>%
 country |>
   mutate(
     country_work = as.character(country_work),
-    percent_score = paste0(percent_score, "%")
+    percent_score = paste0(round(percent_score), "%")
   ) |>
   knitr::kable(
     format = "html",
@@ -134,31 +171,46 @@ country |>
 
 ```
 
+```{r}
+make_geography_plot(country, country_work, "Country of work")
+```
+
+### Continent of work
+
+```{r}
+continent <- country_responses %>%
+  mutate(
+    continent = countrycode::countrycode(
+      country_work,
+      origin = "country.name",
+      destination = "continent",
+      warn = TRUE
+    ),
+    geographic_subregion = countrycode::countrycode(
+      country_work,
+      origin = "country.name",
+      destination = "region23",
+      warn = TRUE
+    ),
+    continent = case_when(
+      continent == "Americas" & geographic_subregion == "South America" ~
+        "South America",
+      continent == "Americas" ~ "North America",
+      TRUE ~ continent
+    )
+  ) %>%
+  filter(!is.na(continent)) %>%
+  count(continent, name = "Freq") %>%
+  mutate(percent_score = Freq / sum(Freq) * 100)
+
+make_geography_plot(continent, continent, "Continent of work")
+```
+
 ### Diagnostic: responses grouped as “Other”
 
 ```{r country-other-diagnostic}
-country_other <- data %>%
-  transmute(
-    country_original = case_when(
-      A004 == "-2" & !is.na(A004s) & A004s != "" ~ A004s,
-      TRUE ~ A004
-    )
-  ) %>%
-  mutate(
-    country_original = trimws(country_original),
-    country_original = case_when(
-      country_original %in% c("NL", "The Netherlands") ~ "Netherlands",
-      country_original == "UK" ~ "United Kingdom",
-      country_original %in% c("United States", "United States of America") ~ "USA",
-      country_original %in% c(
-        "Prefer not to say",
-        "Professor",
-        "Senior Researcher"
-      ) ~ NA_character_,
-      TRUE ~ country_original
-    )
-  ) %>%
-  filter(!is.na(country_original), country_original != "") %>%
+country_other <- country_responses %>%
+  rename(country_original = country_work) %>%
   count(country_original, name = "respondents", sort = TRUE) %>%
   filter(respondents < 2)
 
@@ -172,35 +224,6 @@ country_other |>
     ),
     align = c("l", "r"),
     table.attr = kable_table_attributes
-  )
-```
-
-```{r}
-
-country %>%
-  ggplot(aes(percent_score, reorder(country_work, percent_score))) +
-  geom_col(width = 0.7, fill = "#6BAED6") +
-  geom_text(aes(label = paste0(round(percent_score), "%")),
-            hjust = -0.15, size = 6) +
-  scale_x_continuous(
-    "Percent of respondents",
-    labels = \(x) paste0(x, "%"),
-    sec.axis = sec_axis(~ . * n_total / 100, name = "Number of respondents"),
-    expand = expansion(mult = c(0, 0.15))
-  ) +
-  labs(
-    title = "Country of work",
-    y = NULL,
-   # caption = paste("N of respondents =", n_total)
-  ) +
-  coord_cartesian(clip = "off") +
-  theme_classic(base_family = "Lato", base_size = 20) +
-  theme(
-    plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
-    axis.text = element_text(size = 20),
-    axis.ticks.y = element_blank(),
-    plot.caption.position = "plot",
-    plot.caption = element_text(hjust = 0)
   )
 ```
 
