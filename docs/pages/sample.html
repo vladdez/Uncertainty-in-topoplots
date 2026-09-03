@@ -397,21 +397,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>country <span class="sc">|&gt;</span></span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>    <span class="at">country_work =</span> <span class="fu">as.character</span>(country_work),</span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">percent_score =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(percent_score), <span class="st">"%"</span>)</span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Country of work"</span>,</span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Respondents"</span>,</span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Percent of respondents"</span></span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Respondents by country of work."</span>,</span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>),</span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Freq)) <span class="sc">|&gt;</span></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">country_work =</span> <span class="fu">as.character</span>(country_work),</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">country_work =</span> <span class="fu">if_else</span>(</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>      country_work <span class="sc">==</span> <span class="st">"Other"</span>,</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>      <span class="st">"&lt;em&gt;Other&lt;/em&gt;"</span>,</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>      country_work</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>    <span class="at">percent_score =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(percent_score), <span class="st">"%"</span>)</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">escape =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Country of work"</span>,</span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Respondents"</span>,</span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Percent of respondents"</span></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Respondents by country of work."</span>,</span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>    <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>),</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-striped table-hover table-sm caption-top small">
@@ -425,54 +432,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Austria</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2%</td>
+<td style="text-align: left;">Germany</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">28%</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Chile</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2%</td>
+<td style="text-align: left;">USA</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">17%</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Cyprus</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2%</td>
+<td style="text-align: left;"><em>Other</em></td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">10%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">United Kingdom</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">8%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Italy</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Czechia</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">4%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Denmark</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Finland</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">3%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">France</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Germany</td>
-<td style="text-align: right;">30</td>
-<td style="text-align: right;">28%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Ireland</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">2%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Italy</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">5%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Netherlands</td>
@@ -485,29 +472,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">4%</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">Finland</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3%</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">Spain</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">3%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Switzerland</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">3%</td>
 </tr>
+<tr class="even">
+<td style="text-align: left;">Austria</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2%</td>
+</tr>
 <tr class="odd">
-<td style="text-align: left;">United Kingdom</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">8%</td>
+<td style="text-align: left;">Chile</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2%</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">USA</td>
-<td style="text-align: right;">18</td>
-<td style="text-align: right;">17%</td>
+<td style="text-align: left;">Cyprus</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2%</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Other</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">10%</td>
+<td style="text-align: left;">Denmark</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">France</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ireland</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2%</td>
 </tr>
 </tbody>
 </table>

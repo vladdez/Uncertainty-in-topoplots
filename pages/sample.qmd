@@ -153,12 +153,19 @@ country <- country_responses %>%
     )
   )
 country |>
+  arrange(desc(Freq)) |>
   mutate(
     country_work = as.character(country_work),
+    country_work = if_else(
+      country_work == "Other",
+      "<em>Other</em>",
+      country_work
+    ),
     percent_score = paste0(round(percent_score), "%")
   ) |>
   knitr::kable(
     format = "html",
+    escape = FALSE,
     col.names = c(
       "Country of work",
       "Respondents",

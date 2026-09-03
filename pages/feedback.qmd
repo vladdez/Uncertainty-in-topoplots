@@ -7,16 +7,24 @@ params:
   export_artifacts: false
 ---
 
-Participant comments are presented in two groups. Select an **Expand** button to read the responses.
-
 ```{r shared-setup}
 #| include: false
 source("scripts/analysis_setup.R")
+
+a305_content_analysis <- readxl::read_xlsx(
+  project_path("data", "a305_content_analysis.xlsx"),
+  sheet = "A305 content analysis",
+  col_types = "text"
+)
 ```
+
+**Participants included in the qualitative content analysis:** `r n_distinct(a305_content_analysis$ID)`.
+
+Participant comments are presented in two groups. Select an **Expand** button to read the responses.
 
 ## Qualitative content analysis
 
-The analysis contains 213 evaluative meaning units from 49 participants. `ID` links every unit to its original A305 response. Participant wording is retained as closely as possible; the theme and intensity are researcher-assigned codes. Use the search box or column filters to explore the table.
+The analysis contains `r nrow(a305_content_analysis)` evaluative meaning units from `r n_distinct(a305_content_analysis$ID)` participants. `ID` links every unit to its original A305 response. Participant wording is retained as closely as possible; the theme and intensity are researcher-assigned codes. Use the search box or column filters to explore the table.
 
 [Download the coded content analysis as an Excel workbook](../data/a305_content_analysis.xlsx)
 
@@ -52,12 +60,6 @@ tribble(
 
 ```{r a305-content-analysis}
 #| echo: false
-
-a305_content_analysis <- readxl::read_xlsx(
-  project_path("data", "a305_content_analysis.xlsx"),
-  sheet = "A305 content analysis",
-  col_types = "text"
-)
 
 a305_content_analysis |>
   select(ID, Visualization, `Meaning unit`, Theme, `Evaluation intensity`) |>
