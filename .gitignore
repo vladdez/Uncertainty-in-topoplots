@@ -12,6 +12,9 @@ feedback_*.pdf
 .quarto/
 Analysis.pre-refactor.qmd
 
+# Local manuscript project
+/The Art of Uncertain Topoplots/
+
 # Aggregate figures are tracked because they are published on the website.
 **/*.quarto_ipynb
 
