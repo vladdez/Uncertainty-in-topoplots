@@ -24,7 +24,11 @@ Participant comments are presented in two groups. Select an **Expand** button to
 
 ## Qualitative content analysis
 
-The analysis contains `r nrow(a305_content_analysis)` evaluative meaning units from `r n_distinct(a305_content_analysis$ID)` participants. `ID` links every unit to its original A305 response. Participant wording is retained as closely as possible; the theme and intensity are researcher-assigned codes. Use the search box or column filters to explore the table.
+The analysis contains `r nrow(a305_content_analysis)` evaluative meaning units from `r n_distinct(a305_content_analysis$ID)` participants. `ID` links every unit to its original A305 response. Participant wording is retained as closely as possible; themes and intensities are interpretive codes. Use the search box or column filters to explore the table.
+
+The September 22, 2026 update adds 16 meaning units from participants 111 and 112, coded with AI assistance using the existing codebook. The previous 224 meaning units are unchanged. The source survey contains `r nrow(data)` eligible participants, with responses through `r max(as.Date(data$STARTED))`.
+
+For the new responses, references to bivariate plots without an identified variant are coded as `General`. Proposed redesigns are included only when they express an evaluation of the displayed visualization; suggestions alone are not assigned an intensity.
 
 [Download the coded content analysis as an Excel workbook](../data/a305_content_analysis.xlsx)
 
@@ -125,11 +129,12 @@ a305_participant_theme <- a305_content_analysis |>
   )
 
 a305_intensity_summary <- a305_participant_theme |>
+  rename(participant_median_intensity = median_intensity) |>
   group_by(theme, visualization) |>
   summarise(
     n_participants = n_distinct(participant),
-    median_intensity = median(median_intensity),
-    mean_intensity = mean(median_intensity),
+    median_intensity = median(participant_median_intensity),
+    mean_intensity = mean(participant_median_intensity),
     .groups = "drop"
   ) |>
   arrange(theme, visualization)
