@@ -213,6 +213,11 @@ comparison_axis_colours <- ifelse(
   "#222222"
 )
 
+comparison_accuracy_limits <- c(
+  max(0, min(accuracy_estimates$lower_ci, na.rm = TRUE) - 0.03),
+  min(1, max(accuracy_estimates$upper_ci, na.rm = TRUE) + 0.03)
+)
+
 comparison_accuracy_figure <- ggplot(
   accuracy_estimates,
   aes(
@@ -258,9 +263,9 @@ comparison_accuracy_figure <- ggplot(
   ) +
   scale_x_continuous(
     labels = scales::label_percent(accuracy = 1),
-    limits = c(0.65, 0.85),
-    breaks = seq(0.65, 0.85, 0.05),
-    expand = expansion(mult = c(0, 0.03))
+    limits = comparison_accuracy_limits,
+    breaks = scales::breaks_width(0.05),
+    expand = expansion(mult = 0)
   ) +
   labs(
     title = "Comparison task accuracy",
@@ -343,13 +348,9 @@ task1_basic_contrasts <- task1_basic_contrasts_raw |>
     vistype = factor(vistype, levels = levels(accuracy_estimates$vistype))
   )
 
-task1_contrast_limit <- max(
-  abs(c(task1_basic_contrasts$lower_ci, task1_basic_contrasts$upper_ci)),
-  na.rm = TRUE
-)
-task1_contrast_limit <- max(
-  0.05,
-  ceiling(task1_contrast_limit / 0.05) * 0.05
+task1_contrast_limits <- c(
+  max(-1, min(task1_basic_contrasts$lower_ci, na.rm = TRUE) - 0.03),
+  min(1, max(task1_basic_contrasts$upper_ci, na.rm = TRUE) + 0.03)
 )
 
 task1_contrast_labels <- c(
@@ -395,14 +396,14 @@ comparison_accuracy_contrast_figure <- ggplot(
     expand = expansion(add = 0.5)
   ) +
   scale_x_continuous(
-    limits = c(-task1_contrast_limit, task1_contrast_limit),
+    limits = task1_contrast_limits,
     labels = function(x) ifelse(
       abs(x) < 0.005,
       "0 pp",
       sprintf("%+.0f pp", 100 * x)
     ),
-    breaks = scales::breaks_pretty(n = 5),
-    expand = expansion(mult = 0.04)
+    breaks = scales::breaks_width(0.05),
+    expand = expansion(mult = 0)
   ) +
   labs(
     title = "Comparison task accuracy differences",
