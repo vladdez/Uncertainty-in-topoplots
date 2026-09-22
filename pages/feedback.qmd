@@ -20,15 +20,15 @@ a305_content_analysis <- readxl::read_xlsx(
 
 **Participants included in the qualitative content analysis:** `r n_distinct(a305_content_analysis$ID)`.
 
+**Meaning units extracted:** `r nrow(a305_content_analysis)` 
+
 Participant comments are presented in two groups. Select an **Expand** button to read the responses.
 
 ## Qualitative content analysis
 
-The analysis contains `r nrow(a305_content_analysis)` evaluative meaning units from `r n_distinct(a305_content_analysis$ID)` participants. `ID` links every unit to its original A305 response. Participant wording is retained as closely as possible; themes and intensities are interpretive codes. Use the search box or column filters to explore the table.
+`ID` links every unit to its original A305 response. Participant wording is retained as closely as possible; themes and intensities are interpretive codes. Use the search box or column filters to explore the table.
 
-The September 22, 2026 update adds 16 meaning units from participants 111 and 112, coded with AI assistance using the existing codebook. The previous 224 meaning units are unchanged. The source survey contains `r nrow(data)` eligible participants, with responses through `r max(as.Date(data$STARTED))`.
-
-For the new responses, references to bivariate plots without an identified variant are coded as `General`. Proposed redesigns are included only when they express an evaluation of the displayed visualization; suggestions alone are not assigned an intensity.
+For the new responses, references to bivariate plots without an identified variant are coded as `General bivariates`. Proposed redesigns are included only when they express an evaluation of the displayed visualization; suggestions alone are not assigned an intensity.
 
 [Download the coded content analysis as an Excel workbook](../data/a305_content_analysis.xlsx)
 
@@ -98,7 +98,7 @@ a305_content_analysis |>
 
 ## Evaluation intensity by theme and visualization type
 
-This descriptive analysis gives each participant at most one value within each visualization–theme combination. It therefore avoids treating multiple meaning units from the same participant as independent observations. Comments coded as `General` are retained in the original dataset but excluded here because they do not identify one of the seven visualization types.
+This descriptive analysis gives each participant at most one value within each visualization–theme combination. It therefore avoids treating multiple meaning units from the same participant as independent observations. Comments coded as `General bivariates` are retained in the original dataset but excluded here because they do not identify one of the seven visualization types.
 
 ```{r a305-participant-theme-aggregation}
 #| include: false

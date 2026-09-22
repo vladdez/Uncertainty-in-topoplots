@@ -13,7 +13,7 @@ analysis <- openxlsx::read.xlsx(
 
 missing_units <- data.frame(
   ID = c(21, 25, 67, 67),
-  Visualization = c("General", "General", "General", "General"),
+  Visualization = rep("General bivariates", 4),
   `Meaning unit` = c(
     "(“Bivariate color plots are difficult to interpret in general”)",
     "(“I find the bivariate plots difficult to read and understand”)",
