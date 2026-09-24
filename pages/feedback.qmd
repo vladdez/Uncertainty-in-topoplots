@@ -113,19 +113,38 @@ visualization_order <- c(
   "Animation"
 )
 
-a305_participant_theme <- a305_content_analysis |>
-  transmute(
-    participant = ID,
-    visualization = factor(Visualization, levels = visualization_order),
-    theme = Theme,
-    intensity = as.numeric(gsub("+", "", `Evaluation intensity`, fixed = TRUE))
-  ) |>
-  filter(!is.na(visualization), !is.na(theme), !is.na(intensity)) |>
-  group_by(participant, visualization, theme) |>
-  summarise(
-    n_units = n(),
-    median_intensity = median(intensity),
-    .groups = "drop"
+visualization_order_with_general_bivariates <- append(
+  visualization_order,
+  "General bivariates",
+  after = 4
+)
+
+summarise_a305_participant_theme <- function(visualization_levels) {
+  a305_content_analysis |>
+    transmute(
+      participant = ID,
+      visualization = factor(Visualization, levels = visualization_levels),
+      theme = Theme,
+      intensity = as.numeric(
+        gsub("+", "", `Evaluation intensity`, fixed = TRUE)
+      )
+    ) |>
+    filter(!is.na(visualization), !is.na(theme), !is.na(intensity)) |>
+    group_by(participant, visualization, theme) |>
+    summarise(
+      n_units = n(),
+      median_intensity = median(intensity),
+      .groups = "drop"
+    )
+}
+
+a305_participant_theme <- summarise_a305_participant_theme(
+  visualization_order
+)
+
+a305_participant_theme_with_general_bivariates <-
+  summarise_a305_participant_theme(
+    visualization_order_with_general_bivariates
   )
 
 a305_intensity_summary <- a305_participant_theme |>
@@ -159,97 +178,115 @@ visualization_axis_labels <- c(
   Adjacent = "Adjacent",
   `Bivariate corner` = "Bivariate<br>corner",
   `Bivariate range` = "Bivariate<br>range",
+  `General bivariates` = "General<br>bivariates",
   `Confidence interval` = "Confidence<br>interval",
   `Uncertainty markers` = "Uncertainty<br>markers",
   Animation = "Animation"
 )
 
-theme_panel_counts <- a305_participant_theme |>
-  count(theme, name = "n_entries") |>
-  arrange(desc(n_entries), theme)
+make_a305_intensity_figure <- function(plot_data, angle_x_labels = FALSE) {
+  theme_panel_counts <- plot_data |>
+    count(theme, name = "n_entries") |>
+    arrange(desc(n_entries), theme)
 
-theme_panel_order <- theme_panel_counts$theme
-
-theme_panel_labels <- setNames(
-  paste0(
-    theme_panel_counts$theme,
-    " (N = ",
-    theme_panel_counts$n_entries,
-    ")"
-  ),
-  theme_panel_counts$theme
-)
-
-a305_intensity_plot_data <- a305_participant_theme |>
-  mutate(theme = factor(theme, levels = theme_panel_order))
-
-a305_intensity_by_theme_figure <- ggplot(
-  a305_intensity_plot_data,
-  aes(
-    x = visualization,
-    y = median_intensity,
-    colour = visualization == "Basic",
-    fill = visualization == "Basic"
-  )
-) +
-  geom_boxplot(
-    width = 0.62,
-    outlier.shape = NA,
-    linewidth = 0.6
-  ) +
-  geom_point(
-    position = position_jitter(
-      width = 0.16,
-      height = 0.06,
-      seed = 2025
+  theme_panel_order <- theme_panel_counts$theme
+  theme_panel_labels <- setNames(
+    paste0(
+      theme_panel_counts$theme,
+      " (N = ",
+      theme_panel_counts$n_entries,
+      ")"
     ),
-    size = 2.4,
-    alpha = 0.8
-  ) +
-  facet_wrap(
-    vars(theme),
-    scales = "free_x",
-    ncol = 2,
-    labeller = as_labeller(theme_panel_labels)
-  ) +
-  scale_x_discrete(labels = visualization_axis_labels, drop = TRUE) +
-  scale_colour_manual(
-    values = c(`FALSE` = "#333333", `TRUE` = "#377EB8"),
-    guide = "none"
-  ) +
-  scale_fill_manual(
-    values = c(`FALSE` = "#D9D9D9", `TRUE` = "#B9D8F2"),
-    guide = "none"
-  ) +
-  scale_y_continuous(
-    limits = c(-2.15, 2.15),
-    breaks = -2:2,
-    labels = intensity_axis_labels,
-    minor_breaks = NULL
-  ) +
-  labs(
-    x = NULL,
-    y = "Participant-level median evaluation intensity",
-    caption = paste(
-      "Points represent participants, not individual meaning units.",
-      "Panel N is the number of plotted participant–visualization entries.",
-      "−2 = strongly negative; +2 = strongly positive."
+    theme_panel_counts$theme
+  )
+
+  plot_data <- plot_data |>
+    mutate(theme = factor(theme, levels = theme_panel_order))
+
+  x_axis_text <- if (angle_x_labels) {
+    ggtext::element_markdown(
+      size = 20,
+      angle = 30,
+      hjust = 1,
+      vjust = 1,
+      lineheight = 0.9,
+      margin = margin(t = 8)
     )
-  ) +
-  theme_classic(base_family = "Lato", base_size = 18) +
-  theme(
-    strip.text = element_text(face = "bold", size = 40),
-    axis.text.x = ggtext::element_markdown(
+  } else {
+    ggtext::element_markdown(
       size = 24,
       lineheight = 0.85,
       margin = margin(t = 6)
-    ),
-    axis.text.y = element_text(size = 16),
-    axis.title.y = element_text(size = 40),
-    axis.ticks.x = element_blank(),
-    panel.spacing = unit(1.2, "lines"),
-    plot.caption = element_text(hjust = 0.5, face = "italic", size = 14)
-  )
+    )
+  }
+
+  ggplot(
+    plot_data,
+    aes(
+      x = visualization,
+      y = median_intensity,
+      colour = visualization == "Basic",
+      fill = visualization == "Basic"
+    )
+  ) +
+    geom_boxplot(
+      width = 0.62,
+      outlier.shape = NA,
+      linewidth = 0.6
+    ) +
+    ggbeeswarm::geom_beeswarm(
+      size = 2.4,
+      alpha = 0.8,
+      cex = 1.15,
+      priority = "ascending",
+      corral = "gutter",
+      corral.width = 0.5
+    ) +
+    facet_wrap(
+      vars(theme),
+      scales = "free_x",
+      ncol = 2,
+      labeller = as_labeller(theme_panel_labels)
+    ) +
+    scale_x_discrete(labels = visualization_axis_labels, drop = TRUE) +
+    scale_colour_manual(
+      values = c(`FALSE` = "#333333", `TRUE` = "#377EB8"),
+      guide = "none"
+    ) +
+    scale_fill_manual(
+      values = c(`FALSE` = "#D9D9D9", `TRUE` = "#B9D8F2"),
+      guide = "none"
+    ) +
+    scale_y_continuous(
+      limits = c(-2.15, 2.15),
+      breaks = -2:2,
+      labels = intensity_axis_labels,
+      minor_breaks = NULL
+    ) +
+    labs(
+      x = NULL,
+      y = "Participant-level median evaluation intensity",
+      caption = paste(
+        "Points represent participants, not individual meaning units.",
+        "Panel N is the number of plotted participant–visualization entries.",
+        "−2 = strongly negative; +2 = strongly positive."
+      )
+    ) +
+    theme_classic(base_family = "Lato", base_size = 18) +
+    theme(
+      strip.text = element_text(face = "bold", size = 40),
+      axis.text.x = x_axis_text,
+      axis.text.y = element_text(size = 16),
+      axis.title.y = element_text(size = 40),
+      axis.ticks.x = element_blank(),
+      panel.spacing = grid::unit(1.2, "lines"),
+      plot.caption = element_text(hjust = 0.5, face = "italic", size = 14)
+    )
+}
+
+a305_intensity_by_theme_figure <- make_a305_intensity_figure(
+  a305_participant_theme
+)
 
 a305_intensity_by_theme_figure
 
@@ -264,6 +301,44 @@ ggsave(
   bg = "white"
 )
 ```
+
+::: {.callout-note collapse="true"}
+## Figure including general bivariate feedback — Expand
+
+This additional version includes comments that evaluate bivariate plots in
+general without identifying either the corner or range variant.
+
+```{r a305-intensity-theme-figure-general-bivariates}
+#| echo: false
+#| fig-width: 15
+#| fig-height: 19
+#| out-width: 100%
+#| fig-alt: "Faceted boxplots of participant-level median evaluation intensity by visualization type and qualitative theme, including general bivariate feedback, with non-overlapping individual participant points."
+
+a305_intensity_by_theme_with_general_bivariates_figure <-
+  make_a305_intensity_figure(
+    a305_participant_theme_with_general_bivariates,
+    angle_x_labels = TRUE
+  )
+
+a305_intensity_by_theme_with_general_bivariates_figure
+
+ggsave(
+  project_path(
+    "figures",
+    "a305_intensity_by_theme_with_general_bivariates.png"
+  ),
+  a305_intensity_by_theme_with_general_bivariates_figure,
+  width = 15,
+  height = 19,
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
+)
+```
+
+:::
 
 ### Participant-based summary
 
