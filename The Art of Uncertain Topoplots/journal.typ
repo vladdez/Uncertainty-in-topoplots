@@ -42,15 +42,13 @@
 = Introduction
 
 Scientific estimates are often accompanied by uncertainty, 
-but representing uncertainty becomes more difficult for spatial and multivariate data. 
+but representing uncertainty for spatial and multivariate data is challenging task. 
 For individual estimates and curves,
 familiar techniques such as error bars and confidence bands provide relatively direct ways
-to communicate uncertainty @wilke2019fundamentals. For spatial visualizations, the problem
-is more difficult because both the estimated signal and its uncertainty vary across space
+to communicate uncertainty @wilke2019fundamentals. But in spatial visualizations the 
+estimated signal and its uncertainty vary across space
 and need to be shown at the same time. This difficulty is reflected in published
 neuroscience figures, where uncertainty is often omitted @allen2012data.
-A central visualization challenge is therefore not only to show uncertainty, but to
-add it without making the main data pattern harder to see.
 
 EEG/ERP topographic plots are a useful case for studying this problem. EEG measures
 electrical potentials at electrodes distributed across the scalp, and a topographic plot,

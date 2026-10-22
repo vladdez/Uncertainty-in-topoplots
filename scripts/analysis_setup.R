@@ -84,10 +84,14 @@ get_field <- function(x, field) {
   )[, 2]
 }
 
-survey_raw <- read.csv2(
+survey_raw <- readr::read_delim(
   project_path("data", "data_uncertain_topoplots.csv"),
-  fileEncoding = "UTF-16LE",
-  check.names = FALSE
+  delim = ";",
+  locale = readr::locale(encoding = "UTF-16LE"),
+  col_types = readr::cols(.default = readr::col_character()),
+  name_repair = "minimal",
+  show_col_types = FALSE,
+  progress = FALSE
 )
 
 legend <- survey_raw %>% dplyr::slice(1)

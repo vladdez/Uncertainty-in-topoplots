@@ -423,7 +423,7 @@ feedback_A306 <- data %>%
 
 Comments specifically about the visualizations used in the study.
 
-::: {.callout-note collapse="true"}
+::: {.callout-note .feedback-expand collapse="true"}
 ## Visualization feedback — Expand
 
 ```{r}
@@ -444,11 +444,17 @@ feedback_A305 %>%
   })
 ```
 
+```{=html}
+<button type="button" class="feedback-collapse-button">
+  <span aria-hidden="true">&uarr;</span> Collapse visualization feedback
+</button>
+```
+
 :::
 
 Broader comments about the study, tasks, or participants' experience.
 
-::: {.callout-note collapse="true"}
+::: {.callout-note .feedback-expand collapse="true"}
 ## General feedback — Expand
 
 ```{r}
@@ -469,7 +475,28 @@ feedback_A306 %>%
   })
 ```
 
+```{=html}
+<button type="button" class="feedback-collapse-button">
+  <span aria-hidden="true">&uarr;</span> Collapse general feedback
+</button>
+```
+
 :::
+
+```{=html}
+<script>
+document.querySelectorAll(".feedback-collapse-button").forEach((button) => {
+  button.addEventListener("click", () => {
+    const callout = button.closest(".feedback-expand");
+    const header = callout?.querySelector(":scope > .callout-header");
+
+    if (header?.getAttribute("aria-expanded") === "true") {
+      header.click();
+    }
+  });
+});
+</script>
+```
 
 ## Optional feedback export to PDF
 

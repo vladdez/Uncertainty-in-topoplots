@@ -46,6 +46,7 @@ format:
     toc: true
     code-fold: true
     css: styles.css
+    include-after-body: _includes/back-to-top.html
     grid:
       body-width: 1200px
 

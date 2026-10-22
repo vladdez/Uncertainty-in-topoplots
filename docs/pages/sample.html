@@ -1219,6 +1219,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 
 </main> <!-- /main -->
+<button type="button" class="back-to-top" aria-label="Back to top" title="Back to top">
+  <span class="back-to-top-arrow" aria-hidden="true">↑</span>
+  <span>Top</span>
+</button>
+
+<script>
+(() => {
+  const button = document.querySelector(".back-to-top");
+
+  if (!button) {
+    return;
+  }
+
+  const updateVisibility = () => {
+    button.classList.toggle("is-visible", window.scrollY > 400);
+  };
+
+  button.addEventListener("click", () => {
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    window.scrollTo({
+      top: 0,
+      behavior: reduceMotion ? "auto" : "smooth"
+    });
+  });
+
+  window.addEventListener("scroll", updateVisibility, { passive: true });
+  updateVisibility();
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

@@ -34,3 +34,144 @@
   height: auto;
   object-fit: contain;
 }
+
+/* Make the two original-feedback disclosure controls prominent and easy to tap. */
+.feedback-expand.callout {
+  overflow: hidden;
+  margin: 1.25rem 0 1.75rem;
+  border: 2px solid #2563a6;
+  border-left-width: 0.45rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.3rem 0.85rem rgb(15 56 96 / 16%);
+}
+
+.feedback-expand.callout > .callout-header {
+  min-height: 4rem;
+  padding: 1rem 1.25rem;
+  color: #0b365f;
+  font-size: 1.2rem;
+  font-weight: 750;
+  line-height: 1.35;
+  cursor: pointer;
+  background: linear-gradient(135deg, #eaf4ff, #d7eaff);
+  transition: background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.feedback-expand.callout > .callout-header:hover {
+  background: #c7e1fb;
+}
+
+.feedback-expand.callout > .callout-header:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 3px solid #f59e0b;
+  outline-offset: -3px;
+}
+
+.feedback-expand.callout > .callout-header:not(.collapsed) {
+  color: #fff;
+  background: #2563a6;
+}
+
+.feedback-expand.callout > .callout-header .callout-icon-container,
+.feedback-expand.callout > .callout-header .callout-btn-toggle {
+  font-size: 1.25rem;
+}
+
+.feedback-expand.callout > .callout-header .callout-btn-toggle {
+  padding-left: 1rem !important;
+}
+
+.feedback-expand.callout > .callout-collapse > .callout-body-container {
+  padding: 1.25rem;
+}
+
+.feedback-collapse-button {
+  display: block;
+  width: min(100%, 30rem);
+  min-height: 3.25rem;
+  margin: 1.5rem auto 0.25rem;
+  padding: 0.75rem 1.25rem;
+  border: 2px solid #2563a6;
+  border-radius: 0.6rem;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+  cursor: pointer;
+  background: #2563a6;
+  box-shadow: 0 0.2rem 0.55rem rgb(15 56 96 / 18%);
+  transition: background-color 160ms ease, transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.feedback-collapse-button:hover {
+  background: #174f87;
+  transform: translateY(-1px);
+  box-shadow: 0 0.35rem 0.7rem rgb(15 56 96 / 24%);
+}
+
+.feedback-collapse-button:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+/* Site-wide control for returning to the beginning of long pages. */
+.back-to-top {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 1050;
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  justify-content: center;
+  min-width: 4rem;
+  min-height: 3.5rem;
+  padding: 0.65rem 1rem;
+  border: 2px solid #fff;
+  border-radius: 2rem;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 750;
+  line-height: 1;
+  cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
+  background: #174f87;
+  box-shadow: 0 0.3rem 0.9rem rgb(15 56 96 / 32%);
+  transform: translateY(0.75rem);
+  transition: visibility 160ms ease, opacity 160ms ease,
+    transform 160ms ease, background-color 160ms ease;
+  pointer-events: none;
+}
+
+.back-to-top.is-visible {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.back-to-top:hover {
+  color: #fff;
+  background: #0b365f;
+}
+
+.back-to-top:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+.back-to-top-arrow {
+  font-size: 1.35rem;
+  line-height: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feedback-expand.callout > .callout-header,
+  .feedback-collapse-button,
+  .back-to-top {
+    transition: none;
+  }
+}
