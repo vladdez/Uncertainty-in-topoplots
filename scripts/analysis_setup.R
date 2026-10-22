@@ -85,7 +85,7 @@ get_field <- function(x, field) {
 }
 
 survey_raw <- read.csv2(
-  project_path("data_uncertain_topoplots.csv"),
+  project_path("data", "data_uncertain_topoplots.csv"),
   fileEncoding = "UTF-16LE",
   check.names = FALSE
 )

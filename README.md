@@ -78,7 +78,7 @@ The analysis uses R packages including `dplyr`, `ggplot2`, `tidyr`, `forcats`,
 The raw survey data and participant feedback are not included in this
 repository because they may contain sensitive research information. To run the
 complete analysis, an authorized researcher must place the source data file in
-the project directory as `data_uncertain_topoplots.csv`.
+the project-relative `data/` directory as `data/data_uncertain_topoplots.csv`.
 
 The rendered website is generated in `docs/` and is included in version
 control for publication with GitHub Pages. It contains the figure gallery and

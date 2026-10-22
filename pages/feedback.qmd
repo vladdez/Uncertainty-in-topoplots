@@ -558,13 +558,13 @@ if (isTRUE(params$export_artifacts)) {
   feedback_to_pdf(
     feedback_A305,
     title = "Feedback - A305",
-    filename = "feedback_A305.pdf"
+    filename = project_path("data", "feedback_A305.pdf")
   )
 
   feedback_to_pdf(
     feedback_A306,
     title = "Feedback - A306",
-    filename = "feedback_A306.pdf"
+    filename = project_path("data", "feedback_A306.pdf")
   )
 }
 ```

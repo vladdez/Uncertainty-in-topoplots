@@ -74,6 +74,6 @@ Theme codebook:
 - `Task suitability`: usefulness for a particular analytical or comparison
   task.
 
-Read the responses from `A305_01` in `data_uncertain_topoplots.csv`. Save the
+Read the responses from `A305_01` in `data/data_uncertain_topoplots.csv`. Save the
 completed table to the `A305 content analysis` worksheet in
 `data/a305_content_analysis.xlsx`.

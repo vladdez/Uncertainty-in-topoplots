@@ -1,6 +1,6 @@
 # Private research data
-data_uncertain_topoplots.csv
-feedback_*.pdf
+data/data_uncertain_topoplots.csv
+data/feedback_*.pdf
 
 # R/RStudio state
 .Rhistory
@@ -13,7 +13,7 @@ feedback_*.pdf
 Analysis.pre-refactor.qmd
 
 # Local manuscript project
-/The Art of Uncertain Topoplots/
+The Art of Uncertain Topoplots/guidelines.txt
 
 # Aggregate figures are tracked because they are published on the website.
 **/*.quarto_ipynb
