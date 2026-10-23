@@ -498,7 +498,7 @@ document.querySelectorAll(".feedback-collapse-button").forEach((button) => {
 </script>
 ```
 
-## Optional feedback export to PDF
+## Feedback export to PDF
 
 ```{r}
 feedback_to_pdf <- function(df, title, filename) {
@@ -581,17 +581,15 @@ feedback_to_pdf <- function(df, title, filename) {
 ```
 
 ```{r}
-if (isTRUE(params$export_artifacts)) {
-  feedback_to_pdf(
-    feedback_A305,
-    title = "Feedback - A305",
-    filename = project_path("data", "feedback_A305.pdf")
-  )
+feedback_to_pdf(
+  feedback_A305,
+  title = "Feedback - A305",
+  filename = project_path("data", "feedback_A305.pdf")
+)
 
-  feedback_to_pdf(
-    feedback_A306,
-    title = "Feedback - A306",
-    filename = project_path("data", "feedback_A306.pdf")
-  )
-}
+feedback_to_pdf(
+  feedback_A306,
+  title = "Feedback - A306",
+  filename = project_path("data", "feedback_A306.pdf")
+)
 ```

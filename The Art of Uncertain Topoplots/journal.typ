@@ -47,41 +47,45 @@ For individual estimates and curves,
 familiar techniques such as error bars and confidence bands provide relatively direct ways
 to communicate uncertainty @wilke2019fundamentals. But in spatial visualizations the 
 estimated signal and its uncertainty vary across space
-and need to be shown at the same time. This difficulty is reflected in published
-neuroscience figures, where uncertainty is often omitted @allen2012data.
+and need to be shown at the same time.
 
 EEG/ERP topographic plots are a useful case for studying this problem. EEG measures
-electrical potentials at electrodes distributed across the scalp, and a topographic plot,
-or *topoplot*, interpolates these measurements over a two-dimensional representation of
-the head @perrin1989spherical. Colour usually represents the sign and magnitude of the
-estimated voltage, allowing researchers to inspect the spatial distribution of an ERP
-effect. Topoplots are also one of the most familiar visualization types in the EEG/ERP
+electrical potentials at electrodes distributed across the scalp. 
+ERP or event-related potentials are averaged and time-locked EEG trials.
+A topographic plot or *topoplot* is a figure with ERP over a two-dimensional representation of
+the head, often interpolated. Colour usually represents the sign and magnitude of the
+estimated voltage, allowing researchers to inspect the spatial distribution of
+signals. Topoplots are also one of the most familiar visualization types in the EEG/ERP
 community. In our previous survey of 213 M/EEG researchers, 52% of respondents reported
-having previously created topoplots, making them—alongside conventional ERP waveforms
-(61%)—among the most commonly used ERP visualizations @mikheev2024art.
+having previously created topoplots. This is the second results after conventional ERP waveforms
+(61%) @mikheev2024art. 
 
-Although uncertainty has been represented in EEG visualization, including interval-based
-scalp maps @gerslova2026diegr, conventional topoplots generally show the estimated voltage
+Conventional topoplots generally show the estimated voltage
 without an accompanying measure of its precision. There is no established visual
-convention for integrating uncertainty into these maps. Showing uncertainty could help
-researchers distinguish regions with relatively stable estimates from regions dominated by
-larger variability and provide a more direct visual impression of the local
-signal-to-noise structure. At the same time, adding another visual variable to an already
-familiar spatial representation may make the underlying ERP pattern harder to perceive.
+convention for integrating uncertainty into these maps. Although there are some software solutions for representation of 
+uncertaint in EEG visualization @gerslova2026diegr. 
+
+Showing uncertainty could help
+researchers distinguish regions with relatively stable estimates from regions with
+larger variability and provide a visual impression of the local
+signal-to-noise structure. On the other hand, adding another visual variable to an already
+familiar spatial representation may hinder the perception of the underlying ERP pattern.
 This creates a broader visualization question: #strong[how can uncertainty be added to an
 established spatial visualization while preserving the primary signal that users already
-know how to read?]
+know how to read?]. This difficulty is reflected by @allen2012data: they reviewed 1,451 figures 
+from six neuroscience journals, finding that uncertainty was particularly underrepresented 
+in visualizations of data with more than three features, with only 20% indicating uncertainty.
 
 Before the quantitative evaluation, we conducted qualitative interviews with nine EEG/ERP
 experts to understand how topoplots are used in practice, how researchers think about
 uncertainty, and what they expect from an uncertainty-aware representation. The
-interviewed researchers saw value in communicating uncertainty on topoplots but reported a
+interviewed researchers valued uncertainty representation on topoplots but reported a
 lack of clear conventions or guidance for doing so. These findings helped us formulate the
 research gap, select the visualization approaches, and design the later experimental
 tasks.
 
 Building on prior uncertainty-visualization work and our qualitative interviews with
-EEG/ERP experts, we adapted several uncertainty representations and compared them with the
+EEG/ERP experts, we created several uncertainty representations and compared them with the
 conventional topoplot in a user study. We tested whether showing uncertainty changes
 participants' ability to recognize the underlying spatial ERP pattern, how well different
 representations support judgments that require combining signal and uncertainty, and how
@@ -97,12 +101,13 @@ effectiveness of alternative representations has not been systematically evaluat
 
 Our contributions are fourfold. First, we report qualitative insights from EEG/ERP experts
 on current topoplot practices and the challenges of communicating uncertainty in them.
-Second, we assemble and systematically compare adaptations of existing uncertainty
+Second, we created a design pool of uncertainty
 representations for EEG/ERP topoplots. Third, we provide empirical evidence of how
-different representations affect participants’ ability to interpret the underlying spatial
-ERP pattern and make judgments that combine signal and uncertainty, complemented by
-subjective evaluations and qualitative accounts of participants’ reasoning. Finally, we
-derive practical recommendations for uncertainty-aware EEG/ERP topoplots.
+different plot types affect participants’ ability to interpret the underlying spatial
+ERP pattern and make judgments that combine signal and uncertainty. 
+This is complemented by participants’ subjective ratings and qualitative 
+feedback explaining their preferences and interpretation difficulties. Finally, we
+derive practical recommendations for the usage of uncertainty-aware EEG/ERP topoplots.
 
 = Related Work
 
@@ -138,7 +143,7 @@ importance of uncertainty in visualization research and its limited adoption in
 practice @boukhelifa2009uncertainty. Similarly, Hullman's survey of visualization
 authors found that, although authors generally acknowledged the value of communicating
 uncertainty, direct uncertainty depiction was routinely omitted @hullman2020why.
-@tab:uncertainty-reporting summarizes representative evidence from neuroscience,
+@tab:uncertainty-reporting summarizes this observation with evidence from neuroscience,
 ecosystem science, geospatial mapping, and visualization software.
 
 #figure(
@@ -150,15 +155,17 @@ ecosystem science, geospatial mapping, and visualization software.
     [Neuroscience],
     [Allen et al. @allen2012data],
     [288 articles; 1,451 figures],
-    [Only about 20% of visualisations with three features represented uncertainty.],
+    [Only about 20% of visualisations with three features represented uncertainty.#footnote[In Allen et al.'s terminology, three-dimensional graphics represent three data
+variables, which can be shown in a flat figure using two axes and colour; the term does
+not necessarily imply a 3D spatial rendering @allen2012data.]],
     [Ecosystem science],
     [Yanai et al. @yanai2021current],
-    [132 peer-reviewed articles],
-    [Studies reported, on average, 42% of the uncertainty sources relevant to their
-    analyses; 54% reported fewer than half.],
+    [132 articles],
+    [Studies reported numerical estimates for only 42% of relevant uncertainty sources on average; 
+    54% of studies reported such estimates for fewer than half.],,
     [Geospatial / public-health mapping],
     [Jain et al. @jain2026communicating],
-    [66 peer-reviewed studies containing maps of climate-related infectious diseases
+    [66 articles containing maps of climate-related infectious diseases
     in the Asia-Pacific region],
     [Only 3 of 66 studies (4.5%) visually integrated uncertainty into their maps;
     26 studies (39%) did not report uncertainty at all.],
@@ -176,10 +183,6 @@ ecosystem science, geospatial mapping, and visualization software.
   scope: "parent",
 ) <tab:uncertainty-reporting>
 
-In Allen et al.'s terminology, three-dimensional graphics represent three data
-variables, which can be shown in a flat figure using two axes and colour; the term does
-not necessarily imply a 3D spatial rendering @allen2012data.
-
 Limited software support is one practical reason why uncertainty visualizations may
 remain uncommon. Although many uncertainty visualization techniques have been
 proposed, they are not necessarily available as standard functionality in commonly
@@ -187,12 +190,13 @@ used visualization systems. Petek et al. compared five visualization tools acros
 18 example uncertainty visualizations and found that, for 13 of these examples, all
 five tools required users to quantify uncertainty themselves and implement its visual
 encoding through custom plotting code, rather than relying on dedicated
-uncertainty-visualization functionality (their Table 3) @petek2026general. These examples
-were selected to demonstrate their bootplot method, so the percentage describes this
-comparison rather than the prevalence of unsupported visualization tasks in general.
+uncertainty-visualization functionality (their Table 3) @petek2026general.
 
 This software gap has been reported across multiple visualization ecosystems and
-application domains. Kay notes that support for uncertainty visualization in existing
+application domains. These observations were not based on reported
+systematic audits of software packages, but together they indicate a recurring gap
+between uncertainty-visualization research and routinely available software
+functionality. Kay notes that support for uncertainty visualization in existing
 Grammar-of-Graphics implementations remains largely limited to conventional
 representations such as error bars, uncertainty bands, and density plots, while many
 techniques proposed in visualization research remain difficult to construct
@@ -203,21 +207,22 @@ GIS likewise observed that, despite a broad conceptual literature on uncertainty
 visualization, implemented tools and pilot projects remained rare
 @kubicek2011thematic. In medical visualization, Gillmann et al. further reported
 that, to their knowledge, no commercially available uncertainty-aware visualization
-technique was available in medical workstations @gillmann2021uncertainty. Unlike the
-quantitative comparison by Petek et al., these observations were not based on reported
-systematic audits of software packages, but together they indicate a recurring gap
-between uncertainty-visualization research and routinely available software
-functionality.
+technique was available in medical workstations @gillmann2021uncertainty. 
 
 == Visual Encodings for Spatial Uncertainty
 
-Bivariate colour maps encode two quantities within one spatial view. Work on climate maps
-and choropleth design illustrates how two-dimensional colour legends can support different
-relationships between variables @teuling2011bivariate @strode2019operationalizing.
-Applying this approach to an estimate and its uncertainty requires attention to their
-joint readability: perceptual interference between visual channels can limit
-discrimination @correll2018task. Task-based assessments of two-dimensional palettes
-provide criteria for evaluating these trade-offs @bernard2015colormaps.
+Decades of research have produced various approaches to visualizing uncertainty in spatial data. 
+Here, we focus on those relevant to our study.
+
+*Bivariate colour maps* have a long history in cartography. They encode two quantities within
+ a single spatial view using a two-dimensional colour legend @wainer1980colormaps @strode2019operationalizing. 
+ The same principle can be applied to display an estimate together with its uncertainty, 
+ although distinguishing the resulting colour combinations can be difficult @kaye2012mapping.
+However, interpreting these maps can be challenging. Readers must match colours in the spatial display 
+to their corresponding positions in a two-dimensional legend. Moreover, colour properties such as hue 
+and saturation are not perceptually independent, making it difficult to distinguish some combinations 
+of values and uncertainty @correll2018task. Bernard et al. @bernard2015colormaps showed that the suitability 
+of a bivariate colour map depends on the task, such as identifying individual values or comparing different regions.
 
 Multiple coordinated views place related quantities in separate displays
 @brodlie2012review. For spatial data, aligned maps can preserve a separate encoding for
