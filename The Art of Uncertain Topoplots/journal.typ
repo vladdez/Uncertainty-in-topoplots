@@ -7,22 +7,35 @@
   review: false,
   submission-id: 0000,
   category: "Regular Paper",
-  title: [The Art of Uncertain Topoplots: Designing and Evaluating Uncertainty Visualizations for EEG/ERP Data],
+  title: [
+    The Art of Uncertain Topoplots: Designing and Evaluating Uncertainty
+    Visualizations for EEG/ERP Data
+  ],
   abstract: [TODO: Abstract],
   authors: (
     (
       name: "Vladimir Mikheev",
-      organization: [Computational Cognitive Science, Institute for Visualization and Interactive Systems (VIS), University of Stuttgart, Stuttgart, Germany],
+      organization: [
+        Computational Cognitive Science, Institute for Visualization and Interactive
+        Systems (VIS), University of Stuttgart, Stuttgart, Germany
+      ],
       orcid: "0000-0002-4738-6655",
     ),
     (
       name: "Daniel Weiskopf",
-      organization: [Visualization Research Center (VISUS) and Institute for Visualization and Interactive Systems (VIS), University of Stuttgart, Stuttgart, Germany],
+      organization: [
+        Visualization Research Center (VISUS) and Institute for Visualization and
+        Interactive Systems (VIS), University of Stuttgart, Stuttgart, Germany
+      ],
       orcid: "0000-0003-1174-1026",
     ),
     (
       name: "Benedikt Ehinger",
-      organization: [Computational Cognitive Science, Institute for Visualization and Interactive Systems (VIS), Stuttgart Center for Simulation Science (SC SimTech), University of Stuttgart, Stuttgart, Germany],
+      organization: [
+        Computational Cognitive Science, Institute for Visualization and Interactive
+        Systems (VIS), Stuttgart Center for Simulation Science (SC SimTech), University
+        of Stuttgart, Stuttgart, Germany
+      ],
       orcid: "0000-0002-6276-3332",
     ),
   ),
@@ -62,7 +75,8 @@ having previously created topoplots. This is the second results after convention
 
 Conventional topoplots generally show the estimated voltage
 without an accompanying measure of its precision. There is no established visual
-convention for integrating uncertainty into these maps. Although there are some software solutions for representation of 
+convention for integrating uncertainty into these maps. Although there are some software
+solutions for representation of
 uncertaint in EEG visualization @gerslova2026diegr. 
 
 Showing uncertainty could help
@@ -155,14 +169,16 @@ ecosystem science, geospatial mapping, and visualization software.
     [Neuroscience],
     [Allen et al. @allen2012data],
     [288 articles; 1,451 figures],
-    [Only about 20% of visualisations with three features represented uncertainty.#footnote[In Allen et al.'s terminology, three-dimensional graphics represent three data
-variables, which can be shown in a flat figure using two axes and colour; the term does
-not necessarily imply a 3D spatial rendering @allen2012data.]],
+    [Only about 20% of visualisations with three features represented
+    uncertainty.#footnote[In Allen et al.'s terminology, three-dimensional graphics
+    represent three data variables, which can be shown in a flat figure using two axes and
+    colour; the term does not necessarily imply a 3D spatial rendering
+    @allen2012data.]],
     [Ecosystem science],
     [Yanai et al. @yanai2021current],
     [132 articles],
     [Studies reported numerical estimates for only 42% of relevant uncertainty sources on average; 
-    54% of studies reported such estimates for fewer than half.],,
+    54% of studies reported such estimates for fewer than half.],
     [Geospatial / public-health mapping],
     [Jain et al. @jain2026communicating],
     [66 articles containing maps of climate-related infectious diseases
@@ -211,68 +227,67 @@ technique was available in medical workstations @gillmann2021uncertainty.
 
 == Visual Encodings for Spatial Uncertainty
 
-Decades of research have produced various approaches to visualizing uncertainty in spatial data. 
-Here, we focus on those relevant to our study.
+Kinkeldey et al. @kinkeldey2014assess classify spatial uncertainty visualizations along
+three dimensions: *intrinsic versus extrinsic* (modifying existing visual properties or
+adding graphical elements), *coincident versus adjacent* (showing data and uncertainty
+together or separately), and *static versus dynamic* representations. We focus on five
+approaches used in our study.
 
-*Bivariate colour maps* have a long history in cartography. They encode two quantities within
- a single spatial view using a two-dimensional colour legend @wainer1980colormaps @strode2019operationalizing. 
- The same principle can be applied to display an estimate together with its uncertainty, 
- although distinguishing the resulting colour combinations can be difficult @kaye2012mapping.
-However, interpreting these maps can be challenging. Readers must match colours in the spatial display 
-to their corresponding positions in a two-dimensional legend. Moreover, colour properties such as hue 
-and saturation are not perceptually independent, making it difficult to distinguish some combinations 
-of values and uncertainty @correll2018task. Bernard et al. @bernard2015colormaps showed that the suitability 
-of a bivariate colour map depends on the task, such as identifying individual values or comparing different regions.
+*Markers and glyphs* represent uncertainty through graphical elements added to a spatial
+display. Their visual properties, such as size, colour, or opacity, can encode uncertainty
+independently of the underlying data @maceachren1992visualizing @brodlie2012review.
 
-Multiple coordinated views place related quantities in separate displays
-@brodlie2012review. For spatial data, aligned maps can preserve a separate encoding for
-each quantity, while placing the burden of comparing corresponding locations on the
-viewer. This differs from integrating both quantities within a single colour legend.
+*Bivariate colour maps* encode two quantities within a single spatial view using a
+two-dimensional colour legend @wainer1980colormaps @strode2019operationalizing.
+MacEachren @maceachren1992visualizing proposed using this approach to display data values
+together with their uncertainty, assigning different colour properties to each quantity.
 
-Glyphs, markers, texture, and opacity provide additional channels for spatial uncertainty
-@maceachren1992visualizing @brodlie2012review. They can supplement an existing map, but
-their visual prominence must be considered alongside that of the primary data. Sanyal et
-al. included glyph size, glyph colour, and surface colour among the uncertainty encodings
-they evaluated @sanyal2009user.
+*Adjacent or juxtaposed maps* display an estimate and its uncertainty in separate,
+spatially aligned views @brodlie2012review. Each quantity can use its own colour scale,
+allowing viewers to compare the two maps.
 
-Interval-based representations summarize uncertainty using lower and upper bounds. These
-may be displayed as bands around a curve or as separate maps of the bounds
-@wilke2019fundamentals @gerslova2026diegr. Interpretation depends on which interval is
-shown and on distinguishing uncertainty in an estimate from the spread of individual
-observations.
+*Interval-based representations* display an estimate together with its lower and upper
+bounds. For spatial data, these bounds can be shown as separate maps alongside the
+estimate @gerslova2026diegr. Depending on the statistical method, the bounds may represent
+confidence intervals or another interval, such as the mean plus or minus one standard
+error.
 
-Hypothetical outcome plots use animation to present samples from a modeled distribution
-@hullman2015hypothetical. They communicate uncertainty through concrete possible outcomes,
-requiring viewers to integrate information across successive frames. For spatial
-applications, this provides a way to consider variation in entire patterns alongside
-static summaries of uncertainty.
+*Hypothetical outcome plots* use animation to display samples from a modelled distribution
+@hullman2015hypothetical. For spatial data, each frame shows a possible spatial pattern,
+communicating uncertainty through variation across successive frames.
 
 == Evaluating Uncertainty Visualizations
 
-Controlled perceptual tasks allow researchers to isolate particular reading operations.
-Sanyal et al. compared four uncertainty-visualization methods using search and counting
-tasks on one- and two-dimensional datasets, finding that relative performance depended on
-the task @sanyal2009user. Hullman et al. compared hypothetical outcome plots with error
-bars and violin plots for judgments about the reliability of variable ordering
-@hullman2015hypothetical. These studies illustrate why results should be interpreted in
-relation to the operations that participants performed.
+*Uncertainty visualizations have been evaluated using different perceptual and
+decision-making tasks.* MacEachren et al. @maceachren1992visualizing compared adjacent
+maps, texture overlays, and bivariate colour encodings using tasks involving spatial
+patterns and data reliability. Sanyal et al. @sanyal2009user compared error bars, glyph
+size, glyph colour, and surface colour using search and counting tasks on one- and
+two-dimensional datasets. Both studies demonstrated that the relative effectiveness of
+uncertainty representations depends on what participants are asked to identify or compare.
 
-Correll et al. evaluated Value-Suppressing Uncertainty Palettes using an identification
-task, measuring accuracy and response time when decoding value and uncertainty, and a
-decision-making task requiring participants to integrate both quantities @correll2018task.
-More recently, Sterzik et al. combined expert assessment with controlled perceptual
-studies of biomolecular uncertainty visualizations. They examined whether uncertainty
-encodings were interpreted intuitively, whether their mapping direction was understood as
-intended, and how accurately participants could infer uncertainty values @sterzik2025.
-These evaluations address complementary concerns: decoding an encoding correctly, doing so
-efficiently, and using uncertainty in a judgment.
+*Other studies have examined whether viewers can correctly interpret and use uncertainty.*
+Hullman et al. @hullman2015hypothetical compared hypothetical outcome plots with error
+bars and violin plots using probability judgments about the ordering of variables. Correll
+et al. @correll2018task evaluated bivariate colour maps and Value-Suppressing Uncertainty
+Palettes using both identification tasks, which required participants to decode values and
+uncertainty, and decision-making tasks, which required them to consider both quantities.
+More recently, Sterzik et al. @sterzik2025 evaluated biomolecular uncertainty
+visualizations through expert assessments and perceptual experiments, examining intuitive
+interpretation, perceived mapping direction, and accuracy in estimating uncertainty.
 
-Performance and subjective experience are distinct evaluation targets @lam2012seven.
-Subjective ratings can capture perceived usefulness, difficulty, or visual appeal, while
-open-ended explanations can reveal which features participants relied on and where they
-encountered confusion. Such accounts help interpret performance and preference, although
-participant-reported explanations alone do not establish the mechanisms underlying
-observed behaviour.
+*Evaluation measures capture different aspects of visualization performance.* Accuracy
+indicates whether participants reach the correct interpretation, while response time
+measures how quickly they complete a task. Subjective ratings assess perceived difficulty,
+usefulness, or preference, and qualitative feedback can help explain why participants
+favour or struggle with particular designs @lam2012seven.
+
+*Results from different evaluation methods do not always agree.* Reviewing previous user
+studies, Kinkeldey et al. @kinkeldey2014assess found that visualization effectiveness
+depends on the task and that subjective preferences do not necessarily correspond to
+better objective performance. This motivates our use of two performance tasks alongside
+subjective ratings and qualitative feedback to evaluate uncertainty visualization
+techniques for EEG topographic maps.
 
 == Uncertainty in EEG/ERP Visualization
 
@@ -476,7 +491,8 @@ absent from the displayed topoplot.
 
 == Interval-based representation
 
-The interval-based condition uses three adjacent maps showing the estimated mean, the mean minus one SE, and the
+The interval-based condition uses three adjacent maps showing the estimated mean, the mean
+minus one SE, and the
 mean plus one SE. In our implementation, the bounds indicate $plus.minus$ one SE rather
 than a 95% confidence interval. Viewers compare the spatial voltage distribution across
 the three maps: larger differences indicate greater SE, while smaller differences indicate
