@@ -1,0 +1,642 @@
+{
+  "schema_version": 1,
+  "claim_types": [
+    "empirical_finding",
+    "author_interpretation",
+    "methodological_claim",
+    "theoretical_argument",
+    "descriptive_documentation"
+  ],
+  "records": [
+    {
+      "id": "allen2012data",
+      "source_type": "practice audit and methodological commentary",
+      "research_questions": [{"text": "How well do neuroscience figures expose data, dimensionality, and uncertainty, and what practices would make them more informative?", "refs": ["p001-b006", "p001-b007"]}],
+      "contributions": [{"text": "Combines an audit of recent neuroscience figures with an actionable checklist and a worked EEG example advocating richer, uncertainty-aware displays.", "refs": ["p001-b007", "p003-b021", "p005-b012"]}],
+      "methods": {"design": "Descriptive audit plus design commentary and worked examples.", "sample": "288 articles published in 2010 in six neuroscience journals, containing 1,451 figures.", "conditions": "Figures were coded by dimensionality and by whether labels, scales, and uncertainty were present or identified.", "measurements": "Counts and percentages of figure characteristics; no controlled viewer experiment.", "analysis": "Descriptive comparison of audited practices.", "refs": ["p001-b007"]},
+      "claims": [
+        {"id": "allen-audit-uncertainty", "type": "empirical_finding", "text": "Only 20% of audited 3D graphics portrayed uncertainty; among 2D figures that showed uncertainty, nearly 30% did not identify its type.", "quantitative": "288 articles; 1,451 figures; 20%; nearly 30%.", "refs": [{"anchor": "p001-b007", "kind": "passage"}]},
+        {"id": "allen-show-more", "type": "author_interpretation", "text": "The authors recommend revealing distributions and uncertainty and avoiding displays that hide structure, illustrated with an EEG flanker-data redesign.", "quantitative": "Worked example includes nonparametric 95% confidence intervals from 10,000 resamples.", "refs": [{"anchor": "p003-b020", "kind": "figure", "label": "Figure 1"}, {"anchor": "p003-b021", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Neuroscience figures should be designed to reveal more of the underlying data and uncertainty rather than merely summarize it.", "refs": ["p005-b012"]}],
+      "limitations": [{"text": "The audit is a 2010 snapshot of six journals and the article is a short NeuroView, not a systematic review or perceptual experiment.", "source": "wiki_scope_note", "refs": ["p001-b007"]}],
+      "topics": ["uncertainty reporting", "EEG visualization practice", "scientific figure design"]
+    },
+    {
+      "id": "bernard2015colormaps",
+      "source_type": "task-based computational quality assessment",
+      "research_questions": [{"text": "How can static two-dimensional colormaps be selected according to the analytical task rather than treated as universally interchangeable?", "refs": ["p001-b003"]}],
+      "contributions": [{"text": "Defines seven quality measures, maps them to seven multivariate-analysis tasks, and applies the resulting ranking procedure to 22 reimplemented 2D colormaps.", "refs": ["p001-b003", "p009-b002"]}],
+      "methods": {"design": "Survey of designs followed by measure-based task quality assessment.", "sample": "22 static 2D colormaps.", "conditions": "Seven measures/tasks and multiple backgrounds; maps below an 80% criterion were excluded in the task-based selection procedure.", "measurements": "Computed quality measures and Borda-style ranks, rather than participant responses.", "analysis": "Ranks were aggregated across measures relevant to each task and robustness was assessed across tasks/backgrounds.", "refs": ["p009-b002"]},
+      "claims": [
+        {"id": "bernard-task-mapping", "type": "methodological_claim", "text": "2D-colormap quality should be evaluated against a stated task using the measures associated with that task.", "quantitative": "Seven quality measures mapped to seven tasks.", "refs": [{"anchor": "p001-b003", "kind": "passage"}, {"anchor": "p009-b002", "kind": "passage"}]},
+        {"id": "bernard-robust-ten", "type": "empirical_finding", "text": "Ten assessed colormaps were robust across all described tasks and backgrounds.", "quantitative": "10 of 22 assessed designs met the reported robustness criterion.", "refs": [{"anchor": "p013-b004", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "No single aesthetic preference substitutes for task-based selection, although a subset of designs performed robustly across the tested criteria.", "refs": ["p013-b004", "p014-b003"]}],
+      "limitations": [{"text": "The assessment is measure-based rather than a controlled user study; several published designs were approximately reimplemented and conversion or clipping in sRGB can affect results.", "source": "authors", "refs": ["p013-b005", "p014-b001"]}],
+      "topics": ["bivariate color", "task dependence", "colormap evaluation"]
+    },
+    {
+      "id": "boukhelifa2009uncertainty",
+      "source_type": "industrial case study and position paper",
+      "research_questions": [{"text": "Why does uncertainty visualization remain difficult to adopt in operational work despite extensive technical research?", "refs": ["p001-b003"]}],
+      "contributions": [{"text": "Broadens the adoption problem from visual encoding to data coverage, heterogeneous confidence schemes, metadata, trust, cognition, and organizational practice.", "refs": ["p001-b003", "p005-b002"]}],
+      "methods": {"design": "Qualitative work-in-progress case analysis.", "sample": "One industrial underground-asset mapping context; no participant sample is reported as a controlled study.", "conditions": "Organizations contributed data with different scope, provenance, and confidence conventions.", "measurements": "Observed workflow and data-management barriers; no inferential statistics.", "analysis": "Reflective categorization of barriers and implications.", "refs": ["p005-b002", "p006-b003"]},
+      "claims": [
+        {"id": "boukhelifa-adoption-barriers", "type": "author_interpretation", "text": "Failures of uncertainty visualization can originate before encoding, including incomplete data, incompatible confidence descriptions, and weak metadata.", "quantitative": "No quantitative effect estimate reported.", "refs": [{"anchor": "p001-b003", "kind": "passage"}, {"anchor": "p005-b002", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Operational uncertainty visualization requires attention to organizational and data-quality infrastructure as well as display design.", "refs": ["p006-b003"]}],
+      "limitations": [{"text": "The argument is grounded mainly in one industrial case and is explicitly work in progress; it cannot estimate prevalence or comparative encoding effectiveness.", "source": "wiki_scope_note", "refs": ["p001-b003"]}],
+      "topics": ["uncertainty adoption", "geospatial uncertainty", "workflow barriers"]
+    },
+    {
+      "id": "brodlie2012review",
+      "source_type": "narrative review",
+      "research_questions": [{"text": "What uncertainty arises in the visualization pipeline, and what techniques exist for visualizing it across data types?", "refs": ["p002-b003"]}],
+      "contributions": [{"text": "Provides a pipeline reference model separating uncertainty attached to input data from uncertainty introduced by filtering, mapping, interpolation, and rendering.", "refs": ["p002-b003", "p025-b005"]}],
+      "methods": {"design": "Broad narrative state-of-the-art review.", "sample": "No formal corpus size or controlled participant sample is reported in the indexed passages.", "conditions": "Techniques are organized across scalar, vector, and other visualization settings.", "measurements": "Conceptual classification and qualitative comparison.", "analysis": "Synthesis through a visualization-pipeline model.", "refs": ["p002-b003", "p025-b005"]},
+      "claims": [
+        {"id": "brodlie-two-uncertainties", "type": "theoretical_argument", "text": "A rigorous account must distinguish visualization of uncertainty in the data from uncertainty introduced by the visualization process itself.", "quantitative": "Not applicable.", "refs": [{"anchor": "p002-b003", "kind": "passage"}, {"anchor": "p025-b005", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Uncertainty should be considered throughout the visualization pipeline rather than added only as a final graphical layer.", "refs": ["p025-b005"]}],
+      "limitations": [{"text": "This is a 2012 narrative review, not a systematic review or comparative user experiment; its coverage reflects literature available at that time.", "source": "wiki_scope_note", "refs": ["p025-b005"]}],
+      "topics": ["uncertainty taxonomy", "visualization pipeline", "methodological foundations"]
+    },
+    {
+      "id": "correll2018task",
+      "source_type": "visualization design plus two controlled crowdsourced experiments",
+      "research_questions": [{"text": "Can value-suppressing uncertainty palettes improve value–uncertainty integration and encourage decisions that account for uncertainty?", "refs": ["p001-b013", "p006-b006"]}],
+      "contributions": [{"text": "Introduces VSUPs, which reduce value resolution as uncertainty increases, and tests identification and risk-framed prediction behavior against conventional bivariate or juxtaposed maps.", "refs": ["p001-b013", "p006-b006", "p007-b008"]}],
+      "methods": {"design": "Two within-participant crowdsourced experiments: identification and Battleship-like prediction.", "sample": "24 participants in each experiment; the two samples were separate. Identification sample: 12 women, 12 men, mean age 31 (SD 7.8). Prediction sample: 12 women, 12 men, mean age 37 (SD 9.8).", "conditions": "Identification: eight combinations of juxtaposition/superposition, continuous/discrete encoding, quantization, and legend; eight replications (64 stimuli). Prediction: square or wedge legends crossed with VSUP or standard quantization.", "measurements": "Identification accuracy and response time; prediction-token danger and uncertainty. Color-vision screening and exclusions were applied.", "analysis": "Mixed/repeated-measures ANOVAs, post-hoc t tests, and a Kolmogorov–Smirnov test.", "refs": ["p005-b002", "p006-b006", "p007-b008", "p008-b002"]},
+      "claims": [
+        {"id": "correll-superposition-accuracy", "type": "empirical_finding", "text": "For identification, superimposed displays were more accurate than juxtaposed displays in the reported comparison.", "quantitative": "58% versus 51% accuracy; F(1,166)=5.5, p=.02.", "refs": [{"anchor": "p006-b006", "kind": "figure", "label": "Figure 6"}, {"anchor": "p008-b002", "kind": "passage"}]},
+        {"id": "correll-vsup-decisions", "type": "empirical_finding", "text": "VSUPs changed prediction choices toward lower uncertainty, but did not reduce average uncertainty in every aggregate test and produced a modest increase in average danger.", "quantitative": "Uncertainty-distribution difference D=.5, p=.03; mean danger .32 (SD .17) versus .29 (SD .18), t=2.3, p=.02; repeated-measures uncertainty effect F(1,61)=.05, p=.83.", "refs": [{"anchor": "p007-b008", "kind": "figure", "label": "Figure 9"}, {"anchor": "p008-b002", "kind": "passage"}]},
+        {"id": "correll-integration-interpretation", "type": "author_interpretation", "text": "The authors interpret the results as favoring integrated encodings for tasks that require combining value and uncertainty, while warning that VSUP bins are not significance tests.", "quantitative": "Not applicable.", "refs": [{"anchor": "p008-b002", "kind": "passage"}, {"anchor": "p009-b002", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Task framing and integration demands affect whether VSUPs or other bivariate displays change judgments; the palette should not be treated as a universal solution.", "refs": ["p008-b002", "p009-b002"]}],
+      "limitations": [{"text": "The studies used small crowdsourced samples, specific palette constructions, and a loss-minimization game; results may change with correlated data, other risk frames, or other map types.", "source": "authors", "refs": ["p007-b008", "p009-b002"]}],
+      "topics": ["bivariate uncertainty encoding", "decision behavior", "value-suppressing palettes"]
+    },
+    {
+      "id": "danisch2021makie",
+      "source_type": "software paper",
+      "research_questions": [{"text": "What architecture and capabilities can provide flexible, high-performance, interactive, and publication-quality visualization in Julia?", "refs": ["p001-b001", "p002-b001"]}],
+      "contributions": [{"text": "Documents Makie's GPU-backed rendering, vector output, reactive Observables, layouts, and extension model.", "refs": ["p001-b001", "p002-b001"]}],
+      "methods": {"design": "Software architecture and capability description.", "sample": "Not applicable; no human-participant evaluation is reported.", "conditions": "Examples and implementation features across interactive and publication workflows.", "measurements": "No controlled usability or performance outcome is indexed.", "analysis": "Descriptive software account.", "refs": ["p001-b001", "p002-b001"]},
+      "claims": [{"id": "danisch-capabilities", "type": "descriptive_documentation", "text": "Makie combines GPU-powered interactive visualization with publication-quality vector output and reactive composition in Julia.", "quantitative": "No comparative benchmark reported in the cited passages.", "refs": [{"anchor": "p001-b001", "kind": "passage"}]}],
+      "conclusions": [{"text": "The project is positioned as addressing gaps in control, performance, and interactivity in Julia plotting.", "refs": ["p002-b001"]}],
+      "limitations": [{"text": "Capabilities are documented rather than tested against alternatives or users; claims should be checked against the software version in use.", "source": "wiki_scope_note", "refs": ["p001-b001"]}],
+      "topics": ["visualization software", "interactive graphics", "implementation context"]
+    },
+    {
+      "id": "engel2013confidence",
+      "source_type": "visualization design with four interpretation surveys",
+      "research_questions": [{"text": "Can confidence-interval-based color encodings reduce common misinterpretations of thresholded fMRI activation maps?", "refs": ["p001-b003"]}],
+      "contributions": [{"text": "Proposes two encodings based on confidence-interval bounds so that both plausible effect size and uncertainty are available for active and inactive voxels.", "refs": ["p001-b003", "p006-b002"]}],
+      "methods": {"design": "Design demonstrations on two datasets followed by four surveys comparing conventional and proposed maps.", "sample": "Survey 3: 20 participants; Survey 4: 17 participants. Other survey sample sizes should be checked in the linked methods passage. Dataset 1 combined 10 subjects; Dataset 2 was a single-subject dataset.", "conditions": "Participants interpreted conventional thresholded maps and two confidence-interval map methods under comparison questions.", "measurements": "Frequency of specific interpretation errors and comparison responses.", "analysis": "Survey proportions and significance tests reported for method comparisons.", "refs": ["p005-b004", "p006-b002", "p009-b002"]},
+      "claims": [
+        {"id": "engel-standard-map-error", "type": "empirical_finding", "text": "A fundamental comparison error was very common with the conventional display and substantially less common with the second confidence-interval method.", "quantitative": "Error rate fell from 94% to 41%; p<.01 for Method 2, although 41% remained high.", "refs": [{"anchor": "p005-b004", "kind": "passage"}, {"anchor": "p006-b002", "kind": "figure", "label": "Figure 6"}]},
+        {"id": "engel-ci-map-purpose", "type": "methodological_claim", "text": "Encoding confidence-interval bounds can reveal plausible effect-size ranges and discourage treating a non-significant voxel as evidence of no effect.", "quantitative": "Not applicable.", "refs": [{"anchor": "p001-b003", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Confidence-interval maps improved some interpretations but did not eliminate errors, so the proposed designs are initial evidence rather than a settled standard.", "refs": ["p006-b002"]}],
+      "limitations": [{"text": "The encodings were demonstrated on limited datasets and small survey samples; substantial residual misunderstanding remained.", "source": "authors", "refs": ["p005-b004", "p009-b002"]}],
+      "topics": ["neuroimaging uncertainty", "confidence intervals", "thresholding errors"]
+    },
+    {
+      "id": "gerslova2026diegr",
+      "source_type": "software reference manual",
+      "research_questions": [{"text": "What functions does the diegr package provide for dynamic and interactive EEG graphics?", "refs": ["p001-b001"]}],
+      "contributions": [{"text": "Documents an R package for temporal-spatial EEG graphics, including interactive plots, animation, confidence intervals, and topographic operations.", "refs": ["p001-b001", "p020-b006"]}],
+      "methods": {"design": "API reference and executable examples.", "sample": "Not applicable; no research-participant sample.", "conditions": "Package functions and example workflows.", "measurements": "No controlled performance or perceptual measures.", "analysis": "Descriptive documentation.", "refs": ["p001-b001", "p020-b006"]},
+      "claims": [{"id": "gerslova-capabilities", "type": "descriptive_documentation", "text": "The package supports interactive and animated EEG visualizations and examples combining confidence-interval waveforms with topographic averages.", "quantitative": "Not applicable.", "refs": [{"anchor": "p001-b001", "kind": "passage"}, {"anchor": "p020-b006", "kind": "passage"}]}],
+      "conclusions": [{"text": "The manual establishes available software operations, not their perceptual or scientific validity.", "refs": ["p001-b001"]}],
+      "limitations": [{"text": "This is package documentation dated August 2026, not an empirical paper; behavior and defaults must be verified against the installed package version.", "source": "wiki_scope_note", "refs": ["p001-b001"]}],
+      "topics": ["EEG visualization software", "topoplots", "interactive graphics"]
+    },
+    {
+      "id": "gillmann2021uncertainty",
+      "source_type": "domain survey",
+      "research_questions": [{"text": "How is uncertainty handled across medical-image acquisition, transformation, visualization, and clinical applications, and where are the workflow gaps?", "refs": ["p001-b005"]}],
+      "contributions": [{"text": "Organizes methods by imaging stage and application, assesses them against requirements, and considers how they could compose into end-to-end pipelines.", "refs": ["p001-b005", "p016-b005"]}],
+      "methods": {"design": "Structured domain survey with qualitative requirement assessment.", "sample": "Literature corpus size is not reported in the currently cited passage; clinical interpretation involved a small group of collaborators.", "conditions": "Methods across acquisition, transformation, visualization, and application stages.", "measurements": "Qualitative coverage and requirement judgments.", "analysis": "Taxonomic synthesis and gap analysis.", "refs": ["p001-b005", "p016-b005"]},
+      "claims": [
+        {"id": "gillmann-separated-images", "type": "author_interpretation", "text": "Separate color-coded uncertainty images can be difficult to correlate with the medical image during routine use.", "quantitative": "No comparative effect size reported.", "refs": [{"anchor": "p016-b006", "kind": "passage"}]},
+        {"id": "gillmann-pipeline", "type": "theoretical_argument", "text": "Uncertainty-aware medical visualization should be considered across the full imaging pipeline rather than at a single stage.", "quantitative": "Not applicable.", "refs": [{"anchor": "p001-b005", "kind": "passage"}, {"anchor": "p016-b005", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "The literature offers components but important modality, integration, and clinical-workflow gaps remain.", "refs": ["p016-b005", "p016-b006"]}],
+      "limitations": [{"text": "Coverage and ratings reflect literature available in 2021 and qualitative input from a small collaborator group; the survey does not supply a pooled perceptual effect estimate.", "source": "wiki_scope_note", "refs": ["p016-b005"]}],
+      "topics": ["medical imaging uncertainty", "workflow integration", "uncertainty pipelines"]
+    },
+    {
+      "id": "gwdgVoiceAI",
+      "source_type": "institutional newsletter article",
+      "research_questions": [{"text": "What service architecture and privacy features does the GWDG Voice-AI transcription and live-captioning service provide?", "refs": ["p003-b004", "p005-b003"]}],
+      "contributions": [{"text": "Describes a locally hosted Whisper large-v3 service and BigBlueButton integration for transcription and live captions.", "refs": ["p005-b003"]}],
+      "methods": {"design": "Service-provider description within a newsletter issue.", "sample": "Not applicable; no evaluation sample reported.", "conditions": "Institutional transcription and live-captioning workflows.", "measurements": "No controlled accuracy, usability, or accessibility evaluation in the cited article.", "analysis": "Descriptive documentation.", "refs": ["p003-b004", "p005-b003"]},
+      "claims": [{"id": "gwdg-service", "type": "descriptive_documentation", "text": "The described service uses Whisper large-v3 on local HPC infrastructure and integrates live captioning with BigBlueButton.", "quantitative": "No evaluation metric reported.", "refs": [{"anchor": "p005-b003", "kind": "passage"}]}],
+      "conclusions": [{"text": "The article supplies accessibility and tooling context but no evidence about uncertainty visualization.", "refs": ["p003-b004", "p005-b003"]}],
+      "limitations": [{"text": "The PDF is a full newsletter and only part concerns Voice-AI; claims are provider descriptions, not independent evaluation results.", "source": "wiki_scope_note", "refs": ["p003-b004", "p005-b003"]}],
+      "topics": ["accessibility", "transcription software", "out-of-scope context"]
+    },
+    {
+      "id": "hullman2015hypothetical",
+      "source_type": "controlled crowdsourced experiment",
+      "research_questions": [{"text": "Do hypothetical outcome plots support more accurate judgments about distributions and uncertain ordering than error bars or violin plots?", "refs": ["p001-b004", "p005-b003"]}],
+      "contributions": [{"text": "Introduces animated sampled-outcome plots and experimentally compares them with two static distribution representations across one-, two-, and three-variable inference tasks.", "refs": ["p001-b004", "p005-b003"]}],
+      "methods": {"design": "Between-participant Amazon Mechanical Turk experiment.", "sample": "288 U.S. participants after the study's quality-control procedures.", "conditions": "Each participant saw HOPs, error bars, or violin plots and completed nine tasks involving one, two, or three normally distributed quantities.", "measurements": "Absolute error in reported distribution properties and completion time; interaction with HOP animation was logged.", "analysis": "Between-condition error comparisons and timing analyses, including ANOVA.", "refs": ["p005-b003", "p012-b002"]},
+      "claims": [
+        {"id": "hullman-hop-ordering", "type": "empirical_finding", "text": "HOPs produced much more accurate judgments for two- and three-quantity ordering tasks and broadly comparable performance for most one-variable questions.", "quantitative": "N=288; detailed task-specific errors are reported in the study results and figures.", "refs": [{"anchor": "p001-b004", "kind": "passage"}, {"anchor": "p013-b005", "kind": "passage"}]},
+        {"id": "hullman-hop-time", "type": "empirical_finding", "text": "HOP participants took somewhat longer on average, but the overall completion-time difference was not statistically significant.", "quantitative": "Means 523 s (HOP), 479 s (error bars), 481 s (violin); F(2,285)=2.02, p>.1.", "refs": [{"anchor": "p012-b002", "kind": "passage"}]},
+        {"id": "hullman-frequency-account", "type": "author_interpretation", "text": "The authors argue that HOPs can support reasoning through counting and visual integration while representing joint distributions more expressively than marginal error bars or violins.", "quantitative": "Not applicable.", "refs": [{"anchor": "p023-b003", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Sample-based animation is promising for joint-ordering inferences, but it is not uniformly superior for every distributional question.", "refs": ["p015-b004", "p023-b003"]}],
+      "limitations": [{"text": "The authors knew little about the Mechanical Turk sample beyond screening; tasks used independent normal distributions, and performance may differ for other audiences, dependence structures, or HOP speeds and sample counts.", "source": "authors", "refs": ["p018-b003", "p020-b002"]}],
+      "topics": ["hypothetical outcome plots", "sample-based uncertainty", "distribution comprehension"]
+    },
+    {
+      "id": "hullman2020why",
+      "source_type": "mixed-methods survey and interviews",
+      "research_questions": [{"text": "Why do visualization authors omit uncertainty even when they acknowledge its value?", "refs": ["p001-b002"]}],
+      "contributions": [{"text": "Characterizes practitioners' values, rationales, and tensions around uncertainty communication and proposes research directions better aligned with author workflows and inference models.", "refs": ["p001-b002", "p009-b001"]}],
+      "methods": {"design": "Qualitative mixed-methods inquiry using an online survey and semi-structured interviews with open coding.", "sample": "90 authors who regularly create visualizations for others and 13 influential visualization designers; 11 interviews were professionally transcribed and two were not recorded.", "conditions": "Questions concerned definitions, practices, audience assumptions, benefits, and reasons for omission.", "measurements": "Coded themes and selected descriptive response frequencies.", "analysis": "Open coding and interpretive thematic synthesis; recruitment stopped when rationales appeared to converge.", "refs": ["p001-b002", "p002-b001", "p003-b001"]},
+      "claims": [
+        {"id": "hullman-omission-tension", "type": "empirical_finding", "text": "Respondents commonly acknowledged ethical or informational value in uncertainty while also describing audience, convention, workflow, and signal-obfuscation reasons for omitting it.", "quantitative": "90 survey respondents; 13 interviewees.", "refs": [{"anchor": "p001-b002", "kind": "passage"}, {"anchor": "p004-b001", "kind": "passage"}, {"anchor": "p006-b001", "kind": "passage"}]},
+        {"id": "hullman-reference-model", "type": "author_interpretation", "text": "The paper proposes that authors depict uncertainty in a way aligned with the inference process they actually use, described as reference-model visualization.", "quantitative": "Not applicable.", "refs": [{"anchor": "p009-b001", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Improving uncertainty communication requires addressing practitioners' real constraints and implicit inference models, not only inventing additional encodings.", "refs": ["p009-b001"]}],
+      "limitations": [{"text": "Convenience and purposive samples do not estimate population prevalence; the author presents this as an initial inquiry and stopped recruitment after perceived thematic convergence.", "source": "authors", "refs": ["p002-b001"]}],
+      "topics": ["uncertainty omission", "practitioner attitudes", "workflow barriers"]
+    },
+    {
+      "id": "jain2026communicating",
+      "source_type": "PRISMA-compliant systematic scoping review",
+      "research_questions": [{"text": "How is uncertainty communicated in maps in peer-reviewed Asia-Pacific climate-sensitive infectious-disease research?", "refs": ["p001-b005", "p003-b002"]}],
+      "contributions": [{"text": "Audits uncertainty not only in text but separately in figure captions and map graphics, exposing disconnects between modeling uncertainty and policy-facing visual evidence.", "refs": ["p001-b005", "p011-b002"]}],
+      "methods": {"design": "Systematic scoping review following a preregistered PRISMA-guided protocol.", "sample": "2,826 search results; 135 original-search studies underwent full-text screening; 28 additional candidates came from reviews; 66 papers were included.", "conditions": "English-language, peer-reviewed primary research on climate-sensitive human diseases in the Asia-Pacific with at least one map; searches in PubMed and Web of Science in April 2025.", "measurements": "Whether and where uncertainty was reported—in text, captions, or maps—plus qualitative assessment of mapping practice.", "analysis": "Structured screening, data extraction, and qualitative synthesis rather than pooled effectiveness meta-analysis.", "refs": ["p003-b002", "p005-b004"]},
+      "claims": [
+        {"id": "jain-three-maps", "type": "empirical_finding", "text": "Explicit uncertainty visualization in the included maps was rare.", "quantitative": "3 of 66 studies visualized uncertainty; 43 either omitted it or mentioned it only in text; 11 reported it in captions without integrating it visually.", "refs": [{"anchor": "p010-b002", "kind": "passage"}]},
+        {"id": "jain-policy-gap", "type": "author_interpretation", "text": "The authors interpret separation or omission of uncertainty as a risk to cautious, evidence-based use of maps for policy decisions.", "quantitative": "Not an effectiveness estimate.", "refs": [{"anchor": "p010-b002", "kind": "passage"}, {"anchor": "p011-b003", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "The reviewed literature contains a substantial gap between uncertainty in data or models and uncertainty visibly communicated in maps.", "refs": ["p010-b002", "p011-b003"]}],
+      "limitations": [{"text": "Only English-language peer-reviewed Asia-Pacific disease studies were included; the review evaluates current practice, not which visualization method is most effective.", "source": "authors", "refs": ["p003-b002", "p011-b002"]}],
+      "topics": ["uncertainty omission", "map reporting", "systematic review"]
+    },
+    {
+      "id": "kangas2023understanding",
+      "source_type": "methodological review and simulation-based comparison",
+      "research_questions": [{"text": "How should pixel-level and landscape-level uncertainty in forest-resource maps be estimated, interpreted, and displayed?", "refs": ["p001-b006", "p001-b007"]}],
+      "contributions": [{"text": "Separates local prediction uncertainty from uncertainty in aggregated landscape characteristics and compares kriging, quantile random forests, and simulation using laser-scanning covariates and simulated responses.", "refs": ["p001-b006", "p001-b007"]}],
+      "methods": {"design": "Review plus controlled simulation/method comparison.", "sample": "Simulated response values over a forest-mapping setting with laser-scanning predictors; no human-viewer sample.", "conditions": "Kriging, quantile random forest, and simulation-based uncertainty estimation.", "measurements": "Prediction accuracy, interval behavior, and suitability for pixel- versus landscape-level quantities.", "analysis": "Method comparison under known simulated truth.", "refs": ["p001-b006", "p001-b007"]},
+      "claims": [
+        {"id": "kangas-method-comparison", "type": "empirical_finding", "text": "In the controlled example, kriging produced accurate uncertainty estimates whereas quantile random forests slightly underestimated uncertainty; simulation was useful for landscape-level derived quantities.", "quantitative": "Direction of effects reported in the abstract; consult result tables for parameter-specific values.", "refs": [{"anchor": "p001-b006", "kind": "passage"}, {"anchor": "p001-b007", "kind": "passage"}]},
+        {"id": "kangas-false-precision", "type": "author_interpretation", "text": "Maps without usable uncertainty information can imply false precision, particularly when pixel predictions are aggregated into management-relevant summaries.", "quantitative": "Not applicable.", "refs": [{"anchor": "p018-b004", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Uncertainty estimation should be more routine, and tools are still needed for jointly visualizing predictions and their uncertainty at relevant spatial scales.", "refs": ["p019-b004"]}],
+      "limitations": [{"text": "The comparison uses a simulated response and selected models; its relative performance does not automatically generalize to other forests, predictors, or model classes.", "source": "wiki_scope_note", "refs": ["p001-b007"]}],
+      "topics": ["spatial prediction uncertainty", "simulation", "joint value-uncertainty display"]
+    },
+    {
+      "id": "kappenman2021erp",
+      "source_type": "open-resource methods paper with benchmark dataset",
+      "research_questions": [{"text": "Can standardized paradigms, pipelines, and benchmark data improve reproducibility and quality control across common ERP components?", "refs": ["p001-b006", "p001-b007"]}],
+      "contributions": [{"text": "Provides ERP CORE: optimized tasks, experiment scripts, processing pipelines, a priori analysis parameters, and shared data for seven widely used ERP components.", "refs": ["p001-b006", "p011-b002"]}],
+      "methods": {"design": "Within-participant acquisition of six tasks eliciting seven ERP components, followed by standardized preprocessing, component quantification, and noise characterization.", "sample": "40 neurotypical young adults.", "conditions": "N170, mismatch negativity, N2pc, N400, P3, lateralized readiness potential, and error-related negativity paradigms.", "measurements": "Difference-wave amplitudes and latencies, behavioral responses, amplitude spectra, and multiple noise estimates including plus-minus averages.", "analysis": "A priori time windows/electrodes, standardized artifact procedures, component-specific quantification, and across-participant summaries.", "refs": ["p001-b006", "p002-b002", "p004-b005", "p006-b002"]},
+      "claims": [
+        {"id": "kappenman-open-benchmark", "type": "methodological_claim", "text": "ERP CORE supplies common tasks and reproducible pipelines that can serve as benchmarks for method development and quality control.", "quantitative": "N=40; seven ERP components.", "refs": [{"anchor": "p001-b006", "kind": "passage"}, {"anchor": "p011-b002", "kind": "passage"}]},
+        {"id": "kappenman-sem-shading", "type": "descriptive_documentation", "text": "The published difference waveforms show ±1 SEM, explicitly described as reflecting both measurement error and true participant differences.", "quantitative": "±1 SEM.", "refs": [{"anchor": "p007-b002", "kind": "figure", "label": "Fig. 2"}]},
+        {"id": "kappenman-noise-resource", "type": "empirical_finding", "text": "The paper reports component-level noise distributions and benchmark summaries that are not ordinarily supplied in ERP papers.", "quantitative": "Noise summaries are tabulated in Table 4 with distributions in Figure 3 and supplementary material.", "refs": [{"anchor": "p009-b011", "kind": "table", "label": "Table 4"}, {"anchor": "p008-b020", "kind": "figure", "label": "Fig. 3"}, {"anchor": "p010-b014", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "The resource can reduce implementation errors and researcher degrees of freedom, but reuse requires matching the paradigm, population, and analysis assumptions to the new study.", "refs": ["p011-b002"]}],
+      "limitations": [{"text": "The benchmark comprises 40 neurotypical young adults and deliberately selected tasks and analysis parameters; some potentially power-improving alternatives were outside scope.", "source": "authors", "refs": ["p005-b005", "p011-b002"]}],
+      "topics": ["ERP methods", "benchmark data", "noise and variability"]
+    },
+    {
+      "id": "kay2024ggdist",
+      "source_type": "visualization grammar and software paper",
+      "research_questions": [{"text": "How can distributions and uncertainty be expressed systematically as mappings from distribution functions to visual aesthetics within a grammar of graphics?", "refs": ["p001-b006", "p001-b007"]}],
+      "contributions": [{"text": "Defines a distributional grammar implemented through slabinterval, lineribbon, and dot geometry families spanning Bayesian and frequentist uncertainty displays.", "refs": ["p001-b006", "p001-b007"]}],
+      "methods": {"design": "Software and design-framework exposition with examples.", "sample": "Not applicable; no single controlled participant experiment evaluates all geometries.", "conditions": "Multiple distribution representations and probability-function mappings.", "measurements": "Expressive coverage and composability, not a pooled perceptual outcome.", "analysis": "Conceptual organization and implementation demonstration.", "refs": ["p001-b006", "p001-b007"]},
+      "claims": [{"id": "kay-distributional-grammar", "type": "methodological_claim", "text": "Mapping functions of distributions directly to aesthetics provides a common grammar for intervals, densities, quantiles, and sampled-dot displays.", "quantitative": "Three main geometry families are documented.", "refs": [{"anchor": "p001-b006", "kind": "passage"}, {"anchor": "p001-b007", "kind": "passage"}]}],
+      "conclusions": [{"text": "A shared distributional grammar can make diverse uncertainty displays composable without implying that every supported geometry has equal empirical support.", "refs": ["p001-b007"]}],
+      "limitations": [{"text": "This is primarily a design and software contribution; support in the package is not itself evidence of perceptual effectiveness for a given audience or task.", "source": "wiki_scope_note", "refs": ["p001-b007"]}],
+      "topics": ["uncertainty grammar", "distribution visualization", "visualization software"]
+    },
+    {
+      "id": "kinkeldey2014assess",
+      "source_type": "systematic review of user studies",
+      "research_questions": [{"text": "How have geospatial uncertainty-visualization user studies been designed and what general evidence exists about techniques, tasks, and users?", "refs": ["p002-b004", "p014-b003"]}],
+      "contributions": [{"text": "Systematically analyzes study characteristics and outcomes and recommends task-centered typologies to improve comparison and study design.", "refs": ["p002-b004", "p014-b003", "p015-b002"]}],
+      "methods": {"design": "Systematic review and qualitative synthesis of empirical studies.", "sample": "44 user studies reported in 34 publications.", "conditions": "Geospatial uncertainty techniques, static/dynamic and intrinsic/extrinsic encodings, tasks, participant expertise, and evaluation goals.", "measurements": "Reported accuracy, time, confidence, preference, and qualitative outcomes across heterogeneous studies.", "analysis": "Study-characteristic coding and narrative comparison; no pooled meta-analysis.", "refs": ["p014-b003"]},
+      "claims": [
+        {"id": "kinkeldey-task-dependence", "type": "empirical_finding", "text": "Across reviewed studies, suitability of intrinsic versus extrinsic and other encodings varied with the task; adjacent maps could aid uncertainty retrieval while coincident maps did not always differ for data retrieval.", "quantitative": "One summarized study had 10 subjects; all 10 rated adjacent-map tasks easy versus 5 for the coincident map.", "refs": [{"anchor": "p010-b002", "kind": "passage"}]},
+        {"id": "kinkeldey-preference-performance", "type": "empirical_finding", "text": "User preference did not consistently track performance, and reviewed evidence did not establish that animation generally outperformed static displays.", "quantitative": "Narrative synthesis; no pooled effect size.", "refs": [{"anchor": "p011-b002", "kind": "passage"}]},
+        {"id": "kinkeldey-task-typology", "type": "author_interpretation", "text": "Evaluation should start from the user task and distinguish focused analytical use from exploratory use requiring more versatile displays.", "quantitative": "Not applicable.", "refs": [{"anchor": "p015-b002", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "The evidence base is heterogeneous and task-dependent; more comparable, theory-oriented evaluations are needed beyond one-off product assessments.", "refs": ["p012-b003", "p014-b003", "p015-b002"]}],
+      "limitations": [{"text": "The corpus covers work available through 2014 and heterogeneous methods prevent a simple ranking or pooled effect estimate.", "source": "wiki_scope_note", "refs": ["p014-b003"]}],
+      "topics": ["evaluation methodology", "task dependence", "geospatial uncertainty"]
+    },
+    {
+      "id": "koo2018geovisualizing",
+      "source_type": "conceptual framework and software implementation",
+      "research_questions": [{"text": "How can attribute uncertainty for interval and ratio variables be represented within practical vector-GIS workflows?", "refs": ["p001-b007", "p001-b008"]}],
+      "contributions": [{"text": "Extends bivariate-mapping ideas into a framework and ArcGIS extension with overlaid choropleth symbols, color properties on proportional symbols, and composite proportional symbols.", "refs": ["p001-b007"]}],
+      "methods": {"design": "Framework development and software implementation with examples.", "sample": "Not applicable; no large controlled user sample is reported.", "conditions": "Three vector-data visualization tools in ArcGIS.", "measurements": "Functional demonstration rather than comparative perceptual outcomes.", "analysis": "Conceptual mapping of uncertainty types to implemented encodings.", "refs": ["p001-b007", "p001-b008"]},
+      "claims": [{"id": "koo-framework", "type": "methodological_claim", "text": "Attribute uncertainty can be integrated into familiar vector-map forms through paired visual variables and composite symbols.", "quantitative": "Three implemented tools.", "refs": [{"anchor": "p001-b007", "kind": "passage"}]}],
+      "conclusions": [{"text": "The work demonstrates implementation feasibility within GIS but does not establish a universally superior encoding.", "refs": ["p001-b007"]}],
+      "limitations": [{"text": "The paper emphasizes framework and implementation rather than a large controlled user evaluation.", "source": "wiki_scope_note", "refs": ["p001-b007"]}],
+      "topics": ["GIS implementation", "attribute uncertainty", "bivariate mapping"]
+    },
+    {
+      "id": "kubicek2011thematic",
+      "source_type": "comparative usability study",
+      "research_questions": [{"text": "How usable are separate versus combined thematic uncertainty maps for decoding predicted values, uncertainty, and both together?", "refs": ["p004-b002"]}],
+      "contributions": [{"text": "Compares maps-compared and whitening-based maps-combined designs at multiple task levels while considering intuitiveness, serial versus parallel processing, and user background.", "refs": ["p004-b002", "p006-b003"]}],
+      "methods": {"design": "Laboratory/web-based task comparison across three participant groups.", "sample": "104 participants total (63 men, 41 women): two homogeneous student groups and a heterogeneous open-day group of 50 aged 15–61.", "conditions": "Separate maps versus combined whitening; tasks tested uncertainty intuitiveness, value decoding, uncertainty decoding, and joint value-plus-uncertainty decoding.", "measurements": "Accuracy, decision time, preferences, and demographic/background variables.", "analysis": "Group and technique comparisons with significance tests; some specialist/non-specialist comparisons were intentionally avoided because groups differed.", "refs": ["p006-b003", "p009-b015"]},
+      "claims": [
+        {"id": "kubicek-intuitiveness", "type": "empirical_finding", "text": "Sixty-three percent associated lighter appearance with higher uncertainty and those participants decided faster in the intuitiveness task.", "quantitative": "63% of participants.", "refs": [{"anchor": "p008-b013", "kind": "figure", "label": "Figure 4"}]},
+        {"id": "kubicek-speed-accuracy", "type": "empirical_finding", "text": "Separate maps were slower but more accurate than the combined whitening display in the reported joint-processing comparison.", "quantitative": "Separate/serial: 67 of 104 correct (64%); combined/parallel: 59 of 104 (56%).", "refs": [{"anchor": "p010-b002", "kind": "passage"}]},
+        {"id": "kubicek-preliminary", "type": "author_interpretation", "text": "The authors treat the results as preliminary and stress that apparent intuitiveness can depend on task order and prior exposure.", "quantitative": "Not applicable.", "refs": [{"anchor": "p007-b003", "kind": "passage"}, {"anchor": "p010-b005", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Neither separate nor combined mapping dominates across all tasks; joint decoding was the most problematic and warrants further cognitive testing.", "refs": ["p010-b002", "p010-b005"]}],
+      "limitations": [{"text": "Groups differed in age and expertise, some comparisons were therefore avoided, task order may have favored whitening, and the authors call the findings preliminary.", "source": "authors", "refs": ["p007-b003", "p009-b015", "p010-b005"]}],
+      "topics": ["separate versus combined display", "whitening", "task dependence"]
+    },
+    {
+      "id": "lam2012seven",
+      "source_type": "methodological literature review",
+      "research_questions": [{"text": "What recurring evaluation scenarios occur in information visualization, and how should goals and questions guide method choice?", "refs": ["p001-b003", "p002-b002"]}],
+      "contributions": [{"text": "Derives seven scenarios covering work practices, analysis/reasoning, communication, collaboration, user performance, user experience, and algorithm performance.", "refs": ["p001-b003"]}],
+      "methods": {"design": "Review and methodological synthesis of information-visualization publications.", "sample": "More than 800 publications surveyed; the conclusion reports 361 evaluated papers among 850 surveyed.", "conditions": "Evaluation studies categorized by goal, question, and evidence type.", "measurements": "Publication and scenario counts; methodological characteristics.", "analysis": "Scenario derivation and qualitative synthesis rather than effect-size meta-analysis.", "refs": ["p001-b003", "p014-b002"]},
+      "claims": [{"id": "lam-goals-first", "type": "methodological_claim", "text": "Visualization evaluation methods should be selected after specifying the evaluation goal and research question, not by adopting a favored method first.", "quantitative": "Seven scenarios derived; 361 evaluated papers among 850 surveyed.", "refs": [{"anchor": "p002-b002", "kind": "passage"}, {"anchor": "p014-b002", "kind": "passage"}]}],
+      "conclusions": [{"text": "The seven-scenario framework is a planning aid for aligning claims, questions, and evidence rather than a ranking of methods.", "refs": ["p014-b002"]}],
+      "limitations": [{"text": "The venue sample reflects information-visualization publishing through 2011 and not every applied scientific domain.", "source": "wiki_scope_note", "refs": ["p014-b002"]}],
+      "topics": ["evaluation design", "research methods", "claim-evidence alignment"]
+    },
+    {
+      "id": "maceachren1992visualizing",
+      "source_type": "foundational conceptual paper",
+      "research_questions": [{"text": "How should GIS and cartographic systems conceptualize and visually represent uncertain information?", "refs": ["p001-b003", "p001-b004"]}],
+      "contributions": [{"text": "Distinguishes data quality from uncertainty, relates uncertainty forms to graphic variables and interface strategies, and frames an empirical research agenda.", "refs": ["p001-b003"]}],
+      "methods": {"design": "Conceptual synthesis and design argument.", "sample": "Not applicable; no controlled participant study.", "conditions": "GIS layer combination, spatial data quality, map symbolization, and interactive interfaces.", "measurements": "No new quantitative outcome.", "analysis": "Theoretical classification and examples.", "refs": ["p001-b003", "p001-b004"]},
+      "claims": [
+        {"id": "maceachren-hidden-uncertainty", "type": "theoretical_argument", "text": "Combining spatial layers and flexible GIS processing can create substantial uncertainty that remains hidden if the interface displays only results.", "quantitative": "Not applicable.", "refs": [{"anchor": "p001-b004", "kind": "passage"}]},
+        {"id": "maceachren-data-quality", "type": "theoretical_argument", "text": "Data quality and uncertainty are related but should not be treated as identical concepts when selecting cartographic encodings.", "quantitative": "Not applicable.", "refs": [{"anchor": "p001-b003", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Uncertainty-aware GIS requires coordinated conceptual, representational, interface, and empirical work.", "refs": ["p001-b003"]}],
+      "limitations": [{"text": "The paper is conceptual and predates modern display technology and later empirical evidence; proposed mappings require independent validation.", "source": "wiki_scope_note", "refs": ["p001-b003"]}],
+      "topics": ["uncertainty concepts", "cartographic variables", "GIS foundations"]
+    },
+    {
+      "id": "mikheev2024art",
+      "source_type": "cross-sectional online survey",
+      "research_questions": [{"text": "What ERP visualization tools and plot types are used, what problems do practitioners encounter, and how familiar are they with uncertainty and colormap issues?", "refs": ["p003-b002"]}],
+      "contributions": [{"text": "Provides a broad snapshot of ERP plotting practice, terminology, preferences, tool pain points, and visualization literacy, followed by recommendations for researchers and tool developers.", "refs": ["p001-b006", "p016-b006"]}],
+      "methods": {"design": "Online LimeSurvey questionnaire open January–July 2023.", "sample": "213 completed convenience-sample responses from novice through senior M/EEG practitioners; recruitment used community mailing lists, social media, colloquia, and conferences.", "conditions": "Four survey sections covering participant background, tools, eight plot types and names, feature preferences, controversies, uncertainty, and colormaps. Conditional questions produced smaller denominators.", "measurements": "Recognition/use frequencies, preferences, reported problems, free-text plot names, and awareness questions.", "analysis": "Descriptive percentages; FAMD reduced five proficiency indicators to two components, with the first used as proficiency; Spearman correlations/logistic regressions and bootstrapped confidence intervals examined associations.", "refs": ["p006-b002", "p007-b003", "p007-b004"]},
+      "claims": [
+        {"id": "mikheev-uncertainty-friction", "type": "empirical_finding", "text": "Difficulty adding uncertainty was a common reported ERP-plot problem.", "quantitative": "32% of respondents to the relevant item.", "refs": [{"anchor": "p010-b003", "kind": "passage"}]},
+        {"id": "mikheev-omission-awareness", "type": "empirical_finding", "text": "Many practitioners omitted or were unfamiliar with uncertainty and colormap guidance.", "quantitative": "40% of 157 respondents who had published an ERP plot did not include error bars; 39% of 213 were unaware of colormap controversies; 68% had heard of 2D colormaps and, among those aware, more than 76% wanted to use them if easily available.", "refs": [{"anchor": "p012-b004", "kind": "passage"}, {"anchor": "p013-b002", "kind": "figure", "label": "Figure 11"}]},
+        {"id": "mikheev-topoplot-semantics", "type": "empirical_finding", "text": "Respondents did not share a single interpretation of a topoplot series.", "quantitative": "61% of 185 interpreted each map as a time-point snapshot; 39% as an interval average.", "refs": [{"anchor": "p011-b004", "kind": "passage"}]},
+        {"id": "mikheev-defaults", "type": "author_interpretation", "text": "The authors recommend better defaults and tool support because awareness campaigns alone may not overcome problematic plotting practice.", "quantitative": "Not applicable.", "refs": [{"anchor": "p016-b006", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "ERP visualization practice is heterogeneous, and better conventions, defaults, and uncertainty support are needed in widely used tools.", "refs": ["p015-b004", "p016-b006"]}],
+      "limitations": [{"text": "The authors emphasize a likely biased convenience sample, conditional attrition, small effects, and uncorrected exploratory tests; prevalence estimates require caution.", "source": "authors", "refs": ["p006-b002", "p012-b004"]}],
+      "topics": ["EEG visualization practice", "uncertainty omission", "topoplot interpretation"]
+    },
+    {
+      "id": "padilla2017binning",
+      "source_type": "controlled crowdsourced experiment",
+      "research_questions": [{"text": "When does binning a continuous 2D scalar field improve or harm speed, accuracy, and confidence across geospatial tasks?", "refs": ["p001-b004", "p003-b003"]}],
+      "contributions": [{"text": "Tests the expressiveness principle against five grayscale encoding conditions and twelve tasks ranging from lookup to multistep spatial judgments.", "refs": ["p001-b003", "p003-b003"]}],
+      "methods": {"design": "Between-participant Amazon Mechanical Turk experiment with task as a within-participant factor.", "sample": "499 U.S. master-class workers: continuous n=101; 10 m n=100; 20 m n=99; 30 m n=99; 40 m n=100.", "conditions": "One perceptually linear continuous grayscale encoding and four approximately perceptually linear binned encodings; each participant completed 12 randomized tasks.", "measurements": "Task accuracy, completion time, 1–7 confidence ratings, and display checks.", "analysis": "Task-specific ANOVAs, logistic/ordinal regressions, planned contrasts, and Tukey HSD corrections.", "refs": ["p003-b003", "p005-b010", "p007-b005"]},
+      "claims": [
+        {"id": "padilla-speed-accuracy", "type": "empirical_finding", "text": "Continuous encodings were generally faster but never clearly more accurate; binned encodings were more accurate for some tasks.", "quantitative": "Five conditions; N=499; 12 tasks.", "refs": [{"anchor": "p001-b004", "kind": "passage"}, {"anchor": "p005-b010", "kind": "passage"}]},
+        {"id": "padilla-highest-point", "type": "empirical_finding", "text": "For the highest-point task, the coarsest 40 m binning reduced error relative to the continuous display.", "quantitative": "Mean CIELAB error 3.25 (SD 3.06) versus 4.93 (SD 4.55), p<.05.", "refs": [{"anchor": "p005-b010", "kind": "passage"}]},
+        {"id": "padilla-task-guidance", "type": "author_interpretation", "text": "The authors recommend choosing binning when accuracy is primary and continuous encoding when speed is primary, while treating this as task- and domain-dependent guidance.", "quantitative": "Not applicable.", "refs": [{"anchor": "p009-b003", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Strict expressiveness is not always optimal; discretization can improve some judgments at a cost in speed, and confidence showed no consistent pattern.", "refs": ["p008-b012", "p009-b003"]}],
+      "limitations": [{"text": "The study used grayscale elevation stimuli, online displays, and specific tasks; palette, domain, spatial working memory, and multistep demands may change the tradeoff.", "source": "authors", "refs": ["p006-b010", "p009-b003"]}],
+      "topics": ["binning", "speed-accuracy tradeoff", "scalar fields"]
+    },
+    {
+      "id": "pernet2011limo",
+      "source_type": "statistical-methods and software paper",
+      "research_questions": [{"text": "How can hierarchical linear modeling retain single-trial EEG variability while supporting inference across electrodes and time?", "refs": ["p001-b008"]}],
+      "contributions": [{"text": "Introduces the EEGLAB-compatible LIMO EEG toolbox for massive-univariate hierarchical modeling, robust bootstrap inference, and multiple-comparison correction.", "refs": ["p001-b008", "p002-b003"]}],
+      "methods": {"design": "Statistical framework and toolbox demonstration.", "sample": "No single human sample defines the methodological contribution; example datasets are used for illustration.", "conditions": "First-level single-trial models followed by group-level analysis over channels and time.", "measurements": "Regression parameters, robust statistics, bootstrap tests, and corrected significance maps.", "analysis": "Hierarchical linear models in a massive-univariate framework with resampling and correction options.", "refs": ["p001-b008", "p002-b003", "p010-b002"]},
+      "claims": [{"id": "pernet-single-trial", "type": "methodological_claim", "text": "Modeling single trials hierarchically can preserve within-subject variability that conventional averaging discards while enabling group inference across space and time.", "quantitative": "No universal effect size; method capability.", "refs": [{"anchor": "p001-b008", "kind": "passage"}]}],
+      "conclusions": [{"text": "The toolbox expands flexible EEG inference but remains a massive-univariate approach with covariance, computation, and multiplicity constraints.", "refs": ["p010-b002"]}],
+      "limitations": [{"text": "The software stack reflects 2011 and the authors note covariance and computational limitations; a methods paper does not by itself validate a visual uncertainty encoding.", "source": "authors", "refs": ["p010-b002"]}],
+      "topics": ["EEG statistics", "single-trial variability", "mass-univariate inference"]
+    },
+    {
+      "id": "perrin1989spherical",
+      "source_type": "mathematical methods paper",
+      "research_questions": [{"text": "How can scalp potentials and current density be interpolated over the head surface using spherical splines?", "refs": ["p001-b006", "p001-b008"]}],
+      "contributions": [{"text": "Derives spherical-spline interpolation and current-density estimation with simpler derivation, faster computation, and improved behavior in sparsely sampled regions relative to the earlier thin-plate approach.", "refs": ["p001-b006"]}],
+      "methods": {"design": "Analytical derivation and numerical-method comparison.", "sample": "Not a human-participant experiment; evaluated through mathematical and example-map behavior.", "conditions": "Scalp potentials projected to an idealized sphere with smoothing available for noisy measurements.", "measurements": "Interpolation/current-density properties and computational/approximation behavior.", "analysis": "Spline derivation and comparison to prior thin-plate formulation.", "refs": ["p001-b006", "p001-b008", "p003-b006"]},
+      "claims": [
+        {"id": "perrin-spline-benefits", "type": "methodological_claim", "text": "Spherical splines simplify scalp-current-density derivation and improve speed and sparse-electrode interpolation relative to the referenced thin-plate approach.", "quantitative": "No sample-based effect estimate.", "refs": [{"anchor": "p001-b006", "kind": "passage"}]},
+        {"id": "perrin-smoothing-ci", "type": "methodological_claim", "text": "The formulation includes smoothing for noisy measurements and a way to construct confidence intervals for maps.", "quantitative": "Methodological result; parameter-specific details in source equations.", "refs": [{"anchor": "p003-b006", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Interpolation and smoothing are inferential choices, so a topoplot's apparent spatial continuity is partly model-generated rather than directly measured everywhere.", "refs": ["p001-b008", "p003-b006"]}],
+      "limitations": [{"text": "The method uses idealized spherical projection and assumptions and computing constraints of its era; the paper is not a perceptual evaluation of topoplots.", "source": "wiki_scope_note", "refs": ["p001-b008"]}],
+      "topics": ["scalp interpolation", "topoplot foundations", "spatial smoothing"]
+    },
+    {
+      "id": "petek2026general",
+      "source_type": "general statistical-graphics framework and proof-of-concept implementation",
+      "research_questions": [{"text": "Can uncertainty for arbitrary statistical graphics be visualized by propagating uncertain inputs into a distribution over rendered images?", "refs": ["p001-b006"]}],
+      "contributions": [{"text": "Defines a distribution-over-images construction in which sampled plots are aggregated, allowing intervals and bands to emerge without chart-specific uncertainty code.", "refs": ["p001-b006", "p019-b007"]}],
+      "methods": {"design": "Mathematical framework, implementation, and illustrative examples.", "sample": "Not applicable; no human-participant sample.", "conditions": "Uncertain model quantities are repeatedly sampled, rendered, and aggregated as raster images.", "measurements": "Coverage properties and correspondence with standard inferential displays.", "analysis": "Theoretical derivation plus examples and implementation discussion.", "refs": ["p001-b006", "p007-b006", "p019-b007"]},
+      "claims": [
+        {"id": "petek-distribution-images", "type": "methodological_claim", "text": "Sampling uncertain quantities, rendering each sample, and aggregating pixels yields a general uncertainty display for plots treated as functions of those quantities.", "quantitative": "No single sample size; algorithmic construction.", "refs": [{"anchor": "p001-b006", "kind": "passage"}]},
+        {"id": "petek-coverage", "type": "methodological_claim", "text": "Under the paper's assumptions, the construction has coverage guarantees linked to standard statistical inference.", "quantitative": "See source for formal guarantee and assumptions.", "refs": [{"anchor": "p019-b007", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Image-space aggregation can generalize uncertainty overlays, but perceptual appearance and implementation details still matter.", "refs": ["p019-b007"]}],
+      "limitations": [{"text": "The proof of concept is raster-only; anti-aliasing, intensity perception, color mixing, and dependence beyond IID settings require care.", "source": "authors", "refs": ["p007-b006"]}],
+      "topics": ["distribution over images", "general uncertainty graphics", "coverage"]
+    },
+    {
+      "id": "pocock2007figures",
+      "source_type": "cross-sectional figure audit and guidance paper",
+      "research_questions": [{"text": "How are figures used in randomized-trial reports, what recurring problems occur, and what guidance would improve them?", "refs": ["p001-b005"]}],
+      "contributions": [{"text": "Audits figure type, style, content, clarity, and suitability, then develops general and chart-specific recommendations.", "refs": ["p001-b005", "p017-b002"]}],
+      "methods": {"design": "Descriptive audit of published trial reports.", "sample": "All 77 randomized controlled trial reports in five general medical journals from November 2006 through January 2007.", "conditions": "Every figure classified and assessed for style, content, clarity, and suitability.", "measurements": "Figure counts, types, and qualitative design characteristics.", "analysis": "Descriptive frequencies plus expert critique and guidance development.", "refs": ["p001-b005"]},
+      "claims": [
+        {"id": "pocock-dominant-types", "type": "empirical_finding", "text": "Four figure types dominated the audited trial literature.", "quantitative": "Mean 2.3 figures per article; flow diagrams, Kaplan–Meier plots, forest plots, and repeated-measures plots accounted for 92% of figures.", "refs": [{"anchor": "p001-b005", "kind": "passage"}]},
+        {"id": "pocock-km-uncertainty", "type": "author_interpretation", "text": "The authors warn that Kaplan–Meier plots without uncertainty can invite overinterpretation and show an example with 95% confidence intervals.", "quantitative": "95% confidence intervals in the discussed example.", "refs": [{"anchor": "p005-b003", "kind": "passage"}]},
+        {"id": "pocock-repeated-measures", "type": "author_interpretation", "text": "For repeated quantitative outcomes, the authors regard means alone as insufficient and recommend uncertainty bars and sample-size information where relevant.", "quantitative": "No comparative experiment in this paper.", "refs": [{"anchor": "p008-b004", "kind": "passage"}, {"anchor": "p017-b002", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Clinical figures are prominent communication devices but show inconsistent practice, including avoidable omission of statistical uncertainty.", "refs": ["p011-b005", "p011-b006"]}],
+      "limitations": [{"text": "The corpus covers only five general medical journals over three months in 2006–2007, and the recommendations are not a perceptual experiment.", "source": "wiki_scope_note", "refs": ["p001-b005"]}],
+      "topics": ["scientific figure audit", "uncertainty reporting", "clinical visualization"]
+    },
+    {
+      "id": "sanyal2009user",
+      "source_type": "controlled comparative user study",
+      "research_questions": [{"text": "How do four common uncertainty encodings perform for search and counting tasks on one- and two-dimensional data?", "refs": ["p001-b003"]}],
+      "contributions": [{"text": "Directly compares error bars, uncertainty-scaled glyphs, color-mapped glyphs, and uncertainty color-mapped on a data surface across task and dimensionality.", "refs": ["p001-b003"]}],
+      "methods": {"design": "Comparative user study.", "sample": "27 users.", "conditions": "Four uncertainty methods; 1D and 2D generated datasets; two search tasks (least/most uncertain) and two counting tasks.", "measurements": "Task accuracy and response time.", "analysis": "Technique-by-task-by-dimensionality comparisons; exact test statistics must be read from the rendered PDF because text extraction is corrupted.", "refs": ["p001-b003"]},
+      "claims": [
+        {"id": "sanyal-task-interaction", "type": "empirical_finding", "text": "Relative effectiveness varied strongly with task and dimensionality rather than yielding one universally best uncertainty display.", "quantitative": "N=27; four methods; two task families; 1D and 2D datasets.", "refs": [{"anchor": "p001-b003", "kind": "passage"}, {"anchor": "p009-b002", "kind": "passage"}]},
+        {"id": "sanyal-error-bars", "type": "empirical_finding", "text": "The closing discussion describes error bars as comparatively consistent across tasks, while color- and surface-based methods had task-specific advantages.", "quantitative": "Exact numerical contrasts are not safely recoverable from the extracted text.", "refs": [{"anchor": "p009-b002", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Encoding choice should be evaluated against both the task and the dimensional structure of the data.", "refs": ["p009-b002"]}],
+      "limitations": [{"text": "The archived PDF has a broken font map, making extraction largely unreadable. Verify all detailed results, stimuli, tables, and statistics in the rendered PDF before citation.", "source": "source_quality_note", "refs": ["p001-b003", "p009-b002"]}],
+      "topics": ["uncertainty encoding comparison", "task dependence", "perceptual evaluation"]
+    },
+    {
+      "id": "sedlmair2012design",
+      "source_type": "methodology synthesis",
+      "research_questions": [{"text": "How should visualization design studies be conducted from problem selection through deployment, reflection, and publication?", "refs": ["p001-b003"]}],
+      "contributions": [{"text": "Defines design studies and a nine-stage framework derived from 21 projects and literature in visualization, HCI, and social science.", "refs": ["p001-b003", "p002-b002"]}],
+      "methods": {"design": "Reflective synthesis of completed projects and methodological literature.", "sample": "21 design-study projects; no controlled participant comparison of research processes.", "conditions": "Real-world collaborations across learn, winnow, cast, discover, design, implement, deploy, reflect, and write stages.", "measurements": "Recurring pitfalls, criteria, and methodological lessons.", "analysis": "Cross-project reflection and synthesis.", "refs": ["p001-b003", "p002-b002"]},
+      "claims": [{"id": "sedlmair-real-problem", "type": "methodological_claim", "text": "A visualization design study should involve real users and data, abstract the domain problem, consider alternatives, and report transferable methodological insight.", "quantitative": "Nine stages synthesized from 21 projects.", "refs": [{"anchor": "p002-b002", "kind": "passage"}]}],
+      "conclusions": [{"text": "Rigor in design studies comes from fit between a real problem, abstraction, iterative design, deployment evidence, and reflective reporting.", "refs": ["p001-b003", "p002-b002"]}],
+      "limitations": [{"text": "Guidance is synthesized from author experience and literature rather than a controlled comparison showing that the nine-stage process causes better outcomes.", "source": "wiki_scope_note", "refs": ["p001-b003"]}],
+      "topics": ["design study methodology", "applied visualization research", "evaluation planning"]
+    },
+    {
+      "id": "sterzik2025",
+      "source_type": "expert elicitation plus three crowdsourced perceptual studies",
+      "research_questions": [{"text": "Which visual metaphors for biomolecular positional uncertainty are intuitive, directionally interpretable, and quantitatively readable across protein representations?", "refs": ["p001-b003", "p007-b002"]}],
+      "contributions": [{"text": "Evaluates nine uncertainty metaphors using spontaneous association, maximum-uncertainty directionality, and numerical estimation rather than assuming conventional metaphors are understood.", "refs": ["p007-b002", "p009-b003"]}],
+      "methods": {"design": "Expert assessment followed by three online perceptual studies.", "sample": "1,756 participants across the three studies; the quantitative-value study included 423 participants.", "conditions": "Nine metaphors across surface, stick, and tube protein representations; studies tested meaning, directionality, and inference of highlighted uncertainty values.", "measurements": "Open-text associations, direction-choice accuracy, mean absolute error, response time, confusion, perceived accuracy, and aesthetics.", "analysis": "Descriptive and inferential comparisons with means and 95% confidence intervals.", "refs": ["p007-b002", "p008-b003", "p009-b003", "p011-b003"]},
+      "claims": [
+        {"id": "sterzik-low-intended-use", "type": "empirical_finding", "text": "No metaphor was used in the intended way by a large majority across contexts, and the sausage metaphor's direction was especially poorly understood.", "quantitative": "Fewer than 70% used any metaphor as intended; sausage direction below 50% accuracy.", "refs": [{"anchor": "p009-b002", "kind": "passage"}, {"anchor": "p009-b003", "kind": "figure", "label": "Fig. 5"}]},
+        {"id": "sterzik-quantitative-performance", "type": "empirical_finding", "text": "Quantitative inference differed substantially by metaphor and representation; color performed much better than clouds and ensembles in the reported comparisons.", "quantitative": "Clouds MAE about 32 and 10 s; noise/contours/hulls MAE about 24 and 8 s; color more than 20 MAE units lower than clouds/ensembles, with representation-specific degradation for tubes.", "refs": [{"anchor": "p011-b003", "kind": "figure", "label": "Fig. 9"}]},
+        {"id": "sterzik-no-universal", "type": "author_interpretation", "text": "The authors reject a universal best metaphor and recommend matching the encoding to the task and representation.", "quantitative": "Not applicable.", "refs": [{"anchor": "p013-b002", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Familiar-looking uncertainty metaphors cannot be assumed to be intuitive; performance is task- and representation-dependent.", "refs": ["p012-b002", "p013-b002"]}],
+      "limitations": [{"text": "Studies used static 2D images and within-molecule comparisons; interactive, stereoscopic, cross-molecule, and alternative metaphor variants may produce different results.", "source": "authors", "refs": ["p013-b002"]}],
+      "topics": ["uncertainty metaphors", "perceptual evaluation", "task dependence"]
+    },
+    {
+      "id": "strode2019operationalizing",
+      "source_type": "design framework with worked examples",
+      "research_questions": [{"text": "How can Trumbo's bivariate choropleth principles be operationalized for different relationships and reader questions?", "refs": ["p001-b004"]}],
+      "contributions": [{"text": "Defines three focal models for inverse relationships, the range of one variable within another, and direct relationships, demonstrated with obesity and inactivity maps.", "refs": ["p001-b004", "p017-b013"]}],
+      "methods": {"design": "Conceptual design analysis and worked map examples.", "sample": "Not applicable; no new participant experiment.", "conditions": "Three relationship models and corresponding bivariate palette structures.", "measurements": "Design attributes and question–palette fit.", "analysis": "Operationalization and comparative examples.", "refs": ["p001-b004", "p017-b013"]},
+      "claims": [{"id": "strode-question-first", "type": "methodological_claim", "text": "A bivariate choropleth palette should be structured around the relationship and reader question it is intended to emphasize.", "quantitative": "Three focal models summarized in Table 4.", "refs": [{"anchor": "p001-b004", "kind": "passage"}, {"anchor": "p017-b013", "kind": "table", "label": "Table 4"}]}],
+      "conclusions": [{"text": "Question-specific focal models provide a design vocabulary but require perceptual validation before being treated as superior.", "refs": ["p017-b013"]}],
+      "limitations": [{"text": "Validation is through design analysis and examples rather than a new controlled user experiment.", "source": "wiki_scope_note", "refs": ["p001-b004"]}],
+      "topics": ["bivariate choropleths", "question-driven design", "focal models"]
+    },
+    {
+      "id": "teuling2011bivariate",
+      "source_type": "visualization construction with climate examples",
+      "research_questions": [{"text": "How can sequential and diverging bivariate color legends reveal spatial relationships between climate variables?", "refs": ["p001-b003"]}],
+      "contributions": [{"text": "Presents an implementable RGB construction and applies it to global temperature–humidity and European temperature–precipitation-change patterns.", "refs": ["p001-b003", "p004-b008"]}],
+      "methods": {"design": "Palette construction and illustrative case applications.", "sample": "Not applicable; no participant sample.", "conditions": "Sequential and diverging legends applied to two climate-variable pairs.", "measurements": "Qualitative ability to see relationships and spatial patterns.", "analysis": "Worked examples rather than controlled perceptual comparison.", "refs": ["p001-b003", "p004-b008"]},
+      "claims": [
+        {"id": "teuling-joint-pattern", "type": "methodological_claim", "text": "A bivariate legend can expose joint spatial relationships that require mental integration when shown in separate maps.", "quantitative": "Two climate applications.", "refs": [{"anchor": "p001-b003", "kind": "passage"}]},
+        {"id": "teuling-difficulty", "type": "author_interpretation", "text": "The authors also acknowledge that bivariate maps are more difficult to interpret and impose palette-construction constraints.", "quantitative": "No user-study effect estimate.", "refs": [{"anchor": "p004-b008", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Bivariate climate maps can reveal relationships compactly, but interpretive complexity is an explicit tradeoff.", "refs": ["p004-b008"]}],
+      "limitations": [{"text": "The applications are illustrative rather than perceptually validated; RGB interpolation and the chosen neutral center constrain generalization.", "source": "wiki_scope_note", "refs": ["p004-b008"]}],
+      "topics": ["bivariate climate maps", "joint patterns", "interpretive complexity"]
+    },
+    {
+      "id": "wainer1980colormaps",
+      "source_type": "two controlled experiments",
+      "research_questions": [{"text": "How quickly and accurately can people read two-variable color maps, learn their legends, and retain those legends without direct reference?", "refs": ["p002-b001", "p005-b001"]}],
+      "contributions": [{"text": "Applies Bertin's graphical theory to early empirical comparison of univariate and bivariate color maps, emphasizing learning and elementary versus higher-level reading.", "refs": ["p002-b001", "p013-b001"]}],
+      "methods": {"design": "Two laboratory experiments with repeated trials and map-order manipulation.", "sample": "Exact participant counts should be verified in the source methods/tables; Experiment 1's ANOVA reports 14 subject degrees of freedom, implying 15 participants if conventional coding applies, but this inference is not stored as fact.", "conditions": "Univariate and bivariate maps, repeated legend-supported trials, and a trial without the legend.", "measurements": "Response time and errors on map-reading questions.", "analysis": "ANOVA on transformed time and error measures, with order, subject, map type, and trial factors.", "refs": ["p010-b002", "p011-b001", "p011-b002", "p012-b005"]},
+      "claims": [
+        {"id": "wainer-bivariate-cost", "type": "empirical_finding", "text": "Bivariate maps were slower and more error-prone for elementary reading, and removing the legend caused a large error increase for bivariate but not univariate maps.", "quantitative": "Experiment 1 map-type effects: F=34.9 for transformed errors and F=7.8 for transformed time; source tables contain trial values.", "refs": [{"anchor": "p011-b001", "kind": "table", "label": "Table 3"}, {"anchor": "p012-b004", "kind": "passage"}]},
+        {"id": "wainer-learning", "type": "author_interpretation", "text": "The authors argue that learned, semantically coherent encodings may support higher-level pattern reading even when elementary lookup is difficult, but alternatives require empirical testing.", "quantitative": "Not applicable.", "refs": [{"anchor": "p013-b001", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Two-variable color maps impose substantial lookup and legend-learning costs; any benefit for relational pattern reading must be evaluated separately.", "refs": ["p012-b004", "p013-b001"]}],
+      "limitations": [{"text": "The experiments reflect 1980 print technology, color schemes, tasks, and participant expectations; sample details and table values should be verified from the PDF before exact citation.", "source": "wiki_scope_note", "refs": ["p010-b002", "p011-b001"]}],
+      "topics": ["bivariate color comprehension", "legend learning", "historical experiment"]
+    },
+    {
+      "id": "wilke2019fundamentals",
+      "source_type": "evidence-informed visualization handbook",
+      "research_questions": [{"text": "How should chart form, visual encoding, uncertainty, annotation, composition, and publication output be matched to a figure's intended message?", "refs": ["p019-b001"]}],
+      "contributions": [{"text": "Provides an example-driven design framework; this wiki separately indexes all 29 chapters and 101 actionable principles with source passages and figure captions.", "refs": ["p019-b001", "p198-b002", "p224-b002"]}],
+      "methods": {"design": "Instructional synthesis and worked examples.", "sample": "Not applicable; the book is not a single empirical study.", "conditions": "Chart selection, color, uncertainty, annotation, composition, and production across scientific and general visualization.", "measurements": "No common experimental outcome across the book.", "analysis": "Synthesis of design reasoning, examples, and cited research.", "refs": ["p019-b001"]},
+      "claims": [
+        {"id": "wilke-message-first", "type": "theoretical_argument", "text": "Chart selection should begin from the message or comparison the figure must convey.", "quantitative": "Not applicable.", "refs": [{"anchor": "p019-b001", "kind": "passage"}]},
+        {"id": "wilke-audience-uncertainty", "type": "author_interpretation", "text": "Compact uncertainty displays suitable for experts may need more intuitive frequency or sampled-outcome alternatives for lay audiences.", "quantitative": "Not applicable.", "refs": [{"anchor": "p198-b002", "kind": "passage"}]},
+        {"id": "wilke-proportional-ink", "type": "methodological_claim", "text": "For graphical elements interpreted through area, the shaded area should be proportional to the represented value.", "quantitative": "Not applicable.", "refs": [{"anchor": "p224-b002", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Use the detailed chapter/principle index for figure-review evidence and consult the primary studies Wilke cites when making empirical claims.", "refs": ["p019-b001", "p350-b002"]}],
+      "limitations": [{"text": "The book synthesizes guidance and examples rather than supplying one unified empirical study; individual recommendations vary in evidential basis and scope.", "source": "wiki_scope_note", "refs": ["p019-b001"]}],
+      "topics": ["visualization design principles", "uncertainty communication", "figure review"]
+    },
+    {
+      "id": "gelman2020regression",
+      "source_type": "applied statistical-methods handbook",
+      "research_questions": [{"text": "How should regression be used and critically evaluated for comparison, estimation, prediction, and causal inference in real scientific problems?", "refs": ["p003-b002"]}],
+      "contributions": [{"text": "Integrates regression, simulation, uncertainty assessment, graphical model checking, design, generalization, and causal inference in an applied workflow using R and Stan.", "refs": ["p003-b002", "p003-b003", "p181-b010"]}],
+      "methods": {"design": "Instructional synthesis with worked real and simulated examples.", "sample": "Not applicable; the book is not one empirical study and examples use different datasets and simulations.", "conditions": "Linear and generalized linear models, design and missing data, prediction, model checking, and causal inference.", "measurements": "Example-specific estimates, uncertainty intervals, predictive performance, diagnostics, and simulated-data comparisons.", "analysis": "Frequentist and Bayesian regression workflows with an emphasis on simulation and graphical checking.", "refs": ["p003-b002", "p068-b004", "p174-b003", "p181-b010"]},
+      "claims": [
+        {"id": "gelman-unmodeled-uncertainty", "type": "methodological_claim", "text": "Model-based standard errors and confidence intervals do not cover all uncertainty when measurements, sampling, or modeling assumptions are imperfect; important unmodeled uncertainty must be considered separately.", "quantitative": "The chapter presents total uncertainty as a combination of modeled standard error and an additional independent uncertainty component; this is methodological illustration, not a universal estimated value.", "refs": [{"anchor": "p073-b004", "kind": "passage"}, {"anchor": "p073-b006", "kind": "passage"}]},
+        {"id": "gelman-significance-dichotomy", "type": "methodological_claim", "text": "A sharp distinction between statistically significant and nonsignificant results is a common error and should not replace examination of estimates, uncertainty, and substantive context.", "quantitative": "Not applicable.", "refs": [{"anchor": "p078-b003", "kind": "passage"}, {"anchor": "p084-b002", "kind": "passage"}]},
+        {"id": "gelman-coefficients-comparisons", "type": "methodological_claim", "text": "Regression coefficients encode conditional comparisons and should not automatically be described as causal effects.", "quantitative": "Illustrated with a survey example of 1,816 respondents.", "refs": [{"anchor": "p102-b002", "kind": "passage"}]},
+        {"id": "gelman-predictive-checking", "type": "methodological_claim", "text": "Posterior predictive checking evaluates a fitted model by simulating replicated datasets and comparing them with observed data.", "quantitative": "No single effect size; a model-checking procedure.", "refs": [{"anchor": "p181-b010", "kind": "passage"}]},
+        {"id": "gelman-graphs-comparisons", "type": "theoretical_argument", "text": "Graphs gain meaning through comparisons, and exploratory graphics should be connected to the comparisons and model checks the analysis requires.", "quantitative": "Not applicable.", "refs": [{"anchor": "p043-b005", "kind": "passage"}, {"anchor": "p174-b003", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "For a rigorous review, numerical estimates should be reported with uncertainty and assumptions, causal language should match design, and fitted models should be checked against data rather than accepted from coefficients alone.", "refs": ["p073-b004", "p102-b002", "p181-b010"]}],
+      "limitations": [{"text": "This is a wide-ranging textbook, not a primary study or systematic review; its examples demonstrate methods but do not supply domain-specific evidence about EEG topoplot perception.", "source": "wiki_scope_note", "refs": ["p003-b002"]}],
+      "topics": ["statistical uncertainty", "model checking", "causal interpretation"]
+    },
+    {
+      "id": "correll2014error",
+      "source_type": "crowdsourced controlled experiments",
+      "research_questions": [{"text": "How do conventional error bars and alternative distributional encodings affect probability judgments, inferential strategy, and confidence?", "refs": ["p001-b022"]}],
+      "contributions": [{"text": "Tests behavioral consequences of bar-plus-error, modified-box, gradient, and violin encodings rather than assuming statistical equivalence implies perceptual equivalence.", "refs": ["p001-b020", "p001-b022"]}],
+      "methods": {"design": "Crowdsourced repeated-judgment experiments.", "sample": "Participant denominators vary across analyses and should be taken from the relevant experiment section; the reported trial-level models include more than 3,300 observations.", "conditions": "Bar/error, modified box, gradient, and violin-style depictions of mean and error.", "measurements": "Probability judgments, strategy classifications, accuracy, and confidence.", "analysis": "Regression and strategy-based comparisons across encodings.", "refs": ["p001-b020", "p006-b014", "p008-b023"]},
+      "claims": [
+        {"id": "correll-within-bar", "type": "empirical_finding", "text": "Bar-based containment induced a within-the-bar likelihood bias that symmetric alternative encodings mitigated.", "quantitative": "Direction and condition comparisons are reported with the experiment results.", "refs": [{"anchor": "p006-b013", "kind": "figure", "label": "Fig. 5"}]},
+        {"id": "correll-confidence", "type": "empirical_finding", "text": "Confidence changed systematically with display-derived evidence, but the relationship depended on task strategy and encoding.", "quantitative": "One confidence analysis reports R²=.66 and β=-8.30; a separate CDF analysis reports R²=.805 and β=6.78.", "refs": [{"anchor": "p006-b014", "kind": "passage"}, {"anchor": "p008-b023", "kind": "figure", "label": "Fig. 8"}]}
+      ],
+      "conclusions": [{"text": "Error-bar design is not neutral: alternative symmetric encodings can reduce containment bias, although the tested alternatives did not differ reliably on every outcome.", "refs": ["p009-b002"]}],
+      "limitations": [{"text": "Stylized online tasks and limited differences between alternatives constrain generalization to scientific-domain judgments.", "source": "authors", "refs": ["p009-b002"]}],
+      "topics": ["error bars", "within-the-bar bias", "confidence"]
+    },
+    {
+      "id": "fernandes2018uncertainty",
+      "source_type": "preregistered incentivized online experiment",
+      "research_questions": [{"text": "Which uncertainty displays help people make high-quality, consistent transit decisions and learn an effective policy over repeated trials?", "refs": ["p006-b002"]}],
+      "contributions": [{"text": "Evaluates ten uncertainty displays with a realistic bus-arrival distribution, explicit utilities, and optimal-payoff benchmarks.", "refs": ["p002-b002", "p004-b003"]}],
+      "methods": {"design": "Between-condition online experiment with repeated incentivized decisions.", "sample": "408 participants in the final analysis; 385 supplied complete demographics; more than 80 additional participants were used in pilots.", "conditions": "Ten displays including quantile dotplots, CDFs, PDFs, intervals, text, and a control across 40 trials.", "measurements": "Expected payoff and payoff relative to an optimal strategy, plus response consistency and learning across trials.", "analysis": "Preregistered Bayesian mixed-effects beta regression with participant intercepts and slopes and scenario intercepts.", "refs": ["p007-b002", "p007-b003", "p008-b002"]},
+      "claims": [
+        {"id": "fernandes-decision-quality", "type": "empirical_finding", "text": "Quantile dotplots and CDFs supported decisions closest to the optimal policy by the final trial.", "quantitative": "Mean final-trial performance was about 95% of optimal; for dot50, over 95% of predicted final-trial decisions exceeded 80% of optimal.", "refs": [{"anchor": "p009-b011", "kind": "figure", "label": "Figure 4"}]},
+        {"id": "fernandes-consistency", "type": "empirical_finding", "text": "The strongest displays also produced more consistent decisions rather than only a higher average.", "quantitative": "Dot50 final-trial SD was about four percentage points lower than PDF, PDF-interval, text85, and control conditions.", "refs": [{"anchor": "p008-b002", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Displays that support accurate probability-interval estimation can improve consequential decisions and learning in the tested transit context.", "refs": ["p009-b011", "p010-b004"]}],
+      "limitations": [{"text": "Online participants did not face an actual on-the-go context, and one experimenter-defined utility function cannot represent all riders or situations.", "source": "authors", "refs": ["p010-b004"]}],
+      "topics": ["quantile dotplots", "CDFs", "decision quality"]
+    },
+    {
+      "id": "greis2015investigating",
+      "source_type": "online survey plus small controlled game experiment",
+      "research_questions": [{"text": "How do non-experts judge alternative weather-uncertainty representations, and do those judgments predict decisions?", "refs": ["p286-b004", "p287-b002"]}],
+      "contributions": [{"text": "Separates subjective ratings of twelve representations from behavior with four representations in a farming decision game.", "refs": ["p289-b002", "p292-b002"]}],
+      "methods": {"design": "Random-order online survey followed by a controlled turn-based game.", "sample": "Survey N=90 (36 women, 54 men; ages 18–82, mean 31, SD 12.6); experiment N=12 (4 women, 8 men).", "conditions": "Twelve textual and graphical forecast representations in the survey; four selected representations over ten game rounds each.", "measurements": "Five-level ratings, forecast use, decisions, and final display preference.", "analysis": "Representation comparisons and descriptive behavioral outcomes.", "refs": ["p289-b002", "p290-b003", "p292-b002"]},
+      "claims": [
+        {"id": "greis-more-not-better", "type": "empirical_finding", "text": "Providing more uncertainty information did not automatically yield better judgments or choices.", "quantitative": "Survey N=90; game N=12 and 442 forecast-opened rounds analyzed from 480 total rounds.", "refs": [{"anchor": "p286-b004", "kind": "passage"}, {"anchor": "p292-b002", "kind": "passage"}]},
+        {"id": "greis-preference-performance", "type": "author_interpretation", "text": "Preference and survey appraisal did not consistently predict decision performance in the game.", "quantitative": "Eight of 12 game participants preferred the probability-distribution representation.", "refs": [{"anchor": "p292-b002", "kind": "passage"}, {"anchor": "p292-b004", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Uncertainty representations for non-experts should be evaluated through actual decisions as well as ratings, because additional detail may alienate rather than help.", "refs": ["p292-b004"]}],
+      "limitations": [{"text": "The behavioral experiment is explicitly limited by its small sample and single simplified scenario.", "source": "authors", "refs": ["p293-b002"]}, {"text": "The archived PDF is a full proceedings volume; only pages 286–293 contain this paper.", "source": "wiki_scope_note", "refs": ["p286-b004", "p293-b002"]}],
+      "topics": ["non-experts", "preference-performance divergence", "weather decisions"]
+    },
+    {
+      "id": "gschwandtner2016visual",
+      "source_type": "within-subject comparative user study",
+      "research_questions": [{"text": "Which visual encodings best support interpretation and task performance for uncertain temporal intervals?", "refs": ["p001-b004", "p004-b003"]}],
+      "contributions": [{"text": "Compares six encodings across boundary, duration, probability, interpretation, time, and preference tasks.", "refs": ["p001-b003", "p004-b003"]}],
+      "methods": {"design": "Within-subject laboratory study.", "sample": "73 computer-science visualization students recruited; one empty submission excluded, leaving 72.", "conditions": "Gradient, accumulated probability, violin, error bars, centered error bars, and ambiguation.", "measurements": "Interpretation category, errors, completion time, probability estimates, and preference.", "analysis": "ANOVA and Kruskal–Wallis tests with task-specific cleaning; minimum task N=72.", "refs": ["p004-b003", "p005-b004", "p006-b002"]},
+      "claims": [
+        {"id": "gschwandtner-interpretation", "type": "empirical_finding", "text": "Centered error bars were interpreted ambiguously, whereas ordinary error bars were usually read as bounded uncertainty.", "quantitative": "Centered error bars: 47% bounded, 36% statistical, 17% neither; ordinary error bars: 89% bounded.", "refs": [{"anchor": "p006-b005", "kind": "passage"}, {"anchor": "p007-b004", "kind": "passage"}]},
+        {"id": "gschwandtner-task-dependent", "type": "empirical_finding", "text": "No encoding dominated every task; encodings that supported duration and boundary readings differed from those intended for probabilities.", "quantitative": "Multiple task comparisons reached p<.001; exact results are in Tables 1–2 and Figure 6.", "refs": [{"anchor": "p006-b002", "kind": "table", "label": "Table 1"}, {"anchor": "p007-b003", "kind": "figure", "label": "Fig. 6"}]}
+      ],
+      "conclusions": [{"text": "Temporal-uncertainty encodings should be chosen for the intended task and uncertainty semantics, not by a single overall ranking.", "refs": ["p009-b005"]}],
+      "limitations": [{"text": "The sample had visualization training; the study used simplified single intervals and reports task-design, response-confusion, and cleaning problems.", "source": "authors", "refs": ["p006-b004", "p009-b004"]}],
+      "topics": ["temporal uncertainty", "task dependence", "error-bar semantics"]
+    },
+    {
+      "id": "hullman2019pursuit",
+      "source_type": "systematic survey and evaluation taxonomy",
+      "research_questions": [{"text": "How has uncertainty visualization been evaluated, and which links from uncertain inputs to judgments, decisions, and outcomes remain understudied?", "refs": ["p001-b003", "p001-b004"]}],
+      "contributions": [{"text": "Develops a six-level evaluation taxonomy and codes complete evaluation paths through 86 publications.", "refs": ["p001-b003", "p004-b002"]}],
+      "methods": {"design": "Systematic survey and structured coding of published evaluations.", "sample": "86 publications from 1987–2018 yielding 372 coded evaluation paths.", "conditions": "Studies categorized by uncertainty inputs, visual representations, perceptual/cognitive judgments, decisions, and outcomes.", "measurements": "Counts of evaluation paths and constructs, including accuracy, confidence, and decision quality.", "analysis": "Taxonomic and descriptive synthesis.", "refs": ["p004-b002", "p007-b003"]},
+      "claims": [
+        {"id": "hullman-evaluation-paths", "type": "empirical_finding", "text": "The review identified 372 evaluation paths in 86 uncertainty-visualization publications.", "quantitative": "86 publications; 372 paths.", "refs": [{"anchor": "p004-b002", "kind": "figure", "label": "Fig. 2"}]},
+        {"id": "hullman-confirmation-bias", "type": "author_interpretation", "text": "Published evaluations emphasize confirmatory accuracy with constrained inputs more than explanation and downstream decision quality.", "quantitative": "Approximately 20% (72 paths) used confidence-related constructs.", "refs": [{"anchor": "p007-b003", "kind": "passage"}, {"anchor": "p009-b002", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Evaluation should trace how displays affect judgments and decisions rather than stop at low-level value reading or preference.", "refs": ["p009-b002"]}],
+      "limitations": [{"text": "The review ends in 2018 and heterogeneity of constructs limits direct effect comparison; publication frequency is not design efficacy.", "source": "wiki_scope_note", "refs": ["p001-b004", "p004-b002"]}],
+      "topics": ["evaluation taxonomy", "decision quality", "research gaps"]
+    },
+    {
+      "id": "kale2019hypothetical",
+      "source_type": "two crowdsourced controlled experiments",
+      "research_questions": [{"text": "Do hypothetical outcome plots help untrained observers infer which uncertain trend generated ambiguous data compared with error bars and line ensembles?", "refs": ["p001-b004"]}],
+      "contributions": [{"text": "Uses psychometric functions to compare trend-discrimination thresholds and confidence under sample-based and static uncertainty displays.", "refs": ["p001-b003", "p004-b002"]}],
+      "methods": {"design": "Two within-participant MTurk experiments using adaptive evidence levels.", "sample": "Experiment 1 recruited 62 MTurk Masters with a target of 50 usable participants; consult Experiment 2 methods for its final inclusion denominator.", "conditions": "HOPs versus error bars in Experiment 1; HOPs at two frame rates versus a 50-line ensemble in Experiment 2.", "measurements": "Binary trend judgment, accuracy as a function of log-likelihood evidence, threshold/spread of psychometric functions, and confidence.", "analysis": "Participant-level psychometric modeling with order and learning checks.", "refs": ["p005-b003", "p006-b002", "p007-b003", "p008-b003"]},
+      "claims": [
+        {"id": "kale-hop-threshold", "type": "empirical_finding", "text": "HOPs enabled correct trend discrimination at lower evidence levels than the static alternatives in the tested task.", "quantitative": "Effects are reported as psychometric-function threshold differences; consult the result figures for estimates and intervals.", "refs": [{"anchor": "p001-b004", "kind": "passage"}, {"anchor": "p006-b002", "kind": "passage"}]},
+        {"id": "kale-learning-qualification", "type": "empirical_finding", "text": "Practice and condition order affected performance, qualifying a simple encoding-only explanation.", "quantitative": "The paper reports no reliable PF-spread difference by visualization in Experiment 1 but an interaction with starting condition.", "refs": [{"anchor": "p006-b002", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Sampling animation can support probabilistic trend inference by non-experts, but its advantage depends on task, exposure, timing, and comparison display.", "refs": ["p009-b002"]}],
+      "limitations": [{"text": "Frame rate, attention, learning/order, and confidence interpretation remain open; the task covers only binary noisy-trend inference.", "source": "authors", "refs": ["p009-b002"]}],
+      "topics": ["HOPs", "trend inference", "learning effects"]
+    },
+    {
+      "id": "kusumastuti2023practice",
+      "source_type": "two online practice-and-transfer experiments",
+      "research_questions": [{"text": "Does practice improve integration of two uncertain quantities, and does learning transfer across display types?", "refs": ["p001-b003"]}],
+      "contributions": [{"text": "Separates within-display learning from transfer among ensemble, summary, and distributional encodings.", "refs": ["p001-b003", "p010-b003"]}],
+      "methods": {"design": "Two repeated-task online experiments.", "sample": "Experiment 1 analyzed N=118; Experiment 2 analyzed N=56 after 62 completed and six outliers were excluded.", "conditions": "Practice and transfer across ensemble, summary, and distributional visualizations with varying source complexity.", "measurements": "Accuracy and response time on a 2D uncertainty-integration task.", "analysis": "Learning curves and within/across-visualization transfer comparisons.", "refs": ["p001-b003", "p005-b003", "p007-b004"]},
+      "claims": [
+        {"id": "kusumastuti-practice", "type": "empirical_finding", "text": "Practice made participants faster and more accurate at integrating two sources of uncertainty.", "quantitative": "Experiment 1 N=118; Experiment 2 N=56.", "refs": [{"anchor": "p001-b003", "kind": "passage"}]},
+        {"id": "kusumastuti-transfer", "type": "empirical_finding", "text": "Performance gains transferred to unpracticed uncertainty visualizations, indicating learning beyond memorization of one display form.", "quantitative": "Transfer tested across three display families; see Experiment 2 result figures for model estimates.", "refs": [{"anchor": "p008-b002", "kind": "figure", "label": "Fig. 8"}, {"anchor": "p010-b003", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Evaluation of a novel uncertainty display should account for learning and cross-display transfer rather than relying only on first-exposure performance.", "refs": ["p010-b003"]}],
+      "limitations": [{"text": "Online display hardware and color were uncontrolled, and the task was abstract rather than tied to a real scientific decision.", "source": "authors", "refs": ["p011-b002"]}],
+      "topics": ["practice", "transfer", "uncertainty integration"]
+    },
+    {
+      "id": "maceachren2012semiotics",
+      "source_type": "semiotic framework plus two laboratory experiments",
+      "research_questions": [{"text": "Which abstract and iconic symbols are intuitive for distinct uncertainty components, and which support aggregate map judgments?", "refs": ["p002-b002", "p003-b003", "p007-b003"]}],
+      "contributions": [{"text": "Crosses space, time, and attribute with accuracy, precision, and trustworthiness, then separately tests symbol intuitiveness and task effectiveness.", "refs": ["p002-b002", "p003-b003"]}],
+      "methods": {"design": "Pilot plus two proctored laboratory experiments.", "sample": "Pilot N=31; Experiment 1 N=72 GIS-aware participants; Experiment 2 N=30 GIS-aware participants.", "conditions": "Experiment 1 rated 76 symbol sets on a 1–7 intuitiveness scale; Experiment 2 tested 20 symbol sets across 12 region configurations (240 trials).", "measurements": "Intuitiveness, response time, aggregate-uncertainty accuracy, and response time.", "analysis": "Nonparametric comparisons and chi-square tests by uncertainty condition and symbol family.", "refs": ["p003-b003", "p004-b002", "p007-b003", "p008-b002"]},
+      "claims": [
+        {"id": "maceachren-intuitiveness", "type": "empirical_finding", "text": "Fuzziness, location, and value were rated most intuitive for ordinal discrete-entity uncertainty, while arrangement, size, and transparency were acceptable but weaker.", "quantitative": "Top variables had means above 5 on a 1–7 scale and modal ratings of 7; acceptable variables had means 4–5.", "refs": [{"anchor": "p004-b002", "kind": "passage"}]},
+        {"id": "maceachren-aggregate", "type": "empirical_finding", "text": "Effectiveness for aggregate uncertainty varied across uncertainty conditions and symbol sets, so intuitive isolated symbols were not universally optimal in map tasks.", "quantitative": "Experiment 2 N=30; 20 symbol sets × 12 configurations = 240 trials per participant.", "refs": [{"anchor": "p007-b003", "kind": "passage"}, {"anchor": "p008-b002", "kind": "table", "label": "Table 4"}, {"anchor": "p008-b003", "kind": "table", "label": "Table 5"}]}
+      ],
+      "conclusions": [{"text": "Uncertainty symbol design should reflect what kind of uncertainty is represented and should be tested in the actual multi-symbol task, not only rated in isolation.", "refs": ["p008-b004"]}],
+      "limitations": [{"text": "Purposeful GIS-aware samples and abstract map configurations constrain transfer to novices, continuous fields, and EEG topoplots.", "source": "wiki_scope_note", "refs": ["p003-b003", "p007-b003"]}],
+      "topics": ["visual semiotics", "symbol intuitiveness", "aggregate uncertainty"]
+    },
+    {
+      "id": "scholz2014uncertainty",
+      "source_type": "survey experiment",
+      "research_questions": [{"text": "How do readers prefer and use fuzziness, lightness, transparency, and shape to represent uncertainty on bivariate geographic maps?", "refs": ["p001-b007", "p004-b002"]}],
+      "contributions": [{"text": "Compares stated preference with a decision task and considers GIS knowledge as a moderator.", "refs": ["p004-b006", "p004-b007"]}],
+      "methods": {"design": "Questionnaire-based map-reading and preference study.", "sample": "72 undergraduate students entered the study; only 37 supplied valid complete preference rankings for that analysis.", "conditions": "Four uncertainty encodings: fuzziness, lightness, transparency, and shape, combined with mapped values.", "measurements": "Ranked preference, decision choice, and GIS/background variables.", "analysis": "Rank comparisons and condition-specific decision summaries.", "refs": ["p004-b002", "p007-b004", "p008-b005"]},
+      "claims": [
+        {"id": "scholz-preference", "type": "empirical_finding", "text": "Among valid rankings, fuzziness and lightness were preferred over transparency and shape.", "quantitative": "N=37 valid rankings; mean ranks 3.35, 2.97, 2.38, and 1.30 respectively; agreement tests p≤.005.", "refs": [{"anchor": "p007-b004", "kind": "passage"}]},
+        {"id": "scholz-decision", "type": "empirical_finding", "text": "Most participants incorporated displayed uncertainty into the experimental choice rather than treating the mapped estimates as equal.", "quantitative": "Approximately 82% chose equality without uncertainty; about 70% selected option b when uncertainty was shown.", "refs": [{"anchor": "p008-b005", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Fuzziness and lightness were promising in the tested setting, and GIS knowledge aided use, but preference should not be equated with universal effectiveness.", "refs": ["p010-b003"]}],
+      "limitations": [{"text": "Incomplete rankings, a student sample, and one geographic decision scenario restrict inference; the task-defined correct use of uncertainty is not universal decision evidence.", "source": "wiki_scope_note", "refs": ["p007-b004", "p008-b005"]}],
+      "topics": ["bivariate maps", "preference", "decision making"]
+    },
+    {
+      "id": "tennant2025human",
+      "source_type": "scoping review",
+      "research_questions": [{"text": "What human-performance and perception evidence exists for uncertainty visualizations in geospatial applications?", "refs": ["p001-b004"]}],
+      "contributions": [{"text": "Maps evidence from 40 human-participant articles across display forms, tasks, performance, perception, confidence, and decisions.", "refs": ["p001-b004", "p011-b004"]}],
+      "methods": {"design": "Scoping review with database searches, screening, and narrative synthesis.", "sample": "40 included articles; searches were run in November 2021 and June 2022 and updated in January 2024.", "conditions": "Peer-reviewed English-language human studies of geospatial uncertainty visualization.", "measurements": "Study designs, visualization techniques, tasks, performance, perception, preference, confidence, and decision outcomes.", "analysis": "Descriptive and narrative synthesis; heterogeneity precluded a common effect estimate.", "refs": ["p001-b004", "p015-b002"]},
+      "claims": [
+        {"id": "tennant-sparse-comparisons", "type": "author_interpretation", "text": "Direct comparative evidence is sparse, but some studies suggest multivariate uncertainty maps can improve time, decisions, or confidence under specific tasks.", "quantitative": "40 articles overall; the supporting subset varies by outcome and display.", "refs": [{"anchor": "p011-b004", "kind": "passage"}]},
+        {"id": "tennant-preference-divergence", "type": "theoretical_argument", "text": "Preference and perceived understanding should not be treated as proof of improved decision performance.", "quantitative": "No pooled effect estimate.", "refs": [{"anchor": "p013-b002", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "The geospatial evidence base is fragmented and heterogeneous; future evaluations need clearer tasks, participant characterization, and comparable outcome definitions.", "refs": ["p015-b002"]}],
+      "limitations": [{"text": "The review is restricted to geospatial, English, peer-reviewed work and notes single-author screening among its limitations.", "source": "authors", "refs": ["p015-b002"]}],
+      "topics": ["scoping review", "geospatial uncertainty", "outcome divergence"]
+    },
+    {
+      "id": "yanai2021current",
+      "source_type": "systematic literature audit",
+      "research_questions": [{"text": "How completely do ecosystem studies report relevant sources of uncertainty and make their data available?", "refs": ["p001-b004"]}],
+      "contributions": [{"text": "Applies a source-specific coding framework to randomly sampled ecosystem papers across vegetation, soils, precipitation, and surface water.", "refs": ["p001-b004", "p010-b003"]}],
+      "methods": {"design": "Systematic audit of randomly selected published papers.", "sample": "132 papers published in 2019, sampled from 100 scientific journals.", "conditions": "Each paper coded for applicable uncertainty sources in four ecosystem topic areas and for data availability.", "measurements": "Fraction of relevant uncertainty sources reported and availability of all or some data.", "analysis": "Descriptive rates and comparisons by topic and uncertainty source.", "refs": ["p001-b004", "p009-b003"]},
+      "claims": [
+        {"id": "yanai-reporting-rates", "type": "empirical_finding", "text": "Most papers reported only a minority of uncertainty sources judged relevant, with substantial differences across ecosystem topics.", "quantitative": "Average coverage: surface water 47%±5%, soils 45%±4%, vegetation 32%; overall 54% of papers quantified fewer than half of applicable sources, mean score 42%, median 40%.", "refs": [{"anchor": "p001-b004", "kind": "passage"}, {"anchor": "p011-b002", "kind": "passage"}]},
+        {"id": "yanai-data-availability", "type": "empirical_finding", "text": "Broken links reduced effective data availability below nominal reporting rates.", "quantitative": "24% linked all data and 48% at least some; after eight ineffective links, 21% provided all data and 42% at least some.", "refs": [{"anchor": "p009-b003", "kind": "passage"}, {"anchor": "p010-b004", "kind": "figure", "label": "Fig. 7"}]},
+        {"id": "yanai-sampling-error", "type": "empirical_finding", "text": "Sampling error was the most commonly reported uncertainty source across the assessed disciplines, while other relevant sources were often omitted.", "quantitative": "Selected categories exceeded 80%; other source/topic combinations were much lower.", "refs": [{"anchor": "p010-b003", "kind": "passage"}]}
+      ],
+      "conclusions": [{"text": "Uncertainty reporting in ecosystem studies is incomplete and uneven, limiting evaluation and reuse of published conclusions.", "refs": ["p011-b002"]}],
+      "limitations": [{"text": "Applicability coding was sometimes impossible when articles omitted information about missing data, detection limits, or handling practices; the sample is restricted to 2019 ecosystem literature.", "source": "authors", "refs": ["p001-b004", "p009-b003"]}],
+      "topics": ["uncertainty reporting", "literature audit", "research transparency"]
+    }
+  ]
+}

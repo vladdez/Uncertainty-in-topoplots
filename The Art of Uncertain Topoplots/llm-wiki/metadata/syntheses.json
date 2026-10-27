@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "topics": [
+    {
+      "slug": "eeg-topoplot-practice",
+      "title": "EEG topoplot practice, statistical foundations, and the uncertainty gap",
+      "research_question": "What evidence motivates uncertainty-aware EEG topoplots, and what is still unknown?",
+      "scope_note": "This page links practice surveys, ERP benchmark/statistical methods, and scalp interpolation. It does not claim that any reviewed encoding has been validated specifically for uncertainty topoplots.",
+      "rows": [
+        {"paper": "mikheev2024art", "claim": "mikheev-uncertainty-friction", "relation": "supports", "note": "Direct evidence that adding uncertainty is a practical ERP-tooling problem."},
+        {"paper": "mikheev2024art", "claim": "mikheev-omission-awareness", "relation": "supports", "note": "Shows omission and incomplete awareness among surveyed practitioners."},
+        {"paper": "mikheev2024art", "claim": "mikheev-topoplot-semantics", "relation": "qualifies", "note": "Different interpretations of topoplot time series imply that uncertainty semantics must be explicit."},
+        {"paper": "kappenman2021erp", "claim": "kappenman-sem-shading", "relation": "context", "note": "Provides a concrete ERP convention for waveform uncertainty, while not solving spatial-map uncertainty."},
+        {"paper": "kappenman2021erp", "claim": "kappenman-noise-resource", "relation": "context", "note": "Supplies benchmark variability and noise that could support method testing."},
+        {"paper": "pernet2011limo", "claim": "pernet-single-trial", "relation": "context", "note": "Shows that trial-level variability can be retained statistically before visualization."},
+        {"paper": "perrin1989spherical", "claim": "perrin-smoothing-ci", "relation": "context", "note": "Provides an early map-level smoothing and confidence-interval foundation."},
+        {"paper": "allen2012data", "claim": "allen-audit-uncertainty", "relation": "supports", "note": "Broader neuroscience evidence that uncertainty is frequently omitted or unlabeled."}
+      ],
+      "gaps": [
+        "No archived study directly compares uncertainty encodings on EEG scalp topographies using perceptual or decision tasks.",
+        "The literature does not establish whether viewers interpret uncertainty as measurement noise, between-participant variability, model uncertainty, interpolation uncertainty, or statistical confidence unless the display states it.",
+        "Topoplot interpolation creates spatial smoothness between electrodes, but the reviewed user studies do not test how that smoothness interacts with an uncertainty overlay.",
+        "No evidence matrix row establishes which encoding best preserves sign, magnitude, spatial pattern, and uncertainty simultaneously for EEG audiences."
+      ]
+    },
+    {
+      "slug": "uncertainty-omission",
+      "title": "Why scientific visualizations omit uncertainty",
+      "research_question": "How common is uncertainty omission, and what explanations are supported?",
+      "scope_note": "Audits estimate omission only within their sampled disciplines and dates; qualitative studies explain rationales but not their population prevalence.",
+      "rows": [
+        {"paper": "allen2012data", "claim": "allen-audit-uncertainty", "relation": "supports", "note": "Neuroscience figure audit documents omission and missing labels."},
+        {"paper": "mikheev2024art", "claim": "mikheev-omission-awareness", "relation": "supports", "note": "ERP-practitioner survey documents omitted error bars and awareness gaps."},
+        {"paper": "jain2026communicating", "claim": "jain-three-maps", "relation": "supports", "note": "Map review documents a large text/caption/map integration gap."},
+        {"paper": "yanai2021current", "claim": "yanai-reporting-rates", "relation": "supports", "note": "Ecosystem audit shows incomplete reporting across multiple uncertainty sources."},
+        {"paper": "pocock2007figures", "claim": "pocock-km-uncertainty", "relation": "supports", "note": "Clinical figure audit identifies omitted uncertainty as an interpretive risk."},
+        {"paper": "hullman2020why", "claim": "hullman-omission-tension", "relation": "explains", "note": "Qualitative evidence supplies audience, workflow, convention, and signal-obfuscation rationales."},
+        {"paper": "boukhelifa2009uncertainty", "claim": "boukhelifa-adoption-barriers", "relation": "explains", "note": "Industrial case expands causes to metadata and organizational infrastructure."}
+      ],
+      "gaps": [
+        "Audits use different definitions and denominators, so their percentages should not be pooled.",
+        "Evidence is largely cross-sectional; causal tests of whether improved software defaults reduce omission are scarce.",
+        "Omission rates specific to published EEG topoplots have not been directly audited in the archived collection.",
+        "The consequences of omission for EEG interpretation and downstream decisions remain unquantified."
+      ]
+    },
+    {
+      "slug": "integrated-versus-separate",
+      "title": "Integrated versus separate value–uncertainty displays",
+      "research_question": "When should value and uncertainty be integrated in one display rather than separated?",
+      "scope_note": "The evidence is mixed because studies use different tasks, maps, encodings, and audiences. Treat apparent disagreement as task dependence, not as a simple contradiction.",
+      "rows": [
+        {"paper": "correll2018task", "claim": "correll-superposition-accuracy", "relation": "supports_integration", "note": "Superposition outperformed juxtaposition for a targeted value-plus-uncertainty identification task."},
+        {"paper": "correll2018task", "claim": "correll-integration-interpretation", "relation": "supports_integration", "note": "Authors recommend integration or interaction when information fusion is required."},
+        {"paper": "kubicek2011thematic", "claim": "kubicek-speed-accuracy", "relation": "mixed", "note": "Separate maps were more accurate but slower than a combined whitening map."},
+        {"paper": "kinkeldey2014assess", "claim": "kinkeldey-task-dependence", "relation": "mixed", "note": "Review finds adjacent maps may aid uncertainty retrieval while other outcomes differ by task."},
+        {"paper": "gillmann2021uncertainty", "claim": "gillmann-separated-images", "relation": "supports_integration", "note": "Medical-imaging survey flags correspondence costs for separate uncertainty images."},
+        {"paper": "teuling2011bivariate", "claim": "teuling-joint-pattern", "relation": "supports_integration", "note": "Illustrative argument that bivariate maps reveal joint spatial patterns."},
+        {"paper": "teuling2011bivariate", "claim": "teuling-difficulty", "relation": "qualifies", "note": "The same paper acknowledges increased interpretation difficulty."},
+        {"paper": "wainer1980colormaps", "claim": "wainer-bivariate-cost", "relation": "challenges_integration", "note": "Early experiments show large elementary-reading and legend-learning costs for bivariate maps."},
+        {"paper": "maceachren2012semiotics", "claim": "maceachren-aggregate", "relation": "qualifies", "note": "Multi-symbol effectiveness varied by uncertainty condition and symbol family."},
+        {"paper": "kusumastuti2023practice", "claim": "kusumastuti-transfer", "relation": "qualifies", "note": "Integration performance changes with practice and transfers across display families."}
+      ],
+      "gaps": [
+        "No direct comparison exists for separate versus integrated uncertainty in EEG topoplots.",
+        "Studies rarely separate costs of legend learning from costs of spatial correspondence and visual crowding.",
+        "The optimal design may differ for lookup, spatial-pattern detection, comparison, and decision tasks; EEG-specific priorities remain to be defined.",
+        "Interactive linking between a topoplot and a separate uncertainty view is suggested by prior work but not tested here."
+      ]
+    },
+    {
+      "slug": "task-and-audience-dependence",
+      "title": "Task and audience dependence of uncertainty encodings",
+      "research_question": "Is there a generally best uncertainty visualization, or does performance depend on task and audience?",
+      "scope_note": "Across domains, evidence strongly favors conditional conclusions. This is a synthesis across heterogeneous settings, not a pooled meta-analysis.",
+      "rows": [
+        {"paper": "sanyal2009user", "claim": "sanyal-task-interaction", "relation": "supports", "note": "Technique performance changed with task and dimensionality."},
+        {"paper": "padilla2017binning", "claim": "padilla-speed-accuracy", "relation": "supports", "note": "Continuous versus binned encoding showed a task-dependent speed–accuracy tradeoff."},
+        {"paper": "kubicek2011thematic", "claim": "kubicek-speed-accuracy", "relation": "supports", "note": "Separate and combined maps traded speed against accuracy."},
+        {"paper": "sterzik2025", "claim": "sterzik-no-universal", "relation": "supports", "note": "Authors explicitly reject a universal metaphor after three perceptual studies."},
+        {"paper": "kinkeldey2014assess", "claim": "kinkeldey-task-typology", "relation": "supports", "note": "Systematic review recommends task-centered evaluation."},
+        {"paper": "hullman2015hypothetical", "claim": "hullman-hop-ordering", "relation": "supports", "note": "HOP advantage was large for multi-quantity ordering but not universal for one-variable questions."},
+        {"paper": "wilke2019fundamentals", "claim": "wilke-audience-uncertainty", "relation": "context", "note": "Handbook synthesis distinguishes compact expert encodings from more intuitive lay formats."},
+        {"paper": "bernard2015colormaps", "claim": "bernard-task-mapping", "relation": "supports", "note": "Computational assessment operationalizes task-specific palette selection."},
+        {"paper": "gschwandtner2016visual", "claim": "gschwandtner-task-dependent", "relation": "supports", "note": "Six temporal encodings traded performance across boundary, duration, and probability tasks."},
+        {"paper": "greis2015investigating", "claim": "greis-preference-performance", "relation": "supports", "note": "Non-expert preference and behavioral performance diverged."},
+        {"paper": "scholz2014uncertainty", "claim": "scholz-preference", "relation": "qualifies", "note": "Preference rankings alone do not establish decision effectiveness."},
+        {"paper": "tennant2025human", "claim": "tennant-preference-divergence", "relation": "supports", "note": "Recent scoping review warns against treating preference as performance."}
+      ],
+      "gaps": [
+        "EEG-domain tasks need explicit definition: amplitude lookup, sign detection, spatial extent, peak localization, condition comparison, and inference are not interchangeable.",
+        "Expertise and statistical literacy are inconsistently measured across existing studies.",
+        "Few studies test accessibility, color-vision diversity, or small-multiple publication constraints together with uncertainty comprehension.",
+        "Performance, preference, confidence, and scientific validity can diverge and should not be collapsed into one outcome."
+      ]
+    },
+    {
+      "slug": "sample-based-uncertainty",
+      "title": "Sample-based and image-distribution approaches",
+      "research_question": "What does the literature establish about showing repeated possible outcomes rather than only intervals?",
+      "scope_note": "HOPs and quantile dotplots have direct behavioral evidence in this collection; distribution-over-images is a general mathematical framework. None has been evaluated on EEG topoplots here.",
+      "rows": [
+        {"paper": "hullman2015hypothetical", "claim": "hullman-hop-ordering", "relation": "supports", "note": "Direct experimental evidence for improved multi-quantity ordering judgments."},
+        {"paper": "hullman2015hypothetical", "claim": "hullman-hop-time", "relation": "qualifies", "note": "The animated condition took somewhat longer, though not significantly overall."},
+        {"paper": "hullman2015hypothetical", "claim": "hullman-frequency-account", "relation": "explains", "note": "Authors connect performance to counting and integration of sampled outcomes."},
+        {"paper": "petek2026general", "claim": "petek-distribution-images", "relation": "extends", "note": "Generalizes sampled rendering to arbitrary statistical graphics."},
+        {"paper": "petek2026general", "claim": "petek-coverage", "relation": "supports_theory", "note": "Provides formal coverage arguments under stated assumptions."},
+        {"paper": "kinkeldey2014assess", "claim": "kinkeldey-preference-performance", "relation": "qualifies", "note": "Review cautions that animation has not generally outperformed static uncertainty displays."},
+        {"paper": "kale2019hypothetical", "claim": "kale-hop-threshold", "relation": "supports", "note": "HOPs lowered evidence thresholds in a noisy-trend discrimination task."},
+        {"paper": "kale2019hypothetical", "claim": "kale-learning-qualification", "relation": "qualifies", "note": "Order and practice affected performance."},
+        {"paper": "fernandes2018uncertainty", "claim": "fernandes-decision-quality", "relation": "supports", "note": "Quantile dotplots supported near-optimal transit decisions after repeated trials."}
+      ],
+      "gaps": [
+        "No study tests animated or aggregated sampled topoplots for spatial-pattern, peak, or condition-comparison tasks.",
+        "Animation duration, sample count, temporal dependence, and accessibility need EEG-specific evaluation.",
+        "Image aggregation can mix color and intensity in ways that may obscure signed EEG values.",
+        "Coverage guarantees do not establish perceptual calibration or correct scientific interpretation."
+      ]
+    },
+    {
+      "slug": "evaluation-and-reporting",
+      "title": "How to evaluate and report an uncertainty-topoplot study",
+      "research_question": "What methodological evidence should guide evaluation and reporting of a new uncertainty-topoplot design?",
+      "scope_note": "This matrix concerns study design and reporting, not the choice of a final encoding.",
+      "rows": [
+        {"paper": "lam2012seven", "claim": "lam-goals-first", "relation": "supports", "note": "Start from evaluation goal and research question before choosing method."},
+        {"paper": "kinkeldey2014assess", "claim": "kinkeldey-task-typology", "relation": "supports", "note": "Use task-centered evaluation and report expertise and context."},
+        {"paper": "sedlmair2012design", "claim": "sedlmair-real-problem", "relation": "supports", "note": "For applied work, ground abstraction and alternatives in a real domain problem."},
+        {"paper": "kappenman2021erp", "claim": "kappenman-open-benchmark", "relation": "enables", "note": "ERP CORE offers reproducible tasks, data, and pipelines for testing."},
+        {"paper": "kappenman2021erp", "claim": "kappenman-noise-resource", "relation": "enables", "note": "Benchmark noise distributions can support stimulus construction and quality checks."},
+        {"paper": "yanai2021current", "claim": "yanai-reporting-rates", "relation": "motivates", "note": "Incomplete uncertainty reporting shows why source-specific reporting criteria matter."},
+        {"paper": "pocock2007figures", "claim": "pocock-dominant-types", "relation": "context", "note": "Published figure conventions can be audited systematically rather than assumed."},
+        {"paper": "hullman2019pursuit", "claim": "hullman-confirmation-bias", "relation": "supports", "note": "Evaluation should extend beyond constrained accuracy to explanation and downstream decisions."},
+        {"paper": "tennant2025human", "claim": "tennant-sparse-comparisons", "relation": "context", "note": "Recent geospatial evidence remains heterogeneous and thin on direct comparisons."},
+        {"paper": "kusumastuti2023practice", "claim": "kusumastuti-practice", "relation": "supports", "note": "Learning curves matter when evaluating a novel display."},
+        {"paper": "correll2014error", "claim": "correll-within-bar", "relation": "supports", "note": "Include diagnostic tasks sensitive to known encoding-induced biases."}
+      ],
+      "gaps": [
+        "A preregistered EEG-specific task taxonomy for uncertainty topoplots is absent.",
+        "Future studies should report exclusions, denominators, stimuli, interpolation, reference, uncertainty definition, colormap, display size, and participant EEG/statistical expertise.",
+        "Accuracy, response time, confidence, preference, calibration, and scientific decision quality should be analyzed as distinct outcomes.",
+        "Open stimuli and code are needed to compare new encodings with conventional topoplots and separate uncertainty panels."
+      ]
+    },
+    {
+      "slug": "statistical-interpretation-audit",
+      "title": "Statistical interpretation and audit foundations",
+      "research_question": "What checks help align statistical code, study design, and reported scientific claims?",
+      "scope_note": "Gelman, Hill, and Vehtari provide methodological framing, while EEG and reporting sources provide domain context. This matrix is an audit guide, not evidence that a particular project implementation is correct.",
+      "rows": [
+        {"paper": "gelman2020regression", "claim": "gelman-unmodeled-uncertainty", "relation": "method_check", "note": "Check whether calculations omit important sampling, measurement, or model uncertainty."},
+        {"paper": "gelman2020regression", "claim": "gelman-significance-dichotomy", "relation": "reporting_check", "note": "Check for significant/nonsignificant dichotomies that overstate differences."},
+        {"paper": "gelman2020regression", "claim": "gelman-coefficients-comparisons", "relation": "interpretation_check", "note": "Check whether conditional associations are mislabeled as causal effects."},
+        {"paper": "gelman2020regression", "claim": "gelman-predictive-checking", "relation": "code_and_model_check", "note": "Check fitted models against observed data and replicated predictions."},
+        {"paper": "pernet2011limo", "claim": "pernet-single-trial", "relation": "eeg_context", "note": "Check whether the analysis preserves or discards trial-level variability consistently with the research question."},
+        {"paper": "kappenman2021erp", "claim": "kappenman-noise-resource", "relation": "eeg_context", "note": "Check whether measurement noise and participant variation are defined and reported rather than conflated."},
+        {"paper": "yanai2021current", "claim": "yanai-reporting-rates", "relation": "reporting_context", "note": "Incomplete source-specific uncertainty reporting motivates an explicit reporting checklist."}
+      ],
+      "gaps": [
+        "A project audit still requires reading the actual analysis code, data transformations, model objects, and manuscript claims; handbook principles cannot substitute for execution checks.",
+        "The archived sources do not define one universally correct EEG topoplot uncertainty model.",
+        "Simulation-based calibration, sensitivity analysis, and validation targets must be chosen for the actual estimand and study design.",
+        "Every reported number should be traceable from manuscript text to generated output and the code/data state that produced it."
+      ]
+    }
+  ]
+}

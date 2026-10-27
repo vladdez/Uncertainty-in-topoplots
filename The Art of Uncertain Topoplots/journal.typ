@@ -86,7 +86,7 @@ signal-to-noise structure. On the other hand, adding another visual variable to 
 familiar spatial representation may hinder the perception of the underlying ERP pattern.
 This creates a broader visualization question: #strong[how can uncertainty be added to an
 established spatial visualization while preserving the primary signal that users already
-know how to read?]. This difficulty is reflected by @allen2012data: they reviewed 1,451 figures 
+know how to read?] This difficulty is reflected by @allen2012data: they reviewed 1,451 figures 
 from six neuroscience journals, finding that uncertainty was particularly underrepresented 
 in visualizations of data with more than three features, with only 20% indicating uncertainty.
 
@@ -125,30 +125,6 @@ derive practical recommendations for the usage of uncertainty-aware EEG/ERP topo
 
 = Related Work
 
-== Uncertainty Visualization in Scientific and Spatial Data
-
-Research on visualizing uncertainty in spatial data extends back several decades. An
-early contribution is MacEachren's 1992 discussion of cartographic symbols and interfaces
-for communicating uncertainty during exploratory analysis @maceachren1992visualizing.
-By 2009, Sanyal et al. had published a controlled comparison of uncertainty encodings for
-one- and two-dimensional datasets @sanyal2009user. In 2012, Brodlie et al. reviewed
-uncertainty visualization across a broader range of scientific applications
-@brodlie2012review. These works illustrate both the development of representations and
-efforts to evaluate their interpretation.
-
-Subsequent contributions refined the characterization and communication of uncertainty.
-Hullman et al. introduced hypothetical outcome plots in 2015
-@hullman2015hypothetical, and Correll et al. presented Value-Suppressing Uncertainty
-Palettes in 2018 @correll2018task. More recent work continues to investigate these
-questions in specific scientific domains, including Sterzik et al.'s 2025 evaluation of
-biomolecular uncertainty visualizations @sterzik2025. These examples show sustained
-interest in both representation design and empirical evaluation across scientific domains.
-
-Across this literature, representations differ in whether viewers encounter numerical
-uncertainty summaries, intervals, or possible outcomes @wilke2019fundamentals. The
-following subsections examine reporting practices, encoding choices, and the evidence
-about their use before considering the remaining gap in EEG/ERP visualization.
-
 == Uncertainty Is Often Missing from Scientific Reporting and Visualization
 
 Uncertainty is routinely omitted or incompletely communicated across scientific
@@ -165,32 +141,40 @@ ecosystem science, geospatial mapping, and visualization software.
     columns: (1.1fr, 1.4fr, 1.8fr, 3fr),
     inset: 5pt,
     align: (left, left, left, left),
-    table.header([*Field*], [*Study*], [*Data sources*], [*Main finding*]),
+    table.header([*Field*], [*Study*], [*Evidence and sample*], [*Main finding*]),
     [Neuroscience],
-    [Allen et al. @allen2012data],
-    [288 articles; 1,451 figures],
+    [Allen et al. (2012) @allen2012data],
+    [Publication audit: 288 articles; 1,451 figures],
     [Only about 20% of visualisations with three features represented
     uncertainty.#footnote[In Allen et al.'s terminology, three-dimensional graphics
     represent three data variables, which can be shown in a flat figure using two axes and
     colour; the term does not necessarily imply a 3D spatial rendering
     @allen2012data.]],
     [Ecosystem science],
-    [Yanai et al. @yanai2021current],
-    [132 articles],
+    [Yanai et al. (2021) @yanai2021current],
+    [Publication audit: 132 articles],
     [Studies reported numerical estimates for only 42% of relevant uncertainty sources on average; 
     54% of studies reported such estimates for fewer than half.],
+    [ERP visualization practice],
+    [Mikheev et al. (2024) @mikheev2024art],
+    [Practitioner survey: 157 M/EEG practitioners who had published a paper with an
+    ERP plot],
+    [Among the 157 respondents who had published an ERP plot, 40% reported not including
+    error bars.],
     [Geospatial / public-health mapping],
-    [Jain et al. @jain2026communicating],
-    [66 articles containing maps of climate-related infectious diseases
+    [Jain et al. (2026) @jain2026communicating],
+    [Publication audit: 66 articles containing maps of
+    climate-related infectious diseases
     in the Asia-Pacific region],
     [Only 3 of 66 studies (4.5%) visually integrated uncertainty into their maps;
     26 studies (39%) did not report uncertainty at all.],
     [Visualization software],
-    [Petek et al. @petek2026general],
-    [5 visualization tools (Matplotlib, ggplot2, ggdist, Seaborn, and ggdibbler);
-    18 example uncertainty-visualization scenarios],
-    [In 13 of 18 scenarios (72%), all five tools required users to quantify
-    uncertainty and construct its visual encoding manually.],
+    [Petek et al. (2026) @petek2026general],
+    [Software comparison: 5 visualization tools: Matplotlib, ggplot2, ggdist, Seaborn,
+    and ggdibbler;
+    18 example uncertainty visualization ],
+    [For 13 of 18 visualisations (72%), all five tools lack a wrapper to quantify
+    uncertainty, so users need to construct visual encoding manually.],
   ),
   caption: [Representative evidence of incomplete uncertainty reporting and
     visualization across scientific domains and limited software support.],
@@ -203,16 +187,13 @@ Limited software support is one practical reason why uncertainty visualizations 
 remain uncommon. Although many uncertainty visualization techniques have been
 proposed, they are not necessarily available as standard functionality in commonly
 used visualization systems. Petek et al. compared five visualization tools across
-18 example uncertainty visualizations and found that, for 13 of these examples, all
+18 example uncertainty visualizations: for 13 of these examples, all
 five tools required users to quantify uncertainty themselves and implement its visual
 encoding through custom plotting code, rather than relying on dedicated
 uncertainty-visualization functionality (their Table 3) @petek2026general.
 
 This software gap has been reported across multiple visualization ecosystems and
-application domains. These observations were not based on reported
-systematic audits of software packages, but together they indicate a recurring gap
-between uncertainty-visualization research and routinely available software
-functionality. Kay notes that support for uncertainty visualization in existing
+application domains. Kay notes that support for uncertainty visualization in existing
 Grammar-of-Graphics implementations remains largely limited to conventional
 representations such as error bars, uncertainty bands, and density plots, while many
 techniques proposed in visualization research remain difficult to construct
@@ -228,95 +209,185 @@ technique was available in medical workstations @gillmann2021uncertainty.
 == Visual Encodings for Spatial Uncertainty
 
 Kinkeldey et al. @kinkeldey2014assess classify spatial uncertainty visualizations along
-three dimensions: *intrinsic versus extrinsic* (modifying existing visual properties or
-adding graphical elements), *coincident versus adjacent* (showing data and uncertainty
-together or separately), and *static versus dynamic* representations. We focus on five
+three dimensions: _intrinsic_ versus _extrinsic_ (modifying existing visual properties or
+adding graphical elements), _coincident_ versus _adjacent_ (showing data and uncertainty
+together or separately), and _static_ versus _dynamic_ representations. We focus on five
 approaches used in our study.
 
-*Markers and glyphs* represent uncertainty through graphical elements added to a spatial
+_Markers_ and _glyphs_ represent uncertainty through graphical elements added to a spatial
 display. Their visual properties, such as size, colour, or opacity, can encode uncertainty
 independently of the underlying data @maceachren1992visualizing @brodlie2012review.
 
-*Bivariate colour maps* encode two quantities within a single spatial view using a
+_Bivariate colour maps_ encode two quantities within a single spatial view using a
 two-dimensional colour legend @wainer1980colormaps @strode2019operationalizing.
 MacEachren @maceachren1992visualizing proposed using this approach to display data values
 together with their uncertainty, assigning different colour properties to each quantity.
 
-*Adjacent or juxtaposed maps* display an estimate and its uncertainty in separate,
+_Adjacent_ or _juxtaposed maps_ display an estimate and its uncertainty in separate,
 spatially aligned views @brodlie2012review. Each quantity can use its own colour scale,
 allowing viewers to compare the two maps.
 
-*Interval-based representations* display an estimate together with its lower and upper
+_Interval-based representations_ display an estimate together with its lower and upper
 bounds. For spatial data, these bounds can be shown as separate maps alongside the
 estimate @gerslova2026diegr. Depending on the statistical method, the bounds may represent
-confidence intervals or another interval, such as the mean plus or minus one standard
-error.
+confidence intervals or 1 +- standard error.
 
-*Hypothetical outcome plots* use animation to display samples from a modelled distribution
+_Hypothetical outcome plots_ use animation to display samples from a modelled distribution
 @hullman2015hypothetical. For spatial data, each frame shows a possible spatial pattern,
 communicating uncertainty through variation across successive frames.
 
 == Evaluating Uncertainty Visualizations
 
-*Uncertainty visualizations have been evaluated using different perceptual and
-decision-making tasks.* MacEachren et al. @maceachren1992visualizing compared adjacent
-maps, texture overlays, and bivariate colour encodings using tasks involving spatial
-patterns and data reliability. Sanyal et al. @sanyal2009user compared error bars, glyph
-size, glyph colour, and surface colour using search and counting tasks on one- and
-two-dimensional datasets. Both studies demonstrated that the relative effectiveness of
-uncertainty representations depends on what participants are asked to identify or compare.
 
-*Other studies have examined whether viewers can correctly interpret and use uncertainty.*
-Hullman et al. @hullman2015hypothetical compared hypothetical outcome plots with error
-bars and violin plots using probability judgments about the ordering of variables. Correll
-et al. @correll2018task evaluated bivariate colour maps and Value-Suppressing Uncertainty
-Palettes using both identification tasks, which required participants to decode values and
-uncertainty, and decision-making tasks, which required them to consider both quantities.
-More recently, Sterzik et al. @sterzik2025 evaluated biomolecular uncertainty
-visualizations through expert assessments and perceptual experiments, examining intuitive
-interpretation, perceived mapping direction, and accuracy in estimating uncertainty.
+Previous studies have evaluated uncertainty visualizations using perceptual tasks, probability judgments, decision-making tasks, and subjective assessments. @tab:uncertainty-evaluations summarizes representative empirical studies, distinguishing what researchers assessed from how they measured it.
 
-*Evaluation measures capture different aspects of visualization performance.* Accuracy
-indicates whether participants reach the correct interpretation, while response time
-measures how quickly they complete a task. Subjective ratings assess perceived difficulty,
-usefulness, or preference, and qualitative feedback can help explain why participants
-favour or struggle with particular designs @lam2012seven.
 
-*Results from different evaluation methods do not always agree.* Reviewing previous user
-studies, Kinkeldey et al. @kinkeldey2014assess found that visualization effectiveness
-depends on the task and that subjective preferences do not necessarily correspond to
-better objective performance. This motivates our use of two performance tasks alongside
-subjective ratings and qualitative feedback to evaluate uncertainty visualization
-techniques for EEG topographic maps.
+#figure(
+  placement: top,
+  scope: "parent",
+  {
+    set text(size: 7.5pt)
 
+    table(
+      columns: (1.25fr, 0.9fr, 0.4fr, 2.1fr, 0.6fr, 1.1fr, 2fr),
+      inset: 3.5pt,
+      align: (left, left, center, left, center, left, left),
+
+      table.header(
+        [*Paper*],
+        [*Field*],
+        [*Data*],
+        [*Visualizations compared*],
+        [*Type*],
+        [*Sample size*],
+        [*How it was measured*],
+      ),
+
+      [Sanyal et al. @sanyal2009user],
+      [General],
+      [S],
+      [Error bars, glyph size, glyph colour, surface colour],
+      [PT],
+      [N: 27],
+      [Search and counting accuracy; response time],
+
+      [MacEachren et al. @maceachren2012semiotics],
+      [Geospatial mapping],
+      [S],
+      [Size, colour, transparency vs. recognizable pictorial symbols],
+      [PT, SR],
+      [E1: 72; E2: 30; pilot: 31],
+      [Intuitiveness judgments; comparison accuracy; response time],
+
+      [Correll & Gleicher @correll2014error],
+      [General],
+      [S],
+      [Error bars, box plots, gradients, violin plots],
+      [PJ],
+      [E1: 96; E2: 48; E3: 96],
+      [Prediction accuracy; likelihood judgments; judgment confidence],
+
+      [Scholz & Lu @scholz2014uncertainty],
+      [Geospatial mapping],
+      [R],
+      [Fuzziness, lightness, transparency, shape],
+      [DM, SR],
+      [N: 60],
+      [Decision choices; preference ratings and rankings],
+
+      [Greis et al. @greis2015investigating],
+      [Weather forecasting],
+      [M],
+      [Textual estimates, SD and quantiles; line/area charts, boxplots, bar charts, shaded bars, PDF/CDF plots],
+      [DM, SR],
+      [Survey: 90; game: 44 (38 rated)],
+      [Subjective ratings; farming-game decision choices],
+
+      [Hullman et al. @hullman2015hypothetical],
+      [Chemical concentrations],
+      [S],
+      [HOPs, error bars, violin plots],
+      [PJ],
+      [N: 288],
+      [Probability-estimation error; total completion time],
+
+      [Gschwandtner et al. @gschwandtner2016visual],
+      [Event time intervals],
+      [S],
+      [Gradients, violin plots, probability plots, error bars, ambiguation],
+      [PT, PJ],
+      [N: 72],
+      [Accuracy; estimation error; response time],
+
+      [Correll et al. @correll2018task],
+      [Spatial mapping],
+      [S],
+      [Adjacent maps, bivariate maps, VSUPs],
+      [PT, DM],
+      [E1: 24; E2: 24],
+      [Identification accuracy; response time; decision choices],
+
+      [Fernandes et al. @fernandes2018uncertainty],
+      [Public transport],
+      [S],
+      [Dotplots, CDFs, PDFs, intervals, text, baseline],
+      [DM],
+      [N: 408],
+      [Expected reward relative to optimal; variability across trials],
+
+      [Kale et al. @kale2019hypothetical],
+      [Employment trends],
+      [S],
+      [HOPs, error bars, line ensembles],
+      [PT],
+      [E1: 50; E2: 150],
+      [Trend-identification accuracy; perceptual sensitivity (JND); judgment confidence],
+
+      [Kusumastuti et al. @kusumastuti2023practice],
+      [General],
+      [S],
+      [Ensemble, summary, distribution displays],
+      [DM],
+      [E1: 118; E2: 56],
+      [Decision accuracy; response time],
+
+      [Sterzik et al. @sterzik2025],
+      [Biomolecular structures],
+      [M],
+      [Colour, clouds, ensembles, hulls, sausages, contours, texture, waves, noise],
+      [PT, QF],
+      [Total: 1,756; experts: 6],
+      [Mapping-direction judgments; uncertainty-estimation accuracy; qualitative expert feedback],
+    )
+  },
+  caption: [
+    Empirical evaluations of uncertainty visualization techniques.#linebreak()
+    Data: S = synthetic or simulated data;
+    R = real observational data;
+    M = mixed real and simulated data;#linebreak()
+    Task type: PT = perceptual tasks;
+    PJ = probability judgments;
+    DM = decision-making tasks;
+    SR = subjective ratings;
+    QF = qualitative feedback.#linebreak()
+    N = number of participants;
+    E1–E3 = separate experiments.
+  ],
+) <tab:uncertainty-evaluations>
+
+_Perceptual studies_  assess how accurately and quickly participants identify areas with high uncertainty or compare its magnitude across different areas, typically measuring accuracy and response time @hullman2015hypothetical. Both approaches provide objective measures, but they test different abilities: reading uncertainty is not the same as using it to make a decision.
+
+_Decision-making studies_ go beyond interpretation accuracy. Correll et al. @correll2018task examined whether uncertainty affected participants' choices, whereas Fernandes et al. @fernandes2018uncertainty measured decision quality through expected payoffs. This distinction matters because a visualization can change how cautiously people behave without necessarily improving their decisions. _Subjective assessments_ address another question: whether a visualization is understandable, useful, or preferred. Studies combining ratings with behavioral tasks, such as Greis et al. @greis2015investigating, allow these outcomes to be examined separately.
+
+No single evaluation measure captures all aspects of uncertainty visualization effectiveness. Reviews by Kinkeldey et al. @kinkeldey2014assess and Hullman et al. @hullman2019pursuit emphasize the importance of task selection and distinguishing perceptual performance from decision quality. Accordingly, our study combines two tasks: pattern comparison, assessing whether users can recognize EEG scalp patterns, and signal-to-noise integration, assessing whether they can use voltage and standard error together. Subjective ratings and qualitative feedback complement these performance measures by examining participants' experiences with each visualization design.
 == Uncertainty in EEG/ERP Visualization
 
-Uncertainty is commonly represented for one-dimensional ERP waveforms using standard
-errors or confidence intervals, displayed as error bars or shaded bands @allen2012data
-@kappenman2021erp @pernet2011limo. Statistical scalp maps and significance markers are
-also familiar in EEG analysis. These indicate evidence from hypothesis tests, such as test
-statistics or thresholded significance, and do not directly show uncertainty in the
-estimated voltage itself @pernet2011limo.
+In ERP waveforms, uncertainty is commonly shown using error bars or shaded confidence intervals @allen2012data @kappenman2021erp @pernet2011limo. EEG scalp maps can also display statistical results, such as test statistics or significance markers, but these do not directly show uncertainty in the estimated voltage @pernet2011limo.
 
-LIMO EEG provides bootstrap confidence intervals for estimates at individual electrodes
-and time points @pernet2011limo. Its published examples typically separate statistical
-topographies from interval displays: scalp maps show test statistics, while waveforms for
-selected electrodes show estimated responses or model coefficients with confidence
-intervals (their Fig. 4). This supports inspecting statistical evidence across the scalp
-and uncertainty in selected time courses.
+Some EEG tools already provide ways to visualize uncertainty. LIMO EEG calculates bootstrap confidence intervals for individual electrodes and time points, but its published examples show statistical scalp maps and confidence intervals on selected waveforms separately @pernet2011limo. The R package `diegr` offers a more direct approach: its `plot_topo_mean()` function displays three scalp maps showing the lower confidence bound, mean, and upper confidence bound @gerslova2026diegr.
 
-The R package `diegr` provides a particularly relevant precedent @gerslova2026diegr. Its
-`plot_topo_mean()` function displays three scalp maps corresponding to the lower
-confidence bound, mean, and upper confidence bound. It therefore provides a direct example
-of interval-based uncertainty visualization in EEG topographies. Neither the LIMO EEG
-paper nor the `diegr` documentation reports a systematic perceptual or user evaluation
-comparing alternative uncertainty encodings for EEG/ERP topoplots.
+Although these approaches exist, it remains unclear which uncertainty visualizations work best for EEG/ERP topoplots. Neither publication systematically evaluates how users interpret different visualization designs. Our study addresses this gap by comparing ways to display uncertainty alongside estimated scalp voltage, rather than uncertainty in interpolation or source localization.
 
-These individual implementations demonstrate prior use of uncertainty displays without
-establishing a shared convention for EEG/ERP topoplots. Their relevance here concerns
-uncertainty in estimated sensor-space voltage. Interpolation accuracy and confidence
-regions for source-localization estimates concern different targets of uncertainty and do
-not by themselves provide an encoding of voltage uncertainty alongside the scalp signal.
 
 == Research Gap
 
@@ -331,7 +402,7 @@ representations or struggle to interpret them.
 
 = Formative Qualitative Study
 
-Before adapting and quantitatively evaluating the uncertainty visualizations, we conducted
+At the beginning we conducted
 a formative qualitative study to understand how EEG/ERP researchers currently use
 topoplots, how they conceptualize uncertainty, and which barriers they encounter when
 communicating it in spatial EEG representations. The interviews also served to identify
@@ -346,8 +417,9 @@ fundamental neuroscience, brain-computer interface research, and clinical EEG pr
 
 == Interview Guide
 
-We used a semi-structured interview guide consisting of 14 main questions. A shortened
-version containing the main questions was provided to participants, while the interviewer
+We used a semi-structured interview guide consisting of 14 main questions; the complete
+guide is provided in the supplementary material. A shortened version containing the main
+questions was provided to participants, while the interviewer
 used an extended version containing optional probes.
 
 The interview covered six main topics: participants' EEG/ERP background and visualization
@@ -362,7 +434,8 @@ stance and did not suggest that uncertainty should or should not be visualized.
 
 == Procedure and Transcription
 
-The interviews lasted approximately 15--30 minutes and were audio-recorded. At the
+The interviews lasted approximately 15--30 minutes and were audio-recorded. The
+full interview guide is provided in Table S1 of the supplementary material. At the
 beginning of each interview, participants explicitly consented to the recording, to public
 sharing of an anonymized transcript for research purposes, and to the use of anonymized
 quotations in publications.
@@ -548,7 +621,9 @@ We recruited participants with experience in EEG/ERP research or analysis. The s
 targeted researchers and students familiar with EEG/ERP data and topographic
 visualizations. Participation was voluntary.
 
-A total of \[N\] participants were included in the quantitative analysis. #emph[TODO: Add
+A total of 114 participants were included in the quantitative analysis. Country-of-work
+percentages were calculated from 110 valid responses: two participants selected "Prefer
+not to say," and two entered occupations rather than countries. #emph[TODO: Add remaining
 demographics, EEG experience, and exclusion criteria.]
 
 // TODO: Report ethics approval or exemption and informed-consent procedures.

@@ -1,0 +1,41 @@
+{
+  "source_id": "gelman2020regression",
+  "title": "Regression and Other Stories",
+  "authors": "Andrew Gelman, Jennifer Hill, and Aki Vehtari",
+  "edition_note": "The archived PDF states first publication in 2021; the stable wiki ID follows the source filename supplied in handbooks/.",
+  "scope_note": "Chapter-level navigation for a broad statistical handbook. Use it for methodological framing; verify details in linked raw passages and use primary domain studies for substantive EEG claims.",
+  "chapters": [
+    {"number": 1, "title": "Overview", "printed_start": 3, "pdf_start": 21, "keywords": ["prediction", "generalization", "causal inference"]},
+    {"number": 2, "title": "Data and measurement", "printed_start": 21, "pdf_start": 39, "keywords": ["validity", "reliability", "graphical comparisons"]},
+    {"number": 3, "title": "Basic mathematics and probability", "printed_start": 35, "pdf_start": 53, "keywords": ["probability", "distributions", "log scales"]},
+    {"number": 4, "title": "Statistical inference", "printed_start": 49, "pdf_start": 67, "keywords": ["standard errors", "confidence intervals", "unmodeled uncertainty", "significance"]},
+    {"number": 5, "title": "Simulation", "printed_start": 69, "pdf_start": 87, "keywords": ["simulation", "bootstrap", "fake data"]},
+    {"number": 6, "title": "Background on regression modeling", "printed_start": 81, "pdf_start": 99, "keywords": ["comparisons", "effects", "regression to the mean"]},
+    {"number": 7, "title": "Linear regression with a single predictor", "printed_start": 93, "pdf_start": 111, "keywords": ["linear regression", "model checking", "comparisons"]},
+    {"number": 8, "title": "Fitting regression models", "printed_start": 103, "pdf_start": 121, "keywords": ["least squares", "Bayesian inference", "influence"]},
+    {"number": 9, "title": "Prediction and Bayesian inference", "printed_start": 113, "pdf_start": 131, "keywords": ["posterior simulation", "prediction", "priors"]},
+    {"number": 10, "title": "Linear regression with multiple predictors", "printed_start": 131, "pdf_start": 149, "keywords": ["interactions", "prediction uncertainty", "multiple predictors"]},
+    {"number": 11, "title": "Assumptions, diagnostics, and model evaluation", "printed_start": 153, "pdf_start": 171, "keywords": ["diagnostics", "posterior predictive checks", "cross-validation"]},
+    {"number": 12, "title": "Transformations and regression", "printed_start": 183, "pdf_start": 201, "keywords": ["transformations", "model comparison", "prediction"]},
+    {"number": 13, "title": "Logistic regression", "printed_start": 217, "pdf_start": 235, "keywords": ["binary outcomes", "logistic regression", "probabilities"]},
+    {"number": 14, "title": "Working with logistic regression", "printed_start": 241, "pdf_start": 259, "keywords": ["graphing probabilities", "predictive simulation", "separation"]},
+    {"number": 15, "title": "Other generalized linear models", "printed_start": 263, "pdf_start": 281, "keywords": ["Poisson", "negative binomial", "robust regression"]},
+    {"number": 16, "title": "Design and sample size decisions", "printed_start": 291, "pdf_start": 309, "keywords": ["study design", "sample size", "power", "design simulation"]},
+    {"number": 17, "title": "Poststratification and missing-data imputation", "printed_start": 313, "pdf_start": 331, "keywords": ["generalization", "missing data", "imputation"]},
+    {"number": 18, "title": "Causal inference and randomized experiments", "printed_start": 339, "pdf_start": 357, "keywords": ["randomization", "causal effects", "assumptions"]},
+    {"number": 19, "title": "Causal inference using regression", "printed_start": 363, "pdf_start": 381, "keywords": ["treatment effects", "interactions", "post-treatment bias"]},
+    {"number": 20, "title": "Observational studies", "printed_start": 383, "pdf_start": 401, "keywords": ["confounding", "overlap", "propensity scores"]},
+    {"number": 21, "title": "Additional topics in causal inference", "printed_start": 421, "pdf_start": 439, "keywords": ["instrumental variables", "regression discontinuity", "identification"]},
+    {"number": 22, "title": "Advanced regression and multilevel models", "printed_start": 457, "pdf_start": 475, "keywords": ["multilevel models", "regularization", "nonlinear models"]}
+  ],
+  "key_passages": [
+    {"label": "Book scope", "anchor": "p003-b002", "description": "Comparison, estimation, prediction, and causal inference in applied problems."},
+    {"label": "Graphs as comparisons", "anchor": "p043-b005", "description": "Graphical exploration is organized around comparisons."},
+    {"label": "Estimates and uncertainty", "anchor": "p068-b004", "description": "Parameters, estimands, estimates, standard errors, and confidence intervals."},
+    {"label": "Bias and unmodeled uncertainty", "anchor": "p073-b004", "description": "Why ideal model-based uncertainty can be incomplete."},
+    {"label": "Problems with statistical significance", "anchor": "p078-b003", "description": "Critique of sharp significant/nonsignificant dichotomies."},
+    {"label": "Coefficients as comparisons", "anchor": "p102-b002", "description": "Why regression coefficients are not automatically causal effects."},
+    {"label": "Graphics for model understanding", "anchor": "p174-b003", "description": "Plotting data and fitted models to reveal unexplained patterns."},
+    {"label": "Posterior predictive checking", "anchor": "p181-b010", "description": "Comparing observed data with replicated data from a fitted model."}
+  ]
+}
