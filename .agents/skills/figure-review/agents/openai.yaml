@@ -1,0 +1,4 @@
+interface:
+  display_name: "Figure Review"
+  short_description: "Review scientific figures against Wilke before editing"
+  default_prompt: "Use $figure-review to review this scientific figure and propose prioritized changes without modifying anything until I approve."

@@ -12,7 +12,6 @@ params:
 source("scripts/analysis_setup.R")
 ```
 
-
 ## Response scoring and trial reconstruction
 
 ```{r}
@@ -56,7 +55,6 @@ task2_responses <- data %>%
   )
 ```
 
-
 ```{r}
 score_text <- paste(
   readLines(project_path("regions.txt"), encoding = "UTF-8"),
@@ -91,7 +89,7 @@ task2 <- task2_design %>%
   ) %>%
   left_join(region_scores, by = c("stimulus", "region")) %>%
   left_join(task2_order, by = c("ID", "trial")) %>%
-  select(ID, trial, position, vistype, stimulus, region, score)
+  select(ID, trial, position, vistype, pattern, stimulus, region, score)
 
 task2 |>
   slice_head(n = 20) |>
@@ -104,6 +102,7 @@ task2 |>
       "Trial",
       "Presentation position",
       "Visualization type",
+      "Pattern",
       "Stimulus",
       "Selected region",
       "Score"
@@ -113,9 +112,6 @@ task2 |>
   )
 ```
 
-
-
-
 ## Descriptive detection scores
 
 ```{r}
@@ -124,10 +120,21 @@ task2_model <- task2 %>%
     ID = factor(ID),
     stimulus = factor(stimulus),
     vistype = relevel(factor(vistype), ref = "basic"),
+    pattern = factor(pattern),
     position_c = as.integer(position) - 11,
     score = as.numeric(score)
   ) %>%
   filter(complete.cases(.))
+
+stimulus_pattern_counts <- task2_model |>
+  distinct(stimulus, pattern) |>
+  count(stimulus)
+
+stopifnot(
+  nrow(task2_model) == nrow(task2),
+  all(stimulus_pattern_counts$n == 1)
+)
+
 task2_model |>
   slice_head(n = 20) |>
   mutate(vistype = table_vistype(vistype)) |>
@@ -138,6 +145,7 @@ task2_model |>
       "Participant ID",
       "Stimulus",
       "Visualization type",
+      "Pattern",
       "Centered presentation position",
       "Score"
     ),
@@ -158,6 +166,7 @@ task2_model |>
       "Participant ID",
       "Stimulus",
       "Visualization type",
+      "Pattern",
       "Centered presentation position",
       "Score"
     ),
@@ -233,13 +242,56 @@ task2_table |>
 
 ## Detection-score analysis
 
+The original participant-intercept model is retained as a base sensitivity
+model. The primary extended model additionally adjusts for spatial pattern and
+presentation position and includes crossed random intercepts for participants
+and EEG stimuli.
+
 ```{r}
-model_task2 <- glmmTMB(
-  score ~ vistype + 
-    (1 | ID),
+model_task2_base <- glmmTMB(
+  score ~ vistype + (1 | ID),
   family = ordbeta(link = "logit"),
   data = task2_model
 )
+
+model_task2 <- glmmTMB(
+  score ~ vistype + pattern + position_c +
+    (1 | ID) + (1 | stimulus),
+  family = ordbeta(link = "logit"),
+  data = task2_model
+)
+
+stopifnot(
+  model_task2$fit$convergence == 0,
+  isTRUE(model_task2$sdr$pdHess)
+)
+
+tibble::tibble(
+  model = c(
+    "Base: visualization type + participant intercept",
+    "Extended: pattern + position + participant and stimulus intercepts"
+  ),
+  parameters = c(
+    attr(logLik(model_task2_base), "df"),
+    attr(logLik(model_task2), "df")
+  ),
+  AIC = c(AIC(model_task2_base), AIC(model_task2)),
+  BIC = c(BIC(model_task2_base), BIC(model_task2)),
+  log_likelihood = c(logLik(model_task2_base), logLik(model_task2))
+) |>
+  knitr::kable(
+    format = "html",
+    digits = 3,
+    col.names = c(
+      "Model",
+      "Parameters",
+      "AIC",
+      "BIC",
+      "Log likelihood"
+    ),
+    caption = "Base and extended detection-score models",
+    table.attr = kable_table_attributes
+  )
 
 summary(model_task2)$coefficients$cond |>
   as.data.frame() |>
@@ -292,8 +344,8 @@ anova(model_task2_no_vistype, model_task2) |>
   mutate(
     model = dplyr::recode(
       model,
-      model_task2_no_vistype = "Intercept only",
-      model_task2 = "Visualization type",
+      model_task2_no_vistype = "Covariates without visualization type",
+      model_task2 = "Covariates with visualization type",
       .default = model
     ),
     `Pr(>Chisq)` = format.pval(
@@ -360,6 +412,7 @@ task2_estimates |>
     table.attr = kable_table_attributes
   )
 ```
+
 ```{r task2-pairwise-comparisons}
 emm_task2 <- emmeans(
   model_task2,
@@ -408,6 +461,7 @@ task2_pairs |>
     table.attr = kable_table_attributes
   )
 ```
+
 ```{r task2-response-scale-comparisons}
 emm_task2_response <- regrid(
   emm_task2,
@@ -440,7 +494,6 @@ task2_score_differences |>
     table.attr = kable_table_attributes
   )
 ```
-
 
 ```{r}
 
@@ -699,6 +752,7 @@ ggsave(
 ```
 
 <!-- Descriptive code moved before the model analysis. -->
+
 ```{r}
 #| eval: false
 #| include: false
@@ -714,6 +768,7 @@ task2_table <- task2_model %>%
 
 task2_table |> arrange(desc(median))
 ```
+
 ```{r}
 #| eval: false
 #| include: false
@@ -771,7 +826,6 @@ task2_table |>
     axis.ticks.y = element_blank()
   )
 ```
-
 
 ## Completion-time analysis
 

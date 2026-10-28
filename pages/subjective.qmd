@@ -24,19 +24,76 @@ question_labels <- c(
   A304 = "Aesthetically appealing"
 )
 
+# All four questions presented the visualization types in the same order.
+# The A304 columns retain that order in the export, but their suffixes are
+# nonsequential (01, 06, 02, 03, 04, 05, 07).
+rating_columns <- list(
+  A301 = sprintf("A301_%02d", seq_along(vistypes)),
+  A302 = sprintf("A302_%02d", seq_along(vistypes)),
+  A303 = sprintf("A303_%02d", seq_along(vistypes)),
+  A304 = c(
+    "A304_01", "A304_06", "A304_02", "A304_03",
+    "A304_04", "A304_05", "A304_07"
+  )
+)
+
+rating_key <- purrr::imap_dfr(
+  rating_columns,
+  \(columns, question_code) tibble(
+    question_code = question_code,
+    rating_column = columns,
+    vistype = vistypes
+  )
+)
+```
+
+```{r subjective-rating-validation}
+#| code-fold: true
+#| code-summary: "Validation checks"
+#| results: hide
+
+if (!identical(names(rating_columns), names(question_labels)) ||
+    any(lengths(rating_columns) != length(vistypes)) ||
+    anyDuplicated(rating_key$rating_column) ||
+    nrow(rating_key) != 28L) {
+  stop("The subjective-rating key must contain 28 unique survey columns.")
+}
+
+# Validate the explicit key against the question labels embedded in the first
+# row of the LimeSurvey export. Stop rather than silently relabel results if the
+# questionnaire changes in a future export.
+rating_key_validation <- rating_key %>%
+  mutate(
+    survey_label = as.character(
+      unlist(legend[1, rating_column], use.names = FALSE)
+    ),
+    label_matches = stringr::str_detect(
+      survey_label,
+      stringr::fixed(vistype)
+    )
+  )
+
+if (any(is.na(rating_key_validation$survey_label)) ||
+    any(!rating_key_validation$label_matches)) {
+  stop("The subjective-rating key does not match the embedded survey labels.")
+}
+```
+
+```{r}
 likert <- data %>%
-  select(ID, matches("^A30[1-4]_\\d{2}$")) %>%
+  select(ID, all_of(rating_key$rating_column)) %>%
   pivot_longer(
     -ID,
-    names_to = c("question_code", "number"),
-    names_pattern = "(A30[1-4])_(\\d{2})",
+    names_to = "rating_column",
     values_to = "rating_raw"
   ) %>%
+  left_join(
+    rating_key %>% select(rating_column, question_code, vistype),
+    by = "rating_column"
+  ) %>%
   mutate(
-    number = as.integer(number),
-
     vistype = factor(
-      vistypes[number],
+      vistype,
       levels = vistypes
     ),
 

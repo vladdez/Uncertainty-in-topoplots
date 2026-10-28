@@ -1,0 +1,4 @@
+interface:
+  display_name: "Literature Review"
+  short_description: "Build source-traceable scientific evidence syntheses"
+  default_prompt: "Use $literature-review to develop a rigorous, source-traceable literature synthesis from the project evidence wiki."

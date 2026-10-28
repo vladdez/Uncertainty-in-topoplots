@@ -1,0 +1,4 @@
+interface:
+  display_name: "Statistical Audit"
+  short_description: "Audit code, methods, and statistical reporting"
+  default_prompt: "Use $statistical-audit to review the analysis implementation, methodological fit, and manuscript reporting, and return prioritized evidence-backed findings without editing files."

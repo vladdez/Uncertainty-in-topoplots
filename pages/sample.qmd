@@ -398,7 +398,7 @@ make_characteristic_plot <- function(
     coord_cartesian(clip = "off") +
     theme_classic(base_family = "Lato", base_size = 20) +
     theme(
-      plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
+      plot.title = element_text(hjust = 0.5, face = "bold", size = 26),
       axis.title.x = element_text(size = 20),
       axis.text.x = element_text(size = 20),
       axis.text.y = element_text(size = label_size),
@@ -483,31 +483,94 @@ if (isTRUE(params$export_artifacts)) {
 }
 ```
 
-### Reduced figure excluding categories at or below 3%
+### Reduced figure grouping small categories as Other
 
 ```{r participant-characteristics-figure-over-3-percent}
 #| fig-width: 15
 #| fig-height: 9
 
 country_over_3 <- country_combined %>%
-  mutate(percent_score = Freq / sum(Freq) * 100) %>%
-  filter(round(percent_score) > 3)
+  mutate(
+    country_work = if_else(
+      percent_score < 2,
+      "Other",
+      country_work
+    )
+  ) %>%
+  group_by(country_work) %>%
+  summarise(Freq = sum(Freq), .groups = "drop") %>%
+  mutate(
+    percent_score = Freq / sum(Freq) * 100,
+    country_work = if_else(
+      country_work == "Other",
+      "Other\n(each <2%)",
+      country_work
+    )
+  )
+
+software_other_items <- software_combined %>%
+  filter(percent_score < 4 | software == "Other") %>%
+  pull(item)
+
+# Count each respondent once in Other even if they selected more than one
+# software category that is being grouped.
+software_other <- data %>%
+  select(ID, all_of(software_other_items)) %>%
+  pivot_longer(
+    -ID,
+    names_to = "item",
+    values_to = "response"
+  ) %>%
+  group_by(ID) %>%
+  summarise(
+    selected_other = any(response == "Checked", na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  summarise(Freq = sum(selected_other)) %>%
+  mutate(
+    item = NA_character_,
+    software = "Other\n(each <4%)",
+    percent_score = Freq / n_total * 100
+  )
 
 software_over_3 <- software_combined %>%
-  filter(round(percent_score) > 3)
+  filter(percent_score >= 4, software != "Other") %>%
+  bind_rows(software_other)
 
 p_country_over_3 <- make_characteristic_plot(
   country_over_3,
   "country_work",
   "Country of work",
   label_size = 24
-)
+) +
+  scale_y_discrete(
+    labels = \(labels) labels %>%
+      stringr::str_replace_all("<", "&lt;") %>%
+      stringr::str_replace("^Other\\n", "*Other*<br>")
+  ) +
+  theme(
+    axis.text.y = ggtext::element_markdown(
+      size = 24,
+      lineheight = 0.75
+    )
+  )
 
 p_software_over_3 <- make_characteristic_plot(
   software_over_3,
   "software",
   "Software used"
-)
+) +
+  scale_y_discrete(
+    labels = \(labels) labels %>%
+      stringr::str_replace_all("<", "&lt;") %>%
+      stringr::str_replace("^Other\\n", "*Other*<br>")
+  ) +
+  theme(
+    axis.text.y = ggtext::element_markdown(
+      size = 20,
+      lineheight = 0.75
+    )
+  )
 
 participant_characteristics_over_3_figure <-
   (p_experience + p_field) /
@@ -516,8 +579,7 @@ participant_characteristics_over_3_figure <-
   plot_annotation(
     tag_levels = "A",
     caption = paste0(
-      "Categories ≥ 3% are combined into 'Other' in panels C and D. ",
-      "Multiple software selections were permitted."
+      "Multiple software selections were permitted in D."
     ),
     theme = theme(
       plot.tag = element_text(face = "bold", size = 18),
