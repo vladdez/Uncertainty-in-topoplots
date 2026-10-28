@@ -50,6 +50,23 @@ table_contrast <- function(x) {
 kable_table_attributes <-
   "class='table table-striped table-hover table-sm'"
 
+format_pvalue_html <- function(
+  p,
+  threshold = 0.05,
+  digits = 3,
+  eps = 0.001
+) {
+  formatted <- format.pval(p, digits = digits, eps = eps)
+  significant <- !is.na(p) & p < threshold
+
+  formatted[significant] <- sprintf(
+    '<span style="color:#B2182B;font-weight:700">%s</span>',
+    formatted[significant]
+  )
+
+  formatted
+}
+
 plot_theme <- function(base_size = 20) {
   theme_classic(base_size = base_size) +
     theme(

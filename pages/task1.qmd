@@ -492,14 +492,11 @@ summary(model_order)$coefficients$cond |>
     estimate = Estimate,
     standard_error = .data[["Std. Error"]],
     z_value = .data[["z value"]],
-    p_value = format.pval(
-      .data[["Pr(>|z|)"]],
-      digits = 3,
-      eps = 0.001
-    )
+    p_value = format_pvalue_html(.data[["Pr(>|z|)"]])
   ) |>
   knitr::kable(
     format = "html",
+    escape = FALSE,
     digits = 3,
     col.names = c(
       "Term",
@@ -508,7 +505,10 @@ summary(model_order)$coefficients$cond |>
       "z value",
       "p value"
     ),
-    caption = "Fixed effects for the comparison-task accuracy model",
+    caption = paste(
+      "Fixed effects for the comparison-task accuracy model.",
+      "Values with p < .05 are shown in dark red."
+    ),
     table.attr = kable_table_attributes
   )
 ```
@@ -535,14 +535,11 @@ anova(model_no_vistype, model_vistype) |>
       model_vistype = "Presentation position and visualization type",
       .default = model
     ),
-    `Pr(>Chisq)` = format.pval(
-      .data[["Pr(>Chisq)"]],
-      digits = 3,
-      eps = 0.001
-    )
+    `Pr(>Chisq)` = format_pvalue_html(.data[["Pr(>Chisq)"]])
   ) |>
   knitr::kable(
     format = "html",
+    escape = FALSE,
     digits = 3,
     col.names = c(
       "Model",
@@ -555,7 +552,10 @@ anova(model_no_vistype, model_vistype) |>
       "df difference",
       "p value"
     ),
-    caption = "Likelihood-ratio test of visualization type for comparison-task accuracy",
+    caption = paste(
+      "Likelihood-ratio test of visualization type for comparison-task accuracy.",
+      "Values with p < .05 are shown in dark red."
+    ),
     table.attr = kable_table_attributes
   )
 ```

@@ -236,17 +236,12 @@ task2_table |>
   theme(
     plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
     axis.text = element_text(size = 20),
+    axis.text.y = element_text(lineheight = 0.75),
     axis.ticks.y = element_blank()
   )
 ```
 
 ## Detection-score analysis
-
-The original participant-intercept model is retained as a base sensitivity
-model. The primary extended model additionally adjusts for spatial pattern and
-presentation position and includes crossed random intercepts for participants
-and EEG stimuli.
-
 ```{r}
 model_task2_base <- glmmTMB(
   score ~ vistype + (1 | ID),
@@ -254,6 +249,47 @@ model_task2_base <- glmmTMB(
   data = task2_model
 )
 
+summary(model_task2_base)$coefficients$cond |>
+  as.data.frame() |>
+  tibble::rownames_to_column("term") |>
+  transmute(
+    term = dplyr::recode(
+      term,
+      `(Intercept)` = "Basic topoplot (intercept)",
+      vistypeadjacent = "Adjacent plots vs Basic topoplot",
+      vistypeanimation = "Animation vs Basic topoplot",
+      vistypebivariate_corner = "Bivariate corner vs Basic topoplot",
+      vistypebivariate_range = "Bivariate range vs Basic topoplot",
+      vistypetriple_CI = "Confidence intervals vs Basic topoplot",
+      vistypeuncert_markers = "Uncertainty markers vs Basic topoplot",
+      .default = term
+    ),
+    estimate = Estimate,
+    standard_error = .data[["Std. Error"]],
+    z_value = .data[["z value"]],
+    p_value = format_pvalue_html(.data[["Pr(>|z|)"]])
+  ) |>
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    digits = 3,
+    col.names = c(
+      "Term",
+      "Estimate (logit scale)",
+      "Standard error",
+      "z value",
+      "p value"
+    ),
+    caption = paste(
+      "Fixed effects for the base sensitivity detection-score model.",
+      "Values with p < .05 are shown in dark red."
+    ),
+    table.attr = kable_table_attributes
+  )
+```
+
+
+```{r}
 model_task2 <- glmmTMB(
   score ~ vistype + pattern + position_c +
     (1 | ID) + (1 | stimulus),
@@ -311,14 +347,11 @@ summary(model_task2)$coefficients$cond |>
     estimate = Estimate,
     standard_error = .data[["Std. Error"]],
     z_value = .data[["z value"]],
-    p_value = format.pval(
-      .data[["Pr(>|z|)"]],
-      digits = 3,
-      eps = 0.001
-    )
+    p_value = format_pvalue_html(.data[["Pr(>|z|)"]])
   ) |>
   knitr::kable(
     format = "html",
+    escape = FALSE,
     digits = 3,
     col.names = c(
       "Term",
@@ -327,7 +360,10 @@ summary(model_task2)$coefficients$cond |>
       "z value",
       "p value"
     ),
-    caption = "Fixed effects for the detection-score model",
+    caption = paste(
+      "Fixed effects for the detection-score model.",
+      "Values with p < .05 are shown in dark red."
+    ),
     table.attr = kable_table_attributes
   )
 ```
@@ -348,14 +384,11 @@ anova(model_task2_no_vistype, model_task2) |>
       model_task2 = "Covariates with visualization type",
       .default = model
     ),
-    `Pr(>Chisq)` = format.pval(
-      .data[["Pr(>Chisq)"]],
-      digits = 3,
-      eps = 0.001
-    )
+    `Pr(>Chisq)` = format_pvalue_html(.data[["Pr(>Chisq)"]])
   ) |>
   knitr::kable(
     format = "html",
+    escape = FALSE,
     digits = 3,
     col.names = c(
       "Model",
@@ -368,7 +401,10 @@ anova(model_task2_no_vistype, model_task2) |>
       "df difference",
       "p value"
     ),
-    caption = "Likelihood-ratio test of visualization type for detection score",
+    caption = paste(
+      "Likelihood-ratio test of visualization type for detection score.",
+      "Values with p < .05 are shown in dark red."
+    ),
     table.attr = kable_table_attributes
   )
 ```
@@ -426,9 +462,13 @@ task2_pairs <- pairs(
 
 task2_pairs |>
   as.data.frame() |>
-  mutate(contrast = table_contrast(contrast)) |>
+  mutate(
+    contrast = table_contrast(contrast),
+    p.value = format_pvalue_html(p.value)
+  ) |>
   knitr::kable(
     format = "html",
+    escape = FALSE,
     digits = 3,
     col.names = c(
       "Comparison",
@@ -438,16 +478,23 @@ task2_pairs |>
       "z ratio",
       "Tukey-adjusted p value"
     ),
-    caption = "Tukey-adjusted pairwise comparisons of detection scores",
+    caption = paste(
+      "Tukey-adjusted pairwise comparisons of detection scores.",
+      "Values with adjusted p < .05 are shown in dark red."
+    ),
     table.attr = kable_table_attributes
   )
 
 task2_pairs |>
   as.data.frame() |>
   dplyr::filter(p.value < 0.05) |>
-  mutate(contrast = table_contrast(contrast)) |>
+  mutate(
+    contrast = table_contrast(contrast),
+    p.value = format_pvalue_html(p.value)
+  ) |>
   knitr::kable(
     format = "html",
+    escape = FALSE,
     digits = 3,
     col.names = c(
       "Comparison",
@@ -457,7 +504,10 @@ task2_pairs |>
       "z ratio",
       "Tukey-adjusted p value"
     ),
-    caption = "Statistically significant Tukey-adjusted pairwise comparisons",
+    caption = paste(
+      "Statistically significant Tukey-adjusted pairwise comparisons.",
+      "Values with adjusted p < .05 are shown in dark red."
+    ),
     table.attr = kable_table_attributes
   )
 ```
@@ -494,6 +544,16 @@ task2_score_differences |>
     table.attr = kable_table_attributes
   )
 ```
+
+**Figure method.** The points are estimated marginal mean detection scores from
+the extended ordered-beta mixed model
+`score ~ visualization type + pattern + centered position + (1 | participant) + (1 | stimulus)`,
+fitted with a logit link. Estimates are evaluated at the middle presentation
+position (`position_c = 0`, corresponding to position 11), averaged equally
+over the MMN, N170, and P3 patterns, and calculated with participant and
+stimulus random intercepts set to zero. They are then back-transformed to the
+0–1 detection-score scale. Error bars are asymptotic pointwise 95% confidence
+intervals for these model-estimated scores.
 
 ```{r}
 
@@ -548,7 +608,7 @@ detection_score_figure <- ggplot(
   ) +
   scale_x_continuous(
     labels = scales::label_percent(accuracy = 1),
-    limits = c(0.60, 0.75),
+    limits = c(0.58, 0.75),
     breaks = seq(0.60, 0.75, 0.05),
     expand = expansion(mult = c(0, 0.03))
   ) +
@@ -593,7 +653,13 @@ ggsave(
 
 ### Detection-score differences relative to Basic topoplot
 
-This plot shows response-scale differences from Basic topoplot. Confidence intervals crossing zero indicate that the corresponding visualization is not clearly different from Basic at the 95% confidence level.
+**Figure method.** The contrasts use the same extended model and reference grid
+as the estimated-score figure. Estimated marginal means are first
+back-transformed to the response scale, and each visualization is then compared
+with Basic topoplot. The six confidence intervals use the `emmeans` Dunnett-x
+adjustment for multiple comparisons against a common reference. An interval
+crossing zero indicates that the corresponding visualization is not clearly
+different from Basic at the familywise 95% confidence level.
 
 ```{r task2-basic-contrast-figure}
 task2_basic_reference <- which(
@@ -749,82 +815,6 @@ ggsave(
   device = ragg::agg_png,
   bg = "white"
 )
-```
-
-<!-- Descriptive code moved before the model analysis. -->
-
-```{r}
-#| eval: false
-#| include: false
-task2_table <- task2_model %>%
-  group_by(vistype) %>%
-  summarise(
-    n = n(),
-    mean = round(mean(score), 3),
-    median = round(median(score), 3),
-    sd = round(sd(score), 3),
-    .groups = "drop"
-  )
-
-task2_table |> arrange(desc(median))
-```
-
-```{r}
-#| eval: false
-#| include: false
-task2_table |>
-  ggplot(aes(median, reorder(vistype, median))) +
-  geom_col(
-    width = 0.7,
-    fill = "#6BAED6"
-  ) +
-  geom_errorbar(
-    aes(
-      xmin = pmax(median - sd, 0),
-      xmax = pmin(median + sd, 1)
-    ),
-    orientation = "y",
-    width = 0.18,
-    linewidth = 0.7
-  ) +
-  geom_text(
-    aes(label = sprintf("%.2f", median)),
-    hjust = -0.15,
-    nudge_y = -0.20,
-    size = 6
-  ) +
-  scale_x_continuous(
-    "Median score",
-    limits = c(0, 1),
-    breaks = seq(0, 1, 0.2),
-    expand = expansion(mult = c(0, 0.10))
-  ) +
-  scale_y_discrete(
-    labels = c(
-      adjacent = "Adjacent\nplots",
-      animation = "Animation",
-      bivariate_corner = "Bivariate\ncorner",
-      bivariate_range = "Bivariate\nrange",
-      triple_CI = "Confidence\nintervals",
-      uncert_markers = "Uncertainty\nmarkers",
-      basic = "Basic\ntopoplot"
-    )
-  ) +
-  labs(
-    title = "Detection task accuracy",
-    y = NULL
-  ) +
-  coord_cartesian(clip = "off") +
-  theme_classic(base_family = "Lato", base_size = 20) +
-  theme(
-    plot.title = element_text(
-      hjust = 0.5,
-      face = "bold",
-      size = 22
-    ),
-    axis.text = element_text(size = 20),
-    axis.ticks.y = element_blank()
-  )
 ```
 
 ## Completion-time analysis
