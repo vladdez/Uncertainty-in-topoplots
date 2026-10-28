@@ -204,6 +204,14 @@ accuracy_estimates |>
     caption = "Model-estimated comparison-task accuracy",
     table.attr = kable_table_attributes
   )
+
+model_table_note(paste0(
+  "Binomial mixed-effects model with logit link: ",
+  "<code>correct ~ vistype + position_c + (1 | ID)</code>. ",
+  "Basic topoplot is the visualization reference; estimated marginal means are ",
+  "evaluated at the mean presentation position and back-transformed to ",
+  "probabilities with asymptotic pointwise 95% confidence intervals."
+))
 ```
 ```{r}
 # Model-estimated probability of a correct response for each visualization type.
@@ -511,6 +519,14 @@ summary(model_order)$coefficients$cond |>
     ),
     table.attr = kable_table_attributes
   )
+
+model_table_note(paste0(
+  "Binomial mixed-effects model with logit link: ",
+  "<code>correct ~ vistype + position_c + (1 | ID)</code>. ",
+  "Basic topoplot is the visualization reference; ",
+  "<code>position_c = 0</code> is the mean presentation position; ",
+  "coefficients are reported as log odds."
+))
 ```
 ```{r}
 model_no_vistype <- glmmTMB(
@@ -558,6 +574,13 @@ anova(model_no_vistype, model_vistype) |>
     ),
     table.attr = kable_table_attributes
   )
+
+model_table_note(paste0(
+  "Binomial mixed-effects models with logit link. Full: ",
+  "<code>correct ~ vistype + position_c + (1 | ID)</code>; reduced: ",
+  "<code>correct ~ position_c + (1 | ID)</code>. ",
+  "The likelihood-ratio test compares these nested models."
+))
 ```
 ## Completion-time analysis
 
@@ -709,6 +732,14 @@ time_estimates |>
     caption = "Model-estimated comparison-task completion time",
     table.attr = kable_table_attributes
   )
+
+model_table_note(paste0(
+  "Gaussian linear mixed model for log completion time: ",
+  "<code>log(time_sec) ~ vistype + position_c + (1 | ID)</code>. ",
+  "Basic topoplot is the visualization reference; estimates are evaluated at ",
+  "the mean presentation position and back-transformed to seconds with 95% ",
+  "confidence intervals."
+))
 ```
 
 ```{r task1-time-estimate-plot}

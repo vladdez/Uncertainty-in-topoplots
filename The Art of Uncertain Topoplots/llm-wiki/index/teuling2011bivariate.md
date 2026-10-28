@@ -40,5 +40,5 @@ topics: ["bivariate color maps", "geospatial visualization", "climate and ecolog
 ## Related papers
 
 - [strode2019operationalizing](../summaries/strode2019operationalizing.md) — Purpose-driven bivariate choropleth design.
-- [bernard2015colormaps](../summaries/bernard2015colormaps.md) — Includes and assesses Teuling palette variants.
+- [bernard2015colormaps](../summaries/bernard2015colormaps.md) — Contrasting multivariate 2D-colormap assessment that explicitly excludes bivariate metric maps such as Teuling's.
 

@@ -29,16 +29,19 @@ topics: ["bivariate color maps", "empirical evaluation", "geospatial visualizati
 
 ## Evidence-linked findings
 
-- The opening frames two experiments as evidence for evaluating a graphical form. ([source passage](../raw/wainer1980colormaps.md#p002-b001))
-- The closing discussion emphasizes learning, natural metaphor, and the need for further empirical comparison. ([source passage](../raw/wainer1980colormaps.md#p013-b001))
+- Sixteen participants completed the first repeated-trials experiment. ([source passage](../raw/wainer1980colormaps.md#p009-b004))
+- Bivariate maps had a .24 mean error rate versus .08 for paired univariate maps but were answered a little faster. ([source passage](../raw/wainer1980colormaps.md#p011-b001))
+- Removing the legend sharply degraded bivariate-map performance but not univariate-map performance. ([source passage](../raw/wainer1980colormaps.md#p012-b003))
 
 ## Passage map
 
-- **Article overview** — Theory and experimental motivation. ([raw](../raw/wainer1980colormaps.md#p002-b001))
-- **Interpretation** — Learning and alternative color schemes. ([raw](../raw/wainer1980colormaps.md#p013-b001))
+- **Experiment 1 methods** — Participants, design, Census maps, and repeated trials. ([raw](../raw/wainer1980colormaps.md#p009-b004))
+- **Experiment 1 results** — Error-rate and response-time comparison. ([raw](../raw/wainer1980colormaps.md#p011-b001))
+- **Legend-removal results and conclusion** — Experiment 2 degradation and interpretation. ([raw](../raw/wainer1980colormaps.md#p012-b004))
 
 ## Related papers
 
-- [bernard2015colormaps](../summaries/bernard2015colormaps.md) — Modern task-based assessment of 2D colormaps.
+- [meyer1975census](../summaries/meyer1975census.md) — Primary Census documentation for the evaluated two-variable maps.
+- [bernard2015colormaps](../summaries/bernard2015colormaps.md) — Later task-based assessment of a different class of multivariate 2D colormaps.
 - [strode2019operationalizing](../summaries/strode2019operationalizing.md) — Later operationalization of bivariate color principles.
 

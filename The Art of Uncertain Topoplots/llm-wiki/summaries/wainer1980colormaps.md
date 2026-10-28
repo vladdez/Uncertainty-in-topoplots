@@ -13,13 +13,13 @@ topics: ["bivariate color maps", "empirical evaluation", "geospatial visualizati
 
 ## Why this paper matters
 
-Uses Bertin's graphical semiology to frame two experiments on how people understand two-variable color maps. It is an early argument for empirical comparison of graphical forms and for learned, semantically coherent color schemes.
+Reports two experiments on Census two-variable color maps. Sixteen graduate students completed repeated elementary map-reading trials in Experiment 1; bivariate maps were slightly faster but produced three times the error rate of paired univariate maps, and a follow-up with eight returning participants showed severe degradation when the legend was removed.
 
 ## Key findings
 
-- Effectiveness cannot be settled by design theory alone; competing two-variable schemes require empirical tests.
-- Well-learned, natural visual metaphors may support faster higher-level reading than arbitrary color assignments.
+- Experiment 1 produced mean error rates of .24 for bivariate maps and .08 for paired univariate maps, although bivariate responses were a little faster.
+- Without the legend, the bivariate mean error rate rose from .24 to .67 while the univariate mean remained .06.
 
 ## Scope and cautions
 
-- Historic experiments, printing technology, and participant expectations may not transfer directly to modern displays.
+- Experiment 1 used 16 psychology graduate students at one university; Experiment 2 retained eight of them. The historic Census maps, print technology, tasks, and training conditions limit transfer to modern displays.

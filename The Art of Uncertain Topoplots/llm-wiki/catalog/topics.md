@@ -12,9 +12,9 @@ Browse a topic, then open a paper summary. Counts refer to curated paper assignm
 
 ## bivariate color maps
 
-- [A Survey and Task-Based Quality Assessment of Static 2D Colormaps](../summaries/bernard2015colormaps.md) (2015) — Task-based measures and selection guidance for static 2D colormaps.
 - [An Empirical Inquiry Concerning Human Understanding of Two-Variable Color Maps](../summaries/wainer1980colormaps.md) (1980) — Early experimental study of how readers understand two-variable color maps.
 - [Bivariate Colour Maps for Visualizing Climate Data](../summaries/teuling2011bivariate.md) (2011) — Constructing bivariate color legends for multivariate climate maps.
+- [Color Statistical Mapping by the U.S. Bureau of the Census](../summaries/meyer1975census.md) (1975) — Primary documentation of the Census Bureau's 1974 two-variable cross-map development and 1975 publication.
 - [Operationalizing Trumbo's Principles of Bivariate Choropleth Map Design](../summaries/strode2019operationalizing.md) (2020) — Purpose-driven focal models and palettes for bivariate choropleth maps.
 - [Value-Suppressing Uncertainty Palettes](../summaries/correll2018task.md) (2018) — Uncertainty-aware bivariate palettes that suppress value resolution when uncertainty is high.
 
@@ -37,6 +37,10 @@ Browse a topic, then open a paper summary. Counts refer to curated paper assignm
 
 - [Figures in Clinical Trial Reports: Current Practice & Scope for Improvement](../summaries/pocock2007figures.md) (2007) — Audit and concrete guidance for figures in randomized clinical-trial reports.
 
+## computational evaluation
+
+- [A Survey and Task-Based Quality Assessment of Static 2D Colormaps](../summaries/bernard2015colormaps.md) (2015) — Task-based assessment of static 2D colormaps for multivariate data, excluding bivariate metric maps.
+
 ## decision making
 
 - [Investigating Representation Alternatives for Communicating Uncertainty to Non-experts](../summaries/greis2015investigating.md) (2015) — Survey and small experiment on uncertainty communication to non-experts.
@@ -45,7 +49,6 @@ Browse a topic, then open a paper summary. Counts refer to curated paper assignm
 
 ## empirical evaluation
 
-- [A Survey and Task-Based Quality Assessment of Static 2D Colormaps](../summaries/bernard2015colormaps.md) (2015) — Task-based measures and selection guidance for static 2D colormaps.
 - [A User Study to Compare Four Uncertainty Visualization Methods for 1D and 2D Datasets](../summaries/sanyal2009user.md) (2009) — Four-method user study showing that uncertainty-encoding performance is task-dependent.
 - [An Empirical Inquiry Concerning Human Understanding of Two-Variable Color Maps](../summaries/wainer1980colormaps.md) (1980) — Early experimental study of how readers understand two-variable color maps.
 - [Design Study Methodology: Reflections from the Trenches and the Stacks](../summaries/sedlmair2012design.md) (2012) — Nine-stage methodology and pitfalls for problem-driven visualization design studies.
@@ -70,6 +73,7 @@ Browse a topic, then open a paper summary. Counts refer to curated paper assignm
 
 - [An Empirical Inquiry Concerning Human Understanding of Two-Variable Color Maps](../summaries/wainer1980colormaps.md) (1980) — Early experimental study of how readers understand two-variable color maps.
 - [Bivariate Colour Maps for Visualizing Climate Data](../summaries/teuling2011bivariate.md) (2011) — Constructing bivariate color legends for multivariate climate maps.
+- [Color Statistical Mapping by the U.S. Bureau of the Census](../summaries/meyer1975census.md) (1975) — Primary documentation of the Census Bureau's 1974 two-variable cross-map development and 1975 publication.
 - [Communicating Uncertainty to Policy Makers in Maps: A Systematic Scoping Review of Meaningful to Misleading Current Practice](../summaries/jain2026communicating.md) (2026) — Systematic review showing widespread omission of uncertainty from policy-facing disease maps.
 - [Evaluating the Impact of Binning 2D Scalar Fields](../summaries/padilla2017binning.md) (2017) — Task-dependent speed and accuracy tradeoffs for binned versus continuous scalar fields.
 - [Geovisualizing Attribute Uncertainty of Interval and Ratio Variables: A Framework and an Implementation for Vector Data](../summaries/koo2018geovisualizing.md) (2018) — Bivariate GIS framework and ArcGIS tools for vector attribute uncertainty.
@@ -95,6 +99,10 @@ Browse a topic, then open a paper summary. Counts refer to curated paper assignm
 
 - [Confidence Intervals for fMRI Activation Maps](../summaries/engel2013confidence.md) (2013) — Confidence-interval maps to reduce binary misreadings of fMRI activation.
 - [Uncertainty-aware Visualization in Medical Imaging: A Survey](../summaries/gillmann2021uncertainty.md) (2021) — Pipeline-oriented survey of uncertainty visualization in medical imaging.
+
+## multivariate color maps
+
+- [A Survey and Task-Based Quality Assessment of Static 2D Colormaps](../summaries/bernard2015colormaps.md) (2015) — Task-based assessment of static 2D colormaps for multivariate data, excluding bivariate metric maps.
 
 ## neuroscience and EEG
 
@@ -192,7 +200,7 @@ Browse a topic, then open a paper summary. Counts refer to curated paper assignm
 
 ## visualization design
 
-- [A Survey and Task-Based Quality Assessment of Static 2D Colormaps](../summaries/bernard2015colormaps.md) (2015) — Task-based measures and selection guidance for static 2D colormaps.
+- [A Survey and Task-Based Quality Assessment of Static 2D Colormaps](../summaries/bernard2015colormaps.md) (2015) — Task-based assessment of static 2D colormaps for multivariate data, excluding bivariate metric maps.
 - [Data Visualization in the Neurosciences: Overcoming the Curse of Dimensionality](../summaries/allen2012data.md) (2012) — Survey and practical checklist for clearer, more honest neuroscience figures.
 - [Evaluating the Impact of Binning 2D Scalar Fields](../summaries/padilla2017binning.md) (2017) — Task-dependent speed and accuracy tradeoffs for binned versus continuous scalar fields.
 - [Figures in Clinical Trial Reports: Current Practice & Scope for Improvement](../summaries/pocock2007figures.md) (2007) — Audit and concrete guidance for figures in randomized clinical-trial reports.
@@ -200,6 +208,10 @@ Browse a topic, then open a paper summary. Counts refer to curated paper assignm
 - [Makie.jl: Flexible High-Performance Data Visualization for Julia](../summaries/danisch2021makie.md) (2021) — Architecture and capabilities of the Makie.jl visualization ecosystem.
 - [Operationalizing Trumbo's Principles of Bivariate Choropleth Map Design](../summaries/strode2019operationalizing.md) (2020) — Purpose-driven focal models and palettes for bivariate choropleth maps.
 - [The Art of Brainwaves: A Survey on Event-Related Potential Visualization Practices](../summaries/mikheev2024art.md) (2024) — Large practitioner survey of ERP visualization tools, conventions, and problems.
+
+## visualization history
+
+- [Color Statistical Mapping by the U.S. Bureau of the Census](../summaries/meyer1975census.md) (1975) — Primary documentation of the Census Bureau's 1974 two-variable cross-map development and 1975 publication.
 
 ## visualization methodology
 

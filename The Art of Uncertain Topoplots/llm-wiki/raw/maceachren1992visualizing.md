@@ -2,7 +2,7 @@
 id: "maceachren1992visualizing"
 title: "Visualizing Uncertain Information"
 source_file: "The Art of Uncertain Topoplots/papers/maceachren1992visualizing.pdf"
-source_sha256: "632e9259e9a4d3127611f320b1615333cf2cb113eef1478d543095bd66f1ea8d"
+source_sha256: "b937baf4fdae639d45ca6d848d49c3cd61d2d90a52dda7645285a53d5c3d95b7"
 extraction_format: 1
 ---
 

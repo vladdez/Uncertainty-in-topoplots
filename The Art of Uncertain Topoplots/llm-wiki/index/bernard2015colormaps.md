@@ -3,7 +3,7 @@ id: "bernard2015colormaps"
 title: "A Survey and Task-Based Quality Assessment of Static 2D Colormaps"
 year: "2015"
 keywords: ["2D colormap", "color space", "CIECAM02", "task-based design", "quality measures", "multivariate data"]
-topics: ["bivariate color maps", "visualization design", "empirical evaluation"]
+topics: ["multivariate color maps", "visualization design", "computational evaluation"]
 ---
 
 # Index: A Survey and Task-Based Quality Assessment of Static 2D Colormaps
@@ -24,7 +24,7 @@ topics: ["bivariate color maps", "visualization design", "empirical evaluation"]
 
 ## Search terms
 
-**Topics:** [`bivariate color maps`](../catalog/topics.md#bivariate-color-maps), [`visualization design`](../catalog/topics.md#visualization-design), [`empirical evaluation`](../catalog/topics.md#empirical-evaluation)  
+**Topics:** [`multivariate color maps`](../catalog/topics.md#multivariate-color-maps), [`visualization design`](../catalog/topics.md#visualization-design), [`computational evaluation`](../catalog/topics.md#computational-evaluation)  
 **Keywords:** `2D colormap`, `color space`, `CIECAM02`, `task-based design`, `quality measures`, `multivariate data`
 
 ## Evidence-linked findings
@@ -40,6 +40,6 @@ topics: ["bivariate color maps", "visualization design", "empirical evaluation"]
 
 ## Related papers
 
-- [teuling2011bivariate](../summaries/teuling2011bivariate.md) — One of the influential 2D color-map constructions assessed.
-- [wainer1980colormaps](../summaries/wainer1980colormaps.md) — Early empirical work on two-variable color maps.
+- [teuling2011bivariate](../summaries/teuling2011bivariate.md) — Contrasting scope: Teuling targets bivariate metric encoding, a class Bernard excludes from assessment.
+- [wainer1980colormaps](../summaries/wainer1980colormaps.md) — Early empirical work on two-variable color maps outside Bernard's assessed class.
 

@@ -50,6 +50,18 @@ table_contrast <- function(x) {
 kable_table_attributes <-
   "class='table table-striped table-hover table-sm'"
 
+model_table_note <- function(text, label = "Model") {
+  knitr::asis_output(
+    paste0(
+      "\n<div class=\"model-table-note\" role=\"note\"><strong>",
+      label,
+      ":</strong> ",
+      text,
+      "</div>\n"
+    )
+  )
+}
+
 format_pvalue_html <- function(
   p,
   threshold = 0.05,

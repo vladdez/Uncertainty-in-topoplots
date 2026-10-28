@@ -2,7 +2,7 @@
 id: "wainer1980colormaps"
 title: "An Empirical Inquiry Concerning Human Understanding of Two-Variable Color Maps"
 source_file: "The Art of Uncertain Topoplots/papers/wainer1980colormaps.pdf"
-source_sha256: "c20523dfadb1d12604b7f0432087ee8d7fcdac10f3953b196a2539caeb9adf30"
+source_sha256: "3d2f9f89e6c995bebccaa14a11ecf78a18c56685357c2d082259e952ddb9be23"
 extraction_format: 1
 ---
 

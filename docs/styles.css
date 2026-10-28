@@ -35,6 +35,22 @@
   object-fit: contain;
 }
 
+/* Keep statistical model specifications attached to their output tables. */
+.model-table-note {
+  margin: 0.35rem 0 1.25rem;
+  padding: 0.55rem 0.75rem;
+  border-left: 3px solid #b8c2cc;
+  color: #46505a;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  background: #f7f8fa;
+}
+
+.model-table-note code {
+  color: inherit;
+  white-space: normal;
+}
+
 /* Make the two original-feedback disclosure controls prominent and easy to tap. */
 .feedback-expand.callout {
   overflow: hidden;

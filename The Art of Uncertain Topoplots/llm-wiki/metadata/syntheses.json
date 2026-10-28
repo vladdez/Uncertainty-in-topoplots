@@ -69,6 +69,27 @@
       ]
     },
     {
+      "slug": "bivariate-map-history-and-evaluation",
+      "title": "Bivariate colour-map origins, readability, and later quality work",
+      "research_question": "What does the reviewed literature establish about the origins, readability, and later assessment of bivariate colour maps?",
+      "scope_note": "The sources cover different map classes and methods. Meyer documents Census development, Wainer tests the resulting two-variable maps, Strode addresses bivariate choropleth design, and Bernard assesses multivariate 2D colormaps while explicitly excluding bivariate metric maps. These records form a historical sequence, not one directly comparable experiment series.",
+      "rows": [
+        {"paper": "meyer1975census", "claim": "meyer-cross-map-origin", "relation": "historical_documentation", "note": "Primary documentation dates the Bureau's cross-map proposal to 1974 and its publication to 1975."},
+        {"paper": "meyer1975census", "claim": "meyer-cross-map-purpose", "relation": "design_rationale", "note": "The intended relational-reading benefit is an author interpretation, not a measured outcome."},
+        {"paper": "meyer1975census", "claim": "meyer-evaluation-status", "relation": "qualifies", "note": "The source states that reader evaluation was still underway."},
+        {"paper": "wainer1980colormaps", "claim": "wainer-bivariate-cost", "relation": "challenges", "note": "Controlled elementary-reading trials found a threefold mean error rate despite slightly faster bivariate responses."},
+        {"paper": "wainer1980colormaps", "claim": "wainer-legend-cost", "relation": "challenges", "note": "Removing the legend produced severe bivariate performance degradation."},
+        {"paper": "strode2019operationalizing", "claim": "strode-question-first", "relation": "later_design_work", "note": "Later work structures bivariate choropleth palettes around the relationship and reader question."},
+        {"paper": "bernard2015colormaps", "claim": "bernard-task-mapping", "relation": "adjacent_quality_method", "note": "Task-based quality assessment is relevant by analogy but was not applied to bivariate metric maps."}
+      ],
+      "gaps": [
+        "Olson's 1981 paper is cited by the manuscript but is not archived in the project, so it does not yet have a claim-level ingestion record.",
+        "Meyer reports design rationale and ongoing research rather than reader-performance results.",
+        "Wainer's small student sample, historic palettes, and elementary lookup tasks do not establish performance for modern bivariate uncertainty maps.",
+        "Bernard's task-based assessment cannot be cited as a direct evaluation of bivariate metric maps because that class was explicitly excluded."
+      ]
+    },
+    {
       "slug": "task-and-audience-dependence",
       "title": "Task and audience dependence of uncertainty encodings",
       "research_question": "Is there a generally best uncertainty visualization, or does performance depend on task and audience?",

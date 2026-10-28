@@ -1,6 +1,6 @@
 # Evidence ledger — uncertainty visualization evaluation table
 
-26 October 2026
+28 October 2026
 
 **Coding:** PT = perceptual tasks; PJ = probability judgments; DM = decision-making tasks; SR = subjective ratings; QF = qualitative feedback. S = synthetic, R = real, M = mixed.
 
@@ -8,6 +8,7 @@
 
 ## Corrections and cautions
 
+- Wainer & Francolini (1980): Experiment 1 included 16 graduate psychology students. The number 18 refers to responses per trial, not participants.
 - Correll, Moritz & Heer (2018): E2 recruited 24 participants but excluded 3. Report E2: 24 recruited / 21 analyzed, not 24 analyzed.
 - Scholz & Lu (2014): 72 people surveyed but 60 surveys entered analysis (only 37 gave valid rankings for the preference item).
 - Greis et al. (2015): the archived 2015 paper reports a 90-person survey and a separate controlled game experiment with 12 participants, 480 total rounds, and 442 forecast-opened rounds analyzed. Do not substitute dissertation sample counts for the paper's sample.
@@ -17,7 +18,21 @@
 - The category PJ includes broad inferential judgments in Correll & Gleicher (2014); these are not always the same as numeric probability-estimation error in Hullman et al. (2015).
 - The study on VSUPs presents real-world examples, but its user-experiment stimuli are generated; Data=S refers to experimental stimuli, not every figure in the paper.
 
-## 1. Sanyal et al. (2009) — A user study to compare four uncertainty visualization methods for 1D and 2D datasets
+## 1. Wainer & Francolini (1980) — An empirical inquiry concerning human understanding of two-variable color maps
+
+**Typst:** `@wainer1980colormaps`  **DOI:** https://doi.org/10.1080/00031305.1980.10483006
+
+**Project evidence:** [record](../evidence/wainer1980colormaps.md) · [index](../index/wainer1980colormaps.md) · [participants and design](../raw/wainer1980colormaps.md#p009-b004) · [stimuli and procedure](../raw/wainer1980colormaps.md#p010-b001) · [Experiment 1 results](../raw/wainer1980colormaps.md#p011-b001).
+
+- **Field:** Geospatial mapping. **Evidence:** Participants read color maps of the same geographic area and identified the degree of two variables at specified locations. **Exact locator:** PDF pp. 9–10, Experiment 1 methods. **Status:** Direct.
+- **Data:** R — U.S. Census maps. **Evidence:** The maps were supplied by the Census and were identical to those it used; nine variable pairs were shown with letter names during the experiment. **Exact locator:** [PDF p. 10](../raw/wainer1980colormaps.md#p010-b001). **Status:** Direct.
+- **Visualizations:** Univariate color-map pairs and bivariate two-variable color maps. **Evidence:** Every participant completed both map-type conditions. **Exact locator:** [PDF p. 9](../raw/wainer1980colormaps.md#p009-b004). **Status:** Direct.
+- **Types:** PT. **Evidence:** The task required elementary reading of two variable degrees at specified map locations; PT is the project classification. **Exact locator:** PDF pp. 9–10, Experiment 1 methods. **Status:** Interpretive.
+- **Participants:** N = 16 graduate psychology students. **Evidence:** The source states this directly. The 18 mentioned in the procedure is the number of responses per trial, not the participant count. **Exact locator:** [PDF p. 9](../raw/wainer1980colormaps.md#p009-b004); [PDF p. 10](../raw/wainer1980colormaps.md#p010-b001). **Status:** Direct.
+- **Measures:** Error rate and response time. **Evidence:** The analysis used transformed time and error outcomes. **Exact locator:** [PDF p. 11](../raw/wainer1980colormaps.md#p011-b001). **Status:** Direct.
+- **Result:** Error rates differed most strongly by map type (bivariate = .24; univariate = .08). Bivariate maps were answered slightly more quickly but produced substantially more errors. **Exact locator:** [PDF p. 11](../raw/wainer1980colormaps.md#p011-b001). **Status:** Direct, author-reported Experiment 1 result.
+
+## 2. Sanyal et al. (2009) — A user study to compare four uncertainty visualization methods for 1D and 2D datasets
 
 **Typst:** `@sanyal2009user`  **DOI:** https://doi.org/10.1109/TVCG.2009.114
 
@@ -33,7 +48,7 @@
 **External source links (supplementary):**
 - P1: [PubMed record / authors’ abstract](https://pubmed.ncbi.nlm.nih.gov/19834191/)
 
-## 2. MacEachren et al. (2012) — Visual semiotics & uncertainty visualization: An empirical study
+## 3. MacEachren et al. (2012) — Visual semiotics & uncertainty visualization: An empirical study
 
 **Typst:** `@maceachren2012semiotics`  **DOI:** https://doi.org/10.1109/TVCG.2012.279
 
@@ -50,7 +65,7 @@
 - P1: [IEEE record and abstract](https://ieeexplore.ieee.org/document/6327255/)
 - P2: [ResearchGate full-paper listing](https://www.researchgate.net/publication/260582970_Visual_Semiotics_Uncertainty_Visualization_An_Empirical_Study)
 
-## 3. Correll & Gleicher (2014) — Error bars considered harmful: Exploring alternate encodings for mean and error
+## 4. Correll & Gleicher (2014) — Error bars considered harmful: Exploring alternate encodings for mean and error
 
 **Typst:** `@correll2014error`  **DOI:** https://doi.org/10.1109/TVCG.2014.2346298
 
@@ -66,7 +81,7 @@
 **External source links (supplementary):**
 - P1: [Full journal article PDF](https://vis.csail.mit.edu/classes/6.859/readings/pdfs/Corell-ErrorBarsConsideredHarmful.pdf)
 
-## 4. Scholz & Lu (2014) — Uncertainty in geographic data on bivariate maps
+## 5. Scholz & Lu (2014) — Uncertainty in geographic data on bivariate maps
 
 **Typst:** `@scholz2014uncertainty`  **DOI:** https://doi.org/10.3390/ijgi3041180
 
@@ -82,7 +97,7 @@
 **External source links (supplementary):**
 - P1: [Original open-access article PDF](https://pdfs.semanticscholar.org/94de/b9c3b4dda04845e9ab3b7ff261667966f0ad.pdf)
 
-## 5. Greis et al. (2015) — Investigating representation alternatives for communicating uncertainty to non-experts
+## 6. Greis et al. (2015) — Investigating representation alternatives for communicating uncertainty to non-experts
 
 **Typst:** `@greis2015investigating`  **DOI:** https://doi.org/10.1007/978-3-319-22723-8_21
 
@@ -99,7 +114,7 @@
 - P1: [Paper record with abstract and illustrations](https://www.researchgate.net/publication/283580251_Investigating_Representation_Alternatives_for_Communicating_Uncertainty_to_Non-experts)
 - P2: [M. Greis, A Systematic Exploration of Uncertainty in Interactive Systems (dissertation)](https://elib.uni-stuttgart.de/server/api/core/bitstreams/e0427ac3-8561-4ff8-aace-217e2cb4f9af/content)
 
-## 6. Hullman, Resnick & Adar (2015) — HOPs outperform error bars and violin plots
+## 7. Hullman, Resnick & Adar (2015) — HOPs outperform error bars and violin plots
 
 **Typst:** `@hullman2015hypothetical`  **DOI:** https://doi.org/10.1371/journal.pone.0142444
 
@@ -115,7 +130,7 @@
 **External source links (supplementary):**
 - P1: [Original PLOS ONE article](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0142444)
 
-## 7. Gschwandtner et al. (2016) — Visual encodings of temporal uncertainty
+## 8. Gschwandtner et al. (2016) — Visual encodings of temporal uncertainty
 
 **Typst:** `@gschwandtner2016visual`  **DOI:** https://doi.org/10.1109/TVCG.2015.2467752
 
@@ -131,7 +146,7 @@
 **External source links (supplementary):**
 - P1: [Authors’ manuscript PDF](https://www.cvast.tuwien.ac.at/sites/default/files/gschwandtner_uncertainty_pubdat.pdf)
 
-## 8. Correll, Moritz & Heer (2018) — Value-suppressing uncertainty palettes
+## 9. Correll, Moritz & Heer (2018) — Value-suppressing uncertainty palettes
 
 **Typst:** `@correll2018task`  **DOI:** https://doi.org/10.1145/3173574.3174216
 
@@ -147,7 +162,7 @@
 **External source links (supplementary):**
 - P1: [Original conference paper PDF](https://www.domoritz.de/papers/2018-VSUPs-CHI.pdf)
 
-## 9. Fernandes et al. (2018) — Uncertainty displays using quantile dotplots or CDFs improve transit decision-making
+## 10. Fernandes et al. (2018) — Uncertainty displays using quantile dotplots or CDFs improve transit decision-making
 
 **Typst:** `@fernandes2018uncertainty`  **DOI:** https://doi.org/10.1145/3173574.3173718
 
@@ -163,7 +178,7 @@
 **External source links (supplementary):**
 - P1: [Original CHI paper PDF](https://users.eecs.northwestern.edu/~jhullman/pn1957-fernandes.pdf)
 
-## 10. Kale et al. (2019) — HOPs help untrained observers judge trends in ambiguous data
+## 11. Kale et al. (2019) — HOPs help untrained observers judge trends in ambiguous data
 
 **Typst:** `@kale2019hypothetical`  **DOI:** https://doi.org/10.1109/TVCG.2018.2864909
 
@@ -180,7 +195,7 @@
 - P1: [Original IEEE/TVCG manuscript](https://idl.cs.washington.edu/files/2019-HOPsTrends-InfoVis.pdf)
 - P2: [Authors’ analyzed E2 data (CSV)](https://github.com/kalealex/jobs-report-hops/blob/master/Experiment%202/E2-AnonymousStats.csv)
 
-## 11. Kusumastuti et al. (2023) — Practice improves 2D uncertainty integration
+## 12. Kusumastuti et al. (2023) — Practice improves 2D uncertainty integration
 
 **Typst:** `@kusumastuti2023practice`  **DOI:** https://doi.org/10.1109/TVCG.2022.3173889
 
@@ -196,7 +211,7 @@
 **External source links (supplementary):**
 - P1: [PubMed record with complete abstract](https://pubmed.ncbi.nlm.nih.gov/35536797/)
 
-## 12. Sterzik et al. (2025) — Uncertainty visualization for biomolecular structures: An empirical evaluation
+## 13. Sterzik et al. (2025) — Uncertainty visualization for biomolecular structures: An empirical evaluation
 
 **Typst:** `@sterzik2025`  **DOI:** https://doi.org/10.1109/TVCG.2025.3596385
 

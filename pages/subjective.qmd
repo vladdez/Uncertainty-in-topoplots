@@ -219,6 +219,14 @@ likert_estimates |>
     caption = "Model-estimated subjective ratings",
     table.attr = kable_table_attributes
   )
+
+model_table_note(paste0(
+  "Separate cumulative-link mixed models with logit link are fitted for each ",
+  "evaluation criterion: <code>rating_ord ~ vistype + (1 | ID)</code>. ",
+  "Estimated marginal means use <code>mode = &quot;mean.class&quot;</code> and are ",
+  "reported on the expected 1–5 rating scale with asymptotic pointwise 95% ",
+  "confidence intervals."
+))
 ```
 
 ## Model-estimated ratings
@@ -700,4 +708,11 @@ likert_estimates |>
     caption = "Confidence-interval diagnostics for estimated ratings",
     table.attr = kable_table_attributes
   )
+
+model_table_note(paste0(
+  "Separate cumulative-link mixed models with logit link are fitted for each ",
+  "evaluation criterion: <code>rating_ord ~ vistype + (1 | ID)</code>. ",
+  "The displayed interval widths and distances are calculated from the same ",
+  "expected-rating estimates and their asymptotic pointwise 95% confidence intervals."
+))
 ```

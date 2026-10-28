@@ -286,6 +286,12 @@ summary(model_task2_base)$coefficients$cond |>
     ),
     table.attr = kable_table_attributes
   )
+
+model_table_note(paste0(
+  "Ordered-beta mixed model with logit link: ",
+  "<code>score ~ vistype + (1 | ID)</code>. ",
+  "Basic topoplot is the visualization reference; coefficients are on the logit scale."
+))
 ```
 
 
@@ -329,6 +335,16 @@ tibble::tibble(
     table.attr = kable_table_attributes
   )
 
+model_table_note(
+  paste0(
+    "Both models use an ordered-beta likelihood with a logit link. ",
+    "Base: <code>score ~ vistype + (1 | ID)</code>. ",
+    "Extended: <code>score ~ vistype + pattern + position_c + ",
+    "(1 | ID) + (1 | stimulus)</code>."
+  ),
+  label = "Models"
+)
+
 summary(model_task2)$coefficients$cond |>
   as.data.frame() |>
   tibble::rownames_to_column("term") |>
@@ -366,6 +382,15 @@ summary(model_task2)$coefficients$cond |>
     ),
     table.attr = kable_table_attributes
   )
+
+model_table_note(paste0(
+  "Ordered-beta mixed model with logit link: ",
+  "<code>score ~ vistype + pattern + position_c + ",
+  "(1 | ID) + (1 | stimulus)</code>. ",
+  "Basic topoplot and MMN are the reference categories; ",
+  "<code>position_c = 0</code> is presentation position 11; ",
+  "coefficients are on the logit scale."
+))
 ```
 
 ```{r}
@@ -407,6 +432,13 @@ anova(model_task2_no_vistype, model_task2) |>
     ),
     table.attr = kable_table_attributes
   )
+
+model_table_note(paste0(
+  "Ordered-beta mixed models with logit link. Full: ",
+  "<code>score ~ vistype + pattern + position_c + ",
+  "(1 | ID) + (1 | stimulus)</code>; reduced: the same model without ",
+  "<code>vistype</code>. The likelihood-ratio test compares these nested models."
+))
 ```
 
 ```{r task2-estimates}
@@ -447,6 +479,15 @@ task2_estimates |>
     caption = "Model-estimated detection scores by visualization type",
     table.attr = kable_table_attributes
   )
+
+model_table_note(paste0(
+  "Ordered-beta mixed model with logit link: ",
+  "<code>score ~ vistype + pattern + position_c + ",
+  "(1 | ID) + (1 | stimulus)</code>. ",
+  "Estimated marginal means are evaluated at presentation position 11, ",
+  "averaged equally over MMN, N170, and P3, and back-transformed to the ",
+  "detection-score scale; intervals are asymptotic pointwise 95% confidence intervals."
+))
 ```
 
 ```{r task2-pairwise-comparisons}
@@ -485,6 +526,14 @@ task2_pairs |>
     table.attr = kable_table_attributes
   )
 
+model_table_note(paste0(
+  "Ordered-beta mixed model with logit link: ",
+  "<code>score ~ vistype + pattern + position_c + ",
+  "(1 | ID) + (1 | stimulus)</code>. ",
+  "Contrasts compare estimated marginal means on the logit scale at presentation ",
+  "position 11, averaged equally over patterns; p values use Tukey adjustment."
+))
+
 task2_pairs |>
   as.data.frame() |>
   dplyr::filter(p.value < 0.05) |>
@@ -510,6 +559,14 @@ task2_pairs |>
     ),
     table.attr = kable_table_attributes
   )
+
+model_table_note(paste0(
+  "Ordered-beta mixed model with logit link: ",
+  "<code>score ~ vistype + pattern + position_c + ",
+  "(1 | ID) + (1 | stimulus)</code>. ",
+  "This is the adjusted-p &lt; .05 subset of the preceding logit-scale ",
+  "estimated-marginal-mean contrasts; p values use Tukey adjustment."
+))
 ```
 
 ```{r task2-response-scale-comparisons}
@@ -543,6 +600,14 @@ task2_score_differences |>
     caption = "Response-scale pairwise differences in detection scores",
     table.attr = kable_table_attributes
   )
+
+model_table_note(paste0(
+  "Ordered-beta mixed model with logit link: ",
+  "<code>score ~ vistype + pattern + position_c + ",
+  "(1 | ID) + (1 | stimulus)</code>. ",
+  "Estimated marginal means are regridded to the detection-score scale before ",
+  "subtraction; differences and 95% confidence intervals use Tukey adjustment."
+))
 ```
 
 **Figure method.** The points are estimated marginal mean detection scores from
@@ -949,6 +1014,14 @@ task2_time_estimates |>
     caption = "Model-estimated detection-task completion time",
     table.attr = kable_table_attributes
   )
+
+model_table_note(paste0(
+  "Gaussian linear mixed model for log completion time: ",
+  "<code>log(time_sec) ~ vistype + position_c + (1 | ID)</code>. ",
+  "Basic topoplot is the visualization reference; estimates are evaluated at ",
+  "the mean presentation position and back-transformed to seconds with 95% ",
+  "confidence intervals."
+))
 ```
 
 ```{r task2-time-estimate-plot}

@@ -21,15 +21,15 @@
       "title": "A Survey and Task-Based Quality Assessment of Static 2D Colormaps",
       "year": 2015,
       "type": "inproceedings",
-      "topics": ["bivariate color maps", "visualization design", "empirical evaluation"],
+      "topics": ["multivariate color maps", "visualization design", "computational evaluation"],
       "keywords": ["2D colormap", "color space", "CIECAM02", "task-based design", "quality measures", "multivariate data"],
-      "summary": "Surveys static two-dimensional colormaps, defines seven quality measures, maps them to seven analysis tasks, and evaluates 22 reimplemented maps. Its main contribution is a reproducible, task-based way to choose a 2D colormap rather than assuming one palette is universally best.",
-      "catalog_blurb": "Task-based measures and selection guidance for static 2D colormaps.",
+      "summary": "Surveys static two-dimensional colormaps for multivariate data, defines seven quality measures, maps them to seven analysis tasks, and evaluates 22 reimplemented maps. Its task-based selection framework does not evaluate colormaps designed specifically for bivariate metric encoding.",
+      "catalog_blurb": "Task-based assessment of static 2D colormaps for multivariate data, excluding bivariate metric maps.",
       "key_findings": ["Elementary tasks impose conflicting colormap requirements, while results for synoptic tasks are more consistent.", "Ten evaluated colormaps passed all described tasks without exclusion on black or white backgrounds."],
-      "limitations": ["The assessment is measure-based and static; some published maps had to be approximately reimplemented."],
+      "limitations": ["The assessment is measure-based and static; some published maps had to be approximately reimplemented. The authors explicitly exclude colormaps designed for bivariate metric mapping."],
       "findings": [{"claim": "The work maps seven quality measures to seven multivariate analysis tasks.", "anchor": "p001-b003"}, {"claim": "Ten colormaps were robust across all described tasks and backgrounds.", "anchor": "p013-b004"}],
       "sections": [{"label": "Abstract", "description": "Scope and contributions.", "anchor": "p001-b003"}, {"label": "Task-based guideline", "description": "Ranking and selection procedure.", "anchor": "p009-b002"}, {"label": "Conclusion", "description": "Summary of assessed designs and guidance.", "anchor": "p014-b003"}],
-      "related": [{"paper": "teuling2011bivariate", "reason": "One of the influential 2D color-map constructions assessed."}, {"paper": "wainer1980colormaps", "reason": "Early empirical work on two-variable color maps."}]
+      "related": [{"paper": "teuling2011bivariate", "reason": "Contrasting scope: Teuling targets bivariate metric encoding, a class Bernard excludes from assessment."}, {"paper": "wainer1980colormaps", "reason": "Early empirical work on two-variable color maps outside Bernard's assessed class."}]
     },
     {
       "id": "boukhelifa2009uncertainty",
@@ -317,6 +317,21 @@
       "related": [{"paper": "brodlie2012review", "reason": "Later pipeline-based review across visualization domains."}, {"paper": "koo2018geovisualizing", "reason": "Implementation of bivariate GIS uncertainty methods."}]
     },
     {
+      "id": "meyer1975census",
+      "title": "Color Statistical Mapping by the U.S. Bureau of the Census",
+      "year": 1975,
+      "type": "article",
+      "topics": ["bivariate color maps", "geospatial visualization", "visualization history"],
+      "keywords": ["U.S. Census Bureau", "two-variable cross-map", "bivariate choropleth", "1970 Census", "Urban Atlas", "computer-assisted cartography"],
+      "summary": "Documents the U.S. Census Bureau's color statistical mapping program and the operational origin of its two-variable choropleth cross-maps. The paper describes examples and production methods, presents anticipated analytical benefits, and states that reader evaluation was still underway rather than reporting validated perceptual performance.",
+      "catalog_blurb": "Primary documentation of the Census Bureau's 1974 two-variable cross-map development and 1975 publication.",
+      "key_findings": ["The Bureau director suggested crossing two choropleth maps in 1974, and the first cross-map combined maps of older Americans in 1970 and year of maximum county population.", "The authors presented cross-maps as a way to expose spatial relationships but reported that evaluation of class intervals, colors, and class counts was still underway."],
+      "limitations": ["A descriptive technical account with worked maps, not a controlled reader study; claimed interpretive benefits should be treated as author rationale rather than empirical findings."],
+      "findings": [{"claim": "The paper documents the Bureau's 1974 suggestion to cross two choropleth maps and identifies the variables in the first cross-map.", "anchor": "p003-b003"}, {"claim": "The paper states both the intended analytical purpose and the then-ongoing status of reader evaluation.", "anchor": "p005-b001"}],
+      "sections": [{"label": "Abstract", "description": "Scope, two-variable cross-maps, and production context.", "anchor": "p002-b002"}, {"label": "Two-variable map origin", "description": "The 1974 proposal and first cross-map.", "anchor": "p003-b003"}, {"label": "Purpose and evaluation status", "description": "Intended benefits and research still underway.", "anchor": "p005-b001"}, {"label": "Worked example and production cost", "description": "Education-income example and cross-map production requirements.", "anchor": "p005-b002"}],
+      "related": [{"paper": "wainer1980colormaps", "reason": "Later controlled evaluation of Census two-variable color maps."}, {"paper": "maceachren1992visualizing", "reason": "Later uncertainty-visualization paper describing the Census maps as a best-known bivariate example."}, {"paper": "strode2019operationalizing", "reason": "Later purpose-driven framework for bivariate choropleth design."}]
+    },
+    {
       "id": "mikheev2024art",
       "title": "The Art of Brainwaves: A Survey on Event-Related Potential Visualization Practices",
       "year": 2024,
@@ -479,7 +494,7 @@
       "limitations": ["Illustrative applications rather than perceptual validation; RGB interpolation and medium-gray center impose design constraints."],
       "findings": [{"claim": "The abstract describes sequential and diverging legends and two climate applications.", "anchor": "p001-b003"}, {"claim": "The discussion notes both direct relationship reading and higher interpretive difficulty.", "anchor": "p004-b008"}],
       "sections": [{"label": "Abstract", "description": "Method and climate examples.", "anchor": "p001-b003"}, {"label": "Discussion and construction", "description": "Benefits, difficulty, and RGB legend details.", "anchor": "p004-b008"}],
-      "related": [{"paper": "strode2019operationalizing", "reason": "Purpose-driven bivariate choropleth design."}, {"paper": "bernard2015colormaps", "reason": "Includes and assesses Teuling palette variants."}]
+      "related": [{"paper": "strode2019operationalizing", "reason": "Purpose-driven bivariate choropleth design."}, {"paper": "bernard2015colormaps", "reason": "Contrasting multivariate 2D-colormap assessment that explicitly excludes bivariate metric maps such as Teuling's."}]
     },
     {
       "id": "wainer1980colormaps",
@@ -488,13 +503,13 @@
       "type": "article",
       "topics": ["bivariate color maps", "empirical evaluation", "geospatial visualization"],
       "keywords": ["two-variable maps", "Bertin", "graphicacy", "color schemes", "visual metaphor", "experiments"],
-      "summary": "Uses Bertin's graphical semiology to frame two experiments on how people understand two-variable color maps. It is an early argument for empirical comparison of graphical forms and for learned, semantically coherent color schemes.",
+      "summary": "Reports two experiments on Census two-variable color maps. Sixteen graduate students completed repeated elementary map-reading trials in Experiment 1; bivariate maps were slightly faster but produced three times the error rate of paired univariate maps, and a follow-up with eight returning participants showed severe degradation when the legend was removed.",
       "catalog_blurb": "Early experimental study of how readers understand two-variable color maps.",
-      "key_findings": ["Effectiveness cannot be settled by design theory alone; competing two-variable schemes require empirical tests.", "Well-learned, natural visual metaphors may support faster higher-level reading than arbitrary color assignments."],
-      "limitations": ["Historic experiments, printing technology, and participant expectations may not transfer directly to modern displays."],
-      "findings": [{"claim": "The opening frames two experiments as evidence for evaluating a graphical form.", "anchor": "p002-b001"}, {"claim": "The closing discussion emphasizes learning, natural metaphor, and the need for further empirical comparison.", "anchor": "p013-b001"}],
-      "sections": [{"label": "Article overview", "description": "Theory and experimental motivation.", "anchor": "p002-b001"}, {"label": "Interpretation", "description": "Learning and alternative color schemes.", "anchor": "p013-b001"}],
-      "related": [{"paper": "bernard2015colormaps", "reason": "Modern task-based assessment of 2D colormaps."}, {"paper": "strode2019operationalizing", "reason": "Later operationalization of bivariate color principles."}]
+      "key_findings": ["Experiment 1 produced mean error rates of .24 for bivariate maps and .08 for paired univariate maps, although bivariate responses were a little faster.", "Without the legend, the bivariate mean error rate rose from .24 to .67 while the univariate mean remained .06."],
+      "limitations": ["Experiment 1 used 16 psychology graduate students at one university; Experiment 2 retained eight of them. The historic Census maps, print technology, tasks, and training conditions limit transfer to modern displays."],
+      "findings": [{"claim": "Sixteen participants completed the first repeated-trials experiment.", "anchor": "p009-b004"}, {"claim": "Bivariate maps had a .24 mean error rate versus .08 for paired univariate maps but were answered a little faster.", "anchor": "p011-b001"}, {"claim": "Removing the legend sharply degraded bivariate-map performance but not univariate-map performance.", "anchor": "p012-b003"}],
+      "sections": [{"label": "Experiment 1 methods", "description": "Participants, design, Census maps, and repeated trials.", "anchor": "p009-b004"}, {"label": "Experiment 1 results", "description": "Error-rate and response-time comparison.", "anchor": "p011-b001"}, {"label": "Legend-removal results and conclusion", "description": "Experiment 2 degradation and interpretation.", "anchor": "p012-b004"}],
+      "related": [{"paper": "meyer1975census", "reason": "Primary Census documentation for the evaluated two-variable maps."}, {"paper": "bernard2015colormaps", "reason": "Later task-based assessment of a different class of multivariate 2D colormaps."}, {"paper": "strode2019operationalizing", "reason": "Later operationalization of bivariate color principles."}]
     },
     {
       "id": "wilke2019fundamentals",

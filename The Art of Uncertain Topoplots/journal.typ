@@ -218,13 +218,10 @@ _Markers_ and _glyphs_ represent uncertainty through graphical elements added to
 display. Their visual properties, such as size, colour, or opacity, can encode uncertainty
 independently of the underlying data @maceachren1992visualizing @brodlie2012review.
 
-_Bivariate colour maps_ encode two quantities within a single spatial view using a
-two-dimensional colour legend @wainer1980colormaps @strode2019operationalizing.
-MacEachren @maceachren1992visualizing proposed using this approach to display data values
-together with their uncertainty, assigning different colour properties to each quantity.
+_Bivariate colour maps_ show two variables in a single spatial view using a two-dimensional colour legend @strode2019operationalizing. An early example was the U.S. Census Bureau's bivariate choropleth maps based on the 1970 Census @meyer1975color. These maps combined two colour scales, making some colours hard to distinguish and match to the legend @strode2019operationalizing. Early studies found that readers made more errors when identifying values at specific locations and had more difficulty judging correlations between variables than with two separate maps @wainer1980colormaps @olson1981spectrally. MacEachren @maceachren1992visualizing later proposed using bivariate colour maps to show data values and their uncertainty together, with hue representing the data and colour saturation indicating uncertainty.
 
-_Adjacent_ or _juxtaposed maps_ display an estimate and its uncertainty in separate,
-spatially aligned views @brodlie2012review. Each quantity can use its own colour scale,
+_Adjacent_ or _juxtaposed maps_ or _map pairs_ display an estimate and its uncertainty in separate,
+spatially aligned views @brodlie2012review @maceachren1992visualizing. Each quantity can use its own colour scale,
 allowing viewers to compare the two maps.
 
 _Interval-based representations_ display an estimate together with its lower and upper
@@ -262,6 +259,14 @@ Previous studies have evaluated uncertainty visualizations using perceptual task
         [*Sample size*],
         [*How it was measured*],
       ),
+
+      [Wainer & Francolini @wainer1980colormaps],
+      [Geospatial mapping],
+      [R],
+      [Univariate and bivariate colour maps],
+      [PT],
+      [N: 16],
+      [Elementary map-reading error rate; response time],
 
       [Sanyal et al. @sanyal2009user],
       [General],
