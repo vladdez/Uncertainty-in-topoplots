@@ -65,12 +65,14 @@ and need to be shown at the same time.
 EEG/ERP topographic plots are a useful case for studying this problem. EEG measures
 electrical potentials at electrodes distributed across the scalp. 
 ERP or event-related potentials are averaged and time-locked EEG trials.
-A topographic plot or *topoplot* is a figure with ERP over a two-dimensional representation of
+A topographic plot or *topoplot* is a figure with ERP over a two-dimensional representation
+of
 the head, often interpolated. Colour usually represents the sign and magnitude of the
 estimated voltage, allowing researchers to inspect the spatial distribution of
 signals. Topoplots are also one of the most familiar visualization types in the EEG/ERP
 community. In our previous survey of 213 M/EEG researchers, 52% of respondents reported
-having previously created topoplots. This is the second results after conventional ERP waveforms
+having previously created topoplots. This is the second results after conventional ERP
+waveforms
 (61%) @mikheev2024art. 
 
 Conventional topoplots generally show the estimated voltage
@@ -86,9 +88,11 @@ signal-to-noise structure. On the other hand, adding another visual variable to 
 familiar spatial representation may hinder the perception of the underlying ERP pattern.
 This creates a broader visualization question: #strong[how can uncertainty be added to an
 established spatial visualization while preserving the primary signal that users already
-know how to read?] This difficulty is reflected by @allen2012data: they reviewed 1,451 figures 
+know how to read?] This difficulty is reflected by @allen2012data: they reviewed 1,451
+figures
 from six neuroscience journals, finding that uncertainty was particularly underrepresented 
-in visualizations of data with more than three features, with only 20% indicating uncertainty.
+in visualizations of data with more than three features, with only 20% indicating
+uncertainty.
 
 Before the quantitative evaluation, we conducted qualitative interviews with nine EEG/ERP
 experts to understand how topoplots are used in practice, how researchers think about
@@ -208,21 +212,37 @@ technique was available in medical workstations @gillmann2021uncertainty.
 
 == Visual Encodings for Spatial Uncertainty
 
-Kinkeldey et al. @kinkeldey2014assess classify spatial uncertainty visualizations along
-three dimensions: _intrinsic_ versus _extrinsic_ (modifying existing visual properties or
-adding graphical elements), _coincident_ versus _adjacent_ (showing data and uncertainty
-together or separately), and _static_ versus _dynamic_ representations. We focus on five
-approaches used in our study.
+== Visual Encodings for Spatial Uncertainty
+
+Visualising uncertainty in spatial data presents a challenge: viewers need to understand
+both the estimated spatial pattern and how uncertain that estimate is. Different approaches
+address this challenge by adding uncertainty information to the original map, displaying it
+in separate maps, or showing possible outcomes through animation
+@maceachren1992visualizing @kinkeldey2014assess.
+
+We examine five approaches that can be adapted to EEG topoplots: markers and glyphs,
+bivariate colour maps, adjacent maps, interval-based representations, and hypothetical
+outcome plots. These approaches differ in how uncertainty is encoded, whether it is shown
+alongside or within the original data, and whether the representation is static or animated.
 
 _Markers_ and _glyphs_ represent uncertainty through graphical elements added to a spatial
 display. Their visual properties, such as size, colour, or opacity, can encode uncertainty
 independently of the underlying data @maceachren1992visualizing @brodlie2012review.
 
-_Bivariate colour maps_ show two variables in a single spatial view using a two-dimensional colour legend @strode2019operationalizing. An early example was the U.S. Census Bureau's bivariate choropleth maps based on the 1970 Census @meyer1975color. These maps combined two colour scales, making some colours hard to distinguish and match to the legend @strode2019operationalizing. Early studies found that readers made more errors when identifying values at specific locations and had more difficulty judging correlations between variables than with two separate maps @wainer1980colormaps @olson1981spectrally. MacEachren @maceachren1992visualizing later proposed using bivariate colour maps to show data values and their uncertainty together, with hue representing the data and colour saturation indicating uncertainty.
+_Bivariate colour maps_ show two variables in a single spatial view using a
+two-dimensional colour legend @strode2019operationalizing. An early example was the U.S.
+Census Bureau's bivariate choropleth maps based on the 1970 Census @meyer1975census.
+These maps combined two colour scales, making some colours hard to distinguish and match
+to the legend @strode2019operationalizing. Early studies found that readers made more
+errors when identifying values at specific locations and had more difficulty judging
+correlations between variables than with two separate maps @wainer1980colormaps
+@olson1981spectrally. MacEachren @maceachren1992visualizing later proposed using bivariate
+colour maps to show data values and their uncertainty together, with hue representing the
+data and colour saturation indicating uncertainty.
 
-_Adjacent_ or _juxtaposed maps_ or _map pairs_ display an estimate and its uncertainty in separate,
-spatially aligned views @brodlie2012review @maceachren1992visualizing. Each quantity can use its own colour scale,
-allowing viewers to compare the two maps.
+_Adjacent_ or _juxtaposed maps_ or _map pairs_ display an estimate and its uncertainty in
+separate, spatially aligned views @brodlie2012review @maceachren1992visualizing. Each
+quantity can use its own colour scale, allowing viewers to compare the two maps.
 
 _Interval-based representations_ display an estimate together with its lower and upper
 bounds. For spatial data, these bounds can be shown as separate maps alongside the
@@ -236,7 +256,10 @@ communicating uncertainty through variation across successive frames.
 == Evaluating Uncertainty Visualizations
 
 
-Previous studies have evaluated uncertainty visualizations using perceptual tasks, probability judgments, decision-making tasks, and subjective assessments. @tab:uncertainty-evaluations summarizes representative empirical studies, distinguishing what researchers assessed from how they measured it.
+Previous studies have evaluated uncertainty visualizations using perceptual tasks,
+probability judgments, decision-making tasks, and subjective assessments.
+@tab:uncertainty-evaluations summarizes representative empirical studies, distinguishing
+what researchers assessed from how they measured it.
 
 
 #figure(
@@ -303,7 +326,8 @@ Previous studies have evaluated uncertainty visualizations using perceptual task
       [Greis et al. @greis2015investigating],
       [Weather forecasting],
       [M],
-      [Textual estimates, SD and quantiles; line/area charts, boxplots, bar charts, shaded bars, PDF/CDF plots],
+      [Textual estimates, SD and quantiles; line/area charts, boxplots, bar charts,
+      shaded bars, PDF/CDF plots],
       [DM, SR],
       [Survey: 90; game: 44 (38 rated)],
       [Subjective ratings; farming-game decision choices],
@@ -380,18 +404,48 @@ Previous studies have evaluated uncertainty visualizations using perceptual task
   ],
 ) <tab:uncertainty-evaluations>
 
-_Perceptual studies_  assess how accurately and quickly participants identify areas with high uncertainty or compare its magnitude across different areas, typically measuring accuracy and response time @hullman2015hypothetical. Both approaches provide objective measures, but they test different abilities: reading uncertainty is not the same as using it to make a decision.
+_Perceptual studies_ assess how accurately and quickly participants identify areas with
+high uncertainty or compare its magnitude across different areas, typically measuring
+accuracy and response time @hullman2015hypothetical. Both approaches provide objective
+measures, but they test different abilities: reading uncertainty is not the same as using
+it to make a decision.
 
-_Decision-making studies_ go beyond interpretation accuracy. Correll et al. @correll2018task examined whether uncertainty affected participants' choices, whereas Fernandes et al. @fernandes2018uncertainty measured decision quality through expected payoffs. This distinction matters because a visualization can change how cautiously people behave without necessarily improving their decisions. _Subjective assessments_ address another question: whether a visualization is understandable, useful, or preferred. Studies combining ratings with behavioral tasks, such as Greis et al. @greis2015investigating, allow these outcomes to be examined separately.
+_Decision-making studies_ go beyond interpretation accuracy. Correll et al.
+@correll2018task examined whether uncertainty affected participants' choices, whereas
+Fernandes et al. @fernandes2018uncertainty measured decision quality through expected
+payoffs. This distinction matters because a visualization can change how cautiously people
+behave without necessarily improving their decisions. _Subjective assessments_ address
+another question: whether a visualization is understandable, useful, or preferred. Studies
+combining ratings with behavioral tasks, such as Greis et al.
+@greis2015investigating, allow these outcomes to be examined separately.
 
-No single evaluation measure captures all aspects of uncertainty visualization effectiveness. Reviews by Kinkeldey et al. @kinkeldey2014assess and Hullman et al. @hullman2019pursuit emphasize the importance of task selection and distinguishing perceptual performance from decision quality. Accordingly, our study combines two tasks: pattern comparison, assessing whether users can recognize EEG scalp patterns, and signal-to-noise integration, assessing whether they can use voltage and standard error together. Subjective ratings and qualitative feedback complement these performance measures by examining participants' experiences with each visualization design.
+No single evaluation measure captures all aspects of uncertainty visualization
+effectiveness. Reviews by Kinkeldey et al. @kinkeldey2014assess and Hullman et al.
+@hullman2019pursuit emphasize the importance of task selection and distinguishing
+perceptual performance from decision quality. Accordingly, our study combines two tasks:
+pattern comparison, assessing whether users can recognize EEG scalp patterns, and
+signal-to-noise integration, assessing whether they can use voltage and standard error
+together. Subjective ratings and qualitative feedback complement these performance
+measures by examining participants' experiences with each visualization design.
 == Uncertainty in EEG/ERP Visualization
 
-In ERP waveforms, uncertainty is commonly shown using error bars or shaded confidence intervals @allen2012data @kappenman2021erp @pernet2011limo. EEG scalp maps can also display statistical results, such as test statistics or significance markers, but these do not directly show uncertainty in the estimated voltage @pernet2011limo.
+In ERP waveforms, uncertainty is commonly shown using error bars or shaded confidence
+intervals @allen2012data @kappenman2021erp @pernet2011limo. EEG scalp maps can also
+display statistical results, such as test statistics or significance markers, but these do
+not directly show uncertainty in the estimated voltage @pernet2011limo.
 
-Some EEG tools already provide ways to visualize uncertainty. LIMO EEG calculates bootstrap confidence intervals for individual electrodes and time points, but its published examples show statistical scalp maps and confidence intervals on selected waveforms separately @pernet2011limo. The R package `diegr` offers a more direct approach: its `plot_topo_mean()` function displays three scalp maps showing the lower confidence bound, mean, and upper confidence bound @gerslova2026diegr.
+Some EEG tools already provide ways to visualize uncertainty. LIMO EEG calculates
+bootstrap confidence intervals for individual electrodes and time points, but its
+published examples show statistical scalp maps and confidence intervals on selected
+waveforms separately @pernet2011limo. The R package `diegr` offers a more direct approach:
+its `plot_topo_mean()` function displays three scalp maps showing the lower confidence
+bound, mean, and upper confidence bound @gerslova2026diegr.
 
-Although these approaches exist, it remains unclear which uncertainty visualizations work best for EEG/ERP topoplots. Neither publication systematically evaluates how users interpret different visualization designs. Our study addresses this gap by comparing ways to display uncertainty alongside estimated scalp voltage, rather than uncertainty in interpolation or source localization.
+Although these approaches exist, it remains unclear which uncertainty visualizations work
+best for EEG/ERP topoplots. Neither publication systematically evaluates how users
+interpret different visualization designs. Our study addresses this gap by comparing ways
+to display uncertainty alongside estimated scalp voltage, rather than uncertainty in
+interpolation or source localization.
 
 
 == Research Gap
