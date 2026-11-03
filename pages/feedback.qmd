@@ -20,7 +20,7 @@ a305_content_analysis <- readxl::read_xlsx(
 
 **Participants included in the qualitative content analysis:** `r n_distinct(a305_content_analysis$ID)`.
 
-**Meaning units extracted:** `r nrow(a305_content_analysis)` 
+**Meaning units extracted:** `r nrow(a305_content_analysis)`
 
 Participant comments are presented in two groups. Select an **Expand** button to read the responses.
 
@@ -184,7 +184,11 @@ visualization_axis_labels <- c(
   Animation = "Animation"
 )
 
-make_a305_intensity_figure <- function(plot_data, angle_x_labels = FALSE) {
+make_a305_intensity_figure <- function(
+  plot_data,
+  angle_x_labels = FALSE,
+  fade_singletons = FALSE
+) {
   theme_panel_counts <- plot_data |>
     count(theme, name = "n_entries") |>
     arrange(desc(n_entries), theme)
@@ -201,7 +205,19 @@ make_a305_intensity_figure <- function(plot_data, angle_x_labels = FALSE) {
   )
 
   plot_data <- plot_data |>
+    group_by(theme, visualization) |>
+    mutate(
+      n_group = n(),
+      point_alpha = if_else(fade_singletons & n_group == 1, 0.25, 0.8)
+    ) |>
+    ungroup() |>
     mutate(theme = factor(theme, levels = theme_panel_order))
+
+  boxplot_data <- if (fade_singletons) {
+    filter(plot_data, n_group > 1)
+  } else {
+    plot_data
+  }
 
   x_axis_text <- if (angle_x_labels) {
     ggtext::element_markdown(
@@ -230,13 +246,14 @@ make_a305_intensity_figure <- function(plot_data, angle_x_labels = FALSE) {
     )
   ) +
     geom_boxplot(
+      data = boxplot_data,
       width = 0.62,
       outlier.shape = NA,
       linewidth = 0.6
     ) +
     ggbeeswarm::geom_beeswarm(
+      aes(alpha = point_alpha),
       size = 2.4,
-      alpha = 0.8,
       cex = 1.15,
       priority = "ascending",
       corral = "gutter",
@@ -257,6 +274,7 @@ make_a305_intensity_figure <- function(plot_data, angle_x_labels = FALSE) {
       values = c(`FALSE` = "#D9D9D9", `TRUE` = "#B9D8F2"),
       guide = "none"
     ) +
+    scale_alpha_identity() +
     scale_y_continuous(
       limits = c(-2.15, 2.15),
       breaks = -2:2,
@@ -285,7 +303,8 @@ make_a305_intensity_figure <- function(plot_data, angle_x_labels = FALSE) {
 }
 
 a305_intensity_by_theme_figure <- make_a305_intensity_figure(
-  a305_participant_theme
+  a305_participant_theme,
+  fade_singletons = TRUE
 )
 
 a305_intensity_by_theme_figure
@@ -305,8 +324,7 @@ ggsave(
 ::: {.callout-note collapse="true"}
 ## Figure including general bivariate feedback — Expand
 
-This additional version includes comments that evaluate bivariate plots in
-general without identifying either the corner or range variant.
+This additional version includes comments that evaluate bivariate plots in general without identifying either the corner or range variant.
 
 ```{r a305-intensity-theme-figure-general-bivariates}
 #| echo: false
@@ -337,7 +355,6 @@ ggsave(
   bg = "white"
 )
 ```
-
 :::
 
 ### Participant-based summary
@@ -449,7 +466,6 @@ feedback_A305 %>%
   <span aria-hidden="true">&uarr;</span> Collapse visualization feedback
 </button>
 ```
-
 :::
 
 Broader comments about the study, tasks, or participants' experience.
@@ -480,7 +496,6 @@ feedback_A306 %>%
   <span aria-hidden="true">&uarr;</span> Collapse general feedback
 </button>
 ```
-
 :::
 
 ```{=html}

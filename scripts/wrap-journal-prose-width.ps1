@@ -20,36 +20,70 @@ if ($hadFinalNewline -and $lines.Count -gt 0 -and $lines[-1] -eq "") {
   $lines = $lines[0..($lines.Count - 2)]
 }
 
-$formatted = [System.Collections.Generic.List[string]]::new()
+function Test-IsStructuralLine {
+  param([string]$Line)
 
-foreach ($line in $lines) {
-  # Only reflow top-level manuscript prose. Indented lines and Typst directives are
-  # deliberately left untouched so tables, function arguments, and other code retain
-  # their authored structure.
-  if (
-    $line.Length -le $Width -or
-    $line -match '^\s' -or
-    $line -match '^(#|//|=|\+|-\s|\d+\.\s)' -or
-    $line -notmatch '\s'
-  ) {
-    $formatted.Add($line)
-    continue
+  if ($Line -match '^\s') {
+    return $true
   }
 
-  $remaining = $line.TrimEnd()
-  while ($remaining.Length -gt $Width) {
-    $breakAt = $remaining.LastIndexOf(' ', $Width)
+  # Keep Typst directives, headings, equations, labels, lists, and delimiter lines in
+  # their authored layout. Only ordinary top-level manuscript prose is reflowed.
+  return $Line -match '^(#|//|=|\$|```|\(|\)|\[|\]|\{|\}|<|\+\s|-\s|\*\s|\d+\.\s)'
+}
+
+function ConvertTo-WrappedLines {
+  param(
+    [string[]]$ParagraphLines,
+    [int]$MaximumWidth
+  )
+
+  $text = (($ParagraphLines | ForEach-Object { $_.Trim() }) -join ' ').Trim()
+  $wrapped = [System.Collections.Generic.List[string]]::new()
+
+  while ($text.Length -gt $MaximumWidth) {
+    $breakAt = $text.LastIndexOf(' ', $MaximumWidth)
     if ($breakAt -lt 1) {
-      $breakAt = $remaining.IndexOf(' ', $Width)
+      $breakAt = $text.IndexOf(' ', $MaximumWidth)
     }
     if ($breakAt -lt 1) {
       break
     }
 
-    $formatted.Add($remaining.Substring(0, $breakAt).TrimEnd())
-    $remaining = $remaining.Substring($breakAt + 1).TrimStart()
+    $wrapped.Add($text.Substring(0, $breakAt).TrimEnd())
+    $text = $text.Substring($breakAt + 1).TrimStart()
   }
-  $formatted.Add($remaining)
+
+  $wrapped.Add($text)
+  return $wrapped.ToArray()
+}
+
+$formatted = [System.Collections.Generic.List[string]]::new()
+$paragraph = [System.Collections.Generic.List[string]]::new()
+
+foreach ($line in $lines) {
+  $isBlank = [string]::IsNullOrWhiteSpace($line)
+  $isStructural = if ($isBlank) { $false } else { Test-IsStructuralLine $line }
+
+  if ($isBlank -or $isStructural) {
+    if ($paragraph.Count -gt 0) {
+      foreach ($wrappedLine in (ConvertTo-WrappedLines $paragraph.ToArray() $Width)) {
+        $formatted.Add($wrappedLine)
+      }
+      $paragraph.Clear()
+    }
+
+    $formatted.Add($line)
+    continue
+  }
+
+  $paragraph.Add($line)
+}
+
+if ($paragraph.Count -gt 0) {
+  foreach ($wrappedLine in (ConvertTo-WrappedLines $paragraph.ToArray() $Width)) {
+    $formatted.Add($wrappedLine)
+  }
 }
 
 $updated = [string]::Join($newline, $formatted)
@@ -66,5 +100,5 @@ if ($updated -ne $original) {
 
   $utf8WithoutBom = [System.Text.UTF8Encoding]::new($false)
   [System.IO.File]::WriteAllText($journalPath, $updated, $utf8WithoutBom)
-  Write-Output "Wrapped long prose lines in journal.typ to at most $Width characters."
+  Write-Output "Reflowed journal.typ prose paragraphs to at most $Width characters."
 }

@@ -118,39 +118,52 @@ complete model-adequacy assessment.
 ## 3. Task 1 omits repeated comparison-item structure
 
 **Severity:** High  
-**Status:** Open
+**Status:** 🟢 **Resolved on 3 November 2026**
 
-### Current behavior and evidence
+### Resolution
 
-Item information is reconstructed near the beginning of
-[`pages/task1.qmd`](../pages/task1.qmd), but the fitted model at line 163 is:
+The comparison-task analysis now retains ERP pattern, target-stimulus identity,
+and distractor-stimulus identity. The primary model is:
 
 ```r
-correct ~ vistype + position_c + (1 | ID)
+correct ~ vistype + pattern + position_c +
+  (1 | ID) + (1 | stimulus) + (1 | wrong_image)
 ```
 
-The data contain 300 comparison pairs reused between 2 and 17 times. Each of
-the 30 stimuli occurs under all seven visualization types.
+ERP pattern is a fixed effect because MMN, N170, and P3 are the complete set of
+experimental pattern conditions. Participant, target-stimulus, and
+distractor-stimulus intercepts are crossed random effects. This structure
+accounts for repeated responses from participants and for images that recur in
+either comparison role. All 2,394 responses are retained.
 
-In a sensitivity model that retained comparison-pair and target structure, the
-estimated comparison-pair variance was 0.587, compared with participant
-variance of 0.197. Standard errors changed, although the main point estimates
-were comparatively stable.
+The 30 target and 30 distractor levels come from the same stimulus pool but are
+modeled separately because an image's difficulty can depend on whether it is
+the target or distractor. The observed design contains 592 target--distractor
+pairs, and every target stimulus occurs under all seven visualization types.
 
-### Consequence
+### Updated inference
 
-The model handles participant clustering but not dependence among repeated
-comparison items. Its intervals therefore do not support unrestricted
-generalization beyond the sampled comparisons. A common visualization effect
-is also imposed on all participants.
+The likelihood-ratio test that retains pattern, position, and all three random
+intercepts in both nested models finds an overall visualization-type effect,
+$\chi^2(6) = 13.09$, $p = .0416$ (full-model AIC 2177.45; reduced-model AIC
+2178.54). This differs from the earlier participant-only result and confirms
+that the item structure materially affects the inference.
 
-### Required action
+Reported visualization probabilities are evaluated at the mean presentation
+position, averaged equally over MMN, N170, and P3, and integrated over the
+fitted participant, target-stimulus, and distractor-stimulus distributions.
 
-- Retain comparison-pair and target identifiers in the modeling data.
-- Fit a crossed item structure.
-- Evaluate participant-specific visualization slopes or a documented reduced
-  slope structure.
-- Report how the added structure affects estimates and intervals.
+A participant-specific presentation-position slope was evaluated while
+retaining the item structure. It produced a singular fit (slope variance
+approximately 0.00018; intercept--slope correlation -1.00), so the estimable
+random-intercept structure was retained. Visualization slopes would require six
+additional slopes and their covariance parameters from only three binary
+responses per participant and visualization type; this limitation is documented
+on the analysis page.
+
+The remaining limitation is that stimulus-level generalization is model-based
+and rests on only 30 sampled stimuli. The probability intervals also treat the
+estimated random-effect variances as fixed.
 
 ## 4. Endpoint-complete sample does not require the formal completion marker
 

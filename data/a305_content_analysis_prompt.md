@@ -1,3 +1,7 @@
+# A305 qualitative content-analysis prompt
+
+**Model used:** OpenAI `gpt-5.6-sol` via Codex.
+
 Analyze the open-ended responses to survey item `A305_01`, which contains
 participants' feedback about the uncertainty visualizations used in the study.
 Exclude missing, blank, and non-substantive responses.

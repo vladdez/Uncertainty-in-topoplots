@@ -1,10 +1,10 @@
-# Evidence ledger — uncertainty visualization evaluation table
+# Evidence ledger — supplementary Table S2
 
-28 October 2026
+29 October 2026
 
 **Coding:** PT = perceptual tasks; PJ = probability judgments; DM = decision-making tasks; SR = subjective ratings; QF = qualitative feedback. S = synthetic, R = real, M = mixed.
 
-**Project use:** This is the claim-level audit trail for manuscript Table 2. It is an authored project record, not a generated wiki page and not primary evidence. For each study, use the project evidence record for discovery, the index for source metadata, and the linked raw passages for verification. External links are supplementary and must not replace the archived source. `P1`/`P2` locators below are legacy source labels retained from the original ledger.
+**Project use:** This is the claim-level audit trail for Table S2 in `supplement.typ` (`tab:uncertainty-evaluations`). It is an authored project record, not a generated wiki page and not primary evidence. For each study, use the project evidence record for discovery, the index for source metadata, and the linked raw passages for verification. External links are supplementary and must not replace the archived source. `P1`/`P2` locators below are legacy source labels retained from the original ledger.
 
 ## Corrections and cautions
 

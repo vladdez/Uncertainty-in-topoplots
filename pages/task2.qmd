@@ -7,12 +7,97 @@ params:
   export_artifacts: false
 ---
 
+## Explanation of the task 2
+
+Task 2 examined whether participants could combine information about estimated voltage
+and its uncertainty to locate a relevant spatial region. On each trial, participants saw
+one EEG topoplot and were asked to select the scalp region with the highest
+signal-to-noise ratio (SNR), defined as the absolute average-referenced voltage divided
+by its standard error. They responded using a separate scalp layout divided into 64
+selectable regions.
+
+The task included three characteristic ERP patterns: MMN, P3, and N170. Each was shown
+using each of the seven visualization types. This produced 21 trials per participant,
+each on a separate page. Trial order was randomized separately for every participant.
+
+![Example uncertainty-integration trial. Participants selected one of 64 regions after
+identifying the region with the highest SNR.](<../The Art of Uncertain Topoplots/figures/task2_explainer_64_regions.png>){#fig-task2-explainer width=100% fig-alt="An example signal-to-noise-ratio topoplot beside a scalp selection grid divided into 64 regions. A pointer illustrates selecting one region on the grid."}
+
 ```{r shared-setup}
 #| include: false
 source("scripts/analysis_setup.R")
 ```
 
 ## Response scoring and trial reconstruction
+
+- For each participan we reconstructed presentation order. Each participant went through 21 randomly shuffled pages.
+
+- For each trial, survey recorded the visualization, ERP stimulus shown
+  and one region selected by participant. There were 64 regions on selectable grid.
+
+- The selected region was matched to the corresponding stimulus and its stored region score in `regions.txt`.
+
+- The region score represents |Voltage|/SE at that region. This calcaulation is actually more complicated. 
+
+::: {.callout-note title="How the 0–1 region score was calculated" collapse="true"}
+
+For each stimulus, the scoring pipeline performed the following steps:
+
+1. It loaded one average-referenced ERP case using the task, subject, time point, and
+   condition recorded in `task_configs_30_balanced`. The fixed combinations were:
+
+   | ERP pattern | Time point (index) | Condition |
+   |:------------|-------------------:|----------:|
+   | MMN         |                 96 |         3 |
+   | N170        |                105 |         2 |
+   | P3          |                129 |         1 |
+
+2. It average-referenced the voltage across the $N$ channels:
+
+   $$
+   V_i^{AR} = V_i - \frac{1}{N}\sum_j V_j.
+   $$
+
+3. It calculated a polarity-independent, t-like signal-to-noise value at each channel:
+
+   $$
+   T_i = \frac{|V_i^{AR}|}{SE_i}.
+   $$
+
+4. It interpolated the channel-level $T_i$ values into a continuous topoplot grid. Only
+   finite interpolated cells inside the visible head mask were retained.
+
+5. It fitted the saved 64-region polygon template to the topoplot domain. For each
+   region $k$, it averaged all retained grid cells that were inside both the polygon and
+   the head mask:
+
+   $$
+   R_k = \operatorname{mean}\{T(x,y):(x,y)\in\text{region}_k\}.
+   $$
+
+6. It min--max normalized the 64 raw region scores separately within each stimulus:
+
+   $$
+   S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
+   $$
+
+   The weakest region therefore receives 0, the strongest receives 1, and other regions
+   are positioned proportionally between them. Scores are rounded to two decimal places.
+
+**Implementation references.** The stimulus-generation source is stored under
+`UnfoldMakie/experiments/working/`:
+
+- stimulus selection: `stimuli_data.jl:213`;
+- average referencing and channel score: `region_detection/rereferencing.jl:96`;
+- topoplot interpolation: `region_detection/region_score_exports.jl:48`;
+- polygon validation and fitting: `get_regions.jl:19`;
+- regional averaging: `region_detection/scoring.jl:338`;
+- normalization, rounding, and export: `region_detection/region_score_exports.jl:7`.
+
+The polygon definitions are stored in
+`experiments/figures/task2_topo_regions_64_eeg_aligned_pipeline28/regions.jl`.
+
+:::
 
 ```{r}
 task2_order <- data %>%
@@ -90,29 +175,22 @@ task2 <- task2_design %>%
   left_join(region_scores, by = c("stimulus", "region")) %>%
   left_join(task2_order, by = c("ID", "trial")) %>%
   select(ID, trial, position, vistype, pattern, stimulus, region, score)
-
-task2 |>
-  slice_head(n = 20) |>
-  mutate(vistype = table_vistype(vistype)) |>
-  knitr::kable(
-    format = "html",
-    digits = 3,
-    col.names = c(
-      "Participant ID",
-      "Trial",
-      "Presentation position",
-      "Visualization type",
-      "Pattern",
-      "Stimulus",
-      "Selected region",
-      "Score"
-    ),
-    caption = "Diagnostic preview: first 20 reconstructed detection-task responses",
-    table.attr = kable_table_attributes
-  )
 ```
 
 ## Descriptive detection scores
+
+- The analysis contains 2,394 responses: 114 participants x 21 trials. Each visualization
+  type therefore has 342 responses: 114 participants x 3 ERP patterns.
+
+ - No reconstructed responses were excluded for missing model variables. All 2,394 records
+  contained participant, stimulus, visualization type, pattern, position, and score.
+
+- Visualization type was treated as a categorical variable, with Basic topoplot as the
+  reference condition. ERP pattern and stimulus were retained for the extended model.
+
+- Presentation position was represented by `position_c = position - 11`. Thus,
+  `position_c = 0` represents position 11, negative values represent earlier trials, and
+  positive values represent later trials.
 
 ```{r}
 task2_model <- task2 %>%
@@ -134,6 +212,11 @@ stopifnot(
   nrow(task2_model) == nrow(task2),
   all(stimulus_pattern_counts$n == 1)
 )
+```
+
+::: {.callout-note title="Detection-task model preview" collapse="true"}
+
+```{r}
 
 task2_model |>
   slice_head(n = 20) |>
@@ -153,6 +236,10 @@ task2_model |>
     table.attr = kable_table_attributes
   )
 ```
+
+:::
+
+::: {.callout-note title="MMN_30 model preview" collapse="true"}
 
 ```{r}
 task2_model |>
@@ -174,6 +261,8 @@ task2_model |>
     table.attr = kable_table_attributes
   )
 ```
+
+:::
 
 ```{r task2-descriptive-summary}
 task2_table <- task2_model %>%
@@ -204,44 +293,259 @@ task2_table |>
   )
 ```
 
-```{r task2-descriptive-plot}
-task2_table |>
-  ggplot(aes(median, reorder(vistype, median))) +
-  geom_col(width = 0.7, fill = "#6BAED6") +
-  geom_errorbar(
-    aes(
-      xmin = pmax(median - sd, 0),
-      xmax = pmin(median + sd, 1)
+```{r task2-score-distribution}
+#| fig-cap: >-
+#|   Distribution of the 2,394 trial-level detection scores. Bars show frequencies at
+#|   the recorded two-decimal score resolution. A score of 0 indicates selection of the
+#|   weakest region for a stimulus, whereas 1 indicates selection of the strongest region.
+#|   Intermediate values preserve graded performance.
+
+task2_score_distribution <- task2_model |>
+  transmute(score_index = as.integer(round(score * 100))) |>
+  count(score_index, name = "responses") |>
+  tidyr::complete(
+    score_index = 0:100,
+    fill = list(responses = 0L)
+  ) |>
+  mutate(
+    score = score_index / 100,
+    score_type = if_else(
+      score_index %in% c(0L, 100L),
+      "Boundary score",
+      "Intermediate score"
     ),
-    orientation = "y",
-    width = 0.18,
-    linewidth = 0.7
-  ) +
+    percentage = 100 * responses / sum(responses),
+    label_hjust = if_else(score_index == 0L, 0, 1)
+  )
+
+stopifnot(
+  sum(task2_score_distribution$responses) == nrow(task2_model),
+  all(task2_score_distribution$score >= 0),
+  all(task2_score_distribution$score <= 1)
+)
+
+task2_score_distribution_figure <- ggplot(
+  task2_score_distribution,
+  aes(x = score, y = responses, fill = score_type)
+) +
+  geom_col(width = 0.009) +
   geom_text(
-    aes(label = sprintf("%.2f", median)),
-    hjust = -0.15,
-    nudge_y = -0.20,
-    size = 6
+    data = task2_score_distribution |>
+      filter(score_index %in% c(0L, 100L)),
+    aes(
+      label = sprintf("n = %d (%.1f%%)", responses, percentage),
+      hjust = label_hjust
+    ),
+    vjust = -0.6,
+    size = 5,
+    colour = "#111111",
+    show.legend = FALSE
+  ) +
+  scale_fill_manual(
+    values = c(
+      "Intermediate score" = "#6BAED6",
+      "Boundary score" = "#08519C"
+    ),
+    guide = "none"
   ) +
   scale_x_continuous(
-    "Median score",
-    limits = c(0, 1),
+    "Detection score (0 = weakest region, 1 = strongest region)",
+    limits = c(-0.01, 1.01),
     breaks = seq(0, 1, 0.2),
-    expand = expansion(mult = c(0, 0.10))
+    expand = expansion(mult = 0)
   ) +
-  scale_y_discrete(labels = vistype_labels) +
-  labs(title = "Detection task accuracy", y = NULL) +
-  coord_cartesian(clip = "off") +
+  scale_y_continuous(
+    "Number of responses",
+    expand = expansion(mult = c(0, 0.12))
+  ) +
+  labs(title = "Distribution of detection scores") +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
+    axis.text = element_text(size = 20)
+  )
+
+task2_score_distribution_figure
+
+ggsave(
+  project_path("figures", "task2_score_distribution_figure.png"),
+  task2_score_distribution_figure,
+  width = 9,
+  height = 5.5,
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
+)
+```
+
+```{r task2-descriptive-gradient-plot}
+#| fig-cap: >-
+#|   Detection scores summarized from participant-level means, with gradient uncertainty.
+#|   For each visualization, the black line and number show the mean across participants;
+#|   the dark-blue region shows the 95% confidence interval around that mean.
+
+task2_gradient_order <- task2_table |>
+  arrange(median) |>
+  pull(vistype) |>
+  as.character()
+
+task2_gradient_participants <- task2_model |>
+  group_by(ID, vistype) |>
+  summarise(
+    participant_score = mean(score),
+    .groups = "drop"
+  )
+
+task2_gradient_summary <- task2_gradient_participants |>
+  group_by(vistype) |>
+  summarise(
+    n_participants = n(),
+    mean_score = mean(participant_score),
+    se_score = sd(participant_score) / sqrt(n_participants),
+    df = n_participants - 1,
+    .groups = "drop"
+  ) |>
+  mutate(
+    vistype = factor(vistype, levels = task2_gradient_order),
+    y_position = as.numeric(vistype),
+    lower_95 = mean_score - qt(0.975, df) * se_score,
+    upper_95 = mean_score + qt(0.975, df) * se_score
+  ) |>
+  arrange(vistype)
+
+task2_gradient_means <- setNames(
+  task2_gradient_summary$mean_score,
+  as.character(task2_gradient_summary$vistype)
+)
+task2_gradient_value <- function(vistype) {
+  sprintf("%.2f", task2_gradient_means[[vistype]])
+}
+task2_gradient_difference <-
+  task2_gradient_means[["triple_CI"]] -
+  task2_gradient_means[["bivariate_corner"]]
+
+stopifnot(
+  all(
+    task2_gradient_summary$n_participants ==
+      n_distinct(task2_model$ID)
+  )
+)
+
+task2_gradient_data <- task2_gradient_summary |>
+  tidyr::crossing(score = seq(0.5, 0.8, length.out = 241)) |>
+  mutate(
+    t_distance = abs(score - mean_score) / se_score,
+    confidence_level = 2 * pt(t_distance, df) - 1,
+    gradient_alpha = if_else(
+      confidence_level <= 0.95,
+      1,
+      pmax(0, (1 - confidence_level) / 0.05)
+    )
+  )
+
+task2_gradient_figure <- ggplot(
+  task2_gradient_data,
+  aes(x = score, y = y_position)
+) +
+  geom_tile(
+    aes(alpha = gradient_alpha),
+    width = 1 / 800,
+    height = 0.62,
+    fill = "#6BAED6"
+  ) +
+  geom_segment(
+    data = task2_gradient_summary,
+    aes(
+      x = mean_score,
+      xend = mean_score,
+      y = y_position - 0.31,
+      yend = y_position + 0.31
+    ),
+    inherit.aes = FALSE,
+    linewidth = 0.8,
+    colour = "#111111"
+  ) +
+  geom_text(
+    data = task2_gradient_summary,
+    aes(
+      x = mean_score,
+      y = y_position + 0.42,
+      label = sprintf("%.2f", mean_score)
+    ),
+    inherit.aes = FALSE,
+    size = 6
+  ) +
+  scale_alpha_identity() +
+  scale_x_continuous(
+    "Participant-level mean score",
+    limits = c(0.5, 0.8),
+    breaks = seq(0.5, 0.8, 0.1),
+    expand = expansion(mult = c(0, 0))
+  ) +
+  scale_y_continuous(
+    breaks = task2_gradient_summary$y_position,
+    labels = unname(
+      vistype_labels[as.character(task2_gradient_summary$vistype)]
+    ),
+    expand = expansion(add = c(0.5, 0.65))
+  ) +
+  labs(
+    title = "Detection task accuracy",
+    y = NULL
+  ) +
   theme_classic(base_family = "Lato", base_size = 20) +
   theme(
     plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
     axis.text = element_text(size = 20),
     axis.text.y = element_text(lineheight = 0.75),
-    axis.ticks.y = element_blank()
+    axis.ticks.y = element_blank(),
+    axis.line.y = element_blank()
   )
+
+task2_gradient_figure
+
+ggsave(
+  project_path("figures", "task2_gradient_figure.png"),
+  task2_gradient_figure,
+  width = 9,
+  height = 5.5,
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
+)
 ```
 
 ## Detection-score analysis
+
+- The primary analysis uses the extended model:
+
+  ```r
+  score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus)
+  ```
+
+- The outcome contains exact 0 and 1 values as well as intermediate scores. An
+  ordered-beta model retains this graded information while supporting the complete closed
+  interval from 0 to 1. A binary logistic model would instead treat every score below 1
+  as equally incorrect.
+
+- Every participant completed 21 trials, so responses from the same participant are
+  related. Adding `(1 | ID)` gives each participant their own baseline detection
+  performance while estimating common visualization, pattern, and presentation-position
+  effects.
+
+- Some stimuli may be intrinsically easier to interpret than others. Adding
+  `(1 | stimulus)` gives each stimulus its own baseline score, so visualization
+  comparisons are not attributed to stimulus difficulty alone.
+
+- ERP pattern and centered presentation position adjust the visualization comparisons for
+  the displayed pattern and for linear change as participants progressed through the task.
+
+- The simpler base model is shown first as a reference. It contains visualization type
+  and a participant random intercept but does not adjust for pattern, presentation
+  position, or differences among stimuli.
+
 ```{r}
 model_task2_base <- glmmTMB(
   score ~ vistype + (1 | ID),
@@ -287,11 +591,17 @@ summary(model_task2_base)$coefficients$cond |>
     table.attr = kable_table_attributes
   )
 
-model_table_note(paste0(
-  "Ordered-beta mixed model with logit link: ",
-  "<code>score ~ vistype + (1 | ID)</code>. ",
-  "Basic topoplot is the visualization reference; coefficients are on the logit scale."
-))
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
+    "<code>score ~ vistype + (1 | ID)</code>.</li>",
+    "<li><strong>Reference visualization:</strong> Basic topoplot.</li>",
+    "<li><strong>Coefficient scale:</strong> Logit scale.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
 ```
 
 
@@ -337,10 +647,15 @@ tibble::tibble(
 
 model_table_note(
   paste0(
-    "Both models use an ordered-beta likelihood with a logit link. ",
-    "Base: <code>score ~ vistype + (1 | ID)</code>. ",
-    "Extended: <code>score ~ vistype + pattern + position_c + ",
-    "(1 | ID) + (1 | stimulus)</code>."
+    "<ul>",
+    "<li><strong>Model family:</strong> Both models use an ordered-beta likelihood ",
+    "with a logit link.</li>",
+    "<li><strong>Base model:</strong> ",
+    "<code>score ~ vistype + (1 | ID)</code>.</li>",
+    "<li><strong>Extended model:</strong> ",
+    "<code>score ~ vistype + pattern + position_c + ",
+    "(1 | ID) + (1 | stimulus)</code>.</li>",
+    "</ul>"
   ),
   label = "Models"
 )
@@ -383,15 +698,51 @@ summary(model_task2)$coefficients$cond |>
     table.attr = kable_table_attributes
   )
 
-model_table_note(paste0(
-  "Ordered-beta mixed model with logit link: ",
-  "<code>score ~ vistype + pattern + position_c + ",
-  "(1 | ID) + (1 | stimulus)</code>. ",
-  "Basic topoplot and MMN are the reference categories; ",
-  "<code>position_c = 0</code> is presentation position 11; ",
-  "coefficients are on the logit scale."
-))
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
+    "<code>score ~ vistype + pattern + position_c + ",
+    "(1 | ID) + (1 | stimulus)</code>.</li>",
+    "<li><strong>Reference visualization:</strong> Basic topoplot.</li>",
+    "<li><strong>Reference pattern:</strong> MMN.</li>",
+    "<li><strong>Presentation position:</strong> <code>position_c = 0</code> ",
+    "represents position 11.</li>",
+    "<li><strong>Coefficient scale:</strong> Logit scale.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
 ```
+
+::: {.callout-note title="Why correlated participant-specific visualization slopes were not retained" collapse="true"}
+We tested whether the effect of visualization type differed between participants by
+adding correlated participant-specific visualization effects: `(1 + vistype | ID)`.
+The model could not estimate this full structure reliably:
+
+- It ended with convergence code 1, a non-positive-definite Hessian, and singular
+  convergence.
+
+- The structure requires seven participant-level random coefficients and 28
+  variance--covariance parameters.
+
+- Each participant provided only three detection scores for each visualization type,
+  which did not contain enough information to estimate all those parameters reliably.
+
+We also tested simpler participant-specific structures:
+
+- A participant-specific position slope converged, but its estimated standard deviation
+  was only 0.006.
+
+- A diagonal visualization structure, `diag(0 + vistype | ID)`, converged with a
+  positive-definite Hessian. It estimates separate participant-specific visualization
+  variances without estimating their correlations.
+
+We therefore retained participant and stimulus random intercepts in the primary model.
+This does not show that visualization effects are identical for every participant. It
+means that these data cannot reliably estimate the full correlated structure. The
+diagonal model remains available as a sensitivity analysis.
+:::
 
 ```{r}
 model_task2_no_vistype <- update(
@@ -433,12 +784,22 @@ anova(model_task2_no_vistype, model_task2) |>
     table.attr = kable_table_attributes
   )
 
-model_table_note(paste0(
-  "Ordered-beta mixed models with logit link. Full: ",
-  "<code>score ~ vistype + pattern + position_c + ",
-  "(1 | ID) + (1 | stimulus)</code>; reduced: the same model without ",
-  "<code>vistype</code>. The likelihood-ratio test compares these nested models."
-))
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model family:</strong> Ordered-beta mixed models with a logit ",
+    "link.</li>",
+    "<li><strong>Full model:</strong> ",
+    "<code>score ~ vistype + pattern + position_c + ",
+    "(1 | ID) + (1 | stimulus)</code>.</li>",
+    "<li><strong>Reduced model:</strong> The same model without ",
+    "<code>vistype</code>.</li>",
+    "<li><strong>Comparison:</strong> The likelihood-ratio test evaluates whether ",
+    "adding visualization type improves model fit.</li>",
+    "</ul>"
+  ),
+  label = "Model comparison"
+)
 ```
 
 ```{r task2-estimates}
@@ -480,14 +841,24 @@ task2_estimates |>
     table.attr = kable_table_attributes
   )
 
-model_table_note(paste0(
-  "Ordered-beta mixed model with logit link: ",
-  "<code>score ~ vistype + pattern + position_c + ",
-  "(1 | ID) + (1 | stimulus)</code>. ",
-  "Estimated marginal means are evaluated at presentation position 11, ",
-  "averaged equally over MMN, N170, and P3, and back-transformed to the ",
-  "detection-score scale; intervals are asymptotic pointwise 95% confidence intervals."
-))
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
+    "<code>score ~ vistype + pattern + position_c + ",
+    "(1 | ID) + (1 | stimulus)</code>.</li>",
+    "<li><strong>Presentation position:</strong> Estimates were calculated at ",
+    "position 11.</li>",
+    "<li><strong>Pattern averaging:</strong> MMN, N170, and P3 received equal ",
+    "weight.</li>",
+    "<li><strong>Output scale:</strong> Estimates were back-transformed to the ",
+    "detection-score scale.</li>",
+    "<li><strong>Confidence intervals:</strong> Separate asymptotic 95% intervals ",
+    "were calculated for each visualization type.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
 ```
 
 ```{r task2-pairwise-comparisons}
@@ -526,13 +897,21 @@ task2_pairs |>
     table.attr = kable_table_attributes
   )
 
-model_table_note(paste0(
-  "Ordered-beta mixed model with logit link: ",
-  "<code>score ~ vistype + pattern + position_c + ",
-  "(1 | ID) + (1 | stimulus)</code>. ",
-  "Contrasts compare estimated marginal means on the logit scale at presentation ",
-  "position 11, averaged equally over patterns; p values use Tukey adjustment."
-))
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
+    "<code>score ~ vistype + pattern + position_c + ",
+    "(1 | ID) + (1 | stimulus)</code>.</li>",
+    "<li><strong>Comparison scale:</strong> Estimated marginal means were compared ",
+    "on the logit scale.</li>",
+    "<li><strong>Presentation position:</strong> Position 11.</li>",
+    "<li><strong>Pattern averaging:</strong> Patterns received equal weight.</li>",
+    "<li><strong>Multiple comparisons:</strong> P values use Tukey adjustment.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
 
 task2_pairs |>
   as.data.frame() |>
@@ -560,13 +939,21 @@ task2_pairs |>
     table.attr = kable_table_attributes
   )
 
-model_table_note(paste0(
-  "Ordered-beta mixed model with logit link: ",
-  "<code>score ~ vistype + pattern + position_c + ",
-  "(1 | ID) + (1 | stimulus)</code>. ",
-  "This is the adjusted-p &lt; .05 subset of the preceding logit-scale ",
-  "estimated-marginal-mean contrasts; p values use Tukey adjustment."
-))
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
+    "<code>score ~ vistype + pattern + position_c + ",
+    "(1 | ID) + (1 | stimulus)</code>.</li>",
+    "<li><strong>Displayed subset:</strong> Only contrasts with Tukey-adjusted ",
+    "<em>p</em> &lt; .05 from the preceding table are shown.</li>",
+    "<li><strong>Comparison scale:</strong> Estimated-marginal-mean differences ",
+    "are reported on the logit scale.</li>",
+    "<li><strong>Multiple comparisons:</strong> P values use Tukey adjustment.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
 ```
 
 ```{r task2-response-scale-comparisons}
@@ -601,13 +988,20 @@ task2_score_differences |>
     table.attr = kable_table_attributes
   )
 
-model_table_note(paste0(
-  "Ordered-beta mixed model with logit link: ",
-  "<code>score ~ vistype + pattern + position_c + ",
-  "(1 | ID) + (1 | stimulus)</code>. ",
-  "Estimated marginal means are regridded to the detection-score scale before ",
-  "subtraction; differences and 95% confidence intervals use Tukey adjustment."
-))
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
+    "<code>score ~ vistype + pattern + position_c + ",
+    "(1 | ID) + (1 | stimulus)</code>.</li>",
+    "<li><strong>Comparison scale:</strong> Estimated marginal means were ",
+    "regridded to the detection-score scale before subtraction.</li>",
+    "<li><strong>Uncertainty:</strong> Differences and 95% confidence intervals ",
+    "use Tukey adjustment.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
 ```
 
 **Figure method.** The points are estimated marginal mean detection scores from
@@ -884,6 +1278,24 @@ ggsave(
 
 ## Completion-time analysis
 
+- Completion time was reconstructed from the 21 page-timing variables and linked to each
+  trial by participant and presentation position.
+
+- Only non-missing positive times with an identified visualization type were retained. The
+  descriptive table removes extreme times separately within each visualization type using
+  the project's IQR rule; the mixed model retains all positive times.
+
+- The model analyzes log completion time because trial times are positive and typically
+  right-skewed:
+
+  ```r
+  log(time_sec) ~ vistype + position_c + (1 | ID)
+  ```
+
+- The participant random intercept allows participants to have different typical response
+  speeds. Presentation position adjusts for linear changes in speed across the 21 trials.
+  Model estimates and confidence intervals are converted back from log time to seconds.
+
 ```{r task2-time-data}
 task2_time <- data %>%
   select(ID, TIME029:TIME049) %>%
@@ -909,6 +1321,11 @@ task2_time <- data %>%
     by = c("ID", "position")
   ) %>%
   filter(!is.na(time_sec), !is.na(vistype), time_sec > 0)
+```
+
+::: {.callout-note title="Completion-time data preview" collapse="true"}
+
+```{r}
 
 task2_time |>
   slice_head(n = 20) |>
@@ -928,6 +1345,8 @@ task2_time |>
     table.attr = kable_table_attributes
   )
 ```
+
+:::
 
 ```{r task2-time-summary}
 task2_time_table <- task2_time %>%
@@ -1015,13 +1434,20 @@ task2_time_estimates |>
     table.attr = kable_table_attributes
   )
 
-model_table_note(paste0(
-  "Gaussian linear mixed model for log completion time: ",
-  "<code>log(time_sec) ~ vistype + position_c + (1 | ID)</code>. ",
-  "Basic topoplot is the visualization reference; estimates are evaluated at ",
-  "the mean presentation position and back-transformed to seconds with 95% ",
-  "confidence intervals."
-))
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Gaussian linear mixed model for log completion ",
+    "time: <code>log(time_sec) ~ vistype + position_c + (1 | ID)</code>.</li>",
+    "<li><strong>Reference visualization:</strong> Basic topoplot.</li>",
+    "<li><strong>Presentation position:</strong> Estimates were calculated at the ",
+    "average presentation position.</li>",
+    "<li><strong>Output scale:</strong> Estimates and 95% confidence intervals were ",
+    "back-transformed from log time to seconds.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
 ```
 
 ```{r task2-time-estimate-plot}

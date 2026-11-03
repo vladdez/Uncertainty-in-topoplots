@@ -21,3 +21,7 @@ The Art of Uncertain Topoplots/guidelines.txt
 /.quarto/
 
 scripts/complete_a305_content_analysis.R
+
+# Local journal prose formatter
+scripts/wrap-journal-prose-width.ps1
+scripts/compile-journal-prose.ps1
