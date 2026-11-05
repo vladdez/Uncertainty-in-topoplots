@@ -1,7 +1,7 @@
 # Statistical analysis audit: summary
 
 **Audit date:** 27 October 2026  
-**Last updated:** 28 October 2026  
+**Last updated:** 4 November 2026  
 **Scope:** R/Quarto implementation, methodological fit, and readiness for manuscript interpretation  
 **Detailed evidence:** [statistical-audit-detailed.md](statistical-audit-detailed.md)
 
@@ -25,7 +25,7 @@ manuscript.
 |---|---|---|
 | Critical | Five A304 aesthetic-rating conditions were mislabeled | **Resolved in code; outputs regenerated** |
 | High | Task 2 omitted stimulus, pattern, and presentation-position structure | **Primary structure implemented; slope and diagnostic checks remain** |
-| High | Task 1 omits repeated comparison-item structure | Open |
+| High | Task 1 omitted repeated comparison-item structure | 🟢 **Resolved: crossed participant, target-stimulus, and distractor-stimulus structure implemented** |
 | High, conditional | The analytic sample does not use the formal survey completion marker | **Resolved: all 114 endpoint-complete respondents retained** |
 | Moderate | Descriptive and modeled time analyses use inconsistent outlier populations | Open |
 | Moderate | Model-adequacy diagnostics are not implemented | Open |
@@ -38,15 +38,13 @@ manuscript.
 
 ## What should happen before manuscript interpretation
 
-1. Define the inferential target: participants only, or participants and EEG
-   stimuli/comparison items.
-2. Refit Task 1 with a defensible crossed item structure and assess
-   participant-specific visualization effects in both tasks.
-3. Add model diagnostics and time-outlier sensitivity analyses.
-4. Prespecify the primary outcomes, contrasts, and multiplicity families.
-5. Decide whether the subjective composite has a theoretical justification; if
+1. Complete the remaining participant-specific visualization-effect checks for
+   Task 2.
+2. Add model diagnostics and time-outlier sensitivity analyses.
+3. Prespecify the primary outcomes, contrasts, and multiplicity families.
+4. Decide whether the subjective composite has a theoretical justification; if
    not, remove it or label it exploratory.
-6. Reconcile manuscript text, tables, and figures with the final
+5. Reconcile manuscript text, tables, and figures with the final
    model outputs.
 
 ## Important status update
@@ -65,4 +63,9 @@ Task 2 now retains the existing pattern, stimulus, and presentation-position
 variables. Its primary model adjusts for pattern and centered position and
 uses crossed participant and stimulus intercepts; the original model remains
 as a base sensitivity comparison.
+
+Task 1 now retains ERP pattern, target-stimulus identity, and
+distractor-stimulus identity. Its primary model uses crossed participant,
+target-stimulus, and distractor-stimulus intercepts, accounting for repeated
+responses from participants and recurring images in both comparison roles.
 

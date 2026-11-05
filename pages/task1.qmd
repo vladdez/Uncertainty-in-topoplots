@@ -945,12 +945,15 @@ model_order <- glmmTMB(
   data = task1_model
 )
 
-summary(model_order)$coefficients$cond |>
+task1_model_coefficients <- summary(model_order)$coefficients$cond |>
   as.data.frame() |>
-  tibble::rownames_to_column("term") |>
+  tibble::rownames_to_column("term")
+
+task1_coefficient_results <- task1_model_coefficients |>
   transmute(
-    term = dplyr::recode(
-      term,
+    term,
+    term_label = dplyr::recode(
+      .data$term,
       `(Intercept)` = "Basic topoplot (intercept)",
       vistypeadjacent = "Adjacent plots vs Basic topoplot",
       vistypeanimation = "Animation vs Basic topoplot",
@@ -966,7 +969,19 @@ summary(model_order)$coefficients$cond |>
     estimate = Estimate,
     standard_error = .data[["Std. Error"]],
     z_value = .data[["z value"]],
-    p_value = format_pvalue_html(.data[["Pr(>|z|)"]])
+    p_value = .data[["Pr(>|z|)"]],
+    odds_ratio = exp(estimate),
+    lower_or = exp(estimate - 1.96 * standard_error),
+    upper_or = exp(estimate + 1.96 * standard_error)
+  )
+
+task1_coefficient_results |>
+  transmute(
+    term = term_label,
+    estimate,
+    standard_error,
+    z_value,
+    p_value = format_pvalue_html(p_value)
   ) |>
   knitr::kable(
     format = "html",
@@ -1002,15 +1017,61 @@ model_table_note(
   ),
   label = "Model details"
 )
+
+task1_corner_result <- task1_coefficient_results |>
+  filter(term == "vistypebivariate_corner")
+task1_range_result <- task1_coefficient_results |>
+  filter(term == "vistypebivariate_range")
+task1_p3_result <- task1_coefficient_results |>
+  filter(term == "patternP3")
+task1_other_visual_p_min <- task1_coefficient_results |>
+  filter(
+    term %in% c(
+      "vistypeadjacent",
+      "vistypeanimation",
+      "vistypetriple_CI",
+      "vistypeuncert_markers"
+    )
+  ) |>
+  summarise(value = min(p_value)) |>
+  pull(value)
 ```
 
-### Overall test of visualization type
+#### Coefficient conclusion
+
+Relative to Basic topoplot, Bivariate corners were associated with lower odds of a
+correct response (odds ratio [OR] =
+`r sprintf("%.2f", task1_corner_result$odds_ratio)`, 95% CI
+`r sprintf("%.2f", task1_corner_result$lower_or)`--`r sprintf("%.2f", task1_corner_result$upper_or)`,
+*p* = `r format.pval(task1_corner_result$p_value, digits = 3, eps = 0.001)`), as was
+Bivariate range (OR = `r sprintf("%.2f", task1_range_result$odds_ratio)`, 95% CI
+`r sprintf("%.2f", task1_range_result$lower_or)`--`r sprintf("%.2f", task1_range_result$upper_or)`,
+*p* = `r format.pval(task1_range_result$p_value, digits = 3, eps = 0.001)`). 
+
+The other
+four visualization contrasts did not show clear differences from Basic topoplot
+(all *p* ≥ `r sprintf("%.3f", task1_other_visual_p_min)`).
+
+P3 trials had higher odds
+of a correct response than MMN trials (OR = `r sprintf("%.2f", task1_p3_result$odds_ratio)`,
+95% CI `r sprintf("%.2f", task1_p3_result$lower_or)`--`r sprintf("%.2f", task1_p3_result$upper_or)`,
+*p* = `r format.pval(task1_p3_result$p_value, digits = 3, eps = 0.001)`). These
+coefficient tests are unadjusted pairwise comparisons; the overall visualization-type
+test is reported below.
+
+### Model fit comparison
 
 - A likelihood-ratio test compares the model containing visualization type with a reduced
   model that retains ERP pattern, presentation position, and the same random effects. It
   evaluates whether visualization type improves the model overall after these adjustments.
 
 ```{r}
+model_no_random_effects <- glmmTMB(
+  correct ~ vistype + pattern + position_c,
+  family = binomial,
+  data = task1_model
+)
+
 model_no_vistype <- glmmTMB(
   correct ~ pattern + position_c +
     (1 | ID) + (1 | stimulus) + (1 | wrong_image),
@@ -1025,57 +1086,106 @@ model_vistype <- glmmTMB(
   data = task1_model
 )
 
-anova_result <- anova(model_no_vistype, model_vistype) |>
+task1_nested_comparison <- anova(model_no_vistype, model_vistype) |>
   as.data.frame() |>
-  tibble::rownames_to_column("model") |>
-  mutate(
-    model = dplyr::recode(
-      model,
-      model_no_vistype = "Pattern and presentation position",
-      model_vistype = "Pattern, position, and visualization type",
-      .default = model
+  tibble::rownames_to_column("model")
+
+task1_vistype_lrt <- task1_nested_comparison[2, ]
+
+task1_model_metrics <- function(fitted_model, label) {
+  model_log_likelihood <- logLik(fitted_model)
+  tibble::tibble(
+    model = label,
+    df = as.numeric(attr(model_log_likelihood, "df")),
+    AIC = AIC(fitted_model),
+    BIC = BIC(fitted_model),
+    logLik = as.numeric(model_log_likelihood)
+  )
+}
+
+task1_model_comparison_table <- bind_rows(
+  task1_model_metrics(
+    model_no_random_effects,
+    paste0(
+      "<code>correct ~ vistype + pattern + position_c</code>"
+    )
+  ),
+  task1_model_metrics(
+    model_no_vistype,
+    paste0(
+      "<code>correct ~ pattern + position_c +<br>",
+      "(1 | ID) + (1 | stimulus) + (1 | wrong_image)</code>"
+    )
+  ),
+  task1_model_metrics(
+    model_vistype,
+    paste0(
+      "<code>correct ~ vistype + pattern + position_c +<br>",
+      "(1 | ID) + (1 | stimulus) + (1 | wrong_image)</code>"
     )
   )
+)
 
-task1_vistype_lrt <- anova_result[2, ]
+format_best_model_fit <- function(values, direction = c("minimum", "maximum")) {
+  direction <- match.arg(direction)
+  best_value <- if (direction == "minimum") min(values) else max(values)
+  formatted_values <- sprintf("%.3f", values)
+  formatted_values[dplyr::near(values, best_value)] <- paste0(
+    "<span class='best-model-fit'>",
+    formatted_values[dplyr::near(values, best_value)],
+    "</span>"
+  )
+  formatted_values
+}
 
-anova_result |>
-  mutate(`Pr(>Chisq)` = format_pvalue_html(.data[["Pr(>Chisq)"]])) |>
+task1_model_comparison_display <- task1_model_comparison_table |>
+  mutate(
+    AIC = format_best_model_fit(AIC, "minimum"),
+    BIC = format_best_model_fit(BIC, "minimum"),
+    logLik = format_best_model_fit(logLik, "maximum")
+  )
+
+task1_model_comparison_display |>
   knitr::kable(
     format = "html",
     escape = FALSE,
     digits = 3,
+    align = c("l", "r", "r", "r", "r"),
     col.names = c(
       "Model",
       "Parameters",
       "AIC",
       "BIC",
-      "Log likelihood",
-      "Deviance",
-      "Likelihood-ratio chi-square",
-      "df difference",
-      "p value"
+      "Log likelihood"
     ),
     caption = paste(
-      "Likelihood-ratio test of visualization type for comparison-task accuracy.",
-      "Values with p < .05 are shown in dark red."
+      "Fit statistics for the comparison-task accuracy models.",
+      "The best value for each fit criterion is shown in green."
     ),
-    table.attr = kable_table_attributes
+    table.attr = paste0(
+      "class='table table-striped table-hover table-sm ",
+      "task1-model-fit-table'"
+    )
   )
 
 model_table_note(
   paste0(
     "<ul>",
-    "<li><strong>Model family:</strong> Binomial mixed-effects models with a ",
-    "logit link.</li>",
-    "<li><strong>Full model:</strong> ",
-    "<code>correct ~ vistype + pattern + position_c + (1 | ID) + ",
-    "(1 | stimulus) + (1 | wrong_image)</code>.</li>",
+    "<li><strong>Model family:</strong> Binomial models with a logit link.</li>",
+    "<li><strong>Fixed-effects-only model:</strong> ",
+    "<code>correct ~ vistype + pattern + position_c</code>.</li>",
     "<li><strong>Reduced model:</strong> ",
     "<code>correct ~ pattern + position_c + (1 | ID) + (1 | stimulus) + ",
     "(1 | wrong_image)</code>.</li>",
-    "<li><strong>Comparison:</strong> The likelihood-ratio test evaluates whether ",
-    "adding visualization type improves model fit.</li>",
+    "<li><strong>Full model:</strong> ",
+    "<code>correct ~ vistype + pattern + position_c + (1 | ID) + ",
+    "(1 | stimulus) + (1 | wrong_image)</code>.</li>",
+    "<li><strong>Fit comparison:</strong> AIC, BIC, and log likelihood are shown for ",
+    "all three models. The fixed-effects-only model is included to show the effect of ",
+    "accounting for participant and stimulus clustering.</li>",
+    "<li><strong>Likelihood-ratio test:</strong> The chi-square test is reported only ",
+    "for the two nested mixed models and evaluates whether adding visualization type ",
+    "improves fit while retaining the same random-effects structure.</li>",
     "</ul>"
   ),
   label = "Model comparison"
@@ -1089,12 +1199,289 @@ the adjusted model, $\chi^2(`r task1_vistype_lrt[["Chi Df"]]`) =
 `r sprintf("%.2f", task1_vistype_lrt[["Chisq"]])`$,
 *p* = `r format.pval(task1_vistype_lrt[["Pr(>Chisq)"]], digits = 3, eps = 0.001)`.
 The reduced and full models had AIC values of
-`r sprintf("%.2f", anova_result$AIC[1])` and
-`r sprintf("%.2f", anova_result$AIC[2])`, respectively. Thus, after accounting for ERP
+`r sprintf("%.2f", task1_model_comparison_table$AIC[2])` and
+`r sprintf("%.2f", task1_model_comparison_table$AIC[3])`, respectively, compared with
+`r sprintf("%.2f", task1_model_comparison_table$AIC[1])` for the fixed-effects-only
+model. Thus, after accounting for ERP
 pattern, presentation position, participant baseline accuracy, and target- and
 distractor-stimulus difficulty, the analysis
 `r if (task1_vistype_lrt[["Pr(>Chisq)"]] < 0.05) "provided evidence" else "did not provide clear evidence"`
 that comparison-task accuracy differed overall among the seven visualization types.
+
+## Conditional logistic paired-choice sensitivity analysis
+
+Task 1 is a paired-choice experiment: every trial presents one matching and one
+nonmatching candidate image. We therefore fitted a conditional logistic paired-choice
+model as a sensitivity analysis. Its candidate-image terms provide a Bradley--Terry
+representation of each image's general tendency to be selected. Unlike the primary
+accuracy model, it assigns each of the 30 candidate images one shared attractiveness
+parameter regardless of whether that image is matching or nonmatching on a particular
+trial. It also adjusts for whether an image appeared as the second option.
+
+The data were represented by two rows per trial, with one row for each candidate and
+one selected candidate within each participant--trial choice set. Visualization effects
+were estimated as interactions with matching-candidate status because visualization type
+is constant within a choice set and its main effect therefore cancels. Standard errors
+were clustered by participant to account for each participant's 21 choices.
+
+```{r task1-bradley-terry-data}
+task1_bt_trials <- task1 |>
+  transmute(
+    ID = factor(ID),
+    trial,
+    choice_set = interaction(ID, trial, drop = TRUE),
+    vistype = relevel(factor(vistype), ref = "basic"),
+    pattern = relevel(factor(pattern), ref = "MMN"),
+    position_c = position - mean(position),
+    stimulus = as.character(stimulus),
+    correct_image = as.character(correct_image),
+    wrong_image = as.character(wrong_image),
+    solution,
+    answered,
+    recorded_correct = correct,
+    opt1,
+    opt2
+  )
+
+task1_bt_expected_opt1 <- if_else(
+  task1_bt_trials$solution == 1L,
+  task1_bt_trials$correct_image,
+  task1_bt_trials$wrong_image
+)
+task1_bt_expected_opt2 <- if_else(
+  task1_bt_trials$solution == 2L,
+  task1_bt_trials$correct_image,
+  task1_bt_trials$wrong_image
+)
+
+stopifnot(
+  nrow(task1_bt_trials) == 2394,
+  all(task1_bt_trials$stimulus == task1_bt_trials$correct_image),
+  all(task1_bt_trials$recorded_correct ==
+        as.integer(task1_bt_trials$answered == task1_bt_trials$solution)),
+  all(startsWith(
+    basename(task1_bt_trials$opt1),
+    paste0(task1_bt_expected_opt1, "_")
+  )),
+  all(startsWith(
+    basename(task1_bt_trials$opt2),
+    paste0(task1_bt_expected_opt2, "_")
+  ))
+)
+
+task1_bt_choices <- bind_rows(
+  task1_bt_trials |>
+    transmute(
+      ID,
+      choice_set,
+      vistype,
+      pattern,
+      position_c,
+      option_second = 0L,
+      candidate_image = if_else(
+        solution == 1L,
+        correct_image,
+        wrong_image
+      ),
+      matches_target = as.integer(solution == 1L),
+      chosen = as.integer(answered == 1L)
+    ),
+  task1_bt_trials |>
+    transmute(
+      ID,
+      choice_set,
+      vistype,
+      pattern,
+      position_c,
+      option_second = 1L,
+      candidate_image = if_else(
+        solution == 2L,
+        correct_image,
+        wrong_image
+      ),
+      matches_target = as.integer(solution == 2L),
+      chosen = as.integer(answered == 2L)
+    )
+) |>
+  mutate(
+    candidate_image = factor(candidate_image),
+    match_adjacent = matches_target * as.integer(vistype == "adjacent"),
+    match_animation = matches_target * as.integer(vistype == "animation"),
+    match_bivariate_corner = matches_target *
+      as.integer(vistype == "bivariate_corner"),
+    match_bivariate_range = matches_target *
+      as.integer(vistype == "bivariate_range"),
+    match_triple_CI = matches_target * as.integer(vistype == "triple_CI"),
+    match_uncert_markers = matches_target *
+      as.integer(vistype == "uncert_markers"),
+    match_N170 = matches_target * as.integer(pattern == "N170"),
+    match_P3 = matches_target * as.integer(pattern == "P3"),
+    match_position_c = matches_target * position_c
+  )
+
+task1_bt_choice_counts <- task1_bt_choices |>
+  group_by(choice_set) |>
+  summarise(
+    alternatives = n(),
+    selected = sum(chosen),
+    matching = sum(matches_target),
+    .groups = "drop"
+  )
+
+stopifnot(
+  nrow(task1_bt_choices) == 2 * nrow(task1_bt_trials),
+  all(task1_bt_choice_counts$alternatives == 2L),
+  all(task1_bt_choice_counts$selected == 1L),
+  all(task1_bt_choice_counts$matching == 1L),
+  nlevels(task1_bt_choices$candidate_image) == 30L
+)
+```
+
+```{r task1-bradley-terry-model}
+suppressPackageStartupMessages(library(survival))
+
+task1_bt_fit <- clogit(
+  chosen ~ matches_target +
+    match_adjacent + match_animation +
+    match_bivariate_corner + match_bivariate_range +
+    match_triple_CI + match_uncert_markers +
+    match_N170 + match_P3 + match_position_c +
+    option_second + candidate_image +
+    strata(choice_set) + cluster(ID),
+  data = task1_bt_choices,
+  method = "efron"
+)
+```
+
+```{r task1-bradley-terry-results}
+task1_bt_visual_terms <- c(
+  "match_adjacent",
+  "match_animation",
+  "match_bivariate_corner",
+  "match_bivariate_range",
+  "match_triple_CI",
+  "match_uncert_markers"
+)
+task1_bt_visual_labels <- c(
+  "Adjacent plots vs Basic topoplot",
+  "Animation vs Basic topoplot",
+  "Bivariate corner vs Basic topoplot",
+  "Bivariate range vs Basic topoplot",
+  "Confidence intervals vs Basic topoplot",
+  "Uncertainty markers vs Basic topoplot"
+)
+
+task1_bt_coefficients <- coef(task1_bt_fit)
+task1_bt_covariance <- vcov(task1_bt_fit)
+task1_bt_visual_estimates <- task1_bt_coefficients[task1_bt_visual_terms]
+task1_bt_visual_standard_errors <- sqrt(
+  diag(task1_bt_covariance)[task1_bt_visual_terms]
+)
+
+task1_bt_results <- tibble::tibble(
+  comparison = task1_bt_visual_labels,
+  estimate = unname(task1_bt_visual_estimates),
+  standard_error = unname(task1_bt_visual_standard_errors)
+) |>
+  mutate(
+    z_value = estimate / standard_error,
+    p_value = 2 * pnorm(abs(z_value), lower.tail = FALSE),
+    odds_ratio = exp(estimate),
+    lower_ci = exp(estimate - 1.96 * standard_error),
+    upper_ci = exp(estimate + 1.96 * standard_error)
+  )
+
+task1_bt_corner_result <- task1_bt_results |>
+  filter(comparison == "Bivariate corner vs Basic topoplot")
+task1_bt_range_result <- task1_bt_results |>
+  filter(comparison == "Bivariate range vs Basic topoplot")
+
+task1_bt_visual_covariance <- task1_bt_covariance[
+  task1_bt_visual_terms,
+  task1_bt_visual_terms,
+  drop = FALSE
+]
+task1_bt_wald_chisq <- drop(
+  t(task1_bt_visual_estimates) %*%
+    solve(task1_bt_visual_covariance, task1_bt_visual_estimates)
+)
+task1_bt_wald_df <- length(task1_bt_visual_terms)
+task1_bt_wald_p <- pchisq(
+  task1_bt_wald_chisq,
+  df = task1_bt_wald_df,
+  lower.tail = FALSE
+)
+
+task1_bt_results |>
+  transmute(
+    Comparison = comparison,
+    `Odds ratio` = sprintf("%.3f", odds_ratio),
+    `Lower 95% CI` = sprintf("%.3f", lower_ci),
+    `Upper 95% CI` = sprintf("%.3f", upper_ci),
+    `p value` = format_pvalue_html(p_value)
+  ) |>
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    caption = paste(
+      "Conditional logistic paired-choice sensitivity analysis.",
+      "Values with p < .05 are shown in dark red."
+    ),
+    table.attr = kable_table_attributes
+  )
+
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Conditional logistic paired-choice model with one ",
+    "stratum per participant--trial.</li>",
+    "<li><strong>Bradley--Terry connection:</strong> Candidate-image effects represent ",
+    "each image's shared tendency to be selected across pairings.</li>",
+    "<li><strong>Image effects:</strong> One shared fixed attractiveness parameter was ",
+    "estimated for each candidate image across matching and nonmatching roles.</li>",
+    "<li><strong>Adjustment:</strong> Matching-candidate effects were adjusted for ERP ",
+    "pattern, presentation position, and whether the candidate was shown second.</li>",
+    "<li><strong>Repeated choices:</strong> Robust standard errors were clustered by ",
+    "participant.</li>",
+    "<li><strong>Interpretation:</strong> An odds ratio below 1 indicates weaker ",
+    "preference for the matching candidate than under Basic topoplot.</li>",
+    "<li><strong>Multiplicity:</strong> Individual comparison p values and intervals ",
+    "are unadjusted; the joint robust Wald test is reported below.</li>",
+    "</ul>"
+  ),
+  label = "Sensitivity-model details"
+)
+```
+
+::: {.callout-note collapse="true" title="Terms explanation"}
+- **Conditional:** The model compares the two candidate images within the same
+  participant's trial. It uses the fact that exactly one candidate was selected and
+  removes the separate baseline for each trial. The term does not refer to an
+  experimental condition.
+- **Stratum:** A stratum is one participant--trial choice set. It contains two rows:
+  one for the matching candidate and one for the nonmatching candidate. The model
+  compares candidates within this set, not candidates from different trials.
+:::
+
+#### Sensitivity-analysis conclusion
+
+After accounting for candidate-image attractiveness, option position, ERP pattern, and
+presentation position, the joint participant-clustered Wald test
+`r if (task1_bt_wald_p < 0.05) "indicated" else "did not indicate"` that visualization
+type changed preference for the matching candidate, $\chi^2(`r task1_bt_wald_df`) =
+`r sprintf("%.2f", task1_bt_wald_chisq)`$, *p* =
+`r format.pval(task1_bt_wald_p, digits = 3, eps = 0.001)`. Relative to Basic topoplot,
+the adjusted odds of selecting the matching candidate were lower for Bivariate corners
+(OR = `r sprintf("%.2f", task1_bt_corner_result$odds_ratio)`, 95% CI
+`r sprintf("%.2f", task1_bt_corner_result$lower_ci)`--`r sprintf("%.2f", task1_bt_corner_result$upper_ci)`,
+*p* = `r format.pval(task1_bt_corner_result$p_value, digits = 3, eps = 0.001)`) and
+Bivariate range (OR = `r sprintf("%.2f", task1_bt_range_result$odds_ratio)`, 95% CI
+`r sprintf("%.2f", task1_bt_range_result$lower_ci)`--`r sprintf("%.2f", task1_bt_range_result$upper_ci)`,
+*p* = `r format.pval(task1_bt_range_result$p_value, digits = 3, eps = 0.001)`). These
+individual intervals are unadjusted for the six comparisons. The sensitivity analysis
+therefore supports the primary model's pattern while separating matching performance
+from images' general tendency to be selected; it does not replace the primary
+mixed-effects accuracy analysis.
 
 ## Completion-time analysis
 

@@ -51,6 +51,31 @@
   white-space: normal;
 }
 
+/* Give long Task 1 model formulas more room than their numeric fit statistics. */
+.task1-model-fit-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.task1-model-fit-table col:nth-child(1) {
+  width: 52% !important;
+}
+
+.task1-model-fit-table col:nth-child(n + 2) {
+  width: 12% !important;
+}
+
+.task1-model-fit-table th:not(:first-child),
+.task1-model-fit-table td:not(:first-child) {
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
+}
+
+.best-model-fit {
+  color: #1b7837;
+  font-weight: 700;
+}
+
 /* Make the two original-feedback disclosure controls prominent and easy to tap. */
 .feedback-expand.callout {
   overflow: hidden;

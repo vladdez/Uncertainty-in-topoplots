@@ -589,14 +589,14 @@ participant. The interfaces for both tasks are shown in @fig:task-examples.
     gutter: 10pt,
     [
       #align(center)[*Task 1: Pattern comparison*]
-      #image("figures/task1_explainer.png", width: 100%)
+      #image("figures/example_task1_cropped.pdf", height: 4.1cm)
     ],
     [
       #align(center)[*Task 2: Uncertainty integration*]
-      #image("figures/task2_explainer_64_regions.png", width: 100%)
+      #image("figures/example_task2_cropped.pdf", height: 4.1cm)
     ],
   ),
-  caption: [Interfaces for the two objective tasks: (a) selecting the alternative topoplot that best matches the target pattern, and (b) selecting a scalp region with the highest signal-to-noise ratio.],
+  caption: [Examples of the two objective tasks: (a) selecting the topoplot that shows the same dominant neural generator as the target, and (b) integrating voltage and standard error information while selecting a region on the 64-region grid.],
   placement: top,
   scope: "parent",
 ) <fig:task-examples>
