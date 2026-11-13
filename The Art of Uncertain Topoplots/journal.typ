@@ -169,8 +169,8 @@ mapping, and visualization software.
     [Software comparison: 5 visualization tools: Matplotlib, ggplot2, ggdist, Seaborn,
     and ggdibbler;
     18 example uncertainty visualization ],
-    [For 13 of 18 visualisations (72%), all five tools lack a wrapper to quantify
-    uncertainty, so users need to construct visual encoding manually.],
+    [For only 5 of the 18 visualizations did at least one tool provide built-in support for quantifying uncertainty.
+     For the remaining 13 (72%), users had to construct the visual encoding themselves.],
   ),
   caption: [Representative evidence of incomplete uncertainty reporting and
     visualization across scientific domains and limited software support.],
@@ -240,6 +240,20 @@ intervals or 1 +- standard error.
 _Hypothetical outcome plots_ use animation to display samples from a modelled distribution
 @hullman2015hypothetical. For spatial data, each frame shows a possible spatial pattern,
 communicating uncertainty through variation across successive frames.
+
+Hullman et al. found that the benefits of HOPs depended on the task: HOPs produced
+substantially more accurate ordering judgments involving two or three uncertain quantities,
+whereas results for single-variable judgments were mixed. In particular, HOPs produced
+greater error than error bars and violin plots when participants estimated the mean of a
+high-variance distribution @hullman2015hypothetical.
+
+Within the studies reviewed here, the most favourable results for HOPs came from
+one-dimensional scalar or temporal domains, including ordering judgments and trend
+discrimination @hullman2015hypothetical @kale2019hypothetical. Comparable positive evidence
+for HOP-style animation in spatial domains remains limited: a systematic review of geospatial
+uncertainty visualisation found no consistent advantage for dynamic displays over static
+alternatives @kinkeldey2014assess. Benefits observed in one-dimensional tasks therefore
+should not be assumed to transfer directly to spatial fields such as topoplots.
 
 == Evaluating Uncertainty Visualizations
 
@@ -589,11 +603,11 @@ participant. The interfaces for both tasks are shown in @fig:task-examples.
     gutter: 10pt,
     [
       #align(center)[*Task 1: Pattern comparison*]
-      #image("figures/example_task1_cropped.pdf", height: 4.1cm)
+      #align(center)[#image("figures/example_task1_cropped.pdf", height: 5cm)]
     ],
     [
       #align(center)[*Task 2: Uncertainty integration*]
-      #image("figures/example_task2_cropped.pdf", height: 4.1cm)
+      #align(center)[#image("figures/example_task2_cropped.pdf", height: 5cm)]
     ],
   ),
   caption: [Examples of the two objective tasks: (a) selecting the topoplot that shows the same dominant neural generator as the target, and (b) integrating voltage and standard error information while selecting a region on the 64-region grid.],
@@ -636,10 +650,11 @@ unhelpful."
 
 == Open-ended Feedback Content Analysis
 
-We analyzed responses to the open-ended feedback about visualisation used in study using a
-content-analysis workflow assisted by OpenAI `gpt-5.6-sol` through Codex. The model was
-instructed to divide eligible responses into evaluative meaning units while retaining
-participants' wording. The complete analysis prompt was archived with the study materials.
+We analyzed responses to open-ended feedback about the study visualizations using a
+content-analysis workflow assisted by OpenAI's GPT-5.6 Sol model (`gpt-5.6-sol`)
+@openai2026gpt56sol via Codex @openai2026codex. The model was instructed to divide eligible
+responses into evaluative meaning units while retaining participants' wording. The complete
+analysis prompt was archived with the study materials.
 
 Each meaning unit was assigned to one visualization, one primary theme from a fixed
 codebook, and an evaluation intensity from -2 (strongly negative) to +2 (strongly positive).

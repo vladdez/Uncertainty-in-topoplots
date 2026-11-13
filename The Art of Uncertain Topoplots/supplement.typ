@@ -108,16 +108,16 @@
 
       table.header(
         [*Paper*],
-        [*Field*],
+        [*Study scenario*],
         [*Data*],
         [*Visualizations compared*],
         [*Type*],
-        [*Sample size*],
+        [*Sample size (valid)*],
         [*How it was measured*],
       ),
 
       [Wainer & Francolini @wainer1980colormaps],
-      [Geospatial mapping],
+      [Census two-variable maps],
       [R],
       [Univariate and bivariate colour maps],
       [PT],
@@ -125,7 +125,7 @@
       [Elementary map-reading error rate; response time],
 
       [Sanyal et al. @sanyal2009user],
-      [General],
+      [Abstract 1D and 2D datasets],
       [S],
       [Error bars, glyph size, glyph colour, surface colour],
       [PT],
@@ -133,64 +133,75 @@
       [Search and counting accuracy; response time],
 
       [MacEachren et al. @maceachren2012semiotics],
-      [Geospatial mapping],
+      [Regional uncertainty maps],
       [S],
-      [Size, colour, transparency vs. recognizable pictorial symbols],
+      [*E1,* Series 1: location, size, colour hue, colour value, colour saturation,
+       orientation, grain, arrangement, shape, fuzziness, and transparency.#linebreak()
+       *E2,* Series 1: fuzziness and colour value.],
       [PT, SR],
-      [E1: 72; E2: 30; pilot: 31],
-      [Intuitiveness judgments; comparison accuracy; response time],
+      [*E1:* 72; *E2:* 30],
+      [Intuitiveness ranking (from 1 to 7); comparison accuracy; response time],
 
       [Correll & Gleicher @correll2014error],
-      [General],
+      [Generic mean-and-interval judgments],
       [S],
       [Error bars, box plots, gradients, violin plots],
       [PJ],
-      [E1: 96; E2: 48; E3: 96],
+      [*E1:* 96; *E2:* 48; *E3:* 96],
       [Prediction accuracy; likelihood judgments; judgment confidence],
 
       [Scholz & Lu @scholz2014uncertainty],
-      [Geospatial mapping],
+      [Texas precipitation and crop siting],
       [R],
-      [Fuzziness, lightness, transparency, shape],
-      [DM, SR],
-      [N: 60],
-      [Decision choices; preference ratings and rankings],
+      [Boundary fuzziness, colour lightness, symbol shape, and symbol transparency],
+      [SR],
+      [N: 37],
+      [Subjective ranking],
 
       [Greis et al. @greis2015investigating],
-      [Weather forecasting],
+      [Weather forecasts in a farming game],
       [M],
-      [Textual estimates, SD and quantiles; line/area charts, boxplots, bar charts,
-      shaded bars, PDF/CDF plots],
+      [Text: expected value, expected value + SD, and quantiles; graphics: line chart +
+       CI, box-and-whisker plot, bar + error bars, histogram bars, stacked histogram,
+       area histogram, shaded probability bars, PDF, and CDF],
       [DM, SR],
-      [Survey: 90; game: 44 (38 rated)],
+      [Survey: 90; game: 12],
       [Subjective ratings; farming-game decision choices],
 
       [Hullman et al. @hullman2015hypothetical],
-      [Chemical concentrations],
+      [Fictitious seawater-solute concentrations],
       [S],
       [HOPs, error bars, violin plots],
       [PJ],
-      [N: 288],
-      [Probability-estimation error; total completion time],
+      [*N:* 288],
+      [Probability-estimation error],
 
       [Gschwandtner et al. @gschwandtner2016visual],
-      [Event time intervals],
+      [Abstract uncertain time intervals],
       [S],
-      [Gradients, violin plots, probability plots, error bars, ambiguation],
-      [PT, PJ],
+      [Gradient plots, violin plots, accumulated probability plots, error bars,
+       centred error bars, ambiguation],
+      [PT, PJ, SR],
       [N: 72],
-      [Accuracy; estimation error; response time],
+      [Start/end-time, duration, and probability-estimation error; completion time;
+       five-point preference ratings],
 
       [Correll et al. @correll2018task],
-      [Spatial mapping],
+      [Abstract heatmaps and Battleship game],
       [S],
-      [Adjacent maps, bivariate maps, VSUPs],
+      [*E1:* VSUP + wedge legend; VSUP + square legend;
+       Traditional bivariate + wedge legend; Traditional bivariate + square legend;
+       Continuous bivariate + wedge legend; Continuous bivariate + square legend;
+       Juxtaposed univariate + discrete colorbar; Juxtaposed univariate + continuous
+       colorbar.#linebreak()
+       *E2:* VSUP + wedge legend; VSUP + square legend; Traditional bivariate + wedge
+       legend; Traditional bivariate + square legend.],
       [PT, DM],
-      [E1: 24; E2: 24],
+      [*E1:* 24; *E2:* 21],
       [Identification accuracy; response time; decision choices],
 
       [Fernandes et al. @fernandes2018uncertainty],
-      [Public transport],
+      [Simulated real-time bus arrivals],
       [S],
       [Dotplots, CDFs, PDFs, intervals, text, baseline],
       [DM],
@@ -198,32 +209,34 @@
       [Expected reward relative to optimal; variability across trials],
 
       [Kale et al. @kale2019hypothetical],
-      [Employment trends],
+      [Simulated monthly jobs-report trends],
       [S],
       [HOPs, error bars, line ensembles],
       [PT],
-      [E1: 50; E2: 150],
+      [*E1:* 50; *E2:* 150],
       [Trend-identification accuracy; perceptual sensitivity (JND); judgment confidence],
 
       [Kusumastuti et al. @kusumastuti2023practice],
-      [General],
+      [Abstract bivariate Gaussian uncertainty],
       [S],
       [Ensemble, summary, distribution displays],
       [DM],
-      [E1: 118; E2: 56],
+      [*E1:* 118; *E2:* 56],
       [Decision accuracy; response time],
 
       [Sterzik et al. @sterzik2025],
-      [Biomolecular structures],
+      [Protein positional uncertainty],
       [M],
       [Colour, clouds, ensembles, hulls, sausages, contours, texture, waves, noise],
       [PT, QF],
-      [Total: 1,756; experts: 6],
+      [*E1:* 540; *E2:* varies by metaphor (793 total); *E3:* 423; experts: 6],
       [Mapping-direction judgments; uncertainty-estimation accuracy; qualitative expert feedback],
     )
   },
   caption: [
-    Empirical evaluations of uncertainty visualization techniques.#linebreak()
+    Empirical evaluations of uncertainty visualization techniques. This table and
+    @tab:uncertainty-ranking summarize only the parts of each study that directly
+    compare uncertainty visualisations; they do not describe the studies in full.#linebreak()
     Data: S = synthetic or simulated data;
     R = real observational data;
     M = mixed real and simulated data;#linebreak()
@@ -232,10 +245,196 @@
     DM = decision-making tasks;
     SR = subjective ratings;
     QF = qualitative feedback.#linebreak()
-    N = number of participants;
-    E1–E3 = separate experiments.
+    N = number of participants. Sample size (valid) reports participants included in
+    the relevant analysis rather than all participants recruited; separate values are
+    shown when the analytic sample differed across experiments or conditions.#linebreak()
+    *E1–E3* = separate experiments.
   ],
 ) <tab:uncertainty-evaluations>
+
+#place.flush()
+
+#figure(
+  placement: top,
+  scope: "parent",
+  {
+    set text(size: 6.5pt)
+    set par(leading: 0.45em)
+
+    table(
+      columns: (1.05fr, 1.35fr, 1.55fr, 2.15fr),
+      inset: (x: 3pt, y: 2.5pt),
+      align: left,
+
+      table.header(
+        [*Paper*],
+        [*Experiment/task*],
+        [*Best-performing visualization*],
+        [*Other visualizations, in descending order*],
+      ),
+
+      [Wainer & Francolini @wainer1980colormaps],
+      [*E1*#super[†]: Identify the level of both variables at a marked map location.#linebreak()
+       *E2*#super[†]: Repeat the task without the colour legend.],
+      [*E1:* paired univariate maps;#linebreak()
+      time: bivariate map.#linebreak()
+       *E2:* paired univariate maps.],
+      [*E1*: bivariate map;#linebreak()
+      time: paired univariate maps.#linebreak()
+       *E2:* bivariate map.],
+
+      [Sanyal et al. @sanyal2009user],
+      [*E1*#super[†]: Find the least or most uncertain value.#linebreak()
+       *E2*#super[†]: Count values matching a specified data or uncertainty feature.],
+      [*E1:* _1D_: glyph size for locating the least uncertain value; glyph colour and
+       surface colour for locating the most uncertain value. _2D_: surface colour for
+       locating the least uncertain value; glyph colour and surface colour for locating
+       the most uncertain value.#linebreak()
+       *E2:* _1D_: no clear winner. _2D_: surface colour for
+       counting uncertainty features; glyph size for counting data features.],
+      [*E1:* _1D_ least: glyph colour ≈ surface colour > error bars; _1D_ highest: glyph size
+       > error bars; _2D_ least: glyph size ≈ glyph colour ≈ error bars; _2D_ highest:
+       glyph size > error bars.#linebreak()
+       *E2:* _1D_: all four performed similarly; _2D_ uncertainty features:
+       glyph size ≈ glyph colour ≈
+       error bars; _2D_ data features: glyph colour ≈ error bars > surface colour.],
+
+
+
+      [MacEachren et al. @maceachren2012semiotics],
+      [*E1,* Series 1#super[†]: Rate the intuitiveness of 22 abstract symbol sets (11 visual variables × 2 encoding directions) for representing three ordered levels of uncertainty, using a 1–7 scale.#linebreak()
+       *E2,* Series 1#super[†]: Compare two map regions, each containing nine locations with three possible uncertainty levels, and select the region with greater overall uncertainty.],
+      [*E1,* Series 1: fuzziness, location, and value; response time: no clear
+       winner.#linebreak()
+       *E2,* Series 1: no clear winner for accuracy or response time.],
+      [*E1,* Series 1: arrangement, size, and transparency > saturation,
+       hue, orientation, and shape.#linebreak()
+       *E2,* Series 1: fuzziness ≈ colour value.],
+
+      [Correll & Gleicher @correll2014error],
+      [*E1*#super[†]: A chart showed an estimate and a marked possible outcome. Participants
+       predicted whether the actual outcome would be higher or lower, rated their
+       confidence, and judged how likely the marked outcome was.#linebreak()
+       *E2*#super[†]: Judge a proposed outcome when the outcome and/or margin of error was
+       presented as text.#linebreak()
+       *E3*#super[†]: Compare two uncertain groups, predict which will have the higher outcome,
+       rate confidence, and estimate how large the difference will be.],
+      [*E1:* gradient ≈ violin ≈ box plot.#linebreak()
+       *E2:* no clear winner.#linebreak()
+       *E3:* gradient ≈ violin ≈ box plot.],
+      [*E1:* bar chart with error bars; values inside the bar were judged more
+       likely.#linebreak()
+       *E2:* moving both elements to text reduced within-bar bias but also reduced
+       accuracy and increased unjustified confidence.#linebreak()
+       *E3:* bar chart with error bars; participants predicted larger group differences
+       and reported greater confidence.],
+
+      [Scholz & Lu @scholz2014uncertainty],
+      [*E1*#super[†]: Rank four uncertainty visualisations from most to least preferred.],
+      [*E1:* boundary fuzziness (mean rank 3.35).],
+      [*E1:* colour lightness (2.97) > symbol transparency (2.38) > symbol shape
+       (1.30).],
+
+      [Greis et al. @greis2015investigating],
+      [*E1*#super[†]: Rate how well 12 weather-forecast displays communicated uncertainty.#linebreak()
+       *E2:* Use a weather forecast to choose a crop in a farming game, then select a
+       preferred display.],
+      [*E1:* line chart with confidence interval (4.00/5).#linebreak()
+       *E2:* probability-density function (69% optimal; preferred by 8/12).],
+      [*E1:* histogram bars (3.87) > PDF (3.71) > expected value (3.63) > stacked
+       histogram (3.41) > CDF (3.34) > shaded bars (3.31) > mean + SD (3.26) >
+       bar + error bars (3.16) > area histogram (3.04) > boxplot (2.74) > quantiles
+       (2.43).#linebreak()
+       *E2* decisions: histogram bars (64%) > expected value (60%) > line + CI (57%).],
+
+      [Hullman et al. @hullman2015hypothetical],
+      [*E1*#super[†]: Estimate properties of one uncertain quantity.#linebreak()
+       *E2*#super[†]: Estimate how often B > A for two uncertain quantities.#linebreak()
+       *E3*#super[†]: Estimate how often B is largest for three uncertain quantities.],
+      [*E1:* no clear winner.#linebreak()
+       *E2–E3:* HOPs.],
+      [*E2–E3:* violin ≈ error bars.],
+
+      [Gschwandtner et al. @gschwandtner2016visual],
+      [*E2*#super[†]: Effectiveness in representing start and end time.#linebreak()
+       *E3a*#super[†]: Effectiveness in representing minimum and maximum duration.#linebreak()
+       *E3b*#super[†]: Effectiveness in representing average duration.#linebreak()
+       *E4*#super[†]: Effectiveness in representing probability of start and end time.#linebreak()
+       *E5:* Preferences about visualization types.],
+      [*E2:* ambiguation ≈ error bars ≈ centred error bars.#linebreak()
+       *E3a:* ambiguation ≈ error bars ≈ centred error bars ≈ gradient.#linebreak()
+       *E3b:* centred error bars ≈ error bars ≈ ambiguation.#linebreak()
+       *E4:* gradient.#linebreak()
+       *E5:* ambiguation.],
+      [*E2:* gradient > accumulated probability ≈ violin.#linebreak()
+       *E3a:* accumulated probability ≈ violin.#linebreak()
+       *E3b:* gradient, accumulated probability, and violin.#linebreak()
+       *E4:* accumulated probability ≈ violin.#linebreak()
+       *E5:* accumulated probability > centred error bars ≈ error bars > violin >
+       gradient.],
+
+      [Correll et al. @correll2018task],
+      [*E1*#super[†]: Find the grid cell matching a specified value and uncertainty.#linebreak()
+       *E2*#super[†]: Place a ship where value was high while avoiding uncertain locations.],
+      [*E1:* VSUP + square legend ≈ VSUP + wedge legend ≈ Traditional bivariate + wedge
+       legend ≈ Traditional bivariate + square legend.#linebreak()
+       *E2:* VSUP + wedge legend ≈ VSUP + square legend.],
+      [*E1:* Juxtaposed univariate + discrete colorbar > Juxtaposed univariate +
+       continuous colorbar > Continuous bivariate + wedge legend > Continuous bivariate +
+       square legend.#linebreak()
+       *E2:* Traditional bivariate + wedge legend ≈ Traditional bivariate + square legend.],
+
+      [Fernandes et al. @fernandes2018uncertainty],
+      [*E1:* Choose when to leave to catch a bus while balancing waiting cost against the risk
+       of missing it.],
+      [*E1:* 50-dot quantile dotplot.],
+      [*E1:* CDF ≈ 20-dot quantile dotplot > remaining displays; the complete lower-order
+       ranking was not reported, and high-probability text approached their mean
+       performance with greater variability.],
+
+      [Kale et al. @kale2019hypothetical],
+      [*E1*#super[†]: Decide whether noisy employment reports showed growth or no growth.#linebreak()
+       *E2*#super[†]: Repeat the trend decision with different displays and report confidence.],
+      [*E1:* HOPs.#linebreak()
+       *E2:* regular HOPs; no clear winner for confidence calibration.],
+      [*E1:* error bars.#linebreak()
+       *E2:* fast HOPs ≈ line ensemble.],
+
+      [Kusumastuti et al. @kusumastuti2023practice],
+      [*E1* and *E2:* Combine two or three uncertain location estimates to select the
+       most likely hidden location, before and after practice.],
+      [*E1* two-source accuracy: ellipse ≈ interlace ≈ scatter; three-source: scatter ≈
+       ellipse.#linebreak()
+       *E2* three-source accuracy: ellipse; time in both experiments: interlace ≈ scatter.],
+      [*E1* three-source accuracy: interlace.#linebreak()
+       *E2* three-source accuracy: interlace ≈ scatter; time: ellipse.],
+
+      [Sterzik et al. @sterzik2025],
+      [*E1:* State what each metaphor appeared to represent without instruction.#linebreak()
+       *E2:* Identify the region that appeared most uncertain.#linebreak()
+       *E3:* Estimate the uncertainty value at a highlighted position.],
+      [*E1:* no clear winner.#linebreak()
+       *E2:* noise (approximately 90%).#linebreak()
+       *E3:* texture (lowest error; most well-rounded).],
+      [*E2* approximate partial order: texture > colour ≈ waves ≈ contours > hulls >
+       ensemble ≈ clouds > sausages.#linebreak()
+       *E3:* the remaining order changed by molecular representation; noise, waves, and
+       colour generally formed the next group.],
+    )
+  },
+  caption: [
+    Task-specific outcomes from the evaluations summarized in
+    @tab:uncertainty-evaluations. *E* labels distinguish task groups, experiments, or studies
+    within a paper. Rankings follow reported point estimates and authors' stated
+    comparisons; they do not imply statistically significant differences. “>” means
+    better performance for the stated task, “≈” denotes a reported tie, an
+    inconclusive contrast, or no reliable difference, and “not reported” indicates that
+    the source did not support a complete ranking.#linebreak()
+    #super[†] An inferential significance test of visualization differences was reported.
+    The symbol does not imply that every displayed ordering was significant; unmarked
+    evaluations may still report estimates and confidence or credible intervals.
+  ],
+) <tab:uncertainty-ranking>
 
 #place.flush()
 

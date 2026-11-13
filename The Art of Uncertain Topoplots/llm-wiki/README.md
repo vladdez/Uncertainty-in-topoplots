@@ -24,35 +24,35 @@ Before relying on curated prose, check [curation status](catalog/status.md). See
 
 ## Layout
 
-| Path | Purpose | Generated? |
-| --- | --- | --- |
-| `catalog/papers.md` | One-row-per-paper overview | Yes |
-| `catalog/topics.md` | Global controlled-topic catalog | Yes |
-| `catalog/keywords.md` | Alphabetical search-term catalog | Yes |
-| `catalog/status.md` | Source-hash/curation freshness | Yes |
-| `catalog/research-questions.md` | One-row-per-paper research-question finder | Yes, from evidence metadata |
-| `catalog/claims.md` | Searchable catalog of typed, citable claims | Yes, from evidence metadata |
-| `catalog/wilke-principles.md` | Searchable catalog of Wilke design principles | Yes, from dedicated metadata |
-| `handbooks/wilke2019fundamentals-readable.md` | Human-readable, column-based guide to every curated Wilke principle | Yes, from dedicated metadata |
-| `summaries/<id>.md` | Concise relevance and findings summary | Yes, from curated metadata |
-| `index/<id>.md` | Metadata, exact source links, passage map, semantic links | Yes, from curated metadata |
-| `evidence/<id>.md` | Detailed methods and typed claim-level evidence record | Yes, from evidence metadata |
-| `topics/<slug>.md` | Cross-paper synthesis by literature-review question | Yes, from synthesis metadata |
-| `matrices/<slug>.md` | Side-by-side evidence, samples, results, and limitations | Yes, from synthesis metadata |
-| `claim-audits/<table>.md` | Authored manuscript-table claim audit linked to project evidence and raw passages | No; edit this |
-| `index/wilke2019fundamentals/` | Hub plus 29 detailed chapter indexes | Yes, from dedicated metadata |
-| `index/gelman2020regression/` | Chapter-level statistical-methods retrieval index | Yes, from dedicated metadata |
-| `raw/<id>.md` | Full extracted text with `page-NNN` and `pNNN-bNNN` anchors | Yes, from source files |
-| `raw/README.md` | Line-addressable preservation of the source collection README | Yes |
-| `metadata/papers.json` | Human-curated claims, topics, keywords, and relations | No; edit this |
-| `metadata/evidence.json` | Human-curated study details, claim types, numbers, and exact source references | No; edit this |
-| `metadata/syntheses.json` | Human-curated cross-paper relations and explicit research gaps | No; edit this |
-| `handbooks/wilke2019fundamentals.json` | Source-backed Wilke chapter, principle, example, and figure references | No; edit this |
-| `handbooks/gelman2020regression.json` | Source-backed Gelman chapter map and selected audit passages | No; edit this |
-| `manifest.json` | Source hashes, sizes, counts, and extraction state | Yes |
-| `tools/build_wiki.py` | Incremental builder and validator | No |
-| `tools/review_extract.py` | Review helper for likely evidence passages | No |
-| `tools/inspect_evidence.py` | Read-only candidate-passage ranking for curation | No |
+| Path                                          | Purpose                                                                           | Generated?                   |
+|-----------------------------------------------|-----------------------------------------------------------------------------------|------------------------------|
+| `catalog/papers.md`                           | One-row-per-paper overview                                                        | Yes                          |
+| `catalog/topics.md`                           | Global controlled-topic catalog                                                   | Yes                          |
+| `catalog/keywords.md`                         | Alphabetical search-term catalog                                                  | Yes                          |
+| `catalog/status.md`                           | Source-hash/curation freshness                                                    | Yes                          |
+| `catalog/research-questions.md`               | One-row-per-paper research-question finder                                        | Yes, from evidence metadata  |
+| `catalog/claims.md`                           | Searchable catalog of typed, citable claims                                       | Yes, from evidence metadata  |
+| `catalog/wilke-principles.md`                 | Searchable catalog of Wilke design principles                                     | Yes, from dedicated metadata |
+| `handbooks/wilke2019fundamentals-readable.md` | Human-readable, column-based guide to every curated Wilke principle               | Yes, from dedicated metadata |
+| `summaries/<id>.md`                           | Concise relevance and findings summary                                            | Yes, from curated metadata   |
+| `index/<id>.md`                               | Metadata, exact source links, passage map, semantic links                         | Yes, from curated metadata   |
+| `evidence/<id>.md`                            | Detailed methods and typed claim-level evidence record                            | Yes, from evidence metadata  |
+| `topics/<slug>.md`                            | Cross-paper synthesis by literature-review question                               | Yes, from synthesis metadata |
+| `matrices/<slug>.md`                          | Side-by-side evidence, samples, results, and limitations                          | Yes, from synthesis metadata |
+| `claim-audits/<table>.md`                     | Authored manuscript-table claim audit linked to project evidence and raw passages | No; edit this                |
+| `index/wilke2019fundamentals/`                | Hub plus 29 detailed chapter indexes                                              | Yes, from dedicated metadata |
+| `index/gelman2020regression/`                 | Chapter-level statistical-methods retrieval index                                 | Yes, from dedicated metadata |
+| `raw/<id>.md`                                 | Full extracted text with `page-NNN` and `pNNN-bNNN` anchors                       | Yes, from source files       |
+| `raw/README.md`                               | Line-addressable preservation of the source collection README                     | Yes                          |
+| `metadata/papers.json`                        | Human-curated claims, topics, keywords, and relations                             | No; edit this                |
+| `metadata/evidence.json`                      | Human-curated study details, claim types, numbers, and exact source references    | No; edit this                |
+| `metadata/syntheses.json`                     | Human-curated cross-paper relations and explicit research gaps                    | No; edit this                |
+| `handbooks/wilke2019fundamentals.json`        | Source-backed Wilke chapter, principle, example, and figure references            | No; edit this                |
+| `handbooks/gelman2020regression.json`         | Source-backed Gelman chapter map and selected audit passages                      | No; edit this                |
+| `manifest.json`                               | Source hashes, sizes, counts, and extraction state                                | Yes                          |
+| `tools/build_wiki.py`                         | Incremental builder and validator                                                 | No                           |
+| `tools/review_extract.py`                     | Review helper for likely evidence passages                                        | No                           |
+| `tools/inspect_evidence.py`                   | Read-only candidate-passage ranking for curation                                  | No                           |
 
 ## Stable references
 
