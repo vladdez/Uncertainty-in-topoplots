@@ -1,0 +1,85 @@
+/* Readability */
+body {
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+main h2 {
+  margin-top: 2.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--bs-border-color);
+}
+
+main h3 {
+  margin-top: 1.6rem;
+  font-size: 1.15rem;
+}
+
+.audit-facts ul {
+  list-style: none;
+  padding-left: 0;
+  color: var(--bs-secondary-color);
+}
+
+/* Tables */
+main table {
+  font-size: 0.93rem;
+}
+
+main table td,
+main table th {
+  vertical-align: top;
+}
+
+.findings-table td:first-child,
+.findings-table th:first-child {
+  white-space: nowrap;
+  width: 1%;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.18em 0.6em;
+  border-radius: 999px;
+  font-size: 0.78em;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.badge.sev-critical { background: #b2182b; color: #fff; }
+.badge.sev-high { background: #ef8a62; color: #2b1100; }
+.badge.sev-moderate { background: #fddbc7; color: #5c2a0f; }
+.badge.sev-low { background: #e0e0e0; color: #333; }
+
+.badge.status-open { background: transparent; color: #b2182b; border: 1px solid #b2182b; }
+.badge.status-partial { background: transparent; color: #b35806; border: 1px solid #b35806; }
+.badge.status-reopened { background: transparent; color: #b35806; border: 1px solid #b35806; }
+.badge.status-resolved { background: transparent; color: #1a7f37; border: 1px solid #1a7f37; }
+
+/* Severity / status box under each finding heading */
+.finding-meta {
+  margin: 0.4rem 0 1.4rem;
+  padding: 0.7rem 1rem;
+  border-left: 6px solid #9e9e9e;
+  border-radius: 6px;
+  background: var(--bs-tertiary-bg);
+  font-size: 0.95rem;
+}
+
+.finding-meta p { margin: 0; }
+
+.finding-meta.sev-critical { border-left-color: #b2182b; }
+.finding-meta.sev-high { border-left-color: #ef8a62; }
+.finding-meta.sev-moderate { border-left-color: #f4c3a1; }
+.finding-meta.sev-low { border-left-color: #bdbdbd; }
+
+.finding-meta.status-resolved { background: rgba(26, 127, 55, 0.08); }
+
+/* Dark theme adjustments */
+body.quarto-dark .badge.status-open { color: #ff8a8a; border-color: #ff8a8a; }
+body.quarto-dark .badge.status-partial,
+body.quarto-dark .badge.status-reopened { color: #ffb366; border-color: #ffb366; }
+body.quarto-dark .badge.status-resolved { color: #6fdc8c; border-color: #6fdc8c; }
+body.quarto-dark .finding-meta.status-resolved { background: rgba(111, 220, 140, 0.08); }

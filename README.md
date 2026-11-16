@@ -40,11 +40,12 @@ The analysis includes:
 - summaries of open-ended participant feedback.
 
 The website analysis is organized into separate Sample, Task 1, Task 2,
-Subjective evaluation, Open-ended feedback, and Publication figures pages.
-Each complete page analysis is stored directly in its corresponding file under
-`pages/`, so no additional include file needs to be located. Shared data
-preparation is defined in `scripts/analysis_setup.R`; the homepage remains at
-`index.qmd`.
+Time analysis, Subjective evaluation, Open-ended feedback, and Publication
+figures pages. Each page analysis is stored in its corresponding file under
+`pages/`. Shared data preparation is defined in `scripts/analysis_setup.R`; the
+Task 1 and Task 2 trial reconstructions are in `scripts/task1_trials.R` and
+`scripts/task2_trials.R`, shown on the task pages and reused by the Time
+analysis page. The homepage remains at `index.qmd`.
 
 ## Reproducing the analysis
 
@@ -61,6 +62,7 @@ quarto render index.qmd
 quarto render pages/sample.qmd
 quarto render pages/task1.qmd
 quarto render pages/task2.qmd
+quarto render pages/time.qmd
 quarto render pages/subjective.qmd
 quarto render pages/feedback.qmd
 quarto render pages/figures.qmd

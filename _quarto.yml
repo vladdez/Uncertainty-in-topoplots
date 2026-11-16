@@ -7,6 +7,7 @@ project:
     - pages/sample.qmd
     - pages/task1.qmd
     - pages/task2.qmd
+    - pages/time.qmd
     - pages/subjective.qmd
     - pages/feedback.qmd
     - pages/figures.qmd
@@ -32,6 +33,8 @@ website:
         text: Task 1
       - href: pages/task2.qmd
         text: Task 2
+      - href: pages/time.qmd
+        text: Time analysis
       - href: pages/subjective.qmd
         text: Subjective evaluation
       - href: pages/feedback.qmd

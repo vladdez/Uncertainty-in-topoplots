@@ -167,7 +167,8 @@ country <- country_responses %>%
     country_work = fct_reorder(
       country_work,
       percent_score
-    )
+    ),
+    country_work = fct_recode(country_work, UK = "United Kingdom")
   )
 country |>
   arrange(desc(Freq)) |>
@@ -197,6 +198,131 @@ country |>
 
 ```{r}
 make_geography_plot(country, country_work, "Country of work")
+```
+
+### Map of participants by country
+
+```{r country-count-map}
+#| fig-width: 12
+#| fig-height: 6.2
+#| out-width: 100%
+#| fig-alt: "World map of participant counts by country of work in Equal Earth projection, with a binned legend. Darker blue indicates more participants; light grey indicates none."
+
+country_counts <- country_responses |>
+  mutate(
+    map_region = case_when(
+      country_work == "United Kingdom" ~ "UK",
+      country_work == "Czechia" ~ "Czech Republic",
+      country_work == "T\u00fcrkiye" ~ "Turkey",
+      TRUE ~ country_work
+    )
+  ) |>
+  count(map_region, name = "participants")
+
+# Clip polygons at the antimeridian so that no country (e.g., Russia, Fiji)
+# is drawn as a band stretched across the whole map after projection.
+world_map <- ggplot2::map_data("world", wrap = c(-180, 180)) |>
+  filter(region != "Antarctica")
+
+unmapped_countries <- country_counts |>
+  anti_join(distinct(world_map, region), by = c("map_region" = "region"))
+if (nrow(unmapped_countries) > 0) {
+  stop("Countries missing from the map: ",
+       paste(unmapped_countries$map_region, collapse = ", "))
+}
+
+# Equal Earth projection (Šavrič, Patterson & Jenny, 2018): an equal-area
+# pseudocylindrical projection, so country areas are not inflated toward the
+# poles as in Mercator.
+project_equal_earth <- function(lon, lat) {
+  a1 <- 1.340264
+  a2 <- -0.081106
+  a3 <- 0.000893
+  a4 <- 0.003796
+  lambda <- lon * pi / 180
+  theta <- asin(sqrt(3) / 2 * sin(lat * pi / 180))
+  tibble::tibble(
+    x = 2 * sqrt(3) * lambda * cos(theta) /
+      (3 * (9 * a4 * theta^8 + 7 * a3 * theta^6 + 3 * a2 * theta^2 + a1)),
+    y = a4 * theta^9 + a3 * theta^7 + a2 * theta^3 + a1 * theta
+  )
+}
+
+# Binned sequential scale: grey for no participants, then light-to-dark blue.
+count_breaks <- c(0, 1, 3, 6, 12, Inf)
+count_labels <- c("0", "1", "2–3", "4–6", "7–12", "13+")
+count_colors <- c(
+  "#E3E3E3", "#C6DBEF", "#9ECAE1", "#6BAED6", "#3182BD", "#08519C"
+)
+names(count_colors) <- count_labels
+
+world_map <- world_map |>
+  left_join(country_counts, by = c("region" = "map_region")) |>
+  mutate(
+    participants = coalesce(participants, 0L),
+    count_bin = cut(
+      participants,
+      breaks = c(-Inf, count_breaks),
+      labels = count_labels,
+      right = TRUE
+    )
+  ) |>
+  bind_cols(project_equal_earth(world_map$long, world_map$lat))
+
+country_count_map <- ggplot(world_map, aes(x, y, group = group)) +
+  geom_polygon(
+    aes(fill = count_bin),
+    colour = "white",
+    linewidth = 0.15
+  ) +
+  scale_fill_manual(
+    "Participants",
+    values = count_colors,
+    breaks = count_labels,
+    drop = FALSE,
+    guide = guide_legend(
+      nrow = 1,
+      title.position = "top",
+      title.hjust = 0.5,
+      label.position = "bottom",
+      keywidth = grid::unit(3.2, "lines"),
+      keyheight = grid::unit(0.9, "lines")
+    )
+  ) +
+  coord_fixed(expand = FALSE) +
+  labs(
+    title = "Participants by country of work",
+    caption = paste0(
+      "N = ", sum(country_counts$participants),
+      " respondents with a country of work; ",
+      n_distinct(country_counts$map_region), " countries.",
+      " Equal Earth projection."
+    )
+  ) +
+  theme_void(base_family = "Lato", base_size = 15) +
+  theme(
+    plot.title = element_text(face = "bold", size = 20, hjust = 0.5),
+    plot.caption = element_text(hjust = 0, size = 11, colour = "grey30"),
+    plot.margin = margin(8, 8, 8, 8),
+    legend.position = "bottom",
+    legend.title = element_text(size = 14),
+    legend.text = element_text(size = 13),
+    legend.key.spacing.x = grid::unit(0, "pt"),
+    legend.key = element_rect(colour = NA)
+  )
+
+country_count_map
+
+ggsave(
+  project_path("figures", "country_work_participant_map.png"),
+  country_count_map,
+  width = 12,
+  height = 6.2,
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
+)
 ```
 
 ### Continent of work
@@ -239,8 +365,16 @@ country_other <- country_responses %>%
   filter(respondents < 2)
 
 country_other |>
+  mutate(
+    country_original = if_else(
+      country_original == "T\u00fcrkiye",
+      "T&#252;rkiye",
+      as.character(htmltools::htmlEscape(country_original))
+    )
+  ) |>
   knitr::kable(
     format = "html",
+    escape = FALSE,
     col.names = c("Country response", "Respondents"),
     caption = paste(
       "Country responses grouped as Other because they were given by",

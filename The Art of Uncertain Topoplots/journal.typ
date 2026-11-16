@@ -250,10 +250,10 @@ high-variance distribution @hullman2015hypothetical.
 Within the studies reviewed here, the most favourable results for HOPs came from
 one-dimensional scalar or temporal domains, including ordering judgments and trend
 discrimination @hullman2015hypothetical @kale2019hypothetical. Comparable positive evidence
-for HOP-style animation in spatial domains remains limited: a systematic review of geospatial
-uncertainty visualisation found no consistent advantage for dynamic displays over static
-alternatives @kinkeldey2014assess. Benefits observed in one-dimensional tasks therefore
-should not be assumed to transfer directly to spatial fields such as topoplots.
+for HOP-style animation in spatial domains remains limited: a systematic review of
+geospatial uncertainty visualisation found no consistent advantage for dynamic displays over
+static alternatives @kinkeldey2014assess. Benefits observed in one-dimensional tasks
+therefore should not be assumed to transfer directly to spatial fields such as topoplots.
 
 == Evaluating Uncertainty Visualizations
 
@@ -536,8 +536,8 @@ We recruited participants with experience in EEG/ERP research or analysis. The s
 targeted researchers and students familiar with EEG/ERP data and topographic visualizations.
 Participation was voluntary.
 
-A total of 114 participants were included in the quantitative analysis. Country-of-work
-percentages were calculated from 110 valid responses: two participants selected "Prefer not
+A total of 146 participants were included in the quantitative analysis. Country-of-work
+percentages were calculated from 142 valid responses: two participants selected "Prefer not
 to say," and two entered occupations rather than countries. #emph[TODO: Add remaining
 demographics, EEG experience, and exclusion criteria.]
 

@@ -16,6 +16,7 @@ required_packages <- c(
   "htmltools",
   "knitr",
   "lme4",
+  "maps",
   "openxlsx",
   "ordinal",
   "pagedown",

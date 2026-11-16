@@ -1,0 +1,877 @@
+---
+title: "Time analysis"
+execute:
+  warning: false
+  message: false
+---
+
+Completion time for both tasks: how long participants spent on each trial page, by
+visualization type, and (for Task 1) how time relates to accuracy.
+
+```{r shared-setup}
+#| include: false
+#| cache: false
+source("scripts/analysis_setup.R")
+configure_analysis_cache(c(
+  project_path("regions.txt"),
+  project_path("scripts", "task1_trials.R"),
+  project_path("scripts", "task2_trials.R")
+))
+```
+
+```{r trial-reconstruction}
+#| include: false
+# Trial reconstruction is shared with the Task 1 and Task 2 pages.
+source(project_path("scripts", "task1_trials.R"))
+source(project_path("scripts", "task2_trials.R"))
+```
+
+## Task 1: comparison
+
+- SoSci Survey records the time spent on each questionnaire **page**. Each Task 1 trial
+  has its own page (pages 5–25 hold trials 1–21), and a page keeps its number when the
+  display order is randomized. `TIME005`–`TIME025` are therefore the times of trials
+  1–21. Each time is linked to its trial, and the presentation position is taken from the
+  logged display order.
+
+- The check below plots time by presentation position. With a correct link, the first
+  trial a participant sees is the slowest, and times then fall as participants learn the
+  task.
+
+```{r}
+task1_time <- data %>%
+  select(ID, TIME005:TIME025) %>%
+  pivot_longer(-ID, names_to = "time_var", values_to = "time_sec") %>%
+  mutate(
+    ID = as.character(ID),
+    # "Time spent on page xxx": pages 5-25 hold trials 1-21 in questionnaire
+    # order, regardless of the randomized display order.
+    trial = as.integer(stringr::str_remove(time_var, "TIME")) - 4L,
+    time_sec = readr::parse_double(as.character(time_sec))
+  ) %>%
+  left_join(
+    task1 %>%
+      transmute(
+        ID = as.character(ID),
+        trial,
+        position,
+        vistype
+      ),
+    by = c("ID", "trial")
+  ) %>%
+  filter(!is.na(time_sec), !is.na(vistype))
+
+stopifnot(
+  !anyDuplicated(task1_time[c("ID", "trial")]),
+  !anyDuplicated(task1_time[c("ID", "position")])
+)
+```
+
+::: {.callout-note title="Check: completion time by presentation position" collapse="true"}
+
+```{r task1-time-position-check}
+#| fig-width: 8
+#| fig-height: 4
+task1_time %>%
+  filter(time_sec > 0) %>%
+  group_by(position) %>%
+  summarise(geometric_mean = exp(mean(log(time_sec))), .groups = "drop") %>%
+  ggplot(aes(position, geometric_mean)) +
+  geom_line(colour = "#3182BD", linewidth = 0.8) +
+  geom_point(colour = "#3182BD", size = 2.5) +
+  scale_x_continuous(breaks = c(1, 5, 10, 15, 21)) +
+  labs(
+    x = "Presentation position",
+    y = "Geometric-mean time (s)",
+    title = "Times fall as participants learn the task"
+  ) +
+  theme_classic(base_family = "Lato", base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+:::
+
+```{r}
+time_table <- task1_time %>%
+  remove_group_iqr_outliers(time_sec, vistype) %>%
+  group_by(vistype) %>%
+  summarise(
+    n = n(),
+    median_sec = median(time_sec, na.rm = TRUE),
+    mean_sec = mean(time_sec, na.rm = TRUE),
+    sd_sec = sd(time_sec, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+time_table |>
+  arrange(median_sec) |>
+  mutate(
+    vistype = table_vistype(vistype),
+    across(c(median_sec, mean_sec, sd_sec), \(x) round(x, 1))
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Responses",
+      "Median time (seconds)",
+      "Mean time (seconds)",
+      "SD (seconds)"
+    ),
+    caption = "Observed comparison-task completion time by visualization type",
+    table.attr = kable_table_attributes
+  )
+```
+
+```{r}
+task1_time_plot_data <- task1_time %>%
+  remove_group_iqr_outliers(time_sec, vistype)
+
+task1_time_violin <- ggplot(
+  task1_time_plot_data,
+  aes(vistype, time_sec)
+) +
+  geom_violin(
+    trim = TRUE,
+    fill = "#6BAED6",
+    colour = "#333333",
+    linewidth = 0.6
+  )
+
+task1_time_violin_geometry <- ggplot_build(task1_time_violin)$data[[1]] %>%
+  transmute(
+    x_position = as.numeric(x),
+    time_sec = y,
+    half_width = violinwidth * width / 2
+  )
+
+task1_time_mean_bars <- task1_time_plot_data %>%
+  group_by(vistype) %>%
+  summarise(mean_time = mean(time_sec), .groups = "drop") %>%
+  mutate(
+    x_position = match(
+      as.character(vistype),
+      sort(unique(as.character(task1_time_plot_data$vistype)))
+    )
+  ) %>%
+  rowwise() %>%
+  mutate(
+    half_width = approx(
+      x = task1_time_violin_geometry$time_sec[
+        task1_time_violin_geometry$x_position == x_position
+      ],
+      y = task1_time_violin_geometry$half_width[
+        task1_time_violin_geometry$x_position == x_position
+      ],
+      xout = mean_time,
+      rule = 2
+    )$y,
+    x_start = x_position - half_width,
+    x_end = x_position + half_width
+  ) %>%
+  ungroup()
+
+task1_time_violin +
+  geom_segment(
+    data = task1_time_mean_bars,
+    aes(
+      x = x_start,
+      xend = x_end,
+      y = mean_time,
+      yend = mean_time
+    ),
+    inherit.aes = FALSE,
+    linewidth = 0.6,
+    colour = "#333333"
+  ) +
+  scale_x_discrete(labels = vistype_labels) +
+  labs(
+    title = "Time spent by visualization type",
+    x = NULL,
+    y = "Seconds spent on page"
+  ) +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    axis.text.x = element_text(angle = 35, hjust = 1)
+  )
+```
+
+### Model-estimated completion time
+
+```{r task1-time-model}
+task1_time_model <- task1_time %>%
+  transmute(
+    ID = factor(ID),
+    vistype = relevel(factor(vistype), ref = "basic"),
+    position = as.integer(position),
+    time_sec = as.numeric(time_sec)
+  ) %>%
+  filter(
+    !is.na(ID),
+    !is.na(vistype),
+    !is.na(position),
+    !is.na(time_sec),
+    time_sec > 0
+  ) %>%
+  mutate(position_c = position - mean(position))
+
+task1_time_fit <- lmer(
+  log(time_sec) ~ vistype + position_c + (1 | ID),
+  data = task1_time_model
+)
+
+time_estimates_raw <- emmeans(
+  task1_time_fit,
+  ~ vistype,
+  type = "response"
+) %>%
+  confint() %>%
+  as.data.frame()
+
+time_lower_column <- intersect(
+  c("lower.CL", "asymp.LCL"),
+  names(time_estimates_raw)
+)
+time_upper_column <- intersect(
+  c("upper.CL", "asymp.UCL"),
+  names(time_estimates_raw)
+)
+
+stopifnot(
+  length(time_lower_column) == 1L,
+  length(time_upper_column) == 1L
+)
+
+time_estimates <- time_estimates_raw %>%
+  transmute(
+    vistype,
+    estimated_time = response,
+    lower_ci = .data[[time_lower_column]],
+    upper_ci = .data[[time_upper_column]]
+  ) %>%
+  arrange(estimated_time) %>%
+  mutate(vistype = factor(vistype, levels = vistype))
+
+time_estimates |>
+  mutate(
+    vistype = table_vistype(vistype),
+    across(
+      c(estimated_time, lower_ci, upper_ci),
+      \(x) round(x, 1)
+    )
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Estimated time (seconds)",
+      "Lower 95% CI",
+      "Upper 95% CI"
+    ),
+    caption = "Model-estimated comparison-task completion time",
+    table.attr = kable_table_attributes
+  )
+
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Gaussian linear mixed model for log completion ",
+    "time: <code>log(time_sec) ~ vistype + position_c + (1 | ID)</code>.</li>",
+    "<li><strong>Reference visualization:</strong> Basic topoplot.</li>",
+    "<li><strong>Trial position:</strong> Estimates were calculated at the average ",
+    "presentation position.</li>",
+    "<li><strong>Output scale:</strong> Estimates and 95% confidence intervals were ",
+    "back-transformed from log time to seconds.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
+```
+
+```{r task1-time-estimate-plot}
+# Model-estimated time for each visualization type.
+ggplot(
+  time_estimates,
+  aes(x = estimated_time, y = vistype)
+) +
+  geom_errorbar(
+    aes(xmin = lower_ci, xmax = upper_ci),
+    orientation = "y",
+    width = 0.18,
+    linewidth = 0.7
+  ) +
+  geom_point(size = 3.5) +
+  geom_text(
+    aes(label = sprintf("%.1f s", estimated_time)),
+    nudge_y = 0.36,
+    vjust = 0.5,
+    size = 6
+  ) +
+  scale_y_discrete(
+    expand = expansion(add = 0.5),
+    labels = vistype_labels
+  ) +
+  scale_x_continuous(
+    labels = \(x) sprintf("%.0f s", x),
+    expand = expansion(mult = c(0.05, 0.12))
+  ) +
+  labs(
+    title = "Comparison task completion time",
+    x = "Model-estimated time (seconds)",
+    y = NULL,
+    caption = paste(
+      "Points show back-transformed model estimates;",
+      "error bars indicate 95% confidence intervals."
+    )
+  ) +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.caption = element_text(hjust = 0.5, face = "italic"),
+    axis.ticks.y = element_blank()
+  )
+```
+
+### Association between completion time and accuracy
+
+The following analyses ask whether longer completion times were associated with greater
+accuracy. They describe associations and do not establish that spending more time caused
+participants to answer correctly.
+
+```{r task1-time-accuracy-association}
+task1_time_accuracy <- task1_time_model %>%
+  select(ID, vistype, position, position_c, time_sec) %>%
+  left_join(
+    task1_model %>%
+      select(ID, position, correct, pattern, stimulus, wrong_image),
+    by = c("ID", "position")
+  )
+
+stopifnot(
+  nrow(task1_time_accuracy) == nrow(task1_time_model),
+  !anyNA(task1_time_accuracy$correct)
+)
+
+task1_time_accuracy_counts <- task1_time_accuracy %>%
+  count(ID, name = "trials")
+
+stopifnot(
+  nrow(task1_time_accuracy_counts) == task1_n_participants,
+  all(task1_time_accuracy_counts$trials == task1_n_trials)
+)
+
+task1_time_accuracy <- task1_time_accuracy %>%
+  mutate(log_time = log(time_sec)) %>%
+  group_by(ID) %>%
+  mutate(
+    participant_mean_log_time = mean(log_time),
+    log_time_within = log_time - participant_mean_log_time
+  ) %>%
+  ungroup() %>%
+  mutate(
+    log_time_between_c = participant_mean_log_time -
+      mean(participant_mean_log_time)
+  )
+
+task1_participant_time_accuracy <- task1_time_accuracy %>%
+  group_by(ID) %>%
+  summarise(
+    accuracy = mean(correct),
+    typical_time_sec = exp(mean(log_time)),
+    mean_log_time = mean(log_time),
+    .groups = "drop"
+  )
+
+task1_time_accuracy_correlation <- cor.test(
+  task1_participant_time_accuracy$mean_log_time,
+  task1_participant_time_accuracy$accuracy,
+  method = "pearson"
+)
+
+task1_time_accuracy_correlation_table <- tibble::tibble(
+  participants = nrow(task1_participant_time_accuracy),
+  correlation = unname(task1_time_accuracy_correlation$estimate),
+  lower_ci = task1_time_accuracy_correlation$conf.int[1],
+  upper_ci = task1_time_accuracy_correlation$conf.int[2],
+  p_value = task1_time_accuracy_correlation$p.value
+)
+
+task1_time_accuracy_correlation_table %>%
+  transmute(
+    Participants = participants,
+    `Pearson r` = sprintf("%.3f", correlation),
+    `Lower 95% CI` = sprintf("%.3f", lower_ci),
+    `Upper 95% CI` = sprintf("%.3f", upper_ci),
+    `p value` = format_pvalue_html(p_value)
+  ) %>%
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    caption = paste(
+      "Participant-level correlation between accuracy and typical",
+      "completion time"
+    ),
+    table.attr = kable_table_attributes
+  )
+
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Unit:</strong> One record per participant (N = ",
+    task1_n_participants,
+    ").</li>",
+    "<li><strong>Accuracy:</strong> Proportion correct across ",
+    task1_n_trials,
+    " trials.</li>",
+    "<li><strong>Typical time:</strong> Mean log completion time, equivalent to the ",
+    "log of the participant's geometric mean time.</li>",
+    "<li><strong>Interpretation:</strong> The correlation asks whether participants ",
+    "who were generally slower were also generally more accurate.</li>",
+    "</ul>"
+  ),
+  label = "Correlation details"
+)
+
+task1_time_accuracy_fit <- glmer(
+  correct ~ log_time_within + log_time_between_c + vistype + pattern +
+    position_c + (1 | ID) + (1 | stimulus) + (1 | wrong_image),
+  data = task1_time_accuracy,
+  family = binomial,
+  control = glmerControl(optimizer = "bobyqa")
+)
+
+task1_time_accuracy_coefficients <- summary(
+  task1_time_accuracy_fit
+)$coefficients
+
+task1_time_accuracy_effects <- tibble::tibble(
+  term = c("log_time_within", "log_time_between_c"),
+  comparison = c(
+    "Within participants: twice the usual trial time",
+    "Between participants: twice the typical completion time"
+  )
+) %>%
+  mutate(
+    estimate = task1_time_accuracy_coefficients[term, "Estimate"],
+    standard_error = task1_time_accuracy_coefficients[term, "Std. Error"],
+    odds_ratio = exp(estimate * log(2)),
+    lower_ci = exp((estimate - 1.96 * standard_error) * log(2)),
+    upper_ci = exp((estimate + 1.96 * standard_error) * log(2)),
+    p_value = task1_time_accuracy_coefficients[term, "Pr(>|z|)"]
+  )
+
+task1_time_accuracy_effects %>%
+  transmute(
+    Association = comparison,
+    `Odds ratio` = sprintf("%.3f", odds_ratio),
+    `Lower 95% CI` = sprintf("%.3f", lower_ci),
+    `Upper 95% CI` = sprintf("%.3f", upper_ci),
+    `p value` = format_pvalue_html(p_value)
+  ) %>%
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    caption = "Adjusted association between completion time and trial accuracy",
+    table.attr = kable_table_attributes
+  )
+
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Binomial mixed-effects model with a logit link: ",
+    "<code>correct ~ log_time_within + log_time_between_c + vistype + ",
+    "pattern + position_c + (1 | ID) + (1 | stimulus) + ",
+    "(1 | wrong_image)</code>.</li>",
+    "<li><strong>Within-participant effect:</strong> Compares a participant's ",
+    "longer and shorter trials.</li>",
+    "<li><strong>Between-participant effect:</strong> Compares participants with ",
+    "different typical completion times.</li>",
+    "<li><strong>Adjustment:</strong> Visualization type, ERP pattern, presentation ",
+    "position, participant baseline accuracy, and target- and distractor-stimulus ",
+    "difficulty.</li>",
+    "<li><strong>Effect scale:</strong> Odds ratios compare a doubling of completion ",
+    "time; values above 1 indicate greater odds of a correct response.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
+
+# Plain-language descriptions follow the confidence intervals, so the text stays
+# correct when the data change.
+describe_association <- function(lower, upper, null, more, less, none) {
+  dplyr::case_when(lower > null ~ more, upper < null ~ less, TRUE ~ none)
+}
+
+task1_time_accuracy_text <- c(
+  correlation = describe_association(
+    task1_time_accuracy_correlation_table$lower_ci,
+    task1_time_accuracy_correlation_table$upper_ci,
+    0,
+    "participants who were generally slower were more accurate",
+    "participants who were generally slower were less accurate",
+    "participants' typical speed was not clearly associated with their accuracy"
+  ),
+  within = describe_association(
+    task1_time_accuracy_effects$lower_ci[1],
+    task1_time_accuracy_effects$upper_ci[1],
+    1,
+    "a participant's slower trials were more often answered correctly",
+    "a participant's slower trials were less often answered correctly",
+    "a participant's slower trials were not clearly more or less accurate"
+  ),
+  between = describe_association(
+    task1_time_accuracy_effects$lower_ci[2],
+    task1_time_accuracy_effects$upper_ci[2],
+    1,
+    "after adjustment, generally slower participants were more accurate",
+    "after adjustment, generally slower participants were less accurate",
+    "after adjustment, generally slower participants were not clearly more or less accurate"
+  )
+)
+```
+
+At the participant level, accuracy and typical completion time had a Pearson correlation
+of `r sprintf("%.3f", task1_time_accuracy_correlation_table$correlation)`
+(95% CI
+`r sprintf("%.3f", task1_time_accuracy_correlation_table$lower_ci)` to
+`r sprintf("%.3f", task1_time_accuracy_correlation_table$upper_ci)`,
+*p* = `r format_pvalue_html(task1_time_accuracy_correlation_table$p_value)`). In the
+adjusted mixed model, doubling the time spent on a trial was associated with an odds
+ratio of
+`r sprintf("%.3f", task1_time_accuracy_effects$odds_ratio[1])` for a correct response
+(95% CI `r sprintf("%.3f", task1_time_accuracy_effects$lower_ci[1])` to
+`r sprintf("%.3f", task1_time_accuracy_effects$upper_ci[1])`). The between-participant
+odds ratio was `r sprintf("%.3f", task1_time_accuracy_effects$odds_ratio[2])`
+(95% CI `r sprintf("%.3f", task1_time_accuracy_effects$lower_ci[2])` to
+`r sprintf("%.3f", task1_time_accuracy_effects$upper_ci[2])`).
+
+In short, `r task1_time_accuracy_text[["correlation"]]`;
+`r task1_time_accuracy_text[["within"]]`; and
+`r task1_time_accuracy_text[["between"]]`. These are associations, not effects of
+time: a harder trial can both take longer and be answered incorrectly more often.
+
+```{r task1-time-accuracy-summary}
+task1_time_accuracy_summary <- tibble::tibble(
+  analysis = c(
+    "Overall participant correlation",
+    "Within participants",
+    "Between participants (adjusted)"
+  ),
+  estimate = c(
+    sprintf(
+      "r = %.3f (95%% CI %.3f to %.3f)",
+      task1_time_accuracy_correlation_table$correlation,
+      task1_time_accuracy_correlation_table$lower_ci,
+      task1_time_accuracy_correlation_table$upper_ci
+    ),
+    sprintf(
+      "OR = %.3f (95%% CI %.3f to %.3f)",
+      task1_time_accuracy_effects$odds_ratio[1],
+      task1_time_accuracy_effects$lower_ci[1],
+      task1_time_accuracy_effects$upper_ci[1]
+    ),
+    sprintf(
+      "OR = %.3f (95%% CI %.3f to %.3f)",
+      task1_time_accuracy_effects$odds_ratio[2],
+      task1_time_accuracy_effects$lower_ci[2],
+      task1_time_accuracy_effects$upper_ci[2]
+    )
+  ),
+  p_value = c(
+    task1_time_accuracy_correlation_table$p_value,
+    task1_time_accuracy_effects$p_value
+  ),
+  summary = paste0(
+    toupper(substring(task1_time_accuracy_text, 1, 1)),
+    substring(task1_time_accuracy_text, 2),
+    "."
+  )
+)
+
+task1_time_accuracy_summary %>%
+  transmute(
+    Analysis = analysis,
+    `Estimate (95% CI)` = estimate,
+    `p value` = format_pvalue_html(p_value),
+    `Plain-language summary` = summary
+  ) %>%
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    caption = "Short summary of completion-time and accuracy results",
+    table.attr = kable_table_attributes
+  )
+```
+
+## Task 2: detection
+
+- SoSci Survey records the time spent on each questionnaire **page**. Each Task 2 trial
+  has its own page (pages 29–49 hold trials 1–21), and a page keeps its number when the
+  display order is randomized. `TIME029`–`TIME049` are therefore the times of trials
+  1–21. Each time is linked to its trial, and the presentation position is taken from the
+  order variables (`A207`).
+
+- The check below plots time by presentation position. With a correct link, the first
+  trial a participant sees is the slowest, and times then fall as participants learn the
+  task.
+
+- Only non-missing positive times with an identified visualization type were retained. The
+  descriptive table removes extreme times separately within each visualization type using
+  the project's IQR rule; the mixed model retains all positive times.
+
+- The model analyzes log completion time because trial times are positive and typically
+  right-skewed:
+
+  ```r
+  log(time_sec) ~ vistype + position_c + (1 | ID)
+  ```
+
+- The participant random intercept allows participants to have different typical response
+  speeds. Presentation position adjusts for linear changes in speed across the 21 trials.
+  Model estimates and confidence intervals are converted back from log time to seconds.
+
+```{r task2-time-data}
+task2_time <- data %>%
+  select(ID, TIME029:TIME049) %>%
+  pivot_longer(
+    -ID,
+    names_to = "time_var",
+    values_to = "time_sec"
+  ) %>%
+  mutate(
+    ID = as.character(ID),
+    # "Time spent on page xxx": pages 29-49 hold trials 1-21 in questionnaire
+    # order, regardless of the randomized display order.
+    trial = as.integer(stringr::str_remove(time_var, "TIME")) - 28L,
+    time_sec = readr::parse_double(as.character(time_sec))
+  ) %>%
+  left_join(
+    task2 %>%
+      transmute(
+        ID = as.character(ID),
+        trial,
+        position,
+        vistype
+      ),
+    by = c("ID", "trial")
+  ) %>%
+  filter(!is.na(time_sec), !is.na(vistype), time_sec > 0)
+
+stopifnot(
+  !anyDuplicated(task2_time[c("ID", "trial")]),
+  !anyDuplicated(task2_time[c("ID", "position")])
+)
+```
+
+::: {.callout-note title="Check: completion time by presentation position" collapse="true"}
+
+```{r task2-time-position-check}
+#| fig-width: 8
+#| fig-height: 4
+task2_time %>%
+  group_by(position) %>%
+  summarise(geometric_mean = exp(mean(log(time_sec))), .groups = "drop") %>%
+  ggplot(aes(position, geometric_mean)) +
+  geom_line(colour = "#3182BD", linewidth = 0.8) +
+  geom_point(colour = "#3182BD", size = 2.5) +
+  scale_x_continuous(breaks = c(1, 5, 10, 15, 21)) +
+  labs(
+    x = "Presentation position",
+    y = "Geometric-mean time (s)",
+    title = "Times fall as participants learn the task"
+  ) +
+  theme_classic(base_family = "Lato", base_size = 16) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+:::
+
+::: {.callout-note title="Completion-time data preview" collapse="true"}
+
+```{r}
+
+task2_time |>
+  slice_head(n = 20) |>
+  mutate(vistype = table_vistype(vistype)) |>
+  knitr::kable(
+    format = "html",
+    digits = 2,
+    col.names = c(
+      "Participant ID",
+      "Timing variable",
+      "Time (seconds)",
+      "Presentation position",
+      "Trial",
+      "Visualization type"
+    ),
+    caption = "Diagnostic preview: first 20 detection-task completion-time records",
+    table.attr = kable_table_attributes
+  )
+```
+
+:::
+
+```{r task2-time-summary}
+task2_time_table <- task2_time %>%
+  remove_group_iqr_outliers(time_sec, vistype) %>%
+  group_by(vistype) %>%
+  summarise(
+    n = n(),
+    median_sec = median(time_sec, na.rm = TRUE),
+    mean_sec = mean(time_sec, na.rm = TRUE),
+    sd_sec = sd(time_sec, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+task2_time_table |>
+  arrange(median_sec) |>
+  mutate(
+    vistype = table_vistype(vistype),
+    across(c(median_sec, mean_sec, sd_sec), \(x) round(x, 1))
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Responses",
+      "Median time (seconds)",
+      "Mean time (seconds)",
+      "SD (seconds)"
+    ),
+    caption = "Observed detection-task completion time by visualization type",
+    table.attr = kable_table_attributes
+  )
+```
+
+### Model-estimated completion time
+
+```{r task2-time-model}
+task2_time_model <- task2_time %>%
+  transmute(
+    ID = factor(ID),
+    vistype = relevel(factor(vistype), ref = "basic"),
+    position = as.integer(position),
+    time_sec = as.numeric(time_sec)
+  ) %>%
+  filter(complete.cases(.), time_sec > 0) %>%
+  mutate(position_c = position - mean(position))
+
+task2_time_fit <- lmer(
+  log(time_sec) ~ vistype + position_c + (1 | ID),
+  data = task2_time_model
+)
+
+task2_time_estimates_raw <- emmeans(
+  task2_time_fit,
+  ~ vistype,
+  type = "response"
+) %>%
+  confint() %>%
+  as.data.frame()
+
+task2_time_lower_column <- intersect(
+  c("lower.CL", "asymp.LCL"),
+  names(task2_time_estimates_raw)
+)
+task2_time_upper_column <- intersect(
+  c("upper.CL", "asymp.UCL"),
+  names(task2_time_estimates_raw)
+)
+
+stopifnot(
+  length(task2_time_lower_column) == 1L,
+  length(task2_time_upper_column) == 1L
+)
+
+task2_time_estimates <- task2_time_estimates_raw %>%
+  transmute(
+    vistype,
+    estimated_time = response,
+    lower_ci = .data[[task2_time_lower_column]],
+    upper_ci = .data[[task2_time_upper_column]]
+  ) %>%
+  arrange(estimated_time) %>%
+  mutate(vistype = factor(vistype, levels = vistype))
+
+task2_time_estimates |>
+  mutate(
+    vistype = table_vistype(vistype),
+    across(
+      c(estimated_time, lower_ci, upper_ci),
+      \(x) round(x, 1)
+    )
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Estimated time (seconds)",
+      "Lower 95% CI",
+      "Upper 95% CI"
+    ),
+    caption = "Model-estimated detection-task completion time",
+    table.attr = kable_table_attributes
+  )
+
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Gaussian linear mixed model for log completion ",
+    "time: <code>log(time_sec) ~ vistype + position_c + (1 | ID)</code>.</li>",
+    "<li><strong>Reference visualization:</strong> Basic topoplot.</li>",
+    "<li><strong>Presentation position:</strong> Estimates were calculated at the ",
+    "average presentation position.</li>",
+    "<li><strong>Output scale:</strong> Estimates and 95% confidence intervals were ",
+    "back-transformed from log time to seconds.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
+```
+
+```{r task2-time-estimate-plot}
+#| fig-width: 9
+#| fig-height: 5.5
+ggplot(
+  task2_time_estimates,
+  aes(x = estimated_time, y = vistype)
+) +
+  geom_errorbar(
+    aes(xmin = lower_ci, xmax = upper_ci),
+    orientation = "y",
+    width = 0.18,
+    linewidth = 0.7
+  ) +
+  geom_point(size = 3.5) +
+  geom_text(
+    aes(label = sprintf("%.1f s", estimated_time)),
+    nudge_y = 0.36,
+    vjust = 0.5,
+    size = 6
+  ) +
+  scale_y_discrete(
+    expand = expansion(add = 0.5),
+    labels = vistype_labels
+  ) +
+  scale_x_continuous(
+    labels = \(x) sprintf("%.0f s", x),
+    expand = expansion(mult = c(0.05, 0.12))
+  ) +
+  labs(
+    title = "Detection task completion time",
+    x = "Model-estimated time (seconds)",
+    y = NULL,
+    caption = paste0(
+      "Points show back-transformed model estimates.\n",
+      "Error bars indicate 95% confidence intervals."
+    )
+  ) +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.caption = element_text(hjust = 0.5, face = "italic"),
+    axis.ticks.y = element_blank(),
+    plot.margin = margin(8, 16, 12, 16)
+  )
+```

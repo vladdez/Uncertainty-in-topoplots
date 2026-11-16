@@ -25,3 +25,6 @@ scripts/complete_a305_content_analysis.R
 # Local journal prose formatter
 scripts/wrap-journal-prose-width.ps1
 scripts/compile-journal-prose.ps1
+# Local audit website (render with: quarto render reports)
+reports/_site/
+reports/.quarto/

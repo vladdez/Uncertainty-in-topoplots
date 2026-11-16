@@ -102,90 +102,19 @@ The polygon definitions are stored in
 :::
 
 ```{r}
-task2_order <- data %>%
-  select(ID, A207_01:A207_21) %>%
-  pivot_longer(
-    -ID,
-    names_to = "trial",
-    names_prefix = "A207_",
-    values_to = "position"
-  ) %>%
-  mutate(
-    ID = as.character(ID),
-    trial = as.integer(trial),
-    position = as.integer(position)
-  )
-```
-
-```{r}
-task2_design <- data %>%
-  select(ID, A205_01) %>%
-  tidyr::separate_rows(A205_01, sep = "###") %>%
-  filter(A205_01 != "") %>%
-  transmute(
-    ID,
-    trial   = as.integer(get_field(A205_01, "trial")),
-    vistype = get_field(A205_01, "vistype"),
-    pattern = get_field(A205_01, "pattern"),
-    subject = as.integer(get_field(A205_01, "subject")),
-    stimulus = get_field(A205_01, "stim"),
-    img_url  = get_field(A205_01, "imgUrl"),
-    input_id = get_field(A205_01, "inputId")
-  )
-
-task2_responses <- data %>%
-  select(ID, A201_01:A201_21) %>%
-  pivot_longer(
-    -ID,
-    names_to = "input_id",
-    values_to = "selected_region"
-  )
-```
-
-```{r}
-score_text <- paste(
-  readLines(project_path("regions.txt"), encoding = "UTF-8"),
-  collapse = "\n"
-)
-score_matches <- stringr::str_match_all(
-  score_text,
-  '"([^"]+)"\\s*=>\\s*array\\(([^)]*)\\)'
-)[[1]]
-region_scores <- tibble::tibble(
-  stimulus = score_matches[, 2],
-  values = score_matches[, 3]
-) %>%
-  tidyr::separate_rows(values, sep = ",\\s*") %>%
-  group_by(stimulus) %>%
-  mutate(
-    region = sprintf("R%02d", row_number()),
-    score = as.numeric(values)
-  ) %>%
-  ungroup() %>%
-  select(stimulus, region, score)
-```
-
-```{r}
-task2 <- task2_design %>%
-  mutate(ID = as.character(ID)) %>%
-  left_join(task2_responses %>% mutate(ID = as.character(ID)),
-            by = c("ID", "input_id")) %>%
-  mutate(
-    region_number = readr::parse_number(selected_region),
-    region = sprintf("R%02d", region_number)
-  ) %>%
-  left_join(region_scores, by = c("stimulus", "region")) %>%
-  left_join(task2_order, by = c("ID", "trial")) %>%
-  select(ID, trial, position, vistype, pattern, stimulus, region, score)
+#| file: scripts/task2_trials.R
 ```
 
 ## Descriptive detection scores
 
-- The analysis contains 2,394 responses: 114 participants x 21 trials. Each visualization
-  type therefore has 342 responses: 114 participants x 3 ERP patterns.
+- The analysis contains `r scales::comma(nrow(task2))` responses: `r n_distinct(task2$ID)`
+  participants x `r n_distinct(task2$trial)` trials. Each visualization type therefore has
+  `r scales::comma(nrow(task2) / n_distinct(task2$vistype))` responses:
+  `r n_distinct(task2$ID)` participants x `r n_distinct(task2$pattern)` ERP patterns.
 
- - No reconstructed responses were excluded for missing model variables. All 2,394 records
-  contained participant, stimulus, visualization type, pattern, position, and score.
+- `r scales::comma(sum(complete.cases(task2)))` of `r scales::comma(nrow(task2))` records
+  contain participant, stimulus, visualization type, pattern, position, and score;
+  `r sum(!complete.cases(task2))` were excluded for missing model variables.
 
 - Visualization type was treated as a categorical variable, with Basic topoplot as the
   reference condition. ERP pattern and stimulus were retained for the extended model.
@@ -1281,238 +1210,422 @@ ggsave(
 )
 ```
 
-## Completion-time analysis
+## Sensitivity analysis: exact-peak responses
 
-- Completion time was reconstructed from the 21 page-timing variables and linked to each
-  trial by participant and presentation position.
+- About `r round(100 * mean(task2_model$score == 1))`% of responses have a score of
+  exactly 1. Scores are rescaled within each stimulus, so a score of 1 marks the strongest
+  region (`r sum(table(region_scores$stimulus[region_scores$score == 1]) > 1)` stimulus
+  has two regions tied at 1.00 after rounding to two decimals): these responses are trials
+  in which the participant selected the strongest region. The remaining scores describe how
+  close a miss was.
 
-- Only non-missing positive times with an identified visualization type were retained. The
-  descriptive table removes extreme times separately within each visualization type using
-  the project's IQR rule; the mixed model retains all positive times.
+- The ordered-beta model handles exact 0 and 1 values, but one linear predictor drives
+  both the probability of a 1 and the location of intermediate scores. A visualization
+  that helps participants find the exact peak without improving near misses (or the
+  reverse) would therefore be averaged into a single effect.
 
-- The model analyzes log completion time because trial times are positive and typically
-  right-skewed:
+- Two checks address this:
+  1. **Posterior predictive check.** Data sets are simulated from the fitted
+     ordered-beta model and compared with the observed share of exact-peak responses.
+  2. **Two-part model.** A logistic model for finding the exact peak and a beta model for
+     the scores of the remaining trials, each with the same predictors and random effects
+     as the primary model. Effects in the two parts that differ in direction or strength
+     indicate that the single-predictor ordered-beta contrast summarizes two distinct
+     effects.
 
-  ```r
-  log(time_sec) ~ vistype + position_c + (1 | ID)
-  ```
+### Posterior predictive check
 
-- The participant random intercept allows participants to have different typical response
-  speeds. Presentation position adjusts for linear changes in speed across the 21 trials.
-  Model estimates and confidence intervals are converted back from log time to seconds.
+```{r task2-peak-ppc}
+set.seed(20261116)
+task2_peak_n_sim <- 1000
+task2_peak_sims <- simulate(model_task2, nsim = task2_peak_n_sim)
 
-```{r task2-time-data}
-task2_time <- data %>%
-  select(ID, TIME029:TIME049) %>%
-  pivot_longer(
-    -ID,
-    names_to = "time_var",
-    values_to = "time_sec"
-  ) %>%
-  mutate(
-    ID = as.character(ID),
-    # TIME029:TIME049 correspond to experimental positions 1:21.
-    position = as.integer(stringr::str_remove(time_var, "TIME")) - 28L,
-    time_sec = readr::parse_double(as.character(time_sec))
-  ) %>%
-  left_join(
-    task2 %>%
-      transmute(
-        ID = as.character(ID),
-        position,
-        trial,
-        vistype
-      ),
-    by = c("ID", "position")
-  ) %>%
-  filter(!is.na(time_sec), !is.na(vistype), time_sec > 0)
-```
+task2_peak_stats <- function(score, vistype) {
+  per_vistype <- tibble::tibble(vistype = vistype, score = score) |>
+    group_by(vistype) |>
+    summarise(
+      share_one = mean(score == 1),
+      mean_score = mean(score),
+      .groups = "drop"
+    )
+  basic <- per_vistype[per_vistype$vistype == "basic", ]
+  per_vistype |>
+    mutate(
+      share_one_vs_basic = share_one - basic$share_one,
+      mean_score_vs_basic = mean_score - basic$mean_score
+    )
+}
 
-::: {.callout-note title="Completion-time data preview" collapse="true"}
+task2_peak_observed <- task2_peak_stats(task2_model$score, task2_model$vistype)
 
-```{r}
+task2_peak_simulated <- purrr::map_dfr(
+  task2_peak_sims,
+  \(score) task2_peak_stats(score, task2_model$vistype),
+  .id = "simulation"
+)
 
-task2_time |>
-  slice_head(n = 20) |>
-  mutate(vistype = table_vistype(vistype)) |>
-  knitr::kable(
-    format = "html",
-    digits = 2,
-    col.names = c(
-      "Participant ID",
-      "Timing variable",
-      "Time (seconds)",
-      "Presentation position",
-      "Trial",
-      "Visualization type"
-    ),
-    caption = "Diagnostic preview: first 20 detection-task completion-time records",
-    table.attr = kable_table_attributes
-  )
-```
-
-:::
-
-```{r task2-time-summary}
-task2_time_table <- task2_time %>%
-  remove_group_iqr_outliers(time_sec, vistype) %>%
-  group_by(vistype) %>%
-  summarise(
-    n = n(),
-    median_sec = median(time_sec, na.rm = TRUE),
-    mean_sec = mean(time_sec, na.rm = TRUE),
-    sd_sec = sd(time_sec, na.rm = TRUE),
-    .groups = "drop"
-  )
-
-task2_time_table |>
-  arrange(median_sec) |>
-  mutate(
-    vistype = table_vistype(vistype),
-    across(c(median_sec, mean_sec, sd_sec), \(x) round(x, 1))
+task2_peak_ppc <- task2_peak_simulated |>
+  tidyr::pivot_longer(
+    c(share_one, share_one_vs_basic, mean_score, mean_score_vs_basic),
+    names_to = "statistic",
+    values_to = "simulated"
   ) |>
-  knitr::kable(
-    format = "html",
-    col.names = c(
-      "Visualization type",
-      "Responses",
-      "Median time (seconds)",
-      "Mean time (seconds)",
-      "SD (seconds)"
-    ),
-    caption = "Observed detection-task completion time by visualization type",
-    table.attr = kable_table_attributes
-  )
-```
-
-### Model-estimated completion time
-
-```{r task2-time-model}
-task2_time_model <- task2_time %>%
-  transmute(
-    ID = factor(ID),
-    vistype = relevel(factor(vistype), ref = "basic"),
-    position = as.integer(position),
-    time_sec = as.numeric(time_sec)
-  ) %>%
-  filter(complete.cases(.), time_sec > 0) %>%
-  mutate(position_c = position - mean(position))
-
-task2_time_fit <- lmer(
-  log(time_sec) ~ vistype + position_c + (1 | ID),
-  data = task2_time_model
-)
-
-task2_time_estimates_raw <- emmeans(
-  task2_time_fit,
-  ~ vistype,
-  type = "response"
-) %>%
-  confint() %>%
-  as.data.frame()
-
-task2_time_lower_column <- intersect(
-  c("lower.CL", "asymp.LCL"),
-  names(task2_time_estimates_raw)
-)
-task2_time_upper_column <- intersect(
-  c("upper.CL", "asymp.UCL"),
-  names(task2_time_estimates_raw)
-)
-
-stopifnot(
-  length(task2_time_lower_column) == 1L,
-  length(task2_time_upper_column) == 1L
-)
-
-task2_time_estimates <- task2_time_estimates_raw %>%
-  transmute(
-    vistype,
-    estimated_time = response,
-    lower_ci = .data[[task2_time_lower_column]],
-    upper_ci = .data[[task2_time_upper_column]]
-  ) %>%
-  arrange(estimated_time) %>%
-  mutate(vistype = factor(vistype, levels = vistype))
-
-task2_time_estimates |>
+  group_by(vistype, statistic) |>
+  summarise(
+    lower = quantile(simulated, 0.025),
+    median = median(simulated),
+    upper = quantile(simulated, 0.975),
+    .groups = "drop"
+  ) |>
+  left_join(
+    task2_peak_observed |>
+      tidyr::pivot_longer(-vistype, names_to = "statistic", values_to = "observed"),
+    by = c("vistype", "statistic")
+  ) |>
   mutate(
+    inside = observed >= lower & observed <= upper,
+    vistype = factor(vistype, levels = levels(task2_model$vistype))
+  )
+
+task2_peak_ppc |>
+  filter(statistic %in% c("share_one", "share_one_vs_basic")) |>
+  filter(!(statistic == "share_one_vs_basic" & vistype == "basic")) |>
+  arrange(statistic, vistype) |>
+  transmute(
+    statistic = if_else(
+      statistic == "share_one",
+      "Share of exact-peak responses",
+      "Difference from Basic topoplot"
+    ),
     vistype = table_vistype(vistype),
-    across(
-      c(estimated_time, lower_ci, upper_ci),
-      \(x) round(x, 1)
+    observed = sprintf("%.1f%%", 100 * observed),
+    simulated = sprintf(
+      "%.1f%% [%.1f%%, %.1f%%]",
+      100 * median, 100 * lower, 100 * upper
+    ),
+    inside = if_else(
+      inside,
+      "Yes",
+      '<span style="color:#B2182B;font-weight:700">No</span>'
     )
   ) |>
   knitr::kable(
     format = "html",
+    escape = FALSE,
     col.names = c(
-      "Visualization type",
-      "Estimated time (seconds)",
-      "Lower 95% CI",
-      "Upper 95% CI"
+      "Statistic",
+      "Visualization",
+      "Observed",
+      "Simulated median [95% interval]",
+      "Observed inside interval"
     ),
-    caption = "Model-estimated detection-task completion time",
+    caption = paste0(
+      "Observed versus simulated exact-peak responses (",
+      task2_peak_n_sim,
+      " data sets simulated from the primary ordered-beta model, ",
+      "with new participant and stimulus effects in each simulation)."
+    ),
+    table.attr = kable_table_attributes
+  )
+```
+
+```{r task2-peak-ppc-figure}
+#| fig-width: 11
+#| fig-height: 5.5
+#| fig-alt: "Observed share of exact-peak responses for each visualization compared with 95% intervals simulated from the ordered-beta model, shown as levels and as differences from Basic topoplot."
+task2_peak_ppc |>
+  filter(statistic %in% c("share_one", "share_one_vs_basic")) |>
+  filter(!(statistic == "share_one_vs_basic" & vistype == "basic")) |>
+  mutate(
+    statistic = factor(
+      statistic,
+      levels = c("share_one", "share_one_vs_basic"),
+      labels = c(
+        "Share of exact-peak responses",
+        "Difference from Basic topoplot"
+      )
+    ),
+    vistype = forcats::fct_rev(vistype)
+  ) |>
+  ggplot(aes(y = vistype)) +
+  geom_errorbar(
+    aes(xmin = lower, xmax = upper),
+    orientation = "y",
+    width = 0.25,
+    linewidth = 0.8,
+    colour = "#9ECAE1"
+  ) +
+  geom_point(aes(x = median), shape = 124, size = 5, colour = "#3182BD") +
+  geom_point(aes(x = observed, fill = inside), shape = 21, size = 3.5) +
+  scale_fill_manual(
+    values = c(`TRUE` = "#333333", `FALSE` = "#B2182B"),
+    labels = c(`TRUE` = "Inside 95% interval", `FALSE` = "Outside 95% interval"),
+    name = "Observed"
+  ) +
+  scale_x_continuous(labels = scales::label_percent(accuracy = 1)) +
+  scale_y_discrete(labels = \(x) table_vistype(x)) +
+  facet_wrap(~statistic, scales = "free_x") +
+  labs(
+    x = NULL,
+    y = NULL,
+    caption = "Blue: median and 95% interval of simulated data sets. Dots: observed values."
+  ) +
+  theme_classic(base_family = "Lato", base_size = 16) +
+  theme(
+    axis.ticks.y = element_blank(),
+    strip.background = element_blank(),
+    strip.text = element_text(face = "bold", size = 16),
+    panel.spacing.x = grid::unit(2.5, "lines"),
+    legend.position = "bottom",
+    plot.caption = element_text(hjust = 0, colour = "grey30")
+  )
+```
+
+### Two-part model
+
+- **Exact peak:** logistic mixed model for `score == 1`.
+- **Closeness of misses:** beta mixed model for the trials with `score < 1`. The
+  `r sum(task2_model$score == 0)` scores of exactly 0 were moved slightly inward with the
+  Smithson–Verkuilen transformation, `(score × (n − 1) + 0.5) / n`.
+- Both parts use the primary model's predictors:
+  `vistype + pattern + position_c + (1 | ID) + (1 | stimulus)`.
+- The second part is conditional on missing the peak. If a visualization turns near
+  misses into exact hits, its remaining misses can look worse even when overall
+  performance improves, so the two parts should be read together.
+
+```{r task2-peak-two-part}
+task2_peak_hit_model <- glmmTMB(
+  peak ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus),
+  family = binomial(link = "logit"),
+  data = mutate(task2_model, peak = as.integer(score == 1))
+)
+
+task2_peak_miss_data <- task2_model |>
+  filter(score < 1) |>
+  mutate(score_squeezed = (score * (n() - 1) + 0.5) / n())
+
+task2_peak_miss_model <- glmmTMB(
+  score_squeezed ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus),
+  family = beta_family(link = "logit"),
+  data = task2_peak_miss_data
+)
+
+stopifnot(
+  task2_peak_hit_model$fit$convergence == 0,
+  isTRUE(task2_peak_hit_model$sdr$pdHess),
+  task2_peak_miss_model$fit$convergence == 0,
+  isTRUE(task2_peak_miss_model$sdr$pdHess)
+)
+
+task2_peak_response_estimates <- bind_rows(
+  `Probability of exact peak` = emmeans(
+    task2_peak_hit_model, ~vistype, type = "response"
+  ) |> as.data.frame() |> rename(estimate = prob),
+  `Mean score of misses` = emmeans(
+    task2_peak_miss_model, ~vistype, type = "response"
+  ) |> as.data.frame() |> rename(estimate = response),
+  .id = "part"
+)
+
+task2_peak_response_estimates |>
+  transmute(
+    part,
+    vistype = table_vistype(vistype),
+    value = sprintf("%.2f [%.2f, %.2f]", estimate, asymp.LCL, asymp.UCL)
+  ) |>
+  tidyr::pivot_wider(names_from = part, values_from = value) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization",
+      "Probability of exact peak [95% CI]",
+      "Mean score of misses [95% CI]"
+    ),
+    caption = paste(
+      "Model-estimated values from the two-part model, averaged equally over ERP",
+      "patterns at the middle presentation position, for a typical participant and",
+      "stimulus (random effects at zero)."
+    ),
+    table.attr = kable_table_attributes
+  )
+```
+
+### Visualization effects across models
+
+```{r task2-peak-contrasts}
+task2_peak_contrasts <- list(
+  `Ordered beta (primary)` = model_task2,
+  `Exact peak (logistic)` = task2_peak_hit_model,
+  `Misses (beta)` = task2_peak_miss_model
+) |>
+  purrr::imap_dfr(\(model, name) {
+    emmeans(model, ~vistype) |>
+      contrast(method = "trt.vs.ctrl", ref = "basic", adjust = "none") |>
+      confint() |>
+      as.data.frame() |>
+      transmute(
+        model = name,
+        vistype = stringr::str_remove(contrast, " - basic$"),
+        estimate,
+        lower = asymp.LCL,
+        upper = asymp.UCL
+      )
+  }) |>
+  mutate(
+    model = factor(model, levels = unique(model)),
+    vistype = factor(vistype, levels = levels(task2_model$vistype)),
+    excludes_zero = lower > 0 | upper < 0
+  )
+
+task2_peak_contrasts |>
+  arrange(vistype) |>
+  transmute(
+    vistype = table_vistype(vistype),
+    model,
+    value = if_else(
+      excludes_zero,
+      sprintf(
+        '<span style="color:#B2182B;font-weight:700">%+.2f [%+.2f, %+.2f]</span>',
+        estimate, lower, upper
+      ),
+      sprintf("%+.2f [%+.2f, %+.2f]", estimate, lower, upper)
+    )
+  ) |>
+  tidyr::pivot_wider(names_from = model, values_from = value) |>
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    col.names = c("Visualization vs Basic topoplot", levels(task2_peak_contrasts$model)),
+    caption = paste(
+      "Differences from Basic topoplot on the logit scale with unadjusted 95%",
+      "confidence intervals. Intervals excluding zero are shown in dark red."
+    ),
     table.attr = kable_table_attributes
   )
 
 model_table_note(
   paste0(
     "<ul>",
-    "<li><strong>Model:</strong> Gaussian linear mixed model for log completion ",
-    "time: <code>log(time_sec) ~ vistype + position_c + (1 | ID)</code>.</li>",
-    "<li><strong>Reference visualization:</strong> Basic topoplot.</li>",
-    "<li><strong>Presentation position:</strong> Estimates were calculated at the ",
-    "average presentation position.</li>",
-    "<li><strong>Output scale:</strong> Estimates and 95% confidence intervals were ",
-    "back-transformed from log time to seconds.</li>",
+    "<li><strong>Scale:</strong> All three columns are on the logit scale: the ",
+    "logit of the mean score (ordered beta and misses) or the log-odds of selecting ",
+    "the strongest region (exact peak). Directions are comparable; magnitudes are ",
+    "not directly comparable across columns.</li>",
+    "<li><strong>Multiplicity:</strong> Intervals are not adjusted; this is a ",
+    "sensitivity analysis of the primary model's assumption.</li>",
     "</ul>"
   ),
-  label = "Model details"
+  label = "Reading the table"
 )
 ```
 
-```{r task2-time-estimate-plot}
-#| fig-width: 9
+```{r task2-peak-contrast-figure}
+#| fig-width: 12
 #| fig-height: 5.5
-ggplot(
-  task2_time_estimates,
-  aes(x = estimated_time, y = vistype)
-) +
+#| fig-alt: "Differences from Basic topoplot on the logit scale for the ordered-beta model, the exact-peak logistic model, and the beta model of missed trials, with 95% confidence intervals."
+task2_peak_contrasts |>
+  mutate(vistype = forcats::fct_rev(vistype)) |>
+  ggplot(aes(x = estimate, y = vistype)) +
+  geom_vline(xintercept = 0, linetype = "dashed", colour = "#377EB8") +
   geom_errorbar(
-    aes(xmin = lower_ci, xmax = upper_ci),
+    aes(xmin = lower, xmax = upper),
     orientation = "y",
-    width = 0.18,
-    linewidth = 0.7
+    width = 0.2,
+    linewidth = 0.6,
+    colour = "#333333"
   ) +
-  geom_point(size = 3.5) +
-  geom_text(
-    aes(label = sprintf("%.1f s", estimated_time)),
-    nudge_y = 0.36,
-    vjust = 0.5,
-    size = 6
+  geom_point(aes(fill = excludes_zero), shape = 21, size = 3) +
+  scale_fill_manual(
+    values = c(`TRUE` = "#B2182B", `FALSE` = "white"),
+    guide = "none"
   ) +
-  scale_y_discrete(
-    expand = expansion(add = 0.5),
-    labels = vistype_labels
-  ) +
-  scale_x_continuous(
-    labels = \(x) sprintf("%.0f s", x),
-    expand = expansion(mult = c(0.05, 0.12))
-  ) +
+  scale_y_discrete(labels = \(x) table_vistype(x)) +
+  facet_wrap(~model, nrow = 1) +
   labs(
-    title = "Detection task completion time",
-    x = "Model-estimated time (seconds)",
+    x = "Difference from Basic topoplot (logit scale)",
     y = NULL,
-    caption = paste0(
-      "Points show back-transformed model estimates.\n",
-      "Error bars indicate 95% confidence intervals."
-    )
+    caption = "Filled red: 95% confidence interval excludes zero (unadjusted)."
   ) +
-  theme_classic(base_family = "Lato", base_size = 20) +
+  theme_classic(base_family = "Lato", base_size = 16) +
   theme(
-    plot.title = element_text(hjust = 0.5, face = "bold"),
-    plot.caption = element_text(hjust = 0.5, face = "italic"),
     axis.ticks.y = element_blank(),
-    plot.margin = margin(8, 16, 12, 16)
+    strip.background = element_blank(),
+    strip.text = element_text(face = "bold", size = 16),
+    plot.caption = element_text(hjust = 0, colour = "grey30")
   )
 ```
+
+```{r task2-peak-agreement}
+task2_peak_agreement <- task2_peak_contrasts |>
+  mutate(
+    part = case_when(
+      model == "Ordered beta (primary)" ~ "primary",
+      model == "Exact peak (logistic)" ~ "peak",
+      TRUE ~ "miss"
+    ),
+    direction = case_when(
+      !excludes_zero ~ "none",
+      estimate > 0 ~ "better",
+      TRUE ~ "worse"
+    )
+  ) |>
+  select(vistype, part, direction, estimate) |>
+  tidyr::pivot_wider(names_from = part, values_from = c(direction, estimate)) |>
+  rename(primary = direction_primary, peak = direction_peak, miss = direction_miss) |>
+  mutate(
+    pattern = case_when(
+      peak == "none" & miss == "none" ~ "No clear effect in either part",
+      peak != "none" & miss != "none" & peak != miss ~
+        "Opposite effects on exact peak and misses",
+      peak != "none" & miss != "none" ~ "Same effect in both parts",
+      peak != "none" ~ paste0(
+        "Exact peak only (", if_else(peak == "better", "more", "fewer"), " exact hits)"
+      ),
+      TRUE ~ paste0(
+        "Misses only (", if_else(miss == "better", "closer", "farther"), " misses)"
+      )
+    ),
+    primary_captures = case_when(
+      primary == "none" & (peak != "none" | miss != "none") ~
+        "No: the ordered-beta contrast shows no clear effect",
+      primary != "none" & peak != "none" & peak != primary ~
+        "Partly: the exact-peak effect has the opposite direction",
+      primary != "none" &
+        sign(estimate_peak) != sign(estimate_primary) ~
+        "Partly: the exact-peak estimate points the other way (interval includes zero)",
+      primary != "none" &
+        sign(estimate_miss) != sign(estimate_primary) ~
+        "Partly: the miss estimate points the other way (interval includes zero)",
+      TRUE ~ "Yes"
+    )
+  )
+
+task2_peak_agreement |>
+  arrange(vistype) |>
+  transmute(
+    vistype = table_vistype(vistype),
+    pattern,
+    primary_captures = if_else(
+      primary_captures == "Yes",
+      "Yes",
+      paste0('<span style="color:#B2182B;font-weight:700">', primary_captures, "</span>")
+    )
+  ) |>
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    col.names = c(
+      "Visualization vs Basic topoplot",
+      "Two-part model",
+      "Captured by the primary ordered-beta contrast?"
+    ),
+    caption = paste(
+      "Agreement between the two-part model and the primary model. An effect counts",
+      "when its unadjusted 95% confidence interval excludes zero."
+    ),
+    table.attr = kable_table_attributes
+  )
+```
+
+## Completion-time analysis
+
+Completion time is analysed on the [Time analysis](time.qmd) page.

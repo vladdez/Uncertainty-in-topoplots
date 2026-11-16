@@ -26,8 +26,9 @@ comparison, detection, and subjective-evaluation tasks.
 ## Site structure
 
 - **[Sample](pages/sample.qmd):** participants and background characteristics.
-- **[Task 1](pages/task1.qmd):** visualization comparison and completion time.
-- **[Task 2](pages/task2.qmd):** pattern detection and completion time.
+- **[Task 1](pages/task1.qmd):** visualization comparison.
+- **[Task 2](pages/task2.qmd):** pattern detection.
+- **[Time analysis](pages/time.qmd):** completion time in both tasks.
 - **[Subjective evaluation](pages/subjective.qmd):** participant ratings of the visualizations.
 - **[Open-ended feedback](pages/feedback.qmd):** visualization-specific and general written comments.
 - **[Publication figures](pages/figures.qmd):** final figures for reuse.

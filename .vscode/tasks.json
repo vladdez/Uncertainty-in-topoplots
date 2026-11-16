@@ -18,6 +18,30 @@
         "isDefault": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Preview website locally",
+      "type": "process",
+      "command": "quarto",
+      "args": ["preview", "--no-browser", "--port", "4200"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Render audit site (keep open pages)",
+      "type": "process",
+      "command": "quarto",
+      "args": ["render", "reports", "--no-clean"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
     }
   ]
 }

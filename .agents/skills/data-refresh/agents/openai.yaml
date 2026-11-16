@@ -1,0 +1,4 @@
+interface:
+  display_name: "Data Refresh"
+  short_description: "Update coding, figures, pages and prose after a new survey export"
+  default_prompt: "Use $data-refresh: the survey export in data/ was updated. Validate it, propose codes for new A305 feedback, then re-render everything and report what changed."
