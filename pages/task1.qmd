@@ -26,6 +26,7 @@ most closely matched the target.](<../The Art of Uncertain Topoplots/figures/tas
 
 ```{r shared-setup}
 #| include: false
+#| cache: false
 source("scripts/analysis_setup.R")
 ```
 
@@ -87,13 +88,18 @@ task1 <- task1_order %>%
       ),
     by = c("ID", "trial", "question")
   )
+
+task1_n_responses <- nrow(task1)
+task1_n_participants <- n_distinct(task1$ID)
+task1_n_trials <- n_distinct(task1$trial)
 ```
 
 ## Accuracy analysis
 
 - Every response was coded as correct (`1`) or incorrect (`0`).
 
-- The analysis contains 2,394 responses: 114 participants × 21 trials.
+- The analysis contains `r format(task1_n_responses, big.mark = ",")` responses:
+  `r task1_n_participants` participants × `r task1_n_trials` trials.
 
 - Visualization type was treated as a categorical variable, with the basic topoplot as
   the reference condition.
@@ -104,7 +110,8 @@ task1 <- task1_order %>%
   represent earlier trials, and positive values represent later trials. This variable
   tests whether accuracy changed linearly as participants progressed through the task.
 
-- No responses were excluded for missing values. All 2,394 reconstructed records
+- No responses were excluded for missing values. All
+  `r format(task1_n_responses, big.mark = ",")` reconstructed records
   contained accuracy, visualization type, ERP pattern, presentation position, target
   stimulus, and distractor stimulus.
 
@@ -136,18 +143,26 @@ task1_model <- task1 %>%
     !is.na(wrong_image)
   ) %>%
   mutate(position_c = position - mean(position))
+
+task1_vistype_counts <- task1_model %>%
+  count(vistype, name = "responses")
+
+stopifnot(n_distinct(task1_vistype_counts$responses) == 1L)
+
+task1_n_responses_per_vistype <- first(task1_vistype_counts$responses)
+task1_n_patterns <- n_distinct(task1_model$pattern)
 ```
 
-### Observed accuracy
+### Accuracy by visualisation type
 
 - Accuracy was calculated as correct responses divided by all responses
-  (`correct / (correct + incorrect)`). Each visualization type had 342 responses
-  (114 participants × 3 trials). This is an unadjusted pooled proportion.
+  (`correct / (correct + incorrect)`). Each visualization type had
+  `r format(task1_n_responses_per_vistype, big.mark = ",")` responses
+  (`r task1_n_participants` participants × `r task1_n_patterns` trials). This is an
+  unadjusted pooled proportion.
 
-- For the descriptive uncertainty display, each participant contributed one mean
-  accuracy per visualization type, calculated from their three trials. Because every
-  participant contributed the same number of trials, the across-participant mean equals
-  the pooled proportion above.
+- For each visualization type, accuracy was first averaged across three trials
+ within each participant and then summarized across participants.
 
 - The dark-blue region shows the two-sided 95% *t*-confidence interval around the
   across-participant mean; opacity decreases beyond that interval.
@@ -236,12 +251,8 @@ vistype_table |>
 
 ```{r task1-descriptive-gradient-plot}
 #| fig-cap: >-
-#|   Observed comparison-task accuracy summarized from participant-level means.
-#|   Each participant contributes one mean from three trials per visualization type.
-#|   The black line and label show the across-participant mean; the dark-blue region
-#|   shows its two-sided 95% t-confidence interval. This unadjusted description does
-#|   not replace the mixed model below, which accounts for ERP pattern, presentation
-#|   position, participant, target stimulus, and distractor stimulus.
+#|   The black line and label show the across-participant mean. The dark-blue region
+#|   shows its two-sided 95% t-confidence interval.
 
 task1_gradient_data <- task1_gradient_summary |>
   tidyr::crossing(accuracy = seq(0.60, 0.90, length.out = 241)) |>
@@ -343,10 +354,8 @@ task1_gradient_figure
   each image its own baseline difficulty in each role and prevents unusually easy or
   difficult images from being mistaken for visualization effects.
 
-- These probabilities estimate average accuracy for each visualization type across the
-  modeled participant and stimulus populations. They were calculated at the average
-  trial position, averaged equally across the three ERP patterns, and integrated over
-  modeled differences among participants, target stimuli, and distractor stimuli.
+- These probabilities are model-based estimates of average accuracy for each visualisation type.
+Estimates were calculated for the midpoint of the experiment, weighted equally across the three ERP patterns, and averaged over participant and stimulus differences (random effects).
 
 ```{r}
 #| include: false
@@ -589,19 +598,17 @@ There are three ways to summarize the model:
 | Option | Calculation | What it describes |
 |---|---|---|
 | 1 | Set participant and stimulus differences to zero. | Average-baseline participants and stimuli. |
-| 2 | Average over the fitted participants, targets, and distractors. | The levels observed in this study. |
-| 3 | Average across modeled participant and stimulus differences. | The modeled participant and stimulus populations. |
+| 2 | Average over the participants and stimuli observed in the study, using their fitted random effects. | Sample-averaged model prediction. |
+| 3 | Average over the modelled distributions of participant and stimulus random effects. | Population-averaged model prediction. |
 
-We chose option 3 because our research question concerns average performance across
-participant and stimulus populations, not only average-baseline or observed levels
+We chose option 3 becausewe are more interested in accuracy over population
 ([Hu et al., 1998](https://pubmed.ncbi.nlm.nih.gov/9554609/);
 [Hedeker et al., 2018](https://pmc.ncbi.nlm.nih.gov/articles/PMC5650580/)).
 
-**Estimand sensitivity check.** Across visualization types, the largest difference
-between the selected population-average probability and the zero-random-effect
-probability was `r task1_conditional_gap_label`; the largest difference from the
-fitted participant-and-stimulus average was `r task1_sample_gap_label`. The reporting
-choice therefore does not materially change the pattern of results.
+**Accuracy-averaging sensitivity check.** We compared Options 2 and 3. Across
+visualisation types, the largest difference was `r task1_sample_gap_label`. This
+difference did not meaningfully change the relative performance of the visualisation
+types.
 
 This does not make the sample representative of all EEG researchers.
 :::
@@ -681,6 +688,7 @@ model_table_note(
 ```
 
 ```{r}
+#| cache: false
 # Model-estimated probability of a correct response for each visualization type.
 comparison_axis_colours <- ifelse(
   levels(accuracy_estimates$vistype) == "basic",
@@ -785,6 +793,7 @@ ggsave(
   confidence level.
 
 ```{r task1-basic-contrast-figure}
+#| cache: false
 task1_basic_reference <- which(task1_vistype_levels == "basic")
 task1_contrast_draws <- sweep(
   task1_population_draws,
@@ -1222,7 +1231,8 @@ The data were represented by two rows per trial, with one row for each candidate
 one selected candidate within each participant--trial choice set. Visualization effects
 were estimated as interactions with matching-candidate status because visualization type
 is constant within a choice set and its main effect therefore cancels. Standard errors
-were clustered by participant to account for each participant's 21 choices.
+were clustered by participant to account for each participant's
+`r task1_n_trials` choices.
 
 ```{r task1-bradley-terry-data}
 task1_bt_trials <- task1 |>
@@ -1255,7 +1265,10 @@ task1_bt_expected_opt2 <- if_else(
 )
 
 stopifnot(
-  nrow(task1_bt_trials) == 2394,
+  nrow(task1_bt_trials) == n_distinct(task1_bt_trials$choice_set),
+  all(
+    count(task1_bt_trials, ID, name = "trials")$trials == task1_n_trials
+  ),
   all(task1_bt_trials$stimulus == task1_bt_trials$correct_image),
   all(task1_bt_trials$recorded_correct ==
         as.integer(task1_bt_trials$answered == task1_bt_trials$solution)),
@@ -1638,18 +1651,34 @@ task1_time_fit <- lmer(
   data = task1_time_model
 )
 
-time_estimates <- emmeans(
+time_estimates_raw <- emmeans(
   task1_time_fit,
   ~ vistype,
   type = "response"
 ) %>%
   confint() %>%
-  as.data.frame() %>%
+  as.data.frame()
+
+time_lower_column <- intersect(
+  c("lower.CL", "asymp.LCL"),
+  names(time_estimates_raw)
+)
+time_upper_column <- intersect(
+  c("upper.CL", "asymp.UCL"),
+  names(time_estimates_raw)
+)
+
+stopifnot(
+  length(time_lower_column) == 1L,
+  length(time_upper_column) == 1L
+)
+
+time_estimates <- time_estimates_raw %>%
   transmute(
     vistype,
     estimated_time = response,
-    lower_ci = lower.CL,
-    upper_ci = upper.CL
+    lower_ci = .data[[time_lower_column]],
+    upper_ci = .data[[time_upper_column]]
   ) %>%
   arrange(estimated_time) %>%
   mutate(vistype = factor(vistype, levels = vistype))
@@ -1758,8 +1787,8 @@ task1_time_accuracy_counts <- task1_time_accuracy %>%
   count(ID, name = "trials")
 
 stopifnot(
-  nrow(task1_time_accuracy_counts) == 114,
-  all(task1_time_accuracy_counts$trials == 21)
+  nrow(task1_time_accuracy_counts) == task1_n_participants,
+  all(task1_time_accuracy_counts$trials == task1_n_trials)
 )
 
 task1_time_accuracy <- task1_time_accuracy %>%
@@ -1819,8 +1848,12 @@ task1_time_accuracy_correlation_table %>%
 model_table_note(
   paste0(
     "<ul>",
-    "<li><strong>Unit:</strong> One record per participant (N = 114).</li>",
-    "<li><strong>Accuracy:</strong> Proportion correct across 21 trials.</li>",
+    "<li><strong>Unit:</strong> One record per participant (N = ",
+    task1_n_participants,
+    ").</li>",
+    "<li><strong>Accuracy:</strong> Proportion correct across ",
+    task1_n_trials,
+    " trials.</li>",
     "<li><strong>Typical time:</strong> Mean log completion time, equivalent to the ",
     "log of the participant's geometric mean time.</li>",
     "<li><strong>Interpretation:</strong> The correlation asks whether participants ",

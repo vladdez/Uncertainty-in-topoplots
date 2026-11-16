@@ -138,3 +138,20 @@ data <- survey_raw %>%
   filter(!is.na(readr::parse_number(TIME051))) %>%
   select(-(1:5)) %>%
   mutate(ID = row_number(), .before = 1)
+
+configure_analysis_cache <- function(extra_files = character()) {
+  inputs <- c(
+    project_path("data", "data_uncertain_topoplots.csv"),
+    project_path("scripts", "analysis_setup.R"),
+    extra_files
+  )
+  if (!all(file.exists(inputs))) {
+    stop("Missing cache input: ", paste(inputs[!file.exists(inputs)], collapse = ", "))
+  }
+  knitr::opts_chunk$set(
+    cache.extra = unname(tools::md5sum(inputs)),
+    autodep = TRUE
+  )
+}
+
+configure_analysis_cache()

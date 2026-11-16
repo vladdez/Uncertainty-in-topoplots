@@ -1,0 +1,2012 @@
+---
+title: "Task 1"
+execute:
+  warning: false
+  message: false
+params:
+  export_artifacts: false
+---
+
+## Explanation of the task 1
+
+Task 1 examined whether adding uncertainty information made the underlying spatial
+pattern in an EEG topoplot more difficult to recognize. On each trial, participants
+saw a target ERP pattern and two alternative topoplots. They selected the alternative
+that most closely matched the target. One alternative represented the same ERP-pattern
+class as the target, while the other represented a different class.
+
+The task included three characteristic ERP patterns: MMN, P3, and N170. Each was
+shown using each of the seven visualization types. This produced 21 trials per
+participant, each on separate page. Trial order was randomized separately for every
+participant.
+
+![Example comparison trial. Participants selected the alternative whose spatial pattern
+most closely matched the target.](<../The Art of Uncertain Topoplots/figures/task1_explainer.png>){#fig-task1-explainer width=100% fig-alt="A target EEG topoplot above two alternative topoplots. A selection marker indicates that the participant chooses the alternative whose spatial pattern best matches the target."}
+
+
+```{r shared-setup}
+#| include: false
+#| cache: false
+source("scripts/analysis_setup.R")
+```
+
+## Trial reconstruction and presentation order
+
+- Trial information was reconstructed from the survey records and joined with each
+  participant's responses using participant, trial, and question identifiers.
+
+```{r}
+task1_order <- data %>%
+  dplyr::select(ID, A125_02) %>%
+  tidyr::separate_rows(A125_02, sep = "\n") %>%
+  dplyr::filter(A125_02 != "") %>%
+  dplyr::transmute(
+    ID,
+    position = as.integer(get_field(A125_02, "position")),
+    trial    = as.integer(get_field(A125_02, "trial")),
+    question = get_field(A125_02, "question"),
+    stimulus = get_field(A125_02, "stimulus"),
+    expected = as.integer(get_field(A125_02, "expected")),
+    answered = as.integer(get_field(A125_02, "answered")),
+    correct  = as.integer(get_field(A125_02, "correct"))
+  ) %>%
+  dplyr::arrange(ID, position)
+
+task1_design <- data %>%
+  dplyr::select(ID, A124_01) %>%
+  tidyr::separate_rows(A124_01, sep = "\n") %>%
+  dplyr::filter(A124_01 != "") %>%
+  dplyr::transmute(
+    ID,
+    trial       = as.integer(get_field(A124_01, "trial")),
+    question    = get_field(A124_01, "question"),
+    vistype     = get_field(A124_01, "vistype"),
+    target      = get_field(A124_01, "target"),
+    correct     = get_field(A124_01, "correct"),
+    wrong       = get_field(A124_01, "wrong"),
+    pair        = get_field(A124_01, "pair"),
+    solution    = as.integer(get_field(A124_01, "solution")),
+    opt1        = get_field(A124_01, "opt1"),
+    opt2        = get_field(A124_01, "opt2")
+  )
+
+task1 <- task1_order %>%
+  left_join(
+    task1_design %>%
+      transmute(
+        ID,
+        trial,
+        question,
+        vistype,
+        pattern = target,
+        correct_image = correct,
+        wrong_image = wrong,
+        pair,
+        solution,
+        opt1,
+        opt2
+      ),
+    by = c("ID", "trial", "question")
+  )
+
+task1_n_responses <- nrow(task1)
+task1_n_participants <- n_distinct(task1$ID)
+task1_n_trials <- n_distinct(task1$trial)
+```
+
+## Accuracy analysis
+
+- Every response was coded as correct (`1`) or incorrect (`0`).
+
+- The analysis contains `r format(task1_n_responses, big.mark = ",")` responses:
+  `r task1_n_participants` participants × `r task1_n_trials` trials.
+
+- Visualization type was treated as a categorical variable, with the basic topoplot as
+  the reference condition.
+
+- Presentation position was represented by the centered variable `position_c`,
+  calculated as `position - mean(position)`. Because positions ranged from 1 to 21,
+  their mean was 11. Thus, `position_c = 0` represents position 11, negative values
+  represent earlier trials, and positive values represent later trials. This variable
+  tests whether accuracy changed linearly as participants progressed through the task.
+
+- No responses were excluded for missing values. All
+  `r format(task1_n_responses, big.mark = ",")` reconstructed records
+  contained accuracy, visualization type, ERP pattern, presentation position, target
+  stimulus, and distractor stimulus.
+
+- Stimulus assignment was incomplete but overlapping across participants. Across their
+  21 trials, participants saw 12--20 unique target stimuli (median 16), 13--20 unique
+  distractors (median 15), and 18--28 unique stimulus identities across both roles
+  (median 23). No participant saw all 30 stimulus identities. Because specific targets
+  and distractors may differ in difficulty, this design motivates separate target- and
+  distractor-stimulus random intercepts in the inferential model.
+
+```{r}
+task1_model <- task1 %>%
+  transmute(
+    ID = factor(ID),
+    trial = factor(trial),
+    vistype = relevel(factor(vistype), ref = "basic"),
+    pattern = relevel(factor(pattern), ref = "MMN"),
+    stimulus = factor(stimulus),
+    wrong_image = factor(wrong_image),
+    position = as.integer(position),
+    correct = as.integer(correct)
+  ) %>%
+  filter(
+    !is.na(correct),
+    !is.na(position),
+    !is.na(vistype),
+    !is.na(pattern),
+    !is.na(stimulus),
+    !is.na(wrong_image)
+  ) %>%
+  mutate(position_c = position - mean(position))
+
+task1_vistype_counts <- task1_model %>%
+  count(vistype, name = "responses")
+
+stopifnot(n_distinct(task1_vistype_counts$responses) == 1L)
+
+task1_n_responses_per_vistype <- first(task1_vistype_counts$responses)
+task1_n_patterns <- n_distinct(task1_model$pattern)
+```
+
+### Accuracy by visualisation type
+
+- Accuracy was calculated as correct responses divided by all responses
+  (`correct / (correct + incorrect)`). Each visualization type had
+  `r format(task1_n_responses_per_vistype, big.mark = ",")` responses
+  (`r task1_n_participants` participants × `r task1_n_patterns` trials). This is an
+  unadjusted pooled proportion.
+
+- For each visualization type, accuracy was first averaged across three trials
+ within each participant and then summarized across participants.
+
+- The dark-blue region shows the two-sided 95% *t*-confidence interval around the
+  across-participant mean; opacity decreases beyond that interval.
+
+```{r}
+task1_gradient_participants <- task1_model |>
+  group_by(ID, vistype) |>
+  summarise(
+    participant_accuracy = mean(correct),
+    .groups = "drop"
+  )
+
+task1_gradient_order <- task1_gradient_participants |>
+  group_by(vistype) |>
+  summarise(mean_accuracy = mean(participant_accuracy), .groups = "drop") |>
+  arrange(mean_accuracy) |>
+  pull(vistype) |>
+  as.character()
+
+task1_gradient_summary <- task1_gradient_participants |>
+  group_by(vistype) |>
+  summarise(
+    n_participants = n(),
+    mean_accuracy = mean(participant_accuracy),
+    se_accuracy = sd(participant_accuracy) / sqrt(n_participants),
+    df = n_participants - 1,
+    .groups = "drop"
+  ) |>
+  mutate(
+    vistype = factor(vistype, levels = task1_gradient_order),
+    y_position = as.numeric(vistype),
+    lower_95 = mean_accuracy - qt(0.975, df) * se_accuracy,
+    upper_95 = mean_accuracy + qt(0.975, df) * se_accuracy
+  ) |>
+  arrange(vistype)
+
+task1_response_counts <- task1_model |>
+  group_by(vistype) |>
+  summarise(
+    n = n(),
+    n_correct = sum(correct == 1, na.rm = TRUE),
+    n_incorrect = sum(correct == 0, na.rm = TRUE),
+    pooled_accuracy = mean(correct, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+vistype_table <- task1_response_counts |>
+  left_join(
+    task1_gradient_summary |>
+      select(vistype, mean_accuracy, lower_95, upper_95),
+    by = "vistype"
+  )
+
+stopifnot(
+  all(task1_gradient_summary$n_participants == n_distinct(task1_model$ID)),
+  isTRUE(all.equal(
+    vistype_table$pooled_accuracy,
+    vistype_table$mean_accuracy,
+    tolerance = 1e-12
+  ))
+)
+
+vistype_table |>
+  mutate(
+    vistype = table_vistype(vistype),
+    mean_accuracy = scales::percent(mean_accuracy, accuracy = 0.1),
+    lower_95 = scales::percent(lower_95, accuracy = 0.1),
+    upper_95 = scales::percent(upper_95, accuracy = 0.1)
+  ) |>
+  select(-pooled_accuracy) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Responses",
+      "Correct",
+      "Incorrect",
+      "Mean accuracy",
+      "Lower 95% CI",
+      "Upper 95% CI"
+    ),
+    caption = "Observed comparison-task accuracy by visualization type",
+    table.attr = kable_table_attributes
+  )
+```
+
+```{r task1-descriptive-gradient-plot}
+#| fig-cap: >-
+#|   The black line and label show the across-participant mean. The dark-blue region
+#|   shows its two-sided 95% t-confidence interval.
+
+task1_gradient_data <- task1_gradient_summary |>
+  tidyr::crossing(accuracy = seq(0.60, 0.90, length.out = 241)) |>
+  mutate(
+    t_distance = abs(accuracy - mean_accuracy) / se_accuracy,
+    confidence_level = 2 * pt(t_distance, df) - 1,
+    gradient_alpha = if_else(
+      confidence_level <= 0.95,
+      1,
+      pmax(0, (1 - confidence_level) / 0.05)
+    )
+  )
+
+task1_gradient_figure <- ggplot(
+  task1_gradient_data,
+  aes(x = accuracy, y = y_position)
+) +
+  geom_tile(
+    aes(alpha = gradient_alpha),
+    width = 1 / 800,
+    height = 0.62,
+    fill = "#6BAED6"
+  ) +
+  geom_segment(
+    data = task1_gradient_summary,
+    aes(
+      x = mean_accuracy,
+      xend = mean_accuracy,
+      y = y_position - 0.31,
+      yend = y_position + 0.31
+    ),
+    inherit.aes = FALSE,
+    linewidth = 0.8,
+    colour = "#111111"
+  ) +
+  geom_text(
+    data = task1_gradient_summary,
+    aes(
+      x = mean_accuracy,
+      y = y_position + 0.42,
+      label = sprintf("%.1f%%", 100 * mean_accuracy)
+    ),
+    inherit.aes = FALSE,
+    size = 6
+  ) +
+  scale_alpha_identity() +
+  scale_x_continuous(
+    "Participant-level mean accuracy",
+    limits = c(0.60, 0.90),
+    breaks = seq(0.60, 0.90, 0.10),
+    labels = scales::label_percent(),
+    expand = expansion(mult = c(0, 0))
+  ) +
+  scale_y_continuous(
+    breaks = task1_gradient_summary$y_position,
+    labels = unname(
+      vistype_labels[as.character(task1_gradient_summary$vistype)]
+    ),
+    expand = expansion(add = c(0.5, 0.65))
+  ) +
+  labs(
+    title = "Comparison task accuracy",
+    y = NULL
+  ) +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(
+      hjust = 0.5,
+      face = "bold",
+      size = 22
+    ),
+    axis.text = element_text(size = 20),
+    axis.text.y = element_text(lineheight = 0.75),
+    axis.ticks.y = element_blank(),
+    axis.line.y = element_blank()
+  )
+
+task1_gradient_figure
+```
+
+### Population-average accuracy
+
+- A logistic mixed-effects model estimated the probability of a correct response:
+
+  ```r
+  correct ~ vistype + pattern + position_c +
+    (1 | ID) + (1 | stimulus) + (1 | wrong_image)
+  ```
+
+- Some participants were generally more accurate than others. Because every participant
+  completed 21 trials, we added a participant random intercept, which allows each
+  participant to have their own baseline accuracy. The model then examines whether
+  accuracy changed with visualization type or trial position across participants.
+
+- ERP pattern was included as a fixed effect, so visualization comparisons account for
+  systematic accuracy differences among MMN, N170, and P3 trials.
+
+- Target and distractor stimuli were included as separate random intercepts. This gives
+  each image its own baseline difficulty in each role and prevents unusually easy or
+  difficult images from being mistaken for visualization effects.
+
+- These probabilities are model-based estimates of average accuracy for each visualisation type.
+Estimates were calculated for the midpoint of the experiment, weighted equally across the three ERP patterns, and averaged over participant and stimulus differences (random effects).
+
+```{r}
+#| include: false
+
+# Logistic mixed-effects model
+task1_fit <- glmer(
+  correct ~ vistype + pattern + position_c +
+    (1 | ID) + (1 | stimulus) + (1 | wrong_image),
+  data = task1_model,
+  family = binomial,
+  control = glmerControl(optimizer = "bobyqa")
+)
+
+# Check whether the data support a participant-specific presentation-position slope.
+task1_position_slope_fit <- glmer(
+  correct ~ vistype + pattern + position_c +
+    (1 + position_c | ID) + (1 | stimulus) + (1 | wrong_image),
+  data = task1_model,
+  family = binomial,
+  control = glmerControl(optimizer = "bobyqa")
+)
+task1_position_slope_variance <- as.numeric(
+  lme4::VarCorr(task1_position_slope_fit)$ID["position_c", "position_c"]
+)
+task1_position_slope_correlation <- as.numeric(
+  attr(lme4::VarCorr(task1_position_slope_fit)$ID, "correlation")[
+    "(Intercept)", "position_c"
+  ]
+)
+task1_position_slope_singular <- lme4::isSingular(
+  task1_position_slope_fit,
+  tol = 1e-4
+)
+
+# Predictions are evaluated for every visualization-pattern combination and then
+# averaged equally over the three experimentally controlled ERP patterns.
+task1_vistype_levels <- levels(task1_model$vistype)
+task1_pattern_levels <- levels(task1_model$pattern)
+task1_prediction_grid <- tidyr::expand_grid(
+  vistype = factor(task1_vistype_levels, levels = task1_vistype_levels),
+  pattern = factor(task1_pattern_levels, levels = task1_pattern_levels),
+  position_c = 0
+)
+
+task1_average_over_patterns <- function(values) {
+  vapply(
+    task1_vistype_levels,
+    function(visualization) {
+      mean(values[as.character(task1_prediction_grid$vistype) == visualization])
+    },
+    numeric(1)
+  )
+}
+
+task1_random_effect_sds <- function(model) {
+  variance_components <- lme4::VarCorr(model)
+  vapply(
+    c("ID", "stimulus", "wrong_image"),
+    function(group) as.numeric(attr(variance_components[[group]], "stddev")),
+    numeric(1)
+  )
+}
+
+# Population-average probabilities integrate over the fitted participant, target,
+# and distractor random-intercept distributions. Their independent normal random
+# intercepts sum to one normal distribution with the summed variance.
+task1_population_probabilities <- function(model) {
+  fixed_formula <- lme4::nobars(formula(model))
+  fixed_terms <- delete.response(terms(fixed_formula))
+  design_matrix <- model.matrix(fixed_terms, task1_prediction_grid)
+  linear_predictor <- as.numeric(design_matrix %*% lme4::fixef(model))
+  total_random_sd <- sqrt(sum(task1_random_effect_sds(model)^2))
+
+  if (total_random_sd < sqrt(.Machine$double.eps)) {
+    return(task1_average_over_patterns(plogis(linear_predictor)))
+  }
+
+  grid_probabilities <- vapply(
+    linear_predictor,
+    function(eta) {
+      integrate(
+        function(random_intercept) {
+          plogis(eta + random_intercept) *
+            dnorm(random_intercept, sd = total_random_sd)
+        },
+        lower = -Inf,
+        upper = Inf,
+        rel.tol = 1e-10
+      )$value
+    },
+    numeric(1)
+  )
+
+  task1_average_over_patterns(grid_probabilities)
+}
+
+# Compare the three candidate summaries before selecting the reporting target.
+task1_fixed_formula <- lme4::nobars(formula(task1_fit))
+task1_fixed_terms <- delete.response(terms(task1_fixed_formula))
+task1_design_matrix <- model.matrix(task1_fixed_terms, task1_prediction_grid)
+task1_linear_predictor <- as.numeric(
+  task1_design_matrix %*% lme4::fixef(task1_fit)
+)
+task1_participant_effects <- lme4::ranef(task1_fit)$ID[, 1]
+task1_target_effects <- lme4::ranef(task1_fit)$stimulus[, 1]
+task1_distractor_effects <- lme4::ranef(task1_fit)$wrong_image[, 1]
+task1_fitted_random_effect_sums <- as.vector(
+  outer(
+    task1_participant_effects,
+    as.vector(outer(task1_target_effects, task1_distractor_effects, "+")),
+    "+"
+  )
+)
+
+task1_conditional_probabilities <- task1_average_over_patterns(
+  plogis(task1_linear_predictor)
+)
+task1_fitted_sample_probabilities <- task1_average_over_patterns(
+  vapply(
+    task1_linear_predictor,
+    function(eta) mean(plogis(eta + task1_fitted_random_effect_sums)),
+    numeric(1)
+  )
+)
+
+task1_estimand_comparison <- tibble::tibble(
+  vistype = factor(task1_vistype_levels, levels = task1_vistype_levels),
+  conditional = task1_conditional_probabilities,
+  fitted_sample = task1_fitted_sample_probabilities,
+  population_average = task1_population_probabilities(task1_fit)
+)
+
+# Simulate fixed-effect uncertainty, then marginalize every draw over the fitted
+# participant and stimulus distributions. This is much faster than model refitting.
+set.seed(20261102)
+task1_fixed_effect_draws <- MASS::mvrnorm(
+  n = 10000,
+  mu = lme4::fixef(task1_fit),
+  Sigma = as.matrix(vcov(task1_fit))
+)
+task1_linear_predictor_draws <-
+  task1_fixed_effect_draws %*% t(task1_design_matrix)
+task1_random_effect_sd <- sqrt(sum(task1_random_effect_sds(task1_fit)^2))
+
+# Twenty-point Gauss-Hermite quadrature accurately integrates the logistic-normal
+# probabilities for all coefficient draws without model refitting.
+task1_quadrature_order <- 20
+task1_quadrature_matrix <- matrix(
+  0,
+  task1_quadrature_order,
+  task1_quadrature_order
+)
+task1_quadrature_off_diagonal <- sqrt(
+  seq_len(task1_quadrature_order - 1) / 2
+)
+task1_quadrature_matrix[
+  cbind(
+    seq_len(task1_quadrature_order - 1),
+    2:task1_quadrature_order
+  )
+] <- task1_quadrature_off_diagonal
+task1_quadrature_matrix[
+  cbind(
+    2:task1_quadrature_order,
+    seq_len(task1_quadrature_order - 1)
+  )
+] <- task1_quadrature_off_diagonal
+task1_quadrature <- eigen(task1_quadrature_matrix, symmetric = TRUE)
+task1_quadrature_nodes <- task1_quadrature$values
+task1_quadrature_weights <- task1_quadrature$vectors[1, ]^2
+
+task1_population_draws_grid <- matrix(
+  0,
+  nrow = nrow(task1_linear_predictor_draws),
+  ncol = ncol(task1_linear_predictor_draws)
+)
+for (quadrature_index in seq_along(task1_quadrature_nodes)) {
+  task1_population_draws_grid <- task1_population_draws_grid +
+    task1_quadrature_weights[quadrature_index] *
+    plogis(
+      task1_linear_predictor_draws +
+        sqrt(2) * task1_random_effect_sd *
+        task1_quadrature_nodes[quadrature_index]
+    )
+}
+
+task1_population_draws <- vapply(
+  task1_vistype_levels,
+  function(visualization) {
+    rowMeans(
+      task1_population_draws_grid[
+        , as.character(task1_prediction_grid$vistype) == visualization,
+        drop = FALSE
+      ]
+    )
+  },
+  numeric(nrow(task1_population_draws_grid))
+)
+
+task1_probability_intervals <- apply(
+  task1_population_draws,
+  2,
+  quantile,
+  probs = c(0.025, 0.975),
+  na.rm = TRUE
+)
+
+accuracy_estimates <- tibble::tibble(
+  vistype = factor(task1_vistype_levels, levels = task1_vistype_levels),
+  accuracy = task1_estimand_comparison$population_average,
+  lower_ci = task1_probability_intervals[1, ],
+  upper_ci = task1_probability_intervals[2, ]
+) |>
+  arrange(desc(accuracy)) |>
+  mutate(
+    vistype = factor(vistype, levels = rev(vistype))
+  )
+
+task1_conditional_gap <- max(abs(
+  task1_estimand_comparison$population_average -
+    task1_estimand_comparison$conditional
+))
+task1_sample_gap <- max(abs(
+  task1_estimand_comparison$population_average -
+    task1_estimand_comparison$fitted_sample
+))
+task1_conditional_gap_label <- sprintf(
+  "%.1f percentage points",
+  100 * task1_conditional_gap
+)
+task1_sample_gap_label <- sprintf(
+  "%.1f percentage points",
+  100 * task1_sample_gap
+)
+```
+
+::: {.callout-note title="Choosing how to summarize predicted accuracy" collapse="true"}
+There are three ways to summarize the model:
+
+| Option | Calculation | What it describes |
+|---|---|---|
+| 1 | Set participant and stimulus differences to zero. | Average-baseline participants and stimuli. |
+| 2 | Average over the participants and stimuli observed in the study, using their fitted random effects. | Sample-averaged model prediction. |
+| 3 | Average over the modelled distributions of participant and stimulus random effects. | Population-averaged model prediction. |
+
+We chose option 3 becausewe are more interested in accuracy over population
+([Hu et al., 1998](https://pubmed.ncbi.nlm.nih.gov/9554609/);
+[Hedeker et al., 2018](https://pmc.ncbi.nlm.nih.gov/articles/PMC5650580/)).
+
+**Accuracy-averaging sensitivity check.** We compared Options 2 and 3. Across
+visualisation types, the largest difference was `r task1_sample_gap_label`. This
+difference did not meaningfully change the relative performance of the visualisation
+types.
+
+This does not make the sample representative of all EEG researchers.
+:::
+
+::: {.callout-note collapse="true"}
+## Why participant-specific random slopes were not retained
+
+We tested whether the effect of trial position differed between participants by adding
+a participant-specific position slope: `(1 + position_c | ID)`, while retaining the ERP
+pattern and stimulus terms. The model
+`r if (task1_position_slope_singular) "produced a singular fit and could not" else "did not produce a singular fit, but could only"`
+estimate this additional variation:
+
+- The estimated variance of the position slopes was
+  `r sprintf("%.5f", task1_position_slope_variance)`.
+
+- The estimated correlation between the baseline accuracy and position slopes was
+  `r sprintf("%.2f", task1_position_slope_correlation)`.
+
+`r if (task1_position_slope_singular) "Together, these boundary estimates indicate that the data did not contain enough information to estimate participant baseline differences and participant-specific position effects separately." else "Although the fit was not singular, the estimated slope variation was very small and did not justify the additional model complexity."`
+
+We also considered participant-specific effects for visualization type. However, each
+participant provided only three responses for each visualization. Modeling the
+seven-level visualization factor would require six additional slopes and their
+covariances, which the available responses could not support reliably.
+
+We therefore retained the simpler random-intercept model. This does not show that the
+position and visualization effects are identical for every participant. It means only
+that these data cannot reliably estimate how those effects differ between participants.
+:::
+
+```{r}
+accuracy_estimates |>
+  mutate(
+    vistype = table_vistype(vistype),
+    across(
+      c(accuracy, lower_ci, upper_ci),
+      \(x) scales::percent(x, accuracy = 0.1)
+    )
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Estimated accuracy",
+      "Lower 95% CI",
+      "Upper 95% CI"
+    ),
+    caption = "Population-average comparison-task accuracy",
+    table.attr = kable_table_attributes
+  )
+
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Binomial mixed-effects model with a logit link: ",
+    "<code>correct ~ vistype + pattern + position_c + (1 | ID) + ",
+    "(1 | stimulus) + (1 | wrong_image)</code>.</li>",
+    "<li><strong>Reference visualization:</strong> Basic topoplot.</li>",
+    "<li><strong>ERP pattern:</strong> Predictions were averaged equally across MMN, ",
+    "N170, and P3.</li>",
+    "<li><strong>Trial position:</strong> Predicted accuracy was calculated at the ",
+    "average presentation position.</li>",
+    "<li><strong>Random effects:</strong> Predictions were averaged across the modeled ",
+    "distributions of participant baseline accuracy and target- and distractor-stimulus ",
+    "difficulty.</li>",
+    "<li><strong>Confidence intervals:</strong> A separate 95% confidence interval ",
+    "was calculated for each visualization type from 10,000 simulated sets of ",
+    "fixed-effect estimates generated with <code>MASS::mvrnorm()</code>.</li>",
+    "<li><strong>Limitation:</strong> The estimated participant and stimulus ",
+    "random-intercept variances were treated as fixed when calculating these ",
+    "intervals.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
+```
+
+```{r}
+#| cache: false
+# Model-estimated probability of a correct response for each visualization type.
+comparison_axis_colours <- ifelse(
+  levels(accuracy_estimates$vistype) == "basic",
+  "#377EB8",
+  "#222222"
+)
+
+comparison_accuracy_limits <- c(
+  max(0, min(accuracy_estimates$lower_ci, na.rm = TRUE) - 0.03),
+  min(1, max(accuracy_estimates$upper_ci, na.rm = TRUE) + 0.03)
+)
+
+comparison_accuracy_figure <- ggplot(
+  accuracy_estimates,
+  aes(
+    x = accuracy,
+    y = vistype,
+    colour = vistype == "basic"
+  )
+) +
+  geom_errorbar(
+    aes(
+      xmin = lower_ci,
+      xmax = upper_ci
+    ),
+    orientation = "y",
+    width = 0.14,
+    linewidth = 0.55
+  ) +
+  geom_point(size = 3) +
+  geom_text(
+    aes(label = scales::percent(accuracy, accuracy = 1)),
+    nudge_y = 0.36,
+    vjust = 0.5,
+    size = 5.5
+  ) +
+  scale_y_discrete(
+    expand = expansion(add = 0.5),
+    labels = function(x) {
+      publication_labels <- c(
+        basic = "Basic topoplot",
+        adjacent = "Adjacent plots",
+        bivariate_corner = "Bivariate corners",
+        bivariate_range = "Bivariate range",
+        triple_CI = "Confidence intervals",
+        uncert_markers = "Uncertainty markers",
+        animation = "Animation"
+      )
+      unname(publication_labels[x])
+    }
+  ) +
+  scale_colour_manual(
+    values = c(`FALSE` = "#222222", `TRUE` = "#377EB8"),
+    guide = "none"
+  ) +
+  scale_x_continuous(
+    labels = scales::label_percent(accuracy = 1),
+    limits = comparison_accuracy_limits,
+    breaks = scales::breaks_width(0.05),
+    expand = expansion(mult = 0)
+  ) +
+  labs(
+    title = "Comparison task accuracy",
+    subtitle = "Population-average accuracy with 95% confidence intervals",
+    x = "Model-estimated comparison-task accuracy",
+    y = NULL
+  ) +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5, size = 18),
+    plot.title.position = "plot",
+    axis.text.y = element_text(
+      size = 24,
+      colour = comparison_axis_colours,
+      margin = margin(r = 12)
+    ),
+    axis.text.x = element_text(size = 20),
+    axis.ticks.y = element_blank(),
+    axis.line.y = element_blank()
+  )
+
+comparison_accuracy_figure
+
+ggsave(
+  project_path("figures", "comparison_accuracy_figure.png"),
+  comparison_accuracy_figure,
+  width = 9,
+  height = 5.5,
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
+)
+```
+
+### Accuracy differences relative to Basic topoplot
+
+- These comparisons estimate the population-average accuracy difference between each
+  visualization and the basic topoplot. Confidence intervals crossing zero indicate
+  that the corresponding visualization is not clearly different from Basic at the 95%
+  confidence level.
+
+```{r task1-basic-contrast-figure}
+#| cache: false
+task1_basic_reference <- which(task1_vistype_levels == "basic")
+task1_contrast_draws <- sweep(
+  task1_population_draws,
+  1,
+  task1_population_draws[, task1_basic_reference],
+  FUN = "-"
+)
+task1_contrast_estimates <-
+  task1_estimand_comparison$population_average -
+  task1_estimand_comparison$population_average[task1_basic_reference]
+task1_contrast_intervals <- apply(
+  task1_contrast_draws,
+  2,
+  quantile,
+  probs = c(0.025, 0.975),
+  na.rm = TRUE
+)
+
+task1_basic_contrasts <- tibble::tibble(
+  vistype = factor(task1_vistype_levels, levels = task1_vistype_levels),
+  difference = task1_contrast_estimates,
+  lower_ci = task1_contrast_intervals[1, ],
+  upper_ci = task1_contrast_intervals[2, ]
+) |>
+  filter(vistype != "basic") |>
+  mutate(
+    vistype = factor(vistype, levels = levels(accuracy_estimates$vistype))
+  )
+
+task1_contrast_limits <- c(
+  max(-1, min(task1_basic_contrasts$lower_ci, na.rm = TRUE) - 0.03),
+  min(1, max(task1_basic_contrasts$upper_ci, na.rm = TRUE) + 0.03)
+)
+
+task1_contrast_labels <- c(
+  adjacent = "Adjacent plots",
+  bivariate_corner = "Bivariate corners",
+  bivariate_range = "Bivariate range",
+  triple_CI = "Confidence intervals",
+  uncert_markers = "Uncertainty markers",
+  animation = "Animation"
+)
+
+comparison_accuracy_contrast_figure <- ggplot(
+  task1_basic_contrasts,
+  aes(x = difference, y = vistype)
+) +
+  geom_vline(
+    xintercept = 0,
+    linetype = "dashed",
+    linewidth = 0.6,
+    colour = "#377EB8"
+  ) +
+  geom_errorbar(
+    aes(xmin = lower_ci, xmax = upper_ci),
+    orientation = "y",
+    width = 0.14,
+    linewidth = 0.55,
+    colour = "#333333"
+  ) +
+  geom_point(size = 3, colour = "#333333") +
+  geom_text(
+    aes(label = ifelse(
+      abs(difference) < 0.005,
+      "0 pp",
+      sprintf("%+.0f pp", 100 * difference)
+    )),
+    nudge_y = 0.32,
+    vjust = 0.5,
+    size = 5.5,
+    colour = "#333333"
+  ) +
+  scale_y_discrete(
+    labels = function(x) unname(task1_contrast_labels[x]),
+    expand = expansion(add = 0.5)
+  ) +
+  scale_x_continuous(
+    limits = task1_contrast_limits,
+    labels = function(x) ifelse(
+      abs(x) < 0.005,
+      "0 pp",
+      sprintf("%+.0f pp", 100 * x)
+    ),
+    breaks = scales::breaks_width(0.05),
+    expand = expansion(mult = 0)
+  ) +
+  labs(
+    title = "Comparison task accuracy differences",
+    subtitle = "Population-average contrasts with 95% confidence intervals",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
+    plot.subtitle = element_text(hjust = 0.5, size = 18),
+    plot.title.position = "plot",
+    axis.text.y = element_text(size = 24, margin = margin(r = 12)),
+    axis.text.x = element_text(size = 20),
+    axis.ticks.y = element_blank(),
+    axis.line.y = element_blank()
+  )
+
+comparison_accuracy_contrast_caption <- ggplot() +
+  annotate(
+    "text",
+    x = 0.497,
+    y = 0.5,
+    label = "Difference in estimated accuracy vs",
+    hjust = 1,
+    size = 20 / ggplot2::.pt,
+    family = "Lato",
+    colour = "#222222"
+  ) +
+  annotate(
+    "text",
+    x = 0.503,
+    y = 0.5,
+    label = "Basic topoplot",
+    hjust = 0,
+    size = 20 / ggplot2::.pt,
+    family = "Lato",
+    colour = "#377EB8"
+  ) +
+  coord_cartesian(xlim = c(0, 1), ylim = c(0, 1), clip = "off") +
+  theme_void()
+
+comparison_accuracy_contrast_figure <-
+  comparison_accuracy_contrast_figure /
+  comparison_accuracy_contrast_caption +
+  plot_layout(heights = c(1, 0.10))
+
+comparison_accuracy_contrast_figure
+
+ggsave(
+  project_path("figures", "comparison_accuracy_contrast_figure.png"),
+  comparison_accuracy_contrast_figure,
+  width = 9,
+  height = 5.25,
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
+)
+```
+
+### Model coefficients
+
+- The coefficient table reports each visualization relative to the basic topoplot and
+  reports the ERP-pattern and linear presentation-position effects. Coefficients are
+  expressed as log odds.
+
+```{r}
+model_order <- glmmTMB(
+  correct ~ vistype + pattern + position_c +
+    (1 | ID) + (1 | stimulus) + (1 | wrong_image),
+  family = binomial,
+  data = task1_model
+)
+
+task1_model_coefficients <- summary(model_order)$coefficients$cond |>
+  as.data.frame() |>
+  tibble::rownames_to_column("term")
+
+task1_coefficient_results <- task1_model_coefficients |>
+  transmute(
+    term,
+    term_label = dplyr::recode(
+      .data$term,
+      `(Intercept)` = "Basic topoplot (intercept)",
+      vistypeadjacent = "Adjacent plots vs Basic topoplot",
+      vistypeanimation = "Animation vs Basic topoplot",
+      vistypebivariate_corner = "Bivariate corner vs Basic topoplot",
+      vistypebivariate_range = "Bivariate range vs Basic topoplot",
+      vistypetriple_CI = "Confidence intervals vs Basic topoplot",
+      vistypeuncert_markers = "Uncertainty markers vs Basic topoplot",
+      patternN170 = "N170 vs MMN pattern",
+      patternP3 = "P3 vs MMN pattern",
+      position_c = "Presentation position (centered)",
+      .default = term
+    ),
+    estimate = Estimate,
+    standard_error = .data[["Std. Error"]],
+    z_value = .data[["z value"]],
+    p_value = .data[["Pr(>|z|)"]],
+    odds_ratio = exp(estimate),
+    lower_or = exp(estimate - 1.96 * standard_error),
+    upper_or = exp(estimate + 1.96 * standard_error)
+  )
+
+task1_coefficient_results |>
+  transmute(
+    term = term_label,
+    estimate,
+    standard_error,
+    z_value,
+    p_value = format_pvalue_html(p_value)
+  ) |>
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    digits = 3,
+    col.names = c(
+      "Term",
+      "Estimate (log odds)",
+      "Standard error",
+      "z value",
+      "p value"
+    ),
+    caption = paste(
+      "Fixed effects for the comparison-task accuracy model.",
+      "Values with p < .05 are shown in dark red."
+    ),
+    table.attr = kable_table_attributes
+  )
+
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Binomial mixed-effects model with a logit link: ",
+    "<code>correct ~ vistype + pattern + position_c + (1 | ID) + ",
+    "(1 | stimulus) + (1 | wrong_image)</code>.</li>",
+    "<li><strong>Reference visualization:</strong> Basic topoplot.</li>",
+    "<li><strong>Reference ERP pattern:</strong> MMN.</li>",
+    "<li><strong>Trial position:</strong> <code>position_c = 0</code> represents the ",
+    "average presentation position.</li>",
+    "<li><strong>Coefficient scale:</strong> Coefficients are reported as log odds, ",
+    "not probabilities.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
+
+task1_corner_result <- task1_coefficient_results |>
+  filter(term == "vistypebivariate_corner")
+task1_range_result <- task1_coefficient_results |>
+  filter(term == "vistypebivariate_range")
+task1_p3_result <- task1_coefficient_results |>
+  filter(term == "patternP3")
+task1_other_visual_p_min <- task1_coefficient_results |>
+  filter(
+    term %in% c(
+      "vistypeadjacent",
+      "vistypeanimation",
+      "vistypetriple_CI",
+      "vistypeuncert_markers"
+    )
+  ) |>
+  summarise(value = min(p_value)) |>
+  pull(value)
+```
+
+#### Coefficient conclusion
+
+Relative to Basic topoplot, Bivariate corners were associated with lower odds of a
+correct response (odds ratio [OR] =
+`r sprintf("%.2f", task1_corner_result$odds_ratio)`, 95% CI
+`r sprintf("%.2f", task1_corner_result$lower_or)`--`r sprintf("%.2f", task1_corner_result$upper_or)`,
+*p* = `r format.pval(task1_corner_result$p_value, digits = 3, eps = 0.001)`), as was
+Bivariate range (OR = `r sprintf("%.2f", task1_range_result$odds_ratio)`, 95% CI
+`r sprintf("%.2f", task1_range_result$lower_or)`--`r sprintf("%.2f", task1_range_result$upper_or)`,
+*p* = `r format.pval(task1_range_result$p_value, digits = 3, eps = 0.001)`). 
+
+The other
+four visualization contrasts did not show clear differences from Basic topoplot
+(all *p* ≥ `r sprintf("%.3f", task1_other_visual_p_min)`).
+
+P3 trials had higher odds
+of a correct response than MMN trials (OR = `r sprintf("%.2f", task1_p3_result$odds_ratio)`,
+95% CI `r sprintf("%.2f", task1_p3_result$lower_or)`--`r sprintf("%.2f", task1_p3_result$upper_or)`,
+*p* = `r format.pval(task1_p3_result$p_value, digits = 3, eps = 0.001)`). These
+coefficient tests are unadjusted pairwise comparisons; the overall visualization-type
+test is reported below.
+
+### Model fit comparison
+
+- A likelihood-ratio test compares the model containing visualization type with a reduced
+  model that retains ERP pattern, presentation position, and the same random effects. It
+  evaluates whether visualization type improves the model overall after these adjustments.
+
+```{r}
+model_no_random_effects <- glmmTMB(
+  correct ~ vistype + pattern + position_c,
+  family = binomial,
+  data = task1_model
+)
+
+model_no_vistype <- glmmTMB(
+  correct ~ pattern + position_c +
+    (1 | ID) + (1 | stimulus) + (1 | wrong_image),
+  family = binomial,
+  data = task1_model
+)
+
+model_vistype <- glmmTMB(
+  correct ~ vistype + pattern + position_c +
+    (1 | ID) + (1 | stimulus) + (1 | wrong_image),
+  family = binomial,
+  data = task1_model
+)
+
+task1_nested_comparison <- anova(model_no_vistype, model_vistype) |>
+  as.data.frame() |>
+  tibble::rownames_to_column("model")
+
+task1_vistype_lrt <- task1_nested_comparison[2, ]
+
+task1_model_metrics <- function(fitted_model, label) {
+  model_log_likelihood <- logLik(fitted_model)
+  tibble::tibble(
+    model = label,
+    df = as.numeric(attr(model_log_likelihood, "df")),
+    AIC = AIC(fitted_model),
+    BIC = BIC(fitted_model),
+    logLik = as.numeric(model_log_likelihood)
+  )
+}
+
+task1_model_comparison_table <- bind_rows(
+  task1_model_metrics(
+    model_no_random_effects,
+    paste0(
+      "<code>correct ~ vistype + pattern + position_c</code>"
+    )
+  ),
+  task1_model_metrics(
+    model_no_vistype,
+    paste0(
+      "<code>correct ~ pattern + position_c +<br>",
+      "(1 | ID) + (1 | stimulus) + (1 | wrong_image)</code>"
+    )
+  ),
+  task1_model_metrics(
+    model_vistype,
+    paste0(
+      "<code>correct ~ vistype + pattern + position_c +<br>",
+      "(1 | ID) + (1 | stimulus) + (1 | wrong_image)</code>"
+    )
+  )
+)
+
+format_best_model_fit <- function(values, direction = c("minimum", "maximum")) {
+  direction <- match.arg(direction)
+  best_value <- if (direction == "minimum") min(values) else max(values)
+  formatted_values <- sprintf("%.3f", values)
+  formatted_values[dplyr::near(values, best_value)] <- paste0(
+    "<span class='best-model-fit'>",
+    formatted_values[dplyr::near(values, best_value)],
+    "</span>"
+  )
+  formatted_values
+}
+
+task1_model_comparison_display <- task1_model_comparison_table |>
+  mutate(
+    AIC = format_best_model_fit(AIC, "minimum"),
+    BIC = format_best_model_fit(BIC, "minimum"),
+    logLik = format_best_model_fit(logLik, "maximum")
+  )
+
+task1_model_comparison_display |>
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    digits = 3,
+    align = c("l", "r", "r", "r", "r"),
+    col.names = c(
+      "Model",
+      "Parameters",
+      "AIC",
+      "BIC",
+      "Log likelihood"
+    ),
+    caption = paste(
+      "Fit statistics for the comparison-task accuracy models.",
+      "The best value for each fit criterion is shown in green."
+    ),
+    table.attr = paste0(
+      "class='table table-striped table-hover table-sm ",
+      "task1-model-fit-table'"
+    )
+  )
+
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model family:</strong> Binomial models with a logit link.</li>",
+    "<li><strong>Fixed-effects-only model:</strong> ",
+    "<code>correct ~ vistype + pattern + position_c</code>.</li>",
+    "<li><strong>Reduced model:</strong> ",
+    "<code>correct ~ pattern + position_c + (1 | ID) + (1 | stimulus) + ",
+    "(1 | wrong_image)</code>.</li>",
+    "<li><strong>Full model:</strong> ",
+    "<code>correct ~ vistype + pattern + position_c + (1 | ID) + ",
+    "(1 | stimulus) + (1 | wrong_image)</code>.</li>",
+    "<li><strong>Fit comparison:</strong> AIC, BIC, and log likelihood are shown for ",
+    "all three models. The fixed-effects-only model is included to show the effect of ",
+    "accounting for participant and stimulus clustering.</li>",
+    "<li><strong>Likelihood-ratio test:</strong> The chi-square test is reported only ",
+    "for the two nested mixed models and evaluates whether adding visualization type ",
+    "improves fit while retaining the same random-effects structure.</li>",
+    "</ul>"
+  ),
+  label = "Model comparison"
+)
+```
+
+#### Model-comparison summary
+
+Adding visualization type `r if (task1_vistype_lrt[["Pr(>Chisq)"]] < 0.05) "improved" else "did not clearly improve"`
+the adjusted model, $\chi^2(`r task1_vistype_lrt[["Chi Df"]]`) =
+`r sprintf("%.2f", task1_vistype_lrt[["Chisq"]])`$,
+*p* = `r format.pval(task1_vistype_lrt[["Pr(>Chisq)"]], digits = 3, eps = 0.001)`.
+The reduced and full models had AIC values of
+`r sprintf("%.2f", task1_model_comparison_table$AIC[2])` and
+`r sprintf("%.2f", task1_model_comparison_table$AIC[3])`, respectively, compared with
+`r sprintf("%.2f", task1_model_comparison_table$AIC[1])` for the fixed-effects-only
+model. Thus, after accounting for ERP
+pattern, presentation position, participant baseline accuracy, and target- and
+distractor-stimulus difficulty, the analysis
+`r if (task1_vistype_lrt[["Pr(>Chisq)"]] < 0.05) "provided evidence" else "did not provide clear evidence"`
+that comparison-task accuracy differed overall among the seven visualization types.
+
+## Conditional logistic paired-choice sensitivity analysis
+
+Task 1 is a paired-choice experiment: every trial presents one matching and one
+nonmatching candidate image. We therefore fitted a conditional logistic paired-choice
+model as a sensitivity analysis. Its candidate-image terms provide a Bradley--Terry
+representation of each image's general tendency to be selected. Unlike the primary
+accuracy model, it assigns each of the 30 candidate images one shared attractiveness
+parameter regardless of whether that image is matching or nonmatching on a particular
+trial. It also adjusts for whether an image appeared as the second option.
+
+The data were represented by two rows per trial, with one row for each candidate and
+one selected candidate within each participant--trial choice set. Visualization effects
+were estimated as interactions with matching-candidate status because visualization type
+is constant within a choice set and its main effect therefore cancels. Standard errors
+were clustered by participant to account for each participant's
+`r task1_n_trials` choices.
+
+```{r task1-bradley-terry-data}
+task1_bt_trials <- task1 |>
+  transmute(
+    ID = factor(ID),
+    trial,
+    choice_set = interaction(ID, trial, drop = TRUE),
+    vistype = relevel(factor(vistype), ref = "basic"),
+    pattern = relevel(factor(pattern), ref = "MMN"),
+    position_c = position - mean(position),
+    stimulus = as.character(stimulus),
+    correct_image = as.character(correct_image),
+    wrong_image = as.character(wrong_image),
+    solution,
+    answered,
+    recorded_correct = correct,
+    opt1,
+    opt2
+  )
+
+task1_bt_expected_opt1 <- if_else(
+  task1_bt_trials$solution == 1L,
+  task1_bt_trials$correct_image,
+  task1_bt_trials$wrong_image
+)
+task1_bt_expected_opt2 <- if_else(
+  task1_bt_trials$solution == 2L,
+  task1_bt_trials$correct_image,
+  task1_bt_trials$wrong_image
+)
+
+stopifnot(
+  nrow(task1_bt_trials) == n_distinct(task1_bt_trials$choice_set),
+  all(
+    count(task1_bt_trials, ID, name = "trials")$trials == task1_n_trials
+  ),
+  all(task1_bt_trials$stimulus == task1_bt_trials$correct_image),
+  all(task1_bt_trials$recorded_correct ==
+        as.integer(task1_bt_trials$answered == task1_bt_trials$solution)),
+  all(startsWith(
+    basename(task1_bt_trials$opt1),
+    paste0(task1_bt_expected_opt1, "_")
+  )),
+  all(startsWith(
+    basename(task1_bt_trials$opt2),
+    paste0(task1_bt_expected_opt2, "_")
+  ))
+)
+
+task1_bt_choices <- bind_rows(
+  task1_bt_trials |>
+    transmute(
+      ID,
+      choice_set,
+      vistype,
+      pattern,
+      position_c,
+      option_second = 0L,
+      candidate_image = if_else(
+        solution == 1L,
+        correct_image,
+        wrong_image
+      ),
+      matches_target = as.integer(solution == 1L),
+      chosen = as.integer(answered == 1L)
+    ),
+  task1_bt_trials |>
+    transmute(
+      ID,
+      choice_set,
+      vistype,
+      pattern,
+      position_c,
+      option_second = 1L,
+      candidate_image = if_else(
+        solution == 2L,
+        correct_image,
+        wrong_image
+      ),
+      matches_target = as.integer(solution == 2L),
+      chosen = as.integer(answered == 2L)
+    )
+) |>
+  mutate(
+    candidate_image = factor(candidate_image),
+    match_adjacent = matches_target * as.integer(vistype == "adjacent"),
+    match_animation = matches_target * as.integer(vistype == "animation"),
+    match_bivariate_corner = matches_target *
+      as.integer(vistype == "bivariate_corner"),
+    match_bivariate_range = matches_target *
+      as.integer(vistype == "bivariate_range"),
+    match_triple_CI = matches_target * as.integer(vistype == "triple_CI"),
+    match_uncert_markers = matches_target *
+      as.integer(vistype == "uncert_markers"),
+    match_N170 = matches_target * as.integer(pattern == "N170"),
+    match_P3 = matches_target * as.integer(pattern == "P3"),
+    match_position_c = matches_target * position_c
+  )
+
+task1_bt_choice_counts <- task1_bt_choices |>
+  group_by(choice_set) |>
+  summarise(
+    alternatives = n(),
+    selected = sum(chosen),
+    matching = sum(matches_target),
+    .groups = "drop"
+  )
+
+stopifnot(
+  nrow(task1_bt_choices) == 2 * nrow(task1_bt_trials),
+  all(task1_bt_choice_counts$alternatives == 2L),
+  all(task1_bt_choice_counts$selected == 1L),
+  all(task1_bt_choice_counts$matching == 1L),
+  nlevels(task1_bt_choices$candidate_image) == 30L
+)
+```
+
+```{r task1-bradley-terry-model}
+suppressPackageStartupMessages(library(survival))
+
+task1_bt_fit <- clogit(
+  chosen ~ matches_target +
+    match_adjacent + match_animation +
+    match_bivariate_corner + match_bivariate_range +
+    match_triple_CI + match_uncert_markers +
+    match_N170 + match_P3 + match_position_c +
+    option_second + candidate_image +
+    strata(choice_set) + cluster(ID),
+  data = task1_bt_choices,
+  method = "efron"
+)
+```
+
+```{r task1-bradley-terry-results}
+task1_bt_visual_terms <- c(
+  "match_adjacent",
+  "match_animation",
+  "match_bivariate_corner",
+  "match_bivariate_range",
+  "match_triple_CI",
+  "match_uncert_markers"
+)
+task1_bt_visual_labels <- c(
+  "Adjacent plots vs Basic topoplot",
+  "Animation vs Basic topoplot",
+  "Bivariate corner vs Basic topoplot",
+  "Bivariate range vs Basic topoplot",
+  "Confidence intervals vs Basic topoplot",
+  "Uncertainty markers vs Basic topoplot"
+)
+
+task1_bt_coefficients <- coef(task1_bt_fit)
+task1_bt_covariance <- vcov(task1_bt_fit)
+task1_bt_visual_estimates <- task1_bt_coefficients[task1_bt_visual_terms]
+task1_bt_visual_standard_errors <- sqrt(
+  diag(task1_bt_covariance)[task1_bt_visual_terms]
+)
+
+task1_bt_results <- tibble::tibble(
+  comparison = task1_bt_visual_labels,
+  estimate = unname(task1_bt_visual_estimates),
+  standard_error = unname(task1_bt_visual_standard_errors)
+) |>
+  mutate(
+    z_value = estimate / standard_error,
+    p_value = 2 * pnorm(abs(z_value), lower.tail = FALSE),
+    odds_ratio = exp(estimate),
+    lower_ci = exp(estimate - 1.96 * standard_error),
+    upper_ci = exp(estimate + 1.96 * standard_error)
+  )
+
+task1_bt_corner_result <- task1_bt_results |>
+  filter(comparison == "Bivariate corner vs Basic topoplot")
+task1_bt_range_result <- task1_bt_results |>
+  filter(comparison == "Bivariate range vs Basic topoplot")
+
+task1_bt_visual_covariance <- task1_bt_covariance[
+  task1_bt_visual_terms,
+  task1_bt_visual_terms,
+  drop = FALSE
+]
+task1_bt_wald_chisq <- drop(
+  t(task1_bt_visual_estimates) %*%
+    solve(task1_bt_visual_covariance, task1_bt_visual_estimates)
+)
+task1_bt_wald_df <- length(task1_bt_visual_terms)
+task1_bt_wald_p <- pchisq(
+  task1_bt_wald_chisq,
+  df = task1_bt_wald_df,
+  lower.tail = FALSE
+)
+
+task1_bt_results |>
+  transmute(
+    Comparison = comparison,
+    `Odds ratio` = sprintf("%.3f", odds_ratio),
+    `Lower 95% CI` = sprintf("%.3f", lower_ci),
+    `Upper 95% CI` = sprintf("%.3f", upper_ci),
+    `p value` = format_pvalue_html(p_value)
+  ) |>
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    caption = paste(
+      "Conditional logistic paired-choice sensitivity analysis.",
+      "Values with p < .05 are shown in dark red."
+    ),
+    table.attr = kable_table_attributes
+  )
+
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Conditional logistic paired-choice model with one ",
+    "stratum per participant--trial.</li>",
+    "<li><strong>Bradley--Terry connection:</strong> Candidate-image effects represent ",
+    "each image's shared tendency to be selected across pairings.</li>",
+    "<li><strong>Image effects:</strong> One shared fixed attractiveness parameter was ",
+    "estimated for each candidate image across matching and nonmatching roles.</li>",
+    "<li><strong>Adjustment:</strong> Matching-candidate effects were adjusted for ERP ",
+    "pattern, presentation position, and whether the candidate was shown second.</li>",
+    "<li><strong>Repeated choices:</strong> Robust standard errors were clustered by ",
+    "participant.</li>",
+    "<li><strong>Interpretation:</strong> An odds ratio below 1 indicates weaker ",
+    "preference for the matching candidate than under Basic topoplot.</li>",
+    "<li><strong>Multiplicity:</strong> Individual comparison p values and intervals ",
+    "are unadjusted; the joint robust Wald test is reported below.</li>",
+    "</ul>"
+  ),
+  label = "Sensitivity-model details"
+)
+```
+
+::: {.callout-note collapse="true" title="Terms explanation"}
+- **Conditional:** The model compares the two candidate images within the same
+  participant's trial. It uses the fact that exactly one candidate was selected and
+  removes the separate baseline for each trial. The term does not refer to an
+  experimental condition.
+- **Stratum:** A stratum is one participant--trial choice set. It contains two rows:
+  one for the matching candidate and one for the nonmatching candidate. The model
+  compares candidates within this set, not candidates from different trials.
+:::
+
+#### Sensitivity-analysis conclusion
+
+After accounting for candidate-image attractiveness, option position, ERP pattern, and
+presentation position, the joint participant-clustered Wald test
+`r if (task1_bt_wald_p < 0.05) "indicated" else "did not indicate"` that visualization
+type changed preference for the matching candidate, $\chi^2(`r task1_bt_wald_df`) =
+`r sprintf("%.2f", task1_bt_wald_chisq)`$, *p* =
+`r format.pval(task1_bt_wald_p, digits = 3, eps = 0.001)`. Relative to Basic topoplot,
+the adjusted odds of selecting the matching candidate were lower for Bivariate corners
+(OR = `r sprintf("%.2f", task1_bt_corner_result$odds_ratio)`, 95% CI
+`r sprintf("%.2f", task1_bt_corner_result$lower_ci)`--`r sprintf("%.2f", task1_bt_corner_result$upper_ci)`,
+*p* = `r format.pval(task1_bt_corner_result$p_value, digits = 3, eps = 0.001)`) and
+Bivariate range (OR = `r sprintf("%.2f", task1_bt_range_result$odds_ratio)`, 95% CI
+`r sprintf("%.2f", task1_bt_range_result$lower_ci)`--`r sprintf("%.2f", task1_bt_range_result$upper_ci)`,
+*p* = `r format.pval(task1_bt_range_result$p_value, digits = 3, eps = 0.001)`). These
+individual intervals are unadjusted for the six comparisons. The sensitivity analysis
+therefore supports the primary model's pattern while separating matching performance
+from images' general tendency to be selected; it does not replace the primary
+mixed-effects accuracy analysis.
+
+## Completion-time analysis
+
+```{r}
+task1_time <- data %>%
+  select(ID, TIME005:TIME025) %>%
+  pivot_longer(-ID, names_to = "time_var", values_to = "time_sec") %>%
+  mutate(
+    ID = as.character(ID),
+    # TIME005:TIME025 correspond to experimental positions 1:21.
+    position = as.integer(stringr::str_remove(time_var, "TIME")) - 4L,
+    time_sec = readr::parse_double(as.character(time_sec))
+  ) %>%
+  left_join(
+    task1 %>%
+      transmute(
+        ID = as.character(ID),
+        position,
+        trial,
+        vistype
+      ),
+    by = c("ID", "position")
+  ) %>%
+  filter(!is.na(time_sec), !is.na(vistype))
+```
+
+```{r}
+time_table <- task1_time %>%
+  remove_group_iqr_outliers(time_sec, vistype) %>%
+  group_by(vistype) %>%
+  summarise(
+    n = n(),
+    median_sec = median(time_sec, na.rm = TRUE),
+    mean_sec = mean(time_sec, na.rm = TRUE),
+    sd_sec = sd(time_sec, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+time_table |>
+  arrange(median_sec) |>
+  mutate(
+    vistype = table_vistype(vistype),
+    across(c(median_sec, mean_sec, sd_sec), \(x) round(x, 1))
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Responses",
+      "Median time (seconds)",
+      "Mean time (seconds)",
+      "SD (seconds)"
+    ),
+    caption = "Observed comparison-task completion time by visualization type",
+    table.attr = kable_table_attributes
+  )
+```
+
+```{r}
+task1_time_plot_data <- task1_time %>%
+  remove_group_iqr_outliers(time_sec, vistype)
+
+task1_time_violin <- ggplot(
+  task1_time_plot_data,
+  aes(vistype, time_sec)
+) +
+  geom_violin(
+    trim = TRUE,
+    fill = "#6BAED6",
+    colour = "#333333",
+    linewidth = 0.6
+  )
+
+task1_time_violin_geometry <- ggplot_build(task1_time_violin)$data[[1]] %>%
+  transmute(
+    x_position = as.numeric(x),
+    time_sec = y,
+    half_width = violinwidth * width / 2
+  )
+
+task1_time_mean_bars <- task1_time_plot_data %>%
+  group_by(vistype) %>%
+  summarise(mean_time = mean(time_sec), .groups = "drop") %>%
+  mutate(
+    x_position = match(
+      as.character(vistype),
+      sort(unique(as.character(task1_time_plot_data$vistype)))
+    )
+  ) %>%
+  rowwise() %>%
+  mutate(
+    half_width = approx(
+      x = task1_time_violin_geometry$time_sec[
+        task1_time_violin_geometry$x_position == x_position
+      ],
+      y = task1_time_violin_geometry$half_width[
+        task1_time_violin_geometry$x_position == x_position
+      ],
+      xout = mean_time,
+      rule = 2
+    )$y,
+    x_start = x_position - half_width,
+    x_end = x_position + half_width
+  ) %>%
+  ungroup()
+
+task1_time_violin +
+  geom_segment(
+    data = task1_time_mean_bars,
+    aes(
+      x = x_start,
+      xend = x_end,
+      y = mean_time,
+      yend = mean_time
+    ),
+    inherit.aes = FALSE,
+    linewidth = 0.6,
+    colour = "#333333"
+  ) +
+  scale_x_discrete(labels = vistype_labels) +
+  labs(
+    title = "Time spent by visualization type",
+    x = NULL,
+    y = "Seconds spent on page"
+  ) +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    axis.text.x = element_text(angle = 35, hjust = 1)
+  )
+```
+
+### Model-estimated completion time
+
+```{r task1-time-model}
+task1_time_model <- task1_time %>%
+  transmute(
+    ID = factor(ID),
+    vistype = relevel(factor(vistype), ref = "basic"),
+    position = as.integer(position),
+    time_sec = as.numeric(time_sec)
+  ) %>%
+  filter(
+    !is.na(ID),
+    !is.na(vistype),
+    !is.na(position),
+    !is.na(time_sec),
+    time_sec > 0
+  ) %>%
+  mutate(position_c = position - mean(position))
+
+task1_time_fit <- lmer(
+  log(time_sec) ~ vistype + position_c + (1 | ID),
+  data = task1_time_model
+)
+
+time_estimates_raw <- emmeans(
+  task1_time_fit,
+  ~ vistype,
+  type = "response"
+) %>%
+  confint() %>%
+  as.data.frame()
+
+time_lower_column <- intersect(
+  c("lower.CL", "asymp.LCL"),
+  names(time_estimates_raw)
+)
+time_upper_column <- intersect(
+  c("upper.CL", "asymp.UCL"),
+  names(time_estimates_raw)
+)
+
+stopifnot(
+  length(time_lower_column) == 1L,
+  length(time_upper_column) == 1L
+)
+
+time_estimates <- time_estimates_raw %>%
+  transmute(
+    vistype,
+    estimated_time = response,
+    lower_ci = .data[[time_lower_column]],
+    upper_ci = .data[[time_upper_column]]
+  ) %>%
+  arrange(estimated_time) %>%
+  mutate(vistype = factor(vistype, levels = vistype))
+
+time_estimates |>
+  mutate(
+    vistype = table_vistype(vistype),
+    across(
+      c(estimated_time, lower_ci, upper_ci),
+      \(x) round(x, 1)
+    )
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Visualization type",
+      "Estimated time (seconds)",
+      "Lower 95% CI",
+      "Upper 95% CI"
+    ),
+    caption = "Model-estimated comparison-task completion time",
+    table.attr = kable_table_attributes
+  )
+
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Gaussian linear mixed model for log completion ",
+    "time: <code>log(time_sec) ~ vistype + position_c + (1 | ID)</code>.</li>",
+    "<li><strong>Reference visualization:</strong> Basic topoplot.</li>",
+    "<li><strong>Trial position:</strong> Estimates were calculated at the average ",
+    "presentation position.</li>",
+    "<li><strong>Output scale:</strong> Estimates and 95% confidence intervals were ",
+    "back-transformed from log time to seconds.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
+```
+
+```{r task1-time-estimate-plot}
+# Model-estimated time for each visualization type.
+ggplot(
+  time_estimates,
+  aes(x = estimated_time, y = vistype)
+) +
+  geom_errorbar(
+    aes(xmin = lower_ci, xmax = upper_ci),
+    orientation = "y",
+    width = 0.18,
+    linewidth = 0.7
+  ) +
+  geom_point(size = 3.5) +
+  geom_text(
+    aes(label = sprintf("%.1f s", estimated_time)),
+    nudge_y = 0.36,
+    vjust = 0.5,
+    size = 6
+  ) +
+  scale_y_discrete(
+    expand = expansion(add = 0.5),
+    labels = vistype_labels
+  ) +
+  scale_x_continuous(
+    labels = \(x) sprintf("%.0f s", x),
+    expand = expansion(mult = c(0.05, 0.12))
+  ) +
+  labs(
+    title = "Comparison task completion time",
+    x = "Model-estimated time (seconds)",
+    y = NULL,
+    caption = paste(
+      "Points show back-transformed model estimates;",
+      "error bars indicate 95% confidence intervals."
+    )
+  ) +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.caption = element_text(hjust = 0.5, face = "italic"),
+    axis.ticks.y = element_blank()
+  )
+```
+
+### Association between completion time and accuracy
+
+The following analyses ask whether longer completion times were associated with greater
+accuracy. They describe associations and do not establish that spending more time caused
+participants to answer correctly.
+
+```{r task1-time-accuracy-association}
+task1_time_accuracy <- task1_time_model %>%
+  select(ID, vistype, position, position_c, time_sec) %>%
+  left_join(
+    task1_model %>%
+      select(ID, position, correct, pattern, stimulus, wrong_image),
+    by = c("ID", "position")
+  )
+
+stopifnot(
+  nrow(task1_time_accuracy) == nrow(task1_time_model),
+  !anyNA(task1_time_accuracy$correct)
+)
+
+task1_time_accuracy_counts <- task1_time_accuracy %>%
+  count(ID, name = "trials")
+
+stopifnot(
+  nrow(task1_time_accuracy_counts) == task1_n_participants,
+  all(task1_time_accuracy_counts$trials == task1_n_trials)
+)
+
+task1_time_accuracy <- task1_time_accuracy %>%
+  mutate(log_time = log(time_sec)) %>%
+  group_by(ID) %>%
+  mutate(
+    participant_mean_log_time = mean(log_time),
+    log_time_within = log_time - participant_mean_log_time
+  ) %>%
+  ungroup() %>%
+  mutate(
+    log_time_between_c = participant_mean_log_time -
+      mean(participant_mean_log_time)
+  )
+
+task1_participant_time_accuracy <- task1_time_accuracy %>%
+  group_by(ID) %>%
+  summarise(
+    accuracy = mean(correct),
+    typical_time_sec = exp(mean(log_time)),
+    mean_log_time = mean(log_time),
+    .groups = "drop"
+  )
+
+task1_time_accuracy_correlation <- cor.test(
+  task1_participant_time_accuracy$mean_log_time,
+  task1_participant_time_accuracy$accuracy,
+  method = "pearson"
+)
+
+task1_time_accuracy_correlation_table <- tibble::tibble(
+  participants = nrow(task1_participant_time_accuracy),
+  correlation = unname(task1_time_accuracy_correlation$estimate),
+  lower_ci = task1_time_accuracy_correlation$conf.int[1],
+  upper_ci = task1_time_accuracy_correlation$conf.int[2],
+  p_value = task1_time_accuracy_correlation$p.value
+)
+
+task1_time_accuracy_correlation_table %>%
+  transmute(
+    Participants = participants,
+    `Pearson r` = sprintf("%.3f", correlation),
+    `Lower 95% CI` = sprintf("%.3f", lower_ci),
+    `Upper 95% CI` = sprintf("%.3f", upper_ci),
+    `p value` = format_pvalue_html(p_value)
+  ) %>%
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    caption = paste(
+      "Participant-level correlation between accuracy and typical",
+      "completion time"
+    ),
+    table.attr = kable_table_attributes
+  )
+
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Unit:</strong> One record per participant (N = ",
+    task1_n_participants,
+    ").</li>",
+    "<li><strong>Accuracy:</strong> Proportion correct across ",
+    task1_n_trials,
+    " trials.</li>",
+    "<li><strong>Typical time:</strong> Mean log completion time, equivalent to the ",
+    "log of the participant's geometric mean time.</li>",
+    "<li><strong>Interpretation:</strong> The correlation asks whether participants ",
+    "who were generally slower were also generally more accurate.</li>",
+    "</ul>"
+  ),
+  label = "Correlation details"
+)
+
+task1_time_accuracy_fit <- glmer(
+  correct ~ log_time_within + log_time_between_c + vistype + pattern +
+    position_c + (1 | ID) + (1 | stimulus) + (1 | wrong_image),
+  data = task1_time_accuracy,
+  family = binomial,
+  control = glmerControl(optimizer = "bobyqa")
+)
+
+task1_time_accuracy_coefficients <- summary(
+  task1_time_accuracy_fit
+)$coefficients
+
+task1_time_accuracy_effects <- tibble::tibble(
+  term = c("log_time_within", "log_time_between_c"),
+  comparison = c(
+    "Within participants: twice the usual trial time",
+    "Between participants: twice the typical completion time"
+  )
+) %>%
+  mutate(
+    estimate = task1_time_accuracy_coefficients[term, "Estimate"],
+    standard_error = task1_time_accuracy_coefficients[term, "Std. Error"],
+    odds_ratio = exp(estimate * log(2)),
+    lower_ci = exp((estimate - 1.96 * standard_error) * log(2)),
+    upper_ci = exp((estimate + 1.96 * standard_error) * log(2)),
+    p_value = task1_time_accuracy_coefficients[term, "Pr(>|z|)"]
+  )
+
+task1_time_accuracy_effects %>%
+  transmute(
+    Association = comparison,
+    `Odds ratio` = sprintf("%.3f", odds_ratio),
+    `Lower 95% CI` = sprintf("%.3f", lower_ci),
+    `Upper 95% CI` = sprintf("%.3f", upper_ci),
+    `p value` = format_pvalue_html(p_value)
+  ) %>%
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    caption = "Adjusted association between completion time and trial accuracy",
+    table.attr = kable_table_attributes
+  )
+
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Binomial mixed-effects model with a logit link: ",
+    "<code>correct ~ log_time_within + log_time_between_c + vistype + ",
+    "pattern + position_c + (1 | ID) + (1 | stimulus) + ",
+    "(1 | wrong_image)</code>.</li>",
+    "<li><strong>Within-participant effect:</strong> Compares a participant's ",
+    "longer and shorter trials.</li>",
+    "<li><strong>Between-participant effect:</strong> Compares participants with ",
+    "different typical completion times.</li>",
+    "<li><strong>Adjustment:</strong> Visualization type, ERP pattern, presentation ",
+    "position, participant baseline accuracy, and target- and distractor-stimulus ",
+    "difficulty.</li>",
+    "<li><strong>Effect scale:</strong> Odds ratios compare a doubling of completion ",
+    "time; values above 1 indicate greater odds of a correct response.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
+```
+
+At the participant level, accuracy and typical completion time had a Pearson correlation
+of `r sprintf("%.3f", task1_time_accuracy_correlation_table$correlation)`
+(95% CI
+`r sprintf("%.3f", task1_time_accuracy_correlation_table$lower_ci)` to
+`r sprintf("%.3f", task1_time_accuracy_correlation_table$upper_ci)`,
+*p* = `r format_pvalue_html(task1_time_accuracy_correlation_table$p_value)`). In the
+adjusted mixed model, doubling the time spent on a trial was associated with an odds
+ratio of
+`r sprintf("%.3f", task1_time_accuracy_effects$odds_ratio[1])` for a correct response
+(95% CI `r sprintf("%.3f", task1_time_accuracy_effects$lower_ci[1])` to
+`r sprintf("%.3f", task1_time_accuracy_effects$upper_ci[1])`). The between-participant
+odds ratio was `r sprintf("%.3f", task1_time_accuracy_effects$odds_ratio[2])`
+(95% CI `r sprintf("%.3f", task1_time_accuracy_effects$lower_ci[2])` to
+`r sprintf("%.3f", task1_time_accuracy_effects$upper_ci[2])`).
+
+All three estimates were small, and their intervals included the corresponding null
+value (zero for the correlation and one for the odds ratios). These data therefore
+provide little evidence that longer completion time was meaningfully associated with
+greater Task 1 accuracy.
+
+```{r task1-time-accuracy-summary}
+task1_time_accuracy_summary <- tibble::tibble(
+  analysis = c(
+    "Overall participant correlation",
+    "Within participants",
+    "Between participants (adjusted)"
+  ),
+  estimate = c(
+    sprintf(
+      "r = %.3f (95%% CI %.3f to %.3f)",
+      task1_time_accuracy_correlation_table$correlation,
+      task1_time_accuracy_correlation_table$lower_ci,
+      task1_time_accuracy_correlation_table$upper_ci
+    ),
+    sprintf(
+      "OR = %.3f (95%% CI %.3f to %.3f)",
+      task1_time_accuracy_effects$odds_ratio[1],
+      task1_time_accuracy_effects$lower_ci[1],
+      task1_time_accuracy_effects$upper_ci[1]
+    ),
+    sprintf(
+      "OR = %.3f (95%% CI %.3f to %.3f)",
+      task1_time_accuracy_effects$odds_ratio[2],
+      task1_time_accuracy_effects$lower_ci[2],
+      task1_time_accuracy_effects$upper_ci[2]
+    )
+  ),
+  p_value = c(
+    task1_time_accuracy_correlation_table$p_value,
+    task1_time_accuracy_effects$p_value
+  ),
+  summary = c(
+    paste(
+      "Slower participants were only slightly more accurate;",
+      "the data also support no association."
+    ),
+    paste(
+      "For the same participant, spending twice as long on a trial was not",
+      "clearly associated with greater accuracy."
+    ),
+    paste(
+      "Participants with twice the typical completion time were not clearly",
+      "more accurate after adjustment."
+    )
+  )
+)
+
+task1_time_accuracy_summary %>%
+  transmute(
+    Analysis = analysis,
+    `Estimate (95% CI)` = estimate,
+    `p value` = format_pvalue_html(p_value),
+    `Plain-language summary` = summary
+  ) %>%
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    caption = "Short summary of completion-time and accuracy results",
+    table.attr = kable_table_attributes
+  )
+```
+

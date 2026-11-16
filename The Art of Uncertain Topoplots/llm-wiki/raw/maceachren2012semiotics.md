@@ -2,7 +2,7 @@
 id: "maceachren2012semiotics"
 title: "Visual Semiotics \\& Uncertainty Visualization: An Empirical Study"
 source_file: "The Art of Uncertain Topoplots/papers/maceachren2012semiotics.pdf"
-source_sha256: "b65b9223e74c54899c9487e6a90bbfa72f0dc7e85ed66ddb378523daf19b0bd9"
+source_sha256: "91230d71dfe301ce86b24772b82aebc2ee18433e9d83413ad11590616e2629a5"
 extraction_format: 1
 ---
 

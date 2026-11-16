@@ -9,6 +9,7 @@ params:
 
 ```{r shared-setup}
 #| include: false
+#| cache: false
 source("scripts/analysis_setup.R")
 ```
 
@@ -232,6 +233,7 @@ model_table_note(paste0(
 ## Model-estimated ratings
 
 ```{r}
+#| cache: false
 #| fig-width: 16
 #| fig-height: 11
 question_columns <- unname(question_labels)
@@ -611,6 +613,7 @@ make_likert_contrast_plot <- function(
 ```
 
 ```{r likert-basic-contrast-figure}
+#| cache: false
 #| fig-width: 16
 #| fig-height: 11
 

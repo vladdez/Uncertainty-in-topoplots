@@ -2,7 +2,7 @@
 id: "scholz2014uncertainty"
 title: "Uncertainty in Geographic Data on Bivariate Maps: An Examination of Visualization Preference and Decision Making"
 source_file: "The Art of Uncertain Topoplots/papers/scholz2014uncertainty.pdf"
-source_sha256: "81129de96caf64b1eb28ff08abfe4b5d6c13dd683d33fd2ddab348c54b797548"
+source_sha256: "79cfef3b3d46cbe88bd2a285a6b703f8e0c1085799d1988b0caeba3120145f22"
 extraction_format: 1
 ---
 

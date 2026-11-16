@@ -9,7 +9,9 @@ params:
 
 ```{r shared-setup}
 #| include: false
+#| cache: false
 source("scripts/analysis_setup.R")
+configure_analysis_cache(project_path("data", "a305_content_analysis.xlsx"))
 
 a305_content_analysis <- readxl::read_xlsx(
   project_path("data", "a305_content_analysis.xlsx"),
@@ -160,6 +162,7 @@ a305_intensity_summary <- a305_participant_theme |>
 ```
 
 ```{r a305-intensity-theme-figure}
+#| cache: false
 #| fig-width: 15
 #| fig-height: 19
 #| out-width: 100%
@@ -327,6 +330,7 @@ ggsave(
 This additional version includes comments that evaluate bivariate plots in general without identifying either the corner or range variant.
 
 ```{r a305-intensity-theme-figure-general-bivariates}
+#| cache: false
 #| echo: false
 #| fig-width: 15
 #| fig-height: 19
@@ -596,6 +600,7 @@ feedback_to_pdf <- function(df, title, filename) {
 ```
 
 ```{r}
+#| cache: false
 feedback_to_pdf(
   feedback_A305,
   title = "Feedback - A305",

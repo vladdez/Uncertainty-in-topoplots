@@ -9,6 +9,7 @@ params:
 
 ```{r shared-setup}
 #| include: false
+#| cache: false
 source("scripts/analysis_setup.R")
 
 format_category_labels <- function(labels) {
@@ -361,6 +362,7 @@ software %>% filter(Freq != 0) %>%
 ## Combined participant-characteristics figure
 
 ```{r participant-characteristics-figure}
+#| cache: false
 #| fig-width: 15
 #| fig-height: 13
 
@@ -486,6 +488,7 @@ if (isTRUE(params$export_artifacts)) {
 ### Reduced figure grouping small categories as Other
 
 ```{r participant-characteristics-figure-over-3-percent}
+#| cache: false
 #| fig-width: 15
 #| fig-height: 9
 

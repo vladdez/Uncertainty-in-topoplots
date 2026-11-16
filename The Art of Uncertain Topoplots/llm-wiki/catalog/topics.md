@@ -16,6 +16,7 @@ Browse a topic, then open a paper summary. Counts refer to curated paper assignm
 - [Bivariate Colour Maps for Visualizing Climate Data](../summaries/teuling2011bivariate.md) (2011) — Constructing bivariate color legends for multivariate climate maps.
 - [Color Statistical Mapping by the U.S. Bureau of the Census](../summaries/meyer1975census.md) (1975) — Primary documentation of the Census Bureau's 1974 two-variable cross-map development and 1975 publication.
 - [Operationalizing Trumbo's Principles of Bivariate Choropleth Map Design](../summaries/strode2019operationalizing.md) (2020) — Purpose-driven focal models and palettes for bivariate choropleth maps.
+- [Spectrally Encoded Two-Variable Maps](../summaries/olson1981spectrally.md) (1981) — Four experiments on how readers interpret and evaluate spectrally encoded two-variable maps.
 - [Value-Suppressing Uncertainty Palettes](../summaries/correll2018task.md) (2018) — Uncertainty-aware bivariate palettes that suppress value resolution when uncertainty is high.
 
 ## bivariate integration
@@ -55,9 +56,11 @@ Browse a topic, then open a paper summary. Counts refer to curated paper assignm
 - [Empirical Studies in Information Visualization: Seven Scenarios](../summaries/lam2012seven.md) (2012) — Seven goal-centered scenarios for choosing visualization evaluation methods.
 - [Error Bars Considered Harmful: Exploring Alternate Encodings for Mean and Error](../summaries/correll2014error.md) (2014) — Experimental evidence on error-bar biases and alternative uncertainty encodings.
 - [Evaluating the Impact of Binning 2D Scalar Fields](../summaries/padilla2017binning.md) (2017) — Task-dependent speed and accuracy tradeoffs for binned versus continuous scalar fields.
+- [Evaluating the Perception of Uncertainty in Alternative Visualization Strategies](../summaries/blenkinsop200alternative.md) (2000) — Expert-novice study of static, animated, and linked uncertainty displays for fuzzy land-cover maps.
 - [How to Assess Visual Communication of Uncertainty? A Systematic Review of Geospatial Uncertainty Visualisation User Studies](../summaries/kinkeldey2014assess.md) (2014) — Systematic review and evaluation guidance for geospatial uncertainty user studies.
 - [Hypothetical Outcome Plots Help Untrained Observers Judge Trends in Ambiguous Data](../summaries/kale2019hypothetical.md) (2019) — Experiments on HOPs for probabilistic trend judgments by non-experts.
 - [Hypothetical Outcome Plots Outperform Error Bars and Violin Plots for Inferences about Reliability of Variable Ordering](../summaries/hullman2015hypothetical.md) (2015) — Animated samples improve multivariable probability judgments over common static displays.
+- [Spectrally Encoded Two-Variable Maps](../summaries/olson1981spectrally.md) (1981) — Four experiments on how readers interpret and evaluate spectrally encoded two-variable maps.
 - [Thematic Uncertainty Visualization Usability: Comparison of Basic Methods](../summaries/kubicek2011thematic.md) (2011) — User comparison of basic thematic-map uncertainty encodings.
 - [Uncertainty Displays Using Quantile Dotplots or CDFs Improve Transit Decision-Making](../summaries/fernandes2018uncertainty.md) (2018) — Large incentivized study of uncertainty displays for transit decisions.
 - [Uncertainty Visualization for Biomolecular Structures: An Empirical Evaluation](../summaries/sterzik2025.md) (2025) — Expert and large-scale perceptual evaluation of uncertainty metaphors for proteins.
@@ -76,10 +79,12 @@ Browse a topic, then open a paper summary. Counts refer to curated paper assignm
 - [Color Statistical Mapping by the U.S. Bureau of the Census](../summaries/meyer1975census.md) (1975) — Primary documentation of the Census Bureau's 1974 two-variable cross-map development and 1975 publication.
 - [Communicating Uncertainty to Policy Makers in Maps: A Systematic Scoping Review of Meaningful to Misleading Current Practice](../summaries/jain2026communicating.md) (2026) — Systematic review showing widespread omission of uncertainty from policy-facing disease maps.
 - [Evaluating the Impact of Binning 2D Scalar Fields](../summaries/padilla2017binning.md) (2017) — Task-dependent speed and accuracy tradeoffs for binned versus continuous scalar fields.
+- [Evaluating the Perception of Uncertainty in Alternative Visualization Strategies](../summaries/blenkinsop200alternative.md) (2000) — Expert-novice study of static, animated, and linked uncertainty displays for fuzzy land-cover maps.
 - [Geovisualizing Attribute Uncertainty of Interval and Ratio Variables: A Framework and an Implementation for Vector Data](../summaries/koo2018geovisualizing.md) (2018) — Bivariate GIS framework and ArcGIS tools for vector attribute uncertainty.
 - [How to Assess Visual Communication of Uncertainty? A Systematic Review of Geospatial Uncertainty Visualisation User Studies](../summaries/kinkeldey2014assess.md) (2014) — Systematic review and evaluation guidance for geospatial uncertainty user studies.
 - [Human Performance and Perception of Uncertainty Visualizations in Geospatial Applications: A Scoping Review](../summaries/tennant2025human.md) (2025) — Recent scoping review of human evidence for geospatial uncertainty displays.
 - [Operationalizing Trumbo's Principles of Bivariate Choropleth Map Design](../summaries/strode2019operationalizing.md) (2020) — Purpose-driven focal models and palettes for bivariate choropleth maps.
+- [Spectrally Encoded Two-Variable Maps](../summaries/olson1981spectrally.md) (1981) — Four experiments on how readers interpret and evaluate spectrally encoded two-variable maps.
 - [Thematic Uncertainty Visualization Usability: Comparison of Basic Methods](../summaries/kubicek2011thematic.md) (2011) — User comparison of basic thematic-map uncertainty encodings.
 - [Uncertainty Visualization: Why Might It Fail?](../summaries/boukhelifa2009uncertainty.md) (2009) — Why uncertainty visualizations fail to transfer from research into practice.
 - [Understanding Uncertainty in Forest Resources Maps](../summaries/kangas2023understanding.md) (2023) — Methods and visualization gaps for uncertainty in forest-resource maps.
@@ -174,6 +179,7 @@ Browse a topic, then open a paper summary. Counts refer to curated paper assignm
 - [Communicating Uncertainty to Policy Makers in Maps: A Systematic Scoping Review of Meaningful to Misleading Current Practice](../summaries/jain2026communicating.md) (2026) — Systematic review showing widespread omission of uncertainty from policy-facing disease maps.
 - [Confidence Intervals for fMRI Activation Maps](../summaries/engel2013confidence.md) (2013) — Confidence-interval maps to reduce binary misreadings of fMRI activation.
 - [Error Bars Considered Harmful: Exploring Alternate Encodings for Mean and Error](../summaries/correll2014error.md) (2014) — Experimental evidence on error-bar biases and alternative uncertainty encodings.
+- [Evaluating the Perception of Uncertainty in Alternative Visualization Strategies](../summaries/blenkinsop200alternative.md) (2000) — Expert-novice study of static, animated, and linked uncertainty displays for fuzzy land-cover maps.
 - [Fundamentals of Data Visualization](../summaries/wilke2019fundamentals.md) (2019) — Practical handbook with detailed chapter indexes and evidence-linked figure-design principles.
 - [Geovisualizing Attribute Uncertainty of Interval and Ratio Variables: A Framework and an Implementation for Vector Data](../summaries/koo2018geovisualizing.md) (2018) — Bivariate GIS framework and ArcGIS tools for vector attribute uncertainty.
 - [How to Assess Visual Communication of Uncertainty? A Systematic Review of Geospatial Uncertainty Visualisation User Studies](../summaries/kinkeldey2014assess.md) (2014) — Systematic review and evaluation guidance for geospatial uncertainty user studies.

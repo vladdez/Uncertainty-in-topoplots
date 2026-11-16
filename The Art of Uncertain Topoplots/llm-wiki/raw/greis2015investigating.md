@@ -2,7 +2,7 @@
 id: "greis2015investigating"
 title: "Investigating Representation Alternatives for Communicating Uncertainty to Non-experts"
 source_file: "The Art of Uncertain Topoplots/papers/greis2015investigating.pdf"
-source_sha256: "b115f2ef8fbc7c13db57fbe9a2770dec90dd14a632789b75e5b5cb25c5d9b394"
+source_sha256: "25abab9d9f5022fb528b6a9ada10c34bed2c1c966ae61617391e4b7a11cf8c83"
 extraction_format: 1
 ---
 

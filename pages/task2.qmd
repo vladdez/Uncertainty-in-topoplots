@@ -25,7 +25,9 @@ identifying the region with the highest SNR.](<../The Art of Uncertain Topoplots
 
 ```{r shared-setup}
 #| include: false
+#| cache: false
 source("scripts/analysis_setup.R")
+configure_analysis_cache(project_path("regions.txt"))
 ```
 
 ## Response scoring and trial reconstruction
@@ -294,6 +296,7 @@ task2_table |>
 ```
 
 ```{r task2-score-distribution}
+#| cache: false
 #| fig-cap: >-
 #|   Distribution of the 2,394 trial-level detection scores. Bars show frequencies at
 #|   the recorded two-decimal score resolution. A score of 0 indicates selection of the
@@ -380,6 +383,7 @@ ggsave(
 ```
 
 ```{r task2-descriptive-gradient-plot}
+#| cache: false
 #| fig-cap: >-
 #|   Detection scores summarized from participant-level means, with gradient uncertainty.
 #|   For each visualization, the black line and number show the mean across participants;
@@ -1015,7 +1019,7 @@ stimulus random intercepts set to zero. They are then back-transformed to the
 intervals for these model-estimated scores.
 
 ```{r}
-
+#| cache: false
 detection_axis_colours <- ifelse(
   levels(task2_estimates$vistype) == "basic",
   "#377EB8",
@@ -1121,6 +1125,7 @@ crossing zero indicates that the corresponding visualization is not clearly
 different from Basic at the familywise 95% confidence level.
 
 ```{r task2-basic-contrast-figure}
+#| cache: false
 task2_basic_reference <- which(
   emm_task2_response@levels$vistype == "basic"
 )
@@ -1398,18 +1403,34 @@ task2_time_fit <- lmer(
   data = task2_time_model
 )
 
-task2_time_estimates <- emmeans(
+task2_time_estimates_raw <- emmeans(
   task2_time_fit,
   ~ vistype,
   type = "response"
 ) %>%
   confint() %>%
-  as.data.frame() %>%
+  as.data.frame()
+
+task2_time_lower_column <- intersect(
+  c("lower.CL", "asymp.LCL"),
+  names(task2_time_estimates_raw)
+)
+task2_time_upper_column <- intersect(
+  c("upper.CL", "asymp.UCL"),
+  names(task2_time_estimates_raw)
+)
+
+stopifnot(
+  length(task2_time_lower_column) == 1L,
+  length(task2_time_upper_column) == 1L
+)
+
+task2_time_estimates <- task2_time_estimates_raw %>%
   transmute(
     vistype,
     estimated_time = response,
-    lower_ci = lower.CL,
-    upper_ci = upper.CL
+    lower_ci = .data[[task2_time_lower_column]],
+    upper_ci = .data[[task2_time_upper_column]]
   ) %>%
   arrange(estimated_time) %>%
   mutate(vistype = factor(vistype, levels = vistype))

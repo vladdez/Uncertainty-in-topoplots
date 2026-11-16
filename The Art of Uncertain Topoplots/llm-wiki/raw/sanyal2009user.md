@@ -2,7 +2,7 @@
 id: "sanyal2009user"
 title: "A User Study to Compare Four Uncertainty Visualization Methods for 1D and 2D Datasets"
 source_file: "The Art of Uncertain Topoplots/papers/sanyal2009user.pdf"
-source_sha256: "3fc3c66d05d14d60451c2294c5389d9633894861d45a8273d8035a42da0e070e"
+source_sha256: "8150ed9c832a7424c8d2003ffe0958020da18c9feb86716cfe248e479ed30096"
 extraction_format: 1
 ---
 

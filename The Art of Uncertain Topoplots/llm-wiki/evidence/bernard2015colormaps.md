@@ -2,7 +2,7 @@
 id: "bernard2015colormaps"
 title: "A Survey and Task-Based Quality Assessment of Static 2D Colormaps"
 source_type: "task-based computational quality assessment"
-topics: ["bivariate color", "task dependence", "colormap evaluation"]
+topics: ["multivariate color", "task dependence", "colormap evaluation"]
 ---
 
 # Research evidence: A Survey and Task-Based Quality Assessment of Static 2D Colormaps
@@ -12,15 +12,15 @@ topics: ["bivariate color", "task dependence", "colormap evaluation"]
 > This is a navigation and synthesis record, not primary evidence. Verify literature-review statements in the linked raw passage and inspect the archived PDF for figures, tables, equations, or extraction ambiguity.
 
 **Source type:** task-based computational quality assessment  
-**Evidence topics:** `bivariate color`, `task dependence`, `colormap evaluation`
+**Evidence topics:** `multivariate color`, `task dependence`, `colormap evaluation`
 
 ## Research question
 
-- How can static two-dimensional colormaps be selected according to the analytical task rather than treated as universally interchangeable? **Evidence:** [PDF p. 1](../raw/bernard2015colormaps.md#p001-b003) (passage)
+- How can static two-dimensional colormaps for multivariate data be selected according to the analytical task rather than treated as universally interchangeable? **Evidence:** [PDF p. 1](../raw/bernard2015colormaps.md#p001-b003) (passage)
 
 ## Contributions
 
-- Defines seven quality measures, maps them to seven multivariate-analysis tasks, and applies the resulting ranking procedure to 22 reimplemented 2D colormaps. **Evidence:** [PDF p. 1](../raw/bernard2015colormaps.md#p001-b003) (passage); [PDF p. 9](../raw/bernard2015colormaps.md#p009-b002) (passage)
+- Defines seven quality measures, maps them to seven multivariate-analysis tasks, and applies the resulting ranking procedure to 22 reimplemented 2D colormaps; the assessed class explicitly excludes bivariate metric maps. **Evidence:** [PDF p. 1](../raw/bernard2015colormaps.md#p001-b003) (passage); [PDF p. 9](../raw/bernard2015colormaps.md#p009-b002) (passage); [PDF p. 13](../raw/bernard2015colormaps.md#p013-b005) (passage)
 
 ## Methods
 
@@ -40,7 +40,7 @@ topics: ["bivariate color", "task dependence", "colormap evaluation"]
 ### bernard-task-mapping
 
 **Type:** `methodological_claim`  
-**Claim:** 2D-colormap quality should be evaluated against a stated task using the measures associated with that task.  
+**Claim:** Within the paper's multivariate-data scope, 2D-colormap quality should be evaluated against a stated task using the measures associated with that task.  
 **Quantitative detail:** Seven quality measures mapped to seven tasks.  
 **Evidence:** [PDF p. 1](../raw/bernard2015colormaps.md#p001-b003) (passage); [PDF p. 9](../raw/bernard2015colormaps.md#p009-b002) (passage)
 <a id="claim-bernard-robust-ten"></a>
@@ -59,7 +59,7 @@ topics: ["bivariate color", "task dependence", "colormap evaluation"]
 
 ## Limitations
 
-- The assessment is measure-based rather than a controlled user study; several published designs were approximately reimplemented and conversion or clipping in sRGB can affect results. **Provenance:** `authors`. **Evidence:** [PDF p. 13](../raw/bernard2015colormaps.md#p013-b005) (passage); [PDF p. 14](../raw/bernard2015colormaps.md#p014-b001) (passage)
+- The assessment is measure-based rather than a controlled user study; several published designs were approximately reimplemented and conversion or clipping in sRGB can affect results. Colormaps explicitly designed for bivariate metric mapping were excluded. **Provenance:** `authors`. **Evidence:** [PDF p. 13](../raw/bernard2015colormaps.md#p013-b005) (passage); [PDF p. 14](../raw/bernard2015colormaps.md#p014-b001) (passage)
 
 ## Citation discipline
 

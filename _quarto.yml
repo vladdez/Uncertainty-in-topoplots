@@ -11,6 +11,9 @@ project:
     - pages/feedback.qmd
     - pages/figures.qmd
 
+execute:
+  cache: true
+
 knitr:
   opts_chunk:
     dev: ragg_png

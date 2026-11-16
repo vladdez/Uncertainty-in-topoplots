@@ -27,11 +27,11 @@ topics: ["bivariate color comprehension", "legend learning", "historical experim
 | Component | Extracted detail |
 | --- | --- |
 | Design | Two laboratory experiments with repeated trials and map-order manipulation. |
-| Sample | Exact participant counts should be verified in the source methods/tables; Experiment 1's ANOVA reports 14 subject degrees of freedom, implying 15 participants if conventional coding applies, but this inference is not stored as fact. |
-| Conditions | Univariate and bivariate maps, repeated legend-supported trials, and a trial without the legend. |
-| Measurements | Response time and errors on map-reading questions. |
-| Analysis | ANOVA on transformed time and error measures, with order, subject, map type, and trial factors. |
-| Evidence | [PDF p. 10](../raw/wainer1980colormaps.md#p010-b002) (passage); [PDF p. 11](../raw/wainer1980colormaps.md#p011-b001) (passage); [PDF p. 11](../raw/wainer1980colormaps.md#p011-b002) (passage); [PDF p. 12](../raw/wainer1980colormaps.md#p012-b005) (passage) |
+| Sample | Experiment 1: 16 psychology graduate students at Johns Hopkins University, randomly assigned to bivariate-first or univariate-first order. Experiment 2: eight of the same participants returned several weeks later. |
+| Conditions | Experiment 1 compared Census bivariate maps with paired univariate maps across four trials; each trial contained nine tests and 18 responses. Experiment 2 repeated the procedure and added a fifth trial without the legend. |
+| Measurements | Response time and errors on elementary map-reading questions. |
+| Analysis | ANOVA on square-root-transformed time and arcsine-transformed error proportions, with order, subject, map type, and trial factors. |
+| Evidence | [PDF p. 9](../raw/wainer1980colormaps.md#p009-b004) (passage); [PDF p. 10](../raw/wainer1980colormaps.md#p010-b001) (passage); [PDF p. 11](../raw/wainer1980colormaps.md#p011-b001) (passage); [PDF p. 12](../raw/wainer1980colormaps.md#p012-b005) (passage) |
 
 ## Claim-level evidence
 
@@ -40,26 +40,34 @@ topics: ["bivariate color comprehension", "legend learning", "historical experim
 ### wainer-bivariate-cost
 
 **Type:** `empirical_finding`  
-**Claim:** Bivariate maps were slower and more error-prone for elementary reading, and removing the legend caused a large error increase for bivariate but not univariate maps.  
-**Quantitative detail:** Experiment 1 map-type effects: F=34.9 for transformed errors and F=7.8 for transformed time; source tables contain trial values.  
-**Evidence:** [Table 3, PDF p. 11](../raw/wainer1980colormaps.md#p011-b001) (table); [PDF p. 12](../raw/wainer1980colormaps.md#p012-b004) (passage)
+**Claim:** Bivariate maps produced substantially more elementary-reading errors than paired univariate maps, although responses to the bivariate maps were a little faster.  
+**Quantitative detail:** Mean error rate: .24 bivariate versus .08 univariate; map-type F=34.9 for transformed errors and F=7.8 for transformed time.  
+**Evidence:** [Table 3, PDF p. 11](../raw/wainer1980colormaps.md#p011-b001) (table)
+<a id="claim-wainer-legend-cost"></a>
+
+### wainer-legend-cost
+
+**Type:** `empirical_finding`  
+**Claim:** Removing the legend sharply degraded bivariate-map performance but did not change the univariate mean error rate.  
+**Quantitative detail:** Bivariate mean errors rose from .24 on Trial 4 to .67 on legendless Trial 5; univariate means were .06 on both trials.  
+**Evidence:** [Performance Degradation With Removal, PDF p. 12](../raw/wainer1980colormaps.md#p012-b001) (table); [PDF p. 12](../raw/wainer1980colormaps.md#p012-b003) (passage); [PDF p. 12](../raw/wainer1980colormaps.md#p012-b004) (passage)
 <a id="claim-wainer-learning"></a>
 
 ### wainer-learning
 
 **Type:** `author_interpretation`  
-**Claim:** The authors argue that learned, semantically coherent encodings may support higher-level pattern reading even when elementary lookup is difficult, but alternatives require empirical testing.  
+**Claim:** The authors conclude that elementary reading accuracy was unacceptable and that the legend was not internalized sufficiently for reliable higher-level reading; they call for alternative schemes to be tested empirically.  
 **Quantitative detail:** Not applicable.  
-**Evidence:** [PDF p. 13](../raw/wainer1980colormaps.md#p013-b001) (passage)
+**Evidence:** [PDF p. 12](../raw/wainer1980colormaps.md#p012-b004) (passage); [PDF p. 13](../raw/wainer1980colormaps.md#p013-b001) (passage)
 
 
 ## Conclusions
 
-- Two-variable color maps impose substantial lookup and legend-learning costs; any benefit for relational pattern reading must be evaluated separately. **Evidence:** [PDF p. 12](../raw/wainer1980colormaps.md#p012-b004) (passage); [PDF p. 13](../raw/wainer1980colormaps.md#p013-b001) (passage)
+- For the tested Census maps, a small response-time advantage did not compensate for substantially worse elementary accuracy and poor legend retention; possible higher-level benefits were not demonstrated by these tasks. **Evidence:** [PDF p. 11](../raw/wainer1980colormaps.md#p011-b001) (passage); [PDF p. 12](../raw/wainer1980colormaps.md#p012-b004) (passage); [PDF p. 13](../raw/wainer1980colormaps.md#p013-b001) (passage)
 
 ## Limitations
 
-- The experiments reflect 1980 print technology, color schemes, tasks, and participant expectations; sample details and table values should be verified from the PDF before exact citation. **Provenance:** `wiki_scope_note`. **Evidence:** [PDF p. 10](../raw/wainer1980colormaps.md#p010-b002) (passage); [PDF p. 11](../raw/wainer1980colormaps.md#p011-b001) (passage)
+- The experiments used 16 psychology graduate students at one university, with eight returning for Experiment 2, and tested historic Census print maps and elementary lookup tasks; generalization to modern palettes, expert audiences, or higher-level pattern tasks is limited. **Provenance:** `wiki_scope_note`. **Evidence:** [PDF p. 9](../raw/wainer1980colormaps.md#p009-b004) (passage); [PDF p. 10](../raw/wainer1980colormaps.md#p010-b001) (passage); [PDF p. 11](../raw/wainer1980colormaps.md#p011-b001) (passage)
 
 ## Citation discipline
 

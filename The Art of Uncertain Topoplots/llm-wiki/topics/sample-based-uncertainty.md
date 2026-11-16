@@ -20,6 +20,7 @@ HOPs and quantile dotplots have direct behavioral evidence in this collection; d
 - **`qualifies` — [How to Assess Visual Communication of Uncertainty? A Systematic Review of Geospatial Uncertainty Visualisation User Studies](../evidence/kinkeldey2014assess.md#claim-kinkeldey-preference-performance):** Review cautions that animation has not generally outperformed static uncertainty displays.
 - **`supports` — [Hypothetical Outcome Plots Help Untrained Observers Judge Trends in Ambiguous Data](../evidence/kale2019hypothetical.md#claim-kale-hop-threshold):** HOPs lowered evidence thresholds in a noisy-trend discrimination task.
 - **`qualifies` — [Hypothetical Outcome Plots Help Untrained Observers Judge Trends in Ambiguous Data](../evidence/kale2019hypothetical.md#claim-kale-learning-qualification):** Order and practice affected performance.
+- **`qualifies` — [Evaluating the Perception of Uncertainty in Alternative Visualization Strategies](../evidence/blenkinsop200alternative.md#claim-blenkinsop-animation-task):** Earlier geospatial animation evidence was task-dependent: relative and whole-scene judgments were stronger than absolute or isolated-pixel estimates.
 - **`supports` — [Uncertainty Displays Using Quantile Dotplots or CDFs Improve Transit Decision-Making](../evidence/fernandes2018uncertainty.md#claim-fernandes-decision-quality):** Quantile dotplots supported near-optimal transit decisions after repeated trials.
 
 ## Research gaps

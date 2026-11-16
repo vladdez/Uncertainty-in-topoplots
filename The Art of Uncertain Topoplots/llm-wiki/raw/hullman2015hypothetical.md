@@ -2,7 +2,7 @@
 id: "hullman2015hypothetical"
 title: "Hypothetical Outcome Plots Outperform Error Bars and Violin Plots for Inferences about Reliability of Variable Ordering"
 source_file: "The Art of Uncertain Topoplots/papers/hullman2015hypothetical.pdf"
-source_sha256: "48883d54a191bff3f95b5afb67d4f07b0fbb4ebfd266499b99feb4bacfd647fa"
+source_sha256: "786fb1df2c6a6db33beedf278de4af3ae6ffdd189dd8c04041b16d3c4cafdd00"
 extraction_format: 1
 ---
 

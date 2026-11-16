@@ -2,7 +2,7 @@
 id: "correll2014error"
 title: "Error Bars Considered Harmful: Exploring Alternate Encodings for Mean and Error"
 source_file: "The Art of Uncertain Topoplots/papers/correll2014error.pdf"
-source_sha256: "348e8a39f340384cfc571d8910fb7b464eaa226b736bafe1322ca4ecbb484e0d"
+source_sha256: "4496ad9c1342aeae07cb4ef4f28265c27cc680a3557fb5f5cd1f4ab6af76bf44"
 extraction_format: 1
 ---
 

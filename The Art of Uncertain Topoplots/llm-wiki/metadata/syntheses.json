@@ -59,6 +59,7 @@
         {"paper": "teuling2011bivariate", "claim": "teuling-difficulty", "relation": "qualifies", "note": "The same paper acknowledges increased interpretation difficulty."},
         {"paper": "wainer1980colormaps", "claim": "wainer-bivariate-cost", "relation": "challenges_integration", "note": "Early experiments show large elementary-reading and legend-learning costs for bivariate maps."},
         {"paper": "maceachren2012semiotics", "claim": "maceachren-aggregate", "relation": "qualifies", "note": "Multi-symbol effectiveness varied by uncertainty condition and symbol family."},
+        {"paper": "olson1981spectrally", "claim": "olson-design-guidance", "relation": "mixed", "note": "Composite maps supported joint interpretation, but readers benefited from prominent legends, explanatory notes, and the separate component maps."},
         {"paper": "kusumastuti2023practice", "claim": "kusumastuti-transfer", "relation": "qualifies", "note": "Integration performance changes with practice and transfers across display families."}
       ],
       "gaps": [
@@ -83,7 +84,6 @@
         {"paper": "bernard2015colormaps", "claim": "bernard-task-mapping", "relation": "adjacent_quality_method", "note": "Task-based quality assessment is relevant by analogy but was not applied to bivariate metric maps."}
       ],
       "gaps": [
-        "Olson's 1981 paper is cited by the manuscript but is not archived in the project, so it does not yet have a claim-level ingestion record.",
         "Meyer reports design rationale and ongoing research rather than reader-performance results.",
         "Wainer's small student sample, historic palettes, and elementary lookup tasks do not establish performance for modern bivariate uncertainty maps.",
         "Bernard's task-based assessment cannot be cited as a direct evaluation of bivariate metric maps because that class was explicitly excluded."
@@ -105,6 +105,7 @@
         {"paper": "bernard2015colormaps", "claim": "bernard-task-mapping", "relation": "supports", "note": "Computational assessment operationalizes task-specific palette selection."},
         {"paper": "gschwandtner2016visual", "claim": "gschwandtner-task-dependent", "relation": "supports", "note": "Six temporal encodings traded performance across boundary, duration, and probability tasks."},
         {"paper": "greis2015investigating", "claim": "greis-preference-performance", "relation": "supports", "note": "Non-expert preference and behavioral performance diverged."},
+        {"paper": "blenkinsop200alternative", "claim": "blenkinsop-animation-task", "relation": "supports", "note": "Animation accuracy differed sharply between relative, absolute, whole-scene, and isolated-pixel judgments, with additional experience-group differences."},
         {"paper": "scholz2014uncertainty", "claim": "scholz-preference", "relation": "qualifies", "note": "Preference rankings alone do not establish decision effectiveness."},
         {"paper": "tennant2025human", "claim": "tennant-preference-divergence", "relation": "supports", "note": "Recent scoping review warns against treating preference as performance."}
       ],
@@ -129,6 +130,7 @@
         {"paper": "kinkeldey2014assess", "claim": "kinkeldey-preference-performance", "relation": "qualifies", "note": "Review cautions that animation has not generally outperformed static uncertainty displays."},
         {"paper": "kale2019hypothetical", "claim": "kale-hop-threshold", "relation": "supports", "note": "HOPs lowered evidence thresholds in a noisy-trend discrimination task."},
         {"paper": "kale2019hypothetical", "claim": "kale-learning-qualification", "relation": "qualifies", "note": "Order and practice affected performance."},
+        {"paper": "blenkinsop200alternative", "claim": "blenkinsop-animation-task", "relation": "qualifies", "note": "Earlier geospatial animation evidence was task-dependent: relative and whole-scene judgments were stronger than absolute or isolated-pixel estimates."},
         {"paper": "fernandes2018uncertainty", "claim": "fernandes-decision-quality", "relation": "supports", "note": "Quantile dotplots supported near-optimal transit decisions after repeated trials."}
       ],
       "gaps": [

@@ -1,0 +1,1345 @@
+pattern,vistype,vistype_label,region_number,region,n_selected,n_trials,selection_proportion,mean_selected_score
+MMN,adjacent,Adjacent plots,1,R01,0,114,0,
+MMN,adjacent,Adjacent plots,2,R02,0,114,0,
+MMN,adjacent,Adjacent plots,3,R03,1,114,0.008771929824561403,0.14
+MMN,adjacent,Adjacent plots,4,R04,0,114,0,
+MMN,adjacent,Adjacent plots,5,R05,0,114,0,
+MMN,adjacent,Adjacent plots,6,R06,0,114,0,
+MMN,adjacent,Adjacent plots,7,R07,0,114,0,
+MMN,adjacent,Adjacent plots,8,R08,0,114,0,
+MMN,adjacent,Adjacent plots,9,R09,2,114,0.017543859649122806,0.14
+MMN,adjacent,Adjacent plots,10,R10,0,114,0,
+MMN,adjacent,Adjacent plots,11,R11,0,114,0,
+MMN,adjacent,Adjacent plots,12,R12,0,114,0,
+MMN,adjacent,Adjacent plots,13,R13,1,114,0.008771929824561403,0.53
+MMN,adjacent,Adjacent plots,14,R14,7,114,0.06140350877192982,0.4185714285714286
+MMN,adjacent,Adjacent plots,15,R15,5,114,0.043859649122807015,0.454
+MMN,adjacent,Adjacent plots,16,R16,0,114,0,
+MMN,adjacent,Adjacent plots,17,R17,0,114,0,
+MMN,adjacent,Adjacent plots,18,R18,0,114,0,
+MMN,adjacent,Adjacent plots,19,R19,0,114,0,
+MMN,adjacent,Adjacent plots,20,R20,1,114,0.008771929824561403,0.26
+MMN,adjacent,Adjacent plots,21,R21,0,114,0,
+MMN,adjacent,Adjacent plots,22,R22,2,114,0.017543859649122806,0.36
+MMN,adjacent,Adjacent plots,23,R23,0,114,0,
+MMN,adjacent,Adjacent plots,24,R24,1,114,0.008771929824561403,0.25
+MMN,adjacent,Adjacent plots,25,R25,0,114,0,
+MMN,adjacent,Adjacent plots,26,R26,1,114,0.008771929824561403,0.31
+MMN,adjacent,Adjacent plots,27,R27,0,114,0,
+MMN,adjacent,Adjacent plots,28,R28,1,114,0.008771929824561403,0.26
+MMN,adjacent,Adjacent plots,29,R29,1,114,0.008771929824561403,0.41
+MMN,adjacent,Adjacent plots,30,R30,0,114,0,
+MMN,adjacent,Adjacent plots,31,R31,0,114,0,
+MMN,adjacent,Adjacent plots,32,R32,0,114,0,
+MMN,adjacent,Adjacent plots,33,R33,6,114,0.05263157894736842,0.855
+MMN,adjacent,Adjacent plots,34,R34,0,114,0,
+MMN,adjacent,Adjacent plots,35,R35,0,114,0,
+MMN,adjacent,Adjacent plots,36,R36,0,114,0,
+MMN,adjacent,Adjacent plots,37,R37,1,114,0.008771929824561403,0.51
+MMN,adjacent,Adjacent plots,38,R38,0,114,0,
+MMN,adjacent,Adjacent plots,39,R39,0,114,0,
+MMN,adjacent,Adjacent plots,40,R40,0,114,0,
+MMN,adjacent,Adjacent plots,41,R41,1,114,0.008771929824561403,1
+MMN,adjacent,Adjacent plots,42,R42,0,114,0,
+MMN,adjacent,Adjacent plots,43,R43,0,114,0,
+MMN,adjacent,Adjacent plots,44,R44,0,114,0,
+MMN,adjacent,Adjacent plots,45,R45,0,114,0,
+MMN,adjacent,Adjacent plots,46,R46,0,114,0,
+MMN,adjacent,Adjacent plots,47,R47,0,114,0,
+MMN,adjacent,Adjacent plots,48,R48,9,114,0.07894736842105263,0.8244444444444444
+MMN,adjacent,Adjacent plots,49,R49,1,114,0.008771929824561403,0.54
+MMN,adjacent,Adjacent plots,50,R50,0,114,0,
+MMN,adjacent,Adjacent plots,51,R51,3,114,0.02631578947368421,0.36
+MMN,adjacent,Adjacent plots,52,R52,0,114,0,
+MMN,adjacent,Adjacent plots,53,R53,11,114,0.09649122807017543,0.6690909090909091
+MMN,adjacent,Adjacent plots,54,R54,0,114,0,
+MMN,adjacent,Adjacent plots,55,R55,8,114,0.07017543859649122,0.81875
+MMN,adjacent,Adjacent plots,56,R56,0,114,0,
+MMN,adjacent,Adjacent plots,57,R57,5,114,0.043859649122807015,0.788
+MMN,adjacent,Adjacent plots,58,R58,2,114,0.017543859649122806,0.66
+MMN,adjacent,Adjacent plots,59,R59,9,114,0.07894736842105263,0.6422222222222222
+MMN,adjacent,Adjacent plots,60,R60,9,114,0.07894736842105263,0.9355555555555556
+MMN,adjacent,Adjacent plots,61,R61,0,114,0,
+MMN,adjacent,Adjacent plots,62,R62,5,114,0.043859649122807015,0.79
+MMN,adjacent,Adjacent plots,63,R63,1,114,0.008771929824561403,1
+MMN,adjacent,Adjacent plots,64,R64,20,114,0.17543859649122806,0.994
+MMN,animation,Animation,1,R01,1,114,0.008771929824561403,0.3
+MMN,animation,Animation,2,R02,0,114,0,
+MMN,animation,Animation,3,R03,1,114,0.008771929824561403,0
+MMN,animation,Animation,4,R04,0,114,0,
+MMN,animation,Animation,5,R05,0,114,0,
+MMN,animation,Animation,6,R06,0,114,0,
+MMN,animation,Animation,7,R07,0,114,0,
+MMN,animation,Animation,8,R08,1,114,0.008771929824561403,0.51
+MMN,animation,Animation,9,R09,1,114,0.008771929824561403,0.06
+MMN,animation,Animation,10,R10,0,114,0,
+MMN,animation,Animation,11,R11,0,114,0,
+MMN,animation,Animation,12,R12,0,114,0,
+MMN,animation,Animation,13,R13,5,114,0.043859649122807015,0.694
+MMN,animation,Animation,14,R14,11,114,0.09649122807017543,0.5281818181818182
+MMN,animation,Animation,15,R15,3,114,0.02631578947368421,0.45333333333333337
+MMN,animation,Animation,16,R16,0,114,0,
+MMN,animation,Animation,17,R17,0,114,0,
+MMN,animation,Animation,18,R18,0,114,0,
+MMN,animation,Animation,19,R19,0,114,0,
+MMN,animation,Animation,20,R20,3,114,0.02631578947368421,0.24666666666666667
+MMN,animation,Animation,21,R21,2,114,0.017543859649122806,0.505
+MMN,animation,Animation,22,R22,0,114,0,
+MMN,animation,Animation,23,R23,0,114,0,
+MMN,animation,Animation,24,R24,0,114,0,
+MMN,animation,Animation,25,R25,5,114,0.043859649122807015,0.372
+MMN,animation,Animation,26,R26,0,114,0,
+MMN,animation,Animation,27,R27,0,114,0,
+MMN,animation,Animation,28,R28,0,114,0,
+MMN,animation,Animation,29,R29,2,114,0.017543859649122806,0.235
+MMN,animation,Animation,30,R30,1,114,0.008771929824561403,0.29
+MMN,animation,Animation,31,R31,1,114,0.008771929824561403,0.58
+MMN,animation,Animation,32,R32,0,114,0,
+MMN,animation,Animation,33,R33,7,114,0.06140350877192982,0.7885714285714286
+MMN,animation,Animation,34,R34,0,114,0,
+MMN,animation,Animation,35,R35,0,114,0,
+MMN,animation,Animation,36,R36,0,114,0,
+MMN,animation,Animation,37,R37,1,114,0.008771929824561403,0.46
+MMN,animation,Animation,38,R38,0,114,0,
+MMN,animation,Animation,39,R39,0,114,0,
+MMN,animation,Animation,40,R40,1,114,0.008771929824561403,0.03
+MMN,animation,Animation,41,R41,14,114,0.12280701754385964,1
+MMN,animation,Animation,42,R42,1,114,0.008771929824561403,0.93
+MMN,animation,Animation,43,R43,0,114,0,
+MMN,animation,Animation,44,R44,1,114,0.008771929824561403,0.55
+MMN,animation,Animation,45,R45,0,114,0,
+MMN,animation,Animation,46,R46,0,114,0,
+MMN,animation,Animation,47,R47,1,114,0.008771929824561403,0.25
+MMN,animation,Animation,48,R48,15,114,0.13157894736842105,0.8446666666666667
+MMN,animation,Animation,49,R49,0,114,0,
+MMN,animation,Animation,50,R50,0,114,0,
+MMN,animation,Animation,51,R51,0,114,0,
+MMN,animation,Animation,52,R52,0,114,0,
+MMN,animation,Animation,53,R53,4,114,0.03508771929824561,0.61
+MMN,animation,Animation,54,R54,0,114,0,
+MMN,animation,Animation,55,R55,4,114,0.03508771929824561,0.97
+MMN,animation,Animation,56,R56,0,114,0,
+MMN,animation,Animation,57,R57,6,114,0.05263157894736842,0.8566666666666667
+MMN,animation,Animation,58,R58,1,114,0.008771929824561403,0.26
+MMN,animation,Animation,59,R59,2,114,0.017543859649122806,0.51
+MMN,animation,Animation,60,R60,10,114,0.08771929824561403,0.832
+MMN,animation,Animation,61,R61,0,114,0,
+MMN,animation,Animation,62,R62,3,114,0.02631578947368421,0.8666666666666667
+MMN,animation,Animation,63,R63,0,114,0,
+MMN,animation,Animation,64,R64,6,114,0.05263157894736842,1
+MMN,bivariate_corner,Bivariate corner,1,R01,2,114,0.017543859649122806,0.395
+MMN,bivariate_corner,Bivariate corner,2,R02,0,114,0,
+MMN,bivariate_corner,Bivariate corner,3,R03,0,114,0,
+MMN,bivariate_corner,Bivariate corner,4,R04,0,114,0,
+MMN,bivariate_corner,Bivariate corner,5,R05,0,114,0,
+MMN,bivariate_corner,Bivariate corner,6,R06,0,114,0,
+MMN,bivariate_corner,Bivariate corner,7,R07,0,114,0,
+MMN,bivariate_corner,Bivariate corner,8,R08,0,114,0,
+MMN,bivariate_corner,Bivariate corner,9,R09,0,114,0,
+MMN,bivariate_corner,Bivariate corner,10,R10,0,114,0,
+MMN,bivariate_corner,Bivariate corner,11,R11,0,114,0,
+MMN,bivariate_corner,Bivariate corner,12,R12,0,114,0,
+MMN,bivariate_corner,Bivariate corner,13,R13,0,114,0,
+MMN,bivariate_corner,Bivariate corner,14,R14,1,114,0.008771929824561403,0.55
+MMN,bivariate_corner,Bivariate corner,15,R15,1,114,0.008771929824561403,0.23
+MMN,bivariate_corner,Bivariate corner,16,R16,0,114,0,
+MMN,bivariate_corner,Bivariate corner,17,R17,0,114,0,
+MMN,bivariate_corner,Bivariate corner,18,R18,0,114,0,
+MMN,bivariate_corner,Bivariate corner,19,R19,0,114,0,
+MMN,bivariate_corner,Bivariate corner,20,R20,6,114,0.05263157894736842,0.44833333333333336
+MMN,bivariate_corner,Bivariate corner,21,R21,0,114,0,
+MMN,bivariate_corner,Bivariate corner,22,R22,0,114,0,
+MMN,bivariate_corner,Bivariate corner,23,R23,1,114,0.008771929824561403,0.17
+MMN,bivariate_corner,Bivariate corner,24,R24,0,114,0,
+MMN,bivariate_corner,Bivariate corner,25,R25,2,114,0.017543859649122806,0.48
+MMN,bivariate_corner,Bivariate corner,26,R26,0,114,0,
+MMN,bivariate_corner,Bivariate corner,27,R27,0,114,0,
+MMN,bivariate_corner,Bivariate corner,28,R28,2,114,0.017543859649122806,0.135
+MMN,bivariate_corner,Bivariate corner,29,R29,0,114,0,
+MMN,bivariate_corner,Bivariate corner,30,R30,0,114,0,
+MMN,bivariate_corner,Bivariate corner,31,R31,2,114,0.017543859649122806,0.58
+MMN,bivariate_corner,Bivariate corner,32,R32,0,114,0,
+MMN,bivariate_corner,Bivariate corner,33,R33,0,114,0,
+MMN,bivariate_corner,Bivariate corner,34,R34,0,114,0,
+MMN,bivariate_corner,Bivariate corner,35,R35,0,114,0,
+MMN,bivariate_corner,Bivariate corner,36,R36,0,114,0,
+MMN,bivariate_corner,Bivariate corner,37,R37,0,114,0,
+MMN,bivariate_corner,Bivariate corner,38,R38,0,114,0,
+MMN,bivariate_corner,Bivariate corner,39,R39,0,114,0,
+MMN,bivariate_corner,Bivariate corner,40,R40,0,114,0,
+MMN,bivariate_corner,Bivariate corner,41,R41,7,114,0.06140350877192982,0.9157142857142857
+MMN,bivariate_corner,Bivariate corner,42,R42,1,114,0.008771929824561403,0.56
+MMN,bivariate_corner,Bivariate corner,43,R43,1,114,0.008771929824561403,0.09
+MMN,bivariate_corner,Bivariate corner,44,R44,1,114,0.008771929824561403,0.38
+MMN,bivariate_corner,Bivariate corner,45,R45,1,114,0.008771929824561403,0.81
+MMN,bivariate_corner,Bivariate corner,46,R46,1,114,0.008771929824561403,0.36
+MMN,bivariate_corner,Bivariate corner,47,R47,0,114,0,
+MMN,bivariate_corner,Bivariate corner,48,R48,8,114,0.07017543859649122,0.7899999999999999
+MMN,bivariate_corner,Bivariate corner,49,R49,3,114,0.02631578947368421,0.4466666666666667
+MMN,bivariate_corner,Bivariate corner,50,R50,3,114,0.02631578947368421,0.48
+MMN,bivariate_corner,Bivariate corner,51,R51,1,114,0.008771929824561403,0.43
+MMN,bivariate_corner,Bivariate corner,52,R52,0,114,0,
+MMN,bivariate_corner,Bivariate corner,53,R53,9,114,0.07894736842105263,0.58
+MMN,bivariate_corner,Bivariate corner,54,R54,0,114,0,
+MMN,bivariate_corner,Bivariate corner,55,R55,13,114,0.11403508771929824,0.86
+MMN,bivariate_corner,Bivariate corner,56,R56,0,114,0,
+MMN,bivariate_corner,Bivariate corner,57,R57,2,114,0.017543859649122806,0.635
+MMN,bivariate_corner,Bivariate corner,58,R58,2,114,0.017543859649122806,0.675
+MMN,bivariate_corner,Bivariate corner,59,R59,9,114,0.07894736842105263,0.5888888888888889
+MMN,bivariate_corner,Bivariate corner,60,R60,13,114,0.11403508771929824,0.7630769230769231
+MMN,bivariate_corner,Bivariate corner,61,R61,0,114,0,
+MMN,bivariate_corner,Bivariate corner,62,R62,2,114,0.017543859649122806,0.81
+MMN,bivariate_corner,Bivariate corner,63,R63,3,114,0.02631578947368421,0.75
+MMN,bivariate_corner,Bivariate corner,64,R64,17,114,0.14912280701754385,0.9611764705882353
+MMN,bivariate_range,Bivariate range,1,R01,0,114,0,
+MMN,bivariate_range,Bivariate range,2,R02,2,114,0.017543859649122806,0.455
+MMN,bivariate_range,Bivariate range,3,R03,0,114,0,
+MMN,bivariate_range,Bivariate range,4,R04,0,114,0,
+MMN,bivariate_range,Bivariate range,5,R05,0,114,0,
+MMN,bivariate_range,Bivariate range,6,R06,1,114,0.008771929824561403,0.19
+MMN,bivariate_range,Bivariate range,7,R07,1,114,0.008771929824561403,0.89
+MMN,bivariate_range,Bivariate range,8,R08,1,114,0.008771929824561403,0.41
+MMN,bivariate_range,Bivariate range,9,R09,2,114,0.017543859649122806,0.12
+MMN,bivariate_range,Bivariate range,10,R10,0,114,0,
+MMN,bivariate_range,Bivariate range,11,R11,0,114,0,
+MMN,bivariate_range,Bivariate range,12,R12,0,114,0,
+MMN,bivariate_range,Bivariate range,13,R13,1,114,0.008771929824561403,0.94
+MMN,bivariate_range,Bivariate range,14,R14,3,114,0.02631578947368421,0.4866666666666667
+MMN,bivariate_range,Bivariate range,15,R15,2,114,0.017543859649122806,0.455
+MMN,bivariate_range,Bivariate range,16,R16,0,114,0,
+MMN,bivariate_range,Bivariate range,17,R17,1,114,0.008771929824561403,0.23
+MMN,bivariate_range,Bivariate range,18,R18,0,114,0,
+MMN,bivariate_range,Bivariate range,19,R19,0,114,0,
+MMN,bivariate_range,Bivariate range,20,R20,7,114,0.06140350877192982,0.3971428571428572
+MMN,bivariate_range,Bivariate range,21,R21,0,114,0,
+MMN,bivariate_range,Bivariate range,22,R22,2,114,0.017543859649122806,0.525
+MMN,bivariate_range,Bivariate range,23,R23,0,114,0,
+MMN,bivariate_range,Bivariate range,24,R24,0,114,0,
+MMN,bivariate_range,Bivariate range,25,R25,1,114,0.008771929824561403,0.44
+MMN,bivariate_range,Bivariate range,26,R26,1,114,0.008771929824561403,0.34
+MMN,bivariate_range,Bivariate range,27,R27,0,114,0,
+MMN,bivariate_range,Bivariate range,28,R28,0,114,0,
+MMN,bivariate_range,Bivariate range,29,R29,1,114,0.008771929824561403,0.43
+MMN,bivariate_range,Bivariate range,30,R30,0,114,0,
+MMN,bivariate_range,Bivariate range,31,R31,0,114,0,
+MMN,bivariate_range,Bivariate range,32,R32,2,114,0.017543859649122806,1
+MMN,bivariate_range,Bivariate range,33,R33,2,114,0.017543859649122806,0.845
+MMN,bivariate_range,Bivariate range,34,R34,0,114,0,
+MMN,bivariate_range,Bivariate range,35,R35,0,114,0,
+MMN,bivariate_range,Bivariate range,36,R36,0,114,0,
+MMN,bivariate_range,Bivariate range,37,R37,0,114,0,
+MMN,bivariate_range,Bivariate range,38,R38,0,114,0,
+MMN,bivariate_range,Bivariate range,39,R39,0,114,0,
+MMN,bivariate_range,Bivariate range,40,R40,0,114,0,
+MMN,bivariate_range,Bivariate range,41,R41,3,114,0.02631578947368421,1
+MMN,bivariate_range,Bivariate range,42,R42,1,114,0.008771929824561403,0.93
+MMN,bivariate_range,Bivariate range,43,R43,0,114,0,
+MMN,bivariate_range,Bivariate range,44,R44,1,114,0.008771929824561403,0.1
+MMN,bivariate_range,Bivariate range,45,R45,1,114,0.008771929824561403,0.24
+MMN,bivariate_range,Bivariate range,46,R46,0,114,0,
+MMN,bivariate_range,Bivariate range,47,R47,0,114,0,
+MMN,bivariate_range,Bivariate range,48,R48,6,114,0.05263157894736842,0.8233333333333333
+MMN,bivariate_range,Bivariate range,49,R49,0,114,0,
+MMN,bivariate_range,Bivariate range,50,R50,0,114,0,
+MMN,bivariate_range,Bivariate range,51,R51,4,114,0.03508771929824561,0.29
+MMN,bivariate_range,Bivariate range,52,R52,0,114,0,
+MMN,bivariate_range,Bivariate range,53,R53,7,114,0.06140350877192982,0.7342857142857143
+MMN,bivariate_range,Bivariate range,54,R54,0,114,0,
+MMN,bivariate_range,Bivariate range,55,R55,14,114,0.12280701754385964,0.8764285714285714
+MMN,bivariate_range,Bivariate range,56,R56,0,114,0,
+MMN,bivariate_range,Bivariate range,57,R57,1,114,0.008771929824561403,0.93
+MMN,bivariate_range,Bivariate range,58,R58,0,114,0,
+MMN,bivariate_range,Bivariate range,59,R59,15,114,0.13157894736842105,0.6053333333333334
+MMN,bivariate_range,Bivariate range,60,R60,9,114,0.07894736842105263,0.9199999999999999
+MMN,bivariate_range,Bivariate range,61,R61,0,114,0,
+MMN,bivariate_range,Bivariate range,62,R62,5,114,0.043859649122807015,0.904
+MMN,bivariate_range,Bivariate range,63,R63,1,114,0.008771929824561403,0.59
+MMN,bivariate_range,Bivariate range,64,R64,16,114,0.14035087719298245,1
+MMN,triple_CI,Confidence intervals,1,R01,0,114,0,
+MMN,triple_CI,Confidence intervals,2,R02,0,114,0,
+MMN,triple_CI,Confidence intervals,3,R03,1,114,0.008771929824561403,0.79
+MMN,triple_CI,Confidence intervals,4,R04,0,114,0,
+MMN,triple_CI,Confidence intervals,5,R05,0,114,0,
+MMN,triple_CI,Confidence intervals,6,R06,0,114,0,
+MMN,triple_CI,Confidence intervals,7,R07,0,114,0,
+MMN,triple_CI,Confidence intervals,8,R08,0,114,0,
+MMN,triple_CI,Confidence intervals,9,R09,0,114,0,
+MMN,triple_CI,Confidence intervals,10,R10,2,114,0.017543859649122806,0.245
+MMN,triple_CI,Confidence intervals,11,R11,0,114,0,
+MMN,triple_CI,Confidence intervals,12,R12,0,114,0,
+MMN,triple_CI,Confidence intervals,13,R13,5,114,0.043859649122807015,0.528
+MMN,triple_CI,Confidence intervals,14,R14,11,114,0.09649122807017543,0.5354545454545455
+MMN,triple_CI,Confidence intervals,15,R15,1,114,0.008771929824561403,0.56
+MMN,triple_CI,Confidence intervals,16,R16,0,114,0,
+MMN,triple_CI,Confidence intervals,17,R17,0,114,0,
+MMN,triple_CI,Confidence intervals,18,R18,0,114,0,
+MMN,triple_CI,Confidence intervals,19,R19,0,114,0,
+MMN,triple_CI,Confidence intervals,20,R20,2,114,0.017543859649122806,0.54
+MMN,triple_CI,Confidence intervals,21,R21,1,114,0.008771929824561403,0.46
+MMN,triple_CI,Confidence intervals,22,R22,1,114,0.008771929824561403,0.41
+MMN,triple_CI,Confidence intervals,23,R23,0,114,0,
+MMN,triple_CI,Confidence intervals,24,R24,1,114,0.008771929824561403,0.53
+MMN,triple_CI,Confidence intervals,25,R25,6,114,0.05263157894736842,0.48
+MMN,triple_CI,Confidence intervals,26,R26,2,114,0.017543859649122806,0.18
+MMN,triple_CI,Confidence intervals,27,R27,0,114,0,
+MMN,triple_CI,Confidence intervals,28,R28,1,114,0.008771929824561403,0.16
+MMN,triple_CI,Confidence intervals,29,R29,1,114,0.008771929824561403,0.41
+MMN,triple_CI,Confidence intervals,30,R30,0,114,0,
+MMN,triple_CI,Confidence intervals,31,R31,0,114,0,
+MMN,triple_CI,Confidence intervals,32,R32,0,114,0,
+MMN,triple_CI,Confidence intervals,33,R33,2,114,0.017543859649122806,0.45
+MMN,triple_CI,Confidence intervals,34,R34,0,114,0,
+MMN,triple_CI,Confidence intervals,35,R35,1,114,0.008771929824561403,0.23
+MMN,triple_CI,Confidence intervals,36,R36,0,114,0,
+MMN,triple_CI,Confidence intervals,37,R37,0,114,0,
+MMN,triple_CI,Confidence intervals,38,R38,0,114,0,
+MMN,triple_CI,Confidence intervals,39,R39,0,114,0,
+MMN,triple_CI,Confidence intervals,40,R40,1,114,0.008771929824561403,0.02
+MMN,triple_CI,Confidence intervals,41,R41,12,114,0.10526315789473684,1
+MMN,triple_CI,Confidence intervals,42,R42,0,114,0,
+MMN,triple_CI,Confidence intervals,43,R43,0,114,0,
+MMN,triple_CI,Confidence intervals,44,R44,1,114,0.008771929824561403,0.38
+MMN,triple_CI,Confidence intervals,45,R45,0,114,0,
+MMN,triple_CI,Confidence intervals,46,R46,1,114,0.008771929824561403,0.47
+MMN,triple_CI,Confidence intervals,47,R47,0,114,0,
+MMN,triple_CI,Confidence intervals,48,R48,14,114,0.12280701754385964,0.8642857142857142
+MMN,triple_CI,Confidence intervals,49,R49,0,114,0,
+MMN,triple_CI,Confidence intervals,50,R50,0,114,0,
+MMN,triple_CI,Confidence intervals,51,R51,0,114,0,
+MMN,triple_CI,Confidence intervals,52,R52,0,114,0,
+MMN,triple_CI,Confidence intervals,53,R53,12,114,0.10526315789473684,0.5958333333333333
+MMN,triple_CI,Confidence intervals,54,R54,0,114,0,
+MMN,triple_CI,Confidence intervals,55,R55,4,114,0.03508771929824561,0.8775
+MMN,triple_CI,Confidence intervals,56,R56,0,114,0,
+MMN,triple_CI,Confidence intervals,57,R57,7,114,0.06140350877192982,0.93
+MMN,triple_CI,Confidence intervals,58,R58,2,114,0.017543859649122806,0.8
+MMN,triple_CI,Confidence intervals,59,R59,0,114,0,
+MMN,triple_CI,Confidence intervals,60,R60,13,114,0.11403508771929824,0.7907692307692308
+MMN,triple_CI,Confidence intervals,61,R61,0,114,0,
+MMN,triple_CI,Confidence intervals,62,R62,2,114,0.017543859649122806,0.895
+MMN,triple_CI,Confidence intervals,63,R63,1,114,0.008771929824561403,1
+MMN,triple_CI,Confidence intervals,64,R64,6,114,0.05263157894736842,0.99
+MMN,uncert_markers,Uncertainty markers,1,R01,1,114,0.008771929824561403,0.73
+MMN,uncert_markers,Uncertainty markers,2,R02,1,114,0.008771929824561403,0.56
+MMN,uncert_markers,Uncertainty markers,3,R03,1,114,0.008771929824561403,0.08
+MMN,uncert_markers,Uncertainty markers,4,R04,0,114,0,
+MMN,uncert_markers,Uncertainty markers,5,R05,0,114,0,
+MMN,uncert_markers,Uncertainty markers,6,R06,0,114,0,
+MMN,uncert_markers,Uncertainty markers,7,R07,0,114,0,
+MMN,uncert_markers,Uncertainty markers,8,R08,0,114,0,
+MMN,uncert_markers,Uncertainty markers,9,R09,1,114,0.008771929824561403,0.03
+MMN,uncert_markers,Uncertainty markers,10,R10,0,114,0,
+MMN,uncert_markers,Uncertainty markers,11,R11,0,114,0,
+MMN,uncert_markers,Uncertainty markers,12,R12,0,114,0,
+MMN,uncert_markers,Uncertainty markers,13,R13,2,114,0.017543859649122806,0.94
+MMN,uncert_markers,Uncertainty markers,14,R14,7,114,0.06140350877192982,0.4657142857142857
+MMN,uncert_markers,Uncertainty markers,15,R15,3,114,0.02631578947368421,0.55
+MMN,uncert_markers,Uncertainty markers,16,R16,0,114,0,
+MMN,uncert_markers,Uncertainty markers,17,R17,0,114,0,
+MMN,uncert_markers,Uncertainty markers,18,R18,0,114,0,
+MMN,uncert_markers,Uncertainty markers,19,R19,0,114,0,
+MMN,uncert_markers,Uncertainty markers,20,R20,0,114,0,
+MMN,uncert_markers,Uncertainty markers,21,R21,1,114,0.008771929824561403,0.11
+MMN,uncert_markers,Uncertainty markers,22,R22,0,114,0,
+MMN,uncert_markers,Uncertainty markers,23,R23,1,114,0.008771929824561403,0.19
+MMN,uncert_markers,Uncertainty markers,24,R24,0,114,0,
+MMN,uncert_markers,Uncertainty markers,25,R25,3,114,0.02631578947368421,0.48666666666666664
+MMN,uncert_markers,Uncertainty markers,26,R26,0,114,0,
+MMN,uncert_markers,Uncertainty markers,27,R27,0,114,0,
+MMN,uncert_markers,Uncertainty markers,28,R28,0,114,0,
+MMN,uncert_markers,Uncertainty markers,29,R29,3,114,0.02631578947368421,0.41
+MMN,uncert_markers,Uncertainty markers,30,R30,0,114,0,
+MMN,uncert_markers,Uncertainty markers,31,R31,0,114,0,
+MMN,uncert_markers,Uncertainty markers,32,R32,0,114,0,
+MMN,uncert_markers,Uncertainty markers,33,R33,3,114,0.02631578947368421,0.8633333333333334
+MMN,uncert_markers,Uncertainty markers,34,R34,1,114,0.008771929824561403,0.05
+MMN,uncert_markers,Uncertainty markers,35,R35,1,114,0.008771929824561403,0.23
+MMN,uncert_markers,Uncertainty markers,36,R36,0,114,0,
+MMN,uncert_markers,Uncertainty markers,37,R37,0,114,0,
+MMN,uncert_markers,Uncertainty markers,38,R38,0,114,0,
+MMN,uncert_markers,Uncertainty markers,39,R39,0,114,0,
+MMN,uncert_markers,Uncertainty markers,40,R40,0,114,0,
+MMN,uncert_markers,Uncertainty markers,41,R41,3,114,0.02631578947368421,1
+MMN,uncert_markers,Uncertainty markers,42,R42,0,114,0,
+MMN,uncert_markers,Uncertainty markers,43,R43,0,114,0,
+MMN,uncert_markers,Uncertainty markers,44,R44,1,114,0.008771929824561403,0.31
+MMN,uncert_markers,Uncertainty markers,45,R45,0,114,0,
+MMN,uncert_markers,Uncertainty markers,46,R46,0,114,0,
+MMN,uncert_markers,Uncertainty markers,47,R47,0,114,0,
+MMN,uncert_markers,Uncertainty markers,48,R48,12,114,0.10526315789473684,0.8408333333333333
+MMN,uncert_markers,Uncertainty markers,49,R49,0,114,0,
+MMN,uncert_markers,Uncertainty markers,50,R50,0,114,0,
+MMN,uncert_markers,Uncertainty markers,51,R51,0,114,0,
+MMN,uncert_markers,Uncertainty markers,52,R52,0,114,0,
+MMN,uncert_markers,Uncertainty markers,53,R53,16,114,0.14035087719298245,0.57375
+MMN,uncert_markers,Uncertainty markers,54,R54,0,114,0,
+MMN,uncert_markers,Uncertainty markers,55,R55,3,114,0.02631578947368421,0.9266666666666666
+MMN,uncert_markers,Uncertainty markers,56,R56,1,114,0.008771929824561403,0.51
+MMN,uncert_markers,Uncertainty markers,57,R57,5,114,0.043859649122807015,0.93
+MMN,uncert_markers,Uncertainty markers,58,R58,3,114,0.02631578947368421,0.6333333333333334
+MMN,uncert_markers,Uncertainty markers,59,R59,18,114,0.15789473684210525,0.5977777777777777
+MMN,uncert_markers,Uncertainty markers,60,R60,7,114,0.06140350877192982,0.9428571428571428
+MMN,uncert_markers,Uncertainty markers,61,R61,0,114,0,
+MMN,uncert_markers,Uncertainty markers,62,R62,4,114,0.03508771929824561,0.9
+MMN,uncert_markers,Uncertainty markers,63,R63,0,114,0,
+MMN,uncert_markers,Uncertainty markers,64,R64,12,114,0.10526315789473684,0.99
+MMN,basic,Basic topoplot,1,R01,0,114,0,
+MMN,basic,Basic topoplot,2,R02,0,114,0,
+MMN,basic,Basic topoplot,3,R03,3,114,0.02631578947368421,0.79
+MMN,basic,Basic topoplot,4,R04,0,114,0,
+MMN,basic,Basic topoplot,5,R05,0,114,0,
+MMN,basic,Basic topoplot,6,R06,0,114,0,
+MMN,basic,Basic topoplot,7,R07,0,114,0,
+MMN,basic,Basic topoplot,8,R08,0,114,0,
+MMN,basic,Basic topoplot,9,R09,1,114,0.008771929824561403,0.25
+MMN,basic,Basic topoplot,10,R10,0,114,0,
+MMN,basic,Basic topoplot,11,R11,0,114,0,
+MMN,basic,Basic topoplot,12,R12,0,114,0,
+MMN,basic,Basic topoplot,13,R13,11,114,0.09649122807017543,0.7536363636363637
+MMN,basic,Basic topoplot,14,R14,9,114,0.07894736842105263,0.5111111111111111
+MMN,basic,Basic topoplot,15,R15,0,114,0,
+MMN,basic,Basic topoplot,16,R16,0,114,0,
+MMN,basic,Basic topoplot,17,R17,1,114,0.008771929824561403,0.43
+MMN,basic,Basic topoplot,18,R18,0,114,0,
+MMN,basic,Basic topoplot,19,R19,0,114,0,
+MMN,basic,Basic topoplot,20,R20,6,114,0.05263157894736842,0.4316666666666667
+MMN,basic,Basic topoplot,21,R21,1,114,0.008771929824561403,0.46
+MMN,basic,Basic topoplot,22,R22,1,114,0.008771929824561403,0.34
+MMN,basic,Basic topoplot,23,R23,0,114,0,
+MMN,basic,Basic topoplot,24,R24,1,114,0.008771929824561403,0.36
+MMN,basic,Basic topoplot,25,R25,12,114,0.10526315789473684,0.4658333333333333
+MMN,basic,Basic topoplot,26,R26,0,114,0,
+MMN,basic,Basic topoplot,27,R27,0,114,0,
+MMN,basic,Basic topoplot,28,R28,1,114,0.008771929824561403,0
+MMN,basic,Basic topoplot,29,R29,4,114,0.03508771929824561,0.415
+MMN,basic,Basic topoplot,30,R30,0,114,0,
+MMN,basic,Basic topoplot,31,R31,2,114,0.017543859649122806,0.58
+MMN,basic,Basic topoplot,32,R32,0,114,0,
+MMN,basic,Basic topoplot,33,R33,2,114,0.017543859649122806,0.9
+MMN,basic,Basic topoplot,34,R34,0,114,0,
+MMN,basic,Basic topoplot,35,R35,0,114,0,
+MMN,basic,Basic topoplot,36,R36,0,114,0,
+MMN,basic,Basic topoplot,37,R37,1,114,0.008771929824561403,0.51
+MMN,basic,Basic topoplot,38,R38,0,114,0,
+MMN,basic,Basic topoplot,39,R39,0,114,0,
+MMN,basic,Basic topoplot,40,R40,0,114,0,
+MMN,basic,Basic topoplot,41,R41,5,114,0.043859649122807015,1
+MMN,basic,Basic topoplot,42,R42,0,114,0,
+MMN,basic,Basic topoplot,43,R43,0,114,0,
+MMN,basic,Basic topoplot,44,R44,0,114,0,
+MMN,basic,Basic topoplot,45,R45,0,114,0,
+MMN,basic,Basic topoplot,46,R46,0,114,0,
+MMN,basic,Basic topoplot,47,R47,0,114,0,
+MMN,basic,Basic topoplot,48,R48,12,114,0.10526315789473684,0.9025
+MMN,basic,Basic topoplot,49,R49,0,114,0,
+MMN,basic,Basic topoplot,50,R50,0,114,0,
+MMN,basic,Basic topoplot,51,R51,0,114,0,
+MMN,basic,Basic topoplot,52,R52,0,114,0,
+MMN,basic,Basic topoplot,53,R53,12,114,0.10526315789473684,0.5416666666666666
+MMN,basic,Basic topoplot,54,R54,0,114,0,
+MMN,basic,Basic topoplot,55,R55,14,114,0.12280701754385964,0.925
+MMN,basic,Basic topoplot,56,R56,0,114,0,
+MMN,basic,Basic topoplot,57,R57,2,114,0.017543859649122806,0.93
+MMN,basic,Basic topoplot,58,R58,0,114,0,
+MMN,basic,Basic topoplot,59,R59,1,114,0.008771929824561403,0.74
+MMN,basic,Basic topoplot,60,R60,6,114,0.05263157894736842,0.855
+MMN,basic,Basic topoplot,61,R61,1,114,0.008771929824561403,0.73
+MMN,basic,Basic topoplot,62,R62,0,114,0,
+MMN,basic,Basic topoplot,63,R63,0,114,0,
+MMN,basic,Basic topoplot,64,R64,5,114,0.043859649122807015,0.988
+N170,adjacent,Adjacent plots,1,R01,5,114,0.043859649122807015,0.924
+N170,adjacent,Adjacent plots,2,R02,1,114,0.008771929824561403,0.95
+N170,adjacent,Adjacent plots,3,R03,0,114,0,
+N170,adjacent,Adjacent plots,4,R04,0,114,0,
+N170,adjacent,Adjacent plots,5,R05,1,114,0.008771929824561403,0.23
+N170,adjacent,Adjacent plots,6,R06,1,114,0.008771929824561403,0.45
+N170,adjacent,Adjacent plots,7,R07,0,114,0,
+N170,adjacent,Adjacent plots,8,R08,0,114,0,
+N170,adjacent,Adjacent plots,9,R09,2,114,0.017543859649122806,0.195
+N170,adjacent,Adjacent plots,10,R10,0,114,0,
+N170,adjacent,Adjacent plots,11,R11,0,114,0,
+N170,adjacent,Adjacent plots,12,R12,0,114,0,
+N170,adjacent,Adjacent plots,13,R13,0,114,0,
+N170,adjacent,Adjacent plots,14,R14,2,114,0.017543859649122806,0.61
+N170,adjacent,Adjacent plots,15,R15,5,114,0.043859649122807015,0.536
+N170,adjacent,Adjacent plots,16,R16,0,114,0,
+N170,adjacent,Adjacent plots,17,R17,0,114,0,
+N170,adjacent,Adjacent plots,18,R18,0,114,0,
+N170,adjacent,Adjacent plots,19,R19,0,114,0,
+N170,adjacent,Adjacent plots,20,R20,6,114,0.05263157894736842,0.745
+N170,adjacent,Adjacent plots,21,R21,1,114,0.008771929824561403,0.22
+N170,adjacent,Adjacent plots,22,R22,2,114,0.017543859649122806,0.75
+N170,adjacent,Adjacent plots,23,R23,0,114,0,
+N170,adjacent,Adjacent plots,24,R24,1,114,0.008771929824561403,0.78
+N170,adjacent,Adjacent plots,25,R25,1,114,0.008771929824561403,0.71
+N170,adjacent,Adjacent plots,26,R26,0,114,0,
+N170,adjacent,Adjacent plots,27,R27,0,114,0,
+N170,adjacent,Adjacent plots,28,R28,0,114,0,
+N170,adjacent,Adjacent plots,29,R29,0,114,0,
+N170,adjacent,Adjacent plots,30,R30,0,114,0,
+N170,adjacent,Adjacent plots,31,R31,0,114,0,
+N170,adjacent,Adjacent plots,32,R32,0,114,0,
+N170,adjacent,Adjacent plots,33,R33,2,114,0.017543859649122806,0.01
+N170,adjacent,Adjacent plots,34,R34,0,114,0,
+N170,adjacent,Adjacent plots,35,R35,0,114,0,
+N170,adjacent,Adjacent plots,36,R36,0,114,0,
+N170,adjacent,Adjacent plots,37,R37,1,114,0.008771929824561403,0.3
+N170,adjacent,Adjacent plots,38,R38,0,114,0,
+N170,adjacent,Adjacent plots,39,R39,0,114,0,
+N170,adjacent,Adjacent plots,40,R40,0,114,0,
+N170,adjacent,Adjacent plots,41,R41,0,114,0,
+N170,adjacent,Adjacent plots,42,R42,0,114,0,
+N170,adjacent,Adjacent plots,43,R43,0,114,0,
+N170,adjacent,Adjacent plots,44,R44,0,114,0,
+N170,adjacent,Adjacent plots,45,R45,5,114,0.043859649122807015,0.728
+N170,adjacent,Adjacent plots,46,R46,2,114,0.017543859649122806,0.92
+N170,adjacent,Adjacent plots,47,R47,3,114,0.02631578947368421,0.5900000000000001
+N170,adjacent,Adjacent plots,48,R48,0,114,0,
+N170,adjacent,Adjacent plots,49,R49,10,114,0.08771929824561403,0.788
+N170,adjacent,Adjacent plots,50,R50,1,114,0.008771929824561403,0.83
+N170,adjacent,Adjacent plots,51,R51,2,114,0.017543859649122806,0.8
+N170,adjacent,Adjacent plots,52,R52,1,114,0.008771929824561403,0.39
+N170,adjacent,Adjacent plots,53,R53,15,114,0.13157894736842105,0.8453333333333334
+N170,adjacent,Adjacent plots,54,R54,10,114,0.08771929824561403,0.78
+N170,adjacent,Adjacent plots,55,R55,3,114,0.02631578947368421,0.72
+N170,adjacent,Adjacent plots,56,R56,7,114,0.06140350877192982,0.9871428571428571
+N170,adjacent,Adjacent plots,57,R57,10,114,0.08771929824561403,0.74
+N170,adjacent,Adjacent plots,58,R58,2,114,0.017543859649122806,0.84
+N170,adjacent,Adjacent plots,59,R59,1,114,0.008771929824561403,0.92
+N170,adjacent,Adjacent plots,60,R60,4,114,0.03508771929824561,0.7075
+N170,adjacent,Adjacent plots,61,R61,6,114,0.05263157894736842,0.9333333333333333
+N170,adjacent,Adjacent plots,62,R62,0,114,0,
+N170,adjacent,Adjacent plots,63,R63,0,114,0,
+N170,adjacent,Adjacent plots,64,R64,1,114,0.008771929824561403,1
+N170,animation,Animation,1,R01,0,114,0,
+N170,animation,Animation,2,R02,1,114,0.008771929824561403,0.7
+N170,animation,Animation,3,R03,0,114,0,
+N170,animation,Animation,4,R04,0,114,0,
+N170,animation,Animation,5,R05,0,114,0,
+N170,animation,Animation,6,R06,0,114,0,
+N170,animation,Animation,7,R07,0,114,0,
+N170,animation,Animation,8,R08,0,114,0,
+N170,animation,Animation,9,R09,0,114,0,
+N170,animation,Animation,10,R10,3,114,0.02631578947368421,0.3466666666666667
+N170,animation,Animation,11,R11,0,114,0,
+N170,animation,Animation,12,R12,0,114,0,
+N170,animation,Animation,13,R13,4,114,0.03508771929824561,0.8875
+N170,animation,Animation,14,R14,0,114,0,
+N170,animation,Animation,15,R15,4,114,0.03508771929824561,0.8275
+N170,animation,Animation,16,R16,0,114,0,
+N170,animation,Animation,17,R17,0,114,0,
+N170,animation,Animation,18,R18,0,114,0,
+N170,animation,Animation,19,R19,0,114,0,
+N170,animation,Animation,20,R20,2,114,0.017543859649122806,0.875
+N170,animation,Animation,21,R21,1,114,0.008771929824561403,0.4
+N170,animation,Animation,22,R22,1,114,0.008771929824561403,0.61
+N170,animation,Animation,23,R23,1,114,0.008771929824561403,0.61
+N170,animation,Animation,24,R24,1,114,0.008771929824561403,0.81
+N170,animation,Animation,25,R25,0,114,0,
+N170,animation,Animation,26,R26,0,114,0,
+N170,animation,Animation,27,R27,0,114,0,
+N170,animation,Animation,28,R28,0,114,0,
+N170,animation,Animation,29,R29,0,114,0,
+N170,animation,Animation,30,R30,0,114,0,
+N170,animation,Animation,31,R31,0,114,0,
+N170,animation,Animation,32,R32,0,114,0,
+N170,animation,Animation,33,R33,0,114,0,
+N170,animation,Animation,34,R34,0,114,0,
+N170,animation,Animation,35,R35,0,114,0,
+N170,animation,Animation,36,R36,0,114,0,
+N170,animation,Animation,37,R37,0,114,0,
+N170,animation,Animation,38,R38,0,114,0,
+N170,animation,Animation,39,R39,0,114,0,
+N170,animation,Animation,40,R40,0,114,0,
+N170,animation,Animation,41,R41,0,114,0,
+N170,animation,Animation,42,R42,0,114,0,
+N170,animation,Animation,43,R43,0,114,0,
+N170,animation,Animation,44,R44,2,114,0.017543859649122806,0.78
+N170,animation,Animation,45,R45,1,114,0.008771929824561403,0.69
+N170,animation,Animation,46,R46,1,114,0.008771929824561403,0.92
+N170,animation,Animation,47,R47,0,114,0,
+N170,animation,Animation,48,R48,0,114,0,
+N170,animation,Animation,49,R49,1,114,0.008771929824561403,0.71
+N170,animation,Animation,50,R50,0,114,0,
+N170,animation,Animation,51,R51,7,114,0.06140350877192982,0.9428571428571428
+N170,animation,Animation,52,R52,1,114,0.008771929824561403,0.58
+N170,animation,Animation,53,R53,2,114,0.017543859649122806,0.8400000000000001
+N170,animation,Animation,54,R54,32,114,0.2807017543859649,0.801875
+N170,animation,Animation,55,R55,0,114,0,
+N170,animation,Animation,56,R56,10,114,0.08771929824561403,0.956
+N170,animation,Animation,57,R57,7,114,0.06140350877192982,0.8885714285714286
+N170,animation,Animation,58,R58,10,114,0.08771929824561403,0.686
+N170,animation,Animation,59,R59,1,114,0.008771929824561403,0.92
+N170,animation,Animation,60,R60,3,114,0.02631578947368421,0.8666666666666667
+N170,animation,Animation,61,R61,18,114,0.15789473684210525,0.8911111111111112
+N170,animation,Animation,62,R62,0,114,0,
+N170,animation,Animation,63,R63,0,114,0,
+N170,animation,Animation,64,R64,0,114,0,
+N170,bivariate_corner,Bivariate corner,1,R01,2,114,0.017543859649122806,1
+N170,bivariate_corner,Bivariate corner,2,R02,0,114,0,
+N170,bivariate_corner,Bivariate corner,3,R03,0,114,0,
+N170,bivariate_corner,Bivariate corner,4,R04,0,114,0,
+N170,bivariate_corner,Bivariate corner,5,R05,0,114,0,
+N170,bivariate_corner,Bivariate corner,6,R06,1,114,0.008771929824561403,0.4
+N170,bivariate_corner,Bivariate corner,7,R07,0,114,0,
+N170,bivariate_corner,Bivariate corner,8,R08,1,114,0.008771929824561403,0.24
+N170,bivariate_corner,Bivariate corner,9,R09,2,114,0.017543859649122806,0.24
+N170,bivariate_corner,Bivariate corner,10,R10,3,114,0.02631578947368421,0.72
+N170,bivariate_corner,Bivariate corner,11,R11,0,114,0,
+N170,bivariate_corner,Bivariate corner,12,R12,0,114,0,
+N170,bivariate_corner,Bivariate corner,13,R13,0,114,0,
+N170,bivariate_corner,Bivariate corner,14,R14,2,114,0.017543859649122806,0.77
+N170,bivariate_corner,Bivariate corner,15,R15,2,114,0.017543859649122806,0.59
+N170,bivariate_corner,Bivariate corner,16,R16,3,114,0.02631578947368421,0.2733333333333333
+N170,bivariate_corner,Bivariate corner,17,R17,0,114,0,
+N170,bivariate_corner,Bivariate corner,18,R18,1,114,0.008771929824561403,0.33
+N170,bivariate_corner,Bivariate corner,19,R19,0,114,0,
+N170,bivariate_corner,Bivariate corner,20,R20,2,114,0.017543859649122806,0.605
+N170,bivariate_corner,Bivariate corner,21,R21,0,114,0,
+N170,bivariate_corner,Bivariate corner,22,R22,0,114,0,
+N170,bivariate_corner,Bivariate corner,23,R23,0,114,0,
+N170,bivariate_corner,Bivariate corner,24,R24,1,114,0.008771929824561403,0.81
+N170,bivariate_corner,Bivariate corner,25,R25,3,114,0.02631578947368421,0.62
+N170,bivariate_corner,Bivariate corner,26,R26,2,114,0.017543859649122806,0.15
+N170,bivariate_corner,Bivariate corner,27,R27,3,114,0.02631578947368421,0.3566666666666667
+N170,bivariate_corner,Bivariate corner,28,R28,8,114,0.07017543859649122,0.37625
+N170,bivariate_corner,Bivariate corner,29,R29,3,114,0.02631578947368421,0.5133333333333333
+N170,bivariate_corner,Bivariate corner,30,R30,2,114,0.017543859649122806,0.63
+N170,bivariate_corner,Bivariate corner,31,R31,2,114,0.017543859649122806,0.76
+N170,bivariate_corner,Bivariate corner,32,R32,0,114,0,
+N170,bivariate_corner,Bivariate corner,33,R33,1,114,0.008771929824561403,0.25
+N170,bivariate_corner,Bivariate corner,34,R34,1,114,0.008771929824561403,0.3
+N170,bivariate_corner,Bivariate corner,35,R35,0,114,0,
+N170,bivariate_corner,Bivariate corner,36,R36,0,114,0,
+N170,bivariate_corner,Bivariate corner,37,R37,0,114,0,
+N170,bivariate_corner,Bivariate corner,38,R38,0,114,0,
+N170,bivariate_corner,Bivariate corner,39,R39,0,114,0,
+N170,bivariate_corner,Bivariate corner,40,R40,0,114,0,
+N170,bivariate_corner,Bivariate corner,41,R41,0,114,0,
+N170,bivariate_corner,Bivariate corner,42,R42,0,114,0,
+N170,bivariate_corner,Bivariate corner,43,R43,1,114,0.008771929824561403,0.17
+N170,bivariate_corner,Bivariate corner,44,R44,2,114,0.017543859649122806,0.845
+N170,bivariate_corner,Bivariate corner,45,R45,7,114,0.06140350877192982,0.7085714285714286
+N170,bivariate_corner,Bivariate corner,46,R46,0,114,0,
+N170,bivariate_corner,Bivariate corner,47,R47,1,114,0.008771929824561403,0.55
+N170,bivariate_corner,Bivariate corner,48,R48,1,114,0.008771929824561403,0.46
+N170,bivariate_corner,Bivariate corner,49,R49,8,114,0.07017543859649122,0.77875
+N170,bivariate_corner,Bivariate corner,50,R50,1,114,0.008771929824561403,0.89
+N170,bivariate_corner,Bivariate corner,51,R51,4,114,0.03508771929824561,0.8525
+N170,bivariate_corner,Bivariate corner,52,R52,0,114,0,
+N170,bivariate_corner,Bivariate corner,53,R53,2,114,0.017543859649122806,0.9
+N170,bivariate_corner,Bivariate corner,54,R54,10,114,0.08771929824561403,0.858
+N170,bivariate_corner,Bivariate corner,55,R55,1,114,0.008771929824561403,0.7
+N170,bivariate_corner,Bivariate corner,56,R56,8,114,0.07017543859649122,0.91625
+N170,bivariate_corner,Bivariate corner,57,R57,2,114,0.017543859649122806,0.81
+N170,bivariate_corner,Bivariate corner,58,R58,4,114,0.03508771929824561,0.845
+N170,bivariate_corner,Bivariate corner,59,R59,0,114,0,
+N170,bivariate_corner,Bivariate corner,60,R60,5,114,0.043859649122807015,0.848
+N170,bivariate_corner,Bivariate corner,61,R61,4,114,0.03508771929824561,0.995
+N170,bivariate_corner,Bivariate corner,62,R62,1,114,0.008771929824561403,0.95
+N170,bivariate_corner,Bivariate corner,63,R63,6,114,0.05263157894736842,0.615
+N170,bivariate_corner,Bivariate corner,64,R64,1,114,0.008771929824561403,0.65
+N170,bivariate_range,Bivariate range,1,R01,4,114,0.03508771929824561,1
+N170,bivariate_range,Bivariate range,2,R02,0,114,0,
+N170,bivariate_range,Bivariate range,3,R03,0,114,0,
+N170,bivariate_range,Bivariate range,4,R04,0,114,0,
+N170,bivariate_range,Bivariate range,5,R05,0,114,0,
+N170,bivariate_range,Bivariate range,6,R06,1,114,0.008771929824561403,0.45
+N170,bivariate_range,Bivariate range,7,R07,0,114,0,
+N170,bivariate_range,Bivariate range,8,R08,0,114,0,
+N170,bivariate_range,Bivariate range,9,R09,0,114,0,
+N170,bivariate_range,Bivariate range,10,R10,6,114,0.05263157894736842,0.64
+N170,bivariate_range,Bivariate range,11,R11,0,114,0,
+N170,bivariate_range,Bivariate range,12,R12,0,114,0,
+N170,bivariate_range,Bivariate range,13,R13,2,114,0.017543859649122806,0.485
+N170,bivariate_range,Bivariate range,14,R14,4,114,0.03508771929824561,0.6375
+N170,bivariate_range,Bivariate range,15,R15,4,114,0.03508771929824561,0.6575
+N170,bivariate_range,Bivariate range,16,R16,4,114,0.03508771929824561,0.38
+N170,bivariate_range,Bivariate range,17,R17,0,114,0,
+N170,bivariate_range,Bivariate range,18,R18,1,114,0.008771929824561403,0.33
+N170,bivariate_range,Bivariate range,19,R19,0,114,0,
+N170,bivariate_range,Bivariate range,20,R20,3,114,0.02631578947368421,0.5800000000000001
+N170,bivariate_range,Bivariate range,21,R21,2,114,0.017543859649122806,0.39
+N170,bivariate_range,Bivariate range,22,R22,1,114,0.008771929824561403,0.64
+N170,bivariate_range,Bivariate range,23,R23,0,114,0,
+N170,bivariate_range,Bivariate range,24,R24,2,114,0.017543859649122806,0.5900000000000001
+N170,bivariate_range,Bivariate range,25,R25,7,114,0.06140350877192982,0.6328571428571429
+N170,bivariate_range,Bivariate range,26,R26,2,114,0.017543859649122806,0.3
+N170,bivariate_range,Bivariate range,27,R27,0,114,0,
+N170,bivariate_range,Bivariate range,28,R28,2,114,0.017543859649122806,0.37
+N170,bivariate_range,Bivariate range,29,R29,0,114,0,
+N170,bivariate_range,Bivariate range,30,R30,0,114,0,
+N170,bivariate_range,Bivariate range,31,R31,0,114,0,
+N170,bivariate_range,Bivariate range,32,R32,0,114,0,
+N170,bivariate_range,Bivariate range,33,R33,0,114,0,
+N170,bivariate_range,Bivariate range,34,R34,1,114,0.008771929824561403,0.36
+N170,bivariate_range,Bivariate range,35,R35,1,114,0.008771929824561403,0.76
+N170,bivariate_range,Bivariate range,36,R36,0,114,0,
+N170,bivariate_range,Bivariate range,37,R37,1,114,0.008771929824561403,0.55
+N170,bivariate_range,Bivariate range,38,R38,0,114,0,
+N170,bivariate_range,Bivariate range,39,R39,0,114,0,
+N170,bivariate_range,Bivariate range,40,R40,0,114,0,
+N170,bivariate_range,Bivariate range,41,R41,0,114,0,
+N170,bivariate_range,Bivariate range,42,R42,0,114,0,
+N170,bivariate_range,Bivariate range,43,R43,1,114,0.008771929824561403,0.34
+N170,bivariate_range,Bivariate range,44,R44,1,114,0.008771929824561403,0.9
+N170,bivariate_range,Bivariate range,45,R45,3,114,0.02631578947368421,0.6566666666666666
+N170,bivariate_range,Bivariate range,46,R46,0,114,0,
+N170,bivariate_range,Bivariate range,47,R47,2,114,0.017543859649122806,0.55
+N170,bivariate_range,Bivariate range,48,R48,0,114,0,
+N170,bivariate_range,Bivariate range,49,R49,4,114,0.03508771929824561,0.7975
+N170,bivariate_range,Bivariate range,50,R50,0,114,0,
+N170,bivariate_range,Bivariate range,51,R51,5,114,0.043859649122807015,0.934
+N170,bivariate_range,Bivariate range,52,R52,0,114,0,
+N170,bivariate_range,Bivariate range,53,R53,6,114,0.05263157894736842,0.785
+N170,bivariate_range,Bivariate range,54,R54,5,114,0.043859649122807015,0.882
+N170,bivariate_range,Bivariate range,55,R55,5,114,0.043859649122807015,0.7
+N170,bivariate_range,Bivariate range,56,R56,4,114,0.03508771929824561,0.9450000000000001
+N170,bivariate_range,Bivariate range,57,R57,4,114,0.03508771929824561,0.745
+N170,bivariate_range,Bivariate range,58,R58,6,114,0.05263157894736842,0.8433333333333333
+N170,bivariate_range,Bivariate range,59,R59,4,114,0.03508771929824561,0.8825000000000001
+N170,bivariate_range,Bivariate range,60,R60,3,114,0.02631578947368421,0.8966666666666666
+N170,bivariate_range,Bivariate range,61,R61,10,114,0.08771929824561403,0.978
+N170,bivariate_range,Bivariate range,62,R62,0,114,0,
+N170,bivariate_range,Bivariate range,63,R63,3,114,0.02631578947368421,0.8
+N170,bivariate_range,Bivariate range,64,R64,0,114,0,
+N170,triple_CI,Confidence intervals,1,R01,0,114,0,
+N170,triple_CI,Confidence intervals,2,R02,0,114,0,
+N170,triple_CI,Confidence intervals,3,R03,0,114,0,
+N170,triple_CI,Confidence intervals,4,R04,0,114,0,
+N170,triple_CI,Confidence intervals,5,R05,0,114,0,
+N170,triple_CI,Confidence intervals,6,R06,0,114,0,
+N170,triple_CI,Confidence intervals,7,R07,0,114,0,
+N170,triple_CI,Confidence intervals,8,R08,0,114,0,
+N170,triple_CI,Confidence intervals,9,R09,0,114,0,
+N170,triple_CI,Confidence intervals,10,R10,1,114,0.008771929824561403,0.31
+N170,triple_CI,Confidence intervals,11,R11,0,114,0,
+N170,triple_CI,Confidence intervals,12,R12,0,114,0,
+N170,triple_CI,Confidence intervals,13,R13,5,114,0.043859649122807015,0.8999999999999999
+N170,triple_CI,Confidence intervals,14,R14,1,114,0.008771929824561403,0.83
+N170,triple_CI,Confidence intervals,15,R15,8,114,0.07017543859649122,0.7025
+N170,triple_CI,Confidence intervals,16,R16,0,114,0,
+N170,triple_CI,Confidence intervals,17,R17,0,114,0,
+N170,triple_CI,Confidence intervals,18,R18,0,114,0,
+N170,triple_CI,Confidence intervals,19,R19,0,114,0,
+N170,triple_CI,Confidence intervals,20,R20,1,114,0.008771929824561403,0.42
+N170,triple_CI,Confidence intervals,21,R21,0,114,0,
+N170,triple_CI,Confidence intervals,22,R22,0,114,0,
+N170,triple_CI,Confidence intervals,23,R23,0,114,0,
+N170,triple_CI,Confidence intervals,24,R24,0,114,0,
+N170,triple_CI,Confidence intervals,25,R25,2,114,0.017543859649122806,0.45
+N170,triple_CI,Confidence intervals,26,R26,0,114,0,
+N170,triple_CI,Confidence intervals,27,R27,0,114,0,
+N170,triple_CI,Confidence intervals,28,R28,0,114,0,
+N170,triple_CI,Confidence intervals,29,R29,0,114,0,
+N170,triple_CI,Confidence intervals,30,R30,0,114,0,
+N170,triple_CI,Confidence intervals,31,R31,1,114,0.008771929824561403,0.21
+N170,triple_CI,Confidence intervals,32,R32,0,114,0,
+N170,triple_CI,Confidence intervals,33,R33,0,114,0,
+N170,triple_CI,Confidence intervals,34,R34,0,114,0,
+N170,triple_CI,Confidence intervals,35,R35,0,114,0,
+N170,triple_CI,Confidence intervals,36,R36,0,114,0,
+N170,triple_CI,Confidence intervals,37,R37,0,114,0,
+N170,triple_CI,Confidence intervals,38,R38,0,114,0,
+N170,triple_CI,Confidence intervals,39,R39,0,114,0,
+N170,triple_CI,Confidence intervals,40,R40,0,114,0,
+N170,triple_CI,Confidence intervals,41,R41,0,114,0,
+N170,triple_CI,Confidence intervals,42,R42,0,114,0,
+N170,triple_CI,Confidence intervals,43,R43,0,114,0,
+N170,triple_CI,Confidence intervals,44,R44,1,114,0.008771929824561403,0.33
+N170,triple_CI,Confidence intervals,45,R45,0,114,0,
+N170,triple_CI,Confidence intervals,46,R46,0,114,0,
+N170,triple_CI,Confidence intervals,47,R47,1,114,0.008771929824561403,0.55
+N170,triple_CI,Confidence intervals,48,R48,0,114,0,
+N170,triple_CI,Confidence intervals,49,R49,1,114,0.008771929824561403,0.56
+N170,triple_CI,Confidence intervals,50,R50,0,114,0,
+N170,triple_CI,Confidence intervals,51,R51,5,114,0.043859649122807015,0.888
+N170,triple_CI,Confidence intervals,52,R52,0,114,0,
+N170,triple_CI,Confidence intervals,53,R53,8,114,0.07017543859649122,0.85
+N170,triple_CI,Confidence intervals,54,R54,34,114,0.2982456140350877,0.8279411764705883
+N170,triple_CI,Confidence intervals,55,R55,1,114,0.008771929824561403,0.82
+N170,triple_CI,Confidence intervals,56,R56,13,114,0.11403508771929824,0.9615384615384616
+N170,triple_CI,Confidence intervals,57,R57,1,114,0.008771929824561403,0.92
+N170,triple_CI,Confidence intervals,58,R58,4,114,0.03508771929824561,0.6775
+N170,triple_CI,Confidence intervals,59,R59,0,114,0,
+N170,triple_CI,Confidence intervals,60,R60,11,114,0.09649122807017543,0.9781818181818182
+N170,triple_CI,Confidence intervals,61,R61,14,114,0.12280701754385964,0.9385714285714286
+N170,triple_CI,Confidence intervals,62,R62,0,114,0,
+N170,triple_CI,Confidence intervals,63,R63,0,114,0,
+N170,triple_CI,Confidence intervals,64,R64,1,114,0.008771929824561403,0.48
+N170,uncert_markers,Uncertainty markers,1,R01,6,114,0.05263157894736842,0.9366666666666666
+N170,uncert_markers,Uncertainty markers,2,R02,2,114,0.017543859649122806,0.865
+N170,uncert_markers,Uncertainty markers,3,R03,0,114,0,
+N170,uncert_markers,Uncertainty markers,4,R04,1,114,0.008771929824561403,0.54
+N170,uncert_markers,Uncertainty markers,5,R05,0,114,0,
+N170,uncert_markers,Uncertainty markers,6,R06,1,114,0.008771929824561403,0.8
+N170,uncert_markers,Uncertainty markers,7,R07,0,114,0,
+N170,uncert_markers,Uncertainty markers,8,R08,0,114,0,
+N170,uncert_markers,Uncertainty markers,9,R09,1,114,0.008771929824561403,0.1
+N170,uncert_markers,Uncertainty markers,10,R10,0,114,0,
+N170,uncert_markers,Uncertainty markers,11,R11,0,114,0,
+N170,uncert_markers,Uncertainty markers,12,R12,0,114,0,
+N170,uncert_markers,Uncertainty markers,13,R13,2,114,0.017543859649122806,0.7
+N170,uncert_markers,Uncertainty markers,14,R14,2,114,0.017543859649122806,0.83
+N170,uncert_markers,Uncertainty markers,15,R15,4,114,0.03508771929824561,0.575
+N170,uncert_markers,Uncertainty markers,16,R16,0,114,0,
+N170,uncert_markers,Uncertainty markers,17,R17,0,114,0,
+N170,uncert_markers,Uncertainty markers,18,R18,0,114,0,
+N170,uncert_markers,Uncertainty markers,19,R19,0,114,0,
+N170,uncert_markers,Uncertainty markers,20,R20,6,114,0.05263157894736842,0.8533333333333334
+N170,uncert_markers,Uncertainty markers,21,R21,0,114,0,
+N170,uncert_markers,Uncertainty markers,22,R22,4,114,0.03508771929824561,0.45
+N170,uncert_markers,Uncertainty markers,23,R23,0,114,0,
+N170,uncert_markers,Uncertainty markers,24,R24,0,114,0,
+N170,uncert_markers,Uncertainty markers,25,R25,0,114,0,
+N170,uncert_markers,Uncertainty markers,26,R26,0,114,0,
+N170,uncert_markers,Uncertainty markers,27,R27,0,114,0,
+N170,uncert_markers,Uncertainty markers,28,R28,0,114,0,
+N170,uncert_markers,Uncertainty markers,29,R29,2,114,0.017543859649122806,0.575
+N170,uncert_markers,Uncertainty markers,30,R30,0,114,0,
+N170,uncert_markers,Uncertainty markers,31,R31,0,114,0,
+N170,uncert_markers,Uncertainty markers,32,R32,0,114,0,
+N170,uncert_markers,Uncertainty markers,33,R33,0,114,0,
+N170,uncert_markers,Uncertainty markers,34,R34,0,114,0,
+N170,uncert_markers,Uncertainty markers,35,R35,0,114,0,
+N170,uncert_markers,Uncertainty markers,36,R36,0,114,0,
+N170,uncert_markers,Uncertainty markers,37,R37,0,114,0,
+N170,uncert_markers,Uncertainty markers,38,R38,0,114,0,
+N170,uncert_markers,Uncertainty markers,39,R39,0,114,0,
+N170,uncert_markers,Uncertainty markers,40,R40,0,114,0,
+N170,uncert_markers,Uncertainty markers,41,R41,0,114,0,
+N170,uncert_markers,Uncertainty markers,42,R42,0,114,0,
+N170,uncert_markers,Uncertainty markers,43,R43,0,114,0,
+N170,uncert_markers,Uncertainty markers,44,R44,2,114,0.017543859649122806,0.845
+N170,uncert_markers,Uncertainty markers,45,R45,2,114,0.017543859649122806,0.77
+N170,uncert_markers,Uncertainty markers,46,R46,0,114,0,
+N170,uncert_markers,Uncertainty markers,47,R47,3,114,0.02631578947368421,0.5466666666666667
+N170,uncert_markers,Uncertainty markers,48,R48,0,114,0,
+N170,uncert_markers,Uncertainty markers,49,R49,6,114,0.05263157894736842,0.8133333333333334
+N170,uncert_markers,Uncertainty markers,50,R50,1,114,0.008771929824561403,0.77
+N170,uncert_markers,Uncertainty markers,51,R51,5,114,0.043859649122807015,0.896
+N170,uncert_markers,Uncertainty markers,52,R52,0,114,0,
+N170,uncert_markers,Uncertainty markers,53,R53,12,114,0.10526315789473684,0.8733333333333333
+N170,uncert_markers,Uncertainty markers,54,R54,21,114,0.18421052631578946,0.7985714285714286
+N170,uncert_markers,Uncertainty markers,55,R55,2,114,0.017543859649122806,0.8049999999999999
+N170,uncert_markers,Uncertainty markers,56,R56,8,114,0.07017543859649122,1
+N170,uncert_markers,Uncertainty markers,57,R57,2,114,0.017543859649122806,0.8
+N170,uncert_markers,Uncertainty markers,58,R58,9,114,0.07894736842105263,0.7422222222222222
+N170,uncert_markers,Uncertainty markers,59,R59,3,114,0.02631578947368421,0.79
+N170,uncert_markers,Uncertainty markers,60,R60,1,114,0.008771929824561403,0.99
+N170,uncert_markers,Uncertainty markers,61,R61,6,114,0.05263157894736842,0.97
+N170,uncert_markers,Uncertainty markers,62,R62,0,114,0,
+N170,uncert_markers,Uncertainty markers,63,R63,0,114,0,
+N170,uncert_markers,Uncertainty markers,64,R64,0,114,0,
+N170,basic,Basic topoplot,1,R01,0,114,0,
+N170,basic,Basic topoplot,2,R02,0,114,0,
+N170,basic,Basic topoplot,3,R03,0,114,0,
+N170,basic,Basic topoplot,4,R04,0,114,0,
+N170,basic,Basic topoplot,5,R05,0,114,0,
+N170,basic,Basic topoplot,6,R06,0,114,0,
+N170,basic,Basic topoplot,7,R07,0,114,0,
+N170,basic,Basic topoplot,8,R08,0,114,0,
+N170,basic,Basic topoplot,9,R09,1,114,0.008771929824561403,0.34
+N170,basic,Basic topoplot,10,R10,0,114,0,
+N170,basic,Basic topoplot,11,R11,0,114,0,
+N170,basic,Basic topoplot,12,R12,0,114,0,
+N170,basic,Basic topoplot,13,R13,4,114,0.03508771929824561,0.7625
+N170,basic,Basic topoplot,14,R14,1,114,0.008771929824561403,0.83
+N170,basic,Basic topoplot,15,R15,9,114,0.07894736842105263,0.5844444444444444
+N170,basic,Basic topoplot,16,R16,0,114,0,
+N170,basic,Basic topoplot,17,R17,0,114,0,
+N170,basic,Basic topoplot,18,R18,0,114,0,
+N170,basic,Basic topoplot,19,R19,0,114,0,
+N170,basic,Basic topoplot,20,R20,4,114,0.03508771929824561,0.615
+N170,basic,Basic topoplot,21,R21,0,114,0,
+N170,basic,Basic topoplot,22,R22,0,114,0,
+N170,basic,Basic topoplot,23,R23,0,114,0,
+N170,basic,Basic topoplot,24,R24,0,114,0,
+N170,basic,Basic topoplot,25,R25,2,114,0.017543859649122806,0.62
+N170,basic,Basic topoplot,26,R26,0,114,0,
+N170,basic,Basic topoplot,27,R27,0,114,0,
+N170,basic,Basic topoplot,28,R28,1,114,0.008771929824561403,0.48
+N170,basic,Basic topoplot,29,R29,0,114,0,
+N170,basic,Basic topoplot,30,R30,0,114,0,
+N170,basic,Basic topoplot,31,R31,0,114,0,
+N170,basic,Basic topoplot,32,R32,0,114,0,
+N170,basic,Basic topoplot,33,R33,0,114,0,
+N170,basic,Basic topoplot,34,R34,2,114,0.017543859649122806,0.09
+N170,basic,Basic topoplot,35,R35,0,114,0,
+N170,basic,Basic topoplot,36,R36,0,114,0,
+N170,basic,Basic topoplot,37,R37,0,114,0,
+N170,basic,Basic topoplot,38,R38,0,114,0,
+N170,basic,Basic topoplot,39,R39,1,114,0.008771929824561403,0.28
+N170,basic,Basic topoplot,40,R40,1,114,0.008771929824561403,0.11
+N170,basic,Basic topoplot,41,R41,0,114,0,
+N170,basic,Basic topoplot,42,R42,0,114,0,
+N170,basic,Basic topoplot,43,R43,2,114,0.017543859649122806,0.22999999999999998
+N170,basic,Basic topoplot,44,R44,1,114,0.008771929824561403,0.47
+N170,basic,Basic topoplot,45,R45,1,114,0.008771929824561403,0.58
+N170,basic,Basic topoplot,46,R46,0,114,0,
+N170,basic,Basic topoplot,47,R47,0,114,0,
+N170,basic,Basic topoplot,48,R48,0,114,0,
+N170,basic,Basic topoplot,49,R49,0,114,0,
+N170,basic,Basic topoplot,50,R50,0,114,0,
+N170,basic,Basic topoplot,51,R51,5,114,0.043859649122807015,0.846
+N170,basic,Basic topoplot,52,R52,0,114,0,
+N170,basic,Basic topoplot,53,R53,6,114,0.05263157894736842,0.8983333333333333
+N170,basic,Basic topoplot,54,R54,29,114,0.2543859649122807,0.8134482758620689
+N170,basic,Basic topoplot,55,R55,1,114,0.008771929824561403,0.91
+N170,basic,Basic topoplot,56,R56,8,114,0.07017543859649122,0.94625
+N170,basic,Basic topoplot,57,R57,6,114,0.05263157894736842,0.8
+N170,basic,Basic topoplot,58,R58,6,114,0.05263157894736842,0.7
+N170,basic,Basic topoplot,59,R59,1,114,0.008771929824561403,0.49
+N170,basic,Basic topoplot,60,R60,6,114,0.05263157894736842,0.94
+N170,basic,Basic topoplot,61,R61,16,114,0.14035087719298245,0.88
+N170,basic,Basic topoplot,62,R62,0,114,0,
+N170,basic,Basic topoplot,63,R63,0,114,0,
+N170,basic,Basic topoplot,64,R64,0,114,0,
+P3,adjacent,Adjacent plots,1,R01,0,114,0,
+P3,adjacent,Adjacent plots,2,R02,0,114,0,
+P3,adjacent,Adjacent plots,3,R03,0,114,0,
+P3,adjacent,Adjacent plots,4,R04,0,114,0,
+P3,adjacent,Adjacent plots,5,R05,1,114,0.008771929824561403,0.73
+P3,adjacent,Adjacent plots,6,R06,0,114,0,
+P3,adjacent,Adjacent plots,7,R07,0,114,0,
+P3,adjacent,Adjacent plots,8,R08,0,114,0,
+P3,adjacent,Adjacent plots,9,R09,0,114,0,
+P3,adjacent,Adjacent plots,10,R10,0,114,0,
+P3,adjacent,Adjacent plots,11,R11,0,114,0,
+P3,adjacent,Adjacent plots,12,R12,0,114,0,
+P3,adjacent,Adjacent plots,13,R13,0,114,0,
+P3,adjacent,Adjacent plots,14,R14,1,114,0.008771929824561403,0.28
+P3,adjacent,Adjacent plots,15,R15,3,114,0.02631578947368421,0.2733333333333333
+P3,adjacent,Adjacent plots,16,R16,0,114,0,
+P3,adjacent,Adjacent plots,17,R17,0,114,0,
+P3,adjacent,Adjacent plots,18,R18,0,114,0,
+P3,adjacent,Adjacent plots,19,R19,0,114,0,
+P3,adjacent,Adjacent plots,20,R20,4,114,0.03508771929824561,0.3025
+P3,adjacent,Adjacent plots,21,R21,0,114,0,
+P3,adjacent,Adjacent plots,22,R22,0,114,0,
+P3,adjacent,Adjacent plots,23,R23,1,114,0.008771929824561403,0.09
+P3,adjacent,Adjacent plots,24,R24,0,114,0,
+P3,adjacent,Adjacent plots,25,R25,12,114,0.10526315789473684,0.45333333333333337
+P3,adjacent,Adjacent plots,26,R26,0,114,0,
+P3,adjacent,Adjacent plots,27,R27,0,114,0,
+P3,adjacent,Adjacent plots,28,R28,0,114,0,
+P3,adjacent,Adjacent plots,29,R29,0,114,0,
+P3,adjacent,Adjacent plots,30,R30,0,114,0,
+P3,adjacent,Adjacent plots,31,R31,1,114,0.008771929824561403,0.49
+P3,adjacent,Adjacent plots,32,R32,0,114,0,
+P3,adjacent,Adjacent plots,33,R33,5,114,0.043859649122807015,0.98
+P3,adjacent,Adjacent plots,34,R34,7,114,0.06140350877192982,0.4885714285714286
+P3,adjacent,Adjacent plots,35,R35,0,114,0,
+P3,adjacent,Adjacent plots,36,R36,0,114,0,
+P3,adjacent,Adjacent plots,37,R37,0,114,0,
+P3,adjacent,Adjacent plots,38,R38,0,114,0,
+P3,adjacent,Adjacent plots,39,R39,4,114,0.03508771929824561,0.8274999999999999
+P3,adjacent,Adjacent plots,40,R40,6,114,0.05263157894736842,0.6849999999999999
+P3,adjacent,Adjacent plots,41,R41,5,114,0.043859649122807015,1
+P3,adjacent,Adjacent plots,42,R42,0,114,0,
+P3,adjacent,Adjacent plots,43,R43,16,114,0.14035087719298245,0.964375
+P3,adjacent,Adjacent plots,44,R44,5,114,0.043859649122807015,0.8999999999999999
+P3,adjacent,Adjacent plots,45,R45,7,114,0.06140350877192982,0.8271428571428572
+P3,adjacent,Adjacent plots,46,R46,0,114,0,
+P3,adjacent,Adjacent plots,47,R47,0,114,0,
+P3,adjacent,Adjacent plots,48,R48,2,114,0.017543859649122806,0.73
+P3,adjacent,Adjacent plots,49,R49,0,114,0,
+P3,adjacent,Adjacent plots,50,R50,1,114,0.008771929824561403,0.91
+P3,adjacent,Adjacent plots,51,R51,6,114,0.05263157894736842,0.8483333333333334
+P3,adjacent,Adjacent plots,52,R52,3,114,0.02631578947368421,0.96
+P3,adjacent,Adjacent plots,53,R53,0,114,0,
+P3,adjacent,Adjacent plots,54,R54,5,114,0.043859649122807015,0.40599999999999997
+P3,adjacent,Adjacent plots,55,R55,2,114,0.017543859649122806,0.8300000000000001
+P3,adjacent,Adjacent plots,56,R56,1,114,0.008771929824561403,0.73
+P3,adjacent,Adjacent plots,57,R57,1,114,0.008771929824561403,0.64
+P3,adjacent,Adjacent plots,58,R58,1,114,0.008771929824561403,0.68
+P3,adjacent,Adjacent plots,59,R59,1,114,0.008771929824561403,0.58
+P3,adjacent,Adjacent plots,60,R60,6,114,0.05263157894736842,0.94
+P3,adjacent,Adjacent plots,61,R61,5,114,0.043859649122807015,0.722
+P3,adjacent,Adjacent plots,62,R62,1,114,0.008771929824561403,1
+P3,adjacent,Adjacent plots,63,R63,1,114,0.008771929824561403,1
+P3,adjacent,Adjacent plots,64,R64,0,114,0,
+P3,animation,Animation,1,R01,1,114,0.008771929824561403,0.59
+P3,animation,Animation,2,R02,0,114,0,
+P3,animation,Animation,3,R03,0,114,0,
+P3,animation,Animation,4,R04,0,114,0,
+P3,animation,Animation,5,R05,2,114,0.017543859649122806,0.71
+P3,animation,Animation,6,R06,0,114,0,
+P3,animation,Animation,7,R07,1,114,0.008771929824561403,0.68
+P3,animation,Animation,8,R08,0,114,0,
+P3,animation,Animation,9,R09,3,114,0.02631578947368421,0.6566666666666667
+P3,animation,Animation,10,R10,0,114,0,
+P3,animation,Animation,11,R11,0,114,0,
+P3,animation,Animation,12,R12,0,114,0,
+P3,animation,Animation,13,R13,1,114,0.008771929824561403,0.14
+P3,animation,Animation,14,R14,1,114,0.008771929824561403,0.03
+P3,animation,Animation,15,R15,1,114,0.008771929824561403,0.32
+P3,animation,Animation,16,R16,1,114,0.008771929824561403,0.9
+P3,animation,Animation,17,R17,1,114,0.008771929824561403,0.47
+P3,animation,Animation,18,R18,0,114,0,
+P3,animation,Animation,19,R19,0,114,0,
+P3,animation,Animation,20,R20,0,114,0,
+P3,animation,Animation,21,R21,0,114,0,
+P3,animation,Animation,22,R22,0,114,0,
+P3,animation,Animation,23,R23,0,114,0,
+P3,animation,Animation,24,R24,1,114,0.008771929824561403,0.13
+P3,animation,Animation,25,R25,34,114,0.2982456140350877,0.4491176470588235
+P3,animation,Animation,26,R26,0,114,0,
+P3,animation,Animation,27,R27,2,114,0.017543859649122806,0.31
+P3,animation,Animation,28,R28,1,114,0.008771929824561403,0.38
+P3,animation,Animation,29,R29,0,114,0,
+P3,animation,Animation,30,R30,0,114,0,
+P3,animation,Animation,31,R31,3,114,0.02631578947368421,0.5233333333333333
+P3,animation,Animation,32,R32,1,114,0.008771929824561403,0.33
+P3,animation,Animation,33,R33,2,114,0.017543859649122806,0.65
+P3,animation,Animation,34,R34,16,114,0.14035087719298245,0.635625
+P3,animation,Animation,35,R35,1,114,0.008771929824561403,0.65
+P3,animation,Animation,36,R36,1,114,0.008771929824561403,0.12
+P3,animation,Animation,37,R37,0,114,0,
+P3,animation,Animation,38,R38,0,114,0,
+P3,animation,Animation,39,R39,1,114,0.008771929824561403,0.82
+P3,animation,Animation,40,R40,1,114,0.008771929824561403,0.88
+P3,animation,Animation,41,R41,1,114,0.008771929824561403,1
+P3,animation,Animation,42,R42,0,114,0,
+P3,animation,Animation,43,R43,10,114,0.08771929824561403,0.991
+P3,animation,Animation,44,R44,3,114,0.02631578947368421,0.94
+P3,animation,Animation,45,R45,4,114,0.03508771929824561,0.9550000000000001
+P3,animation,Animation,46,R46,0,114,0,
+P3,animation,Animation,47,R47,0,114,0,
+P3,animation,Animation,48,R48,1,114,0.008771929824561403,0.73
+P3,animation,Animation,49,R49,0,114,0,
+P3,animation,Animation,50,R50,1,114,0.008771929824561403,0.91
+P3,animation,Animation,51,R51,3,114,0.02631578947368421,0.9533333333333334
+P3,animation,Animation,52,R52,0,114,0,
+P3,animation,Animation,53,R53,0,114,0,
+P3,animation,Animation,54,R54,0,114,0,
+P3,animation,Animation,55,R55,1,114,0.008771929824561403,0.42
+P3,animation,Animation,56,R56,1,114,0.008771929824561403,0.59
+P3,animation,Animation,57,R57,0,114,0,
+P3,animation,Animation,58,R58,1,114,0.008771929824561403,0.31
+P3,animation,Animation,59,R59,2,114,0.017543859649122806,0.58
+P3,animation,Animation,60,R60,0,114,0,
+P3,animation,Animation,61,R61,5,114,0.043859649122807015,0.676
+P3,animation,Animation,62,R62,1,114,0.008771929824561403,0.83
+P3,animation,Animation,63,R63,4,114,0.03508771929824561,0.8975
+P3,animation,Animation,64,R64,0,114,0,
+P3,bivariate_corner,Bivariate corner,1,R01,0,114,0,
+P3,bivariate_corner,Bivariate corner,2,R02,0,114,0,
+P3,bivariate_corner,Bivariate corner,3,R03,0,114,0,
+P3,bivariate_corner,Bivariate corner,4,R04,0,114,0,
+P3,bivariate_corner,Bivariate corner,5,R05,1,114,0.008771929824561403,0.69
+P3,bivariate_corner,Bivariate corner,6,R06,0,114,0,
+P3,bivariate_corner,Bivariate corner,7,R07,0,114,0,
+P3,bivariate_corner,Bivariate corner,8,R08,0,114,0,
+P3,bivariate_corner,Bivariate corner,9,R09,0,114,0,
+P3,bivariate_corner,Bivariate corner,10,R10,0,114,0,
+P3,bivariate_corner,Bivariate corner,11,R11,0,114,0,
+P3,bivariate_corner,Bivariate corner,12,R12,0,114,0,
+P3,bivariate_corner,Bivariate corner,13,R13,0,114,0,
+P3,bivariate_corner,Bivariate corner,14,R14,0,114,0,
+P3,bivariate_corner,Bivariate corner,15,R15,2,114,0.017543859649122806,0.2
+P3,bivariate_corner,Bivariate corner,16,R16,0,114,0,
+P3,bivariate_corner,Bivariate corner,17,R17,0,114,0,
+P3,bivariate_corner,Bivariate corner,18,R18,1,114,0.008771929824561403,0.21
+P3,bivariate_corner,Bivariate corner,19,R19,0,114,0,
+P3,bivariate_corner,Bivariate corner,20,R20,1,114,0.008771929824561403,0.31
+P3,bivariate_corner,Bivariate corner,21,R21,1,114,0.008771929824561403,0.08
+P3,bivariate_corner,Bivariate corner,22,R22,0,114,0,
+P3,bivariate_corner,Bivariate corner,23,R23,1,114,0.008771929824561403,0.4
+P3,bivariate_corner,Bivariate corner,24,R24,1,114,0.008771929824561403,0.41
+P3,bivariate_corner,Bivariate corner,25,R25,12,114,0.10526315789473684,0.435
+P3,bivariate_corner,Bivariate corner,26,R26,0,114,0,
+P3,bivariate_corner,Bivariate corner,27,R27,1,114,0.008771929824561403,0.29
+P3,bivariate_corner,Bivariate corner,28,R28,0,114,0,
+P3,bivariate_corner,Bivariate corner,29,R29,2,114,0.017543859649122806,0.29500000000000004
+P3,bivariate_corner,Bivariate corner,30,R30,0,114,0,
+P3,bivariate_corner,Bivariate corner,31,R31,1,114,0.008771929824561403,0.54
+P3,bivariate_corner,Bivariate corner,32,R32,0,114,0,
+P3,bivariate_corner,Bivariate corner,33,R33,4,114,0.03508771929824561,0.89
+P3,bivariate_corner,Bivariate corner,34,R34,4,114,0.03508771929824561,0.485
+P3,bivariate_corner,Bivariate corner,35,R35,1,114,0.008771929824561403,0.23
+P3,bivariate_corner,Bivariate corner,36,R36,2,114,0.017543859649122806,0.355
+P3,bivariate_corner,Bivariate corner,37,R37,0,114,0,
+P3,bivariate_corner,Bivariate corner,38,R38,0,114,0,
+P3,bivariate_corner,Bivariate corner,39,R39,0,114,0,
+P3,bivariate_corner,Bivariate corner,40,R40,4,114,0.03508771929824561,0.5475
+P3,bivariate_corner,Bivariate corner,41,R41,3,114,0.02631578947368421,1
+P3,bivariate_corner,Bivariate corner,42,R42,0,114,0,
+P3,bivariate_corner,Bivariate corner,43,R43,3,114,0.02631578947368421,0.99
+P3,bivariate_corner,Bivariate corner,44,R44,5,114,0.043859649122807015,0.712
+P3,bivariate_corner,Bivariate corner,45,R45,15,114,0.13157894736842105,0.5666666666666667
+P3,bivariate_corner,Bivariate corner,46,R46,0,114,0,
+P3,bivariate_corner,Bivariate corner,47,R47,0,114,0,
+P3,bivariate_corner,Bivariate corner,48,R48,2,114,0.017543859649122806,0.73
+P3,bivariate_corner,Bivariate corner,49,R49,2,114,0.017543859649122806,0.8
+P3,bivariate_corner,Bivariate corner,50,R50,5,114,0.043859649122807015,0.934
+P3,bivariate_corner,Bivariate corner,51,R51,8,114,0.07017543859649122,0.8525
+P3,bivariate_corner,Bivariate corner,52,R52,4,114,0.03508771929824561,0.9675
+P3,bivariate_corner,Bivariate corner,53,R53,3,114,0.02631578947368421,0.5266666666666666
+P3,bivariate_corner,Bivariate corner,54,R54,2,114,0.017543859649122806,0.47
+P3,bivariate_corner,Bivariate corner,55,R55,3,114,0.02631578947368421,0.6866666666666666
+P3,bivariate_corner,Bivariate corner,56,R56,0,114,0,
+P3,bivariate_corner,Bivariate corner,57,R57,3,114,0.02631578947368421,0.64
+P3,bivariate_corner,Bivariate corner,58,R58,1,114,0.008771929824561403,0.78
+P3,bivariate_corner,Bivariate corner,59,R59,4,114,0.03508771929824561,0.92
+P3,bivariate_corner,Bivariate corner,60,R60,9,114,0.07894736842105263,0.8566666666666667
+P3,bivariate_corner,Bivariate corner,61,R61,1,114,0.008771929824561403,0.94
+P3,bivariate_corner,Bivariate corner,62,R62,0,114,0,
+P3,bivariate_corner,Bivariate corner,63,R63,1,114,0.008771929824561403,1
+P3,bivariate_corner,Bivariate corner,64,R64,1,114,0.008771929824561403,1
+P3,bivariate_range,Bivariate range,1,R01,0,114,0,
+P3,bivariate_range,Bivariate range,2,R02,0,114,0,
+P3,bivariate_range,Bivariate range,3,R03,0,114,0,
+P3,bivariate_range,Bivariate range,4,R04,0,114,0,
+P3,bivariate_range,Bivariate range,5,R05,0,114,0,
+P3,bivariate_range,Bivariate range,6,R06,1,114,0.008771929824561403,0.23
+P3,bivariate_range,Bivariate range,7,R07,0,114,0,
+P3,bivariate_range,Bivariate range,8,R08,0,114,0,
+P3,bivariate_range,Bivariate range,9,R09,0,114,0,
+P3,bivariate_range,Bivariate range,10,R10,2,114,0.017543859649122806,0.51
+P3,bivariate_range,Bivariate range,11,R11,1,114,0.008771929824561403,0.51
+P3,bivariate_range,Bivariate range,12,R12,0,114,0,
+P3,bivariate_range,Bivariate range,13,R13,0,114,0,
+P3,bivariate_range,Bivariate range,14,R14,0,114,0,
+P3,bivariate_range,Bivariate range,15,R15,0,114,0,
+P3,bivariate_range,Bivariate range,16,R16,0,114,0,
+P3,bivariate_range,Bivariate range,17,R17,0,114,0,
+P3,bivariate_range,Bivariate range,18,R18,0,114,0,
+P3,bivariate_range,Bivariate range,19,R19,0,114,0,
+P3,bivariate_range,Bivariate range,20,R20,1,114,0.008771929824561403,0.15
+P3,bivariate_range,Bivariate range,21,R21,0,114,0,
+P3,bivariate_range,Bivariate range,22,R22,0,114,0,
+P3,bivariate_range,Bivariate range,23,R23,0,114,0,
+P3,bivariate_range,Bivariate range,24,R24,0,114,0,
+P3,bivariate_range,Bivariate range,25,R25,6,114,0.05263157894736842,0.39166666666666666
+P3,bivariate_range,Bivariate range,26,R26,0,114,0,
+P3,bivariate_range,Bivariate range,27,R27,0,114,0,
+P3,bivariate_range,Bivariate range,28,R28,3,114,0.02631578947368421,0.43
+P3,bivariate_range,Bivariate range,29,R29,0,114,0,
+P3,bivariate_range,Bivariate range,30,R30,0,114,0,
+P3,bivariate_range,Bivariate range,31,R31,0,114,0,
+P3,bivariate_range,Bivariate range,32,R32,3,114,0.02631578947368421,1
+P3,bivariate_range,Bivariate range,33,R33,3,114,0.02631578947368421,0.7066666666666667
+P3,bivariate_range,Bivariate range,34,R34,12,114,0.10526315789473684,0.48416666666666663
+P3,bivariate_range,Bivariate range,35,R35,1,114,0.008771929824561403,0.44
+P3,bivariate_range,Bivariate range,36,R36,1,114,0.008771929824561403,0.6
+P3,bivariate_range,Bivariate range,37,R37,0,114,0,
+P3,bivariate_range,Bivariate range,38,R38,0,114,0,
+P3,bivariate_range,Bivariate range,39,R39,2,114,0.017543859649122806,0.61
+P3,bivariate_range,Bivariate range,40,R40,2,114,0.017543859649122806,0.665
+P3,bivariate_range,Bivariate range,41,R41,3,114,0.02631578947368421,1
+P3,bivariate_range,Bivariate range,42,R42,1,114,0.008771929824561403,0.96
+P3,bivariate_range,Bivariate range,43,R43,8,114,0.07017543859649122,0.9575
+P3,bivariate_range,Bivariate range,44,R44,2,114,0.017543859649122806,0.8799999999999999
+P3,bivariate_range,Bivariate range,45,R45,11,114,0.09649122807017543,0.5018181818181818
+P3,bivariate_range,Bivariate range,46,R46,0,114,0,
+P3,bivariate_range,Bivariate range,47,R47,0,114,0,
+P3,bivariate_range,Bivariate range,48,R48,0,114,0,
+P3,bivariate_range,Bivariate range,49,R49,1,114,0.008771929824561403,0.76
+P3,bivariate_range,Bivariate range,50,R50,8,114,0.07017543859649122,0.94
+P3,bivariate_range,Bivariate range,51,R51,8,114,0.07017543859649122,1
+P3,bivariate_range,Bivariate range,52,R52,5,114,0.043859649122807015,0.954
+P3,bivariate_range,Bivariate range,53,R53,8,114,0.07017543859649122,0.62
+P3,bivariate_range,Bivariate range,54,R54,0,114,0,
+P3,bivariate_range,Bivariate range,55,R55,1,114,0.008771929824561403,0.88
+P3,bivariate_range,Bivariate range,56,R56,0,114,0,
+P3,bivariate_range,Bivariate range,57,R57,2,114,0.017543859649122806,0.5
+P3,bivariate_range,Bivariate range,58,R58,2,114,0.017543859649122806,0.375
+P3,bivariate_range,Bivariate range,59,R59,4,114,0.03508771929824561,0.92
+P3,bivariate_range,Bivariate range,60,R60,5,114,0.043859649122807015,0.9279999999999999
+P3,bivariate_range,Bivariate range,61,R61,6,114,0.05263157894736842,0.8933333333333333
+P3,bivariate_range,Bivariate range,62,R62,1,114,0.008771929824561403,1
+P3,bivariate_range,Bivariate range,63,R63,0,114,0,
+P3,bivariate_range,Bivariate range,64,R64,0,114,0,
+P3,triple_CI,Confidence intervals,1,R01,0,114,0,
+P3,triple_CI,Confidence intervals,2,R02,0,114,0,
+P3,triple_CI,Confidence intervals,3,R03,0,114,0,
+P3,triple_CI,Confidence intervals,4,R04,0,114,0,
+P3,triple_CI,Confidence intervals,5,R05,0,114,0,
+P3,triple_CI,Confidence intervals,6,R06,0,114,0,
+P3,triple_CI,Confidence intervals,7,R07,0,114,0,
+P3,triple_CI,Confidence intervals,8,R08,0,114,0,
+P3,triple_CI,Confidence intervals,9,R09,2,114,0.017543859649122806,0.655
+P3,triple_CI,Confidence intervals,10,R10,1,114,0.008771929824561403,0.51
+P3,triple_CI,Confidence intervals,11,R11,0,114,0,
+P3,triple_CI,Confidence intervals,12,R12,0,114,0,
+P3,triple_CI,Confidence intervals,13,R13,1,114,0.008771929824561403,0.49
+P3,triple_CI,Confidence intervals,14,R14,0,114,0,
+P3,triple_CI,Confidence intervals,15,R15,3,114,0.02631578947368421,0.24
+P3,triple_CI,Confidence intervals,16,R16,0,114,0,
+P3,triple_CI,Confidence intervals,17,R17,0,114,0,
+P3,triple_CI,Confidence intervals,18,R18,0,114,0,
+P3,triple_CI,Confidence intervals,19,R19,0,114,0,
+P3,triple_CI,Confidence intervals,20,R20,1,114,0.008771929824561403,0.27
+P3,triple_CI,Confidence intervals,21,R21,0,114,0,
+P3,triple_CI,Confidence intervals,22,R22,1,114,0.008771929824561403,0.18
+P3,triple_CI,Confidence intervals,23,R23,0,114,0,
+P3,triple_CI,Confidence intervals,24,R24,0,114,0,
+P3,triple_CI,Confidence intervals,25,R25,17,114,0.14912280701754385,0.4376470588235294
+P3,triple_CI,Confidence intervals,26,R26,0,114,0,
+P3,triple_CI,Confidence intervals,27,R27,2,114,0.017543859649122806,0.28500000000000003
+P3,triple_CI,Confidence intervals,28,R28,1,114,0.008771929824561403,0.21
+P3,triple_CI,Confidence intervals,29,R29,3,114,0.02631578947368421,0.43666666666666665
+P3,triple_CI,Confidence intervals,30,R30,0,114,0,
+P3,triple_CI,Confidence intervals,31,R31,5,114,0.043859649122807015,0.552
+P3,triple_CI,Confidence intervals,32,R32,4,114,0.03508771929824561,0.855
+P3,triple_CI,Confidence intervals,33,R33,5,114,0.043859649122807015,0.814
+P3,triple_CI,Confidence intervals,34,R34,15,114,0.13157894736842105,0.6333333333333333
+P3,triple_CI,Confidence intervals,35,R35,0,114,0,
+P3,triple_CI,Confidence intervals,36,R36,2,114,0.017543859649122806,0.66
+P3,triple_CI,Confidence intervals,37,R37,0,114,0,
+P3,triple_CI,Confidence intervals,38,R38,0,114,0,
+P3,triple_CI,Confidence intervals,39,R39,0,114,0,
+P3,triple_CI,Confidence intervals,40,R40,1,114,0.008771929824561403,0.7
+P3,triple_CI,Confidence intervals,41,R41,4,114,0.03508771929824561,1
+P3,triple_CI,Confidence intervals,42,R42,0,114,0,
+P3,triple_CI,Confidence intervals,43,R43,15,114,0.13157894736842105,0.9706666666666667
+P3,triple_CI,Confidence intervals,44,R44,3,114,0.02631578947368421,0.6866666666666666
+P3,triple_CI,Confidence intervals,45,R45,10,114,0.08771929824561403,0.89
+P3,triple_CI,Confidence intervals,46,R46,0,114,0,
+P3,triple_CI,Confidence intervals,47,R47,0,114,0,
+P3,triple_CI,Confidence intervals,48,R48,2,114,0.017543859649122806,0.73
+P3,triple_CI,Confidence intervals,49,R49,0,114,0,
+P3,triple_CI,Confidence intervals,50,R50,1,114,0.008771929824561403,0.28
+P3,triple_CI,Confidence intervals,51,R51,3,114,0.02631578947368421,1
+P3,triple_CI,Confidence intervals,52,R52,2,114,0.017543859649122806,0.9450000000000001
+P3,triple_CI,Confidence intervals,53,R53,0,114,0,
+P3,triple_CI,Confidence intervals,54,R54,1,114,0.008771929824561403,0.77
+P3,triple_CI,Confidence intervals,55,R55,1,114,0.008771929824561403,0.88
+P3,triple_CI,Confidence intervals,56,R56,1,114,0.008771929824561403,0.61
+P3,triple_CI,Confidence intervals,57,R57,0,114,0,
+P3,triple_CI,Confidence intervals,58,R58,2,114,0.017543859649122806,0.345
+P3,triple_CI,Confidence intervals,59,R59,0,114,0,
+P3,triple_CI,Confidence intervals,60,R60,1,114,0.008771929824561403,1
+P3,triple_CI,Confidence intervals,61,R61,1,114,0.008771929824561403,0.8
+P3,triple_CI,Confidence intervals,62,R62,1,114,0.008771929824561403,0.83
+P3,triple_CI,Confidence intervals,63,R63,0,114,0,
+P3,triple_CI,Confidence intervals,64,R64,2,114,0.017543859649122806,0.91
+P3,uncert_markers,Uncertainty markers,1,R01,0,114,0,
+P3,uncert_markers,Uncertainty markers,2,R02,0,114,0,
+P3,uncert_markers,Uncertainty markers,3,R03,1,114,0.008771929824561403,0.62
+P3,uncert_markers,Uncertainty markers,4,R04,0,114,0,
+P3,uncert_markers,Uncertainty markers,5,R05,1,114,0.008771929824561403,0.63
+P3,uncert_markers,Uncertainty markers,6,R06,0,114,0,
+P3,uncert_markers,Uncertainty markers,7,R07,1,114,0.008771929824561403,0.68
+P3,uncert_markers,Uncertainty markers,8,R08,0,114,0,
+P3,uncert_markers,Uncertainty markers,9,R09,0,114,0,
+P3,uncert_markers,Uncertainty markers,10,R10,0,114,0,
+P3,uncert_markers,Uncertainty markers,11,R11,0,114,0,
+P3,uncert_markers,Uncertainty markers,12,R12,0,114,0,
+P3,uncert_markers,Uncertainty markers,13,R13,0,114,0,
+P3,uncert_markers,Uncertainty markers,14,R14,0,114,0,
+P3,uncert_markers,Uncertainty markers,15,R15,2,114,0.017543859649122806,0.485
+P3,uncert_markers,Uncertainty markers,16,R16,0,114,0,
+P3,uncert_markers,Uncertainty markers,17,R17,0,114,0,
+P3,uncert_markers,Uncertainty markers,18,R18,0,114,0,
+P3,uncert_markers,Uncertainty markers,19,R19,0,114,0,
+P3,uncert_markers,Uncertainty markers,20,R20,3,114,0.02631578947368421,0.15333333333333335
+P3,uncert_markers,Uncertainty markers,21,R21,0,114,0,
+P3,uncert_markers,Uncertainty markers,22,R22,0,114,0,
+P3,uncert_markers,Uncertainty markers,23,R23,0,114,0,
+P3,uncert_markers,Uncertainty markers,24,R24,0,114,0,
+P3,uncert_markers,Uncertainty markers,25,R25,14,114,0.12280701754385964,0.4085714285714286
+P3,uncert_markers,Uncertainty markers,26,R26,0,114,0,
+P3,uncert_markers,Uncertainty markers,27,R27,0,114,0,
+P3,uncert_markers,Uncertainty markers,28,R28,0,114,0,
+P3,uncert_markers,Uncertainty markers,29,R29,1,114,0.008771929824561403,0.46
+P3,uncert_markers,Uncertainty markers,30,R30,0,114,0,
+P3,uncert_markers,Uncertainty markers,31,R31,1,114,0.008771929824561403,0.39
+P3,uncert_markers,Uncertainty markers,32,R32,1,114,0.008771929824561403,1
+P3,uncert_markers,Uncertainty markers,33,R33,3,114,0.02631578947368421,0.98
+P3,uncert_markers,Uncertainty markers,34,R34,10,114,0.08771929824561403,0.505
+P3,uncert_markers,Uncertainty markers,35,R35,0,114,0,
+P3,uncert_markers,Uncertainty markers,36,R36,0,114,0,
+P3,uncert_markers,Uncertainty markers,37,R37,0,114,0,
+P3,uncert_markers,Uncertainty markers,38,R38,0,114,0,
+P3,uncert_markers,Uncertainty markers,39,R39,4,114,0.03508771929824561,0.7825
+P3,uncert_markers,Uncertainty markers,40,R40,3,114,0.02631578947368421,0.7133333333333334
+P3,uncert_markers,Uncertainty markers,41,R41,0,114,0,
+P3,uncert_markers,Uncertainty markers,42,R42,0,114,0,
+P3,uncert_markers,Uncertainty markers,43,R43,15,114,0.13157894736842105,0.8413333333333334
+P3,uncert_markers,Uncertainty markers,44,R44,5,114,0.043859649122807015,0.876
+P3,uncert_markers,Uncertainty markers,45,R45,10,114,0.08771929824561403,0.776
+P3,uncert_markers,Uncertainty markers,46,R46,1,114,0.008771929824561403,0.32
+P3,uncert_markers,Uncertainty markers,47,R47,1,114,0.008771929824561403,0.54
+P3,uncert_markers,Uncertainty markers,48,R48,6,114,0.05263157894736842,0.855
+P3,uncert_markers,Uncertainty markers,49,R49,2,114,0.017543859649122806,0.665
+P3,uncert_markers,Uncertainty markers,50,R50,4,114,0.03508771929824561,0.97
+P3,uncert_markers,Uncertainty markers,51,R51,10,114,0.08771929824561403,0.909
+P3,uncert_markers,Uncertainty markers,52,R52,2,114,0.017543859649122806,0.99
+P3,uncert_markers,Uncertainty markers,53,R53,1,114,0.008771929824561403,0.62
+P3,uncert_markers,Uncertainty markers,54,R54,2,114,0.017543859649122806,0.48
+P3,uncert_markers,Uncertainty markers,55,R55,0,114,0,
+P3,uncert_markers,Uncertainty markers,56,R56,0,114,0,
+P3,uncert_markers,Uncertainty markers,57,R57,2,114,0.017543859649122806,0.63
+P3,uncert_markers,Uncertainty markers,58,R58,1,114,0.008771929824561403,0.68
+P3,uncert_markers,Uncertainty markers,59,R59,1,114,0.008771929824561403,0.58
+P3,uncert_markers,Uncertainty markers,60,R60,3,114,0.02631578947368421,0.88
+P3,uncert_markers,Uncertainty markers,61,R61,1,114,0.008771929824561403,0.94
+P3,uncert_markers,Uncertainty markers,62,R62,1,114,0.008771929824561403,1
+P3,uncert_markers,Uncertainty markers,63,R63,0,114,0,
+P3,uncert_markers,Uncertainty markers,64,R64,1,114,0.008771929824561403,0.21
+P3,basic,Basic topoplot,1,R01,6,114,0.05263157894736842,0.59
+P3,basic,Basic topoplot,2,R02,0,114,0,
+P3,basic,Basic topoplot,3,R03,0,114,0,
+P3,basic,Basic topoplot,4,R04,0,114,0,
+P3,basic,Basic topoplot,5,R05,1,114,0.008771929824561403,0.73
+P3,basic,Basic topoplot,6,R06,1,114,0.008771929824561403,0.77
+P3,basic,Basic topoplot,7,R07,1,114,0.008771929824561403,0.66
+P3,basic,Basic topoplot,8,R08,0,114,0,
+P3,basic,Basic topoplot,9,R09,1,114,0.008771929824561403,0.66
+P3,basic,Basic topoplot,10,R10,0,114,0,
+P3,basic,Basic topoplot,11,R11,0,114,0,
+P3,basic,Basic topoplot,12,R12,0,114,0,
+P3,basic,Basic topoplot,13,R13,0,114,0,
+P3,basic,Basic topoplot,14,R14,0,114,0,
+P3,basic,Basic topoplot,15,R15,4,114,0.03508771929824561,0.6
+P3,basic,Basic topoplot,16,R16,0,114,0,
+P3,basic,Basic topoplot,17,R17,0,114,0,
+P3,basic,Basic topoplot,18,R18,0,114,0,
+P3,basic,Basic topoplot,19,R19,0,114,0,
+P3,basic,Basic topoplot,20,R20,1,114,0.008771929824561403,0.27
+P3,basic,Basic topoplot,21,R21,0,114,0,
+P3,basic,Basic topoplot,22,R22,0,114,0,
+P3,basic,Basic topoplot,23,R23,0,114,0,
+P3,basic,Basic topoplot,24,R24,0,114,0,
+P3,basic,Basic topoplot,25,R25,29,114,0.2543859649122807,0.426551724137931
+P3,basic,Basic topoplot,26,R26,0,114,0,
+P3,basic,Basic topoplot,27,R27,1,114,0.008771929824561403,0.29
+P3,basic,Basic topoplot,28,R28,2,114,0.017543859649122806,0.32999999999999996
+P3,basic,Basic topoplot,29,R29,1,114,0.008771929824561403,0.46
+P3,basic,Basic topoplot,30,R30,1,114,0.008771929824561403,0.38
+P3,basic,Basic topoplot,31,R31,5,114,0.043859649122807015,0.546
+P3,basic,Basic topoplot,32,R32,0,114,0,
+P3,basic,Basic topoplot,33,R33,1,114,0.008771929824561403,0.98
+P3,basic,Basic topoplot,34,R34,11,114,0.09649122807017543,0.62
+P3,basic,Basic topoplot,35,R35,0,114,0,
+P3,basic,Basic topoplot,36,R36,3,114,0.02631578947368421,0.6833333333333333
+P3,basic,Basic topoplot,37,R37,0,114,0,
+P3,basic,Basic topoplot,38,R38,0,114,0,
+P3,basic,Basic topoplot,39,R39,2,114,0.017543859649122806,0.82
+P3,basic,Basic topoplot,40,R40,4,114,0.03508771929824561,0.7275
+P3,basic,Basic topoplot,41,R41,2,114,0.017543859649122806,1
+P3,basic,Basic topoplot,42,R42,0,114,0,
+P3,basic,Basic topoplot,43,R43,10,114,0.08771929824561403,0.906
+P3,basic,Basic topoplot,44,R44,4,114,0.03508771929824561,0.5725
+P3,basic,Basic topoplot,45,R45,14,114,0.12280701754385964,0.8921428571428571
+P3,basic,Basic topoplot,46,R46,0,114,0,
+P3,basic,Basic topoplot,47,R47,0,114,0,
+P3,basic,Basic topoplot,48,R48,0,114,0,
+P3,basic,Basic topoplot,49,R49,0,114,0,
+P3,basic,Basic topoplot,50,R50,0,114,0,
+P3,basic,Basic topoplot,51,R51,2,114,0.017543859649122806,1
+P3,basic,Basic topoplot,52,R52,1,114,0.008771929824561403,0.99
+P3,basic,Basic topoplot,53,R53,0,114,0,
+P3,basic,Basic topoplot,54,R54,0,114,0,
+P3,basic,Basic topoplot,55,R55,1,114,0.008771929824561403,0.88
+P3,basic,Basic topoplot,56,R56,0,114,0,
+P3,basic,Basic topoplot,57,R57,2,114,0.017543859649122806,0.6000000000000001
+P3,basic,Basic topoplot,58,R58,0,114,0,
+P3,basic,Basic topoplot,59,R59,0,114,0,
+P3,basic,Basic topoplot,60,R60,2,114,0.017543859649122806,0.82
+P3,basic,Basic topoplot,61,R61,1,114,0.008771929824561403,0.04
+P3,basic,Basic topoplot,62,R62,0,114,0,
+P3,basic,Basic topoplot,63,R63,0,114,0,
+P3,basic,Basic topoplot,64,R64,0,114,0,

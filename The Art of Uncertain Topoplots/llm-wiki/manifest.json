@@ -5,7 +5,7 @@
     "The Art of Uncertain Topoplots/papers",
     "The Art of Uncertain Topoplots/llm-wiki/handbooks"
   ],
-  "generated_at_utc": "2026-10-26T16:17:16+00:00",
+  "generated_at_utc": "2026-11-16T10:37:07+00:00",
   "files": {
     "The Art of Uncertain Topoplots/llm-wiki/handbooks/gelman2020regression.pdf": {
       "source_id": "gelman2020regression",
@@ -51,16 +51,27 @@
       "curated_sha256": "e481497c01f56c8671888d901289eeb38dca9f87b8b09c6821d025193a8aa35b",
       "curation_status": "current"
     },
+    "The Art of Uncertain Topoplots/papers/blenkinsop200alternative.pdf": {
+      "source_id": "blenkinsop200alternative",
+      "sha256": "7913372d8195e33e6a37bcbde160513993ebc979b5545bc3688dfbb451dec5ab",
+      "bytes": 1486771,
+      "raw": "raw/blenkinsop200alternative.md",
+      "pages": 14,
+      "passages": 54,
+      "format_version": 1,
+      "curated_sha256": "7913372d8195e33e6a37bcbde160513993ebc979b5545bc3688dfbb451dec5ab",
+      "curation_status": "current"
+    },
     "The Art of Uncertain Topoplots/papers/boukhelifa2009uncertainty.pdf": {
       "source_id": "boukhelifa2009uncertainty",
-      "sha256": "f8cfae19555b629143439bc3dd8de19e71e5c32271b4720fc593fcf3cc9b2171",
-      "bytes": 841356,
+      "sha256": "ac7c588f3f9814e48bf5f99b27fa9db8fa9f7b8bc6e95e3e08af9c855a8a1c30",
+      "bytes": 849245,
       "raw": "raw/boukhelifa2009uncertainty.md",
       "pages": 6,
       "passages": 23,
       "format_version": 1,
       "curated_sha256": "f8cfae19555b629143439bc3dd8de19e71e5c32271b4720fc593fcf3cc9b2171",
-      "curation_status": "current"
+      "curation_status": "review_required"
     },
     "The Art of Uncertain Topoplots/papers/brodlie2012review.pdf": {
       "source_id": "brodlie2012review",
@@ -75,14 +86,14 @@
     },
     "The Art of Uncertain Topoplots/papers/correll2014error.pdf": {
       "source_id": "correll2014error",
-      "sha256": "348e8a39f340384cfc571d8910fb7b464eaa226b736bafe1322ca4ecbb484e0d",
-      "bytes": 356994,
+      "sha256": "4496ad9c1342aeae07cb4ef4f28265c27cc680a3557fb5f5cd1f4ab6af76bf44",
+      "bytes": 420687,
       "raw": "raw/correll2014error.md",
       "pages": 10,
       "passages": 116,
       "format_version": 1,
       "curated_sha256": "348e8a39f340384cfc571d8910fb7b464eaa226b736bafe1322ca4ecbb484e0d",
-      "curation_status": "current"
+      "curation_status": "review_required"
     },
     "The Art of Uncertain Topoplots/papers/correll2018task.pdf": {
       "source_id": "correll2018task",
@@ -152,14 +163,14 @@
     },
     "The Art of Uncertain Topoplots/papers/greis2015investigating.pdf": {
       "source_id": "greis2015investigating",
-      "sha256": "b115f2ef8fbc7c13db57fbe9a2770dec90dd14a632789b75e5b5cb25c5d9b394",
-      "bytes": 73369345,
+      "sha256": "25abab9d9f5022fb528b6a9ada10c34bed2c1c966ae61617391e4b7a11cf8c83",
+      "bytes": 72140549,
       "raw": "raw/greis2015investigating.md",
       "pages": 716,
       "passages": 3723,
       "format_version": 1,
       "curated_sha256": "b115f2ef8fbc7c13db57fbe9a2770dec90dd14a632789b75e5b5cb25c5d9b394",
-      "curation_status": "current"
+      "curation_status": "review_required"
     },
     "The Art of Uncertain Topoplots/papers/gschwandtner2016visual.pdf": {
       "source_id": "gschwandtner2016visual",
@@ -185,14 +196,14 @@
     },
     "The Art of Uncertain Topoplots/papers/hullman2015hypothetical.pdf": {
       "source_id": "hullman2015hypothetical",
-      "sha256": "48883d54a191bff3f95b5afb67d4f07b0fbb4ebfd266499b99feb4bacfd647fa",
-      "bytes": 1678601,
+      "sha256": "786fb1df2c6a6db33beedf278de4af3ae6ffdd189dd8c04041b16d3c4cafdd00",
+      "bytes": 1653088,
       "raw": "raw/hullman2015hypothetical.md",
       "pages": 25,
       "passages": 125,
       "format_version": 1,
       "curated_sha256": "48883d54a191bff3f95b5afb67d4f07b0fbb4ebfd266499b99feb4bacfd647fa",
-      "curation_status": "current"
+      "curation_status": "review_required"
     },
     "The Art of Uncertain Topoplots/papers/hullman2019pursuit.pdf": {
       "source_id": "hullman2019pursuit",
@@ -328,24 +339,35 @@
     },
     "The Art of Uncertain Topoplots/papers/maceachren1992visualizing.pdf": {
       "source_id": "maceachren1992visualizing",
-      "sha256": "632e9259e9a4d3127611f320b1615333cf2cb113eef1478d543095bd66f1ea8d",
-      "bytes": 2616691,
+      "sha256": "b937baf4fdae639d45ca6d848d49c3cd61d2d90a52dda7645285a53d5c3d95b7",
+      "bytes": 2665878,
       "raw": "raw/maceachren1992visualizing.md",
       "pages": 10,
       "passages": 53,
       "format_version": 1,
       "curated_sha256": "632e9259e9a4d3127611f320b1615333cf2cb113eef1478d543095bd66f1ea8d",
-      "curation_status": "current"
+      "curation_status": "review_required"
     },
     "The Art of Uncertain Topoplots/papers/maceachren2012semiotics.pdf": {
       "source_id": "maceachren2012semiotics",
-      "sha256": "b65b9223e74c54899c9487e6a90bbfa72f0dc7e85ed66ddb378523daf19b0bd9",
-      "bytes": 19120965,
+      "sha256": "91230d71dfe301ce86b24772b82aebc2ee18433e9d83413ad11590616e2629a5",
+      "bytes": 19173779,
       "raw": "raw/maceachren2012semiotics.md",
       "pages": 10,
       "passages": 39,
       "format_version": 1,
       "curated_sha256": "b65b9223e74c54899c9487e6a90bbfa72f0dc7e85ed66ddb378523daf19b0bd9",
+      "curation_status": "review_required"
+    },
+    "The Art of Uncertain Topoplots/papers/meyer1975census.pdf": {
+      "source_id": "meyer1975census",
+      "sha256": "9f93f1340741b6f392deb992e9276f60b590bdf147fb8214b15e73db46977b63",
+      "bytes": 5129933,
+      "raw": "raw/meyer1975census.md",
+      "pages": 19,
+      "passages": 92,
+      "format_version": 1,
+      "curated_sha256": "9f93f1340741b6f392deb992e9276f60b590bdf147fb8214b15e73db46977b63",
       "curation_status": "current"
     },
     "The Art of Uncertain Topoplots/papers/mikheev2024art.pdf": {
@@ -357,6 +379,17 @@
       "passages": 114,
       "format_version": 1,
       "curated_sha256": "fb6e0189ffb31dc5c02a572ac1ab7f0d34adcf304e073b33cbd13b4d5aacfdc7",
+      "curation_status": "current"
+    },
+    "The Art of Uncertain Topoplots/papers/olson1981spectrally.pdf": {
+      "source_id": "olson1981spectrally",
+      "sha256": "e378c696b49d8afc657d1343547c3e69e9cb8c29c108621b903c0c9423759ff2",
+      "bytes": 1864634,
+      "raw": "raw/olson1981spectrally.md",
+      "pages": 19,
+      "passages": 65,
+      "format_version": 1,
+      "curated_sha256": "e378c696b49d8afc657d1343547c3e69e9cb8c29c108621b903c0c9423759ff2",
       "curation_status": "current"
     },
     "The Art of Uncertain Topoplots/papers/padilla2017binning.pdf": {
@@ -425,25 +458,25 @@
     },
     "The Art of Uncertain Topoplots/papers/sanyal2009user.pdf": {
       "source_id": "sanyal2009user",
-      "sha256": "3fc3c66d05d14d60451c2294c5389d9633894861d45a8273d8035a42da0e070e",
-      "bytes": 2615429,
+      "sha256": "8150ed9c832a7424c8d2003ffe0958020da18c9feb86716cfe248e479ed30096",
+      "bytes": 2566174,
       "raw": "raw/sanyal2009user.md",
       "pages": 10,
       "passages": 39,
       "format_version": 1,
       "curated_sha256": "3fc3c66d05d14d60451c2294c5389d9633894861d45a8273d8035a42da0e070e",
-      "curation_status": "current"
+      "curation_status": "review_required"
     },
     "The Art of Uncertain Topoplots/papers/scholz2014uncertainty.pdf": {
       "source_id": "scholz2014uncertainty",
-      "sha256": "81129de96caf64b1eb28ff08abfe4b5d6c13dd683d33fd2ddab348c54b797548",
-      "bytes": 1247503,
+      "sha256": "79cfef3b3d46cbe88bd2a285a6b703f8e0c1085799d1988b0caeba3120145f22",
+      "bytes": 1269504,
       "raw": "raw/scholz2014uncertainty.md",
       "pages": 19,
       "passages": 109,
       "format_version": 1,
       "curated_sha256": "81129de96caf64b1eb28ff08abfe4b5d6c13dd683d33fd2ddab348c54b797548",
-      "curation_status": "current"
+      "curation_status": "review_required"
     },
     "The Art of Uncertain Topoplots/papers/sedlmair2012design.pdf": {
       "source_id": "sedlmair2012design",
@@ -502,14 +535,14 @@
     },
     "The Art of Uncertain Topoplots/papers/wainer1980colormaps.pdf": {
       "source_id": "wainer1980colormaps",
-      "sha256": "c20523dfadb1d12604b7f0432087ee8d7fcdac10f3953b196a2539caeb9adf30",
-      "bytes": 2475652,
+      "sha256": "3d2f9f89e6c995bebccaa14a11ecf78a18c56685357c2d082259e952ddb9be23",
+      "bytes": 2445571,
       "raw": "raw/wainer1980colormaps.md",
       "pages": 14,
       "passages": 60,
       "format_version": 1,
       "curated_sha256": "c20523dfadb1d12604b7f0432087ee8d7fcdac10f3953b196a2539caeb9adf30",
-      "curation_status": "current"
+      "curation_status": "review_required"
     },
     "The Art of Uncertain Topoplots/papers/yanai2021current.pdf": {
       "source_id": "yanai2021current",

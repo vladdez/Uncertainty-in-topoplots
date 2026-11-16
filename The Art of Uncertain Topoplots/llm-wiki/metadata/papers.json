@@ -32,6 +32,21 @@
       "related": [{"paper": "teuling2011bivariate", "reason": "Contrasting scope: Teuling targets bivariate metric encoding, a class Bernard excludes from assessment."}, {"paper": "wainer1980colormaps", "reason": "Early empirical work on two-variable color maps outside Bernard's assessed class."}]
     },
     {
+      "id": "blenkinsop200alternative",
+      "title": "Evaluating the Perception of Uncertainty in Alternative Visualization Strategies",
+      "year": 2000,
+      "type": "article",
+      "topics": ["uncertainty visualization", "geospatial visualization", "empirical evaluation"],
+      "keywords": ["animation", "fuzzy classification", "greyscale", "linked views", "GIS expertise", "remote sensing"],
+      "summary": "Compares greyscale, random animation, serial animation, and linked ancillary views for communicating uncertainty in fuzzy land-cover classifications. A structured test with experienced GIS graduates and novice students shows that performance depends strongly on the judgment task and on participant experience.",
+      "catalog_blurb": "Expert-novice study of static, animated, and linked uncertainty displays for fuzzy land-cover maps.",
+      "key_findings": ["A greyscale legend substantially improved uncertainty interpretation in both experience groups.", "Random animation supported relative comparisons better than absolute estimates, while linked histograms improved some judgments beyond animation alone.", "The authors rank greyscale as most effective overall, but emphasize task- and expertise-dependent performance."],
+      "limitations": ["Small purposive samples, untimed performance, one fuzzy remote-sensing setting, and no test of animation speed or color limit generalization."],
+      "findings": [{"claim": "With a greyscale legend, correct interpretation increased from 75.0% to 90.8% for experienced participants and from 25.0% to 52.1% for novices.", "anchor": "p006-b003"}, {"claim": "Random animation supported relative judgments at about 70%, but absolute estimates were below 50%; linked histograms improved some results.", "anchor": "p008-b003"}],
+      "sections": [{"label": "Purpose", "description": "Research motivation and alternative visualization strategies.", "anchor": "p001-b003"}, {"label": "Study design", "description": "Participant groups and structured evaluation procedure.", "anchor": "p004-b003"}, {"label": "Animation results", "description": "Task-specific results for animated and linked views.", "anchor": "p007-b003"}, {"label": "Conclusion", "description": "Overall ranking, qualifications, and future work.", "anchor": "p011-b003"}],
+      "related": [{"paper": "hullman2015hypothetical", "reason": "Later controlled evaluation of animated sampled outcomes."}, {"paper": "kinkeldey2014assess", "reason": "Review of task-centered uncertainty-visualization evaluation."}, {"paper": "scholz2014uncertainty", "reason": "Geospatial comparison involving user expertise and preferences."}]
+    },
+    {
       "id": "boukhelifa2009uncertainty",
       "title": "Uncertainty Visualization: Why Might It Fail?",
       "year": 2009,
@@ -345,6 +360,21 @@
       "findings": [{"claim": "The survey included 213 practitioners and examined tools, challenges, uncertainty, and colormaps.", "anchor": "p001-b006"}, {"claim": "Thirty-two percent reported difficulty adding uncertainty to ERP plots.", "anchor": "p010-b003"}],
       "sections": [{"label": "Survey overview", "description": "Questions, sample, and contributions.", "anchor": "p001-b006"}, {"label": "Tool pain points", "description": "Uncertainty and plotting difficulties.", "anchor": "p010-b003"}, {"label": "Best practices", "description": "Recommendations and colormap discussion.", "anchor": "p016-b006"}],
       "related": [{"paper": "allen2012data", "reason": "Earlier neuroscience-figure audit and guidance."}, {"paper": "gerslova2026diegr", "reason": "An EEG graphics package addressing some surveyed needs."}]
+    },
+    {
+      "id": "olson1981spectrally",
+      "title": "Spectrally Encoded Two-Variable Maps",
+      "year": 1981,
+      "type": "article",
+      "topics": ["bivariate color maps", "geospatial visualization", "empirical evaluation"],
+      "keywords": ["spectral encoding", "two-variable maps", "color ordering", "spatial correlation", "map reading", "attitudes"],
+      "summary": "Evaluates spectrally encoded two-variable maps through four experiments on color ordering, spatial-correlation judgment, open-ended information extraction, and reader attitudes. The results expose an initial interpretation hurdle but also show that successful readers can extract substantive information, especially when composite maps are paired with separate maps and explanatory notes.",
+      "catalog_blurb": "Four experiments on how readers interpret and evaluate spectrally encoded two-variable maps.",
+      "key_findings": ["Participants did not spontaneously agree on the intended two-dimensional color ordering, although 62% preferred it after it was shown.", "Composite maps produced more spatial-correlation error overall, but successful composite-map readers could perform competitively.", "Explanatory notes improved attitudes, and the author recommends presenting composite and separate maps together."],
+      "limitations": ["The article states 466 participants overall, while the reported experiment-level counts sum to 465; the historical designs, samples, and tasks limit direct transfer to current displays."],
+      "findings": [{"claim": "No two participants produced the same spontaneous color arrangement; 62% preferred the intended arrangement after seeing it.", "anchor": "p009-b002"}, {"claim": "Mean spatial-correlation error was nine percentage points higher for composite than separate maps, with above-guessing performance of 58% versus 86%.", "anchor": "p012-b005"}, {"claim": "Explanatory notes improved many attitude ratings and supported recommending composite and separate maps together.", "anchor": "p018-b002"}],
+      "sections": [{"label": "Study overview", "description": "Questions and four-experiment program.", "anchor": "p002-b003"}, {"label": "Color ordering", "description": "Participants and spontaneous ordering task.", "anchor": "p007-b002"}, {"label": "Correlation judgment", "description": "Comparison of separate and composite maps.", "anchor": "p010-b005"}, {"label": "Conclusions and guidance", "description": "Information extraction, attitudes, and design recommendations.", "anchor": "p018-b002"}],
+      "related": [{"paper": "wainer1980colormaps", "reason": "Related early empirical investigation of two-variable colormaps."}, {"paper": "correll2018task", "reason": "Later evaluation of superimposed bivariate uncertainty palettes."}, {"paper": "scholz2014uncertainty", "reason": "Later geospatial comparison of integrated and separate uncertainty displays."}]
     },
     {
       "id": "padilla2017binning",

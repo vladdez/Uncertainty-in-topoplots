@@ -21,6 +21,7 @@ The evidence is mixed because studies use different tasks, maps, encodings, and 
 - **`qualifies` — [Bivariate Colour Maps for Visualizing Climate Data](../evidence/teuling2011bivariate.md#claim-teuling-difficulty):** The same paper acknowledges increased interpretation difficulty.
 - **`challenges_integration` — [An Empirical Inquiry Concerning Human Understanding of Two-Variable Color Maps](../evidence/wainer1980colormaps.md#claim-wainer-bivariate-cost):** Early experiments show large elementary-reading and legend-learning costs for bivariate maps.
 - **`qualifies` — [Visual Semiotics & Uncertainty Visualization: An Empirical Study](../evidence/maceachren2012semiotics.md#claim-maceachren-aggregate):** Multi-symbol effectiveness varied by uncertainty condition and symbol family.
+- **`mixed` — [Spectrally Encoded Two-Variable Maps](../evidence/olson1981spectrally.md#claim-olson-design-guidance):** Composite maps supported joint interpretation, but readers benefited from prominent legends, explanatory notes, and the separate component maps.
 - **`qualifies` — [Practice Improves Performance of a 2D Uncertainty Integration Task Within and Across Visualizations](../evidence/kusumastuti2023practice.md#claim-kusumastuti-transfer):** Integration performance changes with practice and transfers across display families.
 
 ## Research gaps
