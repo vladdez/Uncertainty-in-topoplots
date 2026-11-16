@@ -28,3 +28,6 @@ scripts/compile-journal-prose.ps1
 # Local audit website (render with: quarto render reports)
 reports/_site/
 reports/.quarto/
+
+# knitr chunk caches (build artifacts; contain respondent-level R objects)
+pages/*_cache/
