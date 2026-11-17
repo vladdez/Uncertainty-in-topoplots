@@ -1,0 +1,271 @@
+---
+title: "Task 2: hit or miss"
+execute:
+  warning: false
+  message: false
+---
+
+The [Task 2 page](task2.qmd) scores each response on a continuous 0–1 scale. This page asks a simpler question: **did participants click the peak region, a region right next to it, or somewhere else?**
+
+```{r shared-setup}
+#| include: false
+#| cache: false
+source("scripts/analysis_setup.R")
+configure_analysis_cache(c(
+  project_path("regions.txt"),
+  project_path("data", "task2_region_grid64_montage28.svg")
+))
+```
+
+```{r}
+#| file: scripts/task2_trials.R
+#| include: false
+```
+
+```{r hit-miss-classes}
+#| include: false
+# Neighbours: regions of the survey's clickable grid that share a border
+# (>= 2 common polygon vertices). Corner-only contact does not count.
+grid_svg <- paste(
+  readLines(project_path("data", "task2_region_grid64_montage28.svg"), warn = FALSE),
+  collapse = "\n"
+)
+grid_polygons <- stringr::str_match_all(
+  grid_svg, '<polygon points="([^"]+)" data-region="(R\\d+)"'
+)[[1]]
+grid_vertices <- setNames(
+  lapply(strsplit(trimws(grid_polygons[, 2]), "\\s+"), unique),
+  grid_polygons[, 3]
+)
+stopifnot(length(grid_vertices) == 64L)
+
+region_pairs <- t(combn(names(grid_vertices), 2))
+shares_border <- apply(region_pairs, 1, \(p) {
+  length(intersect(grid_vertices[[p[1]]], grid_vertices[[p[2]]])) >= 2
+})
+region_adjacency <- bind_rows(
+  tibble(region = region_pairs[shares_border, 1], neighbour = region_pairs[shares_border, 2]),
+  tibble(region = region_pairs[shares_border, 2], neighbour = region_pairs[shares_border, 1])
+)
+neighbour_counts <- count(region_adjacency, region)
+stopifnot(nrow(neighbour_counts) == 64L)
+
+# Class of every region for every stimulus: hit (peak), near (borders a peak), miss.
+peak_regions <- region_scores |>
+  filter(score == 1) |>
+  select(stimulus, region)
+
+near_regions <- peak_regions |>
+  inner_join(region_adjacency, by = "region", relationship = "many-to-many") |>
+  distinct(stimulus, region = neighbour) |>
+  anti_join(peak_regions, by = c("stimulus", "region"))
+
+region_classes <- region_scores |>
+  select(stimulus, region) |>
+  left_join(mutate(peak_regions, peak = TRUE), by = c("stimulus", "region")) |>
+  left_join(mutate(near_regions, near = TRUE), by = c("stimulus", "region")) |>
+  mutate(outcome = case_when(
+    !is.na(peak) ~ "hit",
+    !is.na(near) ~ "near",
+    TRUE ~ "miss"
+  )) |>
+  select(stimulus, region, outcome)
+
+# Chance level: one uniformly random click among the 64 regions.
+chance_by_stimulus <- region_classes |>
+  count(stimulus, outcome) |>
+  tidyr::pivot_wider(names_from = outcome, values_from = n, values_fill = 0) |>
+  transmute(stimulus, chance_hit = hit / 64, chance_near = near / 64)
+
+hit_miss <- task2 |>
+  left_join(region_classes, by = c("stimulus", "region")) |>
+  left_join(chance_by_stimulus, by = "stimulus") |>
+  mutate(
+    ID = factor(ID),
+    stimulus = factor(stimulus),
+    vistype = relevel(factor(vistype), ref = "basic"),
+    pattern = factor(pattern),
+    position_c = as.integer(position) - 11,
+    outcome = factor(outcome, levels = c("hit", "near", "miss")),
+    hit = as.integer(outcome == "hit"),
+    close = as.integer(outcome != "miss")
+  )
+
+stopifnot(!anyNA(hit_miss$outcome), all(hit_miss$hit == (hit_miss$score == 1)))
+```
+
+## Definitions
+
+- **Hit** — the selected region is the peak (region score = 1). For one stimulus two regions are tied at 1.00, and either counts.
+- **Near hit** — the selected region shares a border with the peak region. Regions have `r min(neighbour_counts$n)`–`r max(neighbour_counts$n)` neighbours (mean `r round(mean(neighbour_counts$n), 1)`); touching only at a corner does not count.
+- **Miss** — any other region.
+- A random click would give `r scales::percent(mean(hit_miss$chance_hit), 0.1)` hits and `r scales::percent(mean(hit_miss$chance_near), 0.1)` near hits.
+
+## Overview
+
+```{r hit-miss-table}
+outcome_shares <- hit_miss |>
+  group_by(vistype) |>
+  summarise(
+    Hit = mean(outcome == "hit"),
+    `Near hit` = mean(outcome == "near"),
+    Miss = mean(outcome == "miss"),
+    `Hit or near hit` = mean(close == 1),
+    n = n(),
+    .groups = "drop"
+  ) |>
+  arrange(desc(`Hit or near hit`))
+
+outcome_shares |>
+  mutate(vistype = table_vistype(vistype)) |>
+  bind_rows(tibble(
+    vistype = "Random click (chance)",
+    Hit = mean(hit_miss$chance_hit),
+    `Near hit` = mean(hit_miss$chance_near),
+    Miss = 1 - mean(hit_miss$chance_hit) - mean(hit_miss$chance_near),
+    `Hit or near hit` = mean(hit_miss$chance_hit + hit_miss$chance_near)
+  )) |>
+  mutate(
+    across(c(Hit, `Near hit`, Miss, `Hit or near hit`), \(x) scales::percent(x, 0.1)),
+    n = ifelse(is.na(n), "—", scales::comma(n))
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c("Visualization", "Hit", "Near hit", "Miss", "Hit or near hit", "n"),
+    caption = "Share of responses, all ERP patterns pooled; sorted by hit or near hit.",
+    table.attr = kable_table_attributes
+  )
+```
+
+![Hits and near hits per visualization type, for all patterns and each ERP pattern. Misses are the remainder (see the table above).](../figures/task2_hit_near_miss_by_vistype.png){#fig-hit-near-miss-bars width="100%" fig-alt="Side-by-side horizontal bars showing the share of hits and near hits for each of the seven visualization types, in four panels: all patterns, MMN, N170 and P3."}
+
+## Where participants clicked
+
+Each topoplot uses the survey's clickable grid. Region fill shows the ground truth, and dot area shows the share of responses for that region. Within each row (or each pattern, in the stimulus view), the most correct panel has an orange frame and the most missed a dark one.
+
+::: panel-tabset
+### By stimulus
+
+![Every stimulus, all visualizations pooled. The peak region has an orange outline and its neighbours a light-orange one; dots are hits, near hits or misses. Within each pattern, stimuli are sorted by hit rate.](../figures/task2_hit_near_miss_by_stimulus.png){#fig-hit-near-miss-stimulus width="100%" fig-alt="Thirty topoplots in three blocks (MMN, N170, P3) of two rows of five, each showing where participants clicked relative to the peak region and its neighbours."}
+
+### Same stimulus, each visualization
+
+![The easiest and hardest stimulus of each pattern, pooled and under each of the seven visualizations (about 15 responses per panel).](../figures/task2_hits_misses_stimulus_by_vistype.png){#fig-hit-miss-stimulus-vistype width="100%" fig-alt="Six rows of topoplots, one per stimulus, with columns for all visualizations pooled and each visualization type."}
+
+### Pattern × visualization
+
+![Stimuli pooled within each ERP pattern. Region fill is the share of trials in which the region was the peak.](../figures/task2_hits_misses_pattern_by_vistype.png){#fig-hit-miss-pattern-vistype width="100%" fig-alt="A three-by-seven grid of topoplots, ERP patterns by visualization type, showing hits and misses."}
+:::
+
+::: {.callout-note title="About these figures" collapse="true"}
+The topoplots and bar chart are rendered with UnfoldMakie by `uncertainty_project/working/task2_results/plot_task2_hits_misses.jl` (UnfoldMakie.jl, branch `uncert_bus`) from the aggregated counts written by `scripts/export_task2_hits_misses.R`. After a data refresh, rerun both scripts and copy the PNGs into `figures/`; the tables and models on this page update on their own.
+:::
+
+## Models
+
+Two logistic mixed models with the predictors of the Task 2 models, `vistype + pattern + position_c + (1 | ID) + (1 | stimulus)`: one for an exact **hit**, one for a **hit or near hit**.
+
+```{r hit-miss-models}
+hit_miss_models <- list(
+  `Hit` = glmmTMB(
+    hit ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus),
+    family = binomial(link = "logit"), data = hit_miss
+  ),
+  `Hit or near hit` = glmmTMB(
+    close ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus),
+    family = binomial(link = "logit"), data = hit_miss
+  )
+)
+
+stopifnot(all(purrr::map_lgl(hit_miss_models, \(m) {
+  m$fit$convergence == 0 && isTRUE(m$sdr$pdHess)
+})))
+
+hit_miss_estimates <- purrr::imap_dfr(hit_miss_models, \(model, name) {
+  emmeans(model, ~vistype, type = "response") |>
+    as.data.frame() |>
+    transmute(outcome = name, vistype, prob, lower = asymp.LCL, upper = asymp.UCL)
+})
+
+hit_miss_contrasts <- purrr::imap_dfr(hit_miss_models, \(model, name) {
+  emmeans(model, ~vistype) |>
+    contrast(method = "trt.vs.ctrl", ref = "basic", adjust = "none") |>
+    summary(infer = TRUE, type = "response") |>
+    as.data.frame() |>
+    transmute(
+      outcome = name,
+      vistype = stringr::str_remove(contrast, " / basic$"),
+      odds.ratio, lower = asymp.LCL, upper = asymp.UCL, p.value
+    )
+})
+
+hit_miss_estimates |>
+  mutate(
+    vistype = factor(vistype, levels = levels(hit_miss$vistype)),
+    value = sprintf("%.0f%% [%.0f, %.0f]", 100 * prob, 100 * lower, 100 * upper)
+  ) |>
+  select(outcome, vistype, value) |>
+  tidyr::pivot_wider(names_from = outcome, values_from = value) |>
+  left_join(
+    hit_miss_contrasts |>
+      transmute(
+        outcome = paste(outcome, "p"),
+        vistype = factor(vistype, levels = levels(hit_miss$vistype)),
+        p = format_pvalue_html(p.value)
+      ) |>
+      tidyr::pivot_wider(names_from = outcome, values_from = p),
+    by = "vistype"
+  ) |>
+  arrange(vistype) |>
+  mutate(
+    vistype = table_vistype(vistype),
+    across(ends_with(" p"), \(x) tidyr::replace_na(x, "reference"))
+  ) |>
+  select(vistype, `Hit`, `Hit p`, `Hit or near hit`, `Hit or near hit p`) |>
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    col.names = c("Visualization", "Hit [95% CI]", "p vs Basic",
+                  "Hit or near hit [95% CI]", "p vs Basic"),
+    caption = paste(
+      "Model-estimated probabilities, averaged equally over ERP patterns at the middle",
+      "presentation position, for a typical participant and stimulus. p-values compare",
+      "each visualization with Basic topoplot, unadjusted."
+    ),
+    table.attr = kable_table_attributes
+  )
+```
+
+::: {.callout-note title="Odds ratios vs Basic topoplot" collapse="true"}
+```{r hit-miss-odds}
+hit_miss_contrasts |>
+  mutate(
+    vistype = table_vistype(vistype),
+    `OR [95% CI]` = sprintf("%.2f [%.2f, %.2f]", odds.ratio, lower, upper),
+    p = format_pvalue_html(p.value)
+  ) |>
+  select(outcome, vistype, `OR [95% CI]`, p) |>
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    col.names = c("Outcome", "Visualization", "Odds ratio [95% CI]", "p"),
+    table.attr = kable_table_attributes
+  )
+```
+:::
+
+## Takeaways
+
+```{r hit-miss-takeaways}
+#| include: false
+best_close <- slice_max(outcome_shares, `Hit or near hit`, n = 1)
+worst_close <- slice_min(outcome_shares, `Hit or near hit`, n = 1)
+best_hit <- slice_max(outcome_shares, Hit, n = 1)
+stimulus_hits <- hit_miss |>
+  group_by(stimulus) |>
+  summarise(hit = mean(hit), .groups = "drop")
+```
+
+- Exact hits are rare for every visualization (`r scales::percent(min(outcome_shares$Hit), 1)`–`r scales::percent(max(outcome_shares$Hit), 1)`), but well above chance (`r scales::percent(mean(hit_miss$chance_hit), 0.1)`). `r table_vistype(best_hit$vistype)` has the most exact hits.
+- Counting near hits `r if (best_close$vistype != best_hit$vistype) "changes the ranking" else "keeps the same leader"`: `r table_vistype(best_close$vistype)` lands on or next to the peak most often (`r scales::percent(best_close[["Hit or near hit"]], 1)`), and `r table_vistype(worst_close$vistype)` least often (`r scales::percent(worst_close[["Hit or near hit"]], 1)`).
+- The stimulus matters more than the visualization: hit rates range from `r scales::percent(min(stimulus_hits$hit), 1)` to `r scales::percent(max(stimulus_hits$hit), 1)` across the 30 stimuli.
