@@ -163,19 +163,34 @@ The topoplots and bar chart are rendered with UnfoldMakie by `uncertainty_projec
 
 ## Models
 
-Two logistic mixed models with the predictors of the Task 2 models, `vistype + pattern + position_c + (1 | ID) + (1 | stimulus)`: one for an exact **hit**, one for a **hit or near hit**.
+Two logistic mixed models with the predictors of the Task 2 models, `vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)`: one for an exact **hit**, one for a **hit or near hit**. The last term gives each of the 210 images (stimulus × visualization) its own intercept, because the ~15 responses to one image are not independent.
 
 ```{r hit-miss-models}
 hit_miss_models <- list(
   `Hit` = glmmTMB(
-    hit ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus),
+    hit ~ vistype + pattern + position_c +
+      (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype),
     family = binomial(link = "logit"), data = hit_miss
   ),
   `Hit or near hit` = glmmTMB(
-    close ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus),
+    close ~ vistype + pattern + position_c +
+      (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype),
     family = binomial(link = "logit"), data = hit_miss
   )
 )
+
+# Overall test of visualization type: likelihood-ratio test against the same
+# model without vistype.
+hit_miss_overall <- purrr::imap_dfr(hit_miss_models, \(model, name) {
+  reduced <- update(model, . ~ . - vistype)
+  chi <- as.numeric(2 * (logLik(model) - logLik(reduced)))
+  df <- attr(logLik(model), "df") - attr(logLik(reduced), "df")
+  tibble(outcome = name, chi = chi, df = df, p = pchisq(chi, df, lower.tail = FALSE))
+})
+overall_text <- function(name) {
+  r <- hit_miss_overall[hit_miss_overall$outcome == name, ]
+  sprintf("χ²(%d) = %.1f, p = %.2f", r$df, r$chi, r$p)
+}
 
 stopifnot(all(purrr::map_lgl(hit_miss_models, \(m) {
   m$fit$convergence == 0 && isTRUE(m$sdr$pdHess)
@@ -229,12 +244,17 @@ hit_miss_estimates |>
                   "Hit or near hit [95% CI]", "p vs Basic"),
     caption = paste(
       "Model-estimated probabilities, averaged equally over ERP patterns at the middle",
-      "presentation position, for a typical participant and stimulus. p-values compare",
-      "each visualization with Basic topoplot, unadjusted."
+      "presentation position, for a typical participant, stimulus and image. p-values",
+      "compare each visualization with Basic topoplot, unadjusted."
     ),
     table.attr = kable_table_attributes
   )
 ```
+
+**Overall test of visualization type** (likelihood ratio against the same model
+without it): hit `r overall_text("Hit")`; hit or near hit
+`r overall_text("Hit or near hit")`. When the overall test is not significant, read the
+single comparisons with Basic above as exploratory.
 
 ::: {.callout-note title="Odds ratios vs Basic topoplot" collapse="true"}
 ```{r hit-miss-odds}
@@ -268,4 +288,7 @@ stimulus_hits <- hit_miss |>
 
 - Exact hits are rare for every visualization (`r scales::percent(min(outcome_shares$Hit), 1)`–`r scales::percent(max(outcome_shares$Hit), 1)`), but well above chance (`r scales::percent(mean(hit_miss$chance_hit), 0.1)`). `r table_vistype(best_hit$vistype)` has the most exact hits.
 - Counting near hits `r if (best_close$vistype != best_hit$vistype) "changes the ranking" else "keeps the same leader"`: `r table_vistype(best_close$vistype)` lands on or next to the peak most often (`r scales::percent(best_close[["Hit or near hit"]], 1)`), and `r table_vistype(worst_close$vistype)` least often (`r scales::percent(worst_close[["Hit or near hit"]], 1)`).
+- Once each image gets its own intercept, the overall effect of visualization type is
+  `r if (all(hit_miss_overall$p >= 0.05)) "not statistically significant for either outcome" else if (all(hit_miss_overall$p < 0.05)) "significant for both outcomes" else "significant for only one outcome"`
+  (hit `r overall_text("Hit")`; hit or near hit `r overall_text("Hit or near hit")`).
 - The stimulus matters more than the visualization: hit rates range from `r scales::percent(min(stimulus_hits$hit), 1)` to `r scales::percent(max(stimulus_hits$hit), 1)` across the 30 stimuli.

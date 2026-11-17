@@ -455,7 +455,8 @@ ggsave(
 - The primary analysis uses the extended model:
 
   ```r
-  score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus)
+  score ~ vistype + pattern + position_c +
+    (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)
   ```
 
 - The outcome contains exact 0 and 1 values as well as intermediate scores. An
@@ -471,6 +472,12 @@ ggsave(
 - Some stimuli may be intrinsically easier to interpret than others. Adding
   `(1 | stimulus)` gives each stimulus its own baseline score, so visualization
   comparisons are not attributed to stimulus difficulty alone.
+
+- Each stimulus was rendered in all seven visualizations, giving 210 distinct images,
+  and each image was seen by about 15 participants. Adding `(1 | stimulus:vistype)`
+  gives each image its own deviation from what its stimulus and visualization predict.
+  Without it, the responses to one image would count as independent evidence about the
+  visualization, although they share whatever made that particular image easy or hard.
 
 - ERP pattern and centered presentation position adjust the visualization comparisons for
   the displayed pattern and for linear change as participants progressed through the task.
@@ -541,7 +548,7 @@ model_table_note(
 ```{r}
 model_task2 <- glmmTMB(
   score ~ vistype + pattern + position_c +
-    (1 | ID) + (1 | stimulus),
+    (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype),
   family = ordbeta(link = "logit"),
   data = task2_model
 )
@@ -554,7 +561,7 @@ stopifnot(
 tibble::tibble(
   model = c(
     "Base: visualization type + participant intercept",
-    "Extended: pattern + position + participant and stimulus intercepts"
+    "Extended: pattern + position + participant, stimulus and image intercepts"
   ),
   parameters = c(
     attr(logLik(model_task2_base), "df"),
@@ -587,7 +594,7 @@ model_table_note(
     "<code>score ~ vistype + (1 | ID)</code>.</li>",
     "<li><strong>Extended model:</strong> ",
     "<code>score ~ vistype + pattern + position_c + ",
-    "(1 | ID) + (1 | stimulus)</code>.</li>",
+    "(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.</li>",
     "</ul>"
   ),
   label = "Models"
@@ -636,7 +643,7 @@ model_table_note(
     "<ul>",
     "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
     "<code>score ~ vistype + pattern + position_c + ",
-    "(1 | ID) + (1 | stimulus)</code>.</li>",
+    "(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.</li>",
     "<li><strong>Reference visualization:</strong> Basic topoplot.</li>",
     "<li><strong>Reference pattern:</strong> MMN.</li>",
     "<li><strong>Presentation position:</strong> <code>position_c = 0</code> ",
@@ -671,7 +678,7 @@ We also tested simpler participant-specific structures:
   positive-definite Hessian. It estimates separate participant-specific visualization
   variances without estimating their correlations.
 
-We therefore retained participant and stimulus random intercepts in the primary model.
+We therefore retained participant, stimulus and image random intercepts in the primary model.
 This does not show that visualization effects are identical for every participant. It
 means that these data cannot reliably estimate the full correlated structure. The
 diagonal model remains available as a sensitivity analysis.
@@ -724,7 +731,7 @@ model_table_note(
     "link.</li>",
     "<li><strong>Full model:</strong> ",
     "<code>score ~ vistype + pattern + position_c + ",
-    "(1 | ID) + (1 | stimulus)</code>.</li>",
+    "(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.</li>",
     "<li><strong>Reduced model:</strong> The same model without ",
     "<code>vistype</code>.</li>",
     "<li><strong>Comparison:</strong> The likelihood-ratio test evaluates whether ",
@@ -779,7 +786,7 @@ model_table_note(
     "<ul>",
     "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
     "<code>score ~ vistype + pattern + position_c + ",
-    "(1 | ID) + (1 | stimulus)</code>.</li>",
+    "(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.</li>",
     "<li><strong>Presentation position:</strong> Estimates were calculated at ",
     "position 11.</li>",
     "<li><strong>Pattern averaging:</strong> MMN, N170, and P3 received equal ",
@@ -835,7 +842,7 @@ model_table_note(
     "<ul>",
     "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
     "<code>score ~ vistype + pattern + position_c + ",
-    "(1 | ID) + (1 | stimulus)</code>.</li>",
+    "(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.</li>",
     "<li><strong>Comparison scale:</strong> Estimated marginal means were compared ",
     "on the logit scale.</li>",
     "<li><strong>Presentation position:</strong> Position 11.</li>",
@@ -877,7 +884,7 @@ model_table_note(
     "<ul>",
     "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
     "<code>score ~ vistype + pattern + position_c + ",
-    "(1 | ID) + (1 | stimulus)</code>.</li>",
+    "(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.</li>",
     "<li><strong>Displayed subset:</strong> Only contrasts with Tukey-adjusted ",
     "<em>p</em> &lt; .05 from the preceding table are shown.</li>",
     "<li><strong>Comparison scale:</strong> Estimated-marginal-mean differences ",
@@ -926,7 +933,7 @@ model_table_note(
     "<ul>",
     "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
     "<code>score ~ vistype + pattern + position_c + ",
-    "(1 | ID) + (1 | stimulus)</code>.</li>",
+    "(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.</li>",
     "<li><strong>Comparison scale:</strong> Estimated marginal means were ",
     "regridded to the detection-score scale before subtraction.</li>",
     "<li><strong>Uncertainty:</strong> Differences and 95% confidence intervals ",
@@ -939,11 +946,11 @@ model_table_note(
 
 **Figure method.** The points are estimated marginal mean detection scores from
 the extended ordered-beta mixed model
-`score ~ visualization type + pattern + centered position + (1 | participant) + (1 | stimulus)`,
+`score ~ visualization type + pattern + centered position + (1 | participant) + (1 | stimulus) + (1 | image)`,
 fitted with a logit link. Estimates are evaluated at the middle presentation
 position (`position_c = 0`, corresponding to position 11), averaged equally
-over the MMN, N170, and P3 patterns, and calculated with participant and
-stimulus random intercepts set to zero. They are then back-transformed to the
+over the MMN, N170, and P3 patterns, and calculated with participant, stimulus and
+image random intercepts set to zero. They are then back-transformed to the
 0–1 detection-score scale. Error bars are asymptotic pointwise 95% confidence
 intervals for these model-estimated scores.
 
@@ -1388,14 +1395,14 @@ task2_peak_ppc |>
   `r sum(task2_model$score == 0)` scores of exactly 0 were moved slightly inward with the
   Smithson–Verkuilen transformation, `(score × (n − 1) + 0.5) / n`.
 - Both parts use the primary model's predictors:
-  `vistype + pattern + position_c + (1 | ID) + (1 | stimulus)`.
+  `vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)`.
 - The second part is conditional on missing the peak. If a visualization turns near
   misses into exact hits, its remaining misses can look worse even when overall
   performance improves, so the two parts should be read together.
 
 ```{r task2-peak-two-part}
 task2_peak_hit_model <- glmmTMB(
-  peak ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus),
+  peak ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype),
   family = binomial(link = "logit"),
   data = mutate(task2_model, peak = as.integer(score == 1))
 )
@@ -1405,7 +1412,7 @@ task2_peak_miss_data <- task2_model |>
   mutate(score_squeezed = (score * (n() - 1) + 0.5) / n())
 
 task2_peak_miss_model <- glmmTMB(
-  score_squeezed ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus),
+  score_squeezed ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype),
   family = beta_family(link = "logit"),
   data = task2_peak_miss_data
 )

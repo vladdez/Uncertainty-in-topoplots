@@ -6,16 +6,17 @@ subtitle: "Open issues in the analysis (N = 146), most severe first"
 ::: {.callout-warning}
 ## The analysis is not yet ready for manuscript interpretation
 
-U2–U5 change results or how they must be described. Fix them first, in this order:
+U3–U5 change results or how they must be described. Fix them first, in this order:
 
-1. Settle the Task 2 random-effects structure (U2).
-2. Correct the labels and timing of the rating items (U3, U4).
-3. Regenerate the remaining result sentences from the estimates (U5).
+1. Correct the labels and timing of the rating items (U3, U4).
+2. Regenerate the remaining result sentences from the estimates (U5).
+
+The Task 2 image-level intercept (formerly U2) is now in the models; see
+[A2](addressed.md#a2).
 :::
 
 | | Issue | Area |
 |--|------------------|----|
-| [High]{.badge .sev-high} | [U2. Task 2 ignores image-level variation](#u2) | Task 2 |
 | [High]{.badge .sev-high} | [U3. A303 measures likelihood of use, not helpfulness](#u3) | Ratings |
 | [High]{.badge .sev-high} | [U4. A301 was asked after Task 1 only](#u4) | Ratings |
 | [High]{.badge .sev-high} | [U5. Task 1 text overstates weak or contradicted effects](#u5) | Task 1 |
@@ -31,36 +32,6 @@ U2–U5 change results or how they must be described. Fix them first, in this or
 | [Low]{.badge .sev-low} | [U15. Stale hard-coded text and suspicious items](#u15) | Task 1, Task 2 |
 
 : {.findings-table}
-
-## U2. Task 2 ignores image-level variation {#u2}
-
-::: {.finding-meta .sev-high}
-**Severity:** High · **Area:** Task 2 detection-score model
-:::
-
-**Problem.** Each stimulus × visualization combination is a separate image (210
-images, about 14.6 responses each). The primary model has participant and stimulus
-intercepts but no image intercept, so responses to the same image are treated as
-independent.
-
-**Evidence.**
-
-| | Primary model | + `(1 \| stimulus:vistype)` |
-|---|---|---|
-| AIC | 1178.0 | 1106.9 |
-| Image-intercept SD | — | 0.27 (LRT χ²(1) = 73.1, p < 10⁻¹⁶) |
-| Overall visualization LRT | χ²(6) = 23.1, p = .0008 | χ²(6) = 8.0, p = .24 |
-| Bivariate corner vs Basic (logit) | −0.167, p = .005 | −0.153, p = .093 |
-
-The point estimates barely move, but the uncertainty grows substantially. The
-Bivariate corner deficit is concentrated in three images (MMN_30, N170_16, N170_27);
-it scores below Basic for only 13 of 30 stimuli.
-
-**Fix.**
-
-- Include the image intercept in the primary model, or report it as the main
-  sensitivity analysis and soften the pairwise claims.
-- Check the analogous term (target stimulus × visualization) in Task 1.
 
 ## U3. A303 measures likelihood of use, not helpfulness {#u3}
 
