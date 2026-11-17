@@ -5,8 +5,7 @@
 #
 # makie_data_dir defaults to the Makie project in the UnfoldMakie worktree
 # (branch uncert_bus, PR #427). Only the aggregated region and stimulus files
-# are copied there: that repository is public, so participant-level trials
-# stay in this project and must not be committed.
+# are copied there; the anonymised trial-level file stays in this project.
 #
 # A response is a hit when the selected region has score 1 (the strongest region
 # of that stimulus after min-max normalization); every other response is a miss.
