@@ -1,0 +1,7 @@
+# Public copy of the audit site, published with the project website.
+# Render with:  QUARTO_PROFILE=public quarto render reports
+# Output goes to the tracked folder ../audit; the main site copies it to
+# docs/audit as a resource (see project.resources in ../_quarto.yml).
+# Wiki and PDF evidence links are rewritten to GitHub by fix-wiki-links.lua.
+project:
+  output-dir: ../audit

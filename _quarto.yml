@@ -2,6 +2,11 @@ project:
   type: website
   output-dir: docs
   execute-dir: project
+  # Public copy of the audit site (rendered from reports/ with the "public"
+  # profile into audit/); copied to docs/audit on every render. Linked from
+  # the home page only, not from the navbar.
+  resources:
+    - "audit/**"
   render:
     - index.qmd
     - pages/sample.qmd

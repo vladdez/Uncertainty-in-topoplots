@@ -1,0 +1,2871 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Manuscript citation audit – Audit</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-bbbf74a2b2e227808fd68eb048eacc9c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f23fc50b85aa20d525edd74f5d91c01c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-bbbf74a2b2e227808fd68eb048eacc9c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./manuscript-citations-audit.html">Literature</a></li><li class="breadcrumb-item"><a href="./manuscript-citations-audit.html">Manuscript citations (121)</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Audit</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Statistical analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unresolved (13)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./addressed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Addressed (3)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fixed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fixed (9)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Literature</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./manuscript-citations-audit.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Manuscript citations (121)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./table-s3-literature-audit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Table S3 rankings</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#fix-first" id="toc-fix-first" class="nav-link" data-scroll-target="#fix-first">Fix first</a></li>
+  <li><a href="#a.-introduction-and-related-work" id="toc-a.-introduction-and-related-work" class="nav-link" data-scroll-target="#a.-introduction-and-related-work">A. Introduction and Related Work</a></li>
+  <li><a href="#b.-methods-to-conclusion-and-bibliography" id="toc-b.-methods-to-conclusion-and-bibliography" class="nav-link" data-scroll-target="#b.-methods-to-conclusion-and-bibliography">B. Methods to Conclusion and bibliography</a></li>
+  <li><a href="#c.-supplement-tables-s2-and-s3" id="toc-c.-supplement-tables-s2-and-s3" class="nav-link" data-scroll-target="#c.-supplement-tables-s2-and-s3">C. Supplement Tables S2 and S3</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./manuscript-citations-audit.html">Literature</a></li><li class="breadcrumb-item"><a href="./manuscript-citations-audit.html">Manuscript citations (121)</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Manuscript citation audit</h1>
+<p class="subtitle lead">Source-to-claim check of every literature claim in journal.typ and supplement Tables S2–S3</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Scope and method (17 November 2026)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Every citation-bearing sentence and table cell in <code>journal.typ</code> (Introduction through Conclusion, including Table 1) and in supplement Tables S2 and S3 was checked against the archived sources, following <code>llm-wiki/AGENTS.md</code>: catalog → evidence record → raw passage, and the archived PDF wherever numbers, tables, figures or garbled extraction mattered. Bibliography integrity (missing/unused keys, metadata vs.&nbsp;PDF) was checked for both files. Earlier audits were re-checked against the current text: journal Table 1 (<code>claim-audits/table-1.md</code>), Table S2 (<code>claim-audits/table-2.md</code>) and <a href="./table-s3-literature-audit.html">Table S3</a>.</p>
+<p>The three high-severity manuscript findings and the two high-severity Sanyal findings below were re-verified directly against the PDFs (Mikheev Fig. 6, Petek Table 3, Sanyal Table 1). Verdicts are conservative; where the archive is silent, the item is marked <em>Not verifiable</em> rather than filled in.</p>
+</div>
+</div>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<table class="findings-table caption-top table">
+<thead>
+<tr class="header">
+<th>Part</th>
+<th>Claims</th>
+<th>Supported</th>
+<th>Needs qualification</th>
+<th>Overstated</th>
+<th>Not supported</th>
+<th>Misattributed</th>
+<th>Not verifiable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#a.-introduction-and-related-work">A. Introduction &amp; Related Work</a></td>
+<td>45</td>
+<td>31</td>
+<td>10</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td><a href="#b.-methods-to-conclusion-and-bibliography">B. Methods to Conclusion</a></td>
+<td>25</td>
+<td>14</td>
+<td>7</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td><a href="#c.-supplement-tables-s2-and-s3">C. Supplement Tables S2–S3</a></td>
+<td>51</td>
+<td>26</td>
+<td>17</td>
+<td>3</td>
+<td>4</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td><strong>121</strong></td>
+<td><strong>71</strong></td>
+<td><strong>34</strong></td>
+<td><strong>5</strong></td>
+<td><strong>6</strong></td>
+<td><strong>1</strong></td>
+<td><strong>4</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="fix-first" class="level2">
+<h2 class="anchored" data-anchor-id="fix-first">Fix first</h2>
+<table class="findings-table caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Location</th>
+<th>Problem</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="badge sev-high">High</span></td>
+<td><code>journal.typ:70–73</code> (A2)</td>
+<td>Mikheev survey: “52% created topoplots … ERP waveforms (61%)”. Fig. 6 shows <strong>175/213 (82%)</strong> plotted a topoplot and <strong>187/213 (88%)</strong> an ERP plot. The ranking (second) is right.</td>
+<td>Replace both percentages.</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-high">High</span></td>
+<td>Table 1, Petek row (A17)</td>
+<td>“5 of the 18 … built-in support for quantifying uncertainty”: only <strong>3</strong> rows have a quantifying wrapper (✓); 2 more have encoding only (◦). 13/18 all-× is correct.</td>
+<td>“3 of 18 … quantify; 2 more … encode only”.</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-high">High</span></td>
+<td><code>journal.typ:86–89</code> (A4)</td>
+<td>Allen’s 20% concerns graphics with <strong>three variables</strong> (two independent, one colour-coded dependent), not “more than three features”.</td>
+<td>Use Allen’s own scope.</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-high">High</span></td>
+<td>S3, Sanyal 1D (C26, C27)</td>
+<td>“1D least: … &gt; error bars” reverses Table 1 (<strong>error bars beat surface colour</strong>); “1D highest: glyph size &gt; error bars” is not reported.</td>
+<td>See C26–C27 replacements.</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-high">High</span></td>
+<td>S3, Correll 2018 E2 (C43)</td>
+<td>VSUPs ranked best in the decision task, but they had <strong>higher average danger</strong>; the earlier audit’s caveat is missing.</td>
+<td>Rank as a change in uncertainty-sensitive choice, not a better outcome.</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><code>journal.typ:266–268</code> (A36)</td>
+<td>Spatial “identify areas with high uncertainty” studies cited to Hullman 2015 (no spatial search); fits Sanyal 2009.</td>
+<td>Re-cite to <code>sanyal2009user</code>.</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><code>journal.typ:291–292</code> (A41)</td>
+<td>Error bars / CIs are “commonly” shown in ERP waveforms: sources give examples only; Mikheev’s 40% without error bars points the other way.</td>
+<td>Soften to “can be shown, e.g.”.</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><code>journal.typ:449–457</code> (B7, B8)</td>
+<td>Strode corners model: legend-lookup caveat and 3×3 fallback omitted (manuscript uses 5×5). Bernard: TeulingFig3 is top-rated only on <strong>black</strong> backgrounds.</td>
+<td>Add the caveats or justify the choices.</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td>S2 (Kale E2 N, Greis data type, Wainer E2 N)</td>
+<td>N = 150 not in the paper; Greis data source not stated; Wainer E2 had 8 returning participants.</td>
+<td>Add source notes / separate N.</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-low">Low</span></td>
+<td><code>refs.bib</code></td>
+<td>Strode year (bib 2020, PDF 2019); Wilke ISBN; 7 uncited entries; GPT-5.6 Sol / Codex web pages not archived.</td>
+<td>See part B.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="a.-introduction-and-related-work" class="level2">
+<h2 class="anchored" data-anchor-id="a.-introduction-and-related-work">A. Introduction and Related Work</h2>
+<section id="summary" class="level3">
+<h3 class="anchored" data-anchor-id="summary">Summary</h3>
+<p>Claims checked: 45 (all cited sources are archived).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Verdict</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Supported</td>
+<td>31</td>
+</tr>
+<tr class="even">
+<td>Supported – needs qualification</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>Overstated</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Not supported</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>Misattributed (wrong source)</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Not verifiable (source not archived)</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>Most important issues:</p>
+<ol type="1">
+<li><strong>A2 (High), <code>journal.typ:70–73</code>.</strong> The numbers “52% created topoplots, second only to ERP waveforms (61%)” do not appear anywhere in Mikheev et al.&nbsp;(2024). In Figure 6, 175 of 213 respondents (82%) had plotted a topoplot and 187 of 213 (88%) had plotted an ERP plot. The ranking (second) is correct; both percentages are wrong.</li>
+<li><strong>A17 (High), Table 1, Petek row.</strong> The cell says “for only 5 of the 18 visualizations did at least one tool provide built-in support for <em>quantifying</em> uncertainty”. In Petek Table 3, only 3 of 18 rows have a quantifying wrapper (✓). The 5 rows are those with ✓ <em>or</em> ◦, and ◦ means the user must still quantify uncertainty. The 13/18 (72%) all-× count is correct. This error was introduced after the 26 Oct audit.</li>
+<li><strong>A4 (High), <code>journal.typ:86–89</code>.</strong> The Introduction says Allen’s 20% applies to “data with more than three features”. Allen’s “3D” graphics have exactly three variables (two independent and one dependent; Fig. 1A). The 20% is correct, but the population it describes is misstated.</li>
+<li><strong>A36 (Moderate), <code>journal.typ:266–268</code>.</strong> Perceptual studies that “identify areas with high uncertainty … accuracy and response time” are attributed to Hullman et al.&nbsp;(2015). That HOPs study asked people to estimate properties of 1–3 distributions, with no spatial search. The description fits Sanyal et al.&nbsp;(2009), which is already in <code>refs.bib</code>.</li>
+<li><strong>A41 (Moderate), <code>journal.typ:291–292</code>.</strong> “In ERP waveforms, uncertainty is <em>commonly</em> shown using error bars or shaded confidence intervals”. The three cited sources give examples (Kappenman: ±1 SEM shading, not a CI; Pernet: bootstrap 95% CI; Allen: a <em>recommended</em> CI band, with the typical ERP panel described as having “no portrayal of uncertainty”). None of them shows how common this practice is. Mikheev’s 40% without error bars points the other way.</li>
+<li><strong>A8 (Low), Table 1, Allen row.</strong> The 26 Oct audit’s single recommended wording correction (“Only 20% of audited 3D graphics portrayed uncertainty”) has still not been applied.</li>
+</ol>
+</section>
+<section id="findings" class="level3">
+<h3 class="anchored" data-anchor-id="findings">Findings</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>ID</th>
+<th>Location</th>
+<th>Key(s)</th>
+<th>Manuscript claim (short quote)</th>
+<th>Verdict</th>
+<th>Severity</th>
+<th>Evidence</th>
+<th>Proposed fix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A1</td>
+<td><code>journal.typ:58–60</code></td>
+<td>wilke2019fundamentals</td>
+<td>“error bars and confidence bands provide relatively direct ways to communicate uncertainty” for individual estimates and curves</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/wilke2019fundamentals.md#p060-b002"><code>raw/wilke2019fundamentals.md#p060-b002</code></a> (error bars); <code>#p061-b001</code> (“For smooth line graphs, the equivalent of an error bar is a confidence band”)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>A2</td>
+<td><code>journal.typ:70–73</code></td>
+<td>mikheev2024art</td>
+<td>“survey of 213 M/EEG researchers, 52% … created topoplots … second … after conventional ERP waveforms (61%)”</td>
+<td>Not supported</td>
+<td>High</td>
+<td>Figure 6, PDF p.&nbsp;9 (<a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/mikheev2024art.md#p009-b002"><code>raw/mikheev2024art.md#p009-b002</code></a>): plotted topoplot = 175/213; plotted ERP plot = 187/213; text <code>#p007-b004</code> (“The majority of participants have plotted ERP plots and topoplots”). Neither 52% nor 61% occurs in the paper as a plotting rate. The only 61% is the topoplot-series interpretation result, 61% of 185 (<code>#p012-b001</code>).</td>
+<td>“In our previous survey of 213 M/EEG practitioners, 175 respondents (82%) reported having previously plotted a topoplot, second only to the conventional ERP plot (187; 88%) <span class="citation" data-cites="mikheev2024art">@mikheev2024art</span>.” (Also fixes the grammar of “This is the second results”.)</td>
+</tr>
+<tr class="odd">
+<td>A3</td>
+<td><code>journal.typ:76–78</code></td>
+<td>gerslova2026diegr</td>
+<td>“Although there are some software solutions for representation of uncertaint in EEG visualization”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gerslova2026diegr.md#p041-b003"><code>raw/gerslova2026diegr.md#p041-b003</code></a>, <code>#p042-b004</code></td>
+<td>This is a sentence fragment with a typo, and it cites “solutions” (plural) to one package. Suggested: “Some EEG software already offers basic options, for example the R package diegr, which plots lower-bound, mean and upper-bound scalp maps side by side <span class="citation" data-cites="gerslova2026diegr">@gerslova2026diegr</span>, but no established visual convention exists.” (Optionally also cite <span class="citation" data-cites="pernet2011limo">@pernet2011limo</span>.)</td>
+</tr>
+<tr class="even">
+<td>A4</td>
+<td><code>journal.typ:86–89</code></td>
+<td>allen2012data</td>
+<td>“1,451 figures from six neuroscience journals … uncertainty … underrepresented in visualizations of data with more than three features, with only 20% indicating uncertainty”</td>
+<td>Supported – needs qualification</td>
+<td>High</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/allen2012data.md#p001-b007"><code>raw/allen2012data.md#p001-b007</code></a> (“only 20% portray the uncertainty of reported effects” for 3D graphics; 288 articles published in 2010); Fig. 1A, PDF p.&nbsp;3 (3D data = independent variable 1 × independent variable 2 → dependent variable shown by colour)</td>
+<td>“…they audited 1,451 figures in 288 articles published in 2010 in six neuroscience journals and found that only 20% of graphics of three-variable ("3D") data portrayed uncertainty, compared with a large majority of two-variable graphics <span class="citation" data-cites="allen2012data">@allen2012data</span>.”</td>
+</tr>
+<tr class="odd">
+<td>A5</td>
+<td><code>journal.typ:127–129</code></td>
+<td>boukhelifa2009uncertainty</td>
+<td>“persistent divide between the recognized importance of uncertainty … and its limited adoption in practice”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/boukhelifa2009uncertainty.md#p001-b003"><code>raw/boukhelifa2009uncertainty.md#p001-b003</code></a> (“a gulf between the rhetoric … and the practice of visualization in which uncertainty is rarely seen”)</td>
+<td>— (an opinion/case-study paper, not an audit; “describe” is appropriately worded)</td>
+</tr>
+<tr class="even">
+<td>A6</td>
+<td><code>journal.typ:129–131</code></td>
+<td>hullman2020why</td>
+<td>“authors generally acknowledged the value … direct uncertainty depiction was routinely omitted”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/hullman2020why.md#p001-b002"><code>raw/hullman2020why.md#p001-b002</code></a> (90 surveyed authors + 13 interviews; “contradiction … between authors’ acknowledgment of the value of depicting uncertainty and the norm of omitting direct depiction”)</td>
+<td>— (optionally “survey and interviews”)</td>
+</tr>
+<tr class="odd">
+<td>A7</td>
+<td><code>journal.typ:143</code> (Tab. 1)</td>
+<td>allen2012data</td>
+<td>“Publication audit: 288 articles; 1,451 figures”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/allen2012data.md#p001-b007"><code>raw/allen2012data.md#p001-b007</code></a></td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>A8</td>
+<td><code>journal.typ:144–145</code> (Tab. 1)</td>
+<td>allen2012data</td>
+<td>“Only about 20% of visualisations with three features represented uncertainty”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/allen2012data.md#p001-b007"><code>raw/allen2012data.md#p001-b007</code></a>; Fig. 1B, PDF p.&nbsp;3</td>
+<td>“Only 20% of audited 3D graphics (three data variables) portrayed uncertainty.” (This is the earlier audit’s recommendation and is still not applied.)</td>
+</tr>
+<tr class="odd">
+<td>A9</td>
+<td><code>journal.typ:145–148</code> (Tab. 1 footnote)</td>
+<td>allen2012data</td>
+<td>“three-dimensional graphics represent three data variables … flat figure using two axes and colour”</td>
+<td>Supported</td>
+<td>—</td>
+<td>Fig. 1A, PDF p.&nbsp;3 (3D example is a flat heat map: two independent-variable axes and a colour-coded dependent variable)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>A10</td>
+<td><code>journal.typ:151</code> (Tab. 1)</td>
+<td>yanai2021current</td>
+<td>“Publication audit: 132 articles”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/yanai2021current.md#p001-b004"><code>raw/yanai2021current.md#p001-b004</code></a> (132 papers published in 2019, randomly selected from 100 journals)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>A11</td>
+<td><code>journal.typ:152–153</code> (Tab. 1)</td>
+<td>yanai2021current</td>
+<td>“numerical estimates for only 42% of relevant uncertainty sources on average; 54% … fewer than half”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/yanai2021current.md#p011-b002"><code>raw/yanai2021current.md#p011-b002</code></a> (54% “quantified fewer than half of the uncertainty sources that we judged applicable; uncertainty scores averaged 42%”); <code>#p004-b002</code> (score = reported ÷ relevant sources)</td>
+<td>“Papers reported (quantified) on average 42% of the uncertainty sources the reviewers judged applicable; 54% reported fewer than half.” The source says “reported/quantified”, not “numerical estimates”, and “relevant” means judged applicable by the reviewers’ coding.</td>
+</tr>
+<tr class="even">
+<td>A12</td>
+<td><code>journal.typ:156–157</code> (Tab. 1)</td>
+<td>mikheev2024art</td>
+<td>“Practitioner survey: 157 M/EEG practitioners who had published a paper with an ERP plot”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/mikheev2024art.md#p012-b004"><code>raw/mikheev2024art.md#p012-b004</code></a> (“all respondents who had previously published an ERP plot (n=157)”)</td>
+<td>— (optional: “157 of 213 respondents”)</td>
+</tr>
+<tr class="odd">
+<td>A13</td>
+<td><code>journal.typ:158–159</code> (Tab. 1)</td>
+<td>mikheev2024art</td>
+<td>“Among the 157 … 40% reported not including error bars”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/mikheev2024art.md#p012-b004"><code>raw/mikheev2024art.md#p012-b004</code></a>; Fig. 11 caption <code>#p013-b002</code> (N = 157)</td>
+<td>— (self-report; error bars are only one possible encoding)</td>
+</tr>
+<tr class="even">
+<td>A14</td>
+<td><code>journal.typ:162–164</code> (Tab. 1)</td>
+<td>jain2026communicating</td>
+<td>“Publication audit: 66 articles containing maps of climate-related infectious diseases in the Asia-Pacific region”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/jain2026communicating.md#p001-b005"><code>raw/jain2026communicating.md#p001-b005</code></a> (66 manuscripts, ≥1 map, climate-sensitive human disease, Asia-Pacific)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>A15</td>
+<td><code>journal.typ:165–166</code> (Tab. 1)</td>
+<td>jain2026communicating</td>
+<td>“Only 3 of 66 (4.5%) visually integrated uncertainty …; 26 (39%) did not report uncertainty at all”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/jain2026communicating.md#p010-b002"><code>raw/jain2026communicating.md#p010-b002</code></a> (3/66); <code>#p009-b002</code> (n = 26, 39%)</td>
+<td>— (4.5% is the rounded value of 3/66)</td>
+</tr>
+<tr class="even">
+<td>A16</td>
+<td><code>journal.typ:169–171</code> (Tab. 1)</td>
+<td>petek2026general</td>
+<td>“Software comparison: 5 visualization tools … 18 example uncertainty visualization”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/petek2026general.md#p018-b002"><code>raw/petek2026general.md#p018-b002</code></a> (Table 3: five tools; 18 rows are the authors’ bootplot examples from their Section 5; PGoG excluded)</td>
+<td>“Software comparison: 5 tools (Matplotlib, ggplot2, ggdist, Seaborn, ggdibbler) on the 18 example uncertainty visualizations from the authors’ own method showcase.” The 18 examples were chosen to demonstrate bootplot, which may favour it; also fixes the grammar of “visualization”.</td>
+</tr>
+<tr class="odd">
+<td>A17</td>
+<td><code>journal.typ:172–173</code> (Tab. 1)</td>
+<td>petek2026general</td>
+<td>“For only 5 of the 18 … at least one tool provide built-in support for quantifying uncertainty. For the remaining 13 (72%), users had to construct the visual encoding themselves.”</td>
+<td>Not supported</td>
+<td>High</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/petek2026general.md#p018-b002"><code>raw/petek2026general.md#p018-b002</code></a>, Table 3, PDF p.&nbsp;18. ✓ (wrapper quantifies uncertainty and encodes it) appears in only 3 rows: CI for mean, point-wise regression band, bar chart with CI. The binary heat map and bivariate means rows have only ◦ (the user must quantify; the wrapper encodes). 13 rows are × for all five tools.</td>
+<td>“For only 5 of the 18 visualizations did at least one tool offer built-in support (in 3, a wrapper that both quantifies and encodes uncertainty; in 2, only a default visual encoding). For the remaining 13 (72%), users of every tool had to quantify uncertainty and design its visual encoding themselves (count derived from Petek et al.’s Table 3).”</td>
+</tr>
+<tr class="even">
+<td>A18</td>
+<td><code>journal.typ:182–188</code></td>
+<td>petek2026general</td>
+<td>“for 13 of these examples, all five tools required users to quantify uncertainty themselves and implement its visual encoding … (their Table 3)”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/petek2026general.md#p018-b002"><code>raw/petek2026general.md#p018-b002</code></a>; <code>#p018-b003</code> (authors: “these tools support only a limited set of uncertainty visualizations”)</td>
+<td>The count is correct. Add a scope note: “…across 18 example visualizations drawn from the authors’ own method demonstration”. The lead sentence (“one practical reason”) is the manuscript’s own inference, hedged with “may”; that is acceptable.</td>
+</tr>
+<tr class="odd">
+<td>A19</td>
+<td><code>journal.typ:191–194</code></td>
+<td>kay2024ggdist</td>
+<td>GoG support “largely limited to … error bars, uncertainty bands, and density plots”; many techniques “difficult to construct”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kay2024ggdist.md#p001-b007"><code>raw/kay2024ggdist.md#p001-b007</code></a> (abstract); <code>#p001-b008</code> (“typically provide versions of error bars …, uncertainty bands …, boxplots, and density plots”; alternatives “painful” to build)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>A20</td>
+<td><code>journal.typ:194–197</code></td>
+<td>koo2018geovisualizing</td>
+<td>“lack of uncertainty-visualization tools in standard GIS … implement … as an ArcGIS extension”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/koo2018geovisualizing.md#p001-b007"><code>raw/koo2018geovisualizing.md#p001-b007</code></a></td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>A21</td>
+<td><code>journal.typ:197–199</code></td>
+<td>kubicek2011thematic</td>
+<td>“despite a broad conceptual literature …, implemented tools and pilot projects remained rare”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kubicek2011thematic.md#p002-b004"><code>raw/kubicek2011thematic.md#p002-b004</code></a> (“conceptual and theoretical base is quite wide, visualization tools and pilot projects are rare”)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>A22</td>
+<td><code>journal.typ:199–201</code></td>
+<td>gillmann2021uncertainty</td>
+<td>“to their knowledge, no commercially available uncertainty-aware visualization technique … in medical workstations”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gillmann2021uncertainty.md#p020-b002"><code>raw/gillmann2021uncertainty.md#p020-b002</code></a> (Sec. 7.11)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>A23</td>
+<td><code>journal.typ:206–209</code></td>
+<td>maceachren1992visualizing; kinkeldey2014assess</td>
+<td>approaches add uncertainty “to the original map, … in separate maps, or showing possible outcomes through animation”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/maceachren1992visualizing.md#p006-b002"><code>raw/maceachren1992visualizing.md#p006-b002</code></a> (map pairs; sequential presentation/toggling; bivariate maps); <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kinkeldey2014assess.md#p012-b001"><code>raw/kinkeldey2014assess.md#p012-b001</code></a> (coincident/adjacent; static/dynamic = animation and/or toggling). Animating <em>possible realisations</em> is described by Brodlie: <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/brodlie2012review.md#p008-b002"><code>raw/brodlie2012review.md#p008-b002</code></a></td>
+<td>“…adding uncertainty to the original map, displaying it in separate maps, or alternating or animating views over time, for example animating possible realisations <span class="citation" data-cites="maceachren1992visualizing">@maceachren1992visualizing</span> <span class="citation" data-cites="kinkeldey2014assess">@kinkeldey2014assess</span> <span class="citation" data-cites="brodlie2012review">@brodlie2012review</span>.”</td>
+</tr>
+<tr class="even">
+<td>A24</td>
+<td><code>journal.typ:216–218</code></td>
+<td>maceachren1992visualizing; brodlie2012review</td>
+<td>markers/glyphs: “size, colour, or opacity, can encode uncertainty”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/brodlie2012review.md#p011-b011"><code>raw/brodlie2012review.md#p011-b011</code></a>, <code>#p012-b004</code> (glyph size/colour); <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/maceachren1992visualizing.md#p004-b003"><code>raw/maceachren1992visualizing.md#p004-b003</code></a>, <code>#p005-b002</code> (size, value, saturation, focus, “fog” transparency)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>A25</td>
+<td><code>journal.typ:220–221</code></td>
+<td>strode2019operationalizing</td>
+<td>bivariate colour maps show two variables “using a two-dimensional colour legend”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/strode2019operationalizing.md#p002-b001"><code>raw/strode2019operationalizing.md#p002-b001</code></a>, <code>#p002-b002</code></td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>A26</td>
+<td><code>journal.typ:221–222</code></td>
+<td>meyer1975census</td>
+<td>“U.S. Census Bureau’s bivariate choropleth maps based on the 1970 Census”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/meyer1975census.md#p003-b003"><code>raw/meyer1975census.md#p003-b003</code></a> (first cross-map: Older Americans in 1970 × year of maximum population)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>A27</td>
+<td><code>journal.typ:222–224</code></td>
+<td>strode2019operationalizing</td>
+<td>“combined two colour scales, making some colours hard to distinguish and match to the legend”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/strode2019operationalizing.md#p002-b001"><code>raw/strode2019operationalizing.md#p002-b001</code></a> (“confusing mixture of colors”; “considerable practice” to discriminate legend colours; mixtures “difficult to distinguish”)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>A28</td>
+<td><code>journal.typ:224–226</code></td>
+<td>wainer1980colormaps; olson1981spectrally</td>
+<td>more errors identifying values at locations; harder correlation judgments than with two separate maps</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/wainer1980colormaps.md#p011-b001"><code>raw/wainer1980colormaps.md#p011-b001</code></a> (error rate .24 bivariate vs .08 univariate; N = 16 graduate students); <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/olson1981spectrally.md#p010-b005"><code>raw/olson1981spectrally.md#p010-b005</code></a>, <code>#p012-b005</code> (higher correlation-judgment error for composite maps)</td>
+<td>— (small, older samples; “early studies” is appropriately hedged)</td>
+</tr>
+<tr class="odd">
+<td>A29</td>
+<td><code>journal.typ:227–229</code></td>
+<td>maceachren1992visualizing</td>
+<td>MacEachren “proposed … hue representing the data and colour saturation indicating uncertainty”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/maceachren1992visualizing.md#p007-b002"><code>raw/maceachren1992visualizing.md#p007-b002</code></a> (saturation “might be used … on maps in which different hues are used to represent the data values (e.g., on a land cover map)”); <code>#p004-b003</code> (for numerical data, size and value recommended)</td>
+<td>“MacEachren later suggested that a single map could combine data and their uncertainty, for example with hue for data categories (e.g., land cover) and colour saturation for uncertainty <span class="citation" data-cites="maceachren1992visualizing">@maceachren1992visualizing</span>.” (The hue example is categorical, so it does not transfer directly to a diverging voltage scale.)</td>
+</tr>
+<tr class="even">
+<td>A30</td>
+<td><code>journal.typ:231–233</code></td>
+<td>brodlie2012review; maceachren1992visualizing</td>
+<td>adjacent/juxtaposed maps “in separate, spatially aligned views”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/brodlie2012review.md#p007-b010"><code>raw/brodlie2012review.md#p007-b010</code></a>, <code>#p008-b002</code> (juxtaposition); <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/maceachren1992visualizing.md#p006-b002"><code>raw/maceachren1992visualizing.md#p006-b002</code></a> (map pairs side by side)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>A31</td>
+<td><code>journal.typ:235–238</code></td>
+<td>gerslova2026diegr</td>
+<td>bounds “shown as separate maps alongside the estimate … may represent confidence intervals or 1 +- standard error”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gerslova2026diegr.md#p042-b004"><code>raw/gerslova2026diegr.md#p042-b004</code></a> (three panels: CI lower, mean, CI upper); <code>#p019-b010</code> (bounds are CIs from a t approximation, bootstrap percentiles or the jackknife)</td>
+<td>Keep the diegr sentence. Make clear that the “±1 SE” option is the authors’ own generalisation, not diegr’s, and write ± rather than <code>+-</code> (which Typst markup prints literally). Example: “…the bounds may represent confidence-interval limits (as in diegr) or, more generally, the estimate ± 1 standard error.”</td>
+</tr>
+<tr class="even">
+<td>A32</td>
+<td><code>journal.typ:240–241</code></td>
+<td>hullman2015hypothetical</td>
+<td>HOPs “use animation to display samples from a modelled distribution”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/hullman2015hypothetical.md#p001-b004"><code>raw/hullman2015hypothetical.md#p001-b004</code></a> (“animates a finite set of individual draws”)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>A33</td>
+<td><code>journal.typ:244–248</code></td>
+<td>hullman2015hypothetical</td>
+<td>benefits task-dependent; much more accurate for two/three quantities; single-variable mixed; worse for mean of high-variance distribution</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/hullman2015hypothetical.md#p001-b004"><code>raw/hullman2015hypothetical.md#p001-b004</code></a>; <code>#p012-b003</code> (high-variance μ: HOPs higher error than error bars and violins, both padj &lt; .001); <code>#p013-b005</code>; <code>#p015-b004</code></td>
+<td>— (the “ordering” tasks asked how often B &gt; A, or how often B is the largest of three)</td>
+</tr>
+<tr class="even">
+<td>A34</td>
+<td><code>journal.typ:250–252</code></td>
+<td>hullman2015hypothetical; kale2019hypothetical</td>
+<td>“most favourable results for HOPs came from one-dimensional scalar or temporal domains”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/hullman2015hypothetical.md#p001-b004"><code>raw/hullman2015hypothetical.md#p001-b004</code></a> (gains were on 2- and 3-variable judgments); <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kale2019hypothetical.md#p001-b004"><code>raw/kale2019hypothetical.md#p001-b004</code></a> (time-series trend inference)</td>
+<td>“…came from non-spatial displays of scalar quantities or time series, including judgments about the ordering of two or three quantities and trend discrimination…”. “One-dimensional” misdescribes the multi-quantity tasks where HOPs did best.</td>
+</tr>
+<tr class="odd">
+<td>A35</td>
+<td><code>journal.typ:253–255</code></td>
+<td>kinkeldey2014assess</td>
+<td>systematic review “found no consistent advantage for dynamic displays over static alternatives”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kinkeldey2014assess.md#p011-b002"><code>raw/kinkeldey2014assess.md#p011-b002</code></a> (“little evidence that they perform better (or even as well) as more traditional static depictions”)</td>
+<td>— (the source is, if anything, stronger. “Dynamic” in that review covers animation and toggling, not HOPs specifically)</td>
+</tr>
+<tr class="even">
+<td>A36</td>
+<td><code>journal.typ:266–268</code></td>
+<td>hullman2015hypothetical</td>
+<td>perceptual studies “identify areas with high uncertainty or compare its magnitude across different areas, typically measuring accuracy and response time”</td>
+<td>Misattributed (wrong source)</td>
+<td>Moderate</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/hullman2015hypothetical.md#p001-b004"><code>raw/hullman2015hypothetical.md#p001-b004</code></a>, <code>#p009-b004</code> (tasks estimate distribution properties and P(B &gt; A) for 1–3 quantities; no spatial search). Better match: <code>sanyal2009user</code> (PDF p.&nbsp;1 abstract; PDF p.&nbsp;5 §4.4.1 “searching for locations of high or low uncertainty”; accuracy and response time per the wiki record, which should be confirmed in the PDF results because the text extraction is corrupted)</td>
+<td>Replace <code>@hullman2015hypothetical</code> with <code>@sanyal2009user</code> (already in <code>refs.bib</code>). Also, the next sentence “Both approaches provide objective measures” has no antecedent (only one approach is described), so rephrase it or restore the missing approach.</td>
+</tr>
+<tr class="odd">
+<td>A37</td>
+<td><code>journal.typ:272–276</code></td>
+<td>correll2018task</td>
+<td>Correll “examined whether uncertainty affected participants’ choices”; a display “can change how cautiously people behave without necessarily improving their decisions”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/correll2018task.md#p008-b002"><code>raw/correll2018task.md#p008-b002</code></a> (VSUPs led participants to avoid highly uncertain regions but produced higher average danger, .32 vs .29, t = 2.3, p = .02)</td>
+<td>— (the second sentence is the manuscript’s synthesis, and it is consistent with Correll’s result)</td>
+</tr>
+<tr class="even">
+<td>A38</td>
+<td><code>journal.typ:273–274</code></td>
+<td>fernandes2018uncertainty</td>
+<td>“measured decision quality through expected payoffs”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/fernandes2018uncertainty.md#p007-b002"><code>raw/fernandes2018uncertainty.md#p007-b002</code></a> (“Decision Metric: expected/optimal payoff”)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>A39</td>
+<td><code>journal.typ:277–279</code></td>
+<td>greis2015investigating</td>
+<td>“Studies combining ratings with behavioral tasks, such as Greis et al.”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/greis2015investigating.md#p289-b002"><code>raw/greis2015investigating.md#p289-b002</code></a> (Likert ratings, survey N = 90); <code>#p292-b002</code> (game, N = 12, optimal-decision rates)</td>
+<td>— (ratings and behaviour came from separate samples)</td>
+</tr>
+<tr class="even">
+<td>A40</td>
+<td><code>journal.typ:281–284</code></td>
+<td>kinkeldey2014assess; hullman2019pursuit</td>
+<td>reviews “emphasize the importance of task selection and distinguishing perceptual performance from decision quality”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kinkeldey2014assess.md#p002-b004"><code>raw/kinkeldey2014assess.md#p002-b004</code></a> (importance of user tasks; task-centred typologies); <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/hullman2019pursuit.md#p001-b003"><code>raw/hullman2019pursuit.md#p001-b003</code></a> (“bias toward evaluating performance as accuracy rather than decision quality”)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>A41</td>
+<td><code>journal.typ:291–292</code></td>
+<td>allen2012data; kappenman2021erp; pernet2011limo</td>
+<td>“In ERP waveforms, uncertainty is commonly shown using error bars or shaded confidence intervals”</td>
+<td>Overstated</td>
+<td>Moderate</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kappenman2021erp.md#p007-b002"><code>raw/kappenman2021erp.md#p007-b002</code></a> (±1 SEM shading, not a CI); <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/pernet2011limo.md#p008-b006"><code>raw/pernet2011limo.md#p008-b006</code></a> (trimmed-mean ERPs with bootstrap 95% CI); Allen Fig. 3 text, PDF p.&nbsp;3 (<a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/allen2012data.md#p003-b021"><code>raw/allen2012data.md#p003-b021</code></a>): the typical ERP panel has “no portrayal of uncertainty” and the authors <em>add</em> 95% bands. None reports prevalence; contrast <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/mikheev2024art.md#p012-b004"><code>raw/mikheev2024art.md#p012-b004</code></a> (40% without error bars)</td>
+<td>“In ERP waveforms, uncertainty can be shown as shaded bands around the waveform, for example ±1 SEM <span class="citation" data-cites="kappenman2021erp">@kappenman2021erp</span> or bootstrap 95% confidence intervals <span class="citation" data-cites="pernet2011limo">@pernet2011limo</span> <span class="citation" data-cites="allen2012data">@allen2012data</span>, although many published ERP plots omit it <span class="citation" data-cites="mikheev2024art">@mikheev2024art</span>.”</td>
+</tr>
+<tr class="even">
+<td>A42</td>
+<td><code>journal.typ:292–294</code></td>
+<td>pernet2011limo</td>
+<td>scalp maps can display “test statistics or significance markers, but these do not directly show uncertainty in the estimated voltage”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/pernet2011limo.md#p008-b006"><code>raw/pernet2011limo.md#p008-b006</code></a> (Fig. 4 B2 “topographic plot of F values”)</td>
+<td>— (the “do not directly show” clause is the manuscript’s inference)</td>
+</tr>
+<tr class="odd">
+<td>A43</td>
+<td><code>journal.typ:296–299</code></td>
+<td>pernet2011limo</td>
+<td>LIMO “calculates bootstrap confidence intervals for individual electrodes and time points”; examples show scalp maps and CI waveforms separately</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/pernet2011limo.md#p005-b002"><code>raw/pernet2011limo.md#p005-b002</code></a> (“construct robust confidence intervals for each electrode and each frame”); <code>#p008-b006</code> (Fig. 4: A1/A2 CI waveforms, B2 F-value topography)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>A44</td>
+<td><code>journal.typ:299–301</code></td>
+<td>gerslova2026diegr</td>
+<td><code>plot_topo_mean()</code> “displays three scalp maps showing the lower confidence bound, mean, and upper confidence bound”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gerslova2026diegr.md#p041-b003"><code>raw/gerslova2026diegr.md#p041-b003</code></a>, <code>#p042-b004</code> (“three panels: CI lower, mean, CI upper”)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>A45</td>
+<td><code>journal.typ:303–305</code></td>
+<td>pernet2011limo; gerslova2026diegr</td>
+<td>“Neither publication systematically evaluates how users interpret different visualization designs”</td>
+<td>Supported</td>
+<td>—</td>
+<td>Absence claim, checked against the archived texts: <code>pernet2011limo</code> is a methods/toolbox paper (<code>#p001-b008</code>); <code>gerslova2026diegr</code> is a CRAN reference manual (<code>#p001-b001</code>). Neither contains a user study.</td>
+<td>— (optional precision: “neither the LIMO EEG paper nor the diegr reference manual”)</td>
+</tr>
+</tbody>
+</table>
+<p>Not audited as literature claims, because they carry no citation and rest on the authors’ own reasoning or interview data: lines 64–69 (EEG definitions), 77 (“no established visual convention”), 91–96 (formative interviews), 107–111 and 312–319 (“to our knowledge…” novelty and research gap), and 261–264 (the overview that refers to Table S2).</p>
+</section>
+<section id="table-1-vs-earlier-audit" class="level3">
+<h3 class="anchored" data-anchor-id="table-1-vs-earlier-audit">Table 1 vs earlier audit</h3>
+<p>Earlier audit: <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/claim-audits/table-1.md"><code>claim-audits/table-1.md</code></a> (26 Oct 2026; it located the table at lines 158–201, and it is now at lines 135–180).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Row</th>
+<th>Earlier recommendation / note</th>
+<th>Status in current <code>journal.typ</code></th>
+<th>Re-verification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Allen</td>
+<td>The only recommended wording change: “Only 20% of audited 3D graphics portrayed uncertainty.” Keep the “3D” footnote.</td>
+<td><strong>Not applied.</strong> The cell still reads “Only about 20% of visualisations with three features represented uncertainty.” Footnote kept.</td>
+<td>Still Supported – needs qualification (A8). The Introduction now repeats the Allen claim with a <em>new</em> error (“more than three features”, A4).</td>
+</tr>
+<tr class="even">
+<td>Yanai</td>
+<td>Supported; keep the meaning “judged applicable” for “relevant”.</td>
+<td><strong>Wording changed</strong> to “numerical estimates … relevant uncertainty sources”. “Judged applicable” is not preserved.</td>
+<td>Numbers still correct. “Numerical estimates” is slightly stronger than the source’s “reported/quantified” (A11, Low).</td>
+</tr>
+<tr class="odd">
+<td>Mikheev</td>
+<td>Supported; flag that this is self-report, conditional on n = 157, and not an audit of figures.</td>
+<td><strong>Applied in substance.</strong> The cell states the 157 denominator and “reported”.</td>
+<td>Supported (A12, A13).</td>
+</tr>
+<tr class="even">
+<td>Jain</td>
+<td>Supported; keep the 3/66 visual-integration and 26/66 no-reporting outcomes separate, and do not merge them with the 43.</td>
+<td><strong>Applied.</strong> The two outcomes stay distinct.</td>
+<td>Supported (A14, A15).</td>
+</tr>
+<tr class="odd">
+<td>Petek</td>
+<td>13/18 (72%) is a reproducible count derived from Table 3; label it as derived rather than author-reported.</td>
+<td><strong>Partly applied, with a new error.</strong> 13 (72%) is retained, and the prose (line 188) cites “their Table 3”. The table cell is not labelled as a derived count. A new clause, “5 of 18 … built-in support for quantifying uncertainty”, was added and is wrong: only 3/18 rows have a quantifying wrapper (✓). The “construct the visual encoding themselves” clause also leaves out that × requires the user to quantify uncertainty as well.</td>
+<td>Not supported (A17, High). The evidence cell also needs a scope note and a grammar fix (A16).</td>
+</tr>
+<tr class="even">
+<td>General</td>
+<td>Publication years shown in the Study column match <code>refs.bib</code>.</td>
+<td>Still true for all five rows.</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="b.-methods-to-conclusion-and-bibliography" class="level2">
+<h2 class="anchored" data-anchor-id="b.-methods-to-conclusion-and-bibliography">B. Methods to Conclusion and bibliography</h2>
+<section id="summary-1" class="level3">
+<h3 class="anchored" data-anchor-id="summary-1">Summary</h3>
+<p>Citation claims checked: <strong>25</strong> (in 15 citing sentences/passages; all citations in 321–715).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Verdict</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Supported</td>
+<td>14</td>
+</tr>
+<tr class="even">
+<td>Supported – needs qualification</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td>Overstated</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Not supported</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>Misattributed (wrong source)</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Not verifiable (source not archived)</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>Bibliography: 0 missing keys (every cited key exists in <code>refs.bib</code>); 7 uncited bib entries; 3 cited keys with no archived source (<code>ehinger2018eegvis</code>, <code>openai2026gpt56sol</code>, <code>openai2026codex</code>); 1 year mismatch (Strode), 1 ISBN mismatch (Wilke), several entries whose archived copy is a preprint/author version that cannot confirm venue/pages.</p>
+<p>Most important issues: 1. <strong>B8 (Moderate)</strong> – Bernard et al.&nbsp;give TeulingFig3 the top category (++) for ER1–ER3 only on <strong>black</strong> backgrounds. On white backgrounds the same Table 3 excludes it (∉) for ER1 and ER3. The assessment is also measure-based, not a user study. Say this explicitly, or justify the choice if the stimuli use a light background. 2. <strong>B7 (Moderate)</strong> – Strode et al.&nbsp;say the corners model may require more legend consultation. They also could not blend a 4×4 (16-colour) corners palette with enough distinctness and fell back to 3×3. The manuscript uses a 5×5 (25-cell) grid and calls the model “suitable” without mentioning this caution. 3. <strong>B5 (Moderate)</strong> – The adjacent-plots attribution to the EEGVIS toolbox can’t be verified: there is no archived source. The only archived mention of EEGVIS (<code>mikheev2024art</code>) links it to 2D colour maps, not to side-by-side estimate/SE maps. 4. <strong>B9 (Low, Overstated)</strong> – The “broader warning that blue–violet mixtures … can be difficult to distinguish” is, in Strode et al., a comment on one specific overlay scheme (their Fig. 1), not a general warning. 5. <strong>BB1 (Low)</strong> – <code>strode2019operationalizing</code> has <code>year = {2020}</code>, but the archived PDF footer reads “Cartographic Perspectives, Number 94, 2019”, and the reference list currently prints 2020. 6. <strong>BB2 / BB18–BB19 (Low)</strong> – The Wilke ISBN does not match the archived copy (978-1-492-03108-6). The OpenAI model and Codex references are unarchived web pages, and the Codex URL points to a generic API “code generation” guide.</p>
+</section>
+<section id="findings-citation-claims" class="level3">
+<h3 class="anchored" data-anchor-id="findings-citation-claims">Findings: citation claims</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>ID</th>
+<th>Location</th>
+<th>Key(s)</th>
+<th>Manuscript claim (short quote)</th>
+<th>Verdict</th>
+<th>Severity</th>
+<th>Evidence</th>
+<th>Proposed fix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>B1</td>
+<td><code>journal.typ:360-361</code></td>
+<td>gwdgVoiceAI</td>
+<td>“transcribed using Voice AI, the speech-to-text service provided through the Academic Cloud/GWDG”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gwdgVoiceAI.md#p005-b003"><code>raw/gwdgVoiceAI.md#p005-b003</code></a> (Voice-AI is a KISSKI/GWDG transcription and captioning service running Whisper large-v3 on GWDG HPC); <code>#p004-b003</code> (in this newsletter, “Academic Cloud” appears only in the Moodle article). The archived source is GWDG-Nachrichten 07/2024 (PDF p.&nbsp;1). The bib URL (docs.hpc.gwdg.de) is not archived.</td>
+<td>“Audio recordings were transcribed using Voice-AI, GWDG’s Whisper-based (large-v3) speech-to-text service <span class="citation" data-cites="gwdgVoiceAI">@gwdgVoiceAI</span>.” Also state the transcription period, and whether transcripts were manually checked or corrected. Either cite the archived 07/2024 newsletter article or archive the documentation page the bib entry points to.</td>
+</tr>
+<tr class="even">
+<td>B2</td>
+<td><code>journal.typ:402-404</code></td>
+<td>strode2019operationalizing, correll2018task</td>
+<td>“inspired by the range and corners models described by Strode et al.&nbsp;and by Correll et al.’s Value-Suppressing Uncertainty Palettes”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/strode2019operationalizing.md#p001-b004"><code>raw/strode2019operationalizing.md#p001-b004</code></a>, <code>#p010-b002</code>, <code>#p012-b001</code>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/correll2018task.md#p001-b002"><code>raw/correll2018task.md#p001-b002</code></a> (title), <code>#p001-b004</code></td>
+<td>— (optional: “Trumbo’s corners and range models as operationalized by Strode et al.”, because Strode et al.&nbsp;attribute the models to Trumbo, 1981)</td>
+</tr>
+<tr class="odd">
+<td>B3</td>
+<td><code>journal.typ:409-410</code></td>
+<td>gerslova2026diegr</td>
+<td>“has precedent in the three-map display provided by <code>diegr</code>”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gerslova2026diegr.md#p041-b003"><code>raw/gerslova2026diegr.md#p041-b003</code></a>, <code>#p042-b004</code> (“three panels: CI lower, mean, CI upper”; PDF pp.&nbsp;41–42)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>B4</td>
+<td><code>journal.typ:420-423</code></td>
+<td>padilla2017binning</td>
+<td>“study of grayscale 2D scalar fields … improved accuracy for value lookup and highest-point identification under some binning conditions, while continuous encodings were often faster”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/padilla2017binning.md#p001-b004"><code>raw/padilla2017binning.md#p001-b004</code></a> (abstract); <code>#p005-b010</code> (Highest Point: 40 m binning more accurate than continuous; overview names Highest Point and Lookup); <code>#p006-b010</code> (Lookup, lowest value: continuous less accurate than 30 m/40 m); <code>#p008-b012</code> (continuous fastest on most tasks)</td>
+<td>— (scope is already stated correctly: grayscale elevation fields, MTurk lay participants)</td>
+</tr>
+<tr class="odd">
+<td>B5</td>
+<td><code>journal.typ:436</code></td>
+<td>ehinger2018eegvis</td>
+<td>“The adjacent-plots design was inspired by the EEGVIS toolbox”</td>
+<td>Not verifiable (source not archived)</td>
+<td>Moderate</td>
+<td>No archived EEGVIS documentation (<a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/README.md"><code>papers/README.md</code></a>: “software … no standalone paper”). The only archived mention, <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/mikheev2024art.md#p006-b002"><code>raw/mikheev2024art.md#p006-b002</code></a>, names EEGVIS as offering <strong>2D colour maps</strong>, not adjacent estimate/SE maps.</td>
+<td>Archive a snapshot of the EEGVIS documentation or a figure showing an estimate map next to an SE/uncertainty map, and cite it. Otherwise, reword: “The adjacent-plots design shows the estimate and its SE as two separate topoplots, a layout available in EEG toolboxes such as EEGVIS <span class="citation" data-cites="ehinger2018eegvis">@ehinger2018eegvis</span>.” Use this wording only after confirming that EEGVIS offers such a layout.</td>
+</tr>
+<tr class="even">
+<td>B6</td>
+<td><code>journal.typ:445-447</code></td>
+<td>strode2019operationalizing, teuling2011bivariate</td>
+<td>“adapts the corners model … using the TeulingFig3 four-corner, two-dimensional color legend”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/teuling2011bivariate.md#p003-b003"><code>raw/teuling2011bivariate.md#p003-b003</code></a> (bivariate <em>diverging</em> colour scheme in Fig. 3), <code>#p005-b003</code> (Fig. 4c: two-step construction with a whitening kernel). “TeulingFig3” is Bernard et al.’s label, and they implemented it “as described, not as shown in the paper”: <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/bernard2015colormaps.md#p006-b010"><code>raw/bernard2015colormaps.md#p006-b010</code></a>.</td>
+<td>“…using the four-corner bivariate diverging legend of Teuling et al.&nbsp;(their Fig. 3/4c; labelled TeulingFig3 by Bernard et al. <span class="citation" data-cites="bernard2015colormaps">@bernard2015colormaps</span>) <span class="citation" data-cites="teuling2011bivariate">@teuling2011bivariate</span>.” Note that Teuling’s legend was designed for two signed (diverging) variables, whereas SE is non-negative.</td>
+</tr>
+<tr class="odd">
+<td>B7</td>
+<td><code>journal.typ:449-452</code></td>
+<td>strode2019operationalizing</td>
+<td>“The corners model is intended for analyses that emphasize extreme combinations … de-emphasizing intermediate values. This makes it suitable for our study tasks”</td>
+<td>Supported – needs qualification</td>
+<td>Moderate</td>
+<td>The purpose is supported: <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/strode2019operationalizing.md#p010-b002"><code>raw/strode2019operationalizing.md#p010-b002</code></a>, <code>#p011-b001</code> (“allow quick and easy identification of areas with very low or very high values … without distraction from areas with intermediate values”). In the same passage <code>#p011-b001</code>, Strode et al.&nbsp;say the corners model “may require map readers to consult the legend more often”, and that they “were unable to blend 16 colors with sufficient distinctness and order” and so used 3×3. The manuscript uses 5×5 (line 425). “Suitable for our study tasks” is the authors’ inference.</td>
+<td>Add: “Strode et al.&nbsp;note that the corners model may require more frequent legend consultation and demonstrate it with a 3×3 grid because a 4×4 palette lacked sufficient distinctness <span class="citation" data-cites="strode2019operationalizing">@strode2019operationalizing</span>; our 5×5 grid therefore increases the discrimination demand.”</td>
+</tr>
+<tr class="even">
+<td>B8</td>
+<td><code>journal.typ:454-457</code></td>
+<td>bernard2015colormaps</td>
+<td>“received the highest assessment category for elementary localization and identification (ER1), equal visual importance (ER2), and elementary comparison (ER3) on dark backgrounds”</td>
+<td>Supported – needs qualification</td>
+<td>Moderate</td>
+<td>Table 3 (PDF p.&nbsp;11, visually inspected): TeulingFig3 is ++ for ER1–ER3 (and SR1–SR4) on the black background. On the white background it is ∉ (excluded) for ER1 and ER3 and ++ only for ER2. The text recommends Mittelstädt et al., not TeulingFig3, for ER3 on dark backgrounds: <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/bernard2015colormaps.md#p009-b003"><code>raw/bernard2015colormaps.md#p009-b003</code></a>, <code>#p009-b004</code>, <code>#p009-b005</code>. The assessment is measure-based and excludes colormaps designed for bivariate data: <code>#p004-b001</code>, <code>#p013-b005</code>.</td>
+<td>“…received the highest category (++) for ER1–ER3 on black backgrounds in Bernard et al.’s measure-based assessment (Table 3) <span class="citation" data-cites="bernard2015colormaps">@bernard2015colormaps</span>; on white backgrounds it was not rated applicable for ER1 and ER3.” Then either show the topoplots on a dark background or justify the choice.</td>
+</tr>
+<tr class="odd">
+<td>B9</td>
+<td><code>journal.typ:458-460</code></td>
+<td>strode2019operationalizing</td>
+<td>“following the broader warning that blue–violet mixtures in bivariate maps can be difficult to distinguish”</td>
+<td>Overstated</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/strode2019operationalizing.md#p002-b001"><code>raw/strode2019operationalizing.md#p002-b001</code></a>: Strode et al.&nbsp;say <em>their Figure 1 overlay scheme</em> (education × income) “produces ambiguous mixtures across the blue-to-violet range that are difficult to distinguish visually”. It is a specific example, not a general warning.</td>
+<td>“…following Strode et al.’s observation that the overlay scheme in their Figure 1 produced ambiguous blue-to-violet mixtures that were difficult to distinguish <span class="citation" data-cites="strode2019operationalizing">@strode2019operationalizing</span>.”</td>
+</tr>
+<tr class="even">
+<td>B10</td>
+<td><code>journal.typ:465-467</code></td>
+<td>strode2019operationalizing</td>
+<td>“adapts the range model described by Strode et al.”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/strode2019operationalizing.md#p012-b001"><code>raw/strode2019operationalizing.md#p012-b001</code></a> (diverging-X/sequential-Y variant, Fig. 8)</td>
+<td>— (Strode et al.&nbsp;also say they could not select Trumbo-style colours that achieved both order and separation, and used value-by-alpha instead, <code>#p012-b001</code>; worth a mention if colour separation is discussed)</td>
+</tr>
+<tr class="odd">
+<td>B11</td>
+<td><code>journal.typ:469-470</code></td>
+<td>strode2019operationalizing</td>
+<td>“range model is intended for analyses in which viewers examine the range of one variable within levels or categories of another”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/strode2019operationalizing.md#p003-b001"><code>raw/strode2019operationalizing.md#p003-b001</code></a> (Table 1), <code>#p012-b001</code>, <code>#p012-b002</code></td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>B12</td>
+<td><code>journal.typ:490-492</code></td>
+<td>gerslova2026diegr</td>
+<td>“<code>plot_topo_mean()</code> … uses adjacent topographic maps of the mean and its lower and upper confidence bounds”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gerslova2026diegr.md#p041-b003"><code>raw/gerslova2026diegr.md#p041-b003</code></a>, <code>#p042-b003</code>, <code>#p042-b004</code></td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>B13</td>
+<td><code>journal.typ:492-494</code></td>
+<td>engel2013confidence</td>
+<td>“Engel and Burton proposed an analogous three-map representation showing an estimated activation map together with its lower and upper confidence bounds”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/engel2013confidence.md#p003-b002"><code>raw/engel2013confidence.md#p003-b002</code></a>, <code>#p003-b003</code> (Method 1, Fig. 2: a <em>conventional thresholded</em> activation map plus maps of the lower and upper bounds of the voxelwise <strong>99 %</strong> CI). The paper presents three CI methods (<code>#p002-b003</code>).</td>
+<td>“…proposed displaying a conventional activation map alongside maps of the lower and upper bounds of voxelwise 99% confidence intervals (their Method 1) <span class="citation" data-cites="engel2013confidence">@engel2013confidence</span>.”</td>
+</tr>
+<tr class="even">
+<td>B14</td>
+<td><code>journal.typ:504-505</code></td>
+<td>maceachren1992visualizing, brodlie2012review</td>
+<td>“Marker size is an established visual channel for quantitative uncertainty”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/maceachren1992visualizing.md#p004-b003"><code>raw/maceachren1992visualizing.md#p004-b003</code></a> (“size and value are most appropriate for depicting uncertainty in numerical information”); <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/brodlie2012review.md#p011-b011"><code>raw/brodlie2012review.md#p011-b011</code></a>, <code>#p012-b004</code> (glyph size used; Sanyal et al.&nbsp;results are task-dependent)</td>
+<td>— (note that MacEachren’s is a theoretical proposal and that he names colour saturation “arguably the most logical” variable; the curated MacEachren record is <code>review_required</code>, but the raw passage was checked directly)</td>
+</tr>
+<tr class="odd">
+<td>B15</td>
+<td><code>journal.typ:510-511</code></td>
+<td>hullman2015hypothetical</td>
+<td>“adapts the hypothetical-outcome approach of Hullman et al.&nbsp;to spatial EEG/ERP data”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/hullman2015hypothetical.md#p001-b004"><code>raw/hullman2015hypothetical.md#p001-b004</code></a> (HOPs “animates a finite set of individual draws”)</td>
+<td>— (the original evaluation covers 1D distributions of 2–3 quantities; the spatial adaptation is the authors’ own. The curated record is <code>review_required</code>.)</td>
+</tr>
+<tr class="even">
+<td>B16</td>
+<td><code>journal.typ:548-549</code></td>
+<td>kappenman2021erp</td>
+<td>“three characteristic ERP topographic patterns: mismatch negativity (MMN), P3, and N170”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kappenman2021erp.md#p001-b006"><code>raw/kappenman2021erp.md#p001-b006</code></a> (ERP CORE: seven components including N170, MMN, P3); topographic maps are only in Supplementary Fig. S2, which is not archived (<code>#p006-b002</code>).</td>
+<td>State whether the pattern pools were derived from ERP CORE data. If so: “…derived from the grand-average topographies of the ERP CORE dataset <span class="citation" data-cites="kappenman2021erp">@kappenman2021erp</span>.” If not, cite it only for the component definitions.</td>
+</tr>
+<tr class="odd">
+<td>B17</td>
+<td><code>journal.typ:557</code></td>
+<td>danisch2021makie</td>
+<td>“implemented in Julia using Makie”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/danisch2021makie.md"><code>raw/danisch2021makie.md</code></a> (PDF p.&nbsp;1: “Makie.jl is a cross-platform plotting ecosystem for the Julia programming language”)</td>
+<td>— (consider also citing the topoplot implementation, e.g.&nbsp;the UnfoldMakie package, if one was used)</td>
+</tr>
+<tr class="even">
+<td>B18</td>
+<td><code>journal.typ:653-655</code></td>
+<td>openai2026gpt56sol</td>
+<td>“assisted by OpenAI’s GPT-5.6 Sol model (<code>gpt-5.6-sol</code>)”</td>
+<td>Not verifiable (source not archived)</td>
+<td>Low</td>
+<td>No archived copy of the model documentation page.</td>
+<td>Archive the model documentation page (or a dated snapshot) and report the access date and model snapshot/version used.</td>
+</tr>
+<tr class="odd">
+<td>B19</td>
+<td><code>journal.typ:655</code></td>
+<td>openai2026codex</td>
+<td>“via Codex”</td>
+<td>Not verifiable (source not archived)</td>
+<td>Low</td>
+<td>No archive. The bib URL <code>…/api/docs/guides/code-generation</code> (“Code Generation: Codex”) is a generic API guide and may not document the Codex agent/CLI actually used.</td>
+<td>Cite the documentation of the Codex product or version actually used, with an access date, and archive it.</td>
+</tr>
+<tr class="even">
+<td>B20</td>
+<td><code>journal.typ:681-684</code></td>
+<td>lam2012seven</td>
+<td>“combines understanding of environments and work practices (UWP) … with controlled evaluation of user performance (UP) and user experience (UE)”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/lam2012seven.md#p001-b007"><code>raw/lam2012seven.md#p001-b007</code></a> (scenario list), <code>#p006-b002</code> (UWP methods include interviews), <code>#p010-b002</code> (UP: controlled experiments), <code>#p011-b002</code> (UE: questionnaires, interviews)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>B21</td>
+<td><code>journal.typ:686-690</code></td>
+<td>sedlmair2012design</td>
+<td>“avoid premature advance … (PF-1) by conducting formative interviews … before finalizing the visualization designs”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sedlmair2012design.md#p004-b005"><code>raw/sedlmair2012design.md#p004-b005</code></a> (PF-1: “start implementing a system before talking to the domain experts”); pitfall table <code>#p008-b002</code></td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>B22</td>
+<td><code>journal.typ:687-690</code></td>
+<td>sedlmair2012design</td>
+<td>“premature design commitment (PF-20) … by conducting formative interviews”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sedlmair2012design.md#p006-b002"><code>raw/sedlmair2012design.md#p006-b002</code></a>: PF-20 is “consider too few solutions and … prematurely commit”; it is avoided by a “broad consideration space”, not by interviews.</td>
+<td>“…and premature design commitment (PF-20) by comparing six alternative uncertainty encodings rather than committing to a single design.”</td>
+</tr>
+<tr class="odd">
+<td>B23</td>
+<td><code>journal.typ:690-692</code></td>
+<td>sedlmair2012design</td>
+<td>“not to ignore existing practices that already work well (PF-15)”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sedlmair2012design.md#p006-b002"><code>raw/sedlmair2012design.md#p006-b002</code></a> (PF-15), <code>#p008-b002</code></td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>B24</td>
+<td><code>journal.typ:692-694</code></td>
+<td>sedlmair2012design</td>
+<td>“did not treat subjective preference as sufficient evidence of effectiveness … PF-26”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sedlmair2012design.md#p007-b002"><code>raw/sedlmair2012design.md#p007-b002</code></a> (“positive feedback … necessary … far from sufficient for a convincing validation (PF-26)”)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>B25</td>
+<td><code>journal.typ:695-697</code></td>
+<td>sedlmair2012design</td>
+<td>“should not be interpreted as a full real-world case study, consistent with … PF-25”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sedlmair2012design.md#p007-b002"><code>raw/sedlmair2012design.md#p007-b002</code></a> (PF-25: do not claim a case study when users, tasks, or data are not real; label it a usage scenario)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Coverage notes:</p>
+<ul>
+<li>Sections with no citations yet (TODO): Measures (645), Statistical Analysis (649), Results – Task Performance / Subjective Evaluation / Qualitative Feedback (669–677), Discussion remainder (699), Limitations (703), Conclusion (707), and ethics, funding, data-availability and AI-disclosure statements (364, 544, 712–715).</li>
+<li>Uncited method statements that would benefit from a source, outside the archive scope:
+<ul>
+<li>line 368, “structured qualitative content-analysis approach”: no methodological reference;</li>
+<li>lines 407–408, “Adjacent plots, uncertainty markers, and hypothetical outcome animation were also informed by existing visualization approaches”: generic, with citations given only later in each subsection;</li>
+<li>lines 653–663, LLM-assisted coding: no reference to a validation or human-check procedure.</li>
+</ul></li>
+</ul>
+</section>
+<section id="findings-bibliography" class="level3">
+<h3 class="anchored" data-anchor-id="findings-bibliography">Findings: bibliography</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>ID</th>
+<th>Key</th>
+<th>Problem</th>
+<th>Evidence (PDF page / bib field)</th>
+<th>Proposed fix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>BB1</td>
+<td>strode2019operationalizing</td>
+<td>Year mismatch: bib <code>year = {2020}</code> (and journal.pdf prints 2020), but the archived PDF footer reads “Cartographic Perspectives, Number 94, 2019”. The key also says 2019. Other fields match: 7 authors, title, no. 94, pp.&nbsp;5–24 (PDF p.&nbsp;10 = printed p.&nbsp;14; 20 PDF pages), DOI 10.14714/CP94.1538.</td>
+<td>PDF p.&nbsp;1 header (DOI); PDF p.&nbsp;10 footer (<a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/strode2019operationalizing.md#p010-b004"><code>raw/strode2019operationalizing.md#p010-b004</code></a>)</td>
+<td>Set <code>year = {2019}</code> to match the archived article, or confirm the publisher’s issue year and keep it consistent with the key.</td>
+</tr>
+<tr class="even">
+<td>BB2</td>
+<td>wilke2019fundamentals</td>
+<td>ISBN mismatch: bib <code>isbn = {9781492031079}</code>; the archived copy’s copyright page gives 978-1-492-03108-6 (errata link <code>isbn=9781492031086</code>). Other fields match: author, title, O’Reilly, 2019 (first release 2019-03-15).</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/handbooks/wilke2019fundamentals.pdf"><code>handbooks/wilke2019fundamentals.pdf</code></a>, copyright page</td>
+<td><code>isbn = {9781492031086}</code> (or drop the ISBN).</td>
+</tr>
+<tr class="odd">
+<td>BB3</td>
+<td>gwdgVoiceAI</td>
+<td>The bib entry is an undated web page (docs.hpc.gwdg.de), but the archived source is a different document: <em>GWDG-Nachrichten</em> 07/2024 (ISSN 0940-4686, vol.&nbsp;47), article “Introducing Voice-AI: Advanced Transcription and Captioning Service”. The bib entry has no year.</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/gwdgVoiceAI.pdf"><code>papers/gwdgVoiceAI.pdf</code></a> p.&nbsp;1 (impressum), p.&nbsp;5 (<a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gwdgVoiceAI.md#p005-b003"><code>raw/gwdgVoiceAI.md#p005-b003</code></a>)</td>
+<td>Add a year/accessed date and archive the documentation page, or re-point the entry to the newsletter article (GWDG-Nachrichten 7/2024). Do not invent article authors; take them from the PDF if listed.</td>
+</tr>
+<tr class="even">
+<td>BB4</td>
+<td>hullman2020why</td>
+<td>The archived copy is arXiv:1908.01697v1 (5 Aug 2019) with a placeholder IEEE header. TVCG 26(1):130–139 and DOI 10.1109/TVCG.2019.2934287 can’t be confirmed from the archive. Author and title match.</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/hullman2020why.pdf"><code>papers/hullman2020why.pdf</code></a> p.&nbsp;1</td>
+<td>Archive the TVCG version, or accept that venue/pages are unverified.</td>
+</tr>
+<tr class="odd">
+<td>BB5</td>
+<td>petek2026general</td>
+<td>The archived copy is arXiv:2508.00937v4 (1 Jul 2026). Its IEEE DOI line (10.1109/TVCG.2026.3704459) matches the bib, but vol.&nbsp;32 no. 9 pp.&nbsp;7819–7833 can’t be checked. Authors and title match.</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/petek2026general.pdf"><code>papers/petek2026general.pdf</code></a> p.&nbsp;1</td>
+<td>Archive the published version or verify vol./pages.</td>
+</tr>
+<tr class="even">
+<td>BB6</td>
+<td>kay2024ggdist</td>
+<td>The archived copy is a preprint with a placeholder IEEE header (“Manuscript received xx xxx. 201x”), so TVCG 30(1):414–424 and the DOI can’t be checked. Author and title match.</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/kay2024ggdist.pdf"><code>papers/kay2024ggdist.pdf</code></a> p.&nbsp;1</td>
+<td>Archive the published version.</td>
+</tr>
+<tr class="odd">
+<td>BB7</td>
+<td>bernard2015colormaps</td>
+<td>The archived copy is an author LaTeX version with no venue line; SPIE VDA 2015, vol.&nbsp;9397, 93970M, and DOI 10.1117/12.2079841 can’t be checked. All six authors and the title match.</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/bernard2015colormaps.pdf"><code>papers/bernard2015colormaps.pdf</code></a> p.&nbsp;1 (pdfinfo: pdfTeX, created 2015-03-04)</td>
+<td>Archive the SPIE version or accept the risk.</td>
+</tr>
+<tr class="even">
+<td>BB8</td>
+<td>brodlie2012review</td>
+<td>The archived copy is a White Rose author version; pages 81–109 and the DOI can’t be checked. Authors, title and book title match.</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/brodlie2012review.pdf"><code>papers/brodlie2012review.pdf</code></a> p.&nbsp;1</td>
+<td>None required; optionally archive the publisher version.</td>
+</tr>
+<tr class="odd">
+<td>BB9</td>
+<td>fernandes2018uncertainty</td>
+<td>Bib has no pages or article number; the PDF shows “Paper 144”, 12 pages.</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/fernandes2018uncertainty.pdf"><code>papers/fernandes2018uncertainty.pdf</code></a> p.&nbsp;1 footer</td>
+<td>Add <code>pages = {1--12}</code> and article number 144 (<code>note</code> or <code>eid</code>).</td>
+</tr>
+<tr class="even">
+<td>BB10</td>
+<td>yanai2021current</td>
+<td>Bib <code>pages = {e03535}</code> matches the PDF (“Article e03535”), but journal.pdf renders it as “p.&nbsp;e3535”.</td>
+<td>PDF p.&nbsp;1 footer; <code>pdftotext journal.pdf</code> reference [39]</td>
+<td>Protect the field (e.g.&nbsp;<code>pages = {{e03535}}</code>) and re-check the rendering.</td>
+</tr>
+<tr class="odd">
+<td>BB11</td>
+<td>gerslova2026diegr</td>
+<td>Metadata match: package <code>diegr</code> v0.3.1, dated August 21, 2026, author Zdeňka Geršlová. The bib URL is the pkgdown <code>plot_topo_mean</code> page, whereas the archived file is the CRAN reference manual.</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/gerslova2026diegr.pdf"><code>papers/gerslova2026diegr.pdf</code></a> p.&nbsp;1</td>
+<td>Optional: add the CRAN URL or note that the manual is the archived source.</td>
+</tr>
+<tr class="even">
+<td>BB12</td>
+<td><code>@preview</code> (both files, line 1)</td>
+<td>Not a citation: part of <code>#import "@preview/ieee-vgtc:0.0.4": journal</code>, i.e.&nbsp;the Typst Universe package namespace for the IEEE VGTC template.</td>
+<td><code>journal.typ:1</code>, <code>supplement.typ:1</code></td>
+<td>No action.</td>
+</tr>
+<tr class="odd">
+<td>BB13</td>
+<td>allen2012data (<code>journal.typ:86</code>)</td>
+<td>Written as <code>@allen2012data:</code> with a trailing colon. Typst resolves it correctly: journal.pdf shows “reflected by [1]: they reviewed…”.</td>
+<td><code>pdftotext journal.pdf</code> line 15</td>
+<td>No action (cosmetic only).</td>
+</tr>
+<tr class="even">
+<td>BB14</td>
+<td>blenkinsop200alternative (uncited)</td>
+<td>Key typo (“200” instead of “2000”). Bib year 2000 is consistent.</td>
+<td><code>refs.bib:231</code></td>
+<td>Rename to <code>blenkinsop2000alternative</code> if it gets cited, and rename the PDF to match.</td>
+</tr>
+<tr class="odd">
+<td>BB15</td>
+<td>gelman2020regression (uncited)</td>
+<td>Key says 2020; bib <code>year = {2021}</code> matches the archived copyright page (“First published 2021”, DOI 10.1017/9781139161879). Metadata is consistent; only the key is misleading.</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/handbooks/gelman2020regression.pdf"><code>handbooks/gelman2020regression.pdf</code></a> copyright page</td>
+<td>Optional key rename; no metadata change.</td>
+</tr>
+<tr class="even">
+<td>BB16</td>
+<td>ehinger2018eegvis</td>
+<td>No archived source. Bib gives a Zenodo DOI (10.5281/zenodo.1312813), a GitHub URL and “Accessed: September 5, 2026”. Supports only B5.</td>
+<td><code>refs.bib:147</code>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/README.md"><code>papers/README.md</code></a> “Software and service references”</td>
+<td>Archive a dated README or release snapshot showing the relevant plot type.</td>
+</tr>
+<tr class="odd">
+<td>BB17</td>
+<td>openai2026gpt56sol</td>
+<td>No archived source (web documentation). Supports only B18.</td>
+<td><code>refs.bib:539</code></td>
+<td>Archive a dated snapshot and state the model version/date in Methods.</td>
+</tr>
+<tr class="even">
+<td>BB18</td>
+<td>openai2026codex</td>
+<td>No archived source. The title “Code Generation: Codex” and the URL (API code-generation guide) may not identify the Codex tool actually used. Supports only B19.</td>
+<td><code>refs.bib:548</code></td>
+<td>Cite the specific Codex product documentation and version; archive it.</td>
+</tr>
+</tbody>
+</table>
+<p>Checked and consistent against the archived first page/header (authors, year, title, venue, volume/issue, pages, DOI where printed): allen2012data, boukhelifa2009uncertainty (CHI 2009 WIP, pp.&nbsp;4051–4056; only the title punctuation differs slightly), correll2014error, correll2018task, danisch2021makie, engel2013confidence, gillmann2021uncertainty, greis2015investigating (LNCS 9299, pp.&nbsp;256–263, DOI 10.1007/978-3-319-22723-8_21 at PDF pp.&nbsp;286–293), gschwandtner2016visual, hullman2015hypothetical, hullman2019pursuit, jain2026communicating (PLOS Clim 5(7): e0000707), kale2019hypothetical, kappenman2021erp, kinkeldey2014assess, koo2018geovisualizing, kubicek2011thematic, kusumastuti2023practice, lam2012seven, maceachren1992visualizing, maceachren2012semiotics, meyer1975census (2:2, 101–117), mikheev2024art, olson1981spectrally, padilla2017binning, pernet2011limo, sanyal2009user (rendered PDF p.&nbsp;1 inspected: TVCG 15(6), p.&nbsp;1209, 10 pp.), scholz2014uncertainty, sedlmair2012design, sterzik2025, teuling2011bivariate, wainer1980colormaps, yanai2021current (except the rendering issue BB10).</p>
+</section>
+<section id="uncited-bib-entries" class="level3">
+<h3 class="anchored" data-anchor-id="uncited-bib-entries">Uncited bib entries</h3>
+<p>Not cited in either <code>journal.typ</code> or <code>supplement.typ</code> (<code>@preview</code> and <code>@fig:</code>/<code>@tab:</code> references excluded):</p>
+<ul>
+<li><code>blenkinsop200alternative</code> (PDF archived; key typo, see BB14)</li>
+<li><code>gelman2020regression</code> (archived under <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/handbooks/"><code>handbooks/</code></a>)</li>
+<li><code>kangas2023understanding</code> (PDF archived)</li>
+<li><code>perrin1989spherical</code> (PDF archived)</li>
+<li><code>pocock2007figures</code> (PDF archived)</li>
+<li><code>ristovski2014uncertainty</code> (no PDF; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/README.md"><code>papers/README.md</code></a> lists it as missing)</li>
+<li><code>tennant2025human</code> (PDF archived)</li>
+</ul>
+<p>The supplement uses <code>#bibliography("refs.bib", …)</code> without <code>full: true</code>, so these entries do not print.</p>
+</section>
+<section id="keys-without-archived-source" class="level3">
+<h3 class="anchored" data-anchor-id="keys-without-archived-source">Keys without archived source</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Cited where</th>
+<th>What it supports</th>
+<th>Verifiable?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ehinger2018eegvis</code></td>
+<td><code>journal.typ:436</code></td>
+<td>Claim that EEGVIS inspired the adjacent-plots design (B5)</td>
+<td>No.&nbsp;The only archived mention (<a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/mikheev2024art.md#p006-b002"><code>raw/mikheev2024art.md#p006-b002</code></a>) links EEGVIS to 2D colour maps.</td>
+</tr>
+<tr class="even">
+<td><code>openai2026gpt56sol</code></td>
+<td><code>journal.typ:655</code></td>
+<td>Identity of the LLM used for open-ended feedback coding (B18)</td>
+<td>No (unarchived web documentation)</td>
+</tr>
+<tr class="odd">
+<td><code>openai2026codex</code></td>
+<td><code>journal.typ:655</code></td>
+<td>Tool used to run the coding workflow (B19)</td>
+<td>No.&nbsp;The URL is a generic API guide.</td>
+</tr>
+<tr class="even">
+<td><code>wilke2019fundamentals</code></td>
+<td><code>journal.typ:60</code> (Introduction, outside the Part 1 range)</td>
+<td>“error bars and confidence bands provide relatively direct ways to communicate uncertainty” for individual estimates and curves</td>
+<td>Yes. Archived at <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/handbooks/wilke2019fundamentals.pdf"><code>handbooks/wilke2019fundamentals.pdf</code></a>; supported by <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/wilke2019fundamentals.md#p061-b001"><code>raw/wilke2019fundamentals.md#p061-b001</code></a> (“For smooth line graphs, the equivalent of an error bar is a confidence band”) and Ch. 16 (<code>#p203-b001</code>). Only the ISBN is wrong (BB2).</td>
+</tr>
+<tr class="odd">
+<td><code>@preview</code></td>
+<td>line 1 of both files</td>
+<td>Typst package import namespace, not a citation</td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table>
+<p>Note: <code>gwdgVoiceAI</code> and <code>gerslova2026diegr</code> are archived, but as documents that differ from the bib URL (BB3, BB11). <code>ristovski2014uncertainty</code> has no archived source but is uncited.</p>
+</section>
+</section>
+<section id="c.-supplement-tables-s2-and-s3" class="level2">
+<h2 class="anchored" data-anchor-id="c.-supplement-tables-s2-and-s3">C. Supplement Tables S2 and S3</h2>
+<section id="summary-2" class="level3">
+<h3 class="anchored" data-anchor-id="summary-2">Summary</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Verdict</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Supported</td>
+<td>26</td>
+</tr>
+<tr class="even">
+<td>Supported – needs qualification</td>
+<td>17</td>
+</tr>
+<tr class="odd">
+<td>Overstated</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>Not supported</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>Misattributed (wrong source)</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Not verifiable (source not archived)</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td><strong>Total findings</strong></td>
+<td><strong>51</strong></td>
+</tr>
+</tbody>
+</table>
+<p>By severity, for findings that are not Supported: High 3, Moderate 11, Low 11.</p>
+<p>Most important issues:</p>
+<ol type="1">
+<li><strong>Sanyal et al., Table S3 (High).</strong> Two lower-order rankings contradict or go beyond the paper’s Table 1 (PDF p.&nbsp;7). The paper reports only significant pairwise contrasts. It gives no per-task means: Figs. 10–11 pool across tasks.
+<ul>
+<li>1D least-uncertain: S3 says “glyph colour ≈ surface colour &gt; error bars”, but the paper reports that error bars beat surface colour.</li>
+<li>1D most-uncertain: S3 says “glyph size &gt; error bars”, but no such difference is reported.</li>
+</ul></li>
+<li><strong>Correll et al.&nbsp;2018, E2 (High).</strong> S3 ranks VSUPs as “best-performing” in the Battleship task. The paper found no effect on mean uncertainty of placements. VSUPs avoided the most uncertain cells (KS test), but their placements carried higher average danger, i.e.&nbsp;lower expected value. The earlier S3 audit’s qualification (“not a universal decision advantage”) is not reflected.</li>
+<li><strong>Kale et al.&nbsp;E2 N = 150 (Moderate; Not verifiable).</strong> The archived paper does not state the E2 sample. The figure comes only from the authors’ external CSV, which is not archived, and the cell carries no source note.</li>
+<li><strong>Greis et al.&nbsp;Data = M (Moderate; Not supported by the archive).</strong> The archived paper never states whether the rainfall/forecast data were real or simulated. The M code rests on the dissertation, which is not archived.</li>
+<li><strong>Wainer &amp; Francolini N (Moderate).</strong> S2 gives only “N: 16”. Experiment 2, which S3 ranks separately, used 8 returning participants. The S2 caption says separate values are shown when samples differ.</li>
+<li><strong>Several S3 cells overstate a winner or tie.</strong>
+<ul>
+<li>Correll &amp; Gleicher E1 (Moderate): box plots tied bar charts on confidence.</li>
+<li>Gschwandtner “E3b” (Moderate): centred error bars alone were significantly best.</li>
+<li>Sterzik E2 (Moderate): the authors call texture, waves, contours, colour and hulls “similar”, not ordered.</li>
+<li>Sterzik E3 (Moderate): texture ties colour on SES, and colour wins on sticks.</li>
+<li>Kusumastuti (Moderate): the table omits that E2 practice used the ellipse display.</li>
+<li>Scholz (Moderate): “mean rank 3.35” is actually a preference score, where 4 means most preferred.</li>
+</ul></li>
+</ol>
+</section>
+<section id="findings-1" class="level3">
+<h3 class="anchored" data-anchor-id="findings-1">Findings</h3>
+<p>Evidence paths are relative to <code>The Art of Uncertain Topoplots/</code>.</p>
+<section id="table-s2-tabuncertainty-evaluations" class="level4">
+<h4 class="anchored" data-anchor-id="table-s2-tabuncertainty-evaluations">Table S2 — <code>tab:uncertainty-evaluations</code></h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>ID</th>
+<th>Location</th>
+<th>Study</th>
+<th>Cell / claim</th>
+<th>Verdict</th>
+<th>Severity</th>
+<th>Evidence</th>
+<th>Proposed fix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>C1</td>
+<td><code>supplement.typ:119–125</code>, S2, Wainer</td>
+<td>Wainer &amp; Francolini 1980</td>
+<td>Scenario “Census two-variable maps”; Data R; “Univariate and bivariate colour maps”; PT; “Elementary map-reading error rate; response time”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/wainer1980colormaps.md#p009-b004"><code>raw/wainer1980colormaps.md#p009-b004</code></a>, <code>#p010-b001</code> (maps “supplied by Census”; two DVs response time and errors), <code>#p011-b001</code></td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>C2</td>
+<td><code>supplement.typ:124</code>, S2, Wainer</td>
+<td>Wainer &amp; Francolini 1980</td>
+<td>“N: 16”</td>
+<td>Supported – needs qualification</td>
+<td>Moderate</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/wainer1980colormaps.md#p009-b004"><code>raw/wainer1980colormaps.md#p009-b004</code></a> (16 students, E1); <code>#p011-b001</code> (“eight of the same subjects were re-recruited”, E2). S3 ranks E2 separately, and the S2 caption promises separate values when samples differ.</td>
+<td><code>[N: 16],</code> → <code>[*E1:* 16; *E2:* 8],</code></td>
+</tr>
+<tr class="odd">
+<td>C3</td>
+<td><code>supplement.typ:119–125</code>, S2, Wainer</td>
+<td>Wainer &amp; Francolini 1980</td>
+<td>Row included under “Empirical evaluations of uncertainty visualization techniques”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/wainer1980colormaps.md#p010-b001"><code>raw/wainer1980colormaps.md#p010-b001</code></a>: the two variables are census attributes, not a value plus its uncertainty.</td>
+<td>Add to the S2 caption: “Wainer &amp; Francolini evaluate two-variable (bivariate) colour maps rather than an uncertainty encoding; they are included as a bivariate-map precedent.”</td>
+</tr>
+<tr class="even">
+<td>C4</td>
+<td><code>supplement.typ:127–133</code>, S2, Sanyal</td>
+<td>Sanyal et al.&nbsp;2009</td>
+<td>Abstract 1D/2D; S; four techniques; PT; N 27; “Search and counting accuracy; response time”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/sanyal2009user.pdf"><code>papers/sanyal2009user.pdf</code></a> p.&nbsp;1 (abstract: generated data; 27 users; four techniques), p.&nbsp;5 §4.3 (36 total, 27 in main study), p.&nbsp;6 §4.8 (“response time in milliseconds was recorded for each question”), p.&nbsp;8 Figs. 9b–11b. Raw text is unreadable (<a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sanyal2009user.md#p001-b003"><code>raw/sanyal2009user.md#p001-b003</code></a>).</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>C5</td>
+<td><code>supplement.typ:135–143</code>, S2, MacEachren</td>
+<td>MacEachren et al.&nbsp;2012</td>
+<td>E1 Series 1: 11 visual variables; E2 Series 1: fuzziness and colour value; S; PT, SR; E1 72, E2 30; “Intuitiveness ranking (1–7); comparison accuracy; response time”</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/maceachren2012semiotics.md#p003-b003"><code>raw/maceachren2012semiotics.md#p003-b003</code></a> (22 Series-1 sets, n = 72); <code>#p004-b002</code> (1–7 DVAS, RT); <code>#p007-b003</code> (30 participants; “crispness” and “color value” in Series 1; maps “abstract enough”); <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/maceachren2012semiotics.pdf"><code>papers/maceachren2012semiotics.pdf</code></a> p.&nbsp;2 Fig. 1 (the 11 variables, including grain)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>C6</td>
+<td><code>supplement.typ:145–150</code>, S2, Correll &amp; Gleicher</td>
+<td>Correll &amp; Gleicher 2014</td>
+<td>Generic judgments; S; error bars, box plots, gradients, violins; PJ; E1 96, E2 48, E3 96</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/correll2014error.md#p004-b004"><code>raw/correll2014error.md#p004-b004</code></a> (polling/weather/finance frames; 240 involved = 96 + 48 + 96); <code>#p005-b009</code> (E1 96); <code>#p007-b009</code> (E2 48); <code>#p008-b030</code> (E3 96). No exclusions reported.</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>C7</td>
+<td><code>supplement.typ:151</code>, S2, Correll &amp; Gleicher</td>
+<td>Correll &amp; Gleicher 2014</td>
+<td>“Prediction accuracy; likelihood judgments; judgment confidence”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/correll2014error.md#p005-b009"><code>raw/correll2014error.md#p005-b009</code></a>, <code>#p006-b014</code>: Q1 is scored as adherence to the expected strategy, not as accuracy against a true outcome. <code>#p008-b031</code>: E3 also measured predicted effect size. The earlier ledger flagged “prediction accuracy” as misleading.</td>
+<td>→ <code>[Adherence to the expected inference strategy; likelihood and effect-size judgments; judgment confidence]</code></td>
+</tr>
+<tr class="even">
+<td>C8</td>
+<td><code>supplement.typ:153–159</code>, S2, Scholz</td>
+<td>Scholz &amp; Lu 2014</td>
+<td>Texas precipitation; R; four visual variables; SR; N 37; subjective ranking</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/scholz2014uncertainty.md#p004-b005"><code>raw/scholz2014uncertainty.md#p004-b005</code></a> (Texas station data 2001–2010; four variables); <code>#p005-b002</code> (72 surveyed, 12 excluded); <code>#p005-b004</code>, <code>#p007-b004</code> (37 valid rankings)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>C9</td>
+<td><code>supplement.typ:161–169</code>, S2, Greis</td>
+<td>Greis et al.&nbsp;2015</td>
+<td>Farming-game scenario; 12 displays (3 text + 9 graphics); DM, SR; “Survey: 90; game: 12”; ratings and choices</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/greis2015investigating.md#p286-b004"><code>raw/greis2015investigating.md#p286-b004</code></a>, <code>#p289-b002</code>, <code>#p289-b007</code> (Fig. 1 list), <code>#p290-b002</code> (Table 1), <code>#p290-b003</code> (90), <code>#p292-b002</code> (12 players; 442 of 480 rounds)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>C10</td>
+<td><code>supplement.typ:163</code>, S2, Greis</td>
+<td>Greis et al.&nbsp;2015</td>
+<td>Data “M” (mixed real and simulated)</td>
+<td>Not supported</td>
+<td>Moderate</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/greis2015investigating.md#p288-b004"><code>raw/greis2015investigating.md#p288-b004</code></a> (“All representations show the expected rainfall for the next three days”) and <code>#p292-b002</code> (“the forecasted weather, the real weather” refers to in-game realised weather). The archived article never states whether any data were measured. The ledger’s M rests on the non-archived dissertation.</td>
+<td>Either archive the dissertation passage and cite it, or replace <code>[M]</code> with <code>[n.r.]</code> and add to the caption “n.r. = data origin not reported in the archived source.”</td>
+</tr>
+<tr class="odd">
+<td>C11</td>
+<td><code>supplement.typ:171–176</code>, S2, Hullman</td>
+<td>Hullman et al.&nbsp;2015</td>
+<td>Fictitious seawater; S; HOPs, error bars, violins; PJ; N 288</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/hullman2015hypothetical.md#p002-b002"><code>raw/hullman2015hypothetical.md#p002-b002</code></a> (vials of sea water); <code>#p005-b003</code>; <code>#p012-b002</code> (“include all 288 subjects”)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>C12</td>
+<td><code>supplement.typ:177</code>, S2, Hullman</td>
+<td>Hullman et al.&nbsp;2015</td>
+<td>“Probability-estimation error”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/hullman2015hypothetical.md#p012-b003"><code>raw/hullman2015hypothetical.md#p012-b003</code></a> (one-variable tasks include mean (μ) estimation); <code>#p012-b002</code> (completion time analysed). Table 4, PDF p.&nbsp;13.</td>
+<td>→ <code>[Absolute error of mean and probability estimates; completion time]</code></td>
+</tr>
+<tr class="odd">
+<td>C13</td>
+<td><code>supplement.typ:179–187</code>, S2, Gschwandtner</td>
+<td>Gschwandtner et al.&nbsp;2016</td>
+<td>Abstract intervals; S; six encodings; PT, PJ, SR; N 72; errors, completion time, 5-point preferences</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gschwandtner2016visual.md#p004-b003"><code>raw/gschwandtner2016visual.md#p004-b003</code></a> (no domain); <code>#p005-b003</code> (Tasks 1–5; Task 5 is a 5-point Likert scale; time measured except for Tasks 1 and 5); <code>#p005-b004</code> (73 − 1 = 72)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>C14</td>
+<td><code>supplement.typ:189–201</code>, S2, Correll 2018</td>
+<td>Correll, Moritz &amp; Heer 2018</td>
+<td>Abstract heatmaps/Battleship; S; 8 E1 conditions and 4 E2 conditions; PT, DM; E1 24, E2 21; accuracy, RT, choices</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/correll2018task.md#p005-b002"><code>raw/correll2018task.md#p005-b002</code></a> (E1 24; accuracy and RT); <code>#p006-b006</code> (Fig. 6, 8 conditions); <code>#p007-b008</code> (E2 24 recruited, 3 excluded; 2 × 2 conditions; stimuli randomly sampled)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>C15</td>
+<td><code>supplement.typ:203–209</code>, S2, Fernandes</td>
+<td>Fernandes et al.&nbsp;2018</td>
+<td>Simulated bus arrivals; S; dotplots, CDFs, PDFs, intervals, text, baseline; DM; N 408; expected/optimal payoff, variability</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/fernandes2018uncertainty.md#p004-b003"><code>raw/fernandes2018uncertainty.md#p004-b003</code></a> (distributions generated from a model fitted to Seattle data); <code>#p007-b002</code> (408); <code>#p008-b002</code>. Minor: the PDF-interval hybrid is not named; acceptable under “PDFs”.</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>C16</td>
+<td><code>supplement.typ:211–217</code>, S2, Kale</td>
+<td>Kale et al.&nbsp;2019</td>
+<td>Simulated jobs reports; S; HOPs, error bars, line ensembles; PT; E1 50; accuracy, JND, confidence</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kale2019hypothetical.md#p005-b003"><code>raw/kale2019hypothetical.md#p005-b003</code></a> (62 recruited → 50 analysed; generated growth/no-growth samples); <code>#p006-b002</code> (JND, confidence); <code>#p007-b003</code> (E2 displays)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>C17</td>
+<td><code>supplement.typ:216</code>, S2, Kale</td>
+<td>Kale et al.&nbsp;2019</td>
+<td>“<em>E2:</em> 150”</td>
+<td>Not verifiable (source not archived)</td>
+<td>Moderate</td>
+<td>No E2 sample size appears in <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kale2019hypothetical.md"><code>raw/kale2019hypothetical.md</code></a> (searched “recruited”, “participants”, “150”). The ledger derives it from the external <code>E2-AnonymousStats.csv</code>, which is not archived.</td>
+<td>Archive the CSV, or write <code>[*E1:* 50; *E2:* 150#super[‡]]</code> and add to the caption “‡ From the authors’ released data; not stated in the paper.”</td>
+</tr>
+<tr class="even">
+<td>C18</td>
+<td><code>supplement.typ:219–225</code>, S2, Kusumastuti</td>
+<td>Kusumastuti et al.&nbsp;2023</td>
+<td>Bivariate Gaussian; S; DM; E1 118, E2 56; accuracy, RT</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kusumastuti2023practice.md#p001-b003"><code>raw/kusumastuti2023practice.md#p001-b003</code></a>; <code>#p006-b002</code> (122 − 4 = 118); <code>#p007-b004</code> (62 − 6 = 56)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>C19</td>
+<td><code>supplement.typ:222</code>, S2, Kusumastuti</td>
+<td>Kusumastuti et al.&nbsp;2023</td>
+<td>“Ensemble, summary, distribution displays” (S3 uses scatter/ellipse/interlace)</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kusumastuti2023practice.md#p004-b003"><code>raw/kusumastuti2023practice.md#p004-b003</code></a> (ellipse = summary; interlace = distributional; scatter = ensemble)</td>
+<td>→ <code>[Ensemble (scatter), summary (ellipse), and distributional (interlace) displays]</code></td>
+</tr>
+<tr class="even">
+<td>C20</td>
+<td><code>supplement.typ:227–232</code>, S2, Sterzik</td>
+<td>Sterzik et al.&nbsp;2025</td>
+<td>Protein positional uncertainty; M; nine metaphors; E1 540, E2 793 total, E3 423, experts 6</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sterzik2025.md#p001-b003"><code>raw/sterzik2025.md#p001-b003</code></a> (nine metaphors; 1,756 = 540 + 793 + 423; six experts); <code>#p008-b003</code> (NMR ensembles plus MD simulations; 793); <code>#p009-b003</code> (423)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>C21</td>
+<td><code>supplement.typ:231–233</code>, S2, Sterzik</td>
+<td>Sterzik et al.&nbsp;2025</td>
+<td>Type “PT, QF”; measures “Mapping-direction judgments; uncertainty-estimation accuracy; qualitative expert feedback”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sterzik2025.md#p008-b003"><code>raw/sterzik2025.md#p008-b003</code></a> (E1 free-text descriptions); <code>#p009-b003</code> (E3 timed and followed by 5-point ratings of appeal, confusion and perceived performance); <code>#p011-b003</code> (Fig. 9 ratings)</td>
+<td>Type → <code>[PT, SR, QF]</code>; measures → <code>[Free-text associations; mapping-direction judgments; uncertainty-estimation error and response time; confusion/appeal ratings; qualitative expert feedback]</code></td>
+</tr>
+<tr class="even">
+<td>C22</td>
+<td><code>supplement.typ:176</code>, S2, Hullman</td>
+<td>Hullman et al.&nbsp;2015</td>
+<td>“<em>N:</em> 288” (bold), while other rows use plain “N:”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td>Formatting consistency only</td>
+<td><code>[*N:* 288],</code> → <code>[N: 288],</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="table-s3-tabuncertainty-ranking" class="level4">
+<h4 class="anchored" data-anchor-id="table-s3-tabuncertainty-ranking">Table S3 — <code>tab:uncertainty-ranking</code></h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>ID</th>
+<th>Location</th>
+<th>Study</th>
+<th>Cell / claim</th>
+<th>Verdict</th>
+<th>Severity</th>
+<th>Evidence</th>
+<th>Proposed fix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>C23</td>
+<td><code>supplement.typ:276–284</code>, S3, Wainer</td>
+<td>Wainer &amp; Francolini 1980</td>
+<td>E1 errors: univariate best, bivariate faster; E2: univariate best; † on both</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/wainer1980colormaps.md#p011-b001"><code>raw/wainer1980colormaps.md#p011-b001</code></a> (errors .24 vs .08; “bivariate maps are responded to a bit more quickly”; Table 3 ANOVA, map type F = 34.9 / 7.8; E2: “univariate maps being vastly superior”; Table 6 ANOVA)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>C24</td>
+<td><code>supplement.typ:278</code>, S3, Wainer</td>
+<td>Wainer &amp; Francolini 1980</td>
+<td>“<em>E2</em>: Repeat the task without the colour legend.”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/wainer1980colormaps.md#p011-b001"><code>raw/wainer1980colormaps.md#p011-b001</code></a>: E2 repeated the four legend trials and added a fifth legend-free trial, with 8 returning participants.</td>
+<td>→ <code>*E2*#super[†]: Eight E1 participants repeated the task, with an added fifth trial per map type without the colour legend.</code></td>
+</tr>
+<tr class="odd">
+<td>C25</td>
+<td><code>supplement.typ:286–300</code>, S3, Sanyal</td>
+<td>Sanyal et al.&nbsp;2009</td>
+<td>Tasks and †. E1 best (1D least: glyph size; 1D most: glyph colour and surface colour; 2D least: surface colour). E2 1D: no difference. E2 2D: surface colour best for uncertainty features, glyph size best for data features. Lower orders for 2D least, 2D uncertainty-features and 2D data-features</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/sanyal2009user.pdf"><code>papers/sanyal2009user.pdf</code></a> p.&nbsp;7 Table 1 (Bonferroni pairwise tests; CUF/CDF 1D “No significant difference”; 2D CDF: glyph colour and error bars both beat surface colour; glyph colour vs error bars not significant); p.&nbsp;8 text (“glyph-color and surface-color performed better than glyph-size … high uncertainty”)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>C26</td>
+<td><code>supplement.typ:295</code>, S3, Sanyal</td>
+<td>Sanyal et al.&nbsp;2009</td>
+<td>“<em>1D</em> least: glyph colour ≈ surface colour &gt; error bars”</td>
+<td>Not supported</td>
+<td>High</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/sanyal2009user.pdf"><code>papers/sanyal2009user.pdf</code></a> p.&nbsp;7 Table 1, 1D SLU: glyph size beats glyph colour, surface colour and error bars, and <strong>error bars beat surface colour</strong> (p ≤ .0083). The paper gives no per-task means (Figs. 10–11 pool tasks), so the cell reverses the only reported lower-order contrast.</td>
+<td>→ <code>_1D_ least: error bars &gt; surface colour; glyph colour ≈ both</code></td>
+</tr>
+<tr class="odd">
+<td>C27</td>
+<td><code>supplement.typ:295–296</code>, S3, Sanyal</td>
+<td>Sanyal et al.&nbsp;2009</td>
+<td>“<em>1D</em> highest: glyph size &gt; error bars”</td>
+<td>Not supported</td>
+<td>High</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/sanyal2009user.pdf"><code>papers/sanyal2009user.pdf</code></a> p.&nbsp;7 Table 1, 1D SHU: only glyph colour and surface colour beat glyph size and error bars. No glyph size vs error bars difference is reported, and the table lists significant results only (p.&nbsp;7 text).</td>
+<td>→ <code>_1D_ most: glyph size ≈ error bars</code></td>
+</tr>
+<tr class="even">
+<td>C28</td>
+<td><code>supplement.typ:291–292</code> and <code>296–297</code>, S3, Sanyal</td>
+<td>Sanyal et al.&nbsp;2009</td>
+<td>2D best for most uncertain: “glyph colour and surface colour”; others “<em>2D</em> highest: glyph size &gt; error bars”</td>
+<td>Overstated</td>
+<td>Moderate</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/sanyal2009user.pdf"><code>papers/sanyal2009user.pdf</code></a> p.&nbsp;7 Table 1, 2D SHU: surface colour beats glyph size* and error bars<strong>; glyph size</strong> and glyph colour** beat error bars. Glyph colour is <strong>not</strong> reported better than glyph size, so it is not a co-winner.</td>
+<td>Best → <code>surface colour (≈ glyph colour) for locating the most uncertain value</code>; others → <code>_2D_ most: glyph colour ≈ glyph size &gt; error bars; surface colour &gt; glyph size</code></td>
+</tr>
+<tr class="odd">
+<td>C29</td>
+<td><code>supplement.typ:295–297</code>, S3, Sanyal</td>
+<td>Sanyal et al.&nbsp;2009</td>
+<td>Labels “least/highest” vs “least/most” in the adjacent column</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td>Consistency only (paper: “low/high uncertainty”)</td>
+<td>Replace “highest” with “most” in both places (covered by the C27 and C28 replacements).</td>
+</tr>
+<tr class="even">
+<td>C30</td>
+<td><code>supplement.typ:304–312</code>, S3, MacEachren</td>
+<td>MacEachren et al.&nbsp;2012</td>
+<td>E1/E2 task text; E1 best fuzziness, location, value; RT no winner; E2 no winner, fuzziness ≈ colour value; †</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/maceachren2012semiotics.md#p003-b003"><code>raw/maceachren2012semiotics.md#p003-b003</code></a>; <code>#p004-b002</code> (Series 1 Kruskal-Wallis significant at .01; no RT difference; means &gt; 5 for fuzziness, location, value); <code>#p007-b003</code>; <code>#p009-b003</code> (“no significant difference in accuracy or RT … two tested Series #1 symbol sets”)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>C31</td>
+<td><code>supplement.typ:310–311</code>, S3, MacEachren</td>
+<td>MacEachren et al.&nbsp;2012</td>
+<td>“arrangement, size, and transparency &gt; saturation, hue, orientation, and shape”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/maceachren2012semiotics.md#p004-b002"><code>raw/maceachren2012semiotics.md#p004-b002</code></a> classifies only 10 of the 11 variables, leaving grain out. <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/maceachren2012semiotics.pdf"><code>papers/maceachren2012semiotics.pdf</code></a> p.&nbsp;5 Fig. 4: grain (intuitive direction) has a mean of roughly 3.8 by visual reading, i.e.&nbsp;in the “&lt; 4” group.</td>
+<td>Append: <code>(grain, not classified in the text, also had a mean below 4 in Fig. 4)</code></td>
+</tr>
+<tr class="even">
+<td>C32</td>
+<td><code>supplement.typ:322</code>, S3, Correll &amp; Gleicher</td>
+<td>Correll &amp; Gleicher 2014</td>
+<td>“<em>E1:</em> gradient ≈ violin ≈ box plot.”</td>
+<td>Overstated</td>
+<td>Moderate</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/correll2014error.md#p006-b014"><code>raw/correll2014error.md#p006-b014</code></a>: all three symmetric encodings avoided within-bar bias and beat bars on strategy adherence (89.2/88.5/87.4 vs 83.2%). On confidence, however, gradient (5.12) and violin (5.06) beat bar charts <strong>and box plots</strong> (both 4.86; Tukey HSD).</td>
+<td>→ <code>*E1:* gradient ≈ violin; box plots matched them on strategy adherence and absence of within-bar bias but not on confidence (box = bar).</code></td>
+</tr>
+<tr class="odd">
+<td>C33</td>
+<td><code>supplement.typ:314–330</code>, S3, Correll &amp; Gleicher</td>
+<td>Correll &amp; Gleicher 2014</td>
+<td>E1 bars: within-bar bias; E2 text trade-off; E3 gradient ≈ violin ≈ box, bars larger predicted differences and higher confidence; †</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/correll2014error.md#p006-b014"><code>raw/correll2014error.md#p006-b014</code></a>; <code>#p007-b011</code>, <code>#p007-b013</code> (91.6 vs 62.2%; more confident without visual error bars; bias mitigated only with both elements in text); <code>#p008-b031</code> (bar M = 1.65 vs 1.54/1.54/1.43; confidence 5.21 vs others n.s.)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>C34</td>
+<td><code>supplement.typ:332–336</code>, S3, Scholz</td>
+<td>Scholz &amp; Lu 2014</td>
+<td>Order fuzziness 3.35 &gt; lightness 2.97 &gt; transparency 2.38 &gt; shape 1.30; †</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/scholz2014uncertainty.md#p007-b004"><code>raw/scholz2014uncertainty.md#p007-b004</code></a> (Kendall’s W across 37 rankings, p ≤ .005; this test is equivalent to a Friedman test of rank differences)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>C35</td>
+<td><code>supplement.typ:334</code>, S3, Scholz</td>
+<td>Scholz &amp; Lu 2014</td>
+<td>“(mean rank 3.35)”</td>
+<td>Supported – needs qualification</td>
+<td>Moderate</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/scholz2014uncertainty.md#p005-b004"><code>raw/scholz2014uncertainty.md#p005-b004</code></a>: ranks were recoded as preference scores (rank 1 → 4). A “mean rank” of 3.35 would read as near-last.</td>
+<td>→ <code>(mean preference score 3.35; 4 = most preferred)</code></td>
+</tr>
+<tr class="even">
+<td>C36</td>
+<td><code>supplement.typ:338–348</code>, S3, Greis</td>
+<td>Greis et al.&nbsp;2015</td>
+<td>E1 order and overall means (4.00 … 2.43); E2 69% / 8 of 12, 64% &gt; 60% &gt; 57%; † on E1 only</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/greis2015investigating.md#p291-b002"><code>raw/greis2015investigating.md#p291-b002</code></a> (Table 2, column O); <code>#p290-b004</code> (Friedman and Wilcoxon tests per statement); <code>#p292-b002</code> (game percentages and preferences; no test)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>C37</td>
+<td><code>supplement.typ:339</code>, S3, Greis</td>
+<td>Greis et al.&nbsp;2015</td>
+<td>“Rate how well 12 weather-forecast displays communicated uncertainty.”</td>
+<td>Supported – needs qualification</td>
+<td>Moderate</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/greis2015investigating.md#p289-b002"><code>raw/greis2015investigating.md#p289-b002</code></a>: participants rated decision support, familiarity, ease of understanding and visual appeal; none of the items asks how well a display communicated uncertainty. The S3 values are the overall mean (O) of these four items (<code>#p291-b002</code>). The Friedman tests were run per statement, not on O (<code>#p290-b004</code>).</td>
+<td>→ <code>*E1*#super[†]: Rate 12 weather-forecast displays on decision support, familiarity, ease of understanding, and visual appeal (5-point scales; order uses the overall mean).</code></td>
+</tr>
+<tr class="even">
+<td>C38</td>
+<td><code>supplement.typ:350–356</code>, S3, Hullman</td>
+<td>Hullman et al.&nbsp;2015</td>
+<td>E1 no clear winner; E2–E3 HOPs; violin ≈ error bars; †</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/hullman2015hypothetical.md#p012-b003"><code>raw/hullman2015hypothetical.md#p012-b003</code></a> (mixed one-variable results); <code>#p013-b005</code>; <code>#p015-b003</code>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/hullman2015hypothetical.pdf"><code>papers/hullman2015hypothetical.pdf</code></a> p.&nbsp;13 Table 4 (only HOPs starred in rows 9–13; violin vs error bars not different)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>C39</td>
+<td><code>supplement.typ:358–374</code>, S3, Gschwandtner</td>
+<td>Gschwandtner et al.&nbsp;2016</td>
+<td>E2 (ambiguation ≈ EB ≈ centred EB; gradient &gt; acc. prob. ≈ violin); E3a; E4 gradient (acc. prob. ≈ violin); E5 preference order; † on E2–E4</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gschwandtner2016visual.md#p007-b004"><code>raw/gschwandtner2016visual.md#p007-b004</code></a>, <code>#p008-b003</code>, <code>#p008-b004</code> (acc. prob. vs violin p = .06 = inconclusive); <code>#p005-b004</code> (ANOVA/Kruskal-Wallis plus post hoc); <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/gschwandtner2016visual.pdf"><code>papers/gschwandtner2016visual.pdf</code></a> p.&nbsp;9 Fig. 10 (≈ 0.8 ambiguation, ≈ 0.35 acc. prob., ≈ 0.1 centred EB, ≈ 0.07 EB, ≈ −0.45 violin, ≈ −0.55 gradient; no test)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>C40</td>
+<td><code>supplement.typ:366</code>, <code>371</code>, S3, Gschwandtner</td>
+<td>Gschwandtner et al.&nbsp;2016</td>
+<td>“<em>E3b:</em> centred error bars ≈ error bars ≈ ambiguation.”</td>
+<td>Supported – needs qualification</td>
+<td>Moderate</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gschwandtner2016visual.md#p008-b003"><code>raw/gschwandtner2016visual.md#p008-b003</code></a> (H4): only centred EB is reported significantly better than gradient, acc. prob. and violin. <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/gschwandtner2016visual.pdf"><code>papers/gschwandtner2016visual.pdf</code></a> p.&nbsp;9 Fig. 8: centred EB median error is near 0, well below EB and ambiguation (≈ 2 h). The “≈” contradicts the point estimates the caption says rankings follow.</td>
+<td>Best → <code>*E3c:* centred error bars (significantly lower error than gradient, accumulated probability, and violin); error bars ≈ ambiguation next.</code>; others → <code>*E3c:* gradient, accumulated probability, and violin.</code></td>
+</tr>
+<tr class="odd">
+<td>C41</td>
+<td><code>supplement.typ:359–366</code>, S3, Gschwandtner</td>
+<td>Gschwandtner et al.&nbsp;2016</td>
+<td>Labels “E3a” (min/max duration) and “E3b” (average duration)</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gschwandtner2016visual.md#p005-b003"><code>raw/gschwandtner2016visual.md#p005-b003</code></a>, <code>#p005-b004</code>: the paper’s Tasks 3a/3b are max/min duration and 3c is average duration. The S3 labels clash with the source numbering.</td>
+<td>Rename <code>E3a</code> → <code>E3a–b</code> and <code>E3b</code> → <code>E3c</code> throughout the row.</td>
+</tr>
+<tr class="even">
+<td>C42</td>
+<td><code>supplement.typ:376–385</code>, S3, Correll 2018</td>
+<td>Correll, Moritz &amp; Heer 2018</td>
+<td>E1: discrete superimposed (VSUP and traditional, both legends) tied best; juxtaposed discrete &gt; juxtaposed continuous &gt; continuous wedge &gt; continuous square; †</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/correll2018task.md#p005-b002"><code>raw/correll2018task.md#p005-b002</code></a>, <code>#p006-b015</code> (no legend or quantization effect among discrete superimposed maps; juxtaposition and discretization significant); <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/correll2018task.pdf"><code>papers/correll2018task.pdf</code></a> p.&nbsp;6 Fig. 7 (≈ .86/.81/.79/.76 &gt; .56 &gt; .50 &gt; .43 &gt; .39)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>C43</td>
+<td><code>supplement.typ:381</code>, <code>385</code>, S3, Correll 2018</td>
+<td>Correll, Moritz &amp; Heer 2018</td>
+<td>Best “<em>E2:</em> VSUP + wedge legend ≈ VSUP + square legend”; others “Traditional bivariate + wedge ≈ square” (i.e., VSUP &gt; traditional)</td>
+<td>Not supported</td>
+<td>High</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/correll2018task.md#p007-b008"><code>raw/correll2018task.md#p007-b008</code></a>: no effect of quantization on mean placement uncertainty (p = .83); the KS test shows VSUP users avoided very-high-uncertainty cells. <code>#p008-b002</code>: VSUP placements had <strong>higher</strong> average danger, i.e.&nbsp;lower expected value (p = .02). The paper reports a shift in risk profile, not a performance win.</td>
+<td>Best → <code>*E2:* no clear winner: VSUPs reduced very-high-uncertainty placements but produced higher average danger than traditional bivariate maps; legend shape had no effect.</code>; others → <code>*E2:* not ranked (trade-off between avoiding high uncertainty and expected value).</code></td>
+</tr>
+<tr class="even">
+<td>C44</td>
+<td><code>supplement.typ:387–390</code>, S3, Fernandes</td>
+<td>Fernandes et al.&nbsp;2018</td>
+<td>Task; best 50-dot dotplot; no †</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/fernandes2018uncertainty.md#p008-b002"><code>raw/fernandes2018uncertainty.md#p008-b002</code></a> (“dot50 (the best-performing condition)”); Bayesian model with credible intervals, no significance test</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>C45</td>
+<td><code>supplement.typ:391–393</code>, S3, Fernandes</td>
+<td>Fernandes et al.&nbsp;2018</td>
+<td>“CDF ≈ 20-dot … &gt; remaining displays; … high-probability text approached their mean performance with greater variability”</td>
+<td>Supported – needs qualification</td>
+<td>Low</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/fernandes2018uncertainty.md#p008-b002"><code>raw/fernandes2018uncertainty.md#p008-b002</code></a>: dot50, cdf and dot20 beat <strong>most</strong> other conditions. Both text99 <strong>and text60</strong> “performed nearly as well as dot20”. Only text99’s higher variance is quantified, and text85 resembled the no-uncertainty baseline.</td>
+<td>→ <code>*E1:* CDF ≈ 20-dot quantile dotplot &gt; most remaining displays; 99% and 60% text intervals approached 20-dot mean performance (99% text with higher variability), while 85% text resembled the no-uncertainty baseline; no complete lower-order ranking was reported.</code></td>
+</tr>
+<tr class="even">
+<td>C46</td>
+<td><code>supplement.typ:395–401</code>, S3, Kale</td>
+<td>Kale et al.&nbsp;2019</td>
+<td>E1 HOPs &gt; error bars; E2 regular HOPs best, no winner for confidence calibration, fast HOPs ≈ line ensemble; †</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kale2019hypothetical.md#p006-b002"><code>raw/kale2019hypothetical.md#p006-b002</code></a> (JND p = .02; confidence fitness n.s.); <code>#p007-b003</code> (regular HOPs vs ensembles p = .01); <code>#p008-b003</code> (fast HOPs vs ensembles p = .13, “small and unreliable”; confidence fitness n.s.)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>C47</td>
+<td><code>supplement.typ:403–410</code>, S3, Kusumastuti</td>
+<td>Kusumastuti et al.&nbsp;2023</td>
+<td>E1: two-source ellipse ≈ interlace ≈ scatter; three-source scatter ≈ ellipse &gt; interlace. E2 three-source: ellipse &gt; interlace ≈ scatter. Ellipse slower; no †</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kusumastuti2023practice.md#p007-b003"><code>raw/kusumastuti2023practice.md#p007-b003</code></a> (.74/.73 vs .71; ellipse slower pre and post); <code>#p008-b003</code> (.79 vs .72/.72; ellipse slightly slower post)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>C48</td>
+<td><code>supplement.typ:404–410</code>, S3, Kusumastuti</td>
+<td>Kusumastuti et al.&nbsp;2023</td>
+<td>Rankings given without stating they are post-practice or which display was practised</td>
+<td>Supported – needs qualification</td>
+<td>Moderate</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kusumastuti2023practice.md#p009-b005"><code>raw/kusumastuti2023practice.md#p009-b005</code></a> (Fig. 10: E1 practised with scatter, E2 with ellipse); <code>#p011-b002</code> (practice with the summary display gave a specific advantage on it). The earlier S3 audit retained this qualification, but the current text lacks it.</td>
+<td>→ <code>*E1* (practised with scatter), post-practice two-source accuracy: ellipse ≈ interlace ≈ scatter; three-source: scatter ≈ ellipse.#linebreak() *E2* (practised with ellipse), post-practice three-source accuracy: ellipse; time in both experiments: interlace ≈ scatter.</code></td>
+</tr>
+<tr class="odd">
+<td>C49</td>
+<td><code>supplement.typ:412–417</code>, S3, Sterzik</td>
+<td>Sterzik et al.&nbsp;2025</td>
+<td>Task text; E1 no clear winner; E2 noise ≈ 90%; no †</td>
+<td>Supported</td>
+<td>—</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sterzik2025.md#p008-b003"><code>raw/sterzik2025.md#p008-b003</code></a> (17 of 540 descriptions mention uncertainty, 4 for noise); <code>#p009-b002</code> (noise ≈ 90% filtered); <code>#p009-b003</code> (CIs used instead of NHST)</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>C50</td>
+<td><code>supplement.typ:419–420</code>, S3, Sterzik</td>
+<td>Sterzik et al.&nbsp;2025</td>
+<td>“<em>E2</em> approximate partial order: texture &gt; colour ≈ waves ≈ contours &gt; hulls &gt; ensemble ≈ clouds &gt; sausages.”</td>
+<td>Overstated</td>
+<td>Moderate</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sterzik2025.md#p009-b002"><code>raw/sterzik2025.md#p009-b002</code></a>: “texture, waves, contours, color, and hulls were similar, with accuracies of approximately 0.7”; ensemble, clouds and sausages ≈ 0.5. <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/papers/sterzik2025.pdf"><code>papers/sterzik2025.pdf</code></a> p.&nbsp;9 Fig. 5 (filtered, the set the 90% comes from): colour ≈ 0.76 is the highest of the middle group, with texture ≈ 0.73 and hulls ≈ 0.66, all with overlapping CIs. Sausages are lowest (&lt; 0.5).</td>
+<td>→ <code>*E2* (filtered): texture ≈ colour ≈ waves ≈ contours ≈ hulls (≈ 70%) &gt; ensemble ≈ clouds ≈ sausages (≈ 50%; sausages lowest).</code></td>
+</tr>
+<tr class="odd">
+<td>C51</td>
+<td><code>supplement.typ:418</code>, <code>421–422</code>, S3, Sterzik</td>
+<td>Sterzik et al.&nbsp;2025</td>
+<td>Best “<em>E3:</em> texture (lowest error; most well-rounded)”; others “noise, waves, and colour generally formed the next group”</td>
+<td>Supported – needs qualification</td>
+<td>Moderate</td>
+<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sterzik2025.md#p010-b003"><code>raw/sterzik2025.md#p010-b003</code></a>, <code>#p011-b003</code>. Tube: texture MAE 14; waves 22; sausages, noise, contours and colour 23; hulls 28; ensembles 34; clouds 39. SES: texture ≈ colour (13). Sticks: “color performs best”. Authors’ overall verdict that texture was best and most well-rounded: <code>#p012-b002</code>, <code>#p013-b002</code>.</td>
+<td>Best → <code>*E3:* texture on tube (MAE 14) and tied with colour on SES (MAE 13); colour best on sticks; authors judge texture most well-rounded overall.</code>; others → <code>*E3:* order below the best changed by representation (tube: waves ≈ sausages ≈ noise ≈ contours ≈ colour &gt; hulls &gt; ensembles &gt; clouds).</code></td>
+</tr>
+</tbody>
+</table>
+<p>Note on the S3 caption (<code>supplement.typ:425–436</code>): the statement that “rankings follow reported point estimates and authors’ stated comparisons” holds for most rows. Sanyal is the exception. Its lower orders can only come from pairwise significance results, because no per-task means are published. Fixes C26–C28 make the Sanyal row consistent with that evidence.</p>
+</section>
+</section>
+<section id="earlier-corrections" class="level3">
+<h3 class="anchored" data-anchor-id="earlier-corrections">Earlier corrections</h3>
+<section id="claim-auditstable-2.md-29-oct-2026" class="level4">
+<h4 class="anchored" data-anchor-id="claim-auditstable-2.md-29-oct-2026"><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/claim-audits/table-2.md"><code>claim-audits/table-2.md</code></a> (29 Oct 2026)</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Earlier correction / qualification</th>
+<th>Status in current text</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Wainer N = 16 (not 18)</td>
+<td><strong>Applied</strong> (<code>:124</code>)</td>
+<td>E2 n = 8 is still missing; see C2.</td>
+</tr>
+<tr class="even">
+<td>Correll 2018 E2: 24 recruited / 21 analysed</td>
+<td><strong>Applied</strong> (<code>:200</code> “E2: 21”)</td>
+<td>Matches the caption’s analytic-sample rule.</td>
+</tr>
+<tr class="odd">
+<td>Scholz: 72 surveyed / 60 analysed / 37 valid rankings</td>
+<td><strong>Superseded</strong></td>
+<td>The row now covers only the preference ranking (Type SR); N 37 is correct for that scope (C8).</td>
+</tr>
+<tr class="even">
+<td>Greis: survey 90 + game 12; no dissertation counts</td>
+<td><strong>Applied</strong> (<code>:168</code>)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>MacEachren: pilot 31, E1 72, E2 30; encoding list overcompressed</td>
+<td><strong>Applied / superseded</strong></td>
+<td>Now restricted to Series 1 with all 11 variables listed; pilot correctly omitted.</td>
+</tr>
+<tr class="even">
+<td>MacEachren Data S tentative</td>
+<td><strong>Resolved (applied)</strong></td>
+<td><code>#p007-b003</code>: maps were “abstract enough”; S is supported.</td>
+</tr>
+<tr class="odd">
+<td>Sanyal: response time “needs checking”</td>
+<td><strong>Resolved</strong></td>
+<td>Verified in the PDF (p.&nbsp;6 §4.8; Figs. 9b–11b).</td>
+</tr>
+<tr class="even">
+<td>Correll &amp; Gleicher: PJ is broad; “prediction accuracy” misleading</td>
+<td><strong>Not applied</strong></td>
+<td>See C7.</td>
+</tr>
+<tr class="odd">
+<td>Correll 2018: Data S refers to experimental stimuli</td>
+<td><strong>Applied</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Greis Data M “provisional, verify in P2”</td>
+<td><strong>Not applied</strong></td>
+<td>Still unverified in the archive; see C10.</td>
+</tr>
+<tr class="odd">
+<td>Gschwandtner N = 72 after one exclusion</td>
+<td><strong>Applied</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Kale E1 50 of 62; E2 150 from external CSV only</td>
+<td><strong>Partly applied</strong></td>
+<td>E1 is correct. E2 150 is shown with no source caveat; see C17.</td>
+</tr>
+<tr class="odd">
+<td>Kale: four techniques (bar HOPs, error bars, line HOPs, line ensembles)</td>
+<td><strong>Superseded (acceptable compression)</strong></td>
+<td>Three families listed; no factual error.</td>
+</tr>
+<tr class="even">
+<td>Hullman: completion time as a secondary measure</td>
+<td><strong>Not applied</strong></td>
+<td>See C12 (Low).</td>
+</tr>
+<tr class="odd">
+<td>Sterzik: 1,756 is not per experiment; check “interview” wording</td>
+<td><strong>Applied</strong></td>
+<td>Per-experiment values shown; “qualitative expert feedback”.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="reportstable-s3-literature-audit.md" class="level4">
+<h4 class="anchored" data-anchor-id="reportstable-s3-literature-audit.md"><code>reports/table-s3-literature-audit.md</code></h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Earlier qualification / correction</th>
+<th>Status in current text</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Wainer: accuracy and time favour different displays</td>
+<td><strong>Applied</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Sanyal: rankings are descriptive means, differ 1D vs 2D, no universal winner</td>
+<td><strong>Partly applied; premise incorrect</strong></td>
+<td>1D/2D split applied. The paper has no per-task means, and two lower orders contradict or go beyond Table 1; see C26–C28.</td>
+</tr>
+<tr class="odd">
+<td>MacEachren: no consistent iconicity accuracy effect; abstract faster</td>
+<td><strong>Superseded</strong></td>
+<td>The row now covers only Series 1.</td>
+</tr>
+<tr class="even">
+<td>Correll &amp; Gleicher: bars vs symmetric alternatives, no reliable order among alternatives</td>
+<td><strong>Applied, with one gap</strong></td>
+<td>E1 box-plot confidence gap; see C32.</td>
+</tr>
+<tr class="odd">
+<td>Scholz: only the preference task ranks encodings</td>
+<td><strong>Applied</strong></td>
+<td>The “mean rank” label is wrong; see C35.</td>
+</tr>
+<tr class="even">
+<td>Greis: survey and game reported separately; game n = 12</td>
+<td><strong>Applied</strong></td>
+<td>The E1 task description is wrong; see C37.</td>
+</tr>
+<tr class="odd">
+<td>Hullman: HOPs dominate multi-variable tasks, not one-variable; time n.s.</td>
+<td><strong>Applied</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Gschwandtner: task-dependent orders</td>
+<td><strong>Applied</strong></td>
+<td>E3b/E3c labelling and ranking; see C40–C41.</td>
+</tr>
+<tr class="odd">
+<td>Correll 2018: E2 shows a change in uncertainty-sensitive choices, not a universal decision advantage</td>
+<td><strong>Not applied</strong></td>
+<td>The current S3 ranks VSUP best in E2; see C43 (High).</td>
+</tr>
+<tr class="even">
+<td>Fernandes: dot50 clearest; no complete lower order</td>
+<td><strong>Applied</strong></td>
+<td>Text60 omitted; see C45.</td>
+</tr>
+<tr class="odd">
+<td>Kale: regular HOPs beat the static display; fast HOPs vs ensembles inconclusive</td>
+<td><strong>Applied</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Kusumastuti: practice and source number alter the order; E2 ellipse advantage follows ellipse practice</td>
+<td><strong>Partly applied</strong></td>
+<td>Practice is mentioned generically; the practised display is missing; see C48.</td>
+</tr>
+<tr class="odd">
+<td>Sterzik: criteria favour different metaphors; lower order varies by representation</td>
+<td><strong>Applied for E3, overstated for E2</strong></td>
+<td>See C50–C51.</td>
+</tr>
+<tr class="even">
+<td>S2 correction: Scholz N 60 → 72/37/60</td>
+<td><strong>Superseded</strong></td>
+<td>Current “N: 37” matches the narrowed SR scope.</td>
+</tr>
+<tr class="odd">
+<td>S2 correction: Greis game 44 → 12</td>
+<td><strong>Applied</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

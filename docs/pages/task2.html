@@ -1228,10 +1228,12 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <h2 class="anchored" data-anchor-id="detection-score-analysis">Detection-score analysis</h2>
 <ul>
 <li><p>The primary analysis uses the extended model:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>score <span class="sc">~</span> vistype <span class="sc">+</span> pattern <span class="sc">+</span> position_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> ID) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>score <span class="sc">~</span> vistype <span class="sc">+</span> pattern <span class="sc">+</span> position_c <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span> <span class="sc">|</span> ID) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus<span class="sc">:</span>vistype)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>The outcome contains exact 0 and 1 values as well as intermediate scores. An ordered-beta model retains this graded information while supporting the complete closed interval from 0 to 1. A binary logistic model would instead treat every score below 1 as equally incorrect.</p></li>
 <li><p>Every participant completed 21 trials, so responses from the same participant are related. Adding <code>(1 | ID)</code> gives each participant their own baseline detection performance while estimating common visualization, pattern, and presentation-position effects.</p></li>
 <li><p>Some stimuli may be intrinsically easier to interpret than others. Adding <code>(1 | stimulus)</code> gives each stimulus its own baseline score, so visualization comparisons are not attributed to stimulus difficulty alone.</p></li>
+<li><p>Each stimulus was rendered in all seven visualizations, giving 210 distinct images, and each image was seen by about 15 participants. Adding <code>(1 | stimulus:vistype)</code> gives each image its own deviation from what its stimulus and visualization predict. Without it, the responses to one image would count as independent evidence about the visualization, although they share whatever made that particular image easy or hard.</p></li>
 <li><p>ERP pattern and centered presentation position adjust the visualization comparisons for the displayed pattern and for linear change as participants progressed through the task.</p></li>
 <li><p>The simpler base model is shown first as a reference. It contains visualization type and a participant random intercept but does not adjust for pattern, presentation position, or differences among stimuli.</p></li>
 </ul>
@@ -1383,7 +1385,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model_task2 <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  score <span class="sc">~</span> vistype <span class="sc">+</span> pattern <span class="sc">+</span> position_c <span class="sc">+</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> ID) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> ID) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus<span class="sc">:</span>vistype),</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">ordbeta</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> task2_model</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -1396,7 +1398,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="fu">c</span>(</span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Base: visualization type + participant intercept"</span>,</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Extended: pattern + position + participant and stimulus intercepts"</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Extended: pattern + position + participant, stimulus and image intercepts"</span></span>
 <span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  ),</span>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters =</span> <span class="fu">c</span>(</span>
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attr</span>(<span class="fu">logLik</span>(model_task2_base), <span class="st">"df"</span>),</span>
@@ -1441,11 +1443,11 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <td style="text-align: right;">-933.679</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Extended: pattern + position + participant and stimulus intercepts</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">1177.984</td>
-<td style="text-align: right;">1268.406</td>
-<td style="text-align: right;">-573.992</td>
+<td style="text-align: left;">Extended: pattern + position + participant, stimulus and image intercepts</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">1106.858</td>
+<td style="text-align: right;">1203.308</td>
+<td style="text-align: right;">-537.429</td>
 </tr>
 </tbody>
 </table>
@@ -1461,7 +1463,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;code&gt;score ~ vistype + (1 | ID)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Extended model:&lt;/strong&gt; "</span>,</span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;code&gt;score ~ vistype + pattern + position_c + "</span>,</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(1 | ID) + (1 | stimulus)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;/ul&gt;"</span></span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  ),</span>
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">"Models"</span></span>
@@ -1478,7 +1480,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <strong>Base model:</strong> <code>score ~ vistype + (1 | ID)</code>.
 </li>
 <li>
-<strong>Extended model:</strong> <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus)</code>.
+<strong>Extended model:</strong> <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.
 </li>
 </ul>
 </div>
@@ -1538,73 +1540,73 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot (intercept)</td>
-<td style="text-align: right;">0.648</td>
-<td style="text-align: right;">0.167</td>
-<td style="text-align: right;">3.870</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt; 0.001</span></td>
+<td style="text-align: right;">0.679</td>
+<td style="text-align: right;">0.179</td>
+<td style="text-align: right;">3.793</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt;0.001</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots vs Basic topoplot</td>
-<td style="text-align: right;">0.064</td>
-<td style="text-align: right;">0.060</td>
-<td style="text-align: right;">1.079</td>
-<td style="text-align: left;">0.28057</td>
+<td style="text-align: right;">0.078</td>
+<td style="text-align: right;">0.092</td>
+<td style="text-align: right;">0.847</td>
+<td style="text-align: left;">0.3971</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Animation vs Basic topoplot</td>
-<td style="text-align: right;">0.008</td>
-<td style="text-align: right;">0.059</td>
-<td style="text-align: right;">0.137</td>
-<td style="text-align: left;">0.89138</td>
+<td style="text-align: right;">-0.016</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">-0.179</td>
+<td style="text-align: left;">0.8579</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate corner vs Basic topoplot</td>
-<td style="text-align: right;">-0.167</td>
-<td style="text-align: right;">0.059</td>
-<td style="text-align: right;">-2.826</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00471</span></td>
+<td style="text-align: right;">-0.153</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">-1.678</td>
+<td style="text-align: left;">0.0933</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range vs Basic topoplot</td>
-<td style="text-align: right;">0.045</td>
-<td style="text-align: right;">0.059</td>
-<td style="text-align: right;">0.755</td>
-<td style="text-align: left;">0.45020</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">0.304</td>
+<td style="text-align: left;">0.7613</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Confidence intervals vs Basic topoplot</td>
-<td style="text-align: right;">0.083</td>
-<td style="text-align: right;">0.059</td>
-<td style="text-align: right;">1.401</td>
-<td style="text-align: left;">0.16135</td>
+<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">0.660</td>
+<td style="text-align: left;">0.5096</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Uncertainty markers vs Basic topoplot</td>
-<td style="text-align: right;">-0.025</td>
-<td style="text-align: right;">0.059</td>
-<td style="text-align: right;">-0.421</td>
-<td style="text-align: left;">0.67403</td>
+<td style="text-align: right;">-0.031</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">-0.335</td>
+<td style="text-align: left;">0.7377</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">patternN170</td>
-<td style="text-align: right;">0.267</td>
-<td style="text-align: right;">0.225</td>
-<td style="text-align: right;">1.189</td>
-<td style="text-align: left;">0.23462</td>
+<td style="text-align: right;">0.274</td>
+<td style="text-align: right;">0.233</td>
+<td style="text-align: right;">1.177</td>
+<td style="text-align: left;">0.2391</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">patternP3</td>
-<td style="text-align: right;">-0.003</td>
-<td style="text-align: right;">0.225</td>
-<td style="text-align: right;">-0.012</td>
-<td style="text-align: left;">0.99021</td>
+<td style="text-align: right;">-0.005</td>
+<td style="text-align: right;">0.233</td>
+<td style="text-align: right;">-0.022</td>
+<td style="text-align: left;">0.9824</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">position_c</td>
-<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">0.002</td>
 <td style="text-align: right;">0.003</td>
-<td style="text-align: right;">0.493</td>
-<td style="text-align: left;">0.62181</td>
+<td style="text-align: right;">0.706</td>
+<td style="text-align: left;">0.4804</td>
 </tr>
 </tbody>
 </table>
@@ -1616,7 +1618,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;ul&gt;"</span>,</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Model:&lt;/strong&gt; Ordered-beta mixed model with a logit link: "</span>,</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;code&gt;score ~ vistype + pattern + position_c + "</span>,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(1 | ID) + (1 | stimulus)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Reference visualization:&lt;/strong&gt; Basic topoplot.&lt;/li&gt;"</span>,</span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Reference pattern:&lt;/strong&gt; MMN.&lt;/li&gt;"</span>,</span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Presentation position:&lt;/strong&gt; &lt;code&gt;position_c = 0&lt;/code&gt; "</span>,</span>
@@ -1632,7 +1634,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <strong>Model details:</strong>
 <ul>
 <li>
-<strong>Model:</strong> Ordered-beta mixed model with a logit link: <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus)</code>.
+<strong>Model:</strong> Ordered-beta mixed model with a logit link: <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.
 </li>
 <li>
 <strong>Reference visualization:</strong> Basic topoplot.
@@ -1673,7 +1675,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <li><p>A participant-specific position slope converged, but its estimated standard deviation was only 0.006.</p></li>
 <li><p>A diagonal visualization structure, <code>diag(0 + vistype | ID)</code>, converged with a positive-definite Hessian. It estimates separate participant-specific visualization variances without estimating their correlations.</p></li>
 </ul>
-<p>We therefore retained participant and stimulus random intercepts in the primary model. This does not show that visualization effects are identical for every participant. It means that these data cannot reliably estimate the full correlated structure. The diagonal model remains available as a sensitivity analysis.</p>
+<p>We therefore retained participant, stimulus and image random intercepts in the primary model. This does not show that visualization effects are identical for every participant. It means that these data cannot reliably estimate the full correlated structure. The diagonal model remains available as a sensitivity analysis.</p>
 </div>
 </div>
 </div>
@@ -1738,25 +1740,25 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Covariates without visualization type</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">1189.067</td>
-<td style="text-align: right;">1243.320</td>
-<td style="text-align: right;">-585.533</td>
-<td style="text-align: right;">1171.067</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1102.907</td>
+<td style="text-align: right;">1163.188</td>
+<td style="text-align: right;">-541.453</td>
+<td style="text-align: right;">1082.907</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: left;">NA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Covariates with visualization type</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">1177.984</td>
-<td style="text-align: right;">1268.406</td>
-<td style="text-align: right;">-573.992</td>
-<td style="text-align: right;">1147.984</td>
-<td style="text-align: right;">23.082</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">1106.858</td>
+<td style="text-align: right;">1203.308</td>
+<td style="text-align: right;">-537.429</td>
+<td style="text-align: right;">1074.858</td>
+<td style="text-align: right;">8.049</td>
 <td style="text-align: right;">6</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt;0.001</span></td>
+<td style="text-align: left;">0.235</td>
 </tr>
 </tbody>
 </table>
@@ -1770,7 +1772,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"link.&lt;/li&gt;"</span>,</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Full model:&lt;/strong&gt; "</span>,</span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;code&gt;score ~ vistype + pattern + position_c + "</span>,</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(1 | ID) + (1 | stimulus)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Reduced model:&lt;/strong&gt; The same model without "</span>,</span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;code&gt;vistype&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Comparison:&lt;/strong&gt; The likelihood-ratio test evaluates whether "</span>,</span>
@@ -1788,7 +1790,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <strong>Model family:</strong> Ordered-beta mixed models with a logit link.
 </li>
 <li>
-<strong>Full model:</strong> <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus)</code>.
+<strong>Full model:</strong> <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.
 </li>
 <li>
 <strong>Reduced model:</strong> The same model without <code>vistype</code>.
@@ -1855,45 +1857,45 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: left;">63.9%</td>
-<td style="text-align: left;">58.9%</td>
-<td style="text-align: left;">68.5%</td>
+<td style="text-align: left;">64.9%</td>
+<td style="text-align: left;">59.5%</td>
+<td style="text-align: left;">70.0%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;">67.1%</td>
-<td style="text-align: left;">62.3%</td>
-<td style="text-align: left;">71.5%</td>
+<td style="text-align: left;">67.6%</td>
+<td style="text-align: left;">62.4%</td>
+<td style="text-align: left;">72.5%</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Basic topoplot</td>
-<td style="text-align: left;">67.6%</td>
-<td style="text-align: left;">62.9%</td>
-<td style="text-align: left;">72.0%</td>
+<td style="text-align: left;">Animation</td>
+<td style="text-align: left;">68.0%</td>
+<td style="text-align: left;">62.7%</td>
+<td style="text-align: left;">72.8%</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Animation</td>
-<td style="text-align: left;">67.8%</td>
+<td style="text-align: left;">Basic topoplot</td>
+<td style="text-align: left;">68.3%</td>
 <td style="text-align: left;">63.1%</td>
-<td style="text-align: left;">72.2%</td>
+<td style="text-align: left;">73.1%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;">68.6%</td>
-<td style="text-align: left;">63.9%</td>
-<td style="text-align: left;">72.9%</td>
+<td style="text-align: left;">68.9%</td>
+<td style="text-align: left;">63.7%</td>
+<td style="text-align: left;">73.7%</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: left;">69.0%</td>
-<td style="text-align: left;">64.4%</td>
-<td style="text-align: left;">73.3%</td>
+<td style="text-align: left;">Confidence intervals</td>
+<td style="text-align: left;">69.6%</td>
+<td style="text-align: left;">64.5%</td>
+<td style="text-align: left;">74.3%</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: left;">69.4%</td>
+<td style="text-align: left;">Adjacent plots</td>
+<td style="text-align: left;">70.0%</td>
 <td style="text-align: left;">64.8%</td>
-<td style="text-align: left;">73.7%</td>
+<td style="text-align: left;">74.6%</td>
 </tr>
 </tbody>
 </table>
@@ -1905,7 +1907,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;ul&gt;"</span>,</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Model:&lt;/strong&gt; Ordered-beta mixed model with a logit link: "</span>,</span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;code&gt;score ~ vistype + pattern + position_c + "</span>,</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(1 | ID) + (1 | stimulus)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Presentation position:&lt;/strong&gt; Estimates were calculated at "</span>,</span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"position 11.&lt;/li&gt;"</span>,</span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Pattern averaging:&lt;/strong&gt; MMN, N170, and P3 received equal "</span>,</span>
@@ -1924,7 +1926,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <strong>Model details:</strong>
 <ul>
 <li>
-<strong>Model:</strong> Ordered-beta mixed model with a logit link: <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus)</code>.
+<strong>Model:</strong> Ordered-beta mixed model with a logit link: <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.
 </li>
 <li>
 <strong>Presentation position:</strong> Estimates were calculated at position 11.
@@ -1996,171 +1998,171 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot vs Adjacent plots</td>
-<td style="text-align: right;">-0.064</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">-0.078</td>
+<td style="text-align: right;">0.092</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-1.079</td>
-<td style="text-align: left;">0.93440</td>
+<td style="text-align: right;">-0.847</td>
+<td style="text-align: left;">0.980</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Basic topoplot vs Animation</td>
-<td style="text-align: right;">-0.008</td>
-<td style="text-align: right;">0.059</td>
+<td style="text-align: right;">0.016</td>
+<td style="text-align: right;">0.091</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.137</td>
-<td style="text-align: left;">1.00000</td>
+<td style="text-align: right;">0.179</td>
+<td style="text-align: left;">1.000</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot vs Bivariate corner</td>
-<td style="text-align: right;">0.167</td>
-<td style="text-align: right;">0.059</td>
+<td style="text-align: right;">0.153</td>
+<td style="text-align: right;">0.091</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">2.826</td>
-<td style="text-align: left;">0.07039</td>
+<td style="text-align: right;">1.678</td>
+<td style="text-align: left;">0.631</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Basic topoplot vs Bivariate range</td>
-<td style="text-align: right;">-0.045</td>
-<td style="text-align: right;">0.059</td>
+<td style="text-align: right;">-0.028</td>
+<td style="text-align: right;">0.091</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.755</td>
-<td style="text-align: left;">0.98896</td>
+<td style="text-align: right;">-0.304</td>
+<td style="text-align: left;">1.000</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot vs Confidence intervals</td>
-<td style="text-align: right;">-0.083</td>
-<td style="text-align: right;">0.059</td>
+<td style="text-align: right;">-0.060</td>
+<td style="text-align: right;">0.091</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-1.401</td>
-<td style="text-align: left;">0.80181</td>
+<td style="text-align: right;">-0.660</td>
+<td style="text-align: left;">0.995</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Basic topoplot vs Uncertainty markers</td>
-<td style="text-align: right;">0.025</td>
-<td style="text-align: right;">0.059</td>
+<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">0.091</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">0.421</td>
-<td style="text-align: left;">0.99958</td>
+<td style="text-align: right;">0.335</td>
+<td style="text-align: left;">1.000</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Adjacent plots vs Animation</td>
-<td style="text-align: right;">0.056</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.094</td>
+<td style="text-align: right;">0.092</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">0.937</td>
-<td style="text-align: left;">0.96660</td>
+<td style="text-align: right;">1.022</td>
+<td style="text-align: left;">0.949</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots vs Bivariate corner</td>
 <td style="text-align: right;">0.231</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.092</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">3.861</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00218</span></td>
+<td style="text-align: right;">2.508</td>
+<td style="text-align: left;">0.156</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Adjacent plots vs Bivariate range</td>
-<td style="text-align: right;">0.019</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">0.092</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">0.323</td>
-<td style="text-align: left;">0.99991</td>
+<td style="text-align: right;">0.542</td>
+<td style="text-align: left;">0.998</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots vs Confidence intervals</td>
-<td style="text-align: right;">-0.019</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">0.092</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.314</td>
-<td style="text-align: left;">0.99992</td>
+<td style="text-align: right;">0.190</td>
+<td style="text-align: left;">1.000</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Adjacent plots vs Uncertainty markers</td>
-<td style="text-align: right;">0.089</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.108</td>
+<td style="text-align: right;">0.092</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">1.484</td>
-<td style="text-align: left;">0.75446</td>
+<td style="text-align: right;">1.176</td>
+<td style="text-align: left;">0.903</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Animation vs Bivariate corner</td>
-<td style="text-align: right;">0.175</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.137</td>
+<td style="text-align: right;">0.091</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">2.927</td>
-<td style="text-align: left;">0.05310</td>
+<td style="text-align: right;">1.493</td>
+<td style="text-align: left;">0.749</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Animation vs Bivariate range</td>
-<td style="text-align: right;">-0.037</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">-0.044</td>
+<td style="text-align: right;">0.091</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.615</td>
-<td style="text-align: left;">0.99638</td>
+<td style="text-align: right;">-0.482</td>
+<td style="text-align: left;">0.999</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Animation vs Confidence intervals</td>
-<td style="text-align: right;">-0.075</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">-0.077</td>
+<td style="text-align: right;">0.092</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-1.253</td>
-<td style="text-align: left;">0.87297</td>
+<td style="text-align: right;">-0.836</td>
+<td style="text-align: left;">0.981</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Animation vs Uncertainty markers</td>
-<td style="text-align: right;">0.033</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">0.091</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">0.552</td>
-<td style="text-align: left;">0.99801</td>
+<td style="text-align: right;">0.155</td>
+<td style="text-align: left;">1.000</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate corner vs Bivariate range</td>
-<td style="text-align: right;">-0.212</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">-0.181</td>
+<td style="text-align: right;">0.091</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-3.545</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00718</span></td>
+<td style="text-align: right;">-1.975</td>
+<td style="text-align: left;">0.431</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate corner vs Confidence intervals</td>
-<td style="text-align: right;">-0.250</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">-0.213</td>
+<td style="text-align: right;">0.092</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-4.176</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt; 0.001</span></td>
+<td style="text-align: right;">-2.329</td>
+<td style="text-align: left;">0.230</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate corner vs Uncertainty markers</td>
-<td style="text-align: right;">-0.142</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">-0.122</td>
+<td style="text-align: right;">0.091</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-2.378</td>
-<td style="text-align: left;">0.20788</td>
+<td style="text-align: right;">-1.338</td>
+<td style="text-align: left;">0.834</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range vs Confidence intervals</td>
-<td style="text-align: right;">-0.038</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">-0.032</td>
+<td style="text-align: right;">0.092</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.638</td>
-<td style="text-align: left;">0.99556</td>
+<td style="text-align: right;">-0.354</td>
+<td style="text-align: left;">1.000</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate range vs Uncertainty markers</td>
-<td style="text-align: right;">0.070</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">0.092</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">1.160</td>
-<td style="text-align: left;">0.90899</td>
+<td style="text-align: right;">0.636</td>
+<td style="text-align: left;">0.996</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Confidence intervals vs Uncertainty markers</td>
-<td style="text-align: right;">0.108</td>
-<td style="text-align: right;">0.060</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">0.092</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">1.800</td>
-<td style="text-align: left;">0.54806</td>
+<td style="text-align: right;">0.991</td>
+<td style="text-align: left;">0.956</td>
 </tr>
 </tbody>
 </table>
@@ -2172,7 +2174,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;ul&gt;"</span>,</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Model:&lt;/strong&gt; Ordered-beta mixed model with a logit link: "</span>,</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;code&gt;score ~ vistype + pattern + position_c + "</span>,</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(1 | ID) + (1 | stimulus)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Comparison scale:&lt;/strong&gt; Estimated marginal means were compared "</span>,</span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"on the logit scale.&lt;/li&gt;"</span>,</span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Presentation position:&lt;/strong&gt; Position 11.&lt;/li&gt;"</span>,</span>
@@ -2188,7 +2190,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <strong>Model details:</strong>
 <ul>
 <li>
-<strong>Model:</strong> Ordered-beta mixed model with a logit link: <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus)</code>.
+<strong>Model:</strong> Ordered-beta mixed model with a logit link: <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.
 </li>
 <li>
 <strong>Comparison scale:</strong> Estimated marginal means were compared on the logit scale.
@@ -2234,7 +2236,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<table class="table table-striped table-hover table-sm caption-top small">
+<table class="table table-striped table-hover table-sm caption-top">
 <caption>Statistically significant Tukey-adjusted pairwise comparisons. Values with adjusted p &lt; .05 are shown in dark red.</caption>
 <thead>
 <tr class="header">
@@ -2247,30 +2249,15 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: left;">Adjacent plots vs Bivariate corner</td>
-<td style="text-align: right;">0.231</td>
-<td style="text-align: right;">0.06</td>
-<td style="text-align: right;">Inf</td>
-<td style="text-align: right;">3.861</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00218</span></td>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">Bivariate corner vs Bivariate range</td>
-<td style="text-align: right;">-0.212</td>
-<td style="text-align: right;">0.06</td>
-<td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-3.545</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00718</span></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Bivariate corner vs Confidence intervals</td>
-<td style="text-align: right;">-0.250</td>
-<td style="text-align: right;">0.06</td>
-<td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-4.176</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt; 0.001</span></td>
-</tr>
+
 </tbody>
 </table>
 </div>
@@ -2281,7 +2268,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;ul&gt;"</span>,</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Model:&lt;/strong&gt; Ordered-beta mixed model with a logit link: "</span>,</span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;code&gt;score ~ vistype + pattern + position_c + "</span>,</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(1 | ID) + (1 | stimulus)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Displayed subset:&lt;/strong&gt; Only contrasts with Tukey-adjusted "</span>,</span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;em&gt;p&lt;/em&gt; &amp;lt; .05 from the preceding table are shown.&lt;/li&gt;"</span>,</span>
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Comparison scale:&lt;/strong&gt; Estimated-marginal-mean differences "</span>,</span>
@@ -2297,7 +2284,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <strong>Model details:</strong>
 <ul>
 <li>
-<strong>Model:</strong> Ordered-beta mixed model with a logit link: <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus)</code>.
+<strong>Model:</strong> Ordered-beta mixed model with a logit link: <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.
 </li>
 <li>
 <strong>Displayed subset:</strong> Only contrasts with Tukey-adjusted <em>p</em> &lt; .05 from the preceding table are shown.
@@ -2362,171 +2349,171 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot vs Adjacent plots</td>
-<td style="text-align: right;">-0.014</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-0.017</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.052</td>
-<td style="text-align: right;">0.024</td>
+<td style="text-align: right;">-0.074</td>
+<td style="text-align: right;">0.041</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Basic topoplot vs Animation</td>
-<td style="text-align: right;">-0.002</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.040</td>
-<td style="text-align: right;">0.036</td>
+<td style="text-align: right;">-0.055</td>
+<td style="text-align: right;">0.062</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot vs Bivariate corner</td>
-<td style="text-align: right;">0.038</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.034</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.002</td>
-<td style="text-align: right;">0.077</td>
+<td style="text-align: right;">-0.026</td>
+<td style="text-align: right;">0.094</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Basic topoplot vs Bivariate range</td>
-<td style="text-align: right;">-0.010</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-0.006</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.048</td>
-<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">-0.064</td>
+<td style="text-align: right;">0.052</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot vs Confidence intervals</td>
-<td style="text-align: right;">-0.018</td>
-<td style="text-align: right;">0.013</td>
-<td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.056</td>
+<td style="text-align: right;">-0.013</td>
 <td style="text-align: right;">0.020</td>
+<td style="text-align: right;">Inf</td>
+<td style="text-align: right;">-0.071</td>
+<td style="text-align: right;">0.045</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Basic topoplot vs Uncertainty markers</td>
-<td style="text-align: right;">0.005</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.033</td>
-<td style="text-align: right;">0.044</td>
+<td style="text-align: right;">-0.052</td>
+<td style="text-align: right;">0.065</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Adjacent plots vs Animation</td>
-<td style="text-align: right;">0.012</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.026</td>
-<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">-0.038</td>
+<td style="text-align: right;">0.078</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots vs Bivariate corner</td>
-<td style="text-align: right;">0.052</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.051</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">0.012</td>
-<td style="text-align: right;">0.091</td>
+<td style="text-align: right;">-0.009</td>
+<td style="text-align: right;">0.110</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Adjacent plots vs Bivariate range</td>
-<td style="text-align: right;">0.004</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.034</td>
-<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">-0.047</td>
+<td style="text-align: right;">0.068</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots vs Confidence intervals</td>
-<td style="text-align: right;">-0.004</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: right;">0.019</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.042</td>
-<td style="text-align: right;">0.034</td>
+<td style="text-align: right;">-0.054</td>
+<td style="text-align: right;">0.061</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Adjacent plots vs Uncertainty markers</td>
-<td style="text-align: right;">0.019</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.019</td>
-<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">-0.035</td>
+<td style="text-align: right;">0.082</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Animation vs Bivariate corner</td>
-<td style="text-align: right;">0.039</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">0.000</td>
-<td style="text-align: right;">0.079</td>
+<td style="text-align: right;">-0.030</td>
+<td style="text-align: right;">0.091</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Animation vs Bivariate range</td>
-<td style="text-align: right;">-0.008</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-0.010</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.046</td>
-<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">-0.068</td>
+<td style="text-align: right;">0.049</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Animation vs Confidence intervals</td>
 <td style="text-align: right;">-0.016</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.054</td>
-<td style="text-align: right;">0.022</td>
+<td style="text-align: right;">-0.074</td>
+<td style="text-align: right;">0.042</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Animation vs Uncertainty markers</td>
-<td style="text-align: right;">0.007</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.031</td>
-<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">-0.056</td>
+<td style="text-align: right;">0.062</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate corner vs Bivariate range</td>
-<td style="text-align: right;">-0.047</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-0.040</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.087</td>
-<td style="text-align: right;">-0.008</td>
+<td style="text-align: right;">-0.100</td>
+<td style="text-align: right;">0.020</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate corner vs Confidence intervals</td>
-<td style="text-align: right;">-0.056</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-0.047</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.095</td>
-<td style="text-align: right;">-0.016</td>
+<td style="text-align: right;">-0.106</td>
+<td style="text-align: right;">0.013</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate corner vs Uncertainty markers</td>
-<td style="text-align: right;">-0.032</td>
-<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-0.027</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.072</td>
-<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">-0.088</td>
+<td style="text-align: right;">0.033</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range vs Confidence intervals</td>
-<td style="text-align: right;">-0.008</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">-0.007</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.046</td>
-<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">-0.064</td>
+<td style="text-align: right;">0.051</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate range vs Uncertainty markers</td>
-<td style="text-align: right;">0.015</td>
 <td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.023</td>
-<td style="text-align: right;">0.054</td>
+<td style="text-align: right;">-0.046</td>
+<td style="text-align: right;">0.071</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Confidence intervals vs Uncertainty markers</td>
-<td style="text-align: right;">0.023</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">0.020</td>
 <td style="text-align: right;">Inf</td>
-<td style="text-align: right;">-0.015</td>
-<td style="text-align: right;">0.062</td>
+<td style="text-align: right;">-0.039</td>
+<td style="text-align: right;">0.078</td>
 </tr>
 </tbody>
 </table>
@@ -2538,7 +2525,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;ul&gt;"</span>,</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Model:&lt;/strong&gt; Ordered-beta mixed model with a logit link: "</span>,</span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;code&gt;score ~ vistype + pattern + position_c + "</span>,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(1 | ID) + (1 | stimulus)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)&lt;/code&gt;.&lt;/li&gt;"</span>,</span>
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Comparison scale:&lt;/strong&gt; Estimated marginal means were "</span>,</span>
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"regridded to the detection-score scale before subtraction.&lt;/li&gt;"</span>,</span>
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"&lt;li&gt;&lt;strong&gt;Uncertainty:&lt;/strong&gt; Differences and 95% confidence intervals "</span>,</span>
@@ -2553,7 +2540,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <strong>Model details:</strong>
 <ul>
 <li>
-<strong>Model:</strong> Ordered-beta mixed model with a logit link: <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus)</code>.
+<strong>Model:</strong> Ordered-beta mixed model with a logit link: <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.
 </li>
 <li>
 <strong>Comparison scale:</strong> Estimated marginal means were regridded to the detection-score scale before subtraction.
@@ -2565,7 +2552,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 </div>
 </div>
 </div>
-<p><strong>Figure method.</strong> The points are estimated marginal mean detection scores from the extended ordered-beta mixed model <code>score ~ visualization type + pattern + centered position + (1 | participant) + (1 | stimulus)</code>, fitted with a logit link. Estimates are evaluated at the middle presentation position (<code>position_c = 0</code>, corresponding to position 11), averaged equally over the MMN, N170, and P3 patterns, and calculated with participant and stimulus random intercepts set to zero. They are then back-transformed to the 0–1 detection-score scale. Error bars are asymptotic pointwise 95% confidence intervals for these model-estimated scores.</p>
+<p><strong>Figure method.</strong> The points are estimated marginal mean detection scores from the extended ordered-beta mixed model <code>score ~ visualization type + pattern + centered position + (1 | participant) + (1 | stimulus) + (1 | image)</code>, fitted with a logit link. Estimates are evaluated at the middle presentation position (<code>position_c = 0</code>, corresponding to position 11), averaged equally over the MMN, N170, and P3 patterns, and calculated with participant, stimulus and image random intercepts set to zero. They are then back-transformed to the 0–1 detection-score scale. Error bars are asymptotic pointwise 95% confidence intervals for these model-estimated scores.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -2969,91 +2956,91 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <td style="text-align: left;">Share of exact-peak responses</td>
 <td style="text-align: left;">Basic topoplot</td>
 <td style="text-align: left;">15.1%</td>
-<td style="text-align: left;">18.3% [13.9%, 23.1%]</td>
+<td style="text-align: left;">18.5% [13.9%, 23.3%]</td>
 <td style="text-align: left;">Yes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Share of exact-peak responses</td>
 <td style="text-align: left;">Adjacent plots</td>
 <td style="text-align: left;">21.2%</td>
-<td style="text-align: left;">19.2% [15.1%, 24.0%]</td>
+<td style="text-align: left;">19.4% [15.1%, 24.4%]</td>
 <td style="text-align: left;">Yes</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Share of exact-peak responses</td>
 <td style="text-align: left;">Animation</td>
 <td style="text-align: left;">17.8%</td>
-<td style="text-align: left;">18.5% [14.2%, 23.3%]</td>
+<td style="text-align: left;">18.3% [13.9%, 23.1%]</td>
 <td style="text-align: left;">Yes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Share of exact-peak responses</td>
 <td style="text-align: left;">Bivariate corner</td>
 <td style="text-align: left;">18.7%</td>
-<td style="text-align: left;">16.0% [12.1%, 20.3%]</td>
+<td style="text-align: left;">16.2% [12.1%, 20.8%]</td>
 <td style="text-align: left;">Yes</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Share of exact-peak responses</td>
 <td style="text-align: left;">Bivariate range</td>
 <td style="text-align: left;">18.0%</td>
-<td style="text-align: left;">18.9% [14.8%, 23.7%]</td>
+<td style="text-align: left;">18.7% [14.2%, 23.5%]</td>
 <td style="text-align: left;">Yes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Share of exact-peak responses</td>
 <td style="text-align: left;">Confidence intervals</td>
 <td style="text-align: left;">20.3%</td>
-<td style="text-align: left;">19.6% [15.1%, 24.4%]</td>
+<td style="text-align: left;">19.4% [14.8%, 24.0%]</td>
 <td style="text-align: left;">Yes</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Share of exact-peak responses</td>
 <td style="text-align: left;">Uncertainty markers</td>
 <td style="text-align: left;">18.0%</td>
-<td style="text-align: left;">18.0% [13.7%, 22.6%]</td>
+<td style="text-align: left;">18.0% [13.7%, 22.8%]</td>
 <td style="text-align: left;">Yes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Difference from Basic topoplot</td>
 <td style="text-align: left;">Adjacent plots</td>
 <td style="text-align: left;">6.2%</td>
-<td style="text-align: left;">1.1% [-4.3%, 6.4%]</td>
+<td style="text-align: left;">1.1% [-4.1%, 6.4%]</td>
 <td style="text-align: left;">Yes</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Difference from Basic topoplot</td>
 <td style="text-align: left;">Animation</td>
 <td style="text-align: left;">2.7%</td>
-<td style="text-align: left;">0.0% [-5.3%, 5.5%]</td>
+<td style="text-align: left;">-0.2% [-5.7%, 5.0%]</td>
 <td style="text-align: left;">Yes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Difference from Basic topoplot</td>
 <td style="text-align: left;">Bivariate corner</td>
 <td style="text-align: left;">3.7%</td>
-<td style="text-align: left;">-2.3% [-7.3%, 3.0%]</td>
+<td style="text-align: left;">-2.1% [-7.1%, 3.0%]</td>
 <td style="text-align: left;"><span style="color:#B2182B;font-weight:700">No</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Difference from Basic topoplot</td>
 <td style="text-align: left;">Bivariate range</td>
 <td style="text-align: left;">3.0%</td>
-<td style="text-align: left;">0.7% [-4.8%, 5.7%]</td>
+<td style="text-align: left;">0.2% [-5.0%, 5.7%]</td>
 <td style="text-align: left;">Yes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Difference from Basic topoplot</td>
 <td style="text-align: left;">Confidence intervals</td>
 <td style="text-align: left;">5.3%</td>
-<td style="text-align: left;">1.4% [-3.9%, 6.6%]</td>
+<td style="text-align: left;">0.9% [-4.3%, 6.4%]</td>
 <td style="text-align: left;">Yes</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Difference from Basic topoplot</td>
 <td style="text-align: left;">Uncertainty markers</td>
 <td style="text-align: left;">3.0%</td>
-<td style="text-align: left;">-0.5% [-5.5%, 4.8%]</td>
+<td style="text-align: left;">-0.2% [-5.5%, 4.6%]</td>
 <td style="text-align: left;">Yes</td>
 </tr>
 </tbody>
@@ -3124,14 +3111,14 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <ul>
 <li><strong>Exact peak:</strong> logistic mixed model for <code>score == 1</code>.</li>
 <li><strong>Closeness of misses:</strong> beta mixed model for the trials with <code>score &lt; 1</code>. The 5 scores of exactly 0 were moved slightly inward with the Smithson–Verkuilen transformation, <code>(score × (n − 1) + 0.5) / n</code>.</li>
-<li>Both parts use the primary model’s predictors: <code>vistype + pattern + position_c + (1 | ID) + (1 | stimulus)</code>.</li>
+<li>Both parts use the primary model’s predictors: <code>vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.</li>
 <li>The second part is conditional on missing the peak. If a visualization turns near misses into exact hits, its remaining misses can look worse even when overall performance improves, so the two parts should be read together.</li>
 </ul>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>task2_peak_hit_model <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  peak <span class="sc">~</span> vistype <span class="sc">+</span> pattern <span class="sc">+</span> position_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> ID) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus),</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  peak <span class="sc">~</span> vistype <span class="sc">+</span> pattern <span class="sc">+</span> position_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> ID) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus<span class="sc">:</span>vistype),</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">mutate</span>(task2_model, <span class="at">peak =</span> <span class="fu">as.integer</span>(score <span class="sc">==</span> <span class="dv">1</span>))</span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -3141,7 +3128,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">score_squeezed =</span> (score <span class="sc">*</span> (<span class="fu">n</span>() <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="fl">0.5</span>) <span class="sc">/</span> <span class="fu">n</span>())</span>
 <span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>task2_peak_miss_model <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(</span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  score_squeezed <span class="sc">~</span> vistype <span class="sc">+</span> pattern <span class="sc">+</span> position_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> ID) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus),</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  score_squeezed <span class="sc">~</span> vistype <span class="sc">+</span> pattern <span class="sc">+</span> position_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> ID) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus<span class="sc">:</span>vistype),</span>
 <span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">beta_family</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
 <span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> task2_peak_miss_data</span>
 <span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -3198,38 +3185,38 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot</td>
-<td style="text-align: left;">0.08 [0.04, 0.13]</td>
+<td style="text-align: left;">0.05 [0.03, 0.11]</td>
 <td style="text-align: left;">0.67 [0.62, 0.72]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: left;">0.15 [0.09, 0.23]</td>
-<td style="text-align: left;">0.66 [0.61, 0.71]</td>
+<td style="text-align: left;">0.12 [0.07, 0.22]</td>
+<td style="text-align: left;">0.67 [0.61, 0.72]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Animation</td>
-<td style="text-align: left;">0.11 [0.07, 0.18]</td>
+<td style="text-align: left;">0.09 [0.05, 0.16]</td>
 <td style="text-align: left;">0.66 [0.61, 0.71]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: left;">0.11 [0.06, 0.18]</td>
-<td style="text-align: left;">0.62 [0.57, 0.67]</td>
+<td style="text-align: left;">0.09 [0.05, 0.16]</td>
+<td style="text-align: left;">0.63 [0.58, 0.68]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;">0.10 [0.06, 0.17]</td>
+<td style="text-align: left;">0.09 [0.05, 0.16]</td>
 <td style="text-align: left;">0.67 [0.62, 0.72]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: left;">0.11 [0.07, 0.19]</td>
+<td style="text-align: left;">0.10 [0.05, 0.18]</td>
 <td style="text-align: left;">0.68 [0.63, 0.73]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;">0.09 [0.05, 0.15]</td>
-<td style="text-align: left;">0.66 [0.61, 0.71]</td>
+<td style="text-align: left;">0.08 [0.04, 0.14]</td>
+<td style="text-align: left;">0.67 [0.61, 0.72]</td>
 </tr>
 </tbody>
 </table>
@@ -3305,39 +3292,39 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: left;">+0.06 [-0.05, +0.18]</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">+0.74 [+0.33, +1.15]</span></td>
-<td style="text-align: left;">-0.03 [-0.15, +0.09]</td>
+<td style="text-align: left;">+0.08 [-0.10, +0.26]</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">+0.92 [+0.27, +1.56]</span></td>
+<td style="text-align: left;">-0.03 [-0.21, +0.15]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Animation</td>
-<td style="text-align: left;">+0.01 [-0.11, +0.12]</td>
-<td style="text-align: left;">+0.41 [-0.00, +0.83]</td>
-<td style="text-align: left;">-0.03 [-0.15, +0.09]</td>
+<td style="text-align: left;">-0.02 [-0.20, +0.16]</td>
+<td style="text-align: left;">+0.53 [-0.13, +1.18]</td>
+<td style="text-align: left;">-0.05 [-0.22, +0.13]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">-0.17 [-0.28, -0.05]</span></td>
-<td style="text-align: left;">+0.38 [-0.03, +0.79]</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">-0.21 [-0.33, -0.09]</span></td>
+<td style="text-align: left;">-0.15 [-0.33, +0.03]</td>
+<td style="text-align: left;">+0.55 [-0.10, +1.20]</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">-0.19 [-0.37, -0.02]</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;">+0.04 [-0.07, +0.16]</td>
-<td style="text-align: left;">+0.35 [-0.07, +0.76]</td>
-<td style="text-align: left;">+0.02 [-0.11, +0.14]</td>
+<td style="text-align: left;">+0.03 [-0.15, +0.21]</td>
+<td style="text-align: left;">+0.52 [-0.13, +1.18]</td>
+<td style="text-align: left;">-0.01 [-0.19, +0.17]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: left;">+0.08 [-0.03, +0.20]</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">+0.45 [+0.04, +0.86]</span></td>
-<td style="text-align: left;">+0.05 [-0.08, +0.17]</td>
+<td style="text-align: left;">+0.06 [-0.12, +0.24]</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">+0.66 [+0.01, +1.31]</span></td>
+<td style="text-align: left;">+0.04 [-0.14, +0.21]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;">-0.02 [-0.14, +0.09]</td>
-<td style="text-align: left;">+0.21 [-0.20, +0.63]</td>
-<td style="text-align: left;">-0.03 [-0.15, +0.10]</td>
+<td style="text-align: left;">-0.03 [-0.21, +0.15]</td>
+<td style="text-align: left;">+0.38 [-0.28, +1.04]</td>
+<td style="text-align: left;">-0.03 [-0.21, +0.14]</td>
 </tr>
 </tbody>
 </table>
@@ -3511,7 +3498,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <tr class="odd">
 <td style="text-align: left;">Bivariate corner</td>
 <td style="text-align: left;">Misses only (farther misses)</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">Partly: the exact-peak estimate points the other way (interval includes zero)</span></td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">No: the ordered-beta contrast shows no clear effect</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate range</td>

@@ -419,82 +419,97 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 </section>
 <section id="models" class="level2">
 <h2 class="anchored" data-anchor-id="models">Models</h2>
-<p>Two logistic mixed models with the predictors of the Task 2 models, <code>vistype + pattern + position_c + (1 | ID) + (1 | stimulus)</code>: one for an exact <strong>hit</strong>, one for a <strong>hit or near hit</strong>.</p>
+<p>Two logistic mixed models with the predictors of the Task 2 models, <code>vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>: one for an exact <strong>hit</strong>, one for a <strong>hit or near hit</strong>. The last term gives each of the 210 images (stimulus × visualization) its own intercept, because the ~15 responses to one image are not independent.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>hit_miss_models <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Hit</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">glmmTMB</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    hit <span class="sc">~</span> vistype <span class="sc">+</span> pattern <span class="sc">+</span> position_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> ID) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus),</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> hit_miss</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Hit or near hit</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">glmmTMB</span>(</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    close <span class="sc">~</span> vistype <span class="sc">+</span> pattern <span class="sc">+</span> position_c <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> ID) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus),</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> hit_miss</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(purrr<span class="sc">::</span><span class="fu">map_lgl</span>(hit_miss_models, \(m) {</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  m<span class="sc">$</span>fit<span class="sc">$</span>convergence <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;&amp;</span> <span class="fu">isTRUE</span>(m<span class="sc">$</span>sdr<span class="sc">$</span>pdHess)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>})))</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>hit_miss_estimates <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">imap_dfr</span>(hit_miss_models, \(model, name) {</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">emmeans</span>(model, <span class="sc">~</span>vistype, <span class="at">type =</span> <span class="st">"response"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transmute</span>(<span class="at">outcome =</span> name, vistype, prob, <span class="at">lower =</span> asymp.LCL, <span class="at">upper =</span> asymp.UCL)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>hit_miss_contrasts <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">imap_dfr</span>(hit_miss_models, \(model, name) {</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">emmeans</span>(model, <span class="sc">~</span>vistype) <span class="sc">|&gt;</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contrast</span>(<span class="at">method =</span> <span class="st">"trt.vs.ctrl"</span>, <span class="at">ref =</span> <span class="st">"basic"</span>, <span class="at">adjust =</span> <span class="st">"none"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summary</span>(<span class="at">infer =</span> <span class="cn">TRUE</span>, <span class="at">type =</span> <span class="st">"response"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transmute</span>(</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">outcome =</span> name,</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">vistype =</span> stringr<span class="sc">::</span><span class="fu">str_remove</span>(contrast, <span class="st">" / basic$"</span>),</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>      odds.ratio, <span class="at">lower =</span> asymp.LCL, <span class="at">upper =</span> asymp.UCL, p.value</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>hit_miss_estimates <span class="sc">|&gt;</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">vistype =</span> <span class="fu">factor</span>(vistype, <span class="at">levels =</span> <span class="fu">levels</span>(hit_miss<span class="sc">$</span>vistype)),</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">sprintf</span>(<span class="st">"%.0f%% [%.0f, %.0f]"</span>, <span class="dv">100</span> <span class="sc">*</span> prob, <span class="dv">100</span> <span class="sc">*</span> lower, <span class="dv">100</span> <span class="sc">*</span> upper)</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(outcome, vistype, value) <span class="sc">|&gt;</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> outcome, <span class="at">values_from =</span> value) <span class="sc">|&gt;</span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    hit_miss_contrasts <span class="sc">|&gt;</span></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>      <span class="fu">transmute</span>(</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">outcome =</span> <span class="fu">paste</span>(outcome, <span class="st">"p"</span>),</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>        <span class="at">vistype =</span> <span class="fu">factor</span>(vistype, <span class="at">levels =</span> <span class="fu">levels</span>(hit_miss<span class="sc">$</span>vistype)),</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>        <span class="at">p =</span> <span class="fu">format_pvalue_html</span>(p.value)</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">|&gt;</span></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>      tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> outcome, <span class="at">values_from =</span> p),</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"vistype"</span></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(vistype) <span class="sc">|&gt;</span></span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">vistype =</span> <span class="fu">table_vistype</span>(vistype),</span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">ends_with</span>(<span class="st">" p"</span>), \(x) tidyr<span class="sc">::</span><span class="fu">replace_na</span>(x, <span class="st">"reference"</span>))</span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(vistype, <span class="st">`</span><span class="at">Hit</span><span class="st">`</span>, <span class="st">`</span><span class="at">Hit p</span><span class="st">`</span>, <span class="st">`</span><span class="at">Hit or near hit</span><span class="st">`</span>, <span class="st">`</span><span class="at">Hit or near hit p</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">escape =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Visualization"</span>, <span class="st">"Hit [95% CI]"</span>, <span class="st">"p vs Basic"</span>,</span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Hit or near hit [95% CI]"</span>, <span class="st">"p vs Basic"</span>),</span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">paste</span>(</span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Model-estimated probabilities, averaged equally over ERP patterns at the middle"</span>,</span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>      <span class="st">"presentation position, for a typical participant and stimulus. p-values compare"</span>,</span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>      <span class="st">"each visualization with Basic topoplot, unadjusted."</span></span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    hit <span class="sc">~</span> vistype <span class="sc">+</span> pattern <span class="sc">+</span> position_c <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      (<span class="dv">1</span> <span class="sc">|</span> ID) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus<span class="sc">:</span>vistype),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> hit_miss</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Hit or near hit</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">glmmTMB</span>(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    close <span class="sc">~</span> vistype <span class="sc">+</span> pattern <span class="sc">+</span> position_c <span class="sc">+</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      (<span class="dv">1</span> <span class="sc">|</span> ID) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus<span class="sc">:</span>vistype),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> hit_miss</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Overall test of visualization type: likelihood-ratio test against the same</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># model without vistype.</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>hit_miss_overall <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">imap_dfr</span>(hit_miss_models, \(model, name) {</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  reduced <span class="ot">&lt;-</span> <span class="fu">update</span>(model, . <span class="sc">~</span> . <span class="sc">-</span> vistype)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  chi <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="dv">2</span> <span class="sc">*</span> (<span class="fu">logLik</span>(model) <span class="sc">-</span> <span class="fu">logLik</span>(reduced)))</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">attr</span>(<span class="fu">logLik</span>(model), <span class="st">"df"</span>) <span class="sc">-</span> <span class="fu">attr</span>(<span class="fu">logLik</span>(reduced), <span class="st">"df"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">outcome =</span> name, <span class="at">chi =</span> chi, <span class="at">df =</span> df, <span class="at">p =</span> <span class="fu">pchisq</span>(chi, df, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>overall_text <span class="ot">&lt;-</span> <span class="cf">function</span>(name) {</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> hit_miss_overall[hit_miss_overall<span class="sc">$</span>outcome <span class="sc">==</span> name, ]</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sprintf</span>(<span class="st">"χ²(%d) = %.1f, p = %.2f"</span>, r<span class="sc">$</span>df, r<span class="sc">$</span>chi, r<span class="sc">$</span>p)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(purrr<span class="sc">::</span><span class="fu">map_lgl</span>(hit_miss_models, \(m) {</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  m<span class="sc">$</span>fit<span class="sc">$</span>convergence <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;&amp;</span> <span class="fu">isTRUE</span>(m<span class="sc">$</span>sdr<span class="sc">$</span>pdHess)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>})))</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>hit_miss_estimates <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">imap_dfr</span>(hit_miss_models, \(model, name) {</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">emmeans</span>(model, <span class="sc">~</span>vistype, <span class="at">type =</span> <span class="st">"response"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transmute</span>(<span class="at">outcome =</span> name, vistype, prob, <span class="at">lower =</span> asymp.LCL, <span class="at">upper =</span> asymp.UCL)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>hit_miss_contrasts <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">imap_dfr</span>(hit_miss_models, \(model, name) {</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">emmeans</span>(model, <span class="sc">~</span>vistype) <span class="sc">|&gt;</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contrast</span>(<span class="at">method =</span> <span class="st">"trt.vs.ctrl"</span>, <span class="at">ref =</span> <span class="st">"basic"</span>, <span class="at">adjust =</span> <span class="st">"none"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summary</span>(<span class="at">infer =</span> <span class="cn">TRUE</span>, <span class="at">type =</span> <span class="st">"response"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transmute</span>(</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">outcome =</span> name,</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">vistype =</span> stringr<span class="sc">::</span><span class="fu">str_remove</span>(contrast, <span class="st">" / basic$"</span>),</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>      odds.ratio, <span class="at">lower =</span> asymp.LCL, <span class="at">upper =</span> asymp.UCL, p.value</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>hit_miss_estimates <span class="sc">|&gt;</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">vistype =</span> <span class="fu">factor</span>(vistype, <span class="at">levels =</span> <span class="fu">levels</span>(hit_miss<span class="sc">$</span>vistype)),</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">sprintf</span>(<span class="st">"%.0f%% [%.0f, %.0f]"</span>, <span class="dv">100</span> <span class="sc">*</span> prob, <span class="dv">100</span> <span class="sc">*</span> lower, <span class="dv">100</span> <span class="sc">*</span> upper)</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(outcome, vistype, value) <span class="sc">|&gt;</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> outcome, <span class="at">values_from =</span> value) <span class="sc">|&gt;</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>    hit_miss_contrasts <span class="sc">|&gt;</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>      <span class="fu">transmute</span>(</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>        <span class="at">outcome =</span> <span class="fu">paste</span>(outcome, <span class="st">"p"</span>),</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>        <span class="at">vistype =</span> <span class="fu">factor</span>(vistype, <span class="at">levels =</span> <span class="fu">levels</span>(hit_miss<span class="sc">$</span>vistype)),</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>        <span class="at">p =</span> <span class="fu">format_pvalue_html</span>(p.value)</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">|&gt;</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>      tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from =</span> outcome, <span class="at">values_from =</span> p),</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"vistype"</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(vistype) <span class="sc">|&gt;</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">vistype =</span> <span class="fu">table_vistype</span>(vistype),</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">ends_with</span>(<span class="st">" p"</span>), \(x) tidyr<span class="sc">::</span><span class="fu">replace_na</span>(x, <span class="st">"reference"</span>))</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(vistype, <span class="st">`</span><span class="at">Hit</span><span class="st">`</span>, <span class="st">`</span><span class="at">Hit p</span><span class="st">`</span>, <span class="st">`</span><span class="at">Hit or near hit</span><span class="st">`</span>, <span class="st">`</span><span class="at">Hit or near hit p</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>    <span class="at">escape =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Visualization"</span>, <span class="st">"Hit [95% CI]"</span>, <span class="st">"p vs Basic"</span>,</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Hit or near hit [95% CI]"</span>, <span class="st">"p vs Basic"</span>),</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">paste</span>(</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Model-estimated probabilities, averaged equally over ERP patterns at the middle"</span>,</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>      <span class="st">"presentation position, for a typical participant, stimulus and image. p-values"</span>,</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>      <span class="st">"compare each visualization with Basic topoplot, unadjusted."</span></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-striped table-hover table-sm caption-top small">
-<caption>Model-estimated probabilities, averaged equally over ERP patterns at the middle presentation position, for a typical participant and stimulus. p-values compare each visualization with Basic topoplot, unadjusted.</caption>
+<caption>Model-estimated probabilities, averaged equally over ERP patterns at the middle presentation position, for a typical participant, stimulus and image. p-values compare each visualization with Basic topoplot, unadjusted.</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Visualization</th>
@@ -507,57 +522,58 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot</td>
-<td style="text-align: left;">8% [4, 13]</td>
+<td style="text-align: left;">5% [3, 11]</td>
 <td style="text-align: left;">reference</td>
-<td style="text-align: left;">32% [20, 45]</td>
+<td style="text-align: left;">26% [13, 43]</td>
 <td style="text-align: left;">reference</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: left;">15% [9, 23]</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt; 0.001</span></td>
-<td style="text-align: left;">42% [29, 57]</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00561</span></td>
+<td style="text-align: left;">12% [7, 22]</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00575</span></td>
+<td style="text-align: left;">41% [24, 60]</td>
+<td style="text-align: left;">0.05461</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Animation</td>
-<td style="text-align: left;">11% [7, 18]</td>
-<td style="text-align: left;">0.05130</td>
-<td style="text-align: left;">36% [24, 50]</td>
-<td style="text-align: left;">0.26949</td>
+<td style="text-align: left;">9% [5, 16]</td>
+<td style="text-align: left;">0.11477</td>
+<td style="text-align: left;">31% [17, 49]</td>
+<td style="text-align: left;">0.51034</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: left;">11% [6, 18]</td>
-<td style="text-align: left;">0.06819</td>
-<td style="text-align: left;">33% [22, 47]</td>
-<td style="text-align: left;">0.62352</td>
+<td style="text-align: left;">9% [5, 16]</td>
+<td style="text-align: left;">0.10006</td>
+<td style="text-align: left;">32% [17, 50]</td>
+<td style="text-align: left;">0.42620</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;">10% [6, 17]</td>
-<td style="text-align: left;">0.10209</td>
-<td style="text-align: left;">43% [29, 57]</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00386</span></td>
+<td style="text-align: left;">9% [5, 16]</td>
+<td style="text-align: left;">0.11884</td>
+<td style="text-align: left;">43% [26, 62]</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.03166</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: left;">11% [7, 19]</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.03074</span></td>
-<td style="text-align: left;">37% [24, 51]</td>
-<td style="text-align: left;">0.18029</td>
+<td style="text-align: left;">10% [5, 18]</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.04599</span></td>
+<td style="text-align: left;">32% [17, 50]</td>
+<td style="text-align: left;">0.42293</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;">9% [5, 15]</td>
-<td style="text-align: left;">0.31545</td>
-<td style="text-align: left;">44% [31, 59]</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00107</span></td>
+<td style="text-align: left;">8% [4, 14]</td>
+<td style="text-align: left;">0.26253</td>
+<td style="text-align: left;">43% [26, 62]</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.02852</span></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
+<p><strong>Overall test of visualization type</strong> (likelihood ratio against the same model without it): hit χ²(6) = 8.6, p = 0.20; hit or near hit χ²(6) = 9.0, p = 0.17. When the overall test is not significant, read the single comparisons with Basic above as exploratory.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Odds ratios vs Basic topoplot">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -601,74 +617,74 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 <tr class="odd">
 <td style="text-align: left;">Hit</td>
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: left;">2.10 [1.40, 3.15]</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt; 0.001</span></td>
+<td style="text-align: left;">2.50 [1.30, 4.78]</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00575</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Hit</td>
 <td style="text-align: left;">Animation</td>
-<td style="text-align: left;">1.51 [1.00, 2.28]</td>
-<td style="text-align: left;">0.05130</td>
+<td style="text-align: left;">1.69 [0.88, 3.25]</td>
+<td style="text-align: left;">0.11477</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Hit</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: left;">1.47 [0.97, 2.21]</td>
-<td style="text-align: left;">0.06819</td>
+<td style="text-align: left;">1.73 [0.90, 3.31]</td>
+<td style="text-align: left;">0.10006</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Hit</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;">1.41 [0.93, 2.14]</td>
-<td style="text-align: left;">0.10209</td>
+<td style="text-align: left;">1.68 [0.87, 3.25]</td>
+<td style="text-align: left;">0.11884</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Hit</td>
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: left;">1.57 [1.04, 2.36]</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.03074</span></td>
+<td style="text-align: left;">1.93 [1.01, 3.70]</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.04599</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Hit</td>
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;">1.24 [0.82, 1.88]</td>
-<td style="text-align: left;">0.31545</td>
+<td style="text-align: left;">1.46 [0.75, 2.82]</td>
+<td style="text-align: left;">0.26253</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Hit or near hit</td>
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: left;">1.59 [1.15, 2.21]</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00561</span></td>
+<td style="text-align: left;">2.00 [0.99, 4.07]</td>
+<td style="text-align: left;">0.05461</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Hit or near hit</td>
 <td style="text-align: left;">Animation</td>
-<td style="text-align: left;">1.20 [0.87, 1.68]</td>
-<td style="text-align: left;">0.26949</td>
+<td style="text-align: left;">1.27 [0.62, 2.61]</td>
+<td style="text-align: left;">0.51034</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Hit or near hit</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: left;">1.09 [0.78, 1.51]</td>
-<td style="text-align: left;">0.62352</td>
+<td style="text-align: left;">1.34 [0.65, 2.73]</td>
+<td style="text-align: left;">0.42620</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Hit or near hit</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;">1.62 [1.17, 2.24]</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00386</span></td>
+<td style="text-align: left;">2.18 [1.07, 4.43]</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.03166</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Hit or near hit</td>
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: left;">1.25 [0.90, 1.74]</td>
-<td style="text-align: left;">0.18029</td>
+<td style="text-align: left;">1.34 [0.65, 2.75]</td>
+<td style="text-align: left;">0.42293</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Hit or near hit</td>
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;">1.74 [1.25, 2.42]</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00107</span></td>
+<td style="text-align: left;">2.22 [1.09, 4.52]</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.02852</span></td>
 </tr>
 </tbody>
 </table>
@@ -683,6 +699,7 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 <ul>
 <li>Exact hits are rare for every visualization (15%–21%), but well above chance (1.6%). Adjacent plots has the most exact hits.</li>
 <li>Counting near hits changes the ranking: Uncertainty markers lands on or next to the peak most often (49%), and Basic topoplot least often (38%).</li>
+<li>Once each image gets its own intercept, the overall effect of visualization type is not statistically significant for either outcome (hit χ²(6) = 8.6, p = 0.20; hit or near hit χ²(6) = 9.0, p = 0.17).</li>
 <li>The stimulus matters more than the visualization: hit rates range from 0% to 70% across the 30 stimuli.</li>
 </ul>
 
