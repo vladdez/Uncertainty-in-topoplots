@@ -31,3 +31,5 @@ reports/.quarto/
 
 # knitr chunk caches (build artifacts; contain respondent-level R objects)
 pages/*_cache/
+
+/.luarc.json

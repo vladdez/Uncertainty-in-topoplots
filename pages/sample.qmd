@@ -15,7 +15,13 @@ source("scripts/analysis_setup.R")
 # Sort key for bar charts: by share, with any "Other..." category last
 # (Wilke ch. 6: order by value; a catch-all category is not part of that order).
 other_last <- function(label, value) {
-  if_else(startsWith(as.character(label), "Other"), -Inf, value)
+  label <- as.character(label)
+  case_when(
+    startsWith(label, "Other") | label == "Countries at <2%" ~ -Inf,
+    label == "1 respondent" ~ -2,
+    label == "2 respondents" ~ -1,
+    TRUE ~ value
+  )
 }
 
 format_category_labels <- function(labels) {
@@ -55,8 +61,6 @@ tibble(
     table.attr = kable_table_attributes
   )
 ```
-
-# Participant characteristics
 
 ## Self-assessed visualization experience
 
@@ -129,15 +133,18 @@ country_responses <- data %>%
   ) %>%
   filter(!is.na(country_work), country_work != "")
 
-make_geography_plot <- function(summary_data, category, title) {
+make_geography_plot <- function(summary_data, category, title,
+                                respondent_total = sum(summary_data$Freq),
+                                percent_formatter = \(x) paste0(round(x), "%")) {
   category <- rlang::enquo(category)
-  respondent_total <- sum(summary_data$Freq)
+  summary_data <- summary_data %>%
+    mutate(.percent_label = percent_formatter(percent_score))
 
   summary_data %>%
     ggplot(aes(percent_score, fct_reorder(!!category, other_last(!!category, percent_score)))) +
     geom_col(width = 0.7, fill = "#6BAED6") +
     geom_text(
-      aes(label = paste0(round(percent_score), "%")),
+      aes(label = .percent_label),
       hjust = -0.15,
       size = 6
     ) +
@@ -208,7 +215,7 @@ country |>
 
 ::: {.panel-tabset}
 
-### Grouped (each <2% as Other)
+### Below 2% grouped
 
 ```{r}
 #| cache: false
@@ -216,8 +223,19 @@ country |>
 #| fig-height: 4.8
 # Country name followed by its flag (flags line up in a column at the axis).
 # Flags: figures/flags/<iso2>.png from flagcdn.com, see figures/flags/SOURCES.md.
-flag_label <- function(labels, height = 11) {
+flag_tag <- function(iso, height = 11, width = 18) {
+  flag_width <- if_else(!is.na(iso) & iso == "ch", height, width)
+  sprintf(
+    "<img src='%s' width='%d' height='%d'/>",
+    project_path("figures", "flags", paste0(iso, ".png")),
+    flag_width,
+    height
+  )
+}
+
+flag_label <- function(labels, height = 11, width = 18) {
   labels <- as.character(labels)
+  display_labels <- if_else(labels == "United Kingdom", "UK", labels)
   other <- startsWith(labels, "Other")
   iso <- rep(NA_character_, length(labels))
   iso[!other] <- tolower(countrycode::countrycode(
@@ -226,10 +244,10 @@ flag_label <- function(labels, height = 11) {
   ))
   dplyr::case_when(
     labels == "Other" ~ "*Other*",
+    labels == "Countries at <2%" ~ "Countries at &lt;2%",
     other ~ sub("^Other \\((.*)\\)$", "*Other*<br>(\\1)", gsub("<", "&lt;", labels)),
-    is.na(iso) ~ labels,
-    TRUE ~ sprintf("%s <img src='%s' height='%d'/>", labels,
-                   project_path("figures", "flags", paste0(iso, ".png")), height)
+    is.na(iso) ~ display_labels,
+    TRUE ~ sprintf("%s %s", display_labels, flag_tag(iso, height, width))
   )
 }
 
@@ -238,7 +256,7 @@ flag_label <- function(labels, height = 11) {
 country_grouped <- country %>%
   mutate(country_work = as.character(country_work)) %>%
   mutate(country_work = if_else(
-    percent_score < 2 | country_work == "Other", "Other (each <2%)", country_work
+    percent_score < 2 | country_work == "Other", "Countries at <2%", country_work
   )) %>%
   group_by(country_work) %>%
   summarise(Freq = sum(Freq), .groups = "drop") %>%
@@ -256,7 +274,67 @@ make_geography_plot(country_grouped, country_work, NULL) +
 #| fig-width: 9
 #| fig-height: 5.7
 # The section heading is the title (Wilke ch. 22), so no in-figure title.
-make_geography_plot(country, country_work, NULL) +
+# Countries whose individual percentage would round to 1% are split into rows
+# for one and two respondents. Each bar shows its row's combined share.
+country_counts_all <- country_responses %>%
+  count(country_work) %>%
+  mutate(
+    percent_score = n / nrow(country_responses) * 100,
+    displayed_percent = round(percent_score)
+  )
+small_countries <- country_counts_all %>%
+  filter(displayed_percent == 1) %>%
+  arrange(country_work) %>%
+  group_by(n) %>%
+  mutate(
+    group_percent = sum(percent_score),
+    flag_index = row_number()
+  ) %>%
+  ungroup() %>%
+  mutate(iso = tolower(countrycode::countrycode(
+    country_work, "country.name", "iso2c", warn = FALSE
+  )))
+# One flag per text box at even spacing (gridtext ignores spaces between images).
+small_country_flags <- small_countries %>%
+  transmute(
+    x = group_percent + 3.5 + 1.2 * (flag_index - 1),
+    y = if_else(
+      n == 1,
+      "1 respondent",
+      "2 respondents"
+    ),
+    label = flag_tag(iso)
+  )
+country_all <- country_counts_all %>%
+  mutate(country_work = case_when(
+    displayed_percent == 1 & n == 1 ~ "1 respondent",
+    displayed_percent == 1 ~ "2 respondents",
+    TRUE ~ country_work
+  )) %>%
+  group_by(country_work) %>%
+  summarise(
+    Freq = sum(n),
+    percent_score = sum(percent_score),
+    .groups = "drop"
+  )
+
+small_group_percentages <- small_countries %>%
+  distinct(group_percent) %>%
+  pull(group_percent)
+
+make_geography_plot(country_all, country_work, NULL,
+                    respondent_total = nrow(country_responses),
+                    percent_formatter = \(x) if_else(
+                      x %in% small_group_percentages,
+                      sprintf("%.1f%%", x),
+                      paste0(round(x), "%")
+                    )) +
+  ggtext::geom_richtext(
+    data = small_country_flags,
+    aes(x, y, label = label),
+    inherit.aes = FALSE, fill = NA, label.colour = NA,
+    label.padding = grid::unit(0, "pt")
+  ) +
   scale_y_discrete(labels = flag_label) +
   theme(axis.text.y = ggtext::element_markdown(size = 20, lineheight = 0.7))
 ```
@@ -693,7 +771,7 @@ software_reduced_plot(software_reduced) +
 
 :::
 
-## Combined participant-characteristics figure
+## Combined figures
 
 ```{r participant-characteristics-figure}
 #| cache: false
@@ -819,7 +897,7 @@ if (isTRUE(params$export_artifacts)) {
 }
 ```
 
-### Reduced figure grouping small categories as Other
+### Reduced figure
 
 ```{r participant-characteristics-figure-over-3-percent}
 #| cache: false
@@ -944,4 +1022,116 @@ if (isTRUE(params$export_artifacts)) {
   )
 }
 
+```
+
+### Figure with icons
+
+```{r participant-characteristics-icons-figure}
+#| cache: false
+#| fig-width: 15
+#| fig-height: 8
+#| fig-cap: 'Flags indicate country of work, not nationality. Multiple software selections were permitted. An asterisk denotes the survey answer "My own code in …".'
+
+country_icon_labels <- function(labels) {
+  labels <- as.character(labels)
+  is_other <- startsWith(labels, "Other")
+  country_names <- sub("\\n.*$", "", labels)
+  formatted <- flag_label(country_names, height = 13, width = 21)
+  formatted[is_other] <- "*Other*<br>(each &lt;2%)"
+  formatted
+}
+
+software_icon_labels <- function(labels) {
+  labels <- as.character(labels)
+  is_other <- startsWith(labels, "Other")
+  software_names <- sub("\\n.*$", "", labels)
+  formatted <- coalesce(
+    unname(software_logo_labels[software_names]),
+    software_names
+  )
+  formatted[is_other] <- "*Other*<br>(each &lt;4%)"
+  formatted
+}
+
+make_icon_dot_plot <- function(
+  plot_data,
+  label_column,
+  title,
+  label_function
+) {
+  plot_data <- plot_data %>%
+    filter(!is.na(.data[[label_column]])) %>%
+    mutate(display_label = forcats::fct_reorder(
+      factor(.data[[label_column]]),
+      other_last(.data[[label_column]], percent_score)
+    ))
+
+  ggplot(plot_data, aes(percent_score, display_label)) +
+    geom_segment(
+      aes(x = 0, xend = percent_score, yend = display_label),
+      colour = "#C6DDEB",
+      linewidth = 1.2
+    ) +
+    geom_point(size = 5, colour = "#3182BD") +
+    geom_text(
+      aes(label = paste0(round(percent_score), "%")),
+      hjust = -0.3,
+      size = 6
+    ) +
+    scale_x_continuous(
+      limits = c(0, 70),
+      breaks = c(0, 20, 40, 60),
+      labels = \(x) paste0(x, "%"),
+      expand = expansion(mult = c(0, 0.02))
+    ) +
+    scale_y_discrete(labels = label_function) +
+    labs(title = title, x = "Percent of respondents", y = NULL) +
+    coord_cartesian(clip = "off") +
+    theme_classic(base_family = "Lato", base_size = 20) +
+    theme(
+      plot.title = element_text(hjust = 0.5, face = "bold", size = 26),
+      axis.text.x = element_text(size = 18),
+      axis.text.y = ggtext::element_markdown(size = 18, lineheight = 0.75),
+      axis.title.x = element_text(size = 20),
+      axis.ticks.y = element_blank(),
+      plot.margin = margin(8, 24, 8, 8)
+    )
+}
+
+p_country_icons <- make_icon_dot_plot(
+  country_over_3,
+  "country_work",
+  "Country of work",
+  country_icon_labels
+)
+
+p_software_icons <- make_icon_dot_plot(
+  software_over_3,
+  "software",
+  "Software used",
+  software_icon_labels
+)
+
+participant_characteristics_icons_figure <-
+  p_country_icons + p_software_icons +
+  plot_layout(widths = c(0.95, 1.05)) +
+  plot_annotation(
+    tag_levels = "A",
+    theme = theme(plot.tag = element_text(face = "bold", size = 18))
+  )
+
+participant_characteristics_icons_figure
+
+if (isTRUE(params$export_artifacts)) {
+  ggsave_st(
+    project_path("figures", "participant_characteristics_icons_figure.png"),
+    participant_characteristics_icons_figure,
+    width = 15,
+    height = 8,
+    units = "in",
+    dpi = 180,
+    device = ragg::agg_png,
+    bg = "white"
+  )
+}
 ```
