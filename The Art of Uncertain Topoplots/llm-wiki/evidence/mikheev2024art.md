@@ -35,6 +35,14 @@ topics: ["EEG visualization practice", "uncertainty omission", "topoplot interpr
 
 ## Claim-level evidence
 
+<a id="claim-mikheev-plot-familiarity"></a>
+
+### mikheev-plot-familiarity
+
+**Type:** `empirical_finding`  
+**Claim:** ERP waveform plots and topoplots were the two plot types respondents had most often plotted themselves; topoplots ranked second.  
+**Quantitative detail:** Of 213 respondents, recognized / named / previously plotted: ERP plot 199 / 196 / 187 (88% plotted); topoplot 192 / 192 / 175 (82% plotted); topoplot timeseries 195 / 188 / 153; ERP grid 187 / 162 / 133; butterfly plot 168 / 159 / 125; ERP image 133 / 114 / 70; channel image 125 / 98 / 51; parallel plot 11 / 9 / 5. Counts are bar labels in Figure 6 (PDF p. 9); they are not in the extracted text, so verify against the PDF figure.  
+**Evidence:** [Figure 6, PDF p. 9](../raw/mikheev2024art.md#p009-b002) (figure)
 <a id="claim-mikheev-uncertainty-friction"></a>
 
 ### mikheev-uncertainty-friction

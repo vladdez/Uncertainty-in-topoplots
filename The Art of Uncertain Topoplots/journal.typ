@@ -68,9 +68,9 @@ figure with ERP over a two-dimensional representation of the head, often interpo
 Colour usually represents the sign and magnitude of the estimated voltage, allowing
 researchers to inspect the spatial distribution of signals. Topoplots are also one of the
 most familiar visualization types in the EEG/ERP community. In our previous survey of 213
-M/EEG researchers, 52% of respondents reported having previously created topoplots. This is
-the second results after conventional ERP waveforms
-(61%) @mikheev2024art. 
+M/EEG researchers, 82% of respondents (175) reported having previously plotted a topoplot,
+second only to conventional ERP waveform plots (88%, 187) @mikheev2024art.
+// Source: mikheev2024art, Fig. 6 (PDF p. 9), "previously plotted" bars; N = 213.
 
 Conventional topoplots generally show the estimated voltage without an accompanying measure
 of its precision. There is no established visual convention for integrating uncertainty into
@@ -169,8 +169,11 @@ mapping, and visualization software.
     [Software comparison: 5 visualization tools: Matplotlib, ggplot2, ggdist, Seaborn,
     and ggdibbler;
     18 example uncertainty visualization ],
-    [For only 5 of the 18 visualizations did at least one tool provide built-in support for quantifying uncertainty.
-     For the remaining 13 (72%), users had to construct the visual encoding themselves.],
+    [Only 3 of the 18 visualizations had a tool that both quantified and drew the
+     uncertainty; for 2 more, tools drew it but users had to quantify it. For the
+     remaining 13 (72%), users had to do both themselves.],
+    // Source: petek2026general, Table 3 (PDF p. 18): rows with a ✓ in any tool = 3;
+    // best symbol ◦ = 2 (binary heat map, bivariate means); × for all tools = 13.
   ),
   caption: [Representative evidence of incomplete uncertainty reporting and
     visualization across scientific domains and limited software support.],
