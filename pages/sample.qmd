@@ -61,6 +61,7 @@ tibble(
 ## Self-assessed visualization experience
 
 ```{r}
+#| fig-height: 3.5
 n_total <- data %>%
   filter(!is.na(A001)) %>%
   nrow()
@@ -207,11 +208,12 @@ country |>
 
 ::: {.panel-tabset}
 
-### All countries
+### Grouped (each <2% as Other)
 
 ```{r}
 #| cache: false
-#| fig-height: 8
+#| fig-width: 8
+#| fig-height: 4.8
 # Country name followed by its flag (flags line up in a column at the axis).
 # Flags: figures/flags/<iso2>.png from flagcdn.com, see figures/flags/SOURCES.md.
 flag_label <- function(labels, height = 11) {
@@ -231,17 +233,6 @@ flag_label <- function(labels, height = 11) {
   )
 }
 
-# The section heading is the title (Wilke ch. 22), so no in-figure title.
-make_geography_plot(country, country_work, NULL) +
-  scale_y_discrete(labels = flag_label) +
-  theme(axis.text.y = ggtext::element_markdown(size = 20, lineheight = 0.7))
-```
-
-### Grouped (each <2% as Other)
-
-```{r}
-#| cache: false
-#| fig-height: 6
 # Same grouping as the reduced combined figure below: countries with less than
 # 2% of respondents are pooled into Other.
 country_grouped <- country %>%
@@ -254,6 +245,18 @@ country_grouped <- country %>%
   mutate(percent_score = Freq / sum(Freq) * 100)
 
 make_geography_plot(country_grouped, country_work, NULL) +
+  scale_y_discrete(labels = flag_label) +
+  theme(axis.text.y = ggtext::element_markdown(size = 20, lineheight = 0.7))
+```
+
+### All countries
+
+```{r}
+#| cache: false
+#| fig-width: 9
+#| fig-height: 5.7
+# The section heading is the title (Wilke ch. 22), so no in-figure title.
+make_geography_plot(country, country_work, NULL) +
   scale_y_discrete(labels = flag_label) +
   theme(axis.text.y = ggtext::element_markdown(size = 20, lineheight = 0.7))
 ```
@@ -388,6 +391,7 @@ ggsave_st(
 ### Continent of work
 
 ```{r}
+#| fig-height: 4
 continent <- country_responses %>%
   mutate(
     continent = countrycode::countrycode(
@@ -468,6 +472,7 @@ field |>
 ```
 
 ```{r}
+#| fig-height: 3.5
 field %>%
   ggplot(aes(percent_score, reorder(field, other_last(field, percent_score)))) +
   geom_col(width = 0.7, fill = "#6BAED6") +
@@ -648,6 +653,7 @@ software_reduced %>%
 ### All tools
 
 ```{r}
+#| fig-width: 8
 software %>% filter(Freq != 0) %>%
   # Sorted by share; the survey's own "Other" option goes last (Wilke ch. 6).
   ggplot(aes(percent_score, reorder(software, other_last(software, percent_score)))) +
@@ -692,7 +698,7 @@ software_reduced_plot(software_reduced) +
 ```{r participant-characteristics-figure}
 #| cache: false
 #| fig-width: 15
-#| fig-height: 13
+#| fig-height: 10
 
 make_characteristic_plot <- function(
   plot_data,
