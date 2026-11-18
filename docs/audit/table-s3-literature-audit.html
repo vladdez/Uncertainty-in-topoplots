@@ -325,7 +325,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./manuscript-citations-audit.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Manuscript citations (121)</span></a>
+ <span class="menu-text">Manuscript citations (48 open)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fixed-citations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fixed citations (2)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -376,6 +382,19 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Re-checked 17 November 2026: open issues
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The source-to-claim trail below was written in October. The full re-check in the <a href="./manuscript-citations-audit.html#c.-supplement-tables-s2-and-s3">manuscript citation audit, part C</a> found that 11 of the 13 rows need changes to the <strong>current</strong> Table S3 text, two of them High severity (Sanyal, Correll 2018). The last column summarizes each row; exact replacement text is in part C.</p>
+</div>
+</div>
 <section id="scope-and-interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="scope-and-interpretation">Scope and interpretation</h2>
 <p>This audit supports the criterion-specific rankings added to Supplementary Table S3. It covers the 13 empirical evaluations already listed in Supplementary Table S2. A ranking is reported only when the paper provides a point-estimate order, an inferential comparison, or an explicit author conclusion. <code>≈</code> denotes a tie, an inconclusive contrast, or no reliable difference; it does not assert numerical equality. Partial orders are retained where the paper does not support a complete ranking.</p>
@@ -389,6 +408,7 @@ ul.task-list li input[type="checkbox"] {
 <th>Table S3 row</th>
 <th>Evidence used</th>
 <th>Qualification retained</th>
+<th>Re-check (17 Nov 2026)</th>
 </tr>
 </thead>
 <tbody>
@@ -396,66 +416,79 @@ ul.task-list li input[type="checkbox"] {
 <td>Wainer &amp; Francolini (1980)</td>
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/wainer1980colormaps.md#p011-b001">Experiment 1 results</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/wainer1980colormaps.md#p012-b003">legend-removal results</a></td>
 <td>Accuracy and response time favor different displays.</td>
+<td><span class="badge sev-low">Low</span> E2 task wording: eight E1 participants repeated it, adding a no-legend trial (C24).</td>
 </tr>
 <tr class="even">
 <td>Sanyal et al.&nbsp;(2009)</td>
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sanyal2009user.md#p009-b002">Closing discussion</a>; archived PDF, pp.&nbsp;7–9, especially Table 1 and Figs. 10–11</td>
-<td>Rankings are descriptive means and differ between 1D and 2D tasks; no universal winner.</td>
+<td>The paper reports only Bonferroni pairwise significance tests (Table 1), not per-task means; orders differ between 1D and 2D tasks; no universal winner.</td>
+<td><span class="badge sev-high">High</span> Lower-order rankings contradict Table 1: in 1D least-uncertain, <strong>error bars beat surface colour</strong>; 1D most-uncertain “glyph size &gt; error bars” is not reported (C26–C27). 2D most-uncertain: glyph colour is not a co-winner (C28).</td>
 </tr>
 <tr class="odd">
 <td>MacEachren et al.&nbsp;(2012)</td>
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/maceachren2012semiotics.md#p004-b002">Experiment 1 design/results</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/maceachren2012semiotics.md#p008-b002">Experiment 2 Table 4</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/maceachren2012semiotics.md#p009-b003">response-time interpretation</a></td>
 <td>Iconicity had no consistent accuracy effect; abstract symbols were faster overall but not in every category.</td>
+<td><span class="badge sev-low">Low</span> Grain also had a mean below 4 in Fig. 4 (C31).</td>
 </tr>
 <tr class="even">
 <td>Correll &amp; Gleicher (2014)</td>
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/correll2014error.md#p006-b013">one-sample likelihood results</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/correll2014error.md#p008-b023">confidence results</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/correll2014error.md#p009-b002">discussion</a></td>
 <td>The evidence supports a contrast between bar charts and the symmetric alternatives, not a reliable ordering among the alternatives.</td>
+<td><span class="badge sev-moderate">Moderate</span> E1: box plots tied bar charts on confidence, not gradient and violin (C32).</td>
 </tr>
 <tr class="odd">
 <td>Scholz &amp; Lu (2014)</td>
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/scholz2014uncertainty.md#p007-b004">preference ranks</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/scholz2014uncertainty.md#p008-b005">decision case</a></td>
 <td>Only the preference task ranks the four encodings; the decision case is not a between-encoding comparison.</td>
+<td><span class="badge sev-moderate">Moderate</span> “Mean rank 3.35” is a mean preference score (4 = most preferred) (C35).</td>
 </tr>
 <tr class="even">
 <td>Greis et al.&nbsp;(2015)</td>
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/greis2015investigating.md#p291-b002">survey means</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/greis2015investigating.md#p292-b002">game outcomes and preferences</a></td>
 <td>Survey ratings and behavioral performance are reported separately; the game sample was only 12.</td>
+<td><span class="badge sev-moderate">Moderate</span> Task wording: 12 displays rated on four 5-point scales (C37).</td>
 </tr>
 <tr class="odd">
 <td>Hullman et al.&nbsp;(2015)</td>
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/hullman2015hypothetical.md#p012-b002">completion time</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/hullman2015hypothetical.md#p013-b005">task-specific errors</a></td>
 <td>HOPs dominate multi-variable ordering tasks but not every one-variable estimate; the time difference was not significant.</td>
+<td>Supported.</td>
 </tr>
 <tr class="even">
 <td>Gschwandtner et al.&nbsp;(2016)</td>
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gschwandtner2016visual.md#p006-b002">error tests, Tables 1–2</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gschwandtner2016visual.md#p007-b003">task-specific results, Fig. 6</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gschwandtner2016visual.md#p007-b004">interpretation results</a></td>
 <td>Boundary, duration, probability, and time tasks yield different orders.</td>
+<td><span class="badge sev-moderate">Moderate</span> Average duration: only centred error bars were significantly best; E3a/E3b labels do not match the paper’s tasks 3a–3c (C40–C41).</td>
 </tr>
 <tr class="odd">
 <td>Correll et al.&nbsp;(2018)</td>
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/correll2018task.md#p006-b006">identification conditions and Fig. 6</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/correll2018task.md#p008-b002">identification and decision results</a></td>
 <td>E1 supports discrete superposition; E2 supports a change in uncertainty-sensitive choices, not a universal decision advantage.</td>
+<td><span class="badge sev-high">High</span> E2 ranks VSUPs best, but they had <strong>higher average danger</strong>; the qualification above is not in the table (C43).</td>
 </tr>
 <tr class="even">
 <td>Fernandes et al.&nbsp;(2018)</td>
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/fernandes2018uncertainty.md#p008-b002">learning and consistency results</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/fernandes2018uncertainty.md#p009-b011">final-trial comparison</a></td>
 <td>Dot50 is the clearest winner; the paper does not establish a complete order among all lower-performing conditions.</td>
+<td><span class="badge sev-low">Low</span> Lower order needs the text-interval qualification (C45).</td>
 </tr>
 <tr class="odd">
 <td>Kale et al.&nbsp;(2019)</td>
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kale2019hypothetical.md#p006-b002">E1 JND result</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kale2019hypothetical.md#p007-b003">E2 JND result</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kale2019hypothetical.md#p008-b003">E2 qualifications</a></td>
 <td>Regular HOPs beat the static comparator in each experiment; the fast-HOP contrast with line ensembles was inconclusive.</td>
+<td>Supported in S3; the S2 sample size (E2 N = 150) is not in the archived paper.</td>
 </tr>
 <tr class="even">
 <td>Kusumastuti et al.&nbsp;(2023)</td>
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kusumastuti2023practice.md#p007-b003">E1 post-practice results</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/kusumastuti2023practice.md#p008-b003">E2 post-practice results</a></td>
 <td>Practice and number of sources alter the ordering; the E2 ellipse advantage follows practice with ellipse stimuli.</td>
+<td><span class="badge sev-moderate">Moderate</span> The table does not say the orders are post-practice or which display was practised (C48).</td>
 </tr>
 <tr class="odd">
 <td>Sterzik et al.&nbsp;(2025)</td>
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sterzik2025.md#p009-b002">directionality results</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sterzik2025.md#p011-b003">value-estimation results</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sterzik2025.md#p012-b002">cross-study interpretation</a>; <a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/sterzik2025.md#p013-b002">conclusion</a></td>
 <td>Directionality and value-estimation criteria favor different metaphors; the lower-order ranking changes by molecular representation.</td>
+<td><span class="badge sev-moderate">Moderate</span> E2: authors call five metaphors similar (≈ 70%), not ordered; E3: texture ties colour on SES, colour best on sticks (C50–C51).</td>
 </tr>
 </tbody>
 </table>

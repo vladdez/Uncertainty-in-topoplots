@@ -251,7 +251,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./manuscript-citations-audit.html">Literature</a></li><li class="breadcrumb-item"><a href="./manuscript-citations-audit.html">Manuscript citations (121)</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./manuscript-citations-audit.html">Literature</a></li><li class="breadcrumb-item"><a href="./manuscript-citations-audit.html">Manuscript citations (48 open)</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -325,7 +325,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./manuscript-citations-audit.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Manuscript citations (121)</span></a>
+ <span class="menu-text">Manuscript citations (48 open)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fixed-citations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fixed citations (2)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -358,10 +364,10 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./manuscript-citations-audit.html">Literature</a></li><li class="breadcrumb-item"><a href="./manuscript-citations-audit.html">Manuscript citations (121)</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./manuscript-citations-audit.html">Literature</a></li><li class="breadcrumb-item"><a href="./manuscript-citations-audit.html">Manuscript citations (48 open)</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Manuscript citation audit</h1>
-<p class="subtitle lead">Source-to-claim check of every literature claim in journal.typ and supplement Tables S2–S3</p>
+<p class="subtitle lead">Open findings from the source-to-claim check of journal.typ and supplement Tables S2–S3</p>
 </div>
 
 
@@ -405,6 +411,7 @@ ul.task-list li input[type="checkbox"] {
 <th>Not supported</th>
 <th>Misattributed</th>
 <th>Not verifiable</th>
+<th>Fixed</th>
 </tr>
 </thead>
 <tbody>
@@ -417,6 +424,7 @@ ul.task-list li input[type="checkbox"] {
 <td>2</td>
 <td>1</td>
 <td>0</td>
+<td>2</td>
 </tr>
 <tr class="even">
 <td><a href="#b.-methods-to-conclusion-and-bibliography">B. Methods to Conclusion</a></td>
@@ -427,6 +435,7 @@ ul.task-list li input[type="checkbox"] {
 <td>0</td>
 <td>0</td>
 <td>3</td>
+<td>0</td>
 </tr>
 <tr class="odd">
 <td><a href="#c.-supplement-tables-s2-and-s3">C. Supplement Tables S2–S3</a></td>
@@ -437,6 +446,7 @@ ul.task-list li input[type="checkbox"] {
 <td>4</td>
 <td>0</td>
 <td>1</td>
+<td>0</td>
 </tr>
 <tr class="even">
 <td><strong>Total</strong></td>
@@ -447,12 +457,14 @@ ul.task-list li input[type="checkbox"] {
 <td><strong>6</strong></td>
 <td><strong>1</strong></td>
 <td><strong>4</strong></td>
+<td><strong>2</strong></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="fix-first" class="level2">
 <h2 class="anchored" data-anchor-id="fix-first">Fix first</h2>
+<p>Open findings only; resolved ones move to <a href="./fixed-citations.html">Fixed citations</a>. Verdict counts above are as audited; the last column counts what has been fixed since.</p>
 <table class="findings-table caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -469,18 +481,6 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td><span class="badge sev-high">High</span></td>
-<td><code>journal.typ:70–73</code> (A2)</td>
-<td>Mikheev survey: “52% created topoplots … ERP waveforms (61%)”. Fig. 6 shows <strong>175/213 (82%)</strong> plotted a topoplot and <strong>187/213 (88%)</strong> an ERP plot. The ranking (second) is right.</td>
-<td>Replace both percentages.</td>
-</tr>
-<tr class="even">
-<td><span class="badge sev-high">High</span></td>
-<td>Table 1, Petek row (A17)</td>
-<td>“5 of the 18 … built-in support for quantifying uncertainty”: only <strong>3</strong> rows have a quantifying wrapper (✓); 2 more have encoding only (◦). 13/18 all-× is correct.</td>
-<td>“3 of 18 … quantify; 2 more … encode only”.</td>
-</tr>
 <tr class="odd">
 <td><span class="badge sev-high">High</span></td>
 <td><code>journal.typ:86–89</code> (A4)</td>
@@ -573,8 +573,6 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p>Most important issues:</p>
 <ol type="1">
-<li><strong>A2 (High), <code>journal.typ:70–73</code>.</strong> The numbers “52% created topoplots, second only to ERP waveforms (61%)” do not appear anywhere in Mikheev et al.&nbsp;(2024). In Figure 6, 175 of 213 respondents (82%) had plotted a topoplot and 187 of 213 (88%) had plotted an ERP plot. The ranking (second) is correct; both percentages are wrong.</li>
-<li><strong>A17 (High), Table 1, Petek row.</strong> The cell says “for only 5 of the 18 visualizations did at least one tool provide built-in support for <em>quantifying</em> uncertainty”. In Petek Table 3, only 3 of 18 rows have a quantifying wrapper (✓). The 5 rows are those with ✓ <em>or</em> ◦, and ◦ means the user must still quantify uncertainty. The 13/18 (72%) all-× count is correct. This error was introduced after the 26 Oct audit.</li>
 <li><strong>A4 (High), <code>journal.typ:86–89</code>.</strong> The Introduction says Allen’s 20% applies to “data with more than three features”. Allen’s “3D” graphics have exactly three variables (two independent and one dependent; Fig. 1A). The 20% is correct, but the population it describes is misstated.</li>
 <li><strong>A36 (Moderate), <code>journal.typ:266–268</code>.</strong> Perceptual studies that “identify areas with high uncertainty … accuracy and response time” are attributed to Hullman et al.&nbsp;(2015). That HOPs study asked people to estimate properties of 1–3 distributions, with no spatial search. The description fits Sanyal et al.&nbsp;(2009), which is already in <code>refs.bib</code>.</li>
 <li><strong>A41 (Moderate), <code>journal.typ:291–292</code>.</strong> “In ERP waveforms, uncertainty is <em>commonly</em> shown using error bars or shaded confidence intervals”. The three cited sources give examples (Kappenman: ±1 SEM shading, not a CI; Pernet: bootstrap 95% CI; Allen: a <em>recommended</em> CI band, with the typical ERP panel described as having “no portrayal of uncertainty”). None of them shows how common this practice is. Mikheev’s 40% without error bars points the other way.</li>
@@ -608,16 +606,6 @@ ul.task-list li input[type="checkbox"] {
 <td>—</td>
 </tr>
 <tr class="even">
-<td>A2</td>
-<td><code>journal.typ:70–73</code></td>
-<td>mikheev2024art</td>
-<td>“survey of 213 M/EEG researchers, 52% … created topoplots … second … after conventional ERP waveforms (61%)”</td>
-<td>Not supported</td>
-<td>High</td>
-<td>Figure 6, PDF p.&nbsp;9 (<a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/mikheev2024art.md#p009-b002"><code>raw/mikheev2024art.md#p009-b002</code></a>): plotted topoplot = 175/213; plotted ERP plot = 187/213; text <code>#p007-b004</code> (“The majority of participants have plotted ERP plots and topoplots”). Neither 52% nor 61% occurs in the paper as a plotting rate. The only 61% is the topoplot-series interpretation result, 61% of 185 (<code>#p012-b001</code>).</td>
-<td>“In our previous survey of 213 M/EEG practitioners, 175 respondents (82%) reported having previously plotted a topoplot, second only to the conventional ERP plot (187; 88%) <span class="citation" data-cites="mikheev2024art">@mikheev2024art</span>.” (Also fixes the grammar of “This is the second results”.)</td>
-</tr>
-<tr class="odd">
 <td>A3</td>
 <td><code>journal.typ:76–78</code></td>
 <td>gerslova2026diegr</td>
@@ -627,7 +615,7 @@ ul.task-list li input[type="checkbox"] {
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/gerslova2026diegr.md#p041-b003"><code>raw/gerslova2026diegr.md#p041-b003</code></a>, <code>#p042-b004</code></td>
 <td>This is a sentence fragment with a typo, and it cites “solutions” (plural) to one package. Suggested: “Some EEG software already offers basic options, for example the R package diegr, which plots lower-bound, mean and upper-bound scalp maps side by side <span class="citation" data-cites="gerslova2026diegr">@gerslova2026diegr</span>, but no established visual convention exists.” (Optionally also cite <span class="citation" data-cites="pernet2011limo">@pernet2011limo</span>.)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>A4</td>
 <td><code>journal.typ:86–89</code></td>
 <td>allen2012data</td>
@@ -637,7 +625,7 @@ ul.task-list li input[type="checkbox"] {
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/allen2012data.md#p001-b007"><code>raw/allen2012data.md#p001-b007</code></a> (“only 20% portray the uncertainty of reported effects” for 3D graphics; 288 articles published in 2010); Fig. 1A, PDF p.&nbsp;3 (3D data = independent variable 1 × independent variable 2 → dependent variable shown by colour)</td>
 <td>“…they audited 1,451 figures in 288 articles published in 2010 in six neuroscience journals and found that only 20% of graphics of three-variable ("3D") data portrayed uncertainty, compared with a large majority of two-variable graphics <span class="citation" data-cites="allen2012data">@allen2012data</span>.”</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>A5</td>
 <td><code>journal.typ:127–129</code></td>
 <td>boukhelifa2009uncertainty</td>
@@ -647,7 +635,7 @@ ul.task-list li input[type="checkbox"] {
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/boukhelifa2009uncertainty.md#p001-b003"><code>raw/boukhelifa2009uncertainty.md#p001-b003</code></a> (“a gulf between the rhetoric … and the practice of visualization in which uncertainty is rarely seen”)</td>
 <td>— (an opinion/case-study paper, not an audit; “describe” is appropriately worded)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>A6</td>
 <td><code>journal.typ:129–131</code></td>
 <td>hullman2020why</td>
@@ -657,7 +645,7 @@ ul.task-list li input[type="checkbox"] {
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/hullman2020why.md#p001-b002"><code>raw/hullman2020why.md#p001-b002</code></a> (90 surveyed authors + 13 interviews; “contradiction … between authors’ acknowledgment of the value of depicting uncertainty and the norm of omitting direct depiction”)</td>
 <td>— (optionally “survey and interviews”)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>A7</td>
 <td><code>journal.typ:143</code> (Tab. 1)</td>
 <td>allen2012data</td>
@@ -667,7 +655,7 @@ ul.task-list li input[type="checkbox"] {
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/allen2012data.md#p001-b007"><code>raw/allen2012data.md#p001-b007</code></a></td>
 <td>—</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>A8</td>
 <td><code>journal.typ:144–145</code> (Tab. 1)</td>
 <td>allen2012data</td>
@@ -677,7 +665,7 @@ ul.task-list li input[type="checkbox"] {
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/allen2012data.md#p001-b007"><code>raw/allen2012data.md#p001-b007</code></a>; Fig. 1B, PDF p.&nbsp;3</td>
 <td>“Only 20% of audited 3D graphics (three data variables) portrayed uncertainty.” (This is the earlier audit’s recommendation and is still not applied.)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>A9</td>
 <td><code>journal.typ:145–148</code> (Tab. 1 footnote)</td>
 <td>allen2012data</td>
@@ -687,7 +675,7 @@ ul.task-list li input[type="checkbox"] {
 <td>Fig. 1A, PDF p.&nbsp;3 (3D example is a flat heat map: two independent-variable axes and a colour-coded dependent variable)</td>
 <td>—</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>A10</td>
 <td><code>journal.typ:151</code> (Tab. 1)</td>
 <td>yanai2021current</td>
@@ -697,7 +685,7 @@ ul.task-list li input[type="checkbox"] {
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/yanai2021current.md#p001-b004"><code>raw/yanai2021current.md#p001-b004</code></a> (132 papers published in 2019, randomly selected from 100 journals)</td>
 <td>—</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>A11</td>
 <td><code>journal.typ:152–153</code> (Tab. 1)</td>
 <td>yanai2021current</td>
@@ -707,7 +695,7 @@ ul.task-list li input[type="checkbox"] {
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/yanai2021current.md#p011-b002"><code>raw/yanai2021current.md#p011-b002</code></a> (54% “quantified fewer than half of the uncertainty sources that we judged applicable; uncertainty scores averaged 42%”); <code>#p004-b002</code> (score = reported ÷ relevant sources)</td>
 <td>“Papers reported (quantified) on average 42% of the uncertainty sources the reviewers judged applicable; 54% reported fewer than half.” The source says “reported/quantified”, not “numerical estimates”, and “relevant” means judged applicable by the reviewers’ coding.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>A12</td>
 <td><code>journal.typ:156–157</code> (Tab. 1)</td>
 <td>mikheev2024art</td>
@@ -717,7 +705,7 @@ ul.task-list li input[type="checkbox"] {
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/mikheev2024art.md#p012-b004"><code>raw/mikheev2024art.md#p012-b004</code></a> (“all respondents who had previously published an ERP plot (n=157)”)</td>
 <td>— (optional: “157 of 213 respondents”)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>A13</td>
 <td><code>journal.typ:158–159</code> (Tab. 1)</td>
 <td>mikheev2024art</td>
@@ -727,7 +715,7 @@ ul.task-list li input[type="checkbox"] {
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/mikheev2024art.md#p012-b004"><code>raw/mikheev2024art.md#p012-b004</code></a>; Fig. 11 caption <code>#p013-b002</code> (N = 157)</td>
 <td>— (self-report; error bars are only one possible encoding)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>A14</td>
 <td><code>journal.typ:162–164</code> (Tab. 1)</td>
 <td>jain2026communicating</td>
@@ -737,7 +725,7 @@ ul.task-list li input[type="checkbox"] {
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/jain2026communicating.md#p001-b005"><code>raw/jain2026communicating.md#p001-b005</code></a> (66 manuscripts, ≥1 map, climate-sensitive human disease, Asia-Pacific)</td>
 <td>—</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>A15</td>
 <td><code>journal.typ:165–166</code> (Tab. 1)</td>
 <td>jain2026communicating</td>
@@ -747,7 +735,7 @@ ul.task-list li input[type="checkbox"] {
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/jain2026communicating.md#p010-b002"><code>raw/jain2026communicating.md#p010-b002</code></a> (3/66); <code>#p009-b002</code> (n = 26, 39%)</td>
 <td>— (4.5% is the rounded value of 3/66)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>A16</td>
 <td><code>journal.typ:169–171</code> (Tab. 1)</td>
 <td>petek2026general</td>
@@ -756,16 +744,6 @@ ul.task-list li input[type="checkbox"] {
 <td>Low</td>
 <td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/petek2026general.md#p018-b002"><code>raw/petek2026general.md#p018-b002</code></a> (Table 3: five tools; 18 rows are the authors’ bootplot examples from their Section 5; PGoG excluded)</td>
 <td>“Software comparison: 5 tools (Matplotlib, ggplot2, ggdist, Seaborn, ggdibbler) on the 18 example uncertainty visualizations from the authors’ own method showcase.” The 18 examples were chosen to demonstrate bootplot, which may favour it; also fixes the grammar of “visualization”.</td>
-</tr>
-<tr class="odd">
-<td>A17</td>
-<td><code>journal.typ:172–173</code> (Tab. 1)</td>
-<td>petek2026general</td>
-<td>“For only 5 of the 18 … at least one tool provide built-in support for quantifying uncertainty. For the remaining 13 (72%), users had to construct the visual encoding themselves.”</td>
-<td>Not supported</td>
-<td>High</td>
-<td><a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/petek2026general.md#p018-b002"><code>raw/petek2026general.md#p018-b002</code></a>, Table 3, PDF p.&nbsp;18. ✓ (wrapper quantifies uncertainty and encodes it) appears in only 3 rows: CI for mean, point-wise regression band, bar chart with CI. The binary heat map and bivariate means rows have only ◦ (the user must quantify; the wrapper encodes). 13 rows are × for all five tools.</td>
-<td>“For only 5 of the 18 visualizations did at least one tool offer built-in support (in 3, a wrapper that both quantifies and encodes uncertainty; in 2, only a default visual encoding). For the remaining 13 (72%), users of every tool had to quantify uncertainty and design its visual encoding themselves (count derived from Petek et al.’s Table 3).”</td>
 </tr>
 <tr class="even">
 <td>A18</td>
