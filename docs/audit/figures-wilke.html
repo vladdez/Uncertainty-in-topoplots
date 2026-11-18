@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Figures vs Wilke – Audit</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-bbbf74a2b2e227808fd68eb048eacc9c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f23fc50b85aa20d525edd74f5d91c01c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-bbbf74a2b2e227808fd68eb048eacc9c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./figures-wilke.html">Visualization</a></li><li class="breadcrumb-item"><a href="./figures-wilke.html">Figures vs Wilke (18 open)</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Audit</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://vladdez.github.io/Uncertainty-in-topoplots/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">← Analysis site</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Statistical analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unresolved (7)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./addressed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Addressed (5)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fixed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fixed (21)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Literature</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./manuscript-citations-audit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manuscript citations (23 open)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fixed-citations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fixed citations (27)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./table-s3-literature-audit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Table S3 rankings</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Visualization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./figures-wilke.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Figures vs Wilke (18 open)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#v1" id="toc-v1" class="nav-link active" data-scroll-target="#v1">V1. The seven visualizations appear in a different order in every figure</a></li>
+  <li><a href="#v2" id="toc-v2" class="nav-link" data-scroll-target="#v2">V2. Text sizes are unbalanced at final size</a></li>
+  <li><a href="#v3" id="toc-v3" class="nav-link" data-scroll-target="#v3">V3. Hit/miss “most correct / most missed” frames highlight noise and ties</a></li>
+  <li><a href="#v4" id="toc-v4" class="nav-link" data-scroll-target="#v4">V4. Feedback panels re-sort the visualizations in each panel</a></li>
+  <li><a href="#v5" id="toc-v5" class="nav-link" data-scroll-target="#v5">V5. Visualization names differ between figures</a></li>
+  <li><a href="#v6" id="toc-v6" class="nav-link" data-scroll-target="#v6">V6. Basic topoplot is highlighted only in some figures</a></li>
+  <li><a href="#v7" id="toc-v7" class="nav-link" data-scroll-target="#v7">V7. Publication figures: 180-dpi PNG, in-figure titles and subtitles</a></li>
+  <li><a href="#v8" id="toc-v8" class="nav-link" data-scroll-target="#v8">V8. No time contrast-vs-Basic figure</a></li>
+  <li><a href="#v9" id="toc-v9" class="nav-link" data-scroll-target="#v9">V9. Task 2 gradient plot sorted by median, shows means</a></li>
+  <li><a href="#v10" id="toc-v10" class="nav-link" data-scroll-target="#v10">V10. One score, several names and units</a></li>
+  <li><a href="#v11" id="toc-v11" class="nav-link" data-scroll-target="#v11">V11. Boxplots for 3–10 ordinal values</a></li>
+  <li><a href="#v12" id="toc-v12" class="nav-link" data-scroll-target="#v12">V12. Hit/near-miss bars show no uncertainty</a></li>
+  <li><a href="#v13" id="toc-v13" class="nav-link" data-scroll-target="#v13">V13. Country map is a choropleth of raw counts</a></li>
+  <li><a href="#v14" id="toc-v14" class="nav-link" data-scroll-target="#v14">V14. Logo labels carry unequal visual weight</a></li>
+  <li><a href="#v15" id="toc-v15" class="nav-link" data-scroll-target="#v15">V15. Compact figure: nominal field on a sequential ramp</a></li>
+  <li><a href="#v16" id="toc-v16" class="nav-link" data-scroll-target="#v16">V16. Time violin: alphabetical, rotated labels, no task in title</a></li>
+  <li><a href="#v17" id="toc-v17" class="nav-link" data-scroll-target="#v17">V17. Smaller issues</a></li>
+  <li><a href="#v18" id="toc-v18" class="nav-link" data-scroll-target="#v18">V18. Orphaned figure files in <code>pages/*_files</code></a></li>
+  <li><a href="#done-well" id="toc-done-well" class="nav-link" data-scroll-target="#done-well">Done well</a></li>
+  <li><a href="#priorities" id="toc-priorities" class="nav-link" data-scroll-target="#priorities">Priorities</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./figures-wilke.html">Visualization</a></li><li class="breadcrumb-item"><a href="./figures-wilke.html">Figures vs Wilke (18 open)</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Figures vs Wilke</h1>
+<p class="subtitle lead">Review of every site and publication figure against Wilke, Fundamentals of Data Visualization (2019)</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Scope and method (18 November 2026)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An independent, read-only review of the PNGs that the rendered pages reference, plus the publication set in <code>figures/</code>. Each figure was checked against Wilke’s principles using the archived text (<code>llm-wiki/handbooks/wilke2019fundamentals-readable.md</code>); chapter numbers refer to that book. Two headline findings (V3, V9) were re-checked by hand. Nothing has been changed yet. These are open items.</p>
+</div>
+</div>
+<table class="findings-table caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Issue</th>
+<th>Figures</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="badge sev-high">High</span></td>
+<td><a href="#v1">V1. The seven visualizations appear in a different order in every figure</a></td>
+<td>All pages</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-high">High</span></td>
+<td><a href="#v2">V2. Text sizes are unbalanced at final size</a></td>
+<td>Ratings, Task 2, Time, Feedback</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-high">High</span></td>
+<td><a href="#v3">V3. Hit/miss “most correct / most missed” frames highlight noise and ties</a></td>
+<td>Hit or miss</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-high">High</span></td>
+<td><a href="#v4">V4. Feedback panels re-sort the visualizations in each panel</a></td>
+<td>Feedback</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v5">V5. Visualization names differ between figures</a></td>
+<td>All pages</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v6">V6. Basic topoplot is highlighted only in some figures</a></td>
+<td>All pages</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v7">V7. Publication figures: 180-dpi PNG, in-figure titles and subtitles</a></td>
+<td><code>figures/</code></td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v8">V8. No time contrast-vs-Basic figure</a></td>
+<td>Time</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v9">V9. Task 2 gradient plot sorted by median, shows means</a></td>
+<td>Task 2</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v10">V10. One score, several names and units</a></td>
+<td>Task 2</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v11">V11. Boxplots for 3–10 ordinal values</a></td>
+<td>Feedback</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v12">V12. Hit/near-miss bars show no uncertainty</a></td>
+<td>Hit or miss</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v13">V13. Country map is a choropleth of raw counts</a></td>
+<td>Sample</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v14">V14. Logo labels carry unequal visual weight</a></td>
+<td>Sample</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v15">V15. Compact figure: nominal field on a sequential ramp</a></td>
+<td>Sample</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v16">V16. Time violin: alphabetical, rotated labels, no task in title</a></td>
+<td>Time</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#v17">V17. Smaller issues</a></td>
+<td>Several</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#v18">V18. Orphaned figure files in <code>pages/*_files</code></a></td>
+<td>Project</td>
+</tr>
+</tbody>
+</table>
+<section id="v1" class="level2">
+<h2 class="anchored" data-anchor-id="v1">V1. The seven visualizations appear in a different order in every figure</h2>
+<div class="finding-meta sev-high">
+<p><strong>Severity:</strong> High (for the paper) · <strong>Principle:</strong> ch.&nbsp;21 “Use one visual language across compound panels”; ch.&nbsp;29 “Keep semantics consistent”; ch.&nbsp;6</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li><strong>Sorted by value:</strong> Task 1 accuracy, Task 2 score and the time estimates.</li>
+<li><strong>Fixed order with Basic first:</strong> the Likert estimate and contrast figures.</li>
+<li><strong>Alphabetical with Basic last:</strong> the hit/miss bars, <code>task2-peak-ppc-figure</code>, <code>task2-peak-contrast-figure</code> and the time violins.</li>
+<li><strong>Re-sorted inside every panel:</strong> the feedback figures.</li>
+</ul>
+<p>Readers have to find each condition again in every figure.</p>
+<p><strong>Fix.</strong> Choose one canonical order and use it everywhere: Basic first, then the six alternatives grouped by design family. Where sorting by value tells the story (ch.&nbsp;6 allows “another story-relevant criterion”), keep Basic pinned and highlighted.</p>
+</section>
+<section id="v2" class="level2">
+<h2 class="anchored" data-anchor-id="v2">V2. Text sizes are unbalanced at final size</h2>
+<div class="finding-meta sev-high">
+<p><strong>Severity:</strong> High (for the journal) · <strong>Principle:</strong> ch.&nbsp;24 “Judge text and mark balance at final reproduction size”</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li><strong>Likert figures</strong> (<code>figures/likert_estimate_figure.png</code>, <code>figures/likert_contrast_figure.png</code>): panel titles are 50 pt and y labels 40 pt, but the 1–5 and ±2 tick numbers are tiny.</li>
+<li><strong>Tiny tick text elsewhere:</strong> the PPC and peak-contrast figures, the time-position plots, the feedback y axes and the feedback caption.</li>
+<li><strong>Sizes not as coded:</strong> exports use showtext at 96 dpi on 180-dpi devices, so the point sizes in the code are not the printed sizes.</li>
+</ul>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Export at the journal column widths (about 3.5 in or 7 in).</li>
+<li>Set real point sizes: ticks 8–9 pt, labels 9–10 pt.</li>
+<li>Drop the dpi-ratio workaround for exports.</li>
+<li>Add anchor labels to the rating axis (what 1 and 5 mean).</li>
+</ul>
+</section>
+<section id="v3" class="level2">
+<h2 class="anchored" data-anchor-id="v3">V3. Hit/miss “most correct / most missed” frames highlight noise and ties</h2>
+<div class="finding-meta sev-high">
+<p><strong>Severity:</strong> High · <strong>Figures:</strong> <code>figures/task2_hits_misses_stimulus_by_vistype.png</code>, <code>task2_hits_misses_pattern_by_vistype.png</code> · <strong>Principle:</strong> ch.&nbsp;16 (no differences without uncertainty); ch.&nbsp;4 (keep the accent for real emphasis)</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li><strong>Row P3_16 (checked):</strong> every panel has 0% hits, yet Confidence intervals is framed “Most correct in row” and Basic topoplot “Most missed in row”.</li>
+<li><strong>Rows MMN_1 and N170_12:</strong> one “most missed” panel is framed out of several tied at 0%.</li>
+<li><strong>Cell sizes:</strong> cells hold n = 7–26, so these winners are mostly noise.</li>
+<li><strong>Pattern grid:</strong> it singles out differences such as 16% vs 12%.</li>
+</ul>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Preferred: remove the frames.</li>
+<li>Otherwise:
+<ul>
+<li>name the metric (hit rate or mean score);</li>
+<li>skip rows where the extreme value is tied;</li>
+<li>print n or an interval.</li>
+</ul></li>
+</ul>
+<p>The plotting code is in the UnfoldMakie worktree (<code>uncertainty_project/working/task2_results/plot_task2_hits_misses.jl</code>).</p>
+</section>
+<section id="v4" class="level2">
+<h2 class="anchored" data-anchor-id="v4">V4. Feedback panels re-sort the visualizations in each panel</h2>
+<div class="finding-meta sev-high">
+<p><strong>Severity:</strong> High · <strong>Figures:</strong> <code>a305-intensity-theme-figure</code>, <code>…-general-bivariates</code> · <strong>Principle:</strong> ch.&nbsp;21 “Order panels by a logical sequence”; ch.&nbsp;6 (horizontal labels)</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li>Every theme panel orders the visualizations differently, so Basic and the others move between panels.</li>
+<li>The general-bivariates version also has rotated labels.</li>
+</ul>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Use one fixed x order in all panels.</li>
+<li>Keep empty slots, so that columns line up vertically.</li>
+</ul>
+</section>
+<section id="v5" class="level2">
+<h2 class="anchored" data-anchor-id="v5">V5. Visualization names differ between figures</h2>
+<div class="finding-meta sev-moderate">
+<p><strong>Severity:</strong> Moderate · <strong>Principle:</strong> ch.&nbsp;21 (consistency); ch.&nbsp;22 (unambiguous labels)</p>
+</div>
+<p><strong>Problem.</strong> The same visualizations appear under different names:</p>
+<ul>
+<li>“Bivariate corner” and “Bivariate corners”;</li>
+<li>“Confidence interval” and “Confidence intervals”;</li>
+<li>“Basic” and “Basic topoplot”;</li>
+<li>“Adjacent” and “Adjacent plots”.</li>
+</ul>
+<p>In the Task 2 gradient plot, “Confidence intervals” also wraps onto two lines with a large gap.</p>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Use one label vector (<code>vistype_labels</code>) for every R figure and the Makie exports.</li>
+<li>Use a short-name variant only where space requires it, and then use it everywhere.</li>
+</ul>
+</section>
+<section id="v6" class="level2">
+<h2 class="anchored" data-anchor-id="v6">V6. Basic topoplot is highlighted only in some figures</h2>
+<div class="finding-meta sev-moderate">
+<p><strong>Severity:</strong> Moderate · <strong>Principle:</strong> ch.&nbsp;4 “Make baseline colors recede behind highlights”; ch.&nbsp;21</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li>The blue Basic accent appears in the accuracy, score and Likert figures.</li>
+<li>It is missing from the time estimates, the gradient plots, the PPC figure, the peak contrasts and the hit/miss bars.</li>
+</ul>
+<p><strong>Fix.</strong> Apply the same accent to Basic in every figure that shows all seven conditions.</p>
+</section>
+<section id="v7" class="level2">
+<h2 class="anchored" data-anchor-id="v7">V7. Publication figures: 180-dpi PNG, in-figure titles and subtitles</h2>
+<div class="finding-meta sev-moderate">
+<p><strong>Severity:</strong> Moderate (for the journal) · <strong>Figures:</strong> <code>figures/comparison_accuracy*</code>, <code>detection_score*</code>, <code>likert_*</code> · <strong>Principle:</strong> ch.&nbsp;27 “Match vector or bitmap storage to figure complexity”, “Preserve a maximum-quality master”; ch.&nbsp;22 “Give every figure one title in the location its medium expects”</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li>The publication figures are 180-dpi PNGs.</li>
+<li>They carry their own titles and subtitles. One subtitle, for example, defines the CI (“Dunnett-adjusted simultaneous 95% CIs”).</li>
+</ul>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Export the ggplot figures as PDF or SVG (<code>cairo_pdf</code>, <code>svglite</code>).</li>
+<li>Export the Makie grids as PDF, or as PNG/TIFF at 300 dpi or more.</li>
+<li>Add a <code>title = FALSE</code> switch for the exports and move the CI definition into the manuscript caption.</li>
+</ul>
+<p>The Sample page already works this way.</p>
+</section>
+<section id="v8" class="level2">
+<h2 class="anchored" data-anchor-id="v8">V8. No time contrast-vs-Basic figure</h2>
+<div class="finding-meta sev-moderate">
+<p><strong>Severity:</strong> Moderate · <strong>Principle:</strong> ch.&nbsp;16 “Plot uncertainty for the comparison you actually want to make”; ch.&nbsp;3, ch.&nbsp;17 (log axes start at 1)</p>
+</div>
+<p><strong>Problem.</strong> The time-estimate plots show intervals for levels and say they are “not for differences”. The Dunnett ratios exist only as tables.</p>
+<p><strong>Fix.</strong> Plot the ratios to Basic with Dunnett CIs on a log axis centred at 1.</p>
+</section>
+<section id="v9" class="level2">
+<h2 class="anchored" data-anchor-id="v9">V9. Task 2 gradient plot sorted by median, shows means</h2>
+<div class="finding-meta sev-moderate">
+<p><strong>Severity:</strong> Moderate · <strong>Location:</strong> <code>pages/task2.qmd:317–320</code> (<code>task2_gradient_order</code> uses <code>arrange(median)</code>) · <strong>Principle:</strong> ch.&nbsp;6 “Order categories by a meaningful rule”</p>
+</div>
+<p><strong>Problem.</strong> The plot shows means but is ordered by medians. Bivariate corner (0.68) therefore sits above Basic (0.70).</p>
+<p><strong>Fix.</strong> Sort by <code>mean_score</code>.</p>
+</section>
+<section id="v10" class="level2">
+<h2 class="anchored" data-anchor-id="v10">V10. One score, several names and units</h2>
+<div class="finding-meta sev-moderate">
+<p><strong>Severity:</strong> Moderate · <strong>Principle:</strong> ch.&nbsp;22 “Label quantitative axes … with variables and units”; ch.&nbsp;21</p>
+</div>
+<p><strong>Problem.</strong> The same Task 2 score is described differently in different figures:</p>
+<ul>
+<li>The gradient plot is titled “Detection task accuracy”, its axis says “score”, and its values are 0–1 decimals.</li>
+<li>The model figures say “Detection task score” and use %.</li>
+<li><code>task2-peak-ppc-figure</code> labels a difference axis “%” where “pp” is meant.</li>
+</ul>
+<p><strong>Fix.</strong> Use one name and one unit for the score, and “pp” for differences. Define the fade beyond 95% in the gradient plots, e.g.&nbsp;“fades from 95% to 99.9% confidence” (ch.&nbsp;16).</p>
+</section>
+<section id="v11" class="level2">
+<h2 class="anchored" data-anchor-id="v11">V11. Boxplots for 3–10 ordinal values</h2>
+<div class="finding-meta sev-moderate">
+<p><strong>Severity:</strong> Moderate · <strong>Principle:</strong> ch.&nbsp;9 “Show observations when smoothed group shapes may overstate evidence”</p>
+</div>
+<p><strong>Problem.</strong> The feedback figures draw boxplots for 3–10 values on a 5-point scale. A box suggests more distributional detail than the data hold.</p>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Show the points with a median tick.</li>
+<li>Alternatively, use a theme × visualization matrix: diverging colour for the median intensity, with n printed in each cell (ch.&nbsp;6, ch.&nbsp;4).</li>
+<li>Also:
+<ul>
+<li>lighten the boxed strips (ch.&nbsp;23);</li>
+<li>add a reference line at 0 (ch.&nbsp;23);</li>
+<li>enlarge the caption (ch.&nbsp;24).</li>
+</ul></li>
+</ul>
+</section>
+<section id="v12" class="level2">
+<h2 class="anchored" data-anchor-id="v12">V12. Hit/near-miss bars show no uncertainty</h2>
+<div class="finding-meta sev-moderate">
+<p><strong>Severity:</strong> Moderate · <strong>Figure:</strong> <code>figures/task2_hit_near_miss_by_vistype.png</code> · <strong>Principle:</strong> ch.&nbsp;16; ch.&nbsp;19 (dot size)</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li>Some differences between bars are 2–5 pp, yet the bars carry no intervals.</li>
+<li>The small orange and black dots on blue fills are hard to tell apart.</li>
+</ul>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Add Wilson 95% whiskers, or point the caption to the contrast models.</li>
+<li>Set a minimum dot size, or give the dots a white halo.</li>
+</ul>
+</section>
+<section id="v13" class="level2">
+<h2 class="anchored" data-anchor-id="v13">V13. Country map is a choropleth of raw counts</h2>
+<div class="finding-meta sev-moderate">
+<p><strong>Severity:</strong> Moderate · <strong>Figure:</strong> <code>country-count-map</code> · <strong>Principle:</strong> ch.&nbsp;15 “Use choropleths primarily for densities, and check area bias”</p>
+</div>
+<p><strong>Problem.</strong> Russia, Canada, Australia, Brazil and China dominate the map visually with 1–6 participants each. Europe, at about two-thirds of the sample, is barely visible.</p>
+<p><strong>Fix.</strong> Use proportional symbols at the country centroids, or add a Europe inset, or drop the map in favour of the bar charts. The 6 bins and the equal-area projection are already good.</p>
+</section>
+<section id="v14" class="level2">
+<h2 class="anchored" data-anchor-id="v14">V14. Logo labels carry unequal visual weight</h2>
+<div class="finding-meta sev-moderate">
+<p><strong>Severity:</strong> Moderate · <strong>Figures:</strong> <code>participant-characteristics-icons-figure</code>, <code>-icons-compact</code>, <code>software-reduced-logos</code> · <strong>Principle:</strong> ch.&nbsp;29 “Add distinctiveness without sacrificing quick comprehension”; ch.&nbsp;4, ch.&nbsp;19</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li>The logos differ in visual weight in ways unrelated to the data: multicolour MNE, the red BrainVision block, the dark Brainstorm block.</li>
+<li>Some logos are harder to read than plain names (“erplab”, the R logo with an asterisk).</li>
+</ul>
+<p><strong>Fix.</strong> Keep text labels for the journal, as in the reduced figure. The logo version can stay on the web as an extra.</p>
+</section>
+<section id="v15" class="level2">
+<h2 class="anchored" data-anchor-id="v15">V15. Compact figure: nominal field on a sequential ramp</h2>
+<div class="finding-meta sev-moderate">
+<p><strong>Severity:</strong> Moderate · <strong>Figure:</strong> <code>participant-characteristics-icons-compact</code>, panel A · <strong>Principle:</strong> ch.&nbsp;4 “Use equal-prominence colors for unordered categories”</p>
+</div>
+<p><strong>Problem.</strong> Research field is a nominal variable, but it is coloured light to dark blue, which implies an order. Self-assessed level is ordered, so its ramp is fine.</p>
+<p><strong>Fix.</strong> Give field a qualitative palette, or a single colour with direct labels.</p>
+</section>
+<section id="v16" class="level2">
+<h2 class="anchored" data-anchor-id="v16">V16. Time violin: alphabetical, rotated labels, no task in title</h2>
+<div class="finding-meta sev-moderate">
+<p><strong>Severity:</strong> Moderate · <strong>Figure:</strong> <code>task1-time-violin</code> · <strong>Principle:</strong> ch.&nbsp;6 “Turn bars horizontal when category labels are long”, “Order categories by a meaningful rule”; ch.&nbsp;22</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li>The violins are in alphabetical order.</li>
+<li>The labels are rotated 35°.</li>
+<li>The title does not name the task.</li>
+</ul>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Make the violins horizontal, in the canonical order (V1).</li>
+<li>Title the plot “Comparison task”.</li>
+</ul>
+<p>The log scale is already right.</p>
+</section>
+<section id="v17" class="level2">
+<h2 class="anchored" data-anchor-id="v17">V17. Smaller issues</h2>
+<div class="finding-meta sev-low">
+<p><strong>Severity:</strong> Low</p>
+</div>
+<ul>
+<li><strong>Time-position checks:</strong> tiny ticks, no 95% ribbon, and a linear axis for geometric means (ch.&nbsp;24, ch.&nbsp;16, ch.&nbsp;3).</li>
+<li><strong>Contrast figures:</strong> the value labels (“+1 pp”, “0.0”, “+0.1”) overlap the dashed zero line (ch.&nbsp;24).</li>
+<li><strong>Rating contrast figure:</strong> red marks “interval excludes zero” for gains and losses alike. Red reads as “bad”, and the colour is the only cue. Use a neutral accent with filled vs open points instead (ch.&nbsp;20, ch.&nbsp;4).</li>
+<li><strong><code>task2-peak-contrast-figure</code>:</strong> open circles and alphabetical order (ch.&nbsp;25, V1).</li>
+<li><strong><code>task2-score-distribution</code>:</strong> the 0.01-bin histogram looks like a comb. Use an ECDF or a display per visualization (ch.&nbsp;7–8).</li>
+<li><strong><code>task1-descriptive-gradient-plot</code>:</strong> the mean labels collide with the top of the band, and “Confidence intervals” wraps with a large gap (ch.&nbsp;24).</li>
+<li><strong>Sample, experience bar chart:</strong> Beginner → Expert runs top to bottom, while the multipanel figures put Expert on top (ch.&nbsp;21).</li>
+<li><strong>Sample, full country and software charts:</strong> bars of different lengths carry the same “1%” label (for example 1.4% and 0.7%). Show n, or one decimal, below 2% (ch.&nbsp;22).</li>
+<li><strong>Reduced figure:</strong> the country panel’s labels are larger than the other panels’ labels (ch.&nbsp;21).</li>
+<li><strong>Typefaces:</strong> Makie figures use a Helvetica-like font and R figures use Lato. Set Lato in the Makie theme, and use <code>plot_theme()</code> instead of restating <code>theme_classic()</code> in each chunk (ch.&nbsp;21, ch.&nbsp;28).</li>
+</ul>
+</section>
+<section id="v18" class="level2">
+<h2 class="anchored" data-anchor-id="v18">V18. Orphaned figure files in <code>pages/*_files</code></h2>
+<div class="finding-meta sev-low">
+<p><strong>Severity:</strong> Low · <strong>Area:</strong> Project hygiene</p>
+</div>
+<p><strong>Problem.</strong> Several tracked PNGs under <code>pages/*_files/figure-html/</code> are referenced by no page and produced by no chunk:</p>
+<ul>
+<li><strong>Task 1:</strong> <code>unnamed-chunk-4/7/11/12</code>;</li>
+<li><strong>Task 2:</strong> <code>task2-descriptive-plot-1</code>, <code>unnamed-chunk-9/10/11</code>;</li>
+<li><strong>Sample:</strong> <code>unnamed-chunk-6/8</code>;</li>
+<li><strong>Subjective:</strong> <code>likert-basic-contrast-figure-1</code>, <code>unnamed-chunk-3-1</code>.</li>
+</ul>
+<p>One of them, Task 1 <code>unnamed-chunk-4</code>, is an old bar chart with ±1 SD error bars, a literal <code>&lt;U+00B1&gt;</code> in its caption, and bars cut off at 100%. It could be reused by mistake.</p>
+<p><strong>Fix.</strong> Check each file against the current chunks, then remove the stale ones with <code>git rm</code>. <strong>Not done:</strong> deleting files needs your go-ahead.</p>
+</section>
+<section id="done-well" class="level2">
+<h2 class="anchored" data-anchor-id="done-well">Done well</h2>
+<ul>
+<li>Model estimates are dots with CIs on a restricted axis, not bars, and the CI type is always stated (ch.&nbsp;6, ch.&nbsp;16, ch.&nbsp;17).</li>
+<li>The contrast-vs-Basic plots, with simultaneous CIs and a zero line, are close to Wilke Fig. 16-8 (ch.&nbsp;16, ch.&nbsp;23).</li>
+<li>Bar charts:
+<ul>
+<li>start at zero;</li>
+<li>are horizontal, which suits the long labels;</li>
+<li>are sorted by value with “Other” last.</li>
+</ul>
+The participant multipanel uses a shared 0–100% scale (ch.&nbsp;6, ch.&nbsp;17, ch.&nbsp;21).</li>
+<li>The section heading serves as the figure title on the Sample page (ch.&nbsp;22).</li>
+<li>The map uses 6 bins and an equal-area projection (ch.&nbsp;15).</li>
+<li>Time violins use a log scale, and the line is labelled as the geometric mean (ch.&nbsp;3, ch.&nbsp;8).</li>
+<li>Everything is generated in code, with a cache tied to the data (ch.&nbsp;28).</li>
+</ul>
+</section>
+<section id="priorities" class="level2">
+<h2 class="anchored" data-anchor-id="priorities">Priorities</h2>
+<ol type="1">
+<li>One canonical order, one set of names, and the Basic accent everywhere (V1, V5, V6).</li>
+<li>Re-export the publication figures at column size with balanced text, as vector files, without in-figure titles (V2, V7).</li>
+<li>Remove or fix the hit/miss frames (V3).</li>
+<li>Feedback figure: a fixed order across panels and no boxplots for tiny n (V4, V11).</li>
+<li>Task 2 gradient sorted by mean, one score name and unit, and a time contrast figure (V8–V10).</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

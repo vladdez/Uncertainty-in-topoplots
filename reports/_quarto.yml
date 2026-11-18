@@ -15,6 +15,7 @@ project:
     - table-s3-literature-audit.md
     - manuscript-citations-audit.md
     - fixed-citations.md
+    - figures-wilke.md
 
 website:
   title: "Audit"
@@ -31,7 +32,7 @@ website:
       - section: "Statistical analysis"
         contents:
           - href: index.md
-            text: "Unresolved (1)"
+            text: "Unresolved (7)"
           - href: addressed.md
             text: "Addressed (5)"
           - href: fixed.md
@@ -44,6 +45,10 @@ website:
             text: "Fixed citations (27)"
           - href: table-s3-literature-audit.md
             text: "Table S3 rankings"
+      - section: "Visualization"
+        contents:
+          - href: figures-wilke.md
+            text: "Figures vs Wilke (18 open)"
 
 format:
   html:
