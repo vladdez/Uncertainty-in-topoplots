@@ -862,7 +862,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output-display">
 <div class="model-table-note" role="note">
-<strong>Model:</strong> Separate cumulative-link mixed models with logit link are fitted for each evaluation criterion: <code>rating_ord ~ vistype + (1 | ID)</code>. Estimated marginal means use <code>mode = "mean.class"</code> and are reported on the expected 1&lt;U+2013&gt;5 rating scale with asymptotic pointwise 95% confidence intervals.
+<strong>Model:</strong> Separate cumulative-link mixed models with logit link are fitted for each evaluation criterion: <code>rating_ord ~ vistype + (1 | ID)</code>. Estimated marginal means use <code>mode = "mean.class"</code> and are reported on the expected 1–5 rating scale with asymptotic pointwise 95% confidence intervals.
 </div>
 </div>
 </div>
@@ -1081,13 +1081,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="subjective_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img"></p>
+<p><img src="subjective_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="2880"></p>
 </figure>
 </div>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave_st</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"likert_estimate_figure.png"</span>),</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  likert_estimate_figure,</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">16</span>,</span>
@@ -1149,7 +1149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.16</span>)) <span class="sc">&amp;</span></span>
 <span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">12</span>))</span>
 <span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave_st</span>(</span>
 <span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"likert_contrast_figure.png"</span>),</span>
 <span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>  likert_contrast_figure,</span>
 <span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">16</span>,</span>

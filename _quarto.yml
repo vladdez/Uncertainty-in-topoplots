@@ -25,7 +25,7 @@ knitr:
   opts_chunk:
     dev: ragg_png
     dpi: 180
-    fig-retina: 1
+    fig-retina: 2
 
 website:
   title: "Uncertainty in topoplots"

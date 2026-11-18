@@ -312,7 +312,7 @@ a305_intensity_by_theme_figure <- make_a305_intensity_figure(
 
 a305_intensity_by_theme_figure
 
-ggsave(
+ggsave_st(
   project_path("figures", "a305_intensity_by_theme_figure.png"),
   a305_intensity_by_theme_figure,
   width = 15,
@@ -345,7 +345,7 @@ a305_intensity_by_theme_with_general_bivariates_figure <-
 
 a305_intensity_by_theme_with_general_bivariates_figure
 
-ggsave(
+ggsave_st(
   project_path(
     "figures",
     "a305_intensity_by_theme_with_general_bivariates.png"

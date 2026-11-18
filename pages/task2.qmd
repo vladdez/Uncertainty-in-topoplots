@@ -299,7 +299,7 @@ task2_score_distribution_figure <- ggplot(
 
 task2_score_distribution_figure
 
-ggsave(
+ggsave_st(
   project_path("figures", "task2_score_distribution_figure.png"),
   task2_score_distribution_figure,
   width = 9,
@@ -438,7 +438,7 @@ task2_gradient_figure <- ggplot(
 
 task2_gradient_figure
 
-ggsave(
+ggsave_st(
   project_path("figures", "task2_gradient_figure.png"),
   task2_gradient_figure,
   width = 9,
@@ -1038,7 +1038,7 @@ detection_score_figure <- ggplot(
 
 detection_score_figure
 
-ggsave(
+ggsave_st(
   project_path("figures", "detection_score_figure.png"),
   detection_score_figure,
   width = 9,
@@ -1205,7 +1205,7 @@ detection_score_contrast_figure <-
 
 detection_score_contrast_figure
 
-ggsave(
+ggsave_st(
   project_path("figures", "detection_score_contrast_figure.png"),
   detection_score_contrast_figure,
   width = 9,

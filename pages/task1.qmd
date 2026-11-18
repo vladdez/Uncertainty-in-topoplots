@@ -697,7 +697,7 @@ comparison_accuracy_figure <- ggplot(
 
 comparison_accuracy_figure
 
-ggsave(
+ggsave_st(
   project_path("figures", "comparison_accuracy_figure.png"),
   comparison_accuracy_figure,
   width = 9,
@@ -852,7 +852,7 @@ comparison_accuracy_contrast_figure <-
 
 comparison_accuracy_contrast_figure
 
-ggsave(
+ggsave_st(
   project_path("figures", "comparison_accuracy_contrast_figure.png"),
   comparison_accuracy_contrast_figure,
   width = 9,

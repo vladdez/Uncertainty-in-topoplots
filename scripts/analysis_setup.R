@@ -15,6 +15,22 @@ project_path <- function(...) file.path(analysis_project_dir, ...)
 sysfonts::font_add_google("Lato", family = "Lato")
 showtext::showtext_auto()
 
+# showtext draws text relative to its own dpi setting. Figures were designed with
+# showtext at 96 dpi on 180-dpi devices, so text renders at 96/180 of its nominal
+# size; all font sizes on the site assume that ratio.
+# Web figures now render at 2x (fig-retina: 2 in _quarto.yml, device 360 dpi) for
+# sharper text, so showtext's dpi is doubled too, keeping the same ratio.
+showtext::showtext_opts(dpi = 96 * 2)
+
+# Exported figures (ggsave at 180 dpi) keep the original 96 setting, so their
+# output is unchanged. Use ggsave_st() instead of ggsave().
+ggsave_st <- function(...) {
+  old_dpi <- showtext::showtext_opts()$dpi
+  showtext::showtext_opts(dpi = 96)
+  on.exit(showtext::showtext_opts(dpi = old_dpi), add = TRUE)
+  ggplot2::ggsave(...)
+}
+
 dir.create(project_path("figures"), showWarnings = FALSE)
 
 vistypes <- c(

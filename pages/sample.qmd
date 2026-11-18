@@ -12,6 +12,12 @@ params:
 #| cache: false
 source("scripts/analysis_setup.R")
 
+# Sort key for bar charts: by share, with any "Other..." category last
+# (Wilke ch. 6: order by value; a catch-all category is not part of that order).
+other_last <- function(label, value) {
+  if_else(startsWith(as.character(label), "Other"), -Inf, value)
+}
+
 format_category_labels <- function(labels) {
   lapply(
     labels,
@@ -28,8 +34,7 @@ format_category_labels <- function(labels) {
 
 ## Included sample: N = `r nrow(data)`
 
-The analysis includes `r nrow(data)` respondents after applying the study's
-date and completion criteria.
+The analysis includes `r nrow(data)` respondents after applying the study's date and completion criteria.
 
 ```{r sample-summary}
 tibble(
@@ -54,6 +59,7 @@ tibble(
 # Participant characteristics
 
 ## Self-assessed visualization experience
+
 ```{r}
 n_total <- data %>%
   filter(!is.na(A001)) %>%
@@ -95,6 +101,8 @@ data$A001 %>% table() %>%  data.frame() %>% dplyr::rename(level = !!names(.)[1])
 ```
 
 ## Country of work
+
+::: {.callout-note title="Respondents by country of work (table)" collapse="true"}
 ```{r}
 country_responses <- data %>%
   transmute(
@@ -125,7 +133,7 @@ make_geography_plot <- function(summary_data, category, title) {
   respondent_total <- sum(summary_data$Freq)
 
   summary_data %>%
-    ggplot(aes(percent_score, fct_reorder(!!category, percent_score))) +
+    ggplot(aes(percent_score, fct_reorder(!!category, other_last(!!category, percent_score)))) +
     geom_col(width = 0.7, fill = "#6BAED6") +
     geom_text(
       aes(label = paste0(round(percent_score), "%")),
@@ -195,9 +203,30 @@ country |>
   )
 
 ```
+:::
 
 ```{r}
-make_geography_plot(country, country_work, "Country of work")
+#| cache: false
+#| fig-height: 8
+# Country name followed by its flag (flags line up in a column at the axis).
+# Flags: figures/flags/<iso2>.png from flagcdn.com, see figures/flags/SOURCES.md.
+flag_label <- function(labels, height = 11) {
+  labels <- as.character(labels)
+  iso <- tolower(countrycode::countrycode(
+    labels, "country.name", "iso2c",
+    custom_match = c(USA = "US", UK = "GB", Other = NA), warn = FALSE
+  ))
+  ifelse(
+    is.na(iso),
+    paste0("*", labels, "*"),
+    sprintf("%s <img src='%s' height='%d'/>", labels,
+            project_path("figures", "flags", paste0(iso, ".png")), height)
+  )
+}
+
+make_geography_plot(country, country_work, "Country of work") +
+  scale_y_discrete(labels = flag_label) +
+  theme(axis.text.y = ggtext::element_markdown(size = 20))
 ```
 
 ### Map of participants by country
@@ -313,7 +342,7 @@ country_count_map <- ggplot(world_map, aes(x, y, group = group)) +
 
 country_count_map
 
-ggsave(
+ggsave_st(
   project_path("figures", "country_work_participant_map.png"),
   country_count_map,
   width = 12,
@@ -386,6 +415,7 @@ country_other |>
 ```
 
 ## Research field
+
 ```{r}
 field <- data %>%
   mutate(field = stringr::word(A005, 1)) %>%
@@ -405,9 +435,10 @@ field |>
     table.attr = kable_table_attributes
   )
 ```
+
 ```{r}
 field %>%
-  ggplot(aes(percent_score, reorder(field, percent_score))) +
+  ggplot(aes(percent_score, reorder(field, other_last(field, percent_score)))) +
   geom_col(width = 0.7, fill = "#6BAED6") +
   geom_text(aes(label = paste0(round(percent_score), "%")),
             hjust = -0.15, size = 6) +
@@ -428,8 +459,10 @@ field %>%
     axis.ticks.y = element_blank()
   )
 ```
+
 ## Software used
 
+::: {.callout-note title="Software used by respondents (table)" collapse="true"}
 ```{r}
 software_names <- legend %>%
   select(matches("^A006_\\d{2}$")) %>%
@@ -469,9 +502,124 @@ software |>
     table.attr = kable_table_attributes
   )
 ```
+:::
+
+```{r software-reduced-data}
+#| cache: false
+# Same grouping as the reduced combined figure below: tools chosen by fewer
+# than 4% of respondents, and "Other", are pooled; a respondent who chose
+# several of them is counted once.
+software_reduced_other_items <- software %>%
+  filter(Freq > 0, percent_score < 4 | software == "Other") %>%
+  pull(item)
+
+software_reduced <- software %>%
+  filter(Freq > 0, percent_score >= 4, software != "Other") %>%
+  bind_rows(
+    data %>%
+      select(ID, all_of(software_reduced_other_items)) %>%
+      pivot_longer(-ID, names_to = "item", values_to = "response") %>%
+      group_by(ID) %>%
+      summarise(selected = any(response == "Checked", na.rm = TRUE), .groups = "drop") %>%
+      summarise(Freq = sum(selected)) %>%
+      mutate(
+        item = NA_character_,
+        software = "Other (each <4%)",
+        percent_score = Freq / n_total * 100
+      )
+  ) %>%
+  # Other last, the rest by share
+  mutate(order = if_else(software == "Other (each <4%)", -Inf, percent_score))
+
+software_reduced_plot <- function(plot_data, label_column = "software") {
+  ggplot(
+    plot_data,
+    aes(percent_score, forcats::fct_reorder(.data[[label_column]], order))
+  ) +
+    geom_col(width = 0.7, fill = "#6BAED6") +
+    geom_text(aes(label = paste0(round(percent_score), "%")),
+              hjust = -0.15, size = 8) +  # ~23 pt, matches the 20 pt axis text in the larger figure
+    scale_x_continuous(
+      "Percent of respondents",
+      labels = \(x) paste0(x, "%"),
+      sec.axis = sec_axis(~ . * n_total / 100, name = "Number of respondents"),
+      expand = expansion(mult = c(0, 0.10))
+    ) +
+    labs(y = NULL) +  # section heading is the title (Wilke ch. 22)
+    coord_cartesian(clip = "off") +
+    theme_classic(base_family = "Lato", base_size = 20) +
+    theme(
+      plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
+      axis.text = element_text(size = 20),
+      axis.ticks.y = element_blank()
+    )
+}
+```
+
+::: {.panel-tabset}
+
+### Grouped with logos (experiment)
+
+```{r software-reduced-logos}
+#| cache: false
+#| fig-cap: '\* Survey answer "My own code in …" for the language shown.'
+#| fig-width: 11
+#| fig-height: 7
+# Experiment: tool branding in the axis labels. Where a tool has its own
+# lettering, only the lettering is used (no icon); otherwise logo + name. Tools
+# without a usable logo stay text. Logo sources: figures/software_logos/SOURCES.md
+# gridtext places images on the text baseline and cannot lower them, so text
+# next to a logo is raised instead: <sup> lifts it by half the font ascent and
+# the style attribute restores the full 20 pt size. Logos beside text use
+# logo_text_height so their middle lines up with the raised text.
+logo_text_height <- 32
+logo <- function(file, height = logo_text_height) {
+  sprintf(
+    "<img src='%s' height='%d'/>",
+    project_path("figures", "software_logos", file),
+    height
+  )
+}
+# One <sup> lifts about 7 pt; two nested lifts bring the text to the logo middle.
+# Branded lettering with descenders (python): one lift aligns the baselines.
+lift <- function(text) sprintf("<sup style='font-size:20pt'>%s</sup>", text)
+mid <- function(text) {
+  sprintf("<sup style='font-size:20pt'><sup style='font-size:20pt'>%s</sup></sup>", text)
+}
+
+# Equal letter size across all lettering: cap height (all-caps words) or
+# ascender height (mixed words), measured per image so each is ~15 pt. "*" = "My own code in ...", explained in the caption.
+star <- "<sup style='font-size:24pt'>*</sup>"  # 'My own code in', see caption
+software_logo_labels <- c(
+  "EEGLAB" = logo("eeglab_text.png", 21),
+  "MNE-Python" = logo("mne.png", 16),
+  "FieldTrip" = logo("fieldtrip_text.png", 20),
+  "ERPLAB" = logo("erplab_text.png", 21),
+  "ggplot" = logo("ggplot2_text.png", 21),
+  "SPM" = logo("spm_text.png", 16),
+  "Brain Vision Analyser" = logo("brainvision_analyzer_text.png", 32),
+  "Brainstorm" = logo("brainstorm_text.png", 18),
+  "LIMO" = logo("limo_text.png", 17),
+  "My own code in MATLAB" = paste0(star, logo("matlab_text.png", 17)),
+  "My own code in Python" = paste0(star, logo("python_text.png", 21)),
+  "My own code in R" = paste0(star, logo("r.png", 18)),
+  "Other (each <4%)" = "*Other*<br>(each &lt;4%)"
+)
+
+software_reduced %>%
+  mutate(
+    label = coalesce(unname(software_logo_labels[software]), software)
+  ) %>%
+  software_reduced_plot("label") +
+  theme(axis.text.y = ggtext::element_markdown(size = 20, lineheight = 0.7))
+```
+
+### All tools
+
 ```{r}
-software %>% filter(Freq != 0) %>% 
-  ggplot(aes(percent_score, reorder(software, percent_score))) +
+software %>% filter(Freq != 0) %>%
+  # Sorted by share; the survey's own "Other" option goes last (Wilke ch. 6).
+  ggplot(aes(percent_score, reorder(software, other_last(software, percent_score)))) +
   geom_col(width = 0.7, fill = "#6BAED6") +
   geom_text(aes(label = paste0(round(percent_score), "%")),
             hjust = -0.15, size = 6) +
@@ -483,7 +631,7 @@ software %>% filter(Freq != 0) %>%
     expand = expansion(mult = c(0, 0.18))
   ) +
   scale_y_discrete(labels = format_category_labels) +
-  labs(title = "Software used", y = NULL) +
+  labs(y = NULL) +  # section heading is the title (Wilke ch. 22)
   coord_cartesian(clip = "off") +
   theme_classic(base_family = "Lato", base_size = 20) +
   theme(
@@ -492,6 +640,21 @@ software %>% filter(Freq != 0) %>%
     axis.ticks.y = element_blank()
   )
 ```
+
+### Grouped (each <4% as Other)
+
+```{r software-reduced}
+#| cache: false
+#| fig-width: 11
+#| fig-height: 6
+software_reduced_plot(software_reduced) +
+  scale_y_discrete(labels = \(x) if_else(
+    x == "Other (each <4%)", "*Other*<br>(each &lt;4%)", x
+  )) +
+  theme(axis.text.y = ggtext::element_markdown(size = 20, lineheight = 0.7))
+```
+
+:::
 
 ## Combined participant-characteristics figure
 
@@ -512,7 +675,7 @@ make_characteristic_plot <- function(
     mutate(
       display_label = forcats::fct_reorder(
         factor(.data[[label_column]]),
-        percent_score
+        other_last(.data[[label_column]], percent_score)
       )
     )
 
@@ -606,7 +769,7 @@ participant_characteristics_figure <-
 participant_characteristics_figure
 
 if (isTRUE(params$export_artifacts)) {
-  ggsave(
+  ggsave_st(
     project_path("figures", "participant_characteristics_figure.png"),
     participant_characteristics_figure,
     width = 15,
@@ -732,7 +895,7 @@ participant_characteristics_over_3_figure <-
 participant_characteristics_over_3_figure
 
 if (isTRUE(params$export_artifacts)) {
-  ggsave(
+  ggsave_st(
     project_path("figures", "participant_characteristics_over_3_figure.png"),
     participant_characteristics_over_3_figure,
     width = 15,
