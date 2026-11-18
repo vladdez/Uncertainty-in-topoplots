@@ -205,6 +205,10 @@ country |>
 ```
 :::
 
+::: {.panel-tabset}
+
+### All countries
+
 ```{r}
 #| cache: false
 #| fig-height: 8
@@ -212,22 +216,49 @@ country |>
 # Flags: figures/flags/<iso2>.png from flagcdn.com, see figures/flags/SOURCES.md.
 flag_label <- function(labels, height = 11) {
   labels <- as.character(labels)
-  iso <- tolower(countrycode::countrycode(
-    labels, "country.name", "iso2c",
-    custom_match = c(USA = "US", UK = "GB", Other = NA), warn = FALSE
+  other <- startsWith(labels, "Other")
+  iso <- rep(NA_character_, length(labels))
+  iso[!other] <- tolower(countrycode::countrycode(
+    labels[!other], "country.name", "iso2c",
+    custom_match = c(USA = "US", UK = "GB"), warn = FALSE
   ))
-  ifelse(
-    is.na(iso),
-    paste0("*", labels, "*"),
-    sprintf("%s <img src='%s' height='%d'/>", labels,
-            project_path("figures", "flags", paste0(iso, ".png")), height)
+  dplyr::case_when(
+    labels == "Other" ~ "*Other*",
+    other ~ sub("^Other \\((.*)\\)$", "*Other*<br>(\\1)", gsub("<", "&lt;", labels)),
+    is.na(iso) ~ labels,
+    TRUE ~ sprintf("%s <img src='%s' height='%d'/>", labels,
+                   project_path("figures", "flags", paste0(iso, ".png")), height)
   )
 }
 
-make_geography_plot(country, country_work, "Country of work") +
+# The section heading is the title (Wilke ch. 22), so no in-figure title.
+make_geography_plot(country, country_work, NULL) +
   scale_y_discrete(labels = flag_label) +
-  theme(axis.text.y = ggtext::element_markdown(size = 20))
+  theme(axis.text.y = ggtext::element_markdown(size = 20, lineheight = 0.7))
 ```
+
+### Grouped (each <2% as Other)
+
+```{r}
+#| cache: false
+#| fig-height: 6
+# Same grouping as the reduced combined figure below: countries with less than
+# 2% of respondents are pooled into Other.
+country_grouped <- country %>%
+  mutate(country_work = as.character(country_work)) %>%
+  mutate(country_work = if_else(
+    percent_score < 2 | country_work == "Other", "Other (each <2%)", country_work
+  )) %>%
+  group_by(country_work) %>%
+  summarise(Freq = sum(Freq), .groups = "drop") %>%
+  mutate(percent_score = Freq / sum(Freq) * 100)
+
+make_geography_plot(country_grouped, country_work, NULL) +
+  scale_y_discrete(labels = flag_label) +
+  theme(axis.text.y = ggtext::element_markdown(size = 20, lineheight = 0.7))
+```
+
+:::
 
 ### Map of participants by country
 
