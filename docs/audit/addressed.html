@@ -251,7 +251,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Statistical analysis</a></li><li class="breadcrumb-item"><a href="./addressed.html">Addressed (3)</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Statistical analysis</a></li><li class="breadcrumb-item"><a href="./addressed.html">Addressed (5)</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -284,6 +284,12 @@ ul.task-list li input[type="checkbox"] {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://vladdez.github.io/Uncertainty-in-topoplots/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">← Analysis site</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -296,19 +302,19 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Unresolved (13)</span></a>
+ <span class="menu-text">Unresolved (2)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./addressed.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Addressed (3)</span></a>
+ <span class="menu-text">Addressed (5)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./fixed.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Fixed (9)</span></a>
+ <span class="menu-text">Fixed (20)</span></a>
   </div>
 </li>
       </ul>
@@ -355,6 +361,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#a1" id="toc-a1" class="nav-link active" data-scroll-target="#a1">A1. Model-adequacy checks</a></li>
   <li><a href="#a2" id="toc-a2" class="nav-link" data-scroll-target="#a2">A2. Task 2 random-effects structure</a></li>
   <li><a href="#a3" id="toc-a3" class="nav-link" data-scroll-target="#a3">A3. Feedback codes are linked by row position</a></li>
+  <li><a href="#a4" id="toc-a4" class="nav-link" data-scroll-target="#a4">A4. Task 2 scores are not comparable across stimuli (was U7)</a></li>
+  <li><a href="#a5" id="toc-a5" class="nav-link" data-scroll-target="#a5">A5. Qualitative coding is not validated (was U12)</a></li>
   </ul>
 </nav>
     </div>
@@ -362,7 +370,7 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Statistical analysis</a></li><li class="breadcrumb-item"><a href="./addressed.html">Addressed (3)</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Statistical analysis</a></li><li class="breadcrumb-item"><a href="./addressed.html">Addressed (5)</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Addressed</h1>
 <p class="subtitle lead">Issues where work has been done but something remains</p>
@@ -405,6 +413,16 @@ ul.task-list li input[type="checkbox"] {
 <td><span class="badge sev-moderate">Moderate</span></td>
 <td><a href="#a3">A3. Feedback codes are linked by row position</a></td>
 <td>Feedback, data</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#a4">A4. Task 2 scores are not comparable across stimuli (was U7)</a></td>
+<td>Task 2</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#a5">A5. Qualitative coding is not validated (was U12)</a></td>
+<td>Feedback</td>
 </tr>
 </tbody>
 </table>
@@ -479,8 +497,8 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Participant-specific slopes were tested and their omission is explained on the page:</p>
 <ul>
 <li>the full correlated visualization structure does not converge;</li>
-<li>the position slope is negligible;</li>
-<li>a diagonal visualization structure converges and is available as a sensitivity model.</li>
+<li>the position slope is now computed on the page (SD 0.013 logit per trial, against a fixed position effect of 0.002), not asserted to be negligible (F20);</li>
+<li>a diagonal visualization structure was tried during model building, but it is not refitted on the page, so the page no longer cites it as a sensitivity model.</li>
 </ul></li>
 </ul>
 <p><strong>Remaining.</strong></p>
@@ -502,6 +520,68 @@ ul.task-list li input[type="checkbox"] {
 <li>The <code>data-refresh</code> agent runs this check before re-rendering.</li>
 </ul>
 <p><strong>Remaining.</strong> Key the workbook on the survey’s <code>CASE</code> number instead of the row position.</p>
+</section>
+<section id="a4" class="level2">
+<h2 class="anchored" data-anchor-id="a4">A4. Task 2 scores are not comparable across stimuli (was U7)</h2>
+<div class="finding-meta sev-moderate status-partial">
+<p><strong>Severity:</strong> Moderate · <strong>Area:</strong> Task 2 outcome</p>
+</div>
+<p><strong>Problem.</strong> Region values are min–max rescaled within each stimulus, so the same score means different things for different stimuli: the 10th-strongest region scores between 0.24 and 0.90 depending on the stimulus.</p>
+<p><strong>Done (18 Nov 2026).</strong> The Task 2 page has a new section, “Sensitivity analysis: rank and top-3 outcomes”, with the numbers generated in code. It also warns against comparing score magnitudes across stimuli.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Outcome</th>
+<th>Bivariate corner vs Basic</th>
+<th>Dunnett p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Score (expected score E[y])</td>
+<td>−3.2 pp [−8.3, +1.8]</td>
+<td>.351</td>
+</tr>
+<tr class="even">
+<td>Rank among 64 regions (0–1)</td>
+<td>−0.19 logit (unadjusted p = .041)</td>
+<td>.175</td>
+</tr>
+<tr class="odd">
+<td>Top 3 (logistic; 39% of responses)</td>
+<td>−0.20 logit</td>
+<td>.941</td>
+</tr>
+</tbody>
+</table>
+<p>No visualization differs from Basic on any of the three outcomes after adjustment.</p>
+<p><strong>Remaining: a construct question.</strong> For 4 of 10 P3 stimuli, R25 is the most selected region but ranks only 10th–14th by score. Participants may target the voltage peak rather than the SNR peak. The page states this, with a per-stimulus table of the most selected region and its rank, but does not answer it. It needs a decision on how the task and its scoring should be described in the manuscript.</p>
+</section>
+<section id="a5" class="level2">
+<h2 class="anchored" data-anchor-id="a5">A5. Qualitative coding is not validated (was U12)</h2>
+<div class="finding-meta sev-moderate status-partial">
+<p><strong>Severity:</strong> Moderate · <strong>Area:</strong> Open-ended feedback</p>
+</div>
+<p><strong>Problem.</strong> The A305 coding comes from a single LLM coder, with no second coder or agreement statistic.</p>
+<p><strong>Done (18 Nov 2026).</strong></p>
+<ul>
+<li><strong>General-bivariates rule enforced.</strong> 13 units that named neither bivariate variant but were coded to both Corner and Range are now coded once to General bivariates (IDs 7, 15, 18, 30, 41, 51 [2 units], 54, 56, 61, 65, 76, 79). The corrections are in <code>data/a305_coding_corrections.csv</code>, each with a reason quoting the response. The page applies them and shows them in a collapsible table. The original workbook is unchanged.</li>
+<li><strong>Duplicated units.</strong> Each meaning unit has an ID (<code>MU###</code>): 271 unique units in 285 rows, 12 of which evaluate more than one visualization. Such a unit counts once for each visualization it evaluates, never twice within one. The page says that comparisons across visualizations are therefore not independent.</li>
+<li><strong>Sparse cells.</strong> Theme × visualization cells with n ≤ 2 participants (39 of 68) show “n ≤ 2” instead of a mean and are faded in the figures. Means are rounded to one decimal.</li>
+<li><strong>Scale use.</strong> The method note says the neutral code 0 was used for 2 of 271 units.</li>
+<li><strong>Double-coding sample prepared.</strong> <code>data/a305_double_coding_sample.csv</code> (git-ignored, because it holds full responses) has 63 of 271 units (23%), drawn with seed 305 and stratified by visualization. It has empty columns for the second coder and does not contain the first coder’s codes. The page computes percent agreement and Cohen’s kappa as soon as the codes are filled in.</li>
+</ul>
+<p><strong>Remaining.</strong></p>
+<ul>
+<li>A human fills in the double-coding file; the page then reports agreement.</li>
+<li>Decide on IDs 74 and 102, which mention both bivariate versions and keep both codes.</li>
+<li>Agreement on where units begin and end (unitizing) is not assessed.</li>
+</ul>
 
 
 </section>

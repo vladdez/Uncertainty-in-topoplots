@@ -3,19 +3,271 @@ title: "Fixed"
 subtitle: "Resolved issues and how they were resolved"
 ---
 
-| | Issue | Area |
-|--|------------------|----|
-| [Critical]{.badge .sev-critical} | [F9. Completion times were joined to the wrong trials](#f9) | Task 1, Task 2 |
-| [Critical]{.badge .sev-critical} | [F1. A304 aesthetic-rating labels were wrong](#f1) | Ratings |
-| [High]{.badge .sev-high} | [F2. Task 1 ignored repeated comparison items](#f2) | Task 1 |
-| [High]{.badge .sev-high} | [F3. Analytic sample definition](#f3) | Data |
-| [Moderate]{.badge .sev-moderate} | [F4. Feedback codes filed under the wrong participant](#f4) | Feedback |
-| [Moderate]{.badge .sev-moderate} | [F5. Obsolete pilot analysis file](#f5) | Project |
-| [Low]{.badge .sev-low} | [F6. Task 2 descriptive error bars](#f6) | Task 2 |
-| [Low]{.badge .sev-low} | [F7. Reduced sample-figure caption](#f7) | Sample |
-| [Low]{.badge .sev-low} | [F8. Outdated sample sizes in text](#f8) | Task 2, manuscript |
+| | Issue | Area | Fixed on |
+|--|------------------|----|----|
+| [Critical]{.badge .sev-critical} | [F9. Completion times were joined to the wrong trials](#f9) | Task 1, Task 2 | 2026-11-16 |
+| [Critical]{.badge .sev-critical} | [F1. A304 aesthetic-rating labels were wrong](#f1) | Ratings | 2026-10-28 |
+| [High]{.badge .sev-high} | [F10. A303 measures likelihood of use, not helpfulness](#f10) | Ratings, manuscript | 2026-11-18 |
+| [High]{.badge .sev-high} | [F11. A301 was asked after Task 1 only](#f11) | Ratings, manuscript | 2026-11-18 |
+| [High]{.badge .sev-high} | [F12. Task 1 text overstated weak effects](#f12) | Task 1 | 2026-11-18 |
+| [High]{.badge .sev-high} | [F3. Analytic sample definition](#f3) | Data | 2026-11-16 |
+| [High]{.badge .sev-high} | [F2. Task 1 ignored repeated comparison items](#f2) | Task 1 | 2026-11-03 |
+| [Moderate]{.badge .sev-moderate} | [F13. Task 2 "detection score" was μ, not the expected score](#f13) | Task 2 | 2026-11-18 |
+| [Moderate]{.badge .sev-moderate} | [F14. Multiplicity was handled inconsistently](#f14) | All | 2026-11-18 |
+| [Moderate]{.badge .sev-moderate} | [F15. Rating models: proportional odds and random slopes](#f15) | Ratings | 2026-11-18 |
+| [Moderate]{.badge .sev-moderate} | [F16. Composite ranking and "leader" highlighting](#f16) | Ratings | 2026-11-18 |
+| [Moderate]{.badge .sev-moderate} | [F17. Time outliers and the time estimand](#f17) | Task 1, Task 2 | 2026-11-18 |
+| [Moderate]{.badge .sev-moderate} | [F18. Fixed item order in the rating questions](#f18) | Ratings, manuscript | 2026-11-18 |
+| [Moderate]{.badge .sev-moderate} | [F4. Feedback codes filed under the wrong participant](#f4) | Feedback | 2026-11-16 |
+| [Moderate]{.badge .sev-moderate} | [F5. Obsolete pilot analysis file](#f5) | Project | 2026-10-28 |
+| [Low]{.badge .sev-low} | [F19. Sample definition and data quality](#f19) | Data | 2026-11-18 |
+| [Low]{.badge .sev-low} | [F20. Stale hard-coded text and suspicious items](#f20) | Task 1, Task 2 | 2026-11-18 |
+| [Low]{.badge .sev-low} | [F8. Outdated sample sizes in text](#f8) | Task 2, manuscript | 2026-11-16 |
+| [Low]{.badge .sev-low} | [F6. Task 2 descriptive error bars](#f6) | Task 2 | 2026-11-03 |
+| [Low]{.badge .sev-low} | [F7. Reduced sample-figure caption](#f7) | Sample | 2026-10-28 |
 
 : {.findings-table}
+
+Dates are when the fix was committed (from Git history).
+
+## F10. A303 measures likelihood of use, not helpfulness (was U3) {#f10}
+
+::: {.finding-meta .sev-high .status-resolved}
+**Severity:** High · **Area:** Subjective ratings, manuscript
+:::
+
+**Problem.** A303 (survey label "Usage material", scale "very unlikely" to "very
+likely") was called "Helpful for representation" on the Subjective page and in
+`journal.typ`.
+
+**Resolution (18 Nov 2026).** The item wording is: "I would prefer to use this
+visualization for representing signal mean and standard error in a publication or
+presentation."
+
+- **Subjective page.** A303 is now labelled "Would use in publication or presentation"
+  in tables, figures (panel title "Would use in publication") and text. A new **Rating
+  items** table lists each item's code, wording or survey label, response scale, and
+  when it was asked.
+- **Manuscript.** Task 3 now quotes the A303 wording and its likelihood scale.
+- **Figures page.** The alt texts are updated.
+
+## F11. A301 was asked after Task 1 only (was U4) {#f11}
+
+::: {.finding-meta .sev-high .status-resolved}
+**Severity:** High · **Area:** Subjective ratings, manuscript
+:::
+
+**Problem.** A301 ("Helpful for comparison") was answered right after Task 1, and
+A302–A304 after Task 2. The manuscript Procedure placed all ratings after both tasks.
+
+**Resolution (18 Nov 2026).**
+
+- **Manuscript.** The Procedure now says that participants rated helpfulness for
+  comparison after Task 1 and gave the other three ratings after Task 2. Task 3 states
+  the same, and the Limitations section mentions the different timing.
+- **Subjective page.** The Rating items table has an "Asked" column.
+- **Composite.** The equal-weight composite that mixed the two time points is removed
+  (F16).
+
+## F12. Task 1 text overstated weak effects (was U5) {#f12}
+
+::: {.finding-meta .sev-high .status-resolved}
+**Severity:** High · **Area:** Task 1 reporting
+:::
+
+**Problem.** The text said Bivariate corner and Bivariate range "were associated with
+lower odds" of a correct answer, although every interval included 1 and the omnibus test
+gave p = .056.
+
+**Resolution (18 Nov 2026).** All accuracy prose on the Task 1 page comes from one helper
+(`task1_effect_sentence`). A difference is called lower or higher only when its interval
+excludes the null; otherwise the text says the interval includes it and names the
+weakest estimates. This covers the coefficient and conditional-logit conclusions and a
+new section, "Summary of the Task 1 accuracy evidence".
+
+**Current numbers.**
+
+- Omnibus test: χ²(6) = 12.30, p = .056.
+- Population-average contrasts with Basic (Dunnett-adjusted):
+  - Bivariate range: −4.4 pp [−10.6, +1.9], p = .27.
+  - Bivariate corner: −4.2 pp [−10.5, +2.1], p = .31.
+- Odds ratios (Dunnett-adjusted): Bivariate range 0.71 [0.44, 1.15]; Bivariate corner
+  0.72 [0.45, 1.16].
+- The page calls the evidence weak: Range and Corner may carry a small accuracy cost
+  that the study cannot tell apart from no difference.
+
+## F13. Task 2 "detection score" was μ, not the expected score (was U6) {#f13}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Area:** Task 2 reporting
+:::
+
+**Problem.** `emmeans(type = "response")` on the ordered-beta model returns μ, the mean of
+the continuous part. It ignores the probability mass at 0 and 1.
+
+**Resolution (18 Nov 2026).** The page now reports E[y] = P(1) + (1 − P(0) − P(1)) μ.
+It is computed from the glmmTMB cutpoints (`psi`), which were checked against the
+observed shares of exact 0s and 1s. Intervals come from 4,000 draws of the model
+parameters. The estimates are averaged over the participant, stimulus and image effects
+(primary), and also given with those effects set to zero. Tables, the figure and the text
+use E[y].
+
+| Basic topoplot | Value |
+|---|---|
+| μ (old label "estimated detection score") | 68.3% |
+| E[y], random effects at zero | 73.3% |
+| E[y], averaged over random effects | 71.2% [66.0, 75.7] |
+| Observed mean | 69.8% |
+
+(The audit's μ of 67.6% came from a fit without the image intercept.)
+
+## F14. Multiplicity was handled inconsistently (was U8) {#f14}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Area:** All inferential results
+:::
+
+**Problem.** There were no primary contrasts, and the same contrast appeared under
+different adjustments. For example, Task 2 Bivariate corner vs Basic was p = .070 in the
+Tukey table, an interval excluding zero in the Dunnett figure, and p = .005 in the
+coefficient table.
+
+**Resolution (18 Nov 2026).** One rule on every page: the primary family is the six
+contrasts against Basic topoplot within each outcome, Dunnett-adjusted. Captions name
+the adjustment.
+
+| Page | Primary contrasts | Other tables |
+|---|---|---|
+| Task 1 | Simultaneous (max-\|z\|) intervals for accuracy differences; Dunnett odds ratios (`mvt`); conditional logit with Dunnett intervals | Coefficient p labelled "unadjusted" |
+| Task 2 | Dunnett on the logit scale; simultaneous intervals for E[y] differences | Tukey all-pairs in a collapsed "secondary / exploratory" callout; coefficient p labelled "unadjusted" |
+| Time | Dunnett ratios to Basic for both tasks | Time–accuracy p labelled "unadjusted" |
+| Ratings | Dunnett (`mvt`) within each item | — |
+
+**Task 2 Bivariate corner vs Basic is now reported once:** −3.2 pp [−8.3, +1.8],
+Dunnett p = .351. With the image intercept in the model, no Task 2 contrast reaches
+adjusted p < .05.
+
+## F15. Rating models: proportional odds and random slopes (was U9) {#f15}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Area:** Subjective-rating models
+:::
+
+**Resolution (18 Nov 2026).** A new section on the Subjective page, "Model checks and
+sensitivity analyses", covers three points.
+
+- **Proportional odds.** A likelihood-ratio test (fixed-effects `clm` with and without
+  visualization-specific thresholds) rejects proportional odds for all 4 items (p < .001
+  to .011). The page therefore reports *model-smoothed mean ratings* (largest difference
+  from the raw means: 0.08) and does not interpret odds ratios.
+- **Random slopes.** Each participant rated each visualization once per item, so
+  `(1 + vistype | ID)` would have one observation per random effect. It cannot be
+  separated from the latent observation-level error, so the random intercept is the
+  maximal identifiable structure. The page explains this.
+- **Sensitivity.** A linear mixed model `rating ~ vistype + (1 | ID)` with the same
+  Dunnett contrasts agrees with the ordinal model on whether each interval excludes zero
+  for 24 of 24 contrasts.
+
+## F16. Composite ranking and "leader" highlighting (was U10) {#f16}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Area:** Subjective ratings
+:::
+
+**Resolution (18 Nov 2026).**
+
+- The "Sum of mean ratings" column is removed. The page explains why: the items measure
+  different things (F10) and were asked at different times (F11).
+- `is_leader` is replaced by `excludes_zero`. Red now marks contrasts whose
+  Dunnett-adjusted interval excludes zero, for example Confidence intervals for
+  comparison (+0.18 [−0.09, 0.45]) is no longer highlighted.
+- A generated list under the figure names the contrasts that exclude zero. The page
+  states that differences among the uncertainty visualizations were not tested, so it
+  names no "best" visualization.
+
+## F17. Time outliers and the time estimand (was U11) {#f17}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Area:** Task 1 and Task 2 completion time
+:::
+
+**Resolution (18 Nov 2026).**
+
+- **One rule for tables and models.** Trial pages longer than 180 s are excluded, and
+  the same trials feed the tables, the violin plot, the position checks, the time models
+  and the time–accuracy models. The median page time is 12–13 s, so a page open for
+  more than 3 minutes almost certainly means an interruption. The page says the cap was
+  chosen after seeing the distributions.
+
+  | | Trials removed | Participants affected |
+  |---|---|---|
+  | Task 1 | 19 of 3,066 (0.6%) | 11 |
+  | Task 2 | 21 of 3,066 (0.7%) | 15 |
+
+  The old per-visualization 1.5 × IQR rule removed 8.3% and 7.3% of trials, and only
+  from the tables.
+- **Estimand.** Model estimates are labelled "Geometric mean time, typical participant
+  (s)" everywhere, with a paragraph explaining the estimand.
+- **Sensitivity** (collapsed): refits with all trials and with the IQR rule. Only one
+  result changes: Task 1 Uncertainty markers is slower than Basic under the cap and with
+  all trials, but not under the IQR rule (1.09 [0.99, 1.20]). The time–accuracy findings
+  hold under all three rules.
+
+| | Fastest | Slowest | Slowest vs Basic (Dunnett) |
+|---|---|---|---|
+| Task 1 | Basic 10.5 s | Bivariate corner 14.6 s, Adjacent 14.2 s | 1.39 [1.25, 1.54] |
+| Task 2 | Basic 10.2 s | Bivariate corner 16.3 s | 1.59 [1.45, 1.75] |
+
+## F18. Fixed item order in the rating questions (was U13) {#f18}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate (design limitation) · **Area:** Subjective ratings, manuscript
+:::
+
+**Problem.** In every rating question the visualizations appear in the same order:
+Adjacent first, Basic always last.
+
+**Resolution (18 Nov 2026).** This cannot be fixed after data collection, so it is
+reported:
+
+- a "Limitation: fixed item order" callout on the Subjective page;
+- the Task 3 description and a first paragraph in the Limitations section of
+  `journal.typ`.
+
+## F19. Sample definition and data quality (was U14) {#f19}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Area:** Data preparation
+:::
+
+**Resolution (18 Nov 2026).** A new script, `scripts/data_quality.R`, documents the sample
+definition and a quality screen. The Sample page has a new section, "Sample definition
+and data quality", with all numbers generated inline.
+
+- **Launch date.** Records started before 2026-07-24 are excluded: 4 completed test runs,
+  all from 2026-07-23. A further 179 records started after launch were not completed.
+- **Quality screen** (flagged, not excluded): 5 participants with `TIME_RSI > 2` and 2
+  who gave the same rating to all 28 rating items; 7 in total.
+- **Sensitivity** (Subjective page): without these 7, the rating contrasts against Basic
+  move by at most 0.07, and 0 of 24 intervals change their position relative to zero.
+
+## F20. Stale hard-coded text and suspicious items (was U15) {#f20}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Area:** Task 1 and Task 2 pages
+:::
+
+**Resolution (18 Nov 2026).**
+
+- **Task 2 score-distribution caption.** The count is now generated (3,066).
+- **Task 2 random-slope callout.** The position-slope SD is now computed from a fitted
+  `(1 + position_c | ID)` model: 0.013 per trial, against a fixed effect of 0.002. The
+  unsupported claim that a diagonal visualization model "remains available" is removed.
+- **Task 2 axes.** The estimate and gradient figures take their x-ranges from the data.
+- **Task 1 below-chance items.** These are not mis-keyed: all 3,066 trials pass an
+  answer-key consistency check. They are hard MMN targets that resemble some N170 maps.
+  The diagnostic is a collapsed section on the Task 1 page; the follow-up is
+  [U16](index.md#u16).
 
 ## F9. Completion times were joined to the wrong trials {#f9}
 
@@ -40,12 +292,13 @@ the Task 1 time–accuracy model were wrong.
   falling to about 11 s).
 - The Task 1 time–accuracy sentences are now generated from the confidence intervals.
 
-**Corrected results** (geometric-mean time for a typical participant):
+**Corrected results** (geometric-mean time for a typical participant; updated
+18 Nov 2026 for the 180 s outlier cap, see [F17](#f17)):
 
 | | Fastest | Slowest |
 |---|---|---|
-| Task 1 | Basic 10.6 s | Bivariate corner 15.3 s, Adjacent 14.6 s |
-| Task 2 | Basic 10.3 s | Bivariate corner 16.7 s |
+| Task 1 | Basic 10.5 s | Bivariate corner 14.6 s, Adjacent 14.2 s |
+| Task 2 | Basic 10.2 s | Bivariate corner 16.3 s |
 
 **Task 1 time–accuracy, corrected:**
 
@@ -178,4 +431,4 @@ were grouped into "Other".
 - `journal.typ` reports 146 participants and 142 valid country responses.
 - The exact-peak description no longer claims that exactly one region always scores 1.
 
-The remaining hard-coded values are listed in [U15](index.md#u15).
+The remaining hard-coded values were fixed in [F20](#f20).

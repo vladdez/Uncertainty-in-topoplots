@@ -226,11 +226,7 @@ task2_table |>
 
 ```{r task2-score-distribution}
 #| cache: false
-#| fig-cap: >-
-#|   Distribution of the 2,394 trial-level detection scores. Bars show frequencies at
-#|   the recorded two-decimal score resolution. A score of 0 indicates selection of the
-#|   weakest region for a stimulus, whereas 1 indicates selection of the strongest region.
-#|   Intermediate values preserve graded performance.
+#| fig-cap: !expr paste0("Distribution of the ", scales::comma(nrow(task2_model)), " trial-level detection scores. Bars show frequencies at the recorded two-decimal score resolution. A score of 0 indicates selection of the weakest region for a stimulus, whereas 1 indicates selection of the strongest region. Intermediate values preserve graded performance.")
 
 task2_score_distribution <- task2_model |>
   transmute(score_index = as.integer(round(score * 100))) |>
@@ -365,8 +361,19 @@ stopifnot(
   )
 )
 
+# x range: the gradient fades out by about 3 SE from the mean, so the axis covers
+# mean +/- 4 SE for every visualization, rounded outward to 0.05.
+task2_gradient_limits <- c(
+  floor(min(task2_gradient_summary$mean_score - 4 * task2_gradient_summary$se_score) / 0.05) * 0.05,
+  ceiling(max(task2_gradient_summary$mean_score + 4 * task2_gradient_summary$se_score) / 0.05) * 0.05
+)
+
 task2_gradient_data <- task2_gradient_summary |>
-  tidyr::crossing(score = seq(0.5, 0.8, length.out = 241)) |>
+  tidyr::crossing(score = seq(
+    task2_gradient_limits[1],
+    task2_gradient_limits[2],
+    length.out = round(diff(task2_gradient_limits) * 800) + 1
+  )) |>
   mutate(
     t_distance = abs(score - mean_score) / se_score,
     confidence_level = 2 * pt(t_distance, df) - 1,
@@ -412,8 +419,8 @@ task2_gradient_figure <- ggplot(
   scale_alpha_identity() +
   scale_x_continuous(
     "Participant-level mean score",
-    limits = c(0.5, 0.8),
-    breaks = seq(0.5, 0.8, 0.1),
+    limits = task2_gradient_limits,
+    breaks = scales::breaks_width(0.05),
     expand = expansion(mult = c(0, 0))
   ) +
   scale_y_continuous(
@@ -473,8 +480,11 @@ ggsave_st(
   `(1 | stimulus)` gives each stimulus its own baseline score, so visualization
   comparisons are not attributed to stimulus difficulty alone.
 
-- Each stimulus was rendered in all seven visualizations, giving 210 distinct images,
-  and each image was seen by about 15 participants. Adding `(1 | stimulus:vistype)`
+- Each stimulus was rendered in all seven visualizations, giving
+  `r n_distinct(interaction(task2_model$stimulus, task2_model$vistype, drop = TRUE))`
+  distinct images, and each image was seen by about
+  `r round(mean(table(interaction(task2_model$stimulus, task2_model$vistype, drop = TRUE))))`
+  participants. Adding `(1 | stimulus:vistype)`
   gives each image its own deviation from what its stimulus and visualization predict.
   Without it, the responses to one image would count as independent evidence about the
   visualization, although they share whatever made that particular image easy or hard.
@@ -522,11 +532,13 @@ summary(model_task2_base)$coefficients$cond |>
       "Estimate (logit scale)",
       "Standard error",
       "z value",
-      "p value"
+      "Unadjusted p value"
     ),
     caption = paste(
       "Fixed effects for the base sensitivity detection-score model.",
-      "Values with p < .05 are shown in dark red."
+      "P values are unadjusted Wald tests of single coefficients; values with p < .05",
+      "are shown in dark red. Visualization comparisons are reported with the",
+      "Dunnett-adjusted contrasts below."
     ),
     table.attr = kable_table_attributes
   )
@@ -629,11 +641,13 @@ summary(model_task2)$coefficients$cond |>
       "Estimate (logit scale)",
       "Standard error",
       "z value",
-      "p value"
+      "Unadjusted p value"
     ),
     caption = paste(
       "Fixed effects for the detection-score model.",
-      "Values with p < .05 are shown in dark red."
+      "P values are unadjusted Wald tests of single coefficients; values with p < .05",
+      "are shown in dark red. Visualization comparisons are reported with the",
+      "Dunnett-adjusted contrasts below."
     ),
     table.attr = kable_table_attributes
   )
@@ -655,6 +669,22 @@ model_table_note(
 )
 ```
 
+```{r task2-position-slope}
+#| include: false
+# Participant-specific presentation-position slope, reported in the callout below.
+model_task2_position_slope <- glmmTMB(
+  score ~ vistype + pattern + position_c +
+    (1 + position_c | ID) + (1 | stimulus) + (1 | stimulus:vistype),
+  family = ordbeta(link = "logit"),
+  data = task2_model
+)
+task2_position_slope_converged <-
+  model_task2_position_slope$fit$convergence == 0 &&
+  isTRUE(model_task2_position_slope$sdr$pdHess)
+task2_position_slope_sd <-
+  attr(VarCorr(model_task2_position_slope)$cond$ID, "stddev")[["position_c"]]
+```
+
 ::: {.callout-note title="Why correlated participant-specific visualization slopes were not retained" collapse="true"}
 We tested whether the effect of visualization type differed between participants by
 adding correlated participant-specific visualization effects: `(1 + vistype | ID)`.
@@ -671,17 +701,25 @@ The model could not estimate this full structure reliably:
 
 We also tested simpler participant-specific structures:
 
-- A participant-specific position slope converged, but its estimated standard deviation
-  was only 0.006.
+- A participant-specific position slope, `(1 + position_c | ID)`,
+  `r if (task2_position_slope_converged) "converged" else "did not converge cleanly"`.
+  Its estimated standard deviation was
+  `r sprintf("%.3f", task2_position_slope_sd)` on the logit scale per trial,
+  against a fixed position effect of
+  `r sprintf("%.3f", fixef(model_task2)$cond[["position_c"]])`. Across the
+  `r n_distinct(task2_model$position_c) - 1` steps from the first to the last trial, one
+  slope SD amounts to
+  `r sprintf("%.2f", task2_position_slope_sd * (n_distinct(task2_model$position_c) - 1))`
+  logit units.
 
-- A diagonal visualization structure, `diag(0 + vistype | ID)`, converged with a
-  positive-definite Hessian. It estimates separate participant-specific visualization
-  variances without estimating their correlations.
+- A diagonal visualization structure, `diag(0 + vistype | ID)`, which estimates separate
+  participant-specific visualization variances without their correlations, was tried
+  during model building. It is not refitted on this page, so no result from it is
+  reported here.
 
 We therefore retained participant, stimulus and image random intercepts in the primary model.
 This does not show that visualization effects are identical for every participant. It
-means that these data cannot reliably estimate the full correlated structure. The
-diagonal model remains available as a sensitivity analysis.
+means that these data cannot reliably estimate the full correlated structure.
 :::
 
 ```{r}
@@ -742,42 +780,148 @@ model_table_note(
 )
 ```
 
-```{r task2-estimates}
-task2_estimates <- emmeans(
-  model_task2,
-  ~ vistype,
-  type = "response"
+### Expected detection scores
+
+- The ordered-beta model has three parts: the probability of an exact 0, the
+  probability of an exact 1, and the mean μ of the continuous scores in between. The
+  back-transformed estimated marginal mean from `emmeans(type = "response")` is μ only,
+  so it ignores the exact 0s and 1s.
+
+- The expected score combines all three parts:
+  E[y] = P(1) + (1 − P(0) − P(1)) μ, where P(0) and P(1) follow from the model's two
+  cutpoints. Because
+  `r round(100 * mean(task2_model$score == 1))`% of the responses are exact 1s, E[y]
+  is noticeably higher than μ.
+
+- E[y] is reported in two forms:
+  - **Averaged over participants, stimuli and images** (primary). The random intercepts
+    are integrated out, so this is the expected score of a new participant on a new
+    stimulus. It is directly comparable with observed means.
+  - **Typical participant, stimulus and image** (random effects set to zero).
+
+```{r task2-expected-score}
+# Expected score of the ordered-beta model. glmmTMB stores the two cutpoints
+# directly as the "psi" parameters: P(0) = 1 - logit^-1(eta - psi1),
+# P(1) = logit^-1(eta - psi2).
+task2_expected_score <- function(eta, cut_zero, cut_one) {
+  p_zero <- 1 - plogis(eta - cut_zero)
+  p_one <- plogis(eta - cut_one)
+  p_one + (1 - p_zero - p_one) * plogis(eta)
+}
+
+task2_grid <- ref_grid(model_task2, at = list(position_c = 0))
+task2_grid_x <- task2_grid@linfct
+task2_grid_rows <- task2_grid@grid
+
+task2_par <- model_task2$fit$par
+task2_par_cov <- model_task2$sdr$cov.fixed
+task2_is_beta <- names(task2_par) == "beta"
+task2_is_theta <- names(task2_par) == "theta"
+task2_is_psi <- names(task2_par) == "psi"
+
+stopifnot(
+  ncol(task2_grid_x) == sum(task2_is_beta),
+  sum(task2_is_psi) == 2,
+  # All random effects are scalar intercepts, so their sum is normal with the
+  # summed variance.
+  sum(task2_is_theta) == 3
+)
+
+# Quadrature nodes for averaging over the summed random intercepts.
+task2_re_nodes <- qnorm((seq_len(201) - 0.5) / 201)
+
+task2_expected_from_par <- function(par) {
+  eta <- drop(task2_grid_x %*% par[task2_is_beta])
+  cuts <- par[task2_is_psi]
+  re_sd <- sqrt(sum(exp(2 * par[task2_is_theta])))
+  tibble::tibble(
+    vistype = task2_grid_rows$vistype,
+    conditional = task2_expected_score(eta, cuts[1], cuts[2]),
+    marginal = rowMeans(task2_expected_score(
+      outer(eta, re_sd * task2_re_nodes, `+`),
+      cuts[1],
+      cuts[2]
+    ))
+  ) |>
+    group_by(vistype) |>
+    summarise(across(c(conditional, marginal), mean), .groups = "drop")
+}
+
+task2_expected_point <- task2_expected_from_par(task2_par)
+
+set.seed(20261118)
+task2_expected_n_draws <- 4000
+task2_par_draws <- MASS::mvrnorm(task2_expected_n_draws, task2_par, task2_par_cov)
+task2_expected_draws <- purrr::map_dfr(
+  seq_len(task2_expected_n_draws),
+  \(i) task2_expected_from_par(task2_par_draws[i, ]) |> mutate(draw = i)
+)
+
+task2_observed_means <- task2_model |>
+  group_by(vistype) |>
+  summarise(observed = mean(score), .groups = "drop") |>
+  (\(x) setNames(x$observed, as.character(x$vistype)))()
+
+task2_mu_basic <- emmeans(
+  model_task2, ~vistype, at = list(position_c = 0), type = "response"
 ) |>
-  confint() |>
   as.data.frame() |>
+  filter(vistype == "basic") |>
+  pull(response)
+
+task2_expected_summary <- task2_expected_draws |>
+  group_by(vistype) |>
+  summarise(
+    conditional_lower = quantile(conditional, 0.025),
+    conditional_upper = quantile(conditional, 0.975),
+    marginal_lower = quantile(marginal, 0.025),
+    marginal_upper = quantile(marginal, 0.975),
+    .groups = "drop"
+  ) |>
+  left_join(task2_expected_point, by = "vistype") |>
+  mutate(observed = unname(task2_observed_means[as.character(vistype)]))
+
+task2_expected_value <- function(vistype, form) {
+  task2_expected_point[[form]][task2_expected_point$vistype == vistype]
+}
+
+# Object used by the estimate figure: primary (averaged) expected score.
+task2_estimates <- task2_expected_summary |>
   transmute(
-    vistype,
-    predicted_score = response,
-    lower_ci = asymp.LCL,
-    upper_ci = asymp.UCL
+    vistype = as.character(vistype),
+    predicted_score = marginal,
+    lower_ci = marginal_lower,
+    upper_ci = marginal_upper
   ) |>
   arrange(predicted_score) |>
-  mutate(
-    vistype = factor(vistype, levels = vistype)
-  )
+  mutate(vistype = factor(vistype, levels = vistype))
 
-task2_estimates |>
-  mutate(
+task2_expected_summary |>
+  arrange(desc(marginal)) |>
+  transmute(
     vistype = table_vistype(vistype),
-    across(
-      c(predicted_score, lower_ci, upper_ci),
-      \(x) scales::percent(x, accuracy = 0.1)
-    )
+    marginal = sprintf(
+      "%.1f%% [%.1f%%, %.1f%%]",
+      100 * marginal, 100 * marginal_lower, 100 * marginal_upper
+    ),
+    conditional = sprintf(
+      "%.1f%% [%.1f%%, %.1f%%]",
+      100 * conditional, 100 * conditional_lower, 100 * conditional_upper
+    ),
+    observed = sprintf("%.1f%%", 100 * observed)
   ) |>
   knitr::kable(
     format = "html",
     col.names = c(
       "Visualization type",
-      "Estimated detection score",
-      "Lower 95% CI",
-      "Upper 95% CI"
+      "Expected score, averaged over random effects [95% CI]",
+      "Expected score, random effects at zero [95% CI]",
+      "Observed mean score"
     ),
-    caption = "Model-estimated detection scores by visualization type",
+    caption = paste(
+      "Model-estimated expected detection scores E[y] by visualization type.",
+      "Intervals are pointwise (not adjusted for multiplicity)."
+    ),
     table.attr = kable_table_attributes
   )
 
@@ -787,26 +931,199 @@ model_table_note(
     "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
     "<code>score ~ vistype + pattern + position_c + ",
     "(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.</li>",
-    "<li><strong>Presentation position:</strong> Estimates were calculated at ",
-    "position 11.</li>",
-    "<li><strong>Pattern averaging:</strong> MMN, N170, and P3 received equal ",
-    "weight.</li>",
-    "<li><strong>Output scale:</strong> Estimates were back-transformed to the ",
-    "detection-score scale.</li>",
-    "<li><strong>Confidence intervals:</strong> Separate asymptotic 95% intervals ",
-    "were calculated for each visualization type.</li>",
+    "<li><strong>Estimand:</strong> E[y] = P(1) + (1 &minus; P(0) &minus; P(1)) &mu;, ",
+    "including the probability of exact 0 and 1 scores.</li>",
+    "<li><strong>Averaged over random effects:</strong> participant, stimulus and ",
+    "image intercepts integrated out (expected score of a new participant on a new ",
+    "stimulus).</li>",
+    "<li><strong>Random effects at zero:</strong> a typical participant, stimulus ",
+    "and image.</li>",
+    "<li><strong>Presentation position and pattern:</strong> position 11; MMN, N170 ",
+    "and P3 weighted equally.</li>",
+    "<li><strong>Intervals:</strong> 2.5th and 97.5th percentiles of ",
+    scales::comma(task2_expected_n_draws),
+    " parameter draws.</li>",
     "</ul>"
   ),
   label = "Model details"
 )
 ```
 
-```{r task2-pairwise-comparisons}
+- Both forms are evaluated at the middle presentation position (`position_c = 0`) and
+  averaged with equal weight over MMN, N170 and P3. 95% intervals come from
+  `r scales::comma(task2_expected_n_draws)` draws of all fixed parameters (coefficients,
+  cutpoints and random-effect standard deviations) from their estimated joint sampling
+  distribution.
+
+- For Basic topoplot, μ is
+  `r scales::percent(task2_mu_basic, accuracy = 0.1)`, E[y] at random effects of zero
+  is `r scales::percent(task2_expected_value("basic", "conditional"), accuracy = 0.1)`,
+  E[y] averaged over random effects is
+  `r scales::percent(task2_expected_value("basic", "marginal"), accuracy = 0.1)`, and the
+  observed mean is `r scales::percent(task2_observed_means[["basic"]], accuracy = 0.1)`.
+
+### Primary comparisons: each visualization versus Basic topoplot
+
+- **Primary family.** The six comparisons of each visualization with Basic topoplot
+  form one family. P values and intervals are adjusted for these six comparisons with
+  Dunnett's method. The same adjustment is used in the table and the figure.
+
+- **Tests and intervals.** The test is the logit-scale contrast of the estimated
+  marginal means. Because the expected score increases monotonically with the linear
+  predictor, this test also applies to the difference in expected scores. Intervals for
+  the expected-score difference are simultaneous 95% intervals from the parameter draws.
+
+```{r task2-basic-contrasts}
 emm_task2 <- emmeans(
   model_task2,
-  ~ vistype
+  ~ vistype,
+  at = list(position_c = 0)
 )
 
+set.seed(20261118)
+task2_dunnett <- contrast(
+  emm_task2,
+  method = "trt.vs.ctrl",
+  ref = "basic",
+  adjust = "mvt"
+) |>
+  as.data.frame() |>
+  mutate(vistype = stringr::str_remove(contrast, " - basic$"))
+
+# Expected-score differences from Basic, averaged over random effects, with
+# simultaneous (max-|z|) 95% intervals across the six comparisons.
+task2_other_vistypes <- setdiff(levels(task2_model$vistype), "basic")
+task2_expected_wide <- task2_expected_draws |>
+  select(draw, vistype, marginal) |>
+  tidyr::pivot_wider(names_from = vistype, values_from = marginal)
+task2_difference_draws <- sapply(
+  task2_other_vistypes,
+  \(v) task2_expected_wide[[v]] - task2_expected_wide[["basic"]]
+)
+task2_difference_sd <- apply(task2_difference_draws, 2, sd)
+task2_difference_crit <- quantile(
+  apply(
+    abs(sweep(
+      sweep(task2_difference_draws, 2, colMeans(task2_difference_draws)),
+      2,
+      task2_difference_sd,
+      "/"
+    )),
+    1,
+    max
+  ),
+  0.95
+)
+
+task2_basic_contrasts <- tibble::tibble(
+  vistype = task2_other_vistypes,
+  difference = sapply(
+    task2_other_vistypes,
+    \(v) task2_expected_value(v, "marginal") - task2_expected_value("basic", "marginal")
+  ),
+  lower_ci = difference - task2_difference_crit * task2_difference_sd,
+  upper_ci = difference + task2_difference_crit * task2_difference_sd
+) |>
+  left_join(
+    task2_dunnett |> select(vistype, logit_difference = estimate, SE, z.ratio, p.value),
+    by = "vistype"
+  ) |>
+  mutate(vistype = factor(vistype, levels = levels(task2_estimates$vistype)))
+
+task2_dunnett_significant <- task2_basic_contrasts |> filter(p.value < 0.05)
+task2_corner <- task2_basic_contrasts |> filter(vistype == "bivariate_corner")
+task2_dunnett_sentence <- if (nrow(task2_dunnett_significant) == 0) {
+  sprintf(
+    paste(
+      "No visualization differed from Basic topoplot after Dunnett adjustment",
+      "(smallest adjusted p = %s). The largest difference was for %s: %+.1f",
+      "percentage points [%+.1f, %+.1f]."
+    ),
+    sub("^0", "", sprintf("%.3f", min(task2_basic_contrasts$p.value))),
+    table_vistype(task2_basic_contrasts$vistype[which.max(abs(task2_basic_contrasts$difference))]),
+    100 * task2_basic_contrasts$difference[which.max(abs(task2_basic_contrasts$difference))],
+    100 * task2_basic_contrasts$lower_ci[which.max(abs(task2_basic_contrasts$difference))],
+    100 * task2_basic_contrasts$upper_ci[which.max(abs(task2_basic_contrasts$difference))]
+  )
+} else {
+  paste0(
+    "After Dunnett adjustment, ",
+    paste(
+      sprintf(
+        "%s differed from Basic topoplot (%+.1f percentage points [%+.1f, %+.1f], adjusted p = %s)",
+        table_vistype(task2_dunnett_significant$vistype),
+        100 * task2_dunnett_significant$difference,
+        100 * task2_dunnett_significant$lower_ci,
+        100 * task2_dunnett_significant$upper_ci,
+        sub("^0", "", sprintf("%.3f", task2_dunnett_significant$p.value))
+      ),
+      collapse = "; "
+    ),
+    ". No other visualization differed from Basic topoplot."
+  )
+}
+
+task2_basic_contrasts |>
+  arrange(desc(difference)) |>
+  transmute(
+    vistype = paste(table_vistype(vistype), "vs Basic topoplot"),
+    difference = sprintf(
+      "%+.1f [%+.1f, %+.1f]",
+      100 * difference, 100 * lower_ci, 100 * upper_ci
+    ),
+    logit_difference,
+    SE,
+    z.ratio,
+    p.value = format_pvalue_html(p.value)
+  ) |>
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    digits = 3,
+    col.names = c(
+      "Comparison",
+      "Expected-score difference, pp [simultaneous 95% CI]",
+      "Difference (logit scale)",
+      "SE",
+      "z ratio",
+      "Dunnett-adjusted p value"
+    ),
+    caption = paste(
+      "Primary comparisons: each visualization versus Basic topoplot, Dunnett-adjusted",
+      "for six comparisons. Values with adjusted p < .05 are shown in dark red."
+    ),
+    table.attr = kable_table_attributes
+  )
+
+model_table_note(
+  paste0(
+    "<ul>",
+    "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
+    "<code>score ~ vistype + pattern + position_c + ",
+    "(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.</li>",
+    "<li><strong>Expected-score difference:</strong> E[y] averaged over random ",
+    "effects, in percentage points (pp), with simultaneous 95% intervals for the six ",
+    "comparisons (max-|z| critical value ",
+    sprintf("%.2f", task2_difference_crit),
+    " from the parameter draws).</li>",
+    "<li><strong>Test:</strong> logit-scale contrast of estimated marginal means at ",
+    "position 11, patterns weighted equally; p values use the Dunnett (multivariate ",
+    "t) adjustment for six comparisons with a common reference.</li>",
+    "</ul>"
+  ),
+  label = "Model details"
+)
+```
+
+**Result.** `r task2_dunnett_sentence`
+
+::: {.callout-note title="Secondary (exploratory): all pairwise comparisons, Tukey-adjusted" collapse="true"}
+
+These 21 pairwise comparisons are exploratory and are not part of the primary family.
+They use a different adjustment (Tukey, for 21 comparisons), so their p values for the
+comparisons with Basic topoplot are larger than the primary Dunnett-adjusted values.
+
+```{r task2-pairwise-comparisons}
 task2_pairs <- pairs(
   emm_task2,
   adjust = "tukey"
@@ -831,7 +1148,7 @@ task2_pairs |>
       "Tukey-adjusted p value"
     ),
     caption = paste(
-      "Tukey-adjusted pairwise comparisons of detection scores.",
+      "Secondary, exploratory: Tukey-adjusted pairwise comparisons of detection scores.",
       "Values with adjusted p < .05 are shown in dark red."
     ),
     table.attr = kable_table_attributes
@@ -847,112 +1164,24 @@ model_table_note(
     "on the logit scale.</li>",
     "<li><strong>Presentation position:</strong> Position 11.</li>",
     "<li><strong>Pattern averaging:</strong> Patterns received equal weight.</li>",
-    "<li><strong>Multiple comparisons:</strong> P values use Tukey adjustment.</li>",
-    "</ul>"
-  ),
-  label = "Model details"
-)
-
-task2_pairs |>
-  as.data.frame() |>
-  dplyr::filter(p.value < 0.05) |>
-  mutate(
-    contrast = table_contrast(contrast),
-    p.value = format_pvalue_html(p.value)
-  ) |>
-  knitr::kable(
-    format = "html",
-    escape = FALSE,
-    digits = 3,
-    col.names = c(
-      "Comparison",
-      "Difference (logit scale)",
-      "SE",
-      "df",
-      "z ratio",
-      "Tukey-adjusted p value"
-    ),
-    caption = paste(
-      "Statistically significant Tukey-adjusted pairwise comparisons.",
-      "Values with adjusted p < .05 are shown in dark red."
-    ),
-    table.attr = kable_table_attributes
-  )
-
-model_table_note(
-  paste0(
-    "<ul>",
-    "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
-    "<code>score ~ vistype + pattern + position_c + ",
-    "(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.</li>",
-    "<li><strong>Displayed subset:</strong> Only contrasts with Tukey-adjusted ",
-    "<em>p</em> &lt; .05 from the preceding table are shown.</li>",
-    "<li><strong>Comparison scale:</strong> Estimated-marginal-mean differences ",
-    "are reported on the logit scale.</li>",
-    "<li><strong>Multiple comparisons:</strong> P values use Tukey adjustment.</li>",
+    "<li><strong>Multiple comparisons:</strong> Tukey adjustment for all 21 pairs ",
+    "(exploratory family).</li>",
     "</ul>"
   ),
   label = "Model details"
 )
 ```
 
-```{r task2-response-scale-comparisons}
-emm_task2_response <- regrid(
-  emm_task2,
-  transform = "response"
-)
+:::
 
-task2_score_differences <- pairs(
-  emm_task2_response,
-  adjust = "tukey"
-) |>
-  confint() |>
-  as.data.frame()
-
-task2_score_differences |>
-  mutate(
-    contrast = table_contrast(contrast),
-    across(where(is.numeric), \(x) round(x, 3))
-  ) |>
-  knitr::kable(
-    format = "html",
-    col.names = c(
-      "Contrast",
-      "Difference",
-      "SE",
-      "df",
-      "Lower 95% CI",
-      "Upper 95% CI"
-    ),
-    caption = "Response-scale pairwise differences in detection scores",
-    table.attr = kable_table_attributes
-  )
-
-model_table_note(
-  paste0(
-    "<ul>",
-    "<li><strong>Model:</strong> Ordered-beta mixed model with a logit link: ",
-    "<code>score ~ vistype + pattern + position_c + ",
-    "(1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>.</li>",
-    "<li><strong>Comparison scale:</strong> Estimated marginal means were ",
-    "regridded to the detection-score scale before subtraction.</li>",
-    "<li><strong>Uncertainty:</strong> Differences and 95% confidence intervals ",
-    "use Tukey adjustment.</li>",
-    "</ul>"
-  ),
-  label = "Model details"
-)
-```
-
-**Figure method.** The points are estimated marginal mean detection scores from
-the extended ordered-beta mixed model
+**Figure method.** The points are expected detection scores E[y] from the extended
+ordered-beta mixed model
 `score ~ visualization type + pattern + centered position + (1 | participant) + (1 | stimulus) + (1 | image)`,
-fitted with a logit link. Estimates are evaluated at the middle presentation
-position (`position_c = 0`, corresponding to position 11), averaged equally
-over the MMN, N170, and P3 patterns, and calculated with participant, stimulus and
-image random intercepts set to zero. They are then back-transformed to the
-0–1 detection-score scale. Error bars are asymptotic pointwise 95% confidence
-intervals for these model-estimated scores.
+fitted with a logit link. E[y] includes the probability of exact 0 and 1 scores and is
+averaged over the participant, stimulus and image random intercepts. It is evaluated at
+the middle presentation position (`position_c = 0`, corresponding to position 11) and
+averaged equally over the MMN, N170, and P3 patterns. Error bars are pointwise 95%
+intervals from the parameter draws.
 
 ```{r}
 #| cache: false
@@ -960,6 +1189,11 @@ detection_axis_colours <- ifelse(
   levels(task2_estimates$vistype) == "basic",
   "#377EB8",
   "#222222"
+)
+
+detection_score_limits <- c(
+  floor(min(task2_estimates$lower_ci) / 0.05) * 0.05,
+  ceiling(max(task2_estimates$upper_ci) / 0.05) * 0.05
 )
 
 detection_score_figure <- ggplot(
@@ -1007,14 +1241,14 @@ detection_score_figure <- ggplot(
   ) +
   scale_x_continuous(
     labels = scales::label_percent(accuracy = 1),
-    limits = c(0.58, 0.75),
-    breaks = seq(0.60, 0.75, 0.05),
-    expand = expansion(mult = c(0, 0.03))
+    limits = detection_score_limits,
+    breaks = seq(detection_score_limits[1], detection_score_limits[2], 0.05),
+    expand = expansion(mult = c(0.02, 0.03))
   ) +
   labs(
     title = "Detection task score",
-    subtitle = "Model-estimated detection score with 95% confidence intervals",
-    x = "Model-estimated detection score",
+    subtitle = "Expected score with 95% confidence intervals",
+    x = "Expected detection score (averaged over participants and stimuli)",
     y = NULL
   ) +
   theme_classic(base_family = "Lato", base_size = 20) +
@@ -1052,50 +1286,15 @@ ggsave_st(
 
 ### Detection-score differences relative to Basic topoplot
 
-**Figure method.** The contrasts use the same extended model and reference grid
-as the estimated-score figure. Estimated marginal means are first
-back-transformed to the response scale, and each visualization is then compared
-with Basic topoplot. The six confidence intervals use the `emmeans` Dunnett-x
-adjustment for multiple comparisons against a common reference. An interval
-crossing zero indicates that the corresponding visualization is not clearly
-different from Basic at the familywise 95% confidence level.
+**Figure method.** The contrasts are the primary comparisons from the table above:
+differences in expected score E[y] (averaged over random effects) between each
+visualization and Basic topoplot. The intervals are simultaneous 95% intervals for the
+six comparisons, matching the Dunnett adjustment of the p values. An interval crossing
+zero indicates that the visualization is not clearly different from Basic at the
+familywise 95% confidence level.
 
 ```{r task2-basic-contrast-figure}
 #| cache: false
-task2_basic_reference <- which(
-  emm_task2_response@levels$vistype == "basic"
-)
-
-task2_basic_contrasts_raw <- contrast(
-  emm_task2_response,
-  method = "trt.vs.ctrl",
-  ref = task2_basic_reference
-) |>
-  confint() |>
-  as.data.frame()
-
-task2_lower_ci_column <- grep(
-  "lower.CL$|asymp.LCL$",
-  names(task2_basic_contrasts_raw),
-  value = TRUE
-)[1]
-task2_upper_ci_column <- grep(
-  "upper.CL$|asymp.UCL$",
-  names(task2_basic_contrasts_raw),
-  value = TRUE
-)[1]
-
-task2_basic_contrasts <- task2_basic_contrasts_raw |>
-  transmute(
-    vistype = stringr::str_remove(contrast, " - basic$"),
-    difference = estimate,
-    lower_ci = .data[[task2_lower_ci_column]],
-    upper_ci = .data[[task2_upper_ci_column]]
-  ) |>
-  mutate(
-    vistype = factor(vistype, levels = levels(task2_estimates$vistype))
-  )
-
 task2_contrast_limit <- max(
   abs(c(task2_basic_contrasts$lower_ci, task2_basic_contrasts$upper_ci)),
   na.rm = TRUE
@@ -1159,7 +1358,7 @@ detection_score_contrast_figure <- ggplot(
   ) +
   labs(
     title = "Detection task score differences",
-    subtitle = "Response-scale contrasts with 95% confidence intervals",
+    subtitle = "Expected-score contrasts with Dunnett-adjusted 95% confidence intervals",
     x = NULL,
     y = NULL
   ) +
@@ -1179,7 +1378,7 @@ detection_score_contrast_caption <- ggplot() +
     "text",
     x = 0.497,
     y = 0.5,
-    label = "Difference in estimated detection score vs",
+    label = "Difference in expected detection score vs",
     hjust = 1,
     size = 20 / ggplot2::.pt,
     family = "Lato",
@@ -1466,8 +1665,9 @@ task2_peak_contrasts <- list(
   `Misses (beta)` = task2_peak_miss_model
 ) |>
   purrr::imap_dfr(\(model, name) {
-    emmeans(model, ~vistype) |>
-      contrast(method = "trt.vs.ctrl", ref = "basic", adjust = "none") |>
+    set.seed(20261118)
+    emmeans(model, ~vistype, at = list(position_c = 0)) |>
+      contrast(method = "trt.vs.ctrl", ref = "basic", adjust = "mvt") |>
       confint() |>
       as.data.frame() |>
       transmute(
@@ -1504,8 +1704,9 @@ task2_peak_contrasts |>
     escape = FALSE,
     col.names = c("Visualization vs Basic topoplot", levels(task2_peak_contrasts$model)),
     caption = paste(
-      "Differences from Basic topoplot on the logit scale with unadjusted 95%",
-      "confidence intervals. Intervals excluding zero are shown in dark red."
+      "Differences from Basic topoplot on the logit scale with Dunnett-adjusted 95%",
+      "confidence intervals (six comparisons within each model, as in the primary",
+      "analysis). Intervals excluding zero are shown in dark red."
     ),
     table.attr = kable_table_attributes
   )
@@ -1517,8 +1718,9 @@ model_table_note(
     "logit of the mean score (ordered beta and misses) or the log-odds of selecting ",
     "the strongest region (exact peak). Directions are comparable; magnitudes are ",
     "not directly comparable across columns.</li>",
-    "<li><strong>Multiplicity:</strong> Intervals are not adjusted; this is a ",
-    "sensitivity analysis of the primary model's assumption.</li>",
+    "<li><strong>Multiplicity:</strong> Within each model, intervals are ",
+    "Dunnett-adjusted for the six comparisons with Basic topoplot, the same family ",
+    "as the primary analysis.</li>",
     "</ul>"
   ),
   label = "Reading the table"
@@ -1550,7 +1752,7 @@ task2_peak_contrasts |>
   labs(
     x = "Difference from Basic topoplot (logit scale)",
     y = NULL,
-    caption = "Filled red: 95% confidence interval excludes zero (unadjusted)."
+    caption = "Filled red: Dunnett-adjusted 95% confidence interval excludes zero."
   ) +
   theme_classic(base_family = "Lato", base_size = 16) +
   theme(
@@ -1627,11 +1829,234 @@ task2_peak_agreement |>
     ),
     caption = paste(
       "Agreement between the two-part model and the primary model. An effect counts",
-      "when its unadjusted 95% confidence interval excludes zero."
+      "when its Dunnett-adjusted 95% confidence interval excludes zero."
     ),
     table.attr = kable_table_attributes
   )
 ```
+
+## Sensitivity analysis: rank and top-3 outcomes
+
+```{r task2-rank-data}
+# Rank of every region within its stimulus by score (1 = strongest region).
+task2_region_ranks <- region_scores |>
+  group_by(stimulus) |>
+  mutate(
+    rank_average = rank(-score, ties.method = "average"),
+    rank_min = rank(-score, ties.method = "min"),
+    n_regions = n()
+  ) |>
+  ungroup()
+
+task2_tenth_best <- task2_region_ranks |>
+  filter(rank_min == 10)
+
+# task2_model keeps the row order of task2 (no rows are dropped, checked above),
+# so the selected region can be attached by position.
+stopifnot(identical(as.character(task2_model$stimulus), as.character(task2$stimulus)))
+
+task2_rank_model_data <- task2_model |>
+  mutate(region = task2$region) |>
+  left_join(
+    task2_region_ranks |> select(stimulus, region, rank_average, rank_min, n_regions),
+    by = c("stimulus", "region")
+  ) |>
+  mutate(
+    # 1 = strongest region, 0 = weakest; ties share their average rank.
+    rank_score = (n_regions - rank_average) / (n_regions - 1),
+    top3 = as.integer(rank_min <= 3)
+  )
+
+stopifnot(
+  nrow(task2_rank_model_data) == nrow(task2_model),
+  !anyNA(task2_rank_model_data$rank_score)
+)
+
+# Most frequently selected region for each stimulus and its rank by score.
+task2_modal_regions <- task2_rank_model_data |>
+  count(pattern, stimulus, region, rank_min, score, name = "responses") |>
+  group_by(stimulus) |>
+  slice_max(responses, n = 1, with_ties = FALSE) |>
+  ungroup()
+
+task2_p3_low_modal <- task2_modal_regions |>
+  filter(pattern == "P3", rank_min > 3)
+task2_p3_low_modal_top_region <- names(which.max(table(task2_p3_low_modal$region)))
+task2_p3_low_modal_top_region_n <- max(table(task2_p3_low_modal$region))
+task2_p3_low_modal_top_ranks <- task2_p3_low_modal |>
+  filter(region == task2_p3_low_modal_top_region) |>
+  pull(rank_min)
+```
+
+- **Why a sensitivity analysis.** Region values are min–max rescaled within each
+  stimulus, so the same score does not mean the same thing for different stimuli. For
+  example, the 10th-strongest region has a score between
+  `r sprintf("%.2f", min(task2_tenth_best$score))` and
+  `r sprintf("%.2f", max(task2_tenth_best$score))`, depending on the stimulus. Score
+  magnitudes, and differences between them, should therefore not be compared across
+  stimuli. The visualization comparisons are within stimuli (every stimulus is shown in
+  every visualization), but the score scale still weights a miss differently for
+  different stimuli.
+
+- **Two outcomes that do not depend on the score scale.**
+  - **Rank score:** the rank of the selected region among the
+    `r task2_region_ranks$n_regions[1]` regions of its stimulus, mapped to 0–1
+    (1 = strongest region, 0 = weakest; tied regions share their average rank).
+    Modelled with the same ordered-beta model as the primary analysis.
+  - **Top 3:** whether the selected region is among the three strongest regions of its
+    stimulus (`r scales::percent(mean(task2_rank_model_data$top3), accuracy = 1)` of
+    responses). Modelled with a logistic mixed model.
+  - Both models use the primary predictors and random effects:
+    `vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)`.
+
+```{r task2-rank-models}
+task2_rank_model <- glmmTMB(
+  rank_score ~ vistype + pattern + position_c +
+    (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype),
+  family = ordbeta(link = "logit"),
+  data = task2_rank_model_data
+)
+
+task2_top3_model <- glmmTMB(
+  top3 ~ vistype + pattern + position_c +
+    (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype),
+  family = binomial(link = "logit"),
+  data = task2_rank_model_data
+)
+
+stopifnot(
+  task2_rank_model$fit$convergence == 0,
+  isTRUE(task2_rank_model$sdr$pdHess),
+  task2_top3_model$fit$convergence == 0,
+  isTRUE(task2_top3_model$sdr$pdHess)
+)
+
+task2_outcome_contrasts <- list(
+  `Score (primary)` = model_task2,
+  `Rank score` = task2_rank_model,
+  `Top 3` = task2_top3_model
+) |>
+  purrr::imap_dfr(\(model, name) {
+    set.seed(20261118)
+    emmeans(model, ~vistype, at = list(position_c = 0)) |>
+      contrast(method = "trt.vs.ctrl", ref = "basic", adjust = "mvt") |>
+      as.data.frame() |>
+      transmute(
+        outcome = name,
+        vistype = stringr::str_remove(contrast, " - basic$"),
+        estimate,
+        SE,
+        p.value
+      )
+  }) |>
+  mutate(
+    outcome = factor(outcome, levels = unique(outcome)),
+    vistype = factor(vistype, levels = levels(task2_model$vistype))
+  )
+
+task2_outcome_contrasts |>
+  arrange(vistype) |>
+  transmute(
+    vistype = table_vistype(vistype),
+    outcome,
+    value = if_else(
+      p.value < 0.05,
+      sprintf(
+        '<span style="color:#B2182B;font-weight:700">%+.2f (p = %s)</span>',
+        estimate, sub("^0", "", sprintf("%.3f", p.value))
+      ),
+      sprintf("%+.2f (p = %s)", estimate, sub("^0", "", sprintf("%.3f", p.value)))
+    )
+  ) |>
+  tidyr::pivot_wider(names_from = outcome, values_from = value) |>
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    col.names = c("Visualization vs Basic topoplot", levels(task2_outcome_contrasts$outcome)),
+    caption = paste(
+      "Differences from Basic topoplot on the logit scale for the primary score and the",
+      "two scale-free outcomes, with Dunnett-adjusted p values (six comparisons within",
+      "each outcome). Adjusted p < .05 is shown in dark red."
+    ),
+    table.attr = kable_table_attributes
+  )
+
+task2_outcome_significant <- task2_outcome_contrasts |>
+  filter(p.value < 0.05)
+task2_outcome_sentence <- function(outcome_name) {
+  hits <- task2_outcome_significant |> filter(outcome == outcome_name)
+  if (nrow(hits) == 0) {
+    "no visualization differed from Basic topoplot after Dunnett adjustment"
+  } else {
+    paste0(
+      paste(
+        sprintf(
+          "%s differed from Basic topoplot (%+.2f logit, adjusted p = %s)",
+          table_vistype(hits$vistype),
+          hits$estimate,
+          sub("^0", "", sprintf("%.3f", hits$p.value))
+        ),
+        collapse = "; "
+      )
+    )
+  }
+}
+task2_corner_by_outcome <- task2_outcome_contrasts |>
+  filter(vistype == "bivariate_corner")
+```
+
+- **Result.** `r if (!any(task2_outcome_significant$outcome %in% c("Rank score", "Top 3"))) "For neither scale-free outcome did any visualization differ from Basic topoplot after Dunnett adjustment" else paste0("For the rank score, ", task2_outcome_sentence("Rank score"), "; for top 3, ", task2_outcome_sentence("Top 3"))`.
+  For Bivariate corner versus Basic topoplot, the
+  logit-scale estimates were
+  `r sprintf("%+.2f", task2_corner_by_outcome$estimate[task2_corner_by_outcome$outcome == "Score (primary)"])`
+  for the score,
+  `r sprintf("%+.2f", task2_corner_by_outcome$estimate[task2_corner_by_outcome$outcome == "Rank score"])`
+  for the rank score (adjusted p =
+  `r sub("^0", "", sprintf("%.3f", task2_corner_by_outcome$p.value[task2_corner_by_outcome$outcome == "Rank score"]))`)
+  and
+  `r sprintf("%+.2f", task2_corner_by_outcome$estimate[task2_corner_by_outcome$outcome == "Top 3"])`
+  for top 3 (adjusted p =
+  `r sub("^0", "", sprintf("%.3f", task2_corner_by_outcome$p.value[task2_corner_by_outcome$outcome == "Top 3"]))`).
+
+- **Open question about the scoring.** For
+  `r task2_p3_low_modal_top_region_n` of
+  `r n_distinct(task2_model$stimulus[task2_model$pattern == "P3"])` P3 stimuli, the most
+  frequently selected region was `r task2_p3_low_modal_top_region`, which ranks only
+  `r scales::ordinal(min(task2_p3_low_modal_top_ranks))`–`r scales::ordinal(max(task2_p3_low_modal_top_ranks))` by
+  score for those stimuli. Participants may have targeted the voltage peak rather than
+  the SNR peak. If so, low scores on these stimuli partly reflect how participants
+  understood the task, not only how well a visualization conveyed uncertainty. This is a
+  construct-validity question for the scoring and is not resolved here.
+
+::: {.callout-note title="Most frequently selected region for each stimulus" collapse="true"}
+
+```{r task2-modal-regions}
+task2_modal_regions |>
+  arrange(pattern, rank_min) |>
+  transmute(
+    pattern,
+    stimulus,
+    region,
+    responses,
+    rank_min,
+    score = sprintf("%.2f", score)
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c(
+      "Pattern",
+      "Stimulus",
+      "Most selected region",
+      "Responses",
+      "Rank by score (1 = strongest)",
+      "Score"
+    ),
+    caption = "Most frequently selected region for each stimulus, with its rank by score.",
+    table.attr = kable_table_attributes
+  )
+```
+
+:::
 
 ## Completion-time analysis
 

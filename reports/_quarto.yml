@@ -24,14 +24,18 @@ website:
   sidebar:
     style: docked
     contents:
+      # Back link to the analysis website (absolute, so it works from both the
+      # local reports/_site and the public docs/audit copy).
+      - href: https://vladdez.github.io/Uncertainty-in-topoplots/
+        text: "← Analysis site"
       - section: "Statistical analysis"
         contents:
           - href: index.md
-            text: "Unresolved (13)"
+            text: "Unresolved (2)"
           - href: addressed.md
-            text: "Addressed (3)"
+            text: "Addressed (5)"
           - href: fixed.md
-            text: "Fixed (9)"
+            text: "Fixed (20)"
       - section: "Literature"
         contents:
           - href: manuscript-citations-audit.md

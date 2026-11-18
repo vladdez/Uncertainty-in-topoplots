@@ -11,8 +11,32 @@ params:
 #| include: false
 #| cache: false
 source("scripts/analysis_setup.R")
+
+# APA-style p-values: no leading zero, "< .001" below .001.
+format_p_value <- function(p) {
+  ifelse(p < .001, "< .001", sub("^0", "", sprintf("%.3f", p)))
+}
 ```
 
+## Rating items
+
+Each participant rated all seven visualizations on four items, each on a 5-point scale.
+The items were not all asked at the same point in the study.
+
+| Item | Label on this page | Survey wording or label | Response scale | Asked |
+|---|---|---|---|---|
+| A301 | Helpful for comparison | "Helpful for comparison" | 1 = very unhelpful … 5 = very helpful | After Task 1 |
+| A302 | Helpful for detection and integration | "Helpful for detection" | 1 = very unhelpful … 5 = very helpful | After Task 2 |
+| A303 | Would use in publication or presentation | "I would prefer to use this visualization for representing signal mean and standard error in a publication or presentation" (survey label "Usage material") | 1 = very unlikely … 5 = very likely | After Task 2 |
+| A304 | Aesthetically appealing | "Appealing" | 1 = very unappealing … 5 = very appealing | After Task 2 |
+
+: Rating items. A303 measures the likelihood of using a visualization, not its helpfulness. A301 was answered right after the comparison task, before participants had seen Task 2. {.striped}
+
+::: {.callout-note title="Limitation: fixed item order"}
+Within every rating question the visualizations were listed in the same order for every
+participant: Adjacent plots first and Basic topoplot always last. Order and context effects
+therefore cannot be separated from differences between visualizations.
+:::
 
 ## Rating data preparation and descriptive summary
 
@@ -21,7 +45,7 @@ source("scripts/analysis_setup.R")
 question_labels <- c(
   A301 = "Helpful for comparison",
   A302 = "Helpful for detection and integration",
-  A303 = "Helpful for representation",
+  A303 = "Would use in publication or presentation",
   A304 = "Aesthetically appealing"
 )
 
@@ -141,25 +165,20 @@ likert_table <- likert %>%
   tidyr::pivot_wider(
     names_from = question,
     values_from = mean_rating
-  ) %>% mutate(
-    sum = rowSums(across(where(is.numeric)), na.rm = TRUE)
   ) %>%
-  arrange(desc(sum))
+  # Basic topoplot first (the reference), then the survey order. No composite
+  # score: the four items measure different things (A303 is likelihood of use)
+  # and A301 was asked at a different time, so an equal-weight sum has no
+  # clear meaning (audit U10).
+  arrange(vistype != "basic", vistype)
 
 likert_table |>
   mutate(vistype = table_vistype(vistype)) |>
   knitr::kable(
     format = "html",
     digits = 2,
-    col.names = c(
-      "Visualization type",
-      "Helpful for comparison",
-      "Helpful for detection and integration",
-      "Helpful for representation",
-      "Aesthetically appealing",
-      "Sum of mean ratings"
-    ),
-    caption = "Mean subjective ratings by visualization type",
+    col.names = c("Visualization type", unname(question_labels)),
+    caption = "Mean subjective ratings by visualization type (raw means, 1–5)",
     table.attr = kable_table_attributes
   )
 ```
@@ -217,18 +236,101 @@ likert_estimates |>
       "Lower 95% CI",
       "Upper 95% CI"
     ),
-    caption = "Model-estimated subjective ratings",
+    caption = "Model-smoothed mean ratings",
     table.attr = kable_table_attributes
   )
 
 model_table_note(paste0(
   "Separate cumulative-link mixed models with logit link are fitted for each ",
   "evaluation criterion: <code>rating_ord ~ vistype + (1 | ID)</code>. ",
-  "Estimated marginal means use <code>mode = &quot;mean.class&quot;</code> and are ",
-  "reported on the expected 1–5 rating scale with asymptotic pointwise 95% ",
-  "confidence intervals."
+  "Estimated marginal means use <code>mode = &quot;mean.class&quot;</code>: they are ",
+  "model-smoothed mean ratings on the 1–5 scale, with asymptotic pointwise 95% ",
+  "confidence intervals (not adjusted for multiplicity)."
 ))
 ```
+
+### Model checks and sensitivity analyses
+
+```{r likert-model-checks}
+#| cache: false
+# 1. Proportional odds: fixed-effects clm with and without visualization-specific
+#    thresholds (nominal effects), compared by likelihood-ratio test.
+po_tests <- likert_model_data |>
+  (\(data) split(data, data$question))() |>
+  imap_dfr(function(data_question, question_name) {
+    po_fit <- clm(rating_ord ~ vistype, data = data_question)
+    npo_fit <- clm(rating_ord ~ 1, nominal = ~ vistype, data = data_question)
+    lrt <- anova(po_fit, npo_fit)
+    tibble(
+      question = question_name,
+      lr_statistic = lrt$LR.stat[2],
+      df = lrt$df[2],
+      p_value = lrt$`Pr(>Chisq)`[2]
+    )
+  })
+
+# 2. Model-smoothed vs raw means.
+raw_vs_model <- likert |>
+  group_by(question, vistype) |>
+  summarise(raw_mean = mean(rating, na.rm = TRUE), .groups = "drop") |>
+  mutate(question = as.character(question), vistype = as.character(vistype)) |>
+  inner_join(
+    likert_estimates |> mutate(vistype = as.character(vistype)),
+    by = c("question", "vistype")
+  ) |>
+  mutate(abs_difference = abs(estimated_rating - raw_mean))
+max_raw_model_difference <- max(raw_vs_model$abs_difference)
+
+# 3. Linear mixed model on the 1–5 ratings: same Dunnett contrasts vs Basic.
+likert_lmm_contrasts <- likert_model_data |>
+  (\(data) split(data, data$question))() |>
+  imap_dfr(function(data_question, question_name) {
+    fit <- lmer(rating ~ vistype + (1 | ID), data = data_question)
+    question_emmeans <- emmeans(fit, ~ vistype)
+    contrast(
+      question_emmeans,
+      method = "trt.vs.ctrl",
+      ref = which(question_emmeans@levels$vistype == "basic"),
+      adjust = "mvt"
+    ) |>
+      confint() |>
+      as.data.frame() |>
+      transmute(
+        question = question_name,
+        vistype = stringr::str_remove(contrast, " - basic$"),
+        lmm_difference = estimate,
+        lmm_lower = lower.CL,
+        lmm_upper = upper.CL
+      )
+  })
+
+po_tests |>
+  mutate(p_value = format_p_value(p_value)) |>
+  knitr::kable(
+    format = "html",
+    digits = 1,
+    col.names = c("Evaluation criterion", "LR statistic", "df", "p"),
+    caption = paste(
+      "Proportional-odds check: fixed-effects cumulative-link model vs a model with",
+      "visualization-specific thresholds (likelihood-ratio test)"
+    ),
+    table.attr = kable_table_attributes
+  )
+```
+
+**Proportional odds.** The likelihood-ratio test rejects proportional odds for
+`r sum(po_tests$p_value < .05)` of 4 criteria (p from
+`r format_p_value(min(po_tests$p_value))` to `r format_p_value(max(po_tests$p_value))`):
+the visualizations differ in how ratings are spread over the scale, not only in their
+location. The analysis therefore reports model-smoothed *mean* ratings, which stay close to
+the raw means (largest absolute difference `r sprintf("%.2f", max_raw_model_difference)`
+scale points), rather than interpreting the odds ratios.
+
+**Random-effects structure.** Each participant gave exactly one rating per visualization and
+criterion. Participant-specific visualization effects (`(1 + vistype | ID)`) would have one
+observation per random effect and are not identifiable separately from the observation-level
+latent error, so the random intercept is the maximal identifiable structure. The linear mixed
+model below is a sensitivity check that does not rely on proportional odds.
 
 ## Model-estimated ratings
 
@@ -261,7 +363,7 @@ likert_display_labels <- c(
 likert_panel_titles <- c(
   "Helpful for comparison" = "Helpful for comparison",
   "Helpful for detection and integration" = "Helpful for detection & integration",
-  "Helpful for representation" = "Helpful for representation",
+  "Would use in publication or presentation" = "Would use in publication",
   "Aesthetically appealing" = "Aesthetically appealing"
 )
 
@@ -425,7 +527,7 @@ likert_estimate_figure <-
   (p1 + p2) /
   (p3 + p4) +
   plot_annotation(
-    caption = "Expected rating",
+    caption = "Model-smoothed mean rating (pointwise 95% CI)",
     theme = theme(
       plot.caption = element_text(
         hjust = 0.5,
@@ -475,6 +577,7 @@ likert_contrasts <- imap_dfr(
     contrast_result <- contrast(
       question_emmeans,
       method = "trt.vs.ctrl",
+      adjust = "mvt",
       ref = basic_reference
     ) |>
       confint() |>
@@ -504,7 +607,9 @@ likert_contrasts <- imap_dfr(
   group_by(question) |>
   mutate(
     vistype = factor(vistype, levels = rev(likert_vistype_order[-1])),
-    is_leader = difference == max(difference, na.rm = TRUE)
+    # Highlight contrasts whose Dunnett-adjusted interval excludes zero (no
+    # "leader": differences between non-reference visualizations are not tested).
+    excludes_zero = lower_ci > 0 | upper_ci < 0
   ) |>
   ungroup()
 
@@ -542,16 +647,16 @@ make_likert_contrast_plot <- function(
       colour = "#3B78B4"
     ) +
     geom_errorbar(
-      aes(xmin = lower_ci, xmax = upper_ci, colour = is_leader),
+      aes(xmin = lower_ci, xmax = upper_ci, colour = excludes_zero),
       orientation = "y",
       width = 0.12,
       linewidth = 0.55
     ) +
-    geom_point(aes(colour = is_leader), size = 3) +
+    geom_point(aes(colour = excludes_zero), size = 3) +
     geom_text(
       aes(
         label = format_rating_difference(difference),
-        colour = is_leader
+        colour = excludes_zero
       ),
       nudge_y = 0.3,
       vjust = 0.5,
@@ -635,7 +740,7 @@ likert_contrast_caption <- ggplot() +
     "text",
     x = 0.587,
     y = 0.5,
-    label = "Difference in model-estimated expected rating vs",
+    label = "Difference in model-smoothed mean rating vs",
     hjust = 1,
     size = 50 / ggplot2::.pt,
     family = "Lato",
@@ -673,7 +778,116 @@ ggsave_st(
 )
 ```
 
-![Differences in model-estimated expected ratings relative to Basic topoplot across four subjective-evaluation criteria, with 95% confidence intervals.](../figures/likert_contrast_figure.png)
+![Differences in model-smoothed mean ratings relative to Basic topoplot for the four rating items. Intervals are Dunnett-adjusted 95% confidence intervals (exact multivariate-t adjustment; family = the six contrasts against Basic within each item). Red marks intervals that exclude zero.](../figures/likert_contrast_figure.png)
+
+```{r likert-contrast-summary}
+#| include: false
+likert_contrast_sentence <- function(question_name) {
+  rows <- likert_contrasts |>
+    filter(question == question_name, excludes_zero) |>
+    arrange(desc(difference))
+  if (nrow(rows) == 0) {
+    return("no visualization differs from Basic topoplot")
+  }
+  paste(
+    sprintf(
+      "%s (%+.2f [%+.2f, %+.2f])",
+      unname(likert_display_labels[as.character(rows$vistype)]),
+      rows$difference, rows$lower_ci, rows$upper_ci
+    ),
+    collapse = "; "
+  )
+}
+
+likert_sensitivity <- likert_contrasts |>
+  mutate(question = as.character(question), vistype = as.character(vistype)) |>
+  inner_join(likert_lmm_contrasts, by = c("question", "vistype")) |>
+  mutate(
+    lmm_excludes_zero = lmm_lower > 0 | lmm_upper < 0,
+    agree = excludes_zero == lmm_excludes_zero
+  )
+```
+
+**Contrasts against Basic topoplot** (Dunnett-adjusted 95% CIs; only intervals that exclude
+zero are listed):
+
+`r paste0("- ", question_columns, ": ", purrr::map_chr(question_columns, likert_contrast_sentence), ".", collapse = "\n")`
+
+Differences between the uncertainty visualizations themselves were not tested, so the page
+does not name a best visualization for any item.
+
+::: {.callout-note title="Sensitivity: linear mixed model on the 1–5 ratings" collapse="true"}
+```{r likert-lmm-sensitivity}
+likert_sensitivity |>
+  mutate(
+    vistype = unname(likert_display_labels[vistype]),
+    clmm = sprintf("%+.2f [%+.2f, %+.2f]", difference, lower_ci, upper_ci),
+    lmm = sprintf("%+.2f [%+.2f, %+.2f]", lmm_difference, lmm_lower, lmm_upper),
+    agree = if_else(agree, "yes", "**no**")
+  ) |>
+  select(question, vistype, clmm, lmm, agree) |>
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    col.names = c(
+      "Evaluation criterion", "Visualization vs Basic",
+      "Ordinal model (CLMM)", "Linear mixed model", "Same conclusion"
+    ),
+    caption = paste(
+      "Dunnett-adjusted differences vs Basic topoplot from the ordinal model and",
+      "from a linear mixed model <code>rating ~ vistype + (1 | ID)</code>"
+    ),
+    table.attr = kable_table_attributes
+  )
+```
+
+The two models agree on whether the interval excludes zero for
+`r sum(likert_sensitivity$agree)` of `r nrow(likert_sensitivity)` contrasts.
+:::
+
+```{r likert-quality-sensitivity}
+#| include: false
+source(project_path("scripts", "data_quality.R"))
+
+likert_contrasts_screened <- likert_model_data |>
+  filter(!as.integer(as.character(ID)) %in% flagged_ids) |>
+  mutate(ID = droplevels(ID)) |>
+  (\(data) split(data, data$question))() |>
+  imap_dfr(function(data_question, question_name) {
+    fit <- clmm(rating_ord ~ vistype + (1 | ID), data = data_question, Hess = TRUE)
+    question_emmeans <- emmeans(fit, ~ vistype, mode = "mean.class")
+    contrast(
+      question_emmeans,
+      method = "trt.vs.ctrl",
+      ref = which(question_emmeans@levels$vistype == "basic"),
+      adjust = "mvt"
+    ) |>
+      confint() |>
+      as.data.frame() |>
+      transmute(
+        question = question_name,
+        vistype = stringr::str_remove(contrast, " - basic$"),
+        screened_difference = estimate,
+        screened_lower = asymp.LCL,
+        screened_upper = asymp.UCL
+      )
+  })
+
+likert_quality_sensitivity <- likert_contrasts |>
+  mutate(question = as.character(question), vistype = as.character(vistype)) |>
+  inner_join(likert_contrasts_screened, by = c("question", "vistype")) |>
+  mutate(
+    shift = screened_difference - difference,
+    screened_excludes_zero = screened_lower > 0 | screened_upper < 0,
+    agree = excludes_zero == screened_excludes_zero
+  )
+```
+
+**Sensitivity: quality screen.** Without the `r length(flagged_ids)` participants flagged
+for speeding or straight-lining (see the Sample page), the contrasts against Basic move by at
+most `r sprintf("%.2f", max(abs(likert_quality_sensitivity$shift)))` scale points, and
+`r sum(!likert_quality_sensitivity$agree)` of `r nrow(likert_quality_sensitivity)` intervals
+change their position relative to zero.
 
 
 ```{r}

@@ -81,10 +81,10 @@
     "href": "addressed.html",
     "title": "Addressed",
     "section": "",
-    "text": "Issue\nArea\n\n\n\n\nModerate\nA1. Model-adequacy checks\nAll models\n\n\nHigh\nA2. Task 2 random-effects structure\nTask 2\n\n\nModerate\nA3. Feedback codes are linked by row position\nFeedback, data",
+    "text": "Issue\nArea\n\n\n\n\nModerate\nA1. Model-adequacy checks\nAll models\n\n\nHigh\nA2. Task 2 random-effects structure\nTask 2\n\n\nModerate\nA3. Feedback codes are linked by row position\nFeedback, data\n\n\nModerate\nA4. Task 2 scores are not comparable across stimuli (was U7)\nTask 2\n\n\nModerate\nA5. Qualitative coding is not validated (was U12)\nFeedback",
     "crumbs": [
       "Statistical analysis",
-      "Addressed (3)"
+      "Addressed (5)"
     ]
   },
   {
@@ -95,7 +95,7 @@
     "text": "A1. Model-adequacy checks\n\nSeverity: Moderate · Area: All models\n\nDone.\n\nTask 2 has a posterior predictive check of exact-peak (score = 1) responses.\nTask 2 has a two-part sensitivity model: a logistic model for finding the strongest region and a beta model for the remaining trials.\nThese show that Adjacent plots increase exact-peak hits (p = .006 with the image intercept); Confidence intervals do so only marginally (p = .046). The ordered-beta contrast does not detect this.\nThe fitted Task 1 and Task 2 models are checked for convergence and a positive-definite Hessian.\n\nRemaining.\n\nSimulated residual diagnostics for all models.\nInfluence checks for participants, stimuli, and comparison pairs.\nResidual behaviour of the time models.\nThe proportional-odds check (U9).\nRestoring matching TMB/glmmTMB versions. The page YAML suppresses the version-mismatch warning.",
     "crumbs": [
       "Statistical analysis",
-      "Addressed (3)"
+      "Addressed (5)"
     ]
   },
   {
@@ -103,10 +103,10 @@
     "href": "addressed.html#a2",
     "title": "Addressed",
     "section": "A2. Task 2 random-effects structure",
-    "text": "A2. Task 2 random-effects structure\n\nSeverity: High · Area: Task 2 detection-score model\n\nDone.\n\nThe primary model is score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype), adjusting for ERP pattern and presentation position, with crossed participant and stimulus intercepts and an intercept for each of the 210 images (formerly U2). The same structure is used in the two-part sensitivity model and in the hit / near-hit models on the Hit or miss page.\nEvidence for the image intercept (N = 146):\n\n\n\n\n\n\n\n\n\nModel\nAIC without → with\nImage SD\nOverall visualization LRT, without → with\n\n\n\n\nScore (ordered beta)\n1178 → 1107\n0.27\nχ²(6) = 23.1, p = .0008 → χ²(6) = 8.0, p = .23\n\n\nExact hit (logistic)\n2497 → 2448\n0.82\nχ²(6) = 14.6, p = .023 → χ²(6) = 8.6, p = .20\n\n\nHit or near hit (logistic)\n3347 → 3161\n1.12\nχ²(6) = 19.9, p = .003 → χ²(6) = 9.0, p = .17\n\n\n\nPoint estimates barely move; standard errors grow 1.5–2.2×. Contrasts with Basic that remain at p &lt; .05 (unadjusted): exact hit, Adjacent plots (p = .006) and Confidence intervals (p = .046); hit or near hit, Uncertainty markers (p = .029) and Bivariate range (p = .032). The Bivariate corner score deficit does not (p = .005 → .093); it is concentrated in three images (MMN_30, N170_16, N170_27).\nThe page checks that no responses are lost and that each stimulus maps to one pattern.\nParticipant-specific slopes were tested and their omission is explained on the page:\n\nthe full correlated visualization structure does not converge;\nthe position slope is negligible;\na diagonal visualization structure converges and is available as a sensitivity model.\n\n\nRemaining.\n\nCheck the analogous term in Task 1 (target stimulus × visualization); Task 1 already has (1 | wrong_image).\nState that generalization to new stimuli rests on 30 sampled stimuli.\nManuscript: describe the visualization effects as weak overall; no omnibus test is significant once image-level variation is modelled.",
+    "text": "A2. Task 2 random-effects structure\n\nSeverity: High · Area: Task 2 detection-score model\n\nDone.\n\nThe primary model is score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype), adjusting for ERP pattern and presentation position, with crossed participant and stimulus intercepts and an intercept for each of the 210 images (formerly U2). The same structure is used in the two-part sensitivity model and in the hit / near-hit models on the Hit or miss page.\nEvidence for the image intercept (N = 146):\n\n\n\n\n\n\n\n\n\nModel\nAIC without → with\nImage SD\nOverall visualization LRT, without → with\n\n\n\n\nScore (ordered beta)\n1178 → 1107\n0.27\nχ²(6) = 23.1, p = .0008 → χ²(6) = 8.0, p = .23\n\n\nExact hit (logistic)\n2497 → 2448\n0.82\nχ²(6) = 14.6, p = .023 → χ²(6) = 8.6, p = .20\n\n\nHit or near hit (logistic)\n3347 → 3161\n1.12\nχ²(6) = 19.9, p = .003 → χ²(6) = 9.0, p = .17\n\n\n\nPoint estimates barely move; standard errors grow 1.5–2.2×. Contrasts with Basic that remain at p &lt; .05 (unadjusted): exact hit, Adjacent plots (p = .006) and Confidence intervals (p = .046); hit or near hit, Uncertainty markers (p = .029) and Bivariate range (p = .032). The Bivariate corner score deficit does not (p = .005 → .093); it is concentrated in three images (MMN_30, N170_16, N170_27).\nThe page checks that no responses are lost and that each stimulus maps to one pattern.\nParticipant-specific slopes were tested and their omission is explained on the page:\n\nthe full correlated visualization structure does not converge;\nthe position slope is now computed on the page (SD 0.013 logit per trial, against a fixed position effect of 0.002), not asserted to be negligible (F20);\na diagonal visualization structure was tried during model building, but it is not refitted on the page, so the page no longer cites it as a sensitivity model.\n\n\nRemaining.\n\nCheck the analogous term in Task 1 (target stimulus × visualization); Task 1 already has (1 | wrong_image).\nState that generalization to new stimuli rests on 30 sampled stimuli.\nManuscript: describe the visualization effects as weak overall; no omnibus test is significant once image-level variation is modelled.",
     "crumbs": [
       "Statistical analysis",
-      "Addressed (3)"
+      "Addressed (5)"
     ]
   },
   {
@@ -117,7 +117,29 @@
     "text": "A3. Feedback codes are linked by row position\n\nSeverity: Moderate · Area: Open-ended feedback, data preparation\n\nProblem. Participant ID is row_number() after the inclusion filters. The A305 coding workbook is keyed by this ID, so a reordered or differently filtered export would silently attach codes to the wrong participants.\nDone.\n\nscripts/check_data_refresh.R checks, after every data update, that each coded unit appears in the response of the participant it is filed under. It stops if not.\nThe data-refresh agent runs this check before re-rendering.\n\nRemaining. Key the workbook on the survey’s CASE number instead of the row position.",
     "crumbs": [
       "Statistical analysis",
-      "Addressed (3)"
+      "Addressed (5)"
+    ]
+  },
+  {
+    "objectID": "addressed.html#a4",
+    "href": "addressed.html#a4",
+    "title": "Addressed",
+    "section": "A4. Task 2 scores are not comparable across stimuli (was U7)",
+    "text": "A4. Task 2 scores are not comparable across stimuli (was U7)\n\nSeverity: Moderate · Area: Task 2 outcome\n\nProblem. Region values are min–max rescaled within each stimulus, so the same score means different things for different stimuli: the 10th-strongest region scores between 0.24 and 0.90 depending on the stimulus.\nDone (18 Nov 2026). The Task 2 page has a new section, “Sensitivity analysis: rank and top-3 outcomes”, with the numbers generated in code. It also warns against comparing score magnitudes across stimuli.\n\n\n\n\n\n\n\n\nOutcome\nBivariate corner vs Basic\nDunnett p\n\n\n\n\nScore (expected score E[y])\n−3.2 pp [−8.3, +1.8]\n.351\n\n\nRank among 64 regions (0–1)\n−0.19 logit (unadjusted p = .041)\n.175\n\n\nTop 3 (logistic; 39% of responses)\n−0.20 logit\n.941\n\n\n\nNo visualization differs from Basic on any of the three outcomes after adjustment.\nRemaining: a construct question. For 4 of 10 P3 stimuli, R25 is the most selected region but ranks only 10th–14th by score. Participants may target the voltage peak rather than the SNR peak. The page states this, with a per-stimulus table of the most selected region and its rank, but does not answer it. It needs a decision on how the task and its scoring should be described in the manuscript.",
+    "crumbs": [
+      "Statistical analysis",
+      "Addressed (5)"
+    ]
+  },
+  {
+    "objectID": "addressed.html#a5",
+    "href": "addressed.html#a5",
+    "title": "Addressed",
+    "section": "A5. Qualitative coding is not validated (was U12)",
+    "text": "A5. Qualitative coding is not validated (was U12)\n\nSeverity: Moderate · Area: Open-ended feedback\n\nProblem. The A305 coding comes from a single LLM coder, with no second coder or agreement statistic.\nDone (18 Nov 2026).\n\nGeneral-bivariates rule enforced. 13 units that named neither bivariate variant but were coded to both Corner and Range are now coded once to General bivariates (IDs 7, 15, 18, 30, 41, 51 [2 units], 54, 56, 61, 65, 76, 79). The corrections are in data/a305_coding_corrections.csv, each with a reason quoting the response. The page applies them and shows them in a collapsible table. The original workbook is unchanged.\nDuplicated units. Each meaning unit has an ID (MU###): 271 unique units in 285 rows, 12 of which evaluate more than one visualization. Such a unit counts once for each visualization it evaluates, never twice within one. The page says that comparisons across visualizations are therefore not independent.\nSparse cells. Theme × visualization cells with n ≤ 2 participants (39 of 68) show “n ≤ 2” instead of a mean and are faded in the figures. Means are rounded to one decimal.\nScale use. The method note says the neutral code 0 was used for 2 of 271 units.\nDouble-coding sample prepared. data/a305_double_coding_sample.csv (git-ignored, because it holds full responses) has 63 of 271 units (23%), drawn with seed 305 and stratified by visualization. It has empty columns for the second coder and does not contain the first coder’s codes. The page computes percent agreement and Cohen’s kappa as soon as the codes are filled in.\n\nRemaining.\n\nA human fills in the double-coding file; the page then reports agreement.\nDecide on IDs 74 and 102, which mention both bivariate versions and keep both codes.\nAgreement on where units begin and end (unitizing) is not assessed.",
+    "crumbs": [
+      "Statistical analysis",
+      "Addressed (5)"
     ]
   },
   {
@@ -125,153 +147,32 @@
     "href": "index.html",
     "title": "Unresolved",
     "section": "",
-    "text": "WarningThe analysis is not yet ready for manuscript interpretation\n\n\n\nU3–U5 change results or how they must be described. Fix them first, in this order:\n\nCorrect the labels and timing of the rating items (U3, U4).\nRegenerate the remaining result sentences from the estimates (U5).\n\nThe Task 2 image-level intercept (formerly U2) is now in the models; see A2.",
+    "text": "NoteStatus, 18 November 2026\n\n\n\nU3–U15 were worked through on 18 November 2026. Eleven are fixed (F10–F20). Two still need something that code cannot do: a human second coder (U12, now A5) and a decision on the Task 2 scoring construct (U7, now A4). The two items below are new and came up while fixing the others.",
     "crumbs": [
       "Statistical analysis",
-      "Unresolved (13)"
+      "Unresolved (2)"
     ]
   },
   {
-    "objectID": "index.html#u3",
-    "href": "index.html#u3",
+    "objectID": "index.html#u16",
+    "href": "index.html#u16",
     "title": "Unresolved",
-    "section": "U3. A303 measures likelihood of use, not helpfulness",
-    "text": "U3. A303 measures likelihood of use, not helpfulness\n\nSeverity: High · Area: Subjective ratings, manuscript\n\nProblem. The survey label of A303 is “Usage material”, and its scale runs from “very unlikely” to “very likely”. pages/subjective.qmd and journal.typ call it “helpful for representation” and describe it as helpfulness for representing signal and uncertainty.\nFix. Take the exact item text from the questionnaire and relabel it in the pages, figures, and manuscript.",
+    "section": "U16. Two MMN targets are hard to tell from N170",
+    "text": "U16. Two MMN targets are hard to tell from N170\n\nSeverity: Low · Area: Task 1 stimuli, manuscript\n\nProblem. The below-chance items from F20 are not mis-keyed: every trial passes the answer-key check. MMN_19 (41.6% correct as target) and MMN_29 (45.5%) fail only against N170 distractors (15.5% and 20.5% correct), not against P3 distractors. Both are weak maps (±1.5 and ±1.7 µV) with lateral rather than posterior positivity, and some N170 variations (N170_7, N170_12, N170_16) look like the MMN template. Across all MMN targets, accuracy is 56.3% against N170 distractors and 85.8% against P3 distractors.\nThe hard items are spread evenly across visualizations, so they add noise rather than bias. They stay in the primary analysis.\nExploratory refit (items chosen after seeing the data): dropping the two targets moves the omnibus test from p = .056 to p = .028. The Bivariate corner and range odds ratios become 0.64 and 0.65, with Dunnett-adjusted intervals still including 1 (adjusted p = .11 and .12).\nTo decide.\n\nWhether the manuscript mentions the exploratory refit.\nThe Stimuli section should say that some single-subject MMN and N170 maps look alike.",
     "crumbs": [
       "Statistical analysis",
-      "Unresolved (13)"
+      "Unresolved (2)"
     ]
   },
   {
-    "objectID": "index.html#u4",
-    "href": "index.html#u4",
+    "objectID": "index.html#u17",
+    "href": "index.html#u17",
     "title": "Unresolved",
-    "section": "U4. A301 was asked after Task 1 only",
-    "text": "U4. A301 was asked after Task 1 only\n\nSeverity: High · Area: Subjective ratings, manuscript\n\nProblem. A301 (“helpful for comparison”) is on the page after the Task 1 trials. A302–A304 come after Task 2.\nEvidence. 23 respondents who stopped before the end of Task 2 had answered A301_01; none had answered A302.\nConsequence.\n\nThe manuscript Procedure, which places all ratings after both tasks, is wrong.\nThe four criteria were measured at different points in the study (see U10).\n\nFix. Correct the Procedure section and describe the timing of A301 in the methods.",
+    "section": "U17. glmmTMB was built against an older TMB",
+    "text": "U17. glmmTMB was built against an older TMB\n\nSeverity: Low · Area: R environment, all glmmTMB models\n\nProblem. Loading the packages warns: “glmmTMB was built with TMB package version 1.9.21. Current TMB package version is 1.9.22.” The fits run and the numbers match earlier fits, but TMB’s guidance is to reinstall glmmTMB from source after a TMB update.\nFix. Run install.packages(\"glmmTMB\", type = \"source\"), clear the page caches, and re-render. Confirm that the Task 1, Task 2, Hit or miss and Time estimates do not change.",
     "crumbs": [
       "Statistical analysis",
-      "Unresolved (13)"
-    ]
-  },
-  {
-    "objectID": "index.html#u5",
-    "href": "index.html#u5",
-    "title": "Unresolved",
-    "section": "U5. Task 1 text overstates weak or contradicted effects",
-    "text": "U5. Task 1 text overstates weak or contradicted effects\n\nSeverity: High · Area: Task 1 reporting\n\nProblem. The text says Bivariate corner and Bivariate range “were associated with lower odds” of a correct answer. The evidence:\n\nodds ratios 0.72 [0.50, 1.04], p = .084, and 0.71 [0.49, 1.03], p = .073;\nomnibus LRT p = .056;\nevery population-average contrast interval includes zero;\nconditional-logit sensitivity p = .068 and .055.\n\nAlready done. The time–accuracy sentences on the Time analysis page are now generated from the confidence intervals.\nFix. Generate the accuracy sentences on the Task 1 page from the estimates as well.",
-    "crumbs": [
-      "Statistical analysis",
-      "Unresolved (13)"
-    ]
-  },
-  {
-    "objectID": "index.html#u6",
-    "href": "index.html#u6",
-    "title": "Unresolved",
-    "section": "U6. “Estimated detection score” is not the expected score",
-    "text": "U6. “Estimated detection score” is not the expected score\n\nSeverity: Moderate · Area: Task 2 reporting\n\nProblem. For the ordered-beta family, emmeans(type = \"response\") returns μ, the mean of the continuous beta part. It ignores the probability mass at 0 and 1. The expected score is E[y] = P(1) + (1 − P(0) − P(1)) μ.\n\n\n\nBasic topoplot\nValue\n\n\n\n\nReported (μ)\n67.6%\n\n\nE[y], random effects at zero\n72.8%\n\n\nE[y], averaged over random effects\n71.0%\n\n\nObserved mean\n69.8%\n\n\n\nContrasts are almost unchanged; the levels and the label “on the detection-score scale” are wrong.\nFix. Compute E[y] from the cutpoints, with delta-method or simulation intervals. State whether it is conditional on the random effects or averaged over them.",
-    "crumbs": [
-      "Statistical analysis",
-      "Unresolved (13)"
-    ]
-  },
-  {
-    "objectID": "index.html#u7",
-    "href": "index.html#u7",
-    "title": "Unresolved",
-    "section": "U7. Task 2 scores are not comparable across stimuli",
-    "text": "U7. Task 2 scores are not comparable across stimuli\n\nSeverity: Moderate · Area: Task 2 outcome\n\nProblem. Region values are min–max rescaled within each stimulus, so the same score means different things for different stimuli. For example, the 10th-best region scores between 0.24 and 0.90 depending on the stimulus.\nEvidence.\n\nRank outcome: Bivariate corner −0.21, p = .002.\nTop-3 logistic outcome: no visualization effect reaches p &lt; .05.\n\nFix. Report a rank or top-k sensitivity analysis, and avoid interpreting score magnitudes across stimuli.\nOpen question. For 4 of 10 P3 stimuli, the most chosen region (R25) ranks only 10th–14th by score. Participants may target the voltage peak rather than the SNR peak. That is a construct-validity question for the scoring.",
-    "crumbs": [
-      "Statistical analysis",
-      "Unresolved (13)"
-    ]
-  },
-  {
-    "objectID": "index.html#u8",
-    "href": "index.html#u8",
-    "title": "Unresolved",
-    "section": "U8. Multiplicity is handled inconsistently",
-    "text": "U8. Multiplicity is handled inconsistently\n\nSeverity: Moderate · Area: All inferential results\n\nProblem. No primary contrasts or multiplicity families are defined, and the same contrast is shown under different adjustments.\n\nTask 2, Bivariate corner vs Basic:\n\nTukey table: p = .070.\nDunnett figure: interval [−7.2, −0.3] pp, which excludes zero.\nCoefficient table: unadjusted p = .005.\n\nTask 1: unadjusted coefficient p-values are reported.\nRatings: the contrast figure is Dunnett-adjusted but labelled only “95% confidence intervals”. Four outcomes × six contrasts have no stated family.\n\nFix. Choose the primary contrasts and one adjustment family (for example, Dunnett against Basic within each outcome). Use it in every table and figure and name it in captions. Report all estimates, including null results.",
-    "crumbs": [
-      "Statistical analysis",
-      "Unresolved (13)"
-    ]
-  },
-  {
-    "objectID": "index.html#u9",
-    "href": "index.html#u9",
-    "title": "Unresolved",
-    "section": "U9. Rating models: intercept only, proportional odds violated",
-    "text": "U9. Rating models: intercept only, proportional odds violated\n\nSeverity: Moderate · Area: Subjective-rating models\n\nProblem.\n\nThe cumulative-link models use rating_ord ~ vistype + (1 | ID), although each participant rates every visualization.\nLikelihood-ratio tests on fixed-effects clm fits reject proportional odds for all four questions (p = .011 to 3 × 10⁻⁵).\nModel-based expected ratings differ from raw means by at most 0.08.\n\nFix.\n\nEvaluate participant-specific visualization effects, or justify the simpler structure with a sensitivity analysis.\nReport the proportional-odds check, and describe the estimates as model-smoothed means.",
-    "crumbs": [
-      "Statistical analysis",
-      "Unresolved (13)"
-    ]
-  },
-  {
-    "objectID": "index.html#u10",
-    "href": "index.html#u10",
-    "title": "Unresolved",
-    "section": "U10. Composite ranking and “leader” highlighting",
-    "text": "U10. Composite ranking and “leader” highlighting\n\nSeverity: Moderate · Area: Subjective ratings\n\nProblem.\n\nComposite. “Sum of mean ratings” adds four separately measured criteria with equal weight. One of them is a likelihood-of-use item (U3), and one was asked at a different time (U4).\n\nWith participant-bootstrap intervals, neighbouring ranks overlap. For example, Uncertainty markers 12.28 [11.62, 12.88] vs Basic 12.24 [11.70, 12.82].\n\nLeader highlighting. is_leader highlights Confidence intervals for “comparison”. Its difference from Basic is +0.18 [−0.09, 0.45], and its differences from the runners-up were never tested.\n\nFix. Remove the composite, or show it with intervals and label it as an exploratory equal-weight index. Highlight a leader only if pairwise contrasts support it.",
-    "crumbs": [
-      "Statistical analysis",
-      "Unresolved (13)"
-    ]
-  },
-  {
-    "objectID": "index.html#u11",
-    "href": "index.html#u11",
-    "title": "Unresolved",
-    "section": "U11. Time outliers and the time estimand",
-    "text": "U11. Time outliers and the time estimand\n\nSeverity: Moderate · Area: Task 1 and Task 2 completion time\n\nProblem.\n\nDifferent data. The descriptive tables on the Time analysis page drop trials with a per-visualization 1.5 × IQR rule. The models keep everything, including pages of 5,264 s and 11,221 s.\nMislabelled estimate. The back-transformed model estimate is a geometric mean (median time for a typical participant), but it is labelled “estimated time”.\n\nFix.\n\nDefine one outlier rule in advance and apply it to tables and models.\nShow the alternative as a sensitivity analysis.\nLabel the estimate as a geometric mean.",
-    "crumbs": [
-      "Statistical analysis",
-      "Unresolved (13)"
-    ]
-  },
-  {
-    "objectID": "index.html#u12",
-    "href": "index.html#u12",
-    "title": "Unresolved",
-    "section": "U12. Qualitative coding is not validated",
-    "text": "U12. Qualitative coding is not validated\n\nSeverity: Moderate · Area: Open-ended feedback\n\nProblem. The A305 coding comes from a single LLM coder, with no second coder or agreement statistic.\n\nRule not applied. Generic “bivariate plots” comments are sometimes coded to both Corner and Range instead of General bivariates (IDs 7, 41, 77).\nDuplicated units. 51 of 298 rows (17%) are one unit duplicated across visualizations.\nScale use. Only 2 of 298 units are coded 0.\nSparse cells. 31 of 69 theme × visualization rows rest on two or fewer participants, yet are shown with means to two decimals.\n\nFix.\n\nHave a human double-code at least a subsample and report agreement.\nEnforce the General-bivariates rule.\nFlag or suppress cells with n ≤ 2.",
-    "crumbs": [
-      "Statistical analysis",
-      "Unresolved (13)"
-    ]
-  },
-  {
-    "objectID": "index.html#u13",
-    "href": "index.html#u13",
-    "title": "Unresolved",
-    "section": "U13. Fixed item order in the rating questions",
-    "text": "U13. Fixed item order in the rating questions\n\nSeverity: Moderate (design limitation) · Area: Subjective ratings\n\nProblem. Within every rating question the visualizations appear in the same order: Adjacent first, Basic always last. Order and context effects cannot be separated from visualization effects.\nFix. Report this as a limitation in the manuscript.",
-    "crumbs": [
-      "Statistical analysis",
-      "Unresolved (13)"
-    ]
-  },
-  {
-    "objectID": "index.html#u14",
-    "href": "index.html#u14",
-    "title": "Unresolved",
-    "section": "U14. Sample definition and data quality are undocumented",
-    "text": "U14. Sample definition and data quality are undocumented\n\nSeverity: Low · Area: Data preparation\n\nProblem.\n\nExcluded by the date cutoff: four completed records dated 2026-07-23, probably pilot runs, are excluded without documentation.\nPossible quality problems:\n\nfive participants exceed SoSci’s speeding index (TIME_RSI &gt; 2);\ntwo gave the same rating to all 28 rating items.\n\nExcluding these seven moves rating contrasts by at most 0.07 and changes no interval’s position relative to zero.\n\nFix. Document the date cutoff and a quality screen, and report the sensitivity analysis.",
-    "crumbs": [
-      "Statistical analysis",
-      "Unresolved (13)"
-    ]
-  },
-  {
-    "objectID": "index.html#u15",
-    "href": "index.html#u15",
-    "title": "Unresolved",
-    "section": "U15. Stale hard-coded text and suspicious items",
-    "text": "U15. Stale hard-coded text and suspicious items\n\nSeverity: Low · Area: Task 1 and Task 2 pages\n\nProblem.\n\nTask 2 score-distribution caption: says 2,394 scores; there are 3,066.\nTask 2 random-slope callout: states a position-slope SD of 0.006 that no code on the page computes; a refit gives 0.013.\nTask 2 estimate figure: x-limit hard-coded at 0.58, while the lowest interval bound is 0.589.\nTask 1 items below chance: MMN_19 as target has 41.6% accuracy, and one pair is at 9% (n = 11).\n\nFix.\n\nCompute the numbers and limits in code.\nCheck the below-chance items for mislabeled or ambiguous stimuli.",
-    "crumbs": [
-      "Statistical analysis",
-      "Unresolved (13)"
+      "Unresolved (2)"
     ]
   },
   {
@@ -279,10 +180,131 @@
     "href": "fixed.html",
     "title": "Fixed",
     "section": "",
-    "text": "Issue\nArea\n\n\n\n\nCritical\nF9. Completion times were joined to the wrong trials\nTask 1, Task 2\n\n\nCritical\nF1. A304 aesthetic-rating labels were wrong\nRatings\n\n\nHigh\nF2. Task 1 ignored repeated comparison items\nTask 1\n\n\nHigh\nF3. Analytic sample definition\nData\n\n\nModerate\nF4. Feedback codes filed under the wrong participant\nFeedback\n\n\nModerate\nF5. Obsolete pilot analysis file\nProject\n\n\nLow\nF6. Task 2 descriptive error bars\nTask 2\n\n\nLow\nF7. Reduced sample-figure caption\nSample\n\n\nLow\nF8. Outdated sample sizes in text\nTask 2, manuscript",
+    "text": "Issue\nArea\nFixed on\n\n\n\n\nCritical\nF9. Completion times were joined to the wrong trials\nTask 1, Task 2\n2026-11-16\n\n\nCritical\nF1. A304 aesthetic-rating labels were wrong\nRatings\n2026-10-28\n\n\nHigh\nF10. A303 measures likelihood of use, not helpfulness\nRatings, manuscript\n2026-11-18\n\n\nHigh\nF11. A301 was asked after Task 1 only\nRatings, manuscript\n2026-11-18\n\n\nHigh\nF12. Task 1 text overstated weak effects\nTask 1\n2026-11-18\n\n\nHigh\nF3. Analytic sample definition\nData\n2026-11-16\n\n\nHigh\nF2. Task 1 ignored repeated comparison items\nTask 1\n2026-11-03\n\n\nModerate\nF13. Task 2 “detection score” was μ, not the expected score\nTask 2\n2026-11-18\n\n\nModerate\nF14. Multiplicity was handled inconsistently\nAll\n2026-11-18\n\n\nModerate\nF15. Rating models: proportional odds and random slopes\nRatings\n2026-11-18\n\n\nModerate\nF16. Composite ranking and “leader” highlighting\nRatings\n2026-11-18\n\n\nModerate\nF17. Time outliers and the time estimand\nTask 1, Task 2\n2026-11-18\n\n\nModerate\nF18. Fixed item order in the rating questions\nRatings, manuscript\n2026-11-18\n\n\nModerate\nF4. Feedback codes filed under the wrong participant\nFeedback\n2026-11-16\n\n\nModerate\nF5. Obsolete pilot analysis file\nProject\n2026-10-28\n\n\nLow\nF19. Sample definition and data quality\nData\n2026-11-18\n\n\nLow\nF20. Stale hard-coded text and suspicious items\nTask 1, Task 2\n2026-11-18\n\n\nLow\nF8. Outdated sample sizes in text\nTask 2, manuscript\n2026-11-16\n\n\nLow\nF6. Task 2 descriptive error bars\nTask 2\n2026-11-03\n\n\nLow\nF7. Reduced sample-figure caption\nSample\n2026-10-28\nDates are when the fix was committed (from Git history).",
     "crumbs": [
       "Statistical analysis",
-      "Fixed (9)"
+      "Fixed (20)"
+    ]
+  },
+  {
+    "objectID": "fixed.html#f10",
+    "href": "fixed.html#f10",
+    "title": "Fixed",
+    "section": "F10. A303 measures likelihood of use, not helpfulness (was U3)",
+    "text": "F10. A303 measures likelihood of use, not helpfulness (was U3)\n\nSeverity: High · Area: Subjective ratings, manuscript\n\nProblem. A303 (survey label “Usage material”, scale “very unlikely” to “very likely”) was called “Helpful for representation” on the Subjective page and in journal.typ.\nResolution (18 Nov 2026). The item wording is: “I would prefer to use this visualization for representing signal mean and standard error in a publication or presentation.”\n\nSubjective page. A303 is now labelled “Would use in publication or presentation” in tables, figures (panel title “Would use in publication”) and text. A new Rating items table lists each item’s code, wording or survey label, response scale, and when it was asked.\nManuscript. Task 3 now quotes the A303 wording and its likelihood scale.\nFigures page. The alt texts are updated.",
+    "crumbs": [
+      "Statistical analysis",
+      "Fixed (20)"
+    ]
+  },
+  {
+    "objectID": "fixed.html#f11",
+    "href": "fixed.html#f11",
+    "title": "Fixed",
+    "section": "F11. A301 was asked after Task 1 only (was U4)",
+    "text": "F11. A301 was asked after Task 1 only (was U4)\n\nSeverity: High · Area: Subjective ratings, manuscript\n\nProblem. A301 (“Helpful for comparison”) was answered right after Task 1, and A302–A304 after Task 2. The manuscript Procedure placed all ratings after both tasks.\nResolution (18 Nov 2026).\n\nManuscript. The Procedure now says that participants rated helpfulness for comparison after Task 1 and gave the other three ratings after Task 2. Task 3 states the same, and the Limitations section mentions the different timing.\nSubjective page. The Rating items table has an “Asked” column.\nComposite. The equal-weight composite that mixed the two time points is removed (F16).",
+    "crumbs": [
+      "Statistical analysis",
+      "Fixed (20)"
+    ]
+  },
+  {
+    "objectID": "fixed.html#f12",
+    "href": "fixed.html#f12",
+    "title": "Fixed",
+    "section": "F12. Task 1 text overstated weak effects (was U5)",
+    "text": "F12. Task 1 text overstated weak effects (was U5)\n\nSeverity: High · Area: Task 1 reporting\n\nProblem. The text said Bivariate corner and Bivariate range “were associated with lower odds” of a correct answer, although every interval included 1 and the omnibus test gave p = .056.\nResolution (18 Nov 2026). All accuracy prose on the Task 1 page comes from one helper (task1_effect_sentence). A difference is called lower or higher only when its interval excludes the null; otherwise the text says the interval includes it and names the weakest estimates. This covers the coefficient and conditional-logit conclusions and a new section, “Summary of the Task 1 accuracy evidence”.\nCurrent numbers.\n\nOmnibus test: χ²(6) = 12.30, p = .056.\nPopulation-average contrasts with Basic (Dunnett-adjusted):\n\nBivariate range: −4.4 pp [−10.6, +1.9], p = .27.\nBivariate corner: −4.2 pp [−10.5, +2.1], p = .31.\n\nOdds ratios (Dunnett-adjusted): Bivariate range 0.71 [0.44, 1.15]; Bivariate corner 0.72 [0.45, 1.16].\nThe page calls the evidence weak: Range and Corner may carry a small accuracy cost that the study cannot tell apart from no difference.",
+    "crumbs": [
+      "Statistical analysis",
+      "Fixed (20)"
+    ]
+  },
+  {
+    "objectID": "fixed.html#f13",
+    "href": "fixed.html#f13",
+    "title": "Fixed",
+    "section": "F13. Task 2 “detection score” was μ, not the expected score (was U6)",
+    "text": "F13. Task 2 “detection score” was μ, not the expected score (was U6)\n\nSeverity: Moderate · Area: Task 2 reporting\n\nProblem. emmeans(type = \"response\") on the ordered-beta model returns μ, the mean of the continuous part. It ignores the probability mass at 0 and 1.\nResolution (18 Nov 2026). The page now reports E[y] = P(1) + (1 − P(0) − P(1)) μ. It is computed from the glmmTMB cutpoints (psi), which were checked against the observed shares of exact 0s and 1s. Intervals come from 4,000 draws of the model parameters. The estimates are averaged over the participant, stimulus and image effects (primary), and also given with those effects set to zero. Tables, the figure and the text use E[y].\n\n\n\nBasic topoplot\nValue\n\n\n\n\nμ (old label “estimated detection score”)\n68.3%\n\n\nE[y], random effects at zero\n73.3%\n\n\nE[y], averaged over random effects\n71.2% [66.0, 75.7]\n\n\nObserved mean\n69.8%\n\n\n\n(The audit’s μ of 67.6% came from a fit without the image intercept.)",
+    "crumbs": [
+      "Statistical analysis",
+      "Fixed (20)"
+    ]
+  },
+  {
+    "objectID": "fixed.html#f14",
+    "href": "fixed.html#f14",
+    "title": "Fixed",
+    "section": "F14. Multiplicity was handled inconsistently (was U8)",
+    "text": "F14. Multiplicity was handled inconsistently (was U8)\n\nSeverity: Moderate · Area: All inferential results\n\nProblem. There were no primary contrasts, and the same contrast appeared under different adjustments. For example, Task 2 Bivariate corner vs Basic was p = .070 in the Tukey table, an interval excluding zero in the Dunnett figure, and p = .005 in the coefficient table.\nResolution (18 Nov 2026). One rule on every page: the primary family is the six contrasts against Basic topoplot within each outcome, Dunnett-adjusted. Captions name the adjustment.\n\n\n\n\n\n\n\n\nPage\nPrimary contrasts\nOther tables\n\n\n\n\nTask 1\nSimultaneous (max-|z|) intervals for accuracy differences; Dunnett odds ratios (mvt); conditional logit with Dunnett intervals\nCoefficient p labelled “unadjusted”\n\n\nTask 2\nDunnett on the logit scale; simultaneous intervals for E[y] differences\nTukey all-pairs in a collapsed “secondary / exploratory” callout; coefficient p labelled “unadjusted”\n\n\nTime\nDunnett ratios to Basic for both tasks\nTime–accuracy p labelled “unadjusted”\n\n\nRatings\nDunnett (mvt) within each item\n—\n\n\n\nTask 2 Bivariate corner vs Basic is now reported once: −3.2 pp [−8.3, +1.8], Dunnett p = .351. With the image intercept in the model, no Task 2 contrast reaches adjusted p &lt; .05.",
+    "crumbs": [
+      "Statistical analysis",
+      "Fixed (20)"
+    ]
+  },
+  {
+    "objectID": "fixed.html#f15",
+    "href": "fixed.html#f15",
+    "title": "Fixed",
+    "section": "F15. Rating models: proportional odds and random slopes (was U9)",
+    "text": "F15. Rating models: proportional odds and random slopes (was U9)\n\nSeverity: Moderate · Area: Subjective-rating models\n\nResolution (18 Nov 2026). A new section on the Subjective page, “Model checks and sensitivity analyses”, covers three points.\n\nProportional odds. A likelihood-ratio test (fixed-effects clm with and without visualization-specific thresholds) rejects proportional odds for all 4 items (p &lt; .001 to .011). The page therefore reports model-smoothed mean ratings (largest difference from the raw means: 0.08) and does not interpret odds ratios.\nRandom slopes. Each participant rated each visualization once per item, so (1 + vistype | ID) would have one observation per random effect. It cannot be separated from the latent observation-level error, so the random intercept is the maximal identifiable structure. The page explains this.\nSensitivity. A linear mixed model rating ~ vistype + (1 | ID) with the same Dunnett contrasts agrees with the ordinal model on whether each interval excludes zero for 24 of 24 contrasts.",
+    "crumbs": [
+      "Statistical analysis",
+      "Fixed (20)"
+    ]
+  },
+  {
+    "objectID": "fixed.html#f16",
+    "href": "fixed.html#f16",
+    "title": "Fixed",
+    "section": "F16. Composite ranking and “leader” highlighting (was U10)",
+    "text": "F16. Composite ranking and “leader” highlighting (was U10)\n\nSeverity: Moderate · Area: Subjective ratings\n\nResolution (18 Nov 2026).\n\nThe “Sum of mean ratings” column is removed. The page explains why: the items measure different things (F10) and were asked at different times (F11).\nis_leader is replaced by excludes_zero. Red now marks contrasts whose Dunnett-adjusted interval excludes zero, for example Confidence intervals for comparison (+0.18 [−0.09, 0.45]) is no longer highlighted.\nA generated list under the figure names the contrasts that exclude zero. The page states that differences among the uncertainty visualizations were not tested, so it names no “best” visualization.",
+    "crumbs": [
+      "Statistical analysis",
+      "Fixed (20)"
+    ]
+  },
+  {
+    "objectID": "fixed.html#f17",
+    "href": "fixed.html#f17",
+    "title": "Fixed",
+    "section": "F17. Time outliers and the time estimand (was U11)",
+    "text": "F17. Time outliers and the time estimand (was U11)\n\nSeverity: Moderate · Area: Task 1 and Task 2 completion time\n\nResolution (18 Nov 2026).\n\nOne rule for tables and models. Trial pages longer than 180 s are excluded, and the same trials feed the tables, the violin plot, the position checks, the time models and the time–accuracy models. The median page time is 12–13 s, so a page open for more than 3 minutes almost certainly means an interruption. The page says the cap was chosen after seeing the distributions.\n\n\n\n\nTrials removed\nParticipants affected\n\n\n\n\nTask 1\n19 of 3,066 (0.6%)\n11\n\n\nTask 2\n21 of 3,066 (0.7%)\n15\n\n\n\nThe old per-visualization 1.5 × IQR rule removed 8.3% and 7.3% of trials, and only from the tables.\nEstimand. Model estimates are labelled “Geometric mean time, typical participant (s)” everywhere, with a paragraph explaining the estimand.\nSensitivity (collapsed): refits with all trials and with the IQR rule. Only one result changes: Task 1 Uncertainty markers is slower than Basic under the cap and with all trials, but not under the IQR rule (1.09 [0.99, 1.20]). The time–accuracy findings hold under all three rules.\n\n\n\n\n\n\n\n\n\n\n\nFastest\nSlowest\nSlowest vs Basic (Dunnett)\n\n\n\n\nTask 1\nBasic 10.5 s\nBivariate corner 14.6 s, Adjacent 14.2 s\n1.39 [1.25, 1.54]\n\n\nTask 2\nBasic 10.2 s\nBivariate corner 16.3 s\n1.59 [1.45, 1.75]",
+    "crumbs": [
+      "Statistical analysis",
+      "Fixed (20)"
+    ]
+  },
+  {
+    "objectID": "fixed.html#f18",
+    "href": "fixed.html#f18",
+    "title": "Fixed",
+    "section": "F18. Fixed item order in the rating questions (was U13)",
+    "text": "F18. Fixed item order in the rating questions (was U13)\n\nSeverity: Moderate (design limitation) · Area: Subjective ratings, manuscript\n\nProblem. In every rating question the visualizations appear in the same order: Adjacent first, Basic always last.\nResolution (18 Nov 2026). This cannot be fixed after data collection, so it is reported:\n\na “Limitation: fixed item order” callout on the Subjective page;\nthe Task 3 description and a first paragraph in the Limitations section of journal.typ.",
+    "crumbs": [
+      "Statistical analysis",
+      "Fixed (20)"
+    ]
+  },
+  {
+    "objectID": "fixed.html#f19",
+    "href": "fixed.html#f19",
+    "title": "Fixed",
+    "section": "F19. Sample definition and data quality (was U14)",
+    "text": "F19. Sample definition and data quality (was U14)\n\nSeverity: Low · Area: Data preparation\n\nResolution (18 Nov 2026). A new script, scripts/data_quality.R, documents the sample definition and a quality screen. The Sample page has a new section, “Sample definition and data quality”, with all numbers generated inline.\n\nLaunch date. Records started before 2026-07-24 are excluded: 4 completed test runs, all from 2026-07-23. A further 179 records started after launch were not completed.\nQuality screen (flagged, not excluded): 5 participants with TIME_RSI &gt; 2 and 2 who gave the same rating to all 28 rating items; 7 in total.\nSensitivity (Subjective page): without these 7, the rating contrasts against Basic move by at most 0.07, and 0 of 24 intervals change their position relative to zero.",
+    "crumbs": [
+      "Statistical analysis",
+      "Fixed (20)"
+    ]
+  },
+  {
+    "objectID": "fixed.html#f20",
+    "href": "fixed.html#f20",
+    "title": "Fixed",
+    "section": "F20. Stale hard-coded text and suspicious items (was U15)",
+    "text": "F20. Stale hard-coded text and suspicious items (was U15)\n\nSeverity: Low · Area: Task 1 and Task 2 pages\n\nResolution (18 Nov 2026).\n\nTask 2 score-distribution caption. The count is now generated (3,066).\nTask 2 random-slope callout. The position-slope SD is now computed from a fitted (1 + position_c | ID) model: 0.013 per trial, against a fixed effect of 0.002. The unsupported claim that a diagonal visualization model “remains available” is removed.\nTask 2 axes. The estimate and gradient figures take their x-ranges from the data.\nTask 1 below-chance items. These are not mis-keyed: all 3,066 trials pass an answer-key consistency check. They are hard MMN targets that resemble some N170 maps. The diagnostic is a collapsed section on the Task 1 page; the follow-up is U16.",
+    "crumbs": [
+      "Statistical analysis",
+      "Fixed (20)"
     ]
   },
   {
@@ -290,10 +312,10 @@
     "href": "fixed.html#f9",
     "title": "Fixed",
     "section": "F9. Completion times were joined to the wrong trials",
-    "text": "F9. Completion times were joined to the wrong trials\n\nSeverity: Critical · Area: Task 1 and Task 2 completion time\n\nProblem. SoSci Survey records “Time spent on page xxx”, and each trial page keeps its questionnaire number when the display order is randomized. The pages treated TIME005:TIME025 and TIME029:TIME049 as times at presentation positions, so every time was attached to the wrong trial. All time tables, violin plots, time models, and the Task 1 time–accuracy model were wrong.\nResolution.\n\nTimes are now joined on trial = page − 4 (Task 1) and trial = page − 28 (Task 2). The presentation position comes from the logged display order.\nBoth analyses moved to the new Time analysis page. The Task 1 and Task 2 trial reconstructions are shared scripts (scripts/task1_trials.R, scripts/task2_trials.R).\nEach task has a visible check plot of time by presentation position. It shows the expected learning curve: the first trial shown is the slowest (Task 2: about 31 s, falling to about 11 s).\nThe Task 1 time–accuracy sentences are now generated from the confidence intervals.\n\nCorrected results (geometric-mean time for a typical participant):\n\n\n\n\nFastest\nSlowest\n\n\n\n\nTask 1\nBasic 10.6 s\nBivariate corner 15.3 s, Adjacent 14.6 s\n\n\nTask 2\nBasic 10.3 s\nBivariate corner 16.7 s\n\n\n\nTask 1 time–accuracy, corrected:\n\nWithin participants, slower trials were less often answered correctly.\nAfter adjustment, generally slower participants were more accurate.\n\nStill to confirm: the page numbering in the SoSci questionnaire itself. The data evidence for the new join is strong, but it has not been checked against the questionnaire.",
+    "text": "F9. Completion times were joined to the wrong trials\n\nSeverity: Critical · Area: Task 1 and Task 2 completion time\n\nProblem. SoSci Survey records “Time spent on page xxx”, and each trial page keeps its questionnaire number when the display order is randomized. The pages treated TIME005:TIME025 and TIME029:TIME049 as times at presentation positions, so every time was attached to the wrong trial. All time tables, violin plots, time models, and the Task 1 time–accuracy model were wrong.\nResolution.\n\nTimes are now joined on trial = page − 4 (Task 1) and trial = page − 28 (Task 2). The presentation position comes from the logged display order.\nBoth analyses moved to the new Time analysis page. The Task 1 and Task 2 trial reconstructions are shared scripts (scripts/task1_trials.R, scripts/task2_trials.R).\nEach task has a visible check plot of time by presentation position. It shows the expected learning curve: the first trial shown is the slowest (Task 2: about 31 s, falling to about 11 s).\nThe Task 1 time–accuracy sentences are now generated from the confidence intervals.\n\nCorrected results (geometric-mean time for a typical participant; updated 18 Nov 2026 for the 180 s outlier cap, see F17):\n\n\n\n\nFastest\nSlowest\n\n\n\n\nTask 1\nBasic 10.5 s\nBivariate corner 14.6 s, Adjacent 14.2 s\n\n\nTask 2\nBasic 10.2 s\nBivariate corner 16.3 s\n\n\n\nTask 1 time–accuracy, corrected:\n\nWithin participants, slower trials were less often answered correctly.\nAfter adjustment, generally slower participants were more accurate.\n\nStill to confirm: the page numbering in the SoSci questionnaire itself. The data evidence for the new join is strong, but it has not been checked against the questionnaire.",
     "crumbs": [
       "Statistical analysis",
-      "Fixed (9)"
+      "Fixed (20)"
     ]
   },
   {
@@ -304,7 +326,7 @@
     "text": "F1. A304 aesthetic-rating labels were wrong\n\nSeverity: Critical · Area: Subjective ratings\n\nProblem. In the export, A304 is stored in the display order but with nonsequential suffixes (A304_01, _06, _02, _03, _04, _05, _07). Reading the suffix as the display position mislabeled five of the seven aesthetic conditions.\nResolution.\n\npages/subjective.qmd uses an explicit column key for each question.\nIt checks all 28 mappings against the labels embedded in the export and stops rendering if they disagree.\nAll 28 mappings were re-verified at N = 146.",
     "crumbs": [
       "Statistical analysis",
-      "Fixed (9)"
+      "Fixed (20)"
     ]
   },
   {
@@ -315,7 +337,7 @@
     "text": "F2. Task 1 ignored repeated comparison items\n\nSeverity: High · Area: Task 1 accuracy model\n\nProblem. The accuracy model treated responses as independent given the participant, although target and distractor images recur across participants.\nResolution.\n\nThe primary model is correct ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | wrong_image).\nReported probabilities are averaged over the three ERP patterns and integrated over the participant, target, and distractor distributions.\nThe Gauss–Hermite integration matches numerical integration to within 2 × 10⁻⁷.\nA participant-specific position slope was singular and is documented.",
     "crumbs": [
       "Statistical analysis",
-      "Fixed (9)"
+      "Fixed (20)"
     ]
   },
   {
@@ -326,7 +348,7 @@
     "text": "F3. Analytic sample definition\n\nSeverity: High · Area: Data preparation\n\nProblem. Inclusion does not require the survey’s formal completion marker.\nResolution.\n\nThe analytic sample is defined as all respondents who completed every primary endpoint: 146 at present.\nAll have 21 Task 1 responses, 21 Task 2 responses, and 28 ratings.\n59 are marked unfinished but stopped after the last outcome page.\nDescribe them as endpoint-complete respondents rather than as formal completions.",
     "crumbs": [
       "Statistical analysis",
-      "Fixed (9)"
+      "Fixed (20)"
     ]
   },
   {
@@ -337,7 +359,7 @@
     "text": "F4. Feedback codes filed under the wrong participant\n\nSeverity: Moderate · Area: Open-ended feedback\n\nProblem.\n\nFour coded units written by participant 62 were filed under participant 64.\nOne unit for participant 77 paraphrased rather than quoted the response.\n\nResolution.\n\nThe four units were reassigned to ID 62.\nThe paraphrase was replaced with the participant’s words (“not red-green color blindness”).\nAll 298 coded units now match their participant’s response, which scripts/check_data_refresh.R checks automatically.",
     "crumbs": [
       "Statistical analysis",
-      "Fixed (9)"
+      "Fixed (20)"
     ]
   },
   {
@@ -348,7 +370,7 @@
     "text": "F5. Obsolete pilot analysis file\n\nSeverity: Moderate · Area: Project structure\n\nProblem. A root Analysis.qmd from the pilot referenced missing files and old variables, and its rating logic would have recreated the A304 error.\nResolution. The file was removed. Its contents remain in Git history.",
     "crumbs": [
       "Statistical analysis",
-      "Fixed (9)"
+      "Fixed (20)"
     ]
   },
   {
@@ -359,7 +381,7 @@
     "text": "F6. Task 2 descriptive error bars\n\nSeverity: Low · Area: Task 2 descriptive figure\n\nProblem. The figure centred a standard deviation on the median and called the outcome “accuracy”.\nResolution. The figure shows participant-level means with 95% confidence intervals and calls the outcome a detection score.",
     "crumbs": [
       "Statistical analysis",
-      "Fixed (9)"
+      "Fixed (20)"
     ]
   },
   {
@@ -370,7 +392,7 @@
     "text": "F7. Reduced sample-figure caption\n\nSeverity: Low · Area: Sample page\n\nProblem. The reduced figure dropped small categories while its caption said they were grouped into “Other”.\nResolution.\n\nCountries below 2% and software below 4% are grouped into “Other”.\nEach respondent is counted once in the software “Other”.\nThe caption states the thresholds.",
     "crumbs": [
       "Statistical analysis",
-      "Fixed (9)"
+      "Fixed (20)"
     ]
   },
   {
@@ -378,10 +400,10 @@
     "href": "fixed.html#f8",
     "title": "Fixed",
     "section": "F8. Outdated sample sizes in text",
-    "text": "F8. Outdated sample sizes in text\n\nSeverity: Low · Area: Task 2 page, manuscript\n\nProblem. Text still described the earlier sample of 114 participants.\nResolution.\n\nThe Task 2 sample-size sentence is now computed from the data.\njournal.typ reports 146 participants and 142 valid country responses.\nThe exact-peak description no longer claims that exactly one region always scores 1.\n\nThe remaining hard-coded values are listed in U15.",
+    "text": "F8. Outdated sample sizes in text\n\nSeverity: Low · Area: Task 2 page, manuscript\n\nProblem. Text still described the earlier sample of 114 participants.\nResolution.\n\nThe Task 2 sample-size sentence is now computed from the data.\njournal.typ reports 146 participants and 142 valid country responses.\nThe exact-peak description no longer claims that exactly one region always scores 1.\n\nThe remaining hard-coded values were fixed in F20.",
     "crumbs": [
       "Statistical analysis",
-      "Fixed (9)"
+      "Fixed (20)"
     ]
   },
   {

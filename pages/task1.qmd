@@ -712,9 +712,14 @@ ggsave_st(
 ### Accuracy differences relative to Basic topoplot
 
 - These comparisons estimate the population-average accuracy difference between each
-  visualization and the basic topoplot. Confidence intervals crossing zero indicate
-  that the corresponding visualization is not clearly different from Basic at the 95%
-  confidence level.
+  visualization and the basic topoplot. They are the **primary comparisons** for Task 1.
+
+- **Multiplicity.** The six comparisons with Basic form one family. Their intervals are
+  simultaneous 95% confidence intervals with a Dunnett-type (max-|*z*|) adjustment: the
+  critical value is the 95th percentile of the largest absolute standardized deviation
+  across the six contrasts in the 10,000 simulated coefficient sets. The adjusted
+  *p* values use the same distribution. An interval that crosses zero means that the
+  visualization is not clearly different from Basic after this adjustment.
 
 ```{r task1-basic-contrast-figure}
 #| cache: false
@@ -728,21 +733,50 @@ task1_contrast_draws <- sweep(
 task1_contrast_estimates <-
   task1_estimand_comparison$population_average -
   task1_estimand_comparison$population_average[task1_basic_reference]
-task1_contrast_intervals <- apply(
-  task1_contrast_draws,
-  2,
-  quantile,
-  probs = c(0.025, 0.975),
-  na.rm = TRUE
+
+# Dunnett-type simultaneous inference for the six comparisons with Basic:
+# standardize each simulated contrast, take the largest absolute value across the
+# six contrasts in every draw, and use its 95th percentile as the critical value.
+task1_contrast_columns <- setdiff(
+  seq_along(task1_vistype_levels),
+  task1_basic_reference
 )
+task1_contrast_sd <- apply(
+  task1_contrast_draws[, task1_contrast_columns, drop = FALSE],
+  2,
+  sd
+)
+task1_contrast_z_draws <- sweep(
+  sweep(
+    task1_contrast_draws[, task1_contrast_columns, drop = FALSE],
+    2,
+    colMeans(task1_contrast_draws[, task1_contrast_columns, drop = FALSE])
+  ),
+  2,
+  task1_contrast_sd,
+  FUN = "/"
+)
+task1_max_abs_z <- apply(abs(task1_contrast_z_draws), 1, max)
+task1_dunnett_critical <- unname(quantile(task1_max_abs_z, 0.95))
+task1_contrast_z <-
+  task1_contrast_estimates[task1_contrast_columns] / task1_contrast_sd
 
 task1_basic_contrasts <- tibble::tibble(
-  vistype = factor(task1_vistype_levels, levels = task1_vistype_levels),
-  difference = task1_contrast_estimates,
-  lower_ci = task1_contrast_intervals[1, ],
-  upper_ci = task1_contrast_intervals[2, ]
+  vistype = factor(
+    task1_vistype_levels[task1_contrast_columns],
+    levels = task1_vistype_levels
+  ),
+  difference = task1_contrast_estimates[task1_contrast_columns],
+  standard_error = task1_contrast_sd,
+  lower_ci = difference - task1_dunnett_critical * standard_error,
+  upper_ci = difference + task1_dunnett_critical * standard_error,
+  p_unadjusted = 2 * pnorm(abs(task1_contrast_z), lower.tail = FALSE),
+  p_adjusted = vapply(
+    abs(task1_contrast_z),
+    \(z) mean(task1_max_abs_z >= z),
+    numeric(1)
+  )
 ) |>
-  filter(vistype != "basic") |>
   mutate(
     vistype = factor(vistype, levels = levels(accuracy_estimates$vistype))
   )
@@ -806,7 +840,7 @@ comparison_accuracy_contrast_figure <- ggplot(
   ) +
   labs(
     title = "Comparison task accuracy differences",
-    subtitle = "Population-average contrasts with 95% confidence intervals",
+    subtitle = "Population-average contrasts, Dunnett-adjusted simultaneous 95% CIs",
     x = NULL,
     y = NULL
   ) +
@@ -864,11 +898,49 @@ ggsave_st(
 )
 ```
 
+```{r task1-basic-contrast-table}
+#| cache: false
+task1_basic_contrasts |>
+  arrange(desc(vistype)) |>
+  transmute(
+    vistype = paste(table_vistype(vistype), "vs Basic topoplot"),
+    difference = sprintf("%+.1f", 100 * difference),
+    interval = sprintf("[%+.1f, %+.1f]", 100 * lower_ci, 100 * upper_ci),
+    p_adjusted = format_pvalue_html(p_adjusted, eps = 0.0001),
+    p_unadjusted = format.pval(p_unadjusted, digits = 2, eps = 0.001)
+  ) |>
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    align = c("l", "r", "r", "r", "r"),
+    col.names = c(
+      "Comparison",
+      "Difference (pp)",
+      "Simultaneous 95% CI (pp)",
+      "p (Dunnett-adjusted)",
+      "p (unadjusted)"
+    ),
+    caption = paste(
+      "Primary Task 1 comparisons: population-average accuracy differences from",
+      "Basic topoplot, in percentage points. Intervals and adjusted p values are",
+      "Dunnett-type (max-|z|) adjusted for the six comparisons with Basic.",
+      "Adjusted values with p < .05 are shown in dark red."
+    ),
+    table.attr = kable_table_attributes
+  )
+```
+
 ### Model coefficients
 
 - The coefficient table reports each visualization relative to the basic topoplot and
   reports the ERP-pattern and linear presentation-position effects. Coefficients are
-  expressed as log odds.
+  expressed as log odds. Its *p* values are **unadjusted** Wald tests of single
+  coefficients.
+
+- The second table gives the same six visualization comparisons as odds ratios with
+  Dunnett-adjusted simultaneous intervals and *p* values (multivariate-*t* adjustment in
+  `emmeans`, six comparisons with Basic). This is the odds-ratio counterpart of the
+  primary contrasts above.
 
 ```{r}
 model_order <- glmmTMB(
@@ -925,11 +997,12 @@ task1_coefficient_results |>
       "Estimate (log odds)",
       "Standard error",
       "z value",
-      "p value"
+      "p value (unadjusted)"
     ),
     caption = paste(
       "Fixed effects for the comparison-task accuracy model.",
-      "Values with p < .05 are shown in dark red."
+      "p values are unadjusted Wald tests of single coefficients;",
+      "values with p < .05 are shown in dark red."
     ),
     table.attr = kable_table_attributes
   )
@@ -957,40 +1030,184 @@ task1_range_result <- task1_coefficient_results |>
   filter(term == "vistypebivariate_range")
 task1_p3_result <- task1_coefficient_results |>
   filter(term == "patternP3")
-task1_other_visual_p_min <- task1_coefficient_results |>
-  filter(
-    term %in% c(
-      "vistypeadjacent",
-      "vistypeanimation",
-      "vistypetriple_CI",
-      "vistypeuncert_markers"
-    )
+task1_n170_result <- task1_coefficient_results |>
+  filter(term == "patternN170")
+task1_position_result <- task1_coefficient_results |>
+  filter(term == "position_c")
+
+# Text helpers: every accuracy sentence on this page is generated from the
+# estimates and their intervals. A difference is described as lower or higher
+# only when its interval excludes the null value (1 for odds ratios, 0 for
+# differences); otherwise the text says that the data cannot distinguish it from
+# no difference.
+task1_format_p <- function(p) {
+  formatted <- format.pval(p, digits = 2, eps = 0.001)
+  if_else(startsWith(formatted, "<"), formatted, paste("=", formatted))
+}
+task1_number_words <- c("one", "two", "three", "four", "five", "six")
+
+task1_effect_sentence <- function(
+  labels, estimate, lower, upper, p,
+  scale = c("odds_ratio", "difference"),
+  interval_text = "95% CI",
+  p_text = "*p*",
+  outcome = "the odds of a correct response were"
+) {
+  scale <- match.arg(scale)
+  null_value <- if (scale == "odds_ratio") 1 else 0
+  describe <- function(i) {
+    if (scale == "odds_ratio") {
+      sprintf(
+        "%s (OR = %.2f, %s %.2f–%.2f, %s %s)",
+        labels[i], estimate[i], interval_text, lower[i], upper[i],
+        p_text, task1_format_p(p[i])
+      )
+    } else {
+      sprintf(
+        "%s (%+.1f pp, %s %+.1f to %+.1f pp, %s %s)",
+        labels[i], 100 * estimate[i], interval_text, 100 * lower[i],
+        100 * upper[i], p_text, task1_format_p(p[i])
+      )
+    }
+  }
+  lower_set <- which(upper < null_value)
+  higher_set <- which(lower > null_value)
+  unclear_set <- setdiff(seq_along(estimate), c(lower_set, higher_set))
+  sentences <- character()
+  if (length(lower_set) > 0) {
+    sentences <- c(sentences, paste0(
+      "Relative to Basic topoplot, ", outcome, " clearly lower for ",
+      knitr::combine_words(describe(lower_set)), "."
+    ))
+  }
+  if (length(higher_set) > 0) {
+    sentences <- c(sentences, paste0(
+      "Relative to Basic topoplot, ", outcome, " clearly higher for ",
+      knitr::combine_words(describe(higher_set)), "."
+    ))
+  }
+  if (length(unclear_set) == length(estimate)) {
+    sentences <- c(sentences, paste0(
+      "No visualization type differed clearly from Basic topoplot: all ",
+      task1_number_words[length(estimate)], " intervals included ",
+      null_value, "."
+    ))
+  } else if (length(unclear_set) > 0) {
+    sentences <- c(sentences, paste0(
+      "The intervals for the other ", task1_number_words[length(unclear_set)],
+      " visualization type", if (length(unclear_set) > 1) "s" else "",
+      " included ", null_value, "."
+    ))
+  }
+  # Name the unclear comparisons with the lowest point estimates, so that a
+  # suggestive but inconclusive difference is reported with its uncertainty.
+  below_null <- unclear_set[estimate[unclear_set] < null_value]
+  below_null <- below_null[order(estimate[below_null])]
+  below_null <- head(below_null, 2)
+  if (length(below_null) > 0) {
+    sentences <- c(sentences, paste0(
+      "The lowest point estimate", if (length(below_null) > 1) "s were" else " was",
+      " for ", knitr::combine_words(describe(below_null)),
+      ", but ", if (length(below_null) > 1) "these intervals" else "this interval",
+      " also included ", null_value,
+      ", so the data are compatible both with no difference and with a ",
+      if (scale == "odds_ratio") "moderate reduction in the odds." else
+        "moderate accuracy cost."
+    ))
+  }
+  paste(sentences, collapse = " ")
+}
+
+task1_visual_coefficients <- task1_coefficient_results |>
+  filter(startsWith(term, "vistype"))
+
+task1_coefficient_sentence <- task1_effect_sentence(
+  labels = sub(" vs Basic topoplot$", "", task1_visual_coefficients$term_label),
+  estimate = task1_visual_coefficients$odds_ratio,
+  lower = task1_visual_coefficients$lower_or,
+  upper = task1_visual_coefficients$upper_or,
+  p = task1_visual_coefficients$p_value,
+  interval_text = "unadjusted 95% CI",
+  p_text = "unadjusted *p*"
+)
+
+task1_pattern_sentence <- function(result, label) {
+  claim <- if (result$lower_or > 1) {
+    "had higher odds of a correct response than MMN trials"
+  } else if (result$upper_or < 1) {
+    "had lower odds of a correct response than MMN trials"
+  } else {
+    "did not differ clearly from MMN trials"
+  }
+  sprintf(
+    "%s trials %s (OR = %.2f, 95%% CI %.2f–%.2f, *p* %s)",
+    label, claim,
+    result$odds_ratio, result$lower_or, result$upper_or,
+    task1_format_p(result$p_value)
+  )
+}
+```
+
+```{r task1-dunnett-odds-ratios}
+#| cache: false
+# Dunnett-adjusted odds ratios for the six comparisons with Basic topoplot.
+# There is no visualization-by-pattern interaction, so these odds ratios do not
+# depend on the pattern or position at which they are evaluated.
+set.seed(20261118)
+task1_dunnett_or <- emmeans::emmeans(task1_fit, ~ vistype) |>
+  emmeans::contrast(method = "trt.vs.ctrl", ref = "basic", adjust = "mvt") |>
+  summary(infer = TRUE, type = "response") |>
+  as.data.frame() |>
+  mutate(
+    vistype = sub(" / basic$", "", as.character(contrast)),
+    label = table_vistype(vistype)
+  )
+
+task1_dunnett_or |>
+  transmute(
+    comparison = paste(label, "vs Basic topoplot"),
+    odds_ratio = sprintf("%.2f", odds.ratio),
+    interval = sprintf("[%.2f, %.2f]", asymp.LCL, asymp.UCL),
+    p_value = format_pvalue_html(p.value)
   ) |>
-  summarise(value = min(p_value)) |>
-  pull(value)
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    align = c("l", "r", "r", "r"),
+    col.names = c(
+      "Comparison",
+      "Odds ratio",
+      "Simultaneous 95% CI",
+      "p (Dunnett-adjusted)"
+    ),
+    caption = paste(
+      "Odds ratios of a correct response relative to Basic topoplot, with",
+      "Dunnett-adjusted (multivariate-t) simultaneous intervals and p values for",
+      "the six comparisons with Basic. Values with p < .05 are shown in dark red."
+    ),
+    table.attr = kable_table_attributes
+  )
+
+task1_dunnett_or_sentence <- task1_effect_sentence(
+  labels = task1_dunnett_or$label,
+  estimate = task1_dunnett_or$odds.ratio,
+  lower = task1_dunnett_or$asymp.LCL,
+  upper = task1_dunnett_or$asymp.UCL,
+  p = task1_dunnett_or$p.value,
+  interval_text = "simultaneous 95% CI",
+  p_text = "adjusted *p*"
+)
 ```
 
 #### Coefficient conclusion
 
-Relative to Basic topoplot, Bivariate corners were associated with lower odds of a
-correct response (odds ratio [OR] =
-`r sprintf("%.2f", task1_corner_result$odds_ratio)`, 95% CI
-`r sprintf("%.2f", task1_corner_result$lower_or)`--`r sprintf("%.2f", task1_corner_result$upper_or)`,
-*p* = `r format.pval(task1_corner_result$p_value, digits = 3, eps = 0.001)`), as was
-Bivariate range (OR = `r sprintf("%.2f", task1_range_result$odds_ratio)`, 95% CI
-`r sprintf("%.2f", task1_range_result$lower_or)`--`r sprintf("%.2f", task1_range_result$upper_or)`,
-*p* = `r format.pval(task1_range_result$p_value, digits = 3, eps = 0.001)`). 
+**Unadjusted coefficients.** `r task1_coefficient_sentence`
 
-The other
-four visualization contrasts did not show clear differences from Basic topoplot
-(all *p* ≥ `r sprintf("%.3f", task1_other_visual_p_min)`).
+**Dunnett-adjusted odds ratios.** `r task1_dunnett_or_sentence`
 
-P3 trials had higher odds
-of a correct response than MMN trials (OR = `r sprintf("%.2f", task1_p3_result$odds_ratio)`,
-95% CI `r sprintf("%.2f", task1_p3_result$lower_or)`--`r sprintf("%.2f", task1_p3_result$upper_or)`,
-*p* = `r format.pval(task1_p3_result$p_value, digits = 3, eps = 0.001)`). These
-coefficient tests are unadjusted pairwise comparisons; the overall visualization-type
-test is reported below.
+**Covariates.** `r task1_pattern_sentence(task1_p3_result, "P3")`;
+`r task1_pattern_sentence(task1_n170_result, "N170")`. The overall
+visualization-type test is reported below.
 
 ### Model fit comparison
 
@@ -1349,20 +1566,48 @@ task1_bt_wald_p <- pchisq(
   lower.tail = FALSE
 )
 
+# Dunnett-type adjustment for the six comparisons with Basic, from the joint
+# normal distribution of the participant-clustered (robust) estimates.
+task1_bt_correlation <- cov2cor(task1_bt_visual_covariance)
+set.seed(20261118)
+task1_bt_critical <- mvtnorm::qmvnorm(
+  0.95,
+  tail = "both.tails",
+  corr = task1_bt_correlation
+)$quantile
+task1_bt_results <- task1_bt_results |>
+  mutate(
+    lower_adjusted = exp(estimate - task1_bt_critical * standard_error),
+    upper_adjusted = exp(estimate + task1_bt_critical * standard_error),
+    p_adjusted = vapply(
+      abs(z_value),
+      \(z) 1 - as.numeric(mvtnorm::pmvnorm(
+        lower = rep(-z, length(task1_bt_visual_terms)),
+        upper = rep(z, length(task1_bt_visual_terms)),
+        corr = task1_bt_correlation
+      )),
+      numeric(1)
+    )
+  )
+
 task1_bt_results |>
   transmute(
     Comparison = comparison,
-    `Odds ratio` = sprintf("%.3f", odds_ratio),
-    `Lower 95% CI` = sprintf("%.3f", lower_ci),
-    `Upper 95% CI` = sprintf("%.3f", upper_ci),
-    `p value` = format_pvalue_html(p_value)
+    `Odds ratio` = sprintf("%.2f", odds_ratio),
+    `95% CI (unadjusted)` = sprintf("[%.2f, %.2f]", lower_ci, upper_ci),
+    `p (unadjusted)` = format.pval(p_value, digits = 3, eps = 0.001),
+    `Simultaneous 95% CI` = sprintf("[%.2f, %.2f]", lower_adjusted, upper_adjusted),
+    `p (Dunnett-adjusted)` = format_pvalue_html(p_adjusted)
   ) |>
   knitr::kable(
     format = "html",
     escape = FALSE,
+    align = c("l", "r", "r", "r", "r", "r"),
     caption = paste(
       "Conditional logistic paired-choice sensitivity analysis.",
-      "Values with p < .05 are shown in dark red."
+      "Adjusted intervals and p values are Dunnett-type (multivariate normal)",
+      "adjusted for the six comparisons with Basic, using participant-clustered",
+      "standard errors. Adjusted values with p < .05 are shown in dark red."
     ),
     table.attr = kable_table_attributes
   )
@@ -1382,8 +1627,8 @@ model_table_note(
     "participant.</li>",
     "<li><strong>Interpretation:</strong> An odds ratio below 1 indicates weaker ",
     "preference for the matching candidate than under Basic topoplot.</li>",
-    "<li><strong>Multiplicity:</strong> Individual comparison p values and intervals ",
-    "are unadjusted; the joint robust Wald test is reported below.</li>",
+    "<li><strong>Multiplicity:</strong> Both unadjusted and Dunnett-adjusted values ",
+    "are shown; the joint robust Wald test is reported below.</li>",
     "</ul>"
   ),
   label = "Sensitivity-model details"
@@ -1402,23 +1647,319 @@ model_table_note(
 
 #### Sensitivity-analysis conclusion
 
+```{r task1-bt-text}
+#| include: false
+#| cache: false
+task1_bt_labels <- sub(" vs Basic topoplot$", "", task1_bt_results$comparison)
+task1_bt_unadjusted_sentence <- task1_effect_sentence(
+  labels = task1_bt_labels,
+  estimate = task1_bt_results$odds_ratio,
+  lower = task1_bt_results$lower_ci,
+  upper = task1_bt_results$upper_ci,
+  p = task1_bt_results$p_value,
+  interval_text = "unadjusted 95% CI",
+  p_text = "unadjusted *p*",
+  outcome = "the odds of selecting the matching candidate were"
+)
+task1_bt_adjusted_sentence <- task1_effect_sentence(
+  labels = task1_bt_labels,
+  estimate = task1_bt_results$odds_ratio,
+  lower = task1_bt_results$lower_adjusted,
+  upper = task1_bt_results$upper_adjusted,
+  p = task1_bt_results$p_adjusted,
+  interval_text = "simultaneous 95% CI",
+  p_text = "adjusted *p*",
+  outcome = "the odds of selecting the matching candidate were"
+)
+```
+
 After accounting for candidate-image attractiveness, option position, ERP pattern, and
 presentation position, the joint participant-clustered Wald test
-`r if (task1_bt_wald_p < 0.05) "indicated" else "did not indicate"` that visualization
-type changed preference for the matching candidate, $\chi^2(`r task1_bt_wald_df`) =
-`r sprintf("%.2f", task1_bt_wald_chisq)`$, *p* =
-`r format.pval(task1_bt_wald_p, digits = 3, eps = 0.001)`. Relative to Basic topoplot,
-the adjusted odds of selecting the matching candidate were lower for Bivariate corners
-(OR = `r sprintf("%.2f", task1_bt_corner_result$odds_ratio)`, 95% CI
-`r sprintf("%.2f", task1_bt_corner_result$lower_ci)`--`r sprintf("%.2f", task1_bt_corner_result$upper_ci)`,
-*p* = `r format.pval(task1_bt_corner_result$p_value, digits = 3, eps = 0.001)`) and
-Bivariate range (OR = `r sprintf("%.2f", task1_bt_range_result$odds_ratio)`, 95% CI
-`r sprintf("%.2f", task1_bt_range_result$lower_ci)`--`r sprintf("%.2f", task1_bt_range_result$upper_ci)`,
-*p* = `r format.pval(task1_bt_range_result$p_value, digits = 3, eps = 0.001)`). These
-individual intervals are unadjusted for the six comparisons. The sensitivity analysis
-therefore supports the primary model's pattern while separating matching performance
-from images' general tendency to be selected; it does not replace the primary
-mixed-effects accuracy analysis.
+`r if (task1_bt_wald_p < 0.05) "indicated" else "did not clearly indicate"` that
+visualization type changed preference for the matching candidate,
+$\chi^2(`r task1_bt_wald_df`) = `r sprintf("%.2f", task1_bt_wald_chisq)`$,
+*p* `r task1_format_p(task1_bt_wald_p)`.
+
+**Unadjusted.** `r task1_bt_unadjusted_sentence`
+
+**Dunnett-adjusted.** `r task1_bt_adjusted_sentence`
+
+The sensitivity analysis separates matching performance from images' general tendency
+to be selected; it does not replace the primary mixed-effects accuracy analysis.
+
+## Item-level diagnostic: target images below chance
+
+```{r task1-item-diagnostic}
+#| cache: false
+# Answer-key checks: the matching candidate is the target stimulus, its file is the
+# option named by the solution code, and "correct" equals answered == solution.
+task1_key_checks <- task1 |>
+  mutate(
+    matching_file = if_else(solution == 1L, opt1, opt2),
+    nonmatching_file = if_else(solution == 1L, opt2, opt1),
+    key_ok = stimulus == correct_image &
+      startsWith(basename(matching_file), paste0(correct_image, "_")) &
+      startsWith(basename(nonmatching_file), paste0(wrong_image, "_")) &
+      sub("_.*$", "", correct_image) == pattern &
+      correct == as.integer(answered == solution)
+  )
+task1_key_failures <- sum(!task1_key_checks$key_ok)
+
+task1_items <- task1 |>
+  mutate(distractor_pattern = sub("_.*$", "", wrong_image))
+
+task1_target_accuracy <- task1_items |>
+  group_by(stimulus, pattern) |>
+  summarise(
+    n = n(),
+    n_correct = sum(correct),
+    accuracy = mean(correct),
+    accuracy_vs_n170 = mean(correct[distractor_pattern == "N170"]),
+    n_vs_n170 = sum(distractor_pattern == "N170"),
+    accuracy_vs_p3 = mean(correct[distractor_pattern == "P3"]),
+    accuracy_vs_mmn = mean(correct[distractor_pattern == "MMN"]),
+    .groups = "drop"
+  ) |>
+  mutate(
+    lower = map2_dbl(n_correct, n, \(x, n) binom.test(x, n)$conf.int[1]),
+    upper = map2_dbl(n_correct, n, \(x, n) binom.test(x, n)$conf.int[2]),
+    p_vs_chance = map2_dbl(n_correct, n, \(x, n) binom.test(x, n, 0.5)$p.value)
+  ) |>
+  arrange(accuracy)
+
+task1_distractor_accuracy <- task1_items |>
+  group_by(wrong_image) |>
+  summarise(accuracy = mean(correct), n = n(), .groups = "drop")
+
+task1_below_chance <- task1_target_accuracy |>
+  filter(accuracy < 0.5) |>
+  left_join(
+    task1_distractor_accuracy |>
+      rename(stimulus = wrong_image, accuracy_as_distractor = accuracy,
+             n_as_distractor = n),
+    by = "stimulus"
+  )
+
+task1_pair_accuracy <- task1_items |>
+  group_by(stimulus, wrong_image) |>
+  summarise(n = n(), accuracy = mean(correct), .groups = "drop")
+task1_worst_pair <- task1_pair_accuracy |>
+  filter(n >= 10) |>
+  slice_min(accuracy, n = 1, with_ties = FALSE)
+
+task1_class_accuracy <- task1_items |>
+  group_by(pattern, distractor_pattern) |>
+  summarise(n = n(), accuracy = mean(correct), .groups = "drop")
+task1_mmn_vs_n170 <- task1_class_accuracy |>
+  filter(pattern == "MMN", distractor_pattern == "N170")
+task1_mmn_vs_p3 <- task1_class_accuracy |>
+  filter(pattern == "MMN", distractor_pattern == "P3")
+
+task1_below_chance |>
+  transmute(
+    stimulus,
+    n,
+    accuracy = sprintf("%.1f%% [%.1f, %.1f]", 100 * accuracy, 100 * lower, 100 * upper),
+    p_vs_chance = format.pval(p_vs_chance, digits = 2, eps = 0.001),
+    vs_n170 = sprintf("%.1f%% (n = %d)", 100 * accuracy_vs_n170, n_vs_n170),
+    vs_p3 = sprintf("%.1f%%", 100 * accuracy_vs_p3),
+    as_distractor = sprintf("%.1f%% (n = %d)", 100 * accuracy_as_distractor,
+                            n_as_distractor)
+  ) |>
+  knitr::kable(
+    format = "html",
+    align = c("l", "r", "r", "r", "r", "r", "r"),
+    col.names = c(
+      "Target image",
+      "Trials",
+      "Accuracy [exact 95% CI]",
+      "p vs 50% (binomial)",
+      "Accuracy vs N170 distractor",
+      "Accuracy vs P3 distractor",
+      "Accuracy when this image is the distractor"
+    ),
+    caption = "Target images with accuracy below 50%, all visualization types pooled.",
+    table.attr = kable_table_attributes
+  )
+
+task1_class_accuracy |>
+  transmute(
+    pattern,
+    distractor_pattern,
+    n,
+    accuracy = sprintf("%.1f%%", 100 * accuracy)
+  ) |>
+  knitr::kable(
+    format = "html",
+    align = c("l", "l", "r", "r"),
+    col.names = c("Target class", "Distractor class", "Trials", "Accuracy"),
+    caption = "Accuracy by target and distractor ERP class.",
+    table.attr = kable_table_attributes
+  )
+```
+
+```{r task1-item-sensitivity}
+#| include: false
+# Sensitivity refit without the trials whose target is below chance. Documented
+# here only; the primary analysis keeps every trial.
+task1_model_without_hard <- task1_model |>
+  filter(!stimulus %in% task1_below_chance$stimulus) |>
+  droplevels()
+task1_fit_without_hard <- update(task1_fit, data = task1_model_without_hard)
+task1_fit_without_hard_null <- update(
+  task1_fit_without_hard,
+  . ~ . - vistype
+)
+task1_without_hard_lrt <- anova(
+  task1_fit_without_hard_null,
+  task1_fit_without_hard
+)
+task1_without_hard_p <- task1_without_hard_lrt[["Pr(>Chisq)"]][2]
+task1_without_hard_or <- emmeans::emmeans(task1_fit_without_hard, ~ vistype) |>
+  emmeans::contrast(method = "trt.vs.ctrl", ref = "basic", adjust = "mvt") |>
+  summary(infer = TRUE, type = "response") |>
+  as.data.frame() |>
+  mutate(label = table_vistype(sub(" / basic$", "", as.character(contrast))))
+task1_without_hard_lowest <- task1_without_hard_or |>
+  slice_min(odds.ratio, n = 2)
+task1_without_hard_any <- any(
+  task1_without_hard_or$asymp.UCL < 1 | task1_without_hard_or$asymp.LCL > 1
+)
+task1_hard_vistype_counts <- task1_model |>
+  filter(stimulus %in% task1_below_chance$stimulus) |>
+  count(vistype)
+```
+
+::: {.callout-note collapse="true" title="Diagnostic: are the below-chance targets mis-keyed?"}
+**Question.** `r nrow(task1_below_chance)` target images were matched less often than
+chance across all visualization types: `r knitr::combine_words(sprintf("%s (%.1f%%, n = %d)", task1_below_chance$stimulus, 100 * task1_below_chance$accuracy, task1_below_chance$n))`.
+The lowest target–distractor combination with at least 10 trials was
+`r task1_worst_pair$stimulus` against `r task1_worst_pair$wrong_image`
+(`r sprintf("%.0f%%", 100 * task1_worst_pair$accuracy)` correct,
+n = `r task1_worst_pair$n`).
+
+**Answer key.** The key is internally consistent: in
+`r if (task1_key_failures == 0) "all" else paste("all but", task1_key_failures, "of the")`
+`r format(nrow(task1_key_checks), big.mark = ",")` trials, the matching candidate is the
+target image, its file name belongs to the target's ERP class and to the option named by
+the solution code, the nonmatching file is the logged distractor, and the recorded
+accuracy equals "answered = solution". There is no sign of a coding or key error.
+
+**Ambiguity, not mis-keying.** The difficulty is specific to N170 distractors. When the
+target was an MMN image, accuracy was
+`r sprintf("%.1f%%", 100 * task1_mmn_vs_n170$accuracy)` against an N170 distractor and
+`r sprintf("%.1f%%", 100 * task1_mmn_vs_p3$accuracy)` against a P3 distractor. For the
+below-chance targets, accuracy against N170 distractors was
+`r knitr::combine_words(sprintf("%.1f%% (%s)", 100 * task1_below_chance$accuracy_vs_n170, task1_below_chance$stimulus))`,
+but against P3 distractors it was
+`r knitr::combine_words(sprintf("%.1f%% (%s)", 100 * task1_below_chance$accuracy_vs_p3, task1_below_chance$stimulus))`.
+As distractors, the same images were almost never chosen
+(`r knitr::combine_words(sprintf("%.1f%% correct for %s", 100 * task1_below_chance$accuracy_as_distractor, task1_below_chance$stimulus))`).
+Visual inspection of the stimuli (`Experimental stimuli/stimuli/SE/`) agrees: the MMN
+and N170 class templates both show a frontal negativity with a posterior positivity.
+These two MMN images are weak single-subject maps (colour scales of ±1.5 and ±1.7 µV) whose positivity is
+lateral or temporal rather than posterior, whereas several N170 images (for example
+N170_7, N170_12, and N170_16) closely resemble the MMN template. Participants therefore
+picked the image that looked more like the template, which on these trials was the
+distractor.
+
+**Consequence for the analysis.** These trials are retained. Target and distractor
+random intercepts absorb image difficulty, and the trials with these targets were spread
+evenly over the visualization types (`r min(task1_hard_vistype_counts$n)`–`r max(task1_hard_vistype_counts$n)`
+trials per type), so hard items add noise rather than bias.
+
+*Exploratory refit.* Without the
+`r format(nrow(task1_model) - nrow(task1_model_without_hard), big.mark = ",")` trials
+whose target was one of these images, the likelihood-ratio test for visualization type
+gave *p* `r task1_format_p(task1_without_hard_p)` (all trials:
+*p* `r task1_format_p(task1_vistype_lrt[["Pr(>Chisq)"]])`). The two lowest odds ratios
+relative to Basic were
+`r knitr::combine_words(sprintf("%s (OR = %.2f, Dunnett-adjusted simultaneous 95%% CI %.2f–%.2f, adjusted *p* %s)", task1_without_hard_lowest$label, task1_without_hard_lowest$odds.ratio, task1_without_hard_lowest$asymp.LCL, task1_without_hard_lowest$asymp.UCL, task1_format_p(task1_without_hard_lowest$p.value)))`;
+`r if (task1_without_hard_any) "at least one adjusted interval excluded 1" else "all six adjusted intervals included 1"`.
+The excluded images were chosen after looking at the data, so this refit is exploratory
+and does not replace the primary analysis.
+
+In the manuscript, the stimulus section should state that some single-subject MMN and
+N170 topographies are similar, which makes MMN–N170 pairs harder.
+:::
+
+## Summary of the Task 1 accuracy evidence
+
+```{r task1-summary-text}
+#| include: false
+#| cache: false
+task1_primary_labels <- unname(
+  table_vistype(as.character(task1_basic_contrasts$vistype))
+)
+task1_primary_sentence <- task1_effect_sentence(
+  labels = task1_primary_labels,
+  estimate = task1_basic_contrasts$difference,
+  lower = task1_basic_contrasts$lower_ci,
+  upper = task1_basic_contrasts$upper_ci,
+  p = task1_basic_contrasts$p_adjusted,
+  scale = "difference",
+  interval_text = "simultaneous 95% CI",
+  p_text = "adjusted *p*",
+  outcome = "population-average accuracy was"
+)
+task1_any_primary_effect <- any(
+  task1_basic_contrasts$upper_ci < 0 | task1_basic_contrasts$lower_ci > 0
+)
+task1_lrt_p <- task1_vistype_lrt[["Pr(>Chisq)"]]
+
+# Do the two visualizations with the lowest primary estimates also have the two
+# lowest odds ratios in the conditional-logit sensitivity analysis?
+task1_lowest_primary <- task1_basic_contrasts |>
+  slice_min(difference, n = 2) |>
+  pull(vistype) |>
+  as.character()
+task1_lowest_bt <- task1_bt_results |>
+  mutate(vistype = c(
+    "adjacent", "animation", "bivariate_corner", "bivariate_range",
+    "triple_CI", "uncert_markers"
+  )) |>
+  slice_min(odds_ratio, n = 2) |>
+  pull(vistype)
+task1_lowest_consistent <- setequal(task1_lowest_primary, task1_lowest_bt)
+task1_lowest_labels <- knitr::combine_words(table_vistype(task1_lowest_primary))
+
+task1_interpretation <- if (task1_any_primary_effect) {
+  paste0(
+    "At least one primary contrast excludes zero after adjustment; see the ",
+    "sentences above for which visualization types and in which direction."
+  )
+} else {
+  paste0(
+    "Taken together, the evidence that any uncertainty visualization changed ",
+    "matching accuracy is weak: the overall test gave *p* ",
+    task1_format_p(task1_lrt_p),
+    ", and no Dunnett-adjusted contrast with Basic excluded zero. ",
+    if (task1_lowest_consistent) {
+      paste0(
+        task1_lowest_labels, " had the lowest estimates in both the primary ",
+        "model and the conditional-logit sensitivity analysis, so they are ",
+        "candidates for a small accuracy cost, but this study cannot distinguish ",
+        "that cost from no difference. "
+      )
+    } else {
+      ""
+    },
+    "The results should be reported as estimates with intervals, not as ",
+    "evidence that a visualization lowered accuracy."
+  )
+}
+```
+
+- **Overall test.** Adding visualization type
+  `r if (task1_lrt_p < 0.05) "improved" else "did not clearly improve"` the primary
+  model, $\chi^2(`r task1_vistype_lrt[["Chi Df"]]`) =
+  `r sprintf("%.2f", task1_vistype_lrt[["Chisq"]])`$, *p* `r task1_format_p(task1_lrt_p)`.
+- **Primary contrasts** (population-average accuracy, Dunnett-adjusted for six
+  comparisons with Basic). `r task1_primary_sentence`
+- **Odds-ratio scale** (Dunnett-adjusted). `r task1_dunnett_or_sentence`
+- **Sensitivity analysis** (conditional logit, Dunnett-adjusted).
+  `r task1_bt_adjusted_sentence`
+- **Interpretation.** `r task1_interpretation`
 
 ## Completion-time analysis
 

@@ -11,18 +11,88 @@ params:
 #| include: false
 #| cache: false
 source("scripts/analysis_setup.R")
-configure_analysis_cache(project_path("data", "a305_content_analysis.xlsx"))
+configure_analysis_cache(c(
+  project_path("data", "a305_content_analysis.xlsx"),
+  project_path("data", "a305_coding_corrections.csv")
+))
 
-a305_content_analysis <- readxl::read_xlsx(
+# First-coder output (LLM, see data/a305_content_analysis_prompt.md). One row
+# per meaning unit and visualization: a unit that evaluates several
+# visualizations is repeated once per visualization.
+a305_first_coder <- readxl::read_xlsx(
   project_path("data", "a305_content_analysis.xlsx"),
   sheet = "A305 content analysis",
   col_types = "text"
 )
+
+# Documented corrections (audit U12): units coded to both bivariate variants
+# although the response names neither variant are recoded to General
+# bivariates, as rule 4 of the coding prompt requires. The workbook itself is
+# left unchanged.
+a305_corrections <- readr::read_csv(
+  project_path("data", "a305_coding_corrections.csv"),
+  col_types = readr::cols(.default = "c")
+)
+
+apply_a305_corrections <- function(codes, corrections) {
+  corrected_keys <- corrections |>
+    select(ID, `Meaning unit`) |>
+    mutate(.corrected = TRUE)
+
+  codes |>
+    mutate(.row = row_number()) |>
+    left_join(corrected_keys, by = c("ID", "Meaning unit")) |>
+    mutate(
+      Visualization = if_else(
+        coalesce(.corrected, FALSE) &
+          Visualization %in% c("Bivariate corner", "Bivariate range"),
+        "General bivariates",
+        Visualization
+      )
+    ) |>
+    # The two former variant rows are now identical: keep one.
+    distinct(ID, Visualization, `Meaning unit`, Theme, `Evaluation intensity`,
+             .keep_all = TRUE) |>
+    arrange(.row) |>
+    select(-.row, -.corrected)
+}
+
+a305_content_analysis <- apply_a305_corrections(
+  a305_first_coder,
+  a305_corrections
+) |>
+  # Unique meaning unit = participant + retained wording; the same unit can
+  # appear under several visualizations.
+  mutate(unit_id = sprintf(
+    "MU%03d",
+    match(paste(ID, `Meaning unit`), unique(paste(ID, `Meaning unit`)))
+  ))
+
+a305_n_units <- n_distinct(a305_content_analysis$unit_id)
+a305_n_rows <- nrow(a305_content_analysis)
+a305_shared_units <- a305_content_analysis |>
+  count(unit_id) |>
+  filter(n > 1)
+a305_n_zero <- a305_content_analysis |>
+  distinct(unit_id, `Evaluation intensity`) |>
+  filter(`Evaluation intensity` == "0") |>
+  nrow()
+
+# Units coded to both variants that are NOT corrected: the response names
+# both variants explicitly.
+a305_both_variants_kept_ids <- a305_first_coder |>
+  filter(Visualization %in% c("Bivariate corner", "Bivariate range")) |>
+  group_by(ID, `Meaning unit`) |>
+  filter(n_distinct(Visualization) == 2) |>
+  ungroup() |>
+  anti_join(a305_corrections, by = c("ID", "Meaning unit")) |>
+  distinct(ID) |>
+  pull(ID)
 ```
 
 **Participants included in the qualitative content analysis:** `r n_distinct(a305_content_analysis$ID)`.
 
-**Meaning units extracted:** `r nrow(a305_content_analysis)`
+**Meaning units extracted:** `r a305_n_units` unique units, coded to visualizations in `r a305_n_rows` rows. `r nrow(a305_shared_units)` units evaluate more than one visualization (for example, one statement that several named plots were easy to interpret) and therefore appear once per visualization they evaluate.
 
 Participant comments are presented in two groups. Select an **Expand** button to read the responses.
 
@@ -30,9 +100,30 @@ Participant comments are presented in two groups. Select an **Expand** button to
 
 `ID` links every unit to its original A305 response. Participant wording is retained as closely as possible; themes and intensities are interpretive codes. Use the search box or column filters to explore the table.
 
-For the new responses, references to bivariate plots without an identified variant are coded as `General bivariates`. Proposed redesigns are included only when they express an evaluation of the displayed visualization; suggestions alone are not assigned an intensity.
+References to bivariate plots without an identified variant are coded as `General bivariates`. Proposed redesigns are included only when they express an evaluation of the displayed visualization; suggestions alone are not assigned an intensity.
 
-[Download the coded content analysis as an Excel workbook](../data/a305_content_analysis.xlsx)
+::: {.callout-warning}
+## Coding is not yet validated
+
+All units were coded by a single coder, a large language model (prompt in `data/a305_content_analysis_prompt.md`). No second coder has checked the codes yet, so the themes and intensities below are provisional. A random subsample is prepared for a human second coder (see [Inter-coder agreement](#inter-coder-agreement)).
+
+The coder used the neutral code 0 for only `r a305_n_zero` of `r a305_n_units` units, so the intensity scale is in practice a four-point negative/positive scale.
+:::
+
+::: {.callout-note collapse="true"}
+## Corrections to the first coding (`r nrow(a305_corrections)` units) — Expand
+
+The first coding assigned these units to both Bivariate corner and Bivariate range, although the response does not name either variant. Following the coding rule, they are recoded once to `General bivariates`. Units whose response names both variants explicitly (IDs `r paste(a305_both_variants_kept_ids, collapse = " and ")`) keep both codes.
+
+```{r a305-corrections-table}
+#| echo: false
+a305_corrections |>
+  select(ID, `Meaning unit`, `Original visualizations`, `Corrected visualization`, Reason) |>
+  knitr::kable(format = "html", table.attr = kable_table_attributes)
+```
+:::
+
+[Download the first coder's content analysis as an Excel workbook](../data/a305_content_analysis.xlsx) · [Download the corrections](../data/a305_coding_corrections.csv)
 
 ### Theme codebook
 
@@ -68,7 +159,7 @@ tribble(
 #| echo: false
 
 a305_content_analysis |>
-  select(ID, Visualization, `Meaning unit`, Theme, `Evaluation intensity`) |>
+  select(ID, unit_id, Visualization, `Meaning unit`, Theme, `Evaluation intensity`) |>
   reactable::reactable(
     searchable = TRUE,
     filterable = TRUE,
@@ -81,6 +172,11 @@ a305_content_analysis |>
     columns = list(
       ID = reactable::colDef(
         name = "Participant ID",
+        minWidth = 70,
+        align = "center"
+      ),
+      unit_id = reactable::colDef(
+        name = "Unit",
         minWidth = 70,
         align = "center"
       ),
@@ -101,6 +197,10 @@ a305_content_analysis |>
 ## Evaluation intensity by theme and visualization type
 
 This descriptive analysis gives each participant at most one value within each visualization–theme combination. It therefore avoids treating multiple meaning units from the same participant as independent observations. Comments coded as `General bivariates` are retained in the original dataset but excluded here because they do not identify one of the seven visualization types.
+
+A unit that evaluates several visualizations (`r nrow(a305_shared_units)` units) counts once in each of those visualizations, because it is an evaluation of each, but it is never counted twice within one visualization. Comparisons across visualizations are therefore not independent where a participant evaluated several visualizations in one statement.
+
+Cells with only one or two participants are shown as faded points without a box in the figure, and without a median or mean in the table. They are too sparse to summarise.
 
 ```{r a305-participant-theme-aggregation}
 #| include: false
@@ -149,6 +249,9 @@ a305_participant_theme_with_general_bivariates <-
     visualization_order_with_general_bivariates
   )
 
+# Cells with this many participants or fewer are not summarised (audit U12).
+a305_sparse_max_n <- 2
+
 a305_intensity_summary <- a305_participant_theme |>
   rename(participant_median_intensity = median_intensity) |>
   group_by(theme, visualization) |>
@@ -158,6 +261,7 @@ a305_intensity_summary <- a305_participant_theme |>
     mean_intensity = mean(participant_median_intensity),
     .groups = "drop"
   ) |>
+  mutate(sparse = n_participants <= a305_sparse_max_n) |>
   arrange(theme, visualization)
 ```
 
@@ -190,7 +294,7 @@ visualization_axis_labels <- c(
 make_a305_intensity_figure <- function(
   plot_data,
   angle_x_labels = FALSE,
-  fade_singletons = FALSE
+  fade_sparse = FALSE
 ) {
   theme_panel_counts <- plot_data |>
     count(theme, name = "n_entries") |>
@@ -211,13 +315,15 @@ make_a305_intensity_figure <- function(
     group_by(theme, visualization) |>
     mutate(
       n_group = n(),
-      point_alpha = if_else(fade_singletons & n_group == 1, 0.25, 0.8)
+      point_alpha = if_else(
+        fade_sparse & n_group <= a305_sparse_max_n, 0.25, 0.8
+      )
     ) |>
     ungroup() |>
     mutate(theme = factor(theme, levels = theme_panel_order))
 
-  boxplot_data <- if (fade_singletons) {
-    filter(plot_data, n_group > 1)
+  boxplot_data <- if (fade_sparse) {
+    filter(plot_data, n_group > a305_sparse_max_n)
   } else {
     plot_data
   }
@@ -290,6 +396,12 @@ make_a305_intensity_figure <- function(
       caption = paste(
         "Points represent participants, not individual meaning units.",
         "Panel N is the number of plotted participant-visualization entries.",
+        if (fade_sparse) {
+          paste0(
+            "Faded points without a box: cells with ",
+            a305_sparse_max_n, " or fewer participants."
+          )
+        },
         "-2 = strongly negative; +2 = strongly positive."
       )
     ) +
@@ -307,7 +419,7 @@ make_a305_intensity_figure <- function(
 
 a305_intensity_by_theme_figure <- make_a305_intensity_figure(
   a305_participant_theme,
-  fade_singletons = TRUE
+  fade_sparse = TRUE
 )
 
 a305_intensity_by_theme_figure
@@ -340,7 +452,8 @@ This additional version includes comments that evaluate bivariate plots in gener
 a305_intensity_by_theme_with_general_bivariates_figure <-
   make_a305_intensity_figure(
     a305_participant_theme_with_general_bivariates,
-    angle_x_labels = TRUE
+    angle_x_labels = TRUE,
+    fade_sparse = TRUE
   )
 
 a305_intensity_by_theme_with_general_bivariates_figure
@@ -363,14 +476,14 @@ ggsave_st(
 
 ### Participant-based summary
 
-Sample sizes count unique participants. Medians and means are calculated from the participant-level medians shown in the figure, not directly from meaning units.
+Sample sizes count unique participants. Medians and means are calculated from the participant-level medians shown in the figure, not directly from meaning units. `r sum(a305_intensity_summary$sparse)` of `r nrow(a305_intensity_summary)` theme × visualization cells have `r a305_sparse_max_n` or fewer participants; their median and mean are left blank (shown as "n ≤ `r a305_sparse_max_n`"). Means are rounded to one decimal, as they average a five-point code.
 
 ```{r a305-intensity-summary-table}
 a305_intensity_summary |>
   mutate(
     visualization = as.character(visualization),
-    median_intensity = round(median_intensity, 2),
-    mean_intensity = round(mean_intensity, 2)
+    median_intensity = if_else(sparse, NA_real_, median_intensity),
+    mean_intensity = if_else(sparse, NA_real_, round(mean_intensity, 1))
   ) |>
   select(
     theme,
@@ -401,15 +514,142 @@ a305_intensity_summary |>
       median_intensity = reactable::colDef(
         name = "Median intensity",
         align = "center",
-        format = reactable::colFormat(digits = 2)
+        format = reactable::colFormat(digits = 1),
+        na = paste0("n ≤ ", a305_sparse_max_n)
       ),
       mean_intensity = reactable::colDef(
         name = "Mean intensity",
         align = "center",
-        format = reactable::colFormat(digits = 2)
+        format = reactable::colFormat(digits = 1),
+        na = paste0("n ≤ ", a305_sparse_max_n)
       )
     )
   )
+```
+
+## Inter-coder agreement
+
+```{r a305-double-coding-sample}
+#| include: false
+#| cache: false
+# Reproducible ~25% subsample of unique meaning units for a human second coder,
+# stratified by the first coder's (first listed) visualization. The file shows
+# the unit and the full response for context, but NOT the first coder's codes.
+# It is written only if it does not exist yet, so a filled-in file is never
+# overwritten. Private (contains full responses): git-ignored.
+a305_double_coding_path <- project_path("data", "a305_double_coding_sample.csv")
+a305_double_coding_share <- 0.25
+
+a305_units <- a305_content_analysis |>
+  group_by(unit_id, ID, `Meaning unit`) |>
+  summarise(
+    first_visualizations = paste(Visualization, collapse = "; "),
+    stratum = first(Visualization),
+    first_theme = first(Theme),
+    first_intensity = first(`Evaluation intensity`),
+    .groups = "drop"
+  )
+
+if (!file.exists(a305_double_coding_path)) {
+  a305_responses <- data |>
+    transmute(
+      ID = as.character(ID),
+      `Full response` = stringr::str_squish(as.character(A305_01))
+    )
+
+  set.seed(305)
+  a305_units |>
+    group_by(stratum) |>
+    slice_sample(prop = a305_double_coding_share) |>
+    ungroup() |>
+    slice_sample(prop = 1) |>
+    left_join(a305_responses, by = "ID") |>
+    transmute(
+      unit_id, ID, `Meaning unit`, `Full response`,
+      # To be filled in by the second coder (same labels as the codebook;
+      # several visualizations separated by "; ").
+      Visualization = "", Theme = "", `Evaluation intensity` = ""
+    ) |>
+    readr::write_excel_csv(a305_double_coding_path, na = "")
+}
+
+a305_double_coding <- readr::read_csv(
+  a305_double_coding_path,
+  col_types = readr::cols(.default = "c"),
+  na = c("", "NA")
+)
+a305_second_coded <- a305_double_coding |>
+  filter(!is.na(Theme), !is.na(`Evaluation intensity`), !is.na(Visualization))
+```
+
+```{r a305-agreement}
+#| echo: false
+#| cache: false
+cohen_kappa <- function(a, b, weights = NULL) {
+  levels <- sort(union(a, b))
+  if (!is.null(weights)) levels <- weights
+  observed <- table(factor(a, levels), factor(b, levels)) / length(a)
+  expected <- outer(rowSums(observed), colSums(observed))
+  k <- length(levels)
+  w <- if (is.null(weights)) {
+    1 - diag(k)
+  } else {
+    outer(seq_len(k), seq_len(k), \(i, j) (i - j)^2) / (k - 1)^2
+  }
+  1 - sum(w * observed) / sum(w * expected)
+}
+
+normalise_visualizations <- function(x) {
+  vapply(
+    strsplit(x, ";"),
+    \(v) paste(sort(trimws(v)), collapse = "; "),
+    character(1)
+  )
+}
+
+a305_agreement <- if (nrow(a305_second_coded) > 0) {
+  compared <- a305_second_coded |>
+    inner_join(a305_units, by = c("unit_id", "ID", "Meaning unit")) |>
+    mutate(
+      first_visualizations = normalise_visualizations(first_visualizations),
+      Visualization = normalise_visualizations(Visualization)
+    )
+  intensity_levels <- c("-2", "-1", "0", "+1", "+2")
+  tibble(
+    Code = c("Visualization(s)", "Theme", "Evaluation intensity"),
+    `Units compared` = nrow(compared),
+    `Percent agreement` = 100 * c(
+      mean(compared$first_visualizations == compared$Visualization),
+      mean(compared$first_theme == compared$Theme),
+      mean(compared$first_intensity == compared$`Evaluation intensity`)
+    ),
+    `Cohen's kappa` = c(
+      cohen_kappa(compared$first_visualizations, compared$Visualization),
+      cohen_kappa(compared$first_theme, compared$Theme),
+      cohen_kappa(
+        compared$first_intensity, compared$`Evaluation intensity`,
+        weights = intensity_levels
+      )
+    )
+  )
+}
+```
+
+A reproducible random sample of `r nrow(a305_double_coding)` of `r a305_n_units` unique meaning units (`r round(100 * nrow(a305_double_coding) / a305_n_units)`%, stratified by visualization) is prepared for a human second coder in `data/a305_double_coding_sample.csv` (not published: it contains the full responses). The file shows each unit and its full response, but not the first coder's codes. The second coder codes the first coder's segmentation, so agreement on unit boundaries is not assessed.
+
+**Status:** `r if (is.null(a305_agreement)) "not yet coded. Once the file is filled in, the table below reports percent agreement and Cohen's kappa for the visualization, theme (unweighted) and intensity (quadratic-weighted) codes." else paste(nrow(a305_second_coded), "of", nrow(a305_double_coding), "sampled units coded by the human second coder. Kappa for intensity is quadratic-weighted.")`
+
+```{r a305-agreement-table}
+#| echo: false
+#| cache: false
+if (!is.null(a305_agreement)) {
+  a305_agreement |>
+    knitr::kable(
+      format = "html",
+      digits = c(0, 0, 0, 2),
+      table.attr = kable_table_attributes
+    )
+}
 ```
 
 ## Original responses

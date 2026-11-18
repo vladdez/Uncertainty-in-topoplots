@@ -26,6 +26,369 @@ source(project_path("scripts", "task1_trials.R"))
 source(project_path("scripts", "task2_trials.R"))
 ```
 
+```{r time-rule-and-helpers}
+#| include: false
+# ---- Outlier rule (one rule for every table, figure and model) ----------------
+# A trial page open for longer than this is treated as an interruption and
+# excluded. The cap is fixed in seconds, not estimated from the data.
+time_cap_sec <- 180
+apply_time_rule <- function(df) dplyr::filter(df, time_sec <= time_cap_sec)
+
+# ---- Times per trial page -------------------------------------------------------
+# "Time spent on page xxx": a trial page keeps its questionnaire number when the
+# display order is randomized, so page number - offset = trial number.
+read_page_times <- function(first_var, last_var, offset, trials) {
+  data %>%
+    select(ID, all_of(first_var):all_of(last_var)) %>%
+    pivot_longer(-ID, names_to = "time_var", values_to = "time_sec") %>%
+    mutate(
+      ID = as.character(ID),
+      trial = as.integer(stringr::str_remove(time_var, "TIME")) - offset,
+      time_sec = readr::parse_double(as.character(time_sec))
+    ) %>%
+    left_join(
+      trials %>%
+        transmute(ID = as.character(ID), trial, position, vistype),
+      by = c("ID", "trial")
+    ) %>%
+    filter(!is.na(time_sec), !is.na(vistype), time_sec > 0)
+}
+
+# ---- Time model -----------------------------------------------------------------
+# log(time) mixed model. Back-transformed estimates are geometric means for a
+# typical participant (random intercept at zero) at the average position.
+# Differences from Basic are ratios of geometric means, Dunnett-adjusted
+# (emmeans "dunnettx", six comparisons with Basic topoplot).
+ci_bounds <- function(df) {
+  lower <- intersect(c("lower.CL", "asymp.LCL"), names(df))
+  upper <- intersect(c("upper.CL", "asymp.UCL"), names(df))
+  stopifnot(length(lower) == 1L, length(upper) == 1L)
+  list(lower = df[[lower]], upper = df[[upper]])
+}
+
+fit_time_model <- function(time_data) {
+  model_data <- time_data %>%
+    transmute(
+      ID = factor(ID),
+      vistype = relevel(factor(vistype), ref = "basic"),
+      position = as.integer(position),
+      time_sec = as.numeric(time_sec)
+    ) %>%
+    filter(complete.cases(.), time_sec > 0) %>%
+    mutate(position_c = position - mean(position))
+
+  fit <- lmer(log(time_sec) ~ vistype + position_c + (1 | ID), data = model_data)
+  emm <- emmeans(fit, ~ vistype)
+
+  estimates_raw <- as.data.frame(confint(emm, type = "response"))
+  estimates_ci <- ci_bounds(estimates_raw)
+  estimates <- tibble::tibble(
+    vistype = as.character(estimates_raw$vistype),
+    estimated_time = estimates_raw$response,
+    lower_ci = estimates_ci$lower,
+    upper_ci = estimates_ci$upper
+  ) %>%
+    arrange(estimated_time) %>%
+    mutate(vistype = factor(vistype, levels = vistype))
+
+  contrasts_raw <- contrast(
+    emm,
+    method = "trt.vs.ctrl",
+    ref = "basic",
+    adjust = "dunnettx"
+  ) %>%
+    summary(infer = c(TRUE, TRUE), type = "response") %>%
+    as.data.frame()
+  contrasts_ci <- ci_bounds(contrasts_raw)
+  contrasts <- tibble::tibble(
+    vistype = stringr::str_remove(as.character(contrasts_raw$contrast), " / basic$"),
+    ratio = contrasts_raw$ratio,
+    lower_ci = contrasts_ci$lower,
+    upper_ci = contrasts_ci$upper,
+    p_value = contrasts_raw$p.value
+  ) %>%
+    arrange(desc(ratio))
+
+  list(data = model_data, fit = fit, estimates = estimates, contrasts = contrasts)
+}
+
+# Short verdict per visualization from the Dunnett-adjusted interval.
+contrast_verdict <- function(lower, upper) {
+  dplyr::case_when(
+    lower > 1 ~ "slower",
+    upper < 1 ~ "faster",
+    TRUE ~ "not clearly different"
+  )
+}
+
+format_ratio_ci <- function(ratio, lower, upper) {
+  sprintf("%.2f [%.2f, %.2f]", ratio, lower, upper)
+}
+
+# One sentence from the Dunnett-adjusted intervals, so the text follows the data.
+describe_time_contrasts <- function(contrasts) {
+  contrasts <- contrasts %>%
+    mutate(
+      verdict = contrast_verdict(lower_ci, upper_ci),
+      label = sprintf(
+        "%s (%s)",
+        table_vistype(vistype),
+        format_ratio_ci(ratio, lower_ci, upper_ci)
+      )
+    )
+  part <- function(v, text) {
+    labels <- contrasts$label[contrasts$verdict == v]
+    if (length(labels) == 0) return(NULL)
+    paste0(text, knitr::combine_words(labels))
+  }
+  if (all(contrasts$verdict == "slower")) {
+    return(paste0(
+      "all six visualizations took longer than Basic topoplot: ",
+      knitr::combine_words(contrasts$label)
+    ))
+  }
+  paste0(
+    "compared with Basic topoplot, ",
+    paste(
+      c(
+        part("slower", "these took longer: "),
+        part("faster", "these were faster: "),
+        part("not clearly different", "these were not clearly different: ")
+      ),
+      collapse = "; "
+    )
+  )
+}
+
+time_contrast_table <- function(contrasts, caption) {
+  contrasts %>%
+    transmute(
+      `Visualization type` = table_vistype(vistype),
+      `Ratio to Basic` = sprintf("%.2f", ratio),
+      `Lower 95% CI` = sprintf("%.2f", lower_ci),
+      `Upper 95% CI` = sprintf("%.2f", upper_ci),
+      `p (Dunnett-adjusted)` = format_pvalue_html(p_value)
+    ) %>%
+    knitr::kable(
+      format = "html",
+      escape = FALSE,
+      caption = caption,
+      table.attr = kable_table_attributes
+    )
+}
+
+time_estimate_table <- function(estimates, caption) {
+  estimates |>
+    mutate(
+      vistype = table_vistype(vistype),
+      across(c(estimated_time, lower_ci, upper_ci), \(x) round(x, 1))
+    ) |>
+    knitr::kable(
+      format = "html",
+      col.names = c(
+        "Visualization type",
+        "Geometric mean time, typical participant (s)",
+        "Lower 95% CI",
+        "Upper 95% CI"
+      ),
+      caption = caption,
+      table.attr = kable_table_attributes
+    )
+}
+
+time_estimate_plot <- function(estimates, title) {
+  ggplot(estimates, aes(x = estimated_time, y = vistype)) +
+    geom_errorbar(
+      aes(xmin = lower_ci, xmax = upper_ci),
+      orientation = "y",
+      width = 0.18,
+      linewidth = 0.7
+    ) +
+    geom_point(size = 3.5) +
+    geom_text(
+      aes(label = sprintf("%.1f s", estimated_time)),
+      nudge_y = 0.36,
+      vjust = 0.5,
+      size = 6
+    ) +
+    scale_y_discrete(expand = expansion(add = 0.5), labels = vistype_labels) +
+    scale_x_continuous(
+      labels = \(x) sprintf("%.0f s", x),
+      expand = expansion(mult = c(0.05, 0.12))
+    ) +
+    labs(
+      title = title,
+      x = "Geometric mean time, typical participant (s)",
+      y = NULL,
+      caption = paste0(
+        "Points: back-transformed model estimates (geometric means).\n",
+        "Error bars: 95% confidence intervals for each level, not for differences."
+      )
+    ) +
+    theme_classic(base_family = "Lato", base_size = 20) +
+    theme(
+      plot.title = element_text(hjust = 0.5, face = "bold"),
+      plot.caption = element_text(hjust = 0.5, face = "italic"),
+      axis.ticks.y = element_blank(),
+      plot.margin = margin(8, 16, 12, 16)
+    )
+}
+
+time_model_note <- function(position_label = "Presentation position") {
+  model_table_note(
+    paste0(
+      "<ul>",
+      "<li><strong>Data:</strong> Trial pages of at most ", time_cap_sec,
+      " s (outlier rule at the top of the page).</li>",
+      "<li><strong>Model:</strong> Gaussian linear mixed model for log completion ",
+      "time: <code>log(time_sec) ~ vistype + position_c + (1 | ID)</code>.</li>",
+      "<li><strong>Reference visualization:</strong> Basic topoplot.</li>",
+      "<li><strong>", position_label, ":</strong> Estimates were calculated at the ",
+      "average presentation position.</li>",
+      "<li><strong>Estimand:</strong> Back-transformed from log seconds, so each ",
+      "estimate is a geometric mean time for a typical participant (participant ",
+      "effect at zero), not an arithmetic mean time. Differences from Basic are ",
+      "ratios of geometric means.</li>",
+      "<li><strong>Intervals:</strong> 95% confidence intervals, asymptotic ",
+      "(normal) degrees of freedom.</li>",
+      "</ul>"
+    ),
+    label = "Model details"
+  )
+}
+
+# ---- Time-accuracy model (Task 1) ---------------------------------------------
+fit_time_accuracy <- function(time_model_data) {
+  accuracy_data <- time_model_data %>%
+    select(ID, vistype, position, position_c, time_sec) %>%
+    left_join(
+      task1_model %>%
+        select(ID, position, correct, pattern, stimulus, wrong_image),
+      by = c("ID", "position")
+    )
+
+  stopifnot(
+    nrow(accuracy_data) == nrow(time_model_data),
+    !anyNA(accuracy_data$correct)
+  )
+
+  accuracy_data <- accuracy_data %>%
+    mutate(log_time = log(time_sec)) %>%
+    group_by(ID) %>%
+    mutate(
+      participant_mean_log_time = mean(log_time),
+      log_time_within = log_time - participant_mean_log_time
+    ) %>%
+    ungroup() %>%
+    mutate(
+      log_time_between_c = participant_mean_log_time -
+        mean(participant_mean_log_time)
+    )
+
+  fit <- glmer(
+    correct ~ log_time_within + log_time_between_c + vistype + pattern +
+      position_c + (1 | ID) + (1 | stimulus) + (1 | wrong_image),
+    data = accuracy_data,
+    family = binomial,
+    control = glmerControl(optimizer = "bobyqa")
+  )
+
+  coefficients <- summary(fit)$coefficients
+
+  effects <- tibble::tibble(
+    term = c("log_time_within", "log_time_between_c"),
+    comparison = c(
+      "Within participants: twice the usual trial time",
+      "Between participants: twice the typical completion time"
+    )
+  ) %>%
+    mutate(
+      estimate = coefficients[term, "Estimate"],
+      standard_error = coefficients[term, "Std. Error"],
+      odds_ratio = exp(estimate * log(2)),
+      lower_ci = exp((estimate - 1.96 * standard_error) * log(2)),
+      upper_ci = exp((estimate + 1.96 * standard_error) * log(2)),
+      p_value = coefficients[term, "Pr(>|z|)"]
+    )
+
+  list(data = accuracy_data, fit = fit, effects = effects)
+}
+```
+
+```{r time-data}
+#| include: false
+# Task 1: pages 5-25 hold trials 1-21; Task 2: pages 29-49 hold trials 1-21.
+task1_time_all <- read_page_times("TIME005", "TIME025", 4L, task1)
+task2_time_all <- read_page_times("TIME029", "TIME049", 28L, task2)
+
+for (time_data in list(task1_time_all, task2_time_all)) {
+  stopifnot(
+    !anyDuplicated(time_data[c("ID", "trial")]),
+    !anyDuplicated(time_data[c("ID", "position")])
+  )
+}
+
+task1_time <- apply_time_rule(task1_time_all)
+task2_time <- apply_time_rule(task2_time_all)
+
+time_rule_counts <- tibble::tibble(
+  task = c("Task 1", "Task 2"),
+  trials = c(nrow(task1_time_all), nrow(task2_time_all)),
+  removed = trials - c(nrow(task1_time), nrow(task2_time)),
+  participants_affected = c(
+    n_distinct(task1_time_all$ID[task1_time_all$time_sec > time_cap_sec]),
+    n_distinct(task2_time_all$ID[task2_time_all$time_sec > time_cap_sec])
+  ),
+  iqr_removed = trials - c(
+    nrow(remove_group_iqr_outliers(task1_time_all, time_sec, vistype)),
+    nrow(remove_group_iqr_outliers(task2_time_all, time_sec, vistype))
+  ),
+  median_sec = c(median(task1_time_all$time_sec), median(task2_time_all$time_sec)),
+  max_sec = c(max(task1_time_all$time_sec), max(task2_time_all$time_sec))
+)
+
+pct <- function(x, n) sprintf("%.1f%%", 100 * x / n)
+```
+
+## Outlier rule
+
+One rule applies to every table, figure, and model on this page: **a trial page time
+above `r time_cap_sec` s (3 minutes) is excluded.**
+
+- **Why a fixed cap.** Each trial is one decision on one page. The median page time is
+  `r time_rule_counts$median_sec[1]` s (Task 1) and `r time_rule_counts$median_sec[2]` s
+  (Task 2), so a page open for more than three minutes (over ten times the median) most
+  likely records an interruption, not time spent on the task. The longest pages lasted
+  `r scales::comma(time_rule_counts$max_sec[1])` s and
+  `r scales::comma(time_rule_counts$max_sec[2])` s. The cap is fixed in seconds rather
+  than estimated from the data, so it does not depend on which visualizations are slow.
+- **What it removes.** Task 1: `r time_rule_counts$removed[1]` of
+  `r scales::comma(time_rule_counts$trials[1])` trials
+  (`r pct(time_rule_counts$removed[1], time_rule_counts$trials[1])`, from
+  `r time_rule_counts$participants_affected[1]` participants). Task 2:
+  `r time_rule_counts$removed[2]` of `r scales::comma(time_rule_counts$trials[2])` trials
+  (`r pct(time_rule_counts$removed[2], time_rule_counts$trials[2])`, from
+  `r time_rule_counts$participants_affected[2]` participants).
+- **What it replaces.** Earlier versions of this page dropped trials outside 1.5 × IQR
+  within each visualization for the descriptive tables only, while the models kept every
+  trial. That rule removed `r time_rule_counts$iqr_removed[1]` (Task 1,
+  `r pct(time_rule_counts$iqr_removed[1], time_rule_counts$trials[1])`) and
+  `r time_rule_counts$iqr_removed[2]` (Task 2,
+  `r pct(time_rule_counts$iqr_removed[2], time_rule_counts$trials[2])`) trials, mostly
+  ordinary slow trials. The cap was chosen after the time distributions had been seen,
+  so both alternatives are reported as [sensitivity analyses](#sensitivity) below.
+
+**What the model estimates are.** The models analyze log time. Back-transformed
+estimates are **geometric mean times for a typical participant** (participant effect at
+zero) at the average presentation position. They are not arithmetic mean times, which
+are larger because time is right-skewed. Differences from Basic topoplot are reported as
+ratios of geometric means: a ratio of 1.40 means 40% longer.
+
+**Multiple comparisons.** The primary comparisons are the six visualizations against
+Basic topoplot within each task, with Dunnett-adjusted 95% confidence intervals and p
+values (`emmeans` `dunnettx`). The same family is used on the Task 1, Task 2 and rating
+pages.
+
 ## Task 1: comparison
 
 - SoSci Survey records the time spent on each questionnaire **page**. Each Task 1 trial
@@ -38,42 +401,12 @@ source(project_path("scripts", "task2_trials.R"))
   trial a participant sees is the slowest, and times then fall as participants learn the
   task.
 
-```{r}
-task1_time <- data %>%
-  select(ID, TIME005:TIME025) %>%
-  pivot_longer(-ID, names_to = "time_var", values_to = "time_sec") %>%
-  mutate(
-    ID = as.character(ID),
-    # "Time spent on page xxx": pages 5-25 hold trials 1-21 in questionnaire
-    # order, regardless of the randomized display order.
-    trial = as.integer(stringr::str_remove(time_var, "TIME")) - 4L,
-    time_sec = readr::parse_double(as.character(time_sec))
-  ) %>%
-  left_join(
-    task1 %>%
-      transmute(
-        ID = as.character(ID),
-        trial,
-        position,
-        vistype
-      ),
-    by = c("ID", "trial")
-  ) %>%
-  filter(!is.na(time_sec), !is.na(vistype))
-
-stopifnot(
-  !anyDuplicated(task1_time[c("ID", "trial")]),
-  !anyDuplicated(task1_time[c("ID", "position")])
-)
-```
-
 ::: {.callout-note title="Check: completion time by presentation position" collapse="true"}
 
 ```{r task1-time-position-check}
 #| fig-width: 8
 #| fig-height: 4
 task1_time %>%
-  filter(time_sec > 0) %>%
   group_by(position) %>%
   summarise(geometric_mean = exp(mean(log(time_sec))), .groups = "drop") %>%
   ggplot(aes(position, geometric_mean)) +
@@ -91,83 +424,90 @@ task1_time %>%
 
 :::
 
-```{r}
-time_table <- task1_time %>%
-  remove_group_iqr_outliers(time_sec, vistype) %>%
-  group_by(vistype) %>%
-  summarise(
-    n = n(),
-    median_sec = median(time_sec, na.rm = TRUE),
-    mean_sec = mean(time_sec, na.rm = TRUE),
-    sd_sec = sd(time_sec, na.rm = TRUE),
-    .groups = "drop"
-  )
+```{r task1-time-summary}
+summarise_observed_time <- function(time_data) {
+  time_data %>%
+    group_by(vistype) %>%
+    summarise(
+      n = n(),
+      median_sec = median(time_sec),
+      geometric_mean_sec = exp(mean(log(time_sec))),
+      mean_sec = mean(time_sec),
+      sd_sec = sd(time_sec),
+      .groups = "drop"
+    ) |>
+    arrange(median_sec) |>
+    mutate(
+      vistype = table_vistype(vistype),
+      across(c(median_sec, geometric_mean_sec, mean_sec, sd_sec), \(x) round(x, 1))
+    )
+}
 
-time_table |>
-  arrange(median_sec) |>
-  mutate(
-    vistype = table_vistype(vistype),
-    across(c(median_sec, mean_sec, sd_sec), \(x) round(x, 1))
-  ) |>
+observed_time_columns <- c(
+  "Visualization type",
+  "Responses",
+  "Median (s)",
+  "Geometric mean (s)",
+  "Mean (s)",
+  "SD (s)"
+)
+
+task1_time %>%
+  summarise_observed_time() |>
   knitr::kable(
     format = "html",
-    col.names = c(
-      "Visualization type",
-      "Responses",
-      "Median time (seconds)",
-      "Mean time (seconds)",
-      "SD (seconds)"
+    col.names = observed_time_columns,
+    caption = paste0(
+      "Observed comparison-task completion time by visualization type ",
+      "(trial pages of at most ", time_cap_sec, " s)"
     ),
-    caption = "Observed comparison-task completion time by visualization type",
     table.attr = kable_table_attributes
   )
 ```
 
-```{r}
-task1_time_plot_data <- task1_time %>%
-  remove_group_iqr_outliers(time_sec, vistype)
-
-task1_time_violin <- ggplot(
-  task1_time_plot_data,
-  aes(vistype, time_sec)
-) +
+```{r task1-time-violin}
+# Log scale: the model works on log time, and a raw axis up to the cap would
+# squash the bulk of the distribution. Horizontal line = observed geometric mean.
+task1_time_violin <- ggplot(task1_time, aes(vistype, time_sec)) +
   geom_violin(
     trim = TRUE,
     fill = "#6BAED6",
     colour = "#333333",
     linewidth = 0.6
-  )
+  ) +
+  scale_y_log10(breaks = c(2, 5, 10, 20, 50, 100, 180))
 
 task1_time_violin_geometry <- ggplot_build(task1_time_violin)$data[[1]] %>%
   transmute(
     x_position = as.numeric(x),
-    time_sec = y,
+    log10_time = y,
     half_width = violinwidth * width / 2
   )
 
-task1_time_mean_bars <- task1_time_plot_data %>%
+task1_time_mean_bars <- task1_time %>%
   group_by(vistype) %>%
-  summarise(mean_time = mean(time_sec), .groups = "drop") %>%
+  summarise(log10_mean = mean(log10(time_sec)), .groups = "drop") %>%
   mutate(
     x_position = match(
       as.character(vistype),
-      sort(unique(as.character(task1_time_plot_data$vistype)))
+      sort(unique(as.character(task1_time$vistype)))
     )
   ) %>%
   rowwise() %>%
   mutate(
     half_width = approx(
-      x = task1_time_violin_geometry$time_sec[
+      x = task1_time_violin_geometry$log10_time[
         task1_time_violin_geometry$x_position == x_position
       ],
       y = task1_time_violin_geometry$half_width[
         task1_time_violin_geometry$x_position == x_position
       ],
-      xout = mean_time,
+      xout = log10_mean,
       rule = 2
     )$y,
     x_start = x_position - half_width,
-    x_end = x_position + half_width
+    x_end = x_position + half_width,
+    geometric_mean = 10^log10_mean
   ) %>%
   ungroup()
 
@@ -177,8 +517,8 @@ task1_time_violin +
     aes(
       x = x_start,
       xend = x_end,
-      y = mean_time,
-      yend = mean_time
+      y = geometric_mean,
+      yend = geometric_mean
     ),
     inherit.aes = FALSE,
     linewidth = 0.6,
@@ -188,11 +528,13 @@ task1_time_violin +
   labs(
     title = "Time spent by visualization type",
     x = NULL,
-    y = "Seconds spent on page"
+    y = "Seconds spent on page (log scale)",
+    caption = "Horizontal line: observed geometric mean."
   ) +
   theme_classic(base_family = "Lato", base_size = 20) +
   theme(
     plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.caption = element_text(hjust = 0.5, face = "italic"),
     axis.text.x = element_text(angle = 35, hjust = 1)
   )
 ```
@@ -200,179 +542,58 @@ task1_time_violin +
 ### Model-estimated completion time
 
 ```{r task1-time-model}
-task1_time_model <- task1_time %>%
-  transmute(
-    ID = factor(ID),
-    vistype = relevel(factor(vistype), ref = "basic"),
-    position = as.integer(position),
-    time_sec = as.numeric(time_sec)
-  ) %>%
-  filter(
-    !is.na(ID),
-    !is.na(vistype),
-    !is.na(position),
-    !is.na(time_sec),
-    time_sec > 0
-  ) %>%
-  mutate(position_c = position - mean(position))
+task1_time_results <- fit_time_model(task1_time)
+task1_time_model <- task1_time_results$data
+task1_time_fit <- task1_time_results$fit
+time_estimates <- task1_time_results$estimates
+task1_time_contrasts <- task1_time_results$contrasts
 
-task1_time_fit <- lmer(
-  log(time_sec) ~ vistype + position_c + (1 | ID),
-  data = task1_time_model
+time_estimate_table(
+  time_estimates,
+  "Comparison task: model-estimated geometric mean completion time"
 )
-
-time_estimates_raw <- emmeans(
-  task1_time_fit,
-  ~ vistype,
-  type = "response"
-) %>%
-  confint() %>%
-  as.data.frame()
-
-time_lower_column <- intersect(
-  c("lower.CL", "asymp.LCL"),
-  names(time_estimates_raw)
-)
-time_upper_column <- intersect(
-  c("upper.CL", "asymp.UCL"),
-  names(time_estimates_raw)
-)
-
-stopifnot(
-  length(time_lower_column) == 1L,
-  length(time_upper_column) == 1L
-)
-
-time_estimates <- time_estimates_raw %>%
-  transmute(
-    vistype,
-    estimated_time = response,
-    lower_ci = .data[[time_lower_column]],
-    upper_ci = .data[[time_upper_column]]
-  ) %>%
-  arrange(estimated_time) %>%
-  mutate(vistype = factor(vistype, levels = vistype))
-
-time_estimates |>
-  mutate(
-    vistype = table_vistype(vistype),
-    across(
-      c(estimated_time, lower_ci, upper_ci),
-      \(x) round(x, 1)
-    )
-  ) |>
-  knitr::kable(
-    format = "html",
-    col.names = c(
-      "Visualization type",
-      "Estimated time (seconds)",
-      "Lower 95% CI",
-      "Upper 95% CI"
-    ),
-    caption = "Model-estimated comparison-task completion time",
-    table.attr = kable_table_attributes
-  )
-
-model_table_note(
-  paste0(
-    "<ul>",
-    "<li><strong>Model:</strong> Gaussian linear mixed model for log completion ",
-    "time: <code>log(time_sec) ~ vistype + position_c + (1 | ID)</code>.</li>",
-    "<li><strong>Reference visualization:</strong> Basic topoplot.</li>",
-    "<li><strong>Trial position:</strong> Estimates were calculated at the average ",
-    "presentation position.</li>",
-    "<li><strong>Output scale:</strong> Estimates and 95% confidence intervals were ",
-    "back-transformed from log time to seconds.</li>",
-    "</ul>"
-  ),
-  label = "Model details"
-)
+time_model_note("Trial position")
 ```
 
 ```{r task1-time-estimate-plot}
-# Model-estimated time for each visualization type.
-ggplot(
-  time_estimates,
-  aes(x = estimated_time, y = vistype)
-) +
-  geom_errorbar(
-    aes(xmin = lower_ci, xmax = upper_ci),
-    orientation = "y",
-    width = 0.18,
-    linewidth = 0.7
-  ) +
-  geom_point(size = 3.5) +
-  geom_text(
-    aes(label = sprintf("%.1f s", estimated_time)),
-    nudge_y = 0.36,
-    vjust = 0.5,
-    size = 6
-  ) +
-  scale_y_discrete(
-    expand = expansion(add = 0.5),
-    labels = vistype_labels
-  ) +
-  scale_x_continuous(
-    labels = \(x) sprintf("%.0f s", x),
-    expand = expansion(mult = c(0.05, 0.12))
-  ) +
-  labs(
-    title = "Comparison task completion time",
-    x = "Model-estimated time (seconds)",
-    y = NULL,
-    caption = paste(
-      "Points show back-transformed model estimates;",
-      "error bars indicate 95% confidence intervals."
-    )
-  ) +
-  theme_classic(base_family = "Lato", base_size = 20) +
-  theme(
-    plot.title = element_text(hjust = 0.5, face = "bold"),
-    plot.caption = element_text(hjust = 0.5, face = "italic"),
-    axis.ticks.y = element_blank()
-  )
+time_estimate_plot(time_estimates, "Comparison task completion time")
 ```
+
+#### Differences from Basic topoplot
+
+```{r task1-time-contrasts}
+time_contrast_table(
+  task1_time_contrasts,
+  paste(
+    "Comparison task: ratio of geometric mean time to Basic topoplot,",
+    "Dunnett-adjusted 95% CIs and p values (six comparisons with Basic)"
+  )
+)
+```
+
+With Dunnett-adjusted intervals, `r describe_time_contrasts(task1_time_contrasts)`.
+Ratios above 1 mean longer than Basic topoplot.
 
 ### Association between completion time and accuracy
 
 The following analyses ask whether longer completion times were associated with greater
 accuracy. They describe associations and do not establish that spending more time caused
-participants to answer correctly.
+participants to answer correctly. They use the same trials as the time model (pages of at
+most `r time_cap_sec` s).
 
 ```{r task1-time-accuracy-association}
-task1_time_accuracy <- task1_time_model %>%
-  select(ID, vistype, position, position_c, time_sec) %>%
-  left_join(
-    task1_model %>%
-      select(ID, position, correct, pattern, stimulus, wrong_image),
-    by = c("ID", "position")
-  )
-
-stopifnot(
-  nrow(task1_time_accuracy) == nrow(task1_time_model),
-  !anyNA(task1_time_accuracy$correct)
-)
+task1_time_accuracy_results <- fit_time_accuracy(task1_time_model)
+task1_time_accuracy <- task1_time_accuracy_results$data
+task1_time_accuracy_fit <- task1_time_accuracy_results$fit
+task1_time_accuracy_effects <- task1_time_accuracy_results$effects
 
 task1_time_accuracy_counts <- task1_time_accuracy %>%
   count(ID, name = "trials")
 
 stopifnot(
   nrow(task1_time_accuracy_counts) == task1_n_participants,
-  all(task1_time_accuracy_counts$trials == task1_n_trials)
+  all(task1_time_accuracy_counts$trials <= task1_n_trials)
 )
-
-task1_time_accuracy <- task1_time_accuracy %>%
-  mutate(log_time = log(time_sec)) %>%
-  group_by(ID) %>%
-  mutate(
-    participant_mean_log_time = mean(log_time),
-    log_time_within = log_time - participant_mean_log_time
-  ) %>%
-  ungroup() %>%
-  mutate(
-    log_time_between_c = participant_mean_log_time -
-      mean(participant_mean_log_time)
-  )
 
 task1_participant_time_accuracy <- task1_time_accuracy %>%
   group_by(ID) %>%
@@ -421,9 +642,10 @@ model_table_note(
     "<li><strong>Unit:</strong> One record per participant (N = ",
     task1_n_participants,
     ").</li>",
-    "<li><strong>Accuracy:</strong> Proportion correct across ",
+    "<li><strong>Accuracy:</strong> Proportion correct across the participant's ",
+    "retained trials (at most ",
     task1_n_trials,
-    " trials.</li>",
+    ").</li>",
     "<li><strong>Typical time:</strong> Mean log completion time, equivalent to the ",
     "log of the participant's geometric mean time.</li>",
     "<li><strong>Interpretation:</strong> The correlation asks whether participants ",
@@ -433,41 +655,13 @@ model_table_note(
   label = "Correlation details"
 )
 
-task1_time_accuracy_fit <- glmer(
-  correct ~ log_time_within + log_time_between_c + vistype + pattern +
-    position_c + (1 | ID) + (1 | stimulus) + (1 | wrong_image),
-  data = task1_time_accuracy,
-  family = binomial,
-  control = glmerControl(optimizer = "bobyqa")
-)
-
-task1_time_accuracy_coefficients <- summary(
-  task1_time_accuracy_fit
-)$coefficients
-
-task1_time_accuracy_effects <- tibble::tibble(
-  term = c("log_time_within", "log_time_between_c"),
-  comparison = c(
-    "Within participants: twice the usual trial time",
-    "Between participants: twice the typical completion time"
-  )
-) %>%
-  mutate(
-    estimate = task1_time_accuracy_coefficients[term, "Estimate"],
-    standard_error = task1_time_accuracy_coefficients[term, "Std. Error"],
-    odds_ratio = exp(estimate * log(2)),
-    lower_ci = exp((estimate - 1.96 * standard_error) * log(2)),
-    upper_ci = exp((estimate + 1.96 * standard_error) * log(2)),
-    p_value = task1_time_accuracy_coefficients[term, "Pr(>|z|)"]
-  )
-
 task1_time_accuracy_effects %>%
   transmute(
     Association = comparison,
     `Odds ratio` = sprintf("%.3f", odds_ratio),
     `Lower 95% CI` = sprintf("%.3f", lower_ci),
     `Upper 95% CI` = sprintf("%.3f", upper_ci),
-    `p value` = format_pvalue_html(p_value)
+    `p value (unadjusted)` = format_pvalue_html(p_value)
   ) %>%
   knitr::kable(
     format = "html",
@@ -492,6 +686,8 @@ model_table_note(
     "difficulty.</li>",
     "<li><strong>Effect scale:</strong> Odds ratios compare a doubling of completion ",
     "time; values above 1 indicate greater odds of a correct response.</li>",
+    "<li><strong>p values:</strong> Wald tests of the two time terms, not adjusted ",
+    "for multiplicity.</li>",
     "</ul>"
   ),
   label = "Model details"
@@ -503,31 +699,38 @@ describe_association <- function(lower, upper, null, more, less, none) {
   dplyr::case_when(lower > null ~ more, upper < null ~ less, TRUE ~ none)
 }
 
-task1_time_accuracy_text <- c(
-  correlation = describe_association(
-    task1_time_accuracy_correlation_table$lower_ci,
-    task1_time_accuracy_correlation_table$upper_ci,
-    0,
-    "participants who were generally slower were more accurate",
-    "participants who were generally slower were less accurate",
-    "participants' typical speed was not clearly associated with their accuracy"
-  ),
-  within = describe_association(
-    task1_time_accuracy_effects$lower_ci[1],
-    task1_time_accuracy_effects$upper_ci[1],
-    1,
-    "a participant's slower trials were more often answered correctly",
-    "a participant's slower trials were less often answered correctly",
-    "a participant's slower trials were not clearly more or less accurate"
-  ),
-  between = describe_association(
-    task1_time_accuracy_effects$lower_ci[2],
-    task1_time_accuracy_effects$upper_ci[2],
-    1,
-    "after adjustment, generally slower participants were more accurate",
-    "after adjustment, generally slower participants were less accurate",
-    "after adjustment, generally slower participants were not clearly more or less accurate"
+describe_time_accuracy <- function(correlation_table, effects) {
+  c(
+    correlation = describe_association(
+      correlation_table$lower_ci,
+      correlation_table$upper_ci,
+      0,
+      "participants who were generally slower were more accurate",
+      "participants who were generally slower were less accurate",
+      "participants' typical speed was not clearly associated with their accuracy"
+    ),
+    within = describe_association(
+      effects$lower_ci[1],
+      effects$upper_ci[1],
+      1,
+      "a participant's slower trials were more often answered correctly",
+      "a participant's slower trials were less often answered correctly",
+      "a participant's slower trials were not clearly more or less accurate"
+    ),
+    between = describe_association(
+      effects$lower_ci[2],
+      effects$upper_ci[2],
+      1,
+      "after adjustment, generally slower participants were more accurate",
+      "after adjustment, generally slower participants were less accurate",
+      "after adjustment, generally slower participants were not clearly more or less accurate"
+    )
   )
+}
+
+task1_time_accuracy_text <- describe_time_accuracy(
+  task1_time_accuracy_correlation_table,
+  task1_time_accuracy_effects
 )
 ```
 
@@ -593,7 +796,7 @@ task1_time_accuracy_summary %>%
   transmute(
     Analysis = analysis,
     `Estimate (95% CI)` = estimate,
-    `p value` = format_pvalue_html(p_value),
+    `p value (unadjusted)` = format_pvalue_html(p_value),
     `Plain-language summary` = summary
   ) %>%
   knitr::kable(
@@ -616,9 +819,9 @@ task1_time_accuracy_summary %>%
   trial a participant sees is the slowest, and times then fall as participants learn the
   task.
 
-- Only non-missing positive times with an identified visualization type were retained. The
-  descriptive table removes extreme times separately within each visualization type using
-  the project's IQR rule; the mixed model retains all positive times.
+- Only non-missing positive times with an identified visualization type and at most
+  `r time_cap_sec` s are retained ([outlier rule](#outlier-rule)). The same trials enter
+  the descriptive table and the model.
 
 - The model analyzes log completion time because trial times are positive and typically
   right-skewed:
@@ -629,40 +832,7 @@ task1_time_accuracy_summary %>%
 
 - The participant random intercept allows participants to have different typical response
   speeds. Presentation position adjusts for linear changes in speed across the 21 trials.
-  Model estimates and confidence intervals are converted back from log time to seconds.
-
-```{r task2-time-data}
-task2_time <- data %>%
-  select(ID, TIME029:TIME049) %>%
-  pivot_longer(
-    -ID,
-    names_to = "time_var",
-    values_to = "time_sec"
-  ) %>%
-  mutate(
-    ID = as.character(ID),
-    # "Time spent on page xxx": pages 29-49 hold trials 1-21 in questionnaire
-    # order, regardless of the randomized display order.
-    trial = as.integer(stringr::str_remove(time_var, "TIME")) - 28L,
-    time_sec = readr::parse_double(as.character(time_sec))
-  ) %>%
-  left_join(
-    task2 %>%
-      transmute(
-        ID = as.character(ID),
-        trial,
-        position,
-        vistype
-      ),
-    by = c("ID", "trial")
-  ) %>%
-  filter(!is.na(time_sec), !is.na(vistype), time_sec > 0)
-
-stopifnot(
-  !anyDuplicated(task2_time[c("ID", "trial")]),
-  !anyDuplicated(task2_time[c("ID", "position")])
-)
-```
+  Back-transformed estimates are geometric mean times for a typical participant.
 
 ::: {.callout-note title="Check: completion time by presentation position" collapse="true"}
 
@@ -689,8 +859,7 @@ task2_time %>%
 
 ::: {.callout-note title="Completion-time data preview" collapse="true"}
 
-```{r}
-
+```{r task2-time-preview}
 task2_time |>
   slice_head(n = 20) |>
   mutate(vistype = table_vistype(vistype)) |>
@@ -701,8 +870,8 @@ task2_time |>
       "Participant ID",
       "Timing variable",
       "Time (seconds)",
-      "Presentation position",
       "Trial",
+      "Presentation position",
       "Visualization type"
     ),
     caption = "Diagnostic preview: first 20 detection-task completion-time records",
@@ -713,33 +882,15 @@ task2_time |>
 :::
 
 ```{r task2-time-summary}
-task2_time_table <- task2_time %>%
-  remove_group_iqr_outliers(time_sec, vistype) %>%
-  group_by(vistype) %>%
-  summarise(
-    n = n(),
-    median_sec = median(time_sec, na.rm = TRUE),
-    mean_sec = mean(time_sec, na.rm = TRUE),
-    sd_sec = sd(time_sec, na.rm = TRUE),
-    .groups = "drop"
-  )
-
-task2_time_table |>
-  arrange(median_sec) |>
-  mutate(
-    vistype = table_vistype(vistype),
-    across(c(median_sec, mean_sec, sd_sec), \(x) round(x, 1))
-  ) |>
+task2_time %>%
+  summarise_observed_time() |>
   knitr::kable(
     format = "html",
-    col.names = c(
-      "Visualization type",
-      "Responses",
-      "Median time (seconds)",
-      "Mean time (seconds)",
-      "SD (seconds)"
+    col.names = observed_time_columns,
+    caption = paste0(
+      "Observed detection-task completion time by visualization type ",
+      "(trial pages of at most ", time_cap_sec, " s)"
     ),
-    caption = "Observed detection-task completion time by visualization type",
     table.attr = kable_table_attributes
   )
 ```
@@ -747,131 +898,182 @@ task2_time_table |>
 ### Model-estimated completion time
 
 ```{r task2-time-model}
-task2_time_model <- task2_time %>%
-  transmute(
-    ID = factor(ID),
-    vistype = relevel(factor(vistype), ref = "basic"),
-    position = as.integer(position),
-    time_sec = as.numeric(time_sec)
-  ) %>%
-  filter(complete.cases(.), time_sec > 0) %>%
-  mutate(position_c = position - mean(position))
+task2_time_results <- fit_time_model(task2_time)
+task2_time_model <- task2_time_results$data
+task2_time_fit <- task2_time_results$fit
+task2_time_estimates <- task2_time_results$estimates
+task2_time_contrasts <- task2_time_results$contrasts
 
-task2_time_fit <- lmer(
-  log(time_sec) ~ vistype + position_c + (1 | ID),
-  data = task2_time_model
+time_estimate_table(
+  task2_time_estimates,
+  "Detection task: model-estimated geometric mean completion time"
 )
-
-task2_time_estimates_raw <- emmeans(
-  task2_time_fit,
-  ~ vistype,
-  type = "response"
-) %>%
-  confint() %>%
-  as.data.frame()
-
-task2_time_lower_column <- intersect(
-  c("lower.CL", "asymp.LCL"),
-  names(task2_time_estimates_raw)
-)
-task2_time_upper_column <- intersect(
-  c("upper.CL", "asymp.UCL"),
-  names(task2_time_estimates_raw)
-)
-
-stopifnot(
-  length(task2_time_lower_column) == 1L,
-  length(task2_time_upper_column) == 1L
-)
-
-task2_time_estimates <- task2_time_estimates_raw %>%
-  transmute(
-    vistype,
-    estimated_time = response,
-    lower_ci = .data[[task2_time_lower_column]],
-    upper_ci = .data[[task2_time_upper_column]]
-  ) %>%
-  arrange(estimated_time) %>%
-  mutate(vistype = factor(vistype, levels = vistype))
-
-task2_time_estimates |>
-  mutate(
-    vistype = table_vistype(vistype),
-    across(
-      c(estimated_time, lower_ci, upper_ci),
-      \(x) round(x, 1)
-    )
-  ) |>
-  knitr::kable(
-    format = "html",
-    col.names = c(
-      "Visualization type",
-      "Estimated time (seconds)",
-      "Lower 95% CI",
-      "Upper 95% CI"
-    ),
-    caption = "Model-estimated detection-task completion time",
-    table.attr = kable_table_attributes
-  )
-
-model_table_note(
-  paste0(
-    "<ul>",
-    "<li><strong>Model:</strong> Gaussian linear mixed model for log completion ",
-    "time: <code>log(time_sec) ~ vistype + position_c + (1 | ID)</code>.</li>",
-    "<li><strong>Reference visualization:</strong> Basic topoplot.</li>",
-    "<li><strong>Presentation position:</strong> Estimates were calculated at the ",
-    "average presentation position.</li>",
-    "<li><strong>Output scale:</strong> Estimates and 95% confidence intervals were ",
-    "back-transformed from log time to seconds.</li>",
-    "</ul>"
-  ),
-  label = "Model details"
-)
+time_model_note()
 ```
 
 ```{r task2-time-estimate-plot}
 #| fig-width: 9
 #| fig-height: 5.5
-ggplot(
-  task2_time_estimates,
-  aes(x = estimated_time, y = vistype)
-) +
-  geom_errorbar(
-    aes(xmin = lower_ci, xmax = upper_ci),
-    orientation = "y",
-    width = 0.18,
-    linewidth = 0.7
-  ) +
-  geom_point(size = 3.5) +
-  geom_text(
-    aes(label = sprintf("%.1f s", estimated_time)),
-    nudge_y = 0.36,
-    vjust = 0.5,
-    size = 6
-  ) +
-  scale_y_discrete(
-    expand = expansion(add = 0.5),
-    labels = vistype_labels
-  ) +
-  scale_x_continuous(
-    labels = \(x) sprintf("%.0f s", x),
-    expand = expansion(mult = c(0.05, 0.12))
-  ) +
-  labs(
-    title = "Detection task completion time",
-    x = "Model-estimated time (seconds)",
-    y = NULL,
-    caption = paste0(
-      "Points show back-transformed model estimates.\n",
-      "Error bars indicate 95% confidence intervals."
-    )
-  ) +
-  theme_classic(base_family = "Lato", base_size = 20) +
-  theme(
-    plot.title = element_text(hjust = 0.5, face = "bold"),
-    plot.caption = element_text(hjust = 0.5, face = "italic"),
-    axis.ticks.y = element_blank(),
-    plot.margin = margin(8, 16, 12, 16)
+time_estimate_plot(task2_time_estimates, "Detection task completion time")
+```
+
+#### Differences from Basic topoplot
+
+```{r task2-time-contrasts}
+time_contrast_table(
+  task2_time_contrasts,
+  paste(
+    "Detection task: ratio of geometric mean time to Basic topoplot,",
+    "Dunnett-adjusted 95% CIs and p values (six comparisons with Basic)"
+  )
+)
+```
+
+With Dunnett-adjusted intervals, `r describe_time_contrasts(task2_time_contrasts)`.
+Ratios above 1 mean longer than Basic topoplot.
+
+## Sensitivity analyses: outlier handling {#sensitivity}
+
+```{r time-sensitivity}
+#| include: false
+time_rule_labels <- c(
+  cap = paste0("Cap at ", time_cap_sec, " s (main)"),
+  all = "All trials kept",
+  iqr = "1.5 × IQR within visualization"
+)
+
+time_rule_datasets <- list(
+  "Task 1" = list(
+    cap = task1_time,
+    all = task1_time_all,
+    iqr = remove_group_iqr_outliers(task1_time_all, time_sec, vistype)
+  ),
+  "Task 2" = list(
+    cap = task2_time,
+    all = task2_time_all,
+    iqr = remove_group_iqr_outliers(task2_time_all, time_sec, vistype)
+  )
+)
+
+time_sensitivity <- purrr::imap_dfr(time_rule_datasets, \(datasets, task) {
+  purrr::imap_dfr(datasets, \(time_data, rule) {
+    results <- if (rule == "cap") {
+      if (task == "Task 1") task1_time_results else task2_time_results
+    } else {
+      fit_time_model(time_data)
+    }
+    results$contrasts %>%
+      mutate(task = task, rule = rule, trials = nrow(results$data))
+  })
+}) %>%
+  mutate(verdict = contrast_verdict(lower_ci, upper_ci))
+
+# Does any visualization change its verdict (slower / faster / unclear) vs the main rule?
+time_sensitivity_changes <- time_sensitivity %>%
+  select(task, vistype, rule, verdict) %>%
+  tidyr::pivot_wider(names_from = rule, values_from = verdict) %>%
+  filter(all != cap | iqr != cap)
+
+describe_sensitivity_changes <- function(changes) {
+  if (nrow(changes) == 0) {
+    return(paste(
+      "Every visualization keeps the same verdict (slower than, faster than, or not",
+      "clearly different from Basic topoplot) under all three rules"
+    ))
+  }
+  details <- changes %>%
+    mutate(text = sprintf(
+      "%s, %s: %s with the cap, %s with all trials, %s with the IQR rule",
+      task, table_vistype(vistype), cap, all, iqr
+    )) %>%
+    pull(text)
+  paste0(
+    "The verdict changes for ", nrow(changes), " comparison",
+    if (nrow(changes) > 1) "s" else "", " (", paste(details, collapse = "; "), ")"
+  )
+}
+
+# Time-accuracy associations with all trials kept (old version of the page).
+task1_time_accuracy_all <- fit_time_accuracy(fit_time_model(task1_time_all)$data)
+task1_time_accuracy_iqr <- fit_time_accuracy(
+  fit_time_model(time_rule_datasets[["Task 1"]][["iqr"]])$data
+)
+
+time_accuracy_sensitivity <- bind_rows(
+  task1_time_accuracy_effects %>% mutate(rule = "cap"),
+  task1_time_accuracy_all$effects %>% mutate(rule = "all"),
+  task1_time_accuracy_iqr$effects %>% mutate(rule = "iqr")
+) %>%
+  mutate(
+    verdict = describe_association(lower_ci, upper_ci, 1, "positive", "negative", "unclear")
+  )
+
+time_accuracy_changes <- time_accuracy_sensitivity %>%
+  select(term, rule, verdict) %>%
+  tidyr::pivot_wider(names_from = rule, values_from = verdict) %>%
+  filter(all != cap | iqr != cap)
+```
+
+::: {.callout-note title="Sensitivity: three outlier rules" collapse="true"}
+
+The main analysis excludes trial pages above `r time_cap_sec` s. Here the time models
+are refitted with **all trials kept** and with the previous **1.5 × IQR rule within each
+visualization**. Cells show the ratio of geometric mean time to Basic topoplot with its
+Dunnett-adjusted 95% CI; bold cells exclude 1.
+
+```{r time-sensitivity-table}
+time_sensitivity %>%
+  mutate(
+    cell = format_ratio_ci(ratio, lower_ci, upper_ci),
+    cell = if_else(verdict != "not clearly different", paste0("<b>", cell, "</b>"), cell),
+    rule = factor(rule, levels = names(time_rule_labels), labels = time_rule_labels)
+  ) %>%
+  arrange(task, rule) %>%
+  select(task, vistype, rule, cell) %>%
+  tidyr::pivot_wider(names_from = rule, values_from = cell) %>%
+  group_by(task) %>%
+  arrange(vistype, .by_group = TRUE) %>%
+  ungroup() %>%
+  mutate(vistype = table_vistype(vistype)) %>%
+  rename(Task = task, `Visualization type` = vistype) %>%
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    caption = "Ratio to Basic topoplot [Dunnett-adjusted 95% CI] under three outlier rules",
+    table.attr = kable_table_attributes
+  )
+
+time_sensitivity %>%
+  distinct(task, rule, trials) %>%
+  mutate(rule = unname(time_rule_labels[rule])) %>%
+  tidyr::pivot_wider(names_from = rule, values_from = trials) %>%
+  rename(Task = task) %>%
+  knitr::kable(
+    format = "html",
+    caption = "Trials entering each model",
+    table.attr = kable_table_attributes
   )
 ```
+
+`r describe_sensitivity_changes(time_sensitivity_changes)`.
+
+**Task 1 time–accuracy associations.**
+
+```{r time-accuracy-sensitivity-table}
+time_accuracy_sensitivity %>%
+  transmute(
+    Association = comparison,
+    rule = unname(time_rule_labels[rule]),
+    cell = sprintf("%.3f [%.3f, %.3f]", odds_ratio, lower_ci, upper_ci)
+  ) %>%
+  tidyr::pivot_wider(names_from = rule, values_from = cell) %>%
+  knitr::kable(
+    format = "html",
+    caption = "Odds ratio for a doubling of time [95% CI] under three outlier rules",
+    table.attr = kable_table_attributes
+  )
+```
+
+`r if (nrow(time_accuracy_changes) == 0) "The direction and clarity of both time–accuracy associations are the same under all three rules." else paste0("The verdict of ", nrow(time_accuracy_changes), " time–accuracy association(s) depends on the outlier rule; see the table.")`
+
+:::

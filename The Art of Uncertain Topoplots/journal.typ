@@ -620,11 +620,15 @@ participant. The interfaces for both tasks are shown in @fig:task-examples.
 
 === Task 3: Subjective evaluation
 
-After completing the objective tasks, participants evaluated each of the seven visualization
-techniques subjectively. Four aspects were assessed on 5-point Likert scales: how helpful
-the visualization was for comparing spatial patterns, how helpful it was for detecting
-relevant spatial regions, how helpful it was for representing signal and uncertainty, and
-how visually appealing it was.
+Participants rated each of the seven visualization techniques on four 5-point items. Two
+items asked how helpful the visualization was, from "very unhelpful" to "very helpful": for
+comparing spatial patterns and for detecting relevant spatial regions. One item asked how
+likely participants were to use it, from "very unlikely" to "very likely": "I would prefer
+to use this visualization for representing signal mean and standard error in a publication
+or presentation." The last item asked how visually appealing it was, from "very unappealing"
+to "very appealing." The comparison item was asked directly after Task 1; the other three
+were asked after Task 2. Within each item the visualizations were listed in the same order
+for all participants, with the basic topoplot last.
 
 == Procedure
 
@@ -633,12 +637,13 @@ data anonymisation, public data sharing, voluntary participation, and their righ
 withdraw, and provided informed consent. Participants then answered background questions
 concerning their experience with EEG/ERP analysis.
 
-Participants then received an explanation of the visualization techniques and completed Task
-1 (pattern comparison), followed by brief feedback questions. They next received
-instructions for Task 2 (uncertainty integration) and completed its randomized trials.
-Finally, participants completed Task 3 (subjective evaluation).
+Participants then received an explanation of the visualization techniques, completed Task 1
+(pattern comparison), and rated how helpful each visualization was for comparing spatial
+patterns. They next received instructions for Task 2 (uncertainty integration), completed
+its randomized trials, and gave the remaining three ratings of Task 3 (detection, likelihood
+of use, and visual appeal).
 
-At the end particiaption were asked to leave a feedback about each plot type. The task was:
+At the end, participants were asked to leave feedback about each plot type. The task was:
 "Do you have any comments about the visualisations shown below? For example, please explain
 why you liked or disliked a particular visualisation, or why you found it helpful or
 unhelpful."
@@ -703,7 +708,13 @@ case study, consistent with the caution expressed in PF-25.
 
 = Limitations
 
-[TODO: Limitations]
+In every rating item the visualizations were listed in the same order, with the basic
+topoplot always last. Order and context effects on the subjective ratings therefore cannot
+be separated from differences between the visualizations. The comparison rating was also
+collected at a different point in the study than the other three ratings (after Task 1
+rather than after Task 2).
+
+[TODO: Further limitations]
 
 = Conclusion
 

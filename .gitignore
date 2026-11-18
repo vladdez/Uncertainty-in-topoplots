@@ -1,6 +1,8 @@
 # Private research data
 data/data_uncertain_topoplots.csv
 data/feedback_*.pdf
+# Second-coder subsample: contains full A305 responses (audit U12)
+data/a305_double_coding_sample.csv
 
 # R/RStudio state
 .Rhistory

@@ -37,6 +37,13 @@ main table th {
   width: 1%;
 }
 
+/* "Fixed on" date column (Fixed page) */
+.findings-table td:nth-child(4),
+.findings-table th:nth-child(4) {
+  white-space: nowrap;
+  width: 1%;
+}
+
 /* Badges */
 .badge {
   display: inline-block;
