@@ -62,6 +62,26 @@ tibble(
   )
 ```
 
+## Sample definition and data quality
+
+```{r data-quality}
+#| include: false
+#| cache: false
+source(project_path("scripts", "data_quality.R"))
+```
+
+- **Launch date.** Records started before `r format(study_launch_date, "%Y-%m-%d")` are
+  excluded. They are test runs of the questionnaire: `r n_pre_launch_completed` completed
+  records, all from `r paste(format(pre_launch_dates, "%Y-%m-%d"), collapse = ", ")`.
+- **Completion.** Only records that reached the last page are analysed;
+  `r n_incomplete_after_launch` records started after launch were not completed.
+- **Quality screen** (flagged, not excluded): `r sum(quality_flags$speeding)`
+  participants exceed SoSci Survey's relative speed index (`TIME_RSI > 2`), and
+  `r sum(quality_flags$straight_lining)` gave the same rating to all
+  `r length(rating_item_columns)` rating items; `r length(flagged_ids)` participants in
+  total. The main analyses keep them. The Subjective evaluation page reports the rating
+  contrasts without them as a sensitivity analysis.
+
 ## Self-assessed visualization experience
 
 ```{r}
@@ -1026,17 +1046,24 @@ if (isTRUE(params$export_artifacts)) {
 
 ### Figure with icons
 
+Same panels and grouping as the reduced figure; flags (C) and tool lettering or
+logos (D) replace the plain labels.
+
+::: {.panel-tabset}
+
+#### Bars
+
 ```{r participant-characteristics-icons-figure}
 #| cache: false
 #| fig-width: 15
-#| fig-height: 8
-#| fig-cap: 'Flags indicate country of work, not nationality. Multiple software selections were permitted. An asterisk denotes the survey answer "My own code in …".'
+#| fig-height: 10
+#| fig-cap: 'Multiple software selections were permitted in D. An asterisk denotes the survey answer "My own code in …".'
 
 country_icon_labels <- function(labels) {
   labels <- as.character(labels)
   is_other <- startsWith(labels, "Other")
   country_names <- sub("\\n.*$", "", labels)
-  formatted <- flag_label(country_names, height = 13, width = 21)
+  formatted <- flag_label(country_names, height = 15, width = 24)
   formatted[is_other] <- "*Other*<br>(each &lt;2%)"
   formatted
 }
@@ -1053,68 +1080,27 @@ software_icon_labels <- function(labels) {
   formatted
 }
 
-make_icon_dot_plot <- function(
-  plot_data,
-  label_column,
-  title,
-  label_function
-) {
-  plot_data <- plot_data %>%
-    filter(!is.na(.data[[label_column]])) %>%
-    mutate(display_label = forcats::fct_reorder(
-      factor(.data[[label_column]]),
-      other_last(.data[[label_column]], percent_score)
-    ))
-
-  ggplot(plot_data, aes(percent_score, display_label)) +
-    geom_segment(
-      aes(x = 0, xend = percent_score, yend = display_label),
-      colour = "#C6DDEB",
-      linewidth = 1.2
-    ) +
-    geom_point(size = 5, colour = "#3182BD") +
-    geom_text(
-      aes(label = paste0(round(percent_score), "%")),
-      hjust = -0.3,
-      size = 6
-    ) +
-    scale_x_continuous(
-      limits = c(0, 70),
-      breaks = c(0, 20, 40, 60),
-      labels = \(x) paste0(x, "%"),
-      expand = expansion(mult = c(0, 0.02))
-    ) +
-    scale_y_discrete(labels = label_function) +
-    labs(title = title, x = "Percent of respondents", y = NULL) +
-    coord_cartesian(clip = "off") +
-    theme_classic(base_family = "Lato", base_size = 20) +
-    theme(
-      plot.title = element_text(hjust = 0.5, face = "bold", size = 26),
-      axis.text.x = element_text(size = 18),
-      axis.text.y = ggtext::element_markdown(size = 18, lineheight = 0.75),
-      axis.title.x = element_text(size = 20),
-      axis.ticks.y = element_blank(),
-      plot.margin = margin(8, 24, 8, 8)
-    )
-}
-
-p_country_icons <- make_icon_dot_plot(
+# Panels C and D are the reduced figure's bar charts with icon labels.
+p_country_icons <- make_characteristic_plot(
   country_over_3,
   "country_work",
-  "Country of work",
-  country_icon_labels
-)
+  "Country of work"
+) +
+  scale_y_discrete(labels = country_icon_labels) +
+  theme(axis.text.y = ggtext::element_markdown(size = 22, lineheight = 0.75))
 
-p_software_icons <- make_icon_dot_plot(
+p_software_icons <- make_characteristic_plot(
   software_over_3,
   "software",
-  "Software used",
-  software_icon_labels
-)
+  "Software used"
+) +
+  scale_y_discrete(labels = software_icon_labels) +
+  theme(axis.text.y = ggtext::element_markdown(size = 20, lineheight = 0.7))
 
 participant_characteristics_icons_figure <-
-  p_country_icons + p_software_icons +
-  plot_layout(widths = c(0.95, 1.05)) +
+  (p_experience + p_field) /
+  (p_country_icons + p_software_icons) +
+  plot_layout(heights = c(0.65, 1.35)) +
   plot_annotation(
     tag_levels = "A",
     theme = theme(plot.tag = element_text(face = "bold", size = 18))
@@ -1127,7 +1113,7 @@ if (isTRUE(params$export_artifacts)) {
     project_path("figures", "participant_characteristics_icons_figure.png"),
     participant_characteristics_icons_figure,
     width = 15,
-    height = 8,
+    height = 10,
     units = "in",
     dpi = 180,
     device = ragg::agg_png,
@@ -1135,3 +1121,124 @@ if (isTRUE(params$export_artifacts)) {
   )
 }
 ```
+
+#### Compact (alternative)
+
+```{r participant-characteristics-icons-compact}
+#| cache: false
+#| fig-width: 15
+#| fig-height: 9.2
+#| fig-cap: 'Alternative layout. Level and research field are parts of a whole, so each is shown as one stacked bar (A); this leaves more height for country and software (B, C). Flags indicate country of work, not nationality. Multiple software selections were permitted in C. An asterisk denotes the survey answer "My own code in …".'
+
+# Parts of a whole as one 100% bar each (Wilke ch. 10); segments ordered as
+# the answer scale (level) or by share (field), labelled directly so no legend
+# is needed. Segments too narrow for an inside label are labelled to the right.
+composition <- bind_rows(
+  experience_combined %>%
+    transmute(
+      question = "Self-assessed level",
+      category = level,
+      percent_score,
+      order = match(level, c("Beginner", "Intermediate", "Expert"))
+    ),
+  field_combined %>%
+    transmute(
+      question = "Research field",
+      category = field,
+      percent_score,
+      order = rank(-percent_score, ties.method = "first")
+    )
+) %>%
+  group_by(question) %>%
+  arrange(order, .by_group = TRUE) %>%
+  mutate(
+    xmax = cumsum(percent_score),
+    xmin = xmax - percent_score,
+    shade = order / max(order),
+    inside = percent_score >= 15,
+    label = paste0(category, " ", round(percent_score), "%")
+  ) %>%
+  ungroup() %>%
+  mutate(question = factor(question, c("Research field", "Self-assessed level")))
+
+composition_y <- as.numeric(composition$question)
+
+p_composition <- ggplot(composition) +
+  geom_rect(
+    aes(
+      xmin = xmin, xmax = xmax,
+      ymin = composition_y - 0.36, ymax = composition_y + 0.36,
+      fill = shade
+    ),
+    colour = "white",
+    linewidth = 1
+  ) +
+  geom_text(
+    data = \(d) filter(d, inside),
+    aes(
+      x = (xmin + xmax) / 2,
+      y = as.numeric(question),
+      label = label,
+      colour = shade > 0.8
+    ),
+    family = "Lato",
+    size = 7,
+    lineheight = 0.9
+  ) +
+  geom_text(
+    data = \(d) filter(d, !inside),
+    aes(x = 100, y = as.numeric(question), label = label),
+    hjust = -0.08,
+    family = "Lato",
+    size = 7
+  ) +
+  scale_fill_gradient(low = "#C6DBEF", high = "#2171B5", guide = "none") +
+  scale_colour_manual(values = c(`FALSE` = "black", `TRUE` = "white"), guide = "none") +
+  scale_x_continuous(
+    limits = c(0, 100),
+    breaks = seq(0, 100, 25),
+    labels = \(x) paste0(x, "%"),
+    expand = expansion(mult = c(0, 0))
+  ) +
+  scale_y_continuous(
+    breaks = seq_along(levels(composition$question)),
+    labels = levels(composition$question),
+    expand = expansion(add = 0.5)
+  ) +
+  labs(x = "Percent of respondents", y = NULL) +
+  coord_cartesian(clip = "off") +
+  theme_classic(base_family = "Lato", base_size = 20) +
+  theme(
+    axis.text.y = element_text(size = 22, face = "bold"),
+    axis.text.x = element_text(size = 20),
+    axis.ticks.y = element_blank(),
+    axis.line.y = element_blank(),
+    plot.margin = margin(8, 150, 8, 8)
+  )
+
+participant_characteristics_icons_compact <-
+  p_composition /
+  (p_country_icons + p_software_icons) +
+  plot_layout(heights = c(0.42, 1.58)) +
+  plot_annotation(
+    tag_levels = "A",
+    theme = theme(plot.tag = element_text(face = "bold", size = 18))
+  )
+
+participant_characteristics_icons_compact
+
+if (isTRUE(params$export_artifacts)) {
+  ggsave_st(
+    project_path("figures", "participant_characteristics_icons_compact.png"),
+    participant_characteristics_icons_compact,
+    width = 15,
+    height = 9.2,
+    units = "in",
+    dpi = 180,
+    device = ragg::agg_png,
+    bg = "white"
+  )
+}
+```
+
+:::
