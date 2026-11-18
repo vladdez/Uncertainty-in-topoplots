@@ -121,7 +121,7 @@
       [R],
       [Univariate and bivariate colour maps],
       [PT],
-      [N: 16],
+      [*E1:* 16; *E2:* 8],
       [Elementary map-reading error rate; response time],
 
       [Sanyal et al. @sanyal2009user],
@@ -148,7 +148,8 @@
       [Error bars, box plots, gradients, violin plots],
       [PJ],
       [*E1:* 96; *E2:* 48; *E3:* 96],
-      [Prediction accuracy; likelihood judgments; judgment confidence],
+      [Adherence to the expected inference strategy; likelihood and effect-size judgments;
+       judgment confidence],
 
       [Scholz & Lu @scholz2014uncertainty],
       [Texas precipitation and crop siting],
@@ -160,7 +161,7 @@
 
       [Greis et al. @greis2015investigating],
       [Weather forecasts in a farming game],
-      [M],
+      [n.r.],
       [Text: expected value, expected value + SD, and quantiles; graphics: line chart +
        CI, box-and-whisker plot, bar + error bars, histogram bars, stacked histogram,
        area histogram, shaded probability bars, PDF, and CDF],
@@ -173,8 +174,8 @@
       [S],
       [HOPs, error bars, violin plots],
       [PJ],
-      [*N:* 288],
-      [Probability-estimation error],
+      [N: 288],
+      [Absolute error of mean and probability estimates; completion time],
 
       [Gschwandtner et al. @gschwandtner2016visual],
       [Abstract uncertain time intervals],
@@ -213,13 +214,13 @@
       [S],
       [HOPs, error bars, line ensembles],
       [PT],
-      [*E1:* 50; *E2:* 150],
+      [*E1:* 50; *E2:* 150#super[‡]],
       [Trend-identification accuracy; perceptual sensitivity (JND); judgment confidence],
 
       [Kusumastuti et al. @kusumastuti2023practice],
       [Abstract bivariate Gaussian uncertainty],
       [S],
-      [Ensemble, summary, distribution displays],
+      [Ensemble (scatter), summary (ellipse), and distributional (interlace) displays],
       [DM],
       [*E1:* 118; *E2:* 56],
       [Decision accuracy; response time],
@@ -228,9 +229,10 @@
       [Protein positional uncertainty],
       [M],
       [Colour, clouds, ensembles, hulls, sausages, contours, texture, waves, noise],
-      [PT, QF],
+      [PT, SR, QF],
       [*E1:* 540; *E2:* varies by metaphor (793 total); *E3:* 423; experts: 6],
-      [Mapping-direction judgments; uncertainty-estimation accuracy; qualitative expert feedback],
+      [Free-text associations; mapping-direction judgments; uncertainty-estimation error and
+       response time; confusion/appeal ratings; qualitative expert feedback],
     )
   },
   caption: [
@@ -239,7 +241,8 @@
     compare uncertainty visualisations; they do not describe the studies in full.#linebreak()
     Data: S = synthetic or simulated data;
     R = real observational data;
-    M = mixed real and simulated data;#linebreak()
+    M = mixed real and simulated data;
+    n.r. = data origin not reported in the archived source.#linebreak()
     Task type: PT = perceptual tasks;
     PJ = probability judgments;
     DM = decision-making tasks;
@@ -248,7 +251,10 @@
     N = number of participants. Sample size (valid) reports participants included in
     the relevant analysis rather than all participants recruited; separate values are
     shown when the analytic sample differed across experiments or conditions.#linebreak()
-    *E1–E3* = separate experiments.
+    *E1–E3* = separate experiments.#linebreak()
+    #super[‡] From the authors' released data; not stated in the paper.#linebreak()
+    Wainer & Francolini evaluate two-variable (bivariate) colour maps rather than an
+    uncertainty encoding; they are included as a bivariate-map precedent.
   ],
 ) <tab:uncertainty-evaluations>
 
@@ -275,7 +281,8 @@
 
       [Wainer & Francolini @wainer1980colormaps],
       [*E1*#super[†]: Identify the level of both variables at a marked map location.#linebreak()
-       *E2*#super[†]: Repeat the task without the colour legend.],
+       *E2*#super[†]: Eight E1 participants repeated the task, with an added fifth trial per
+       map type without the colour legend.],
       [*E1:* paired univariate maps;#linebreak()
       time: bivariate map.#linebreak()
        *E2:* paired univariate maps.],
@@ -288,13 +295,13 @@
        *E2*#super[†]: Count values matching a specified data or uncertainty feature.],
       [*E1:* _1D_: glyph size for locating the least uncertain value; glyph colour and
        surface colour for locating the most uncertain value. _2D_: surface colour for
-       locating the least uncertain value; glyph colour and surface colour for locating
+       locating the least uncertain value; surface colour (≈ glyph colour) for locating
        the most uncertain value.#linebreak()
        *E2:* _1D_: no clear winner. _2D_: surface colour for
        counting uncertainty features; glyph size for counting data features.],
-      [*E1:* _1D_ least: glyph colour ≈ surface colour > error bars; _1D_ highest: glyph size
-       > error bars; _2D_ least: glyph size ≈ glyph colour ≈ error bars; _2D_ highest:
-       glyph size > error bars.#linebreak()
+      [*E1:* _1D_ least: error bars > surface colour; glyph colour ≈ both; _1D_ most: glyph
+       size ≈ error bars; _2D_ least: glyph size ≈ glyph colour ≈ error bars; _2D_ most:
+       glyph colour ≈ glyph size > error bars; surface colour > glyph size.#linebreak()
        *E2:* _1D_: all four performed similarly; _2D_ uncertainty features:
        glyph size ≈ glyph colour ≈
        error bars; _2D_ data features: glyph colour ≈ error bars > surface colour.],
@@ -308,7 +315,8 @@
        winner.#linebreak()
        *E2,* Series 1: no clear winner for accuracy or response time.],
       [*E1,* Series 1: arrangement, size, and transparency > saturation,
-       hue, orientation, and shape.#linebreak()
+       hue, orientation, and shape (grain, not classified in the text, also had a mean
+       below 4 in Fig. 4).#linebreak()
        *E2,* Series 1: fuzziness ≈ colour value.],
 
       [Correll & Gleicher @correll2014error],
@@ -319,7 +327,8 @@
        presented as text.#linebreak()
        *E3*#super[†]: Compare two uncertain groups, predict which will have the higher outcome,
        rate confidence, and estimate how large the difference will be.],
-      [*E1:* gradient ≈ violin ≈ box plot.#linebreak()
+      [*E1:* gradient ≈ violin; box plots matched them on strategy adherence and absence
+       of within-bar bias but not on confidence (box = bar).#linebreak()
        *E2:* no clear winner.#linebreak()
        *E3:* gradient ≈ violin ≈ box plot.],
       [*E1:* bar chart with error bars; values inside the bar were judged more
@@ -331,12 +340,14 @@
 
       [Scholz & Lu @scholz2014uncertainty],
       [*E1*#super[†]: Rank four uncertainty visualisations from most to least preferred.],
-      [*E1:* boundary fuzziness (mean rank 3.35).],
+      [*E1:* boundary fuzziness (mean preference score 3.35; 4 = most preferred).],
       [*E1:* colour lightness (2.97) > symbol transparency (2.38) > symbol shape
        (1.30).],
 
       [Greis et al. @greis2015investigating],
-      [*E1*#super[†]: Rate how well 12 weather-forecast displays communicated uncertainty.#linebreak()
+      [*E1*#super[†]: Rate 12 weather-forecast displays on decision support, familiarity,
+       ease of understanding, and visual appeal (5-point scales; order uses the overall
+       mean).#linebreak()
        *E2:* Use a weather forecast to choose a crop in a farming game, then select a
        preferred display.],
       [*E1:* line chart with confidence interval (4.00/5).#linebreak()
@@ -357,18 +368,19 @@
 
       [Gschwandtner et al. @gschwandtner2016visual],
       [*E2*#super[†]: Effectiveness in representing start and end time.#linebreak()
-       *E3a*#super[†]: Effectiveness in representing minimum and maximum duration.#linebreak()
-       *E3b*#super[†]: Effectiveness in representing average duration.#linebreak()
+       *E3a–b*#super[†]: Effectiveness in representing maximum and minimum duration.#linebreak()
+       *E3c*#super[†]: Effectiveness in representing average duration.#linebreak()
        *E4*#super[†]: Effectiveness in representing probability of start and end time.#linebreak()
        *E5:* Preferences about visualization types.],
       [*E2:* ambiguation ≈ error bars ≈ centred error bars.#linebreak()
-       *E3a:* ambiguation ≈ error bars ≈ centred error bars ≈ gradient.#linebreak()
-       *E3b:* centred error bars ≈ error bars ≈ ambiguation.#linebreak()
+       *E3a–b:* ambiguation ≈ error bars ≈ centred error bars ≈ gradient.#linebreak()
+       *E3c:* centred error bars (significantly lower error than gradient, accumulated
+       probability, and violin); error bars ≈ ambiguation next.#linebreak()
        *E4:* gradient.#linebreak()
        *E5:* ambiguation.],
       [*E2:* gradient > accumulated probability ≈ violin.#linebreak()
-       *E3a:* accumulated probability ≈ violin.#linebreak()
-       *E3b:* gradient, accumulated probability, and violin.#linebreak()
+       *E3a–b:* accumulated probability ≈ violin.#linebreak()
+       *E3c:* gradient, accumulated probability, and violin.#linebreak()
        *E4:* accumulated probability ≈ violin.#linebreak()
        *E5:* accumulated probability > centred error bars ≈ error bars > violin >
        gradient.],
@@ -378,19 +390,23 @@
        *E2*#super[†]: Place a ship where value was high while avoiding uncertain locations.],
       [*E1:* VSUP + square legend ≈ VSUP + wedge legend ≈ Traditional bivariate + wedge
        legend ≈ Traditional bivariate + square legend.#linebreak()
-       *E2:* VSUP + wedge legend ≈ VSUP + square legend.],
+       *E2:* no clear winner: VSUPs reduced very-high-uncertainty placements but produced
+       higher average danger than traditional bivariate maps; legend shape had no
+       effect.],
       [*E1:* Juxtaposed univariate + discrete colorbar > Juxtaposed univariate +
        continuous colorbar > Continuous bivariate + wedge legend > Continuous bivariate +
        square legend.#linebreak()
-       *E2:* Traditional bivariate + wedge legend ≈ Traditional bivariate + square legend.],
+       *E2:* not ranked (trade-off between avoiding high uncertainty and expected
+       value).],
 
       [Fernandes et al. @fernandes2018uncertainty],
       [*E1:* Choose when to leave to catch a bus while balancing waiting cost against the risk
        of missing it.],
       [*E1:* 50-dot quantile dotplot.],
-      [*E1:* CDF ≈ 20-dot quantile dotplot > remaining displays; the complete lower-order
-       ranking was not reported, and high-probability text approached their mean
-       performance with greater variability.],
+      [*E1:* CDF ≈ 20-dot quantile dotplot > most remaining displays; 99% and 60% text
+       intervals approached 20-dot mean performance (99% text with higher variability),
+       while 85% text resembled the no-uncertainty baseline; no complete lower-order
+       ranking was reported.],
 
       [Kale et al. @kale2019hypothetical],
       [*E1*#super[†]: Decide whether noisy employment reports showed growth or no growth.#linebreak()
@@ -403,9 +419,10 @@
       [Kusumastuti et al. @kusumastuti2023practice],
       [*E1* and *E2:* Combine two or three uncertain location estimates to select the
        most likely hidden location, before and after practice.],
-      [*E1* two-source accuracy: ellipse ≈ interlace ≈ scatter; three-source: scatter ≈
-       ellipse.#linebreak()
-       *E2* three-source accuracy: ellipse; time in both experiments: interlace ≈ scatter.],
+      [*E1* (practised with scatter), post-practice two-source accuracy: ellipse ≈
+       interlace ≈ scatter; three-source: scatter ≈ ellipse.#linebreak()
+       *E2* (practised with ellipse), post-practice three-source accuracy: ellipse; time in
+       both experiments: interlace ≈ scatter.],
       [*E1* three-source accuracy: interlace.#linebreak()
        *E2* three-source accuracy: interlace ≈ scatter; time: ellipse.],
 
@@ -415,11 +432,12 @@
        *E3:* Estimate the uncertainty value at a highlighted position.],
       [*E1:* no clear winner.#linebreak()
        *E2:* noise (approximately 90%).#linebreak()
-       *E3:* texture (lowest error; most well-rounded).],
-      [*E2* approximate partial order: texture > colour ≈ waves ≈ contours > hulls >
-       ensemble ≈ clouds > sausages.#linebreak()
-       *E3:* the remaining order changed by molecular representation; noise, waves, and
-       colour generally formed the next group.],
+       *E3:* texture on tube (MAE 14) and tied with colour on SES (MAE 13); colour best
+       on sticks; authors judge texture most well-rounded overall.],
+      [*E2* (filtered): texture ≈ colour ≈ waves ≈ contours ≈ hulls (≈ 70%) > ensemble ≈
+       clouds ≈ sausages (≈ 50%; sausages lowest).#linebreak()
+       *E3:* order below the best changed by representation (tube: waves ≈ sausages ≈
+       noise ≈ contours ≈ colour > hulls > ensembles > clouds).],
     )
   },
   caption: [

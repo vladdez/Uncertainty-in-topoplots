@@ -20,6 +20,7 @@ subtitle: "Resolved issues and how they were resolved"
 | [Moderate]{.badge .sev-moderate} | [F18. Fixed item order in the rating questions](#f18) | Ratings, manuscript | 2026-11-18 |
 | [Moderate]{.badge .sev-moderate} | [F4. Feedback codes filed under the wrong participant](#f4) | Feedback | 2026-11-16 |
 | [Moderate]{.badge .sev-moderate} | [F5. Obsolete pilot analysis file](#f5) | Project | 2026-10-28 |
+| [Low]{.badge .sev-low} | [F21. glmmTMB was built against an older TMB](#f21) | All models | 2026-11-18 |
 | [Low]{.badge .sev-low} | [F19. Sample definition and data quality](#f19) | Data | 2026-11-18 |
 | [Low]{.badge .sev-low} | [F20. Stale hard-coded text and suspicious items](#f20) | Task 1, Task 2 | 2026-11-18 |
 | [Low]{.badge .sev-low} | [F8. Outdated sample sizes in text](#f8) | Task 2, manuscript | 2026-11-16 |
@@ -29,6 +30,27 @@ subtitle: "Resolved issues and how they were resolved"
 : {.findings-table}
 
 Dates are when the fix was committed (from Git history).
+
+## F21. glmmTMB was built against an older TMB (was U17) {#f21}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Area:** R environment, all glmmTMB models
+:::
+
+**Problem.** Loading the packages warned that glmmTMB 1.1.14 was built with TMB 1.9.21
+while TMB 1.9.22 was installed.
+
+**Resolution (18 Nov 2026).** Rtools is not installed, so a source build was not
+possible. Instead the current CRAN Windows binaries were installed as a matched pair:
+TMB 1.9.25 and glmmTMB 1.1.15.2 (built against it). The mismatch warning is gone. All
+page caches were cleared and the whole site was re-rendered from scratch.
+
+**Check.** The visible text of every page (prose and tables) was compared before and
+after. Task 1, Task 2, Hit or miss, Time, Sample and Feedback are identical. The only
+change was two interval bounds in the Subjective page's linear-mixed-model sensitivity
+table (±0.01). That came from the Monte Carlo integration behind `adjust = "mvt"`, not
+from glmmTMB. Seeds are now set before every `mvt` contrast on that page, so it
+reproduces exactly.
 
 ## F10. A303 measures likelihood of use, not helpfulness (was U3) {#f10}
 

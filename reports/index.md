@@ -9,13 +9,12 @@ subtitle: "Open issues in the analysis (N = 146), most severe first"
 U3–U15 were worked through on 18 November 2026. Eleven are fixed ([F10–F20](fixed.md)).
 Two still need something that code cannot do: a human second coder (U12, now
 [A5](addressed.md#a5)) and a decision on the Task 2 scoring construct (U7, now
-[A4](addressed.md#a4)). The two items below are new and came up while fixing the others.
+[A4](addressed.md#a4)). U16 below came up while fixing the others; U17 (glmmTMB build) is fixed as [F21](fixed.md#f21).
 :::
 
 | | Issue | Area |
 |--|------------------|----|
 | [Low]{.badge .sev-low} | [U16. Two MMN targets are hard to tell from N170](#u16) | Task 1, manuscript |
-| [Low]{.badge .sev-low} | [U17. glmmTMB was built against an older TMB](#u17) | All models |
 
 : {.findings-table}
 
@@ -44,16 +43,3 @@ ratios become 0.64 and 0.65, with Dunnett-adjusted intervals still including 1
 
 - Whether the manuscript mentions the exploratory refit.
 - The Stimuli section should say that some single-subject MMN and N170 maps look alike.
-
-## U17. glmmTMB was built against an older TMB {#u17}
-
-::: {.finding-meta .sev-low}
-**Severity:** Low · **Area:** R environment, all glmmTMB models
-:::
-
-**Problem.** Loading the packages warns: "glmmTMB was built with TMB package version
-1.9.21. Current TMB package version is 1.9.22." The fits run and the numbers match
-earlier fits, but TMB's guidance is to reinstall glmmTMB from source after a TMB update.
-
-**Fix.** Run `install.packages("glmmTMB", type = "source")`, clear the page caches, and
-re-render. Confirm that the Task 1, Task 2, Hit or miss and Time estimates do not change.
