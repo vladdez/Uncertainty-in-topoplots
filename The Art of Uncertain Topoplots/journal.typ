@@ -660,13 +660,16 @@ unhelpful."
 
 Responses to the open-ended feedback question were coded with large language model
 assistance (GPT-5.6 Sol @openai2026gpt56sol and Claude Opus 5.5 @anthropic2026opus55),
-following one fixed prompt and codebook that are archived with the study materials. The
-models divided responses into evaluative meaning units, retaining participants' wording, and
-gave each unit one visualization, one primary theme from the codebook, and an evaluation
-intensity from -2 (strongly negative) to +2 (strongly positive). For example, the meaning
-unit "couldn't distinguish colors mapping from legend to scalp" was assigned to "Bivariate
-corner", coded under "Legend/color mapping", and given an evaluation intensity of -2.
-Missing, blank, and non-substantive responses were excluded.
+following one fixed prompt with coding rules and a codebook, archived with the study
+materials. The models divided responses into evaluative meaning units, retaining
+participants' wording. Each unit was assigned to the visualization it evaluated (or to each
+of several visualizations, if it evaluated them together), one primary theme from the
+codebook, and an evaluation intensity from -2 (strongly negative) to +2 (strongly positive).
+For example, the meaning unit "couldn't distinguish colors mapping from legend to scalp" was
+assigned to "Bivariate corner", coded under "Legend/color mapping", and given an evaluation
+intensity of -2. Missing, blank, and non-substantive responses were excluded. All codes were
+then checked for compliance with the coding rules, and units that violated a rule were
+recoded (13 of 274).
 
 = Results
 

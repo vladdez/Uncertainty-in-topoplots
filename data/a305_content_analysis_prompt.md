@@ -1,6 +1,7 @@
 # A305 qualitative content-analysis prompt
 
-**Model used:** OpenAI `gpt-5.6-sol` via Codex.
+**Models used:** OpenAI GPT-5.6 Sol (`gpt-5.6-sol`, via Codex) and Anthropic
+Claude Opus 5.5 (`claude-opus-5-5`).
 
 Analyze the open-ended responses to survey item `A305_01`, which contains
 participants' feedback about the uncertainty visualizations used in the study.
