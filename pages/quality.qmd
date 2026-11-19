@@ -127,7 +127,8 @@ Two checks flag participants who may not have answered carefully. Flagged partic
 are **kept** in all main analyses; the [Subjective evaluation](subjective.qmd) page
 repeats the rating contrasts without them as a sensitivity analysis.
 
-- **Too fast:** `r nrow(speeders)` participants have a speed index above 2.
+- **Too fast:** `r nrow(speeders)` participants have a speed index above
+  `r speed_cutoff`.
 - **Same rating everywhere:** `r nrow(straight_liners)` participants gave the same rating
   to all `r length(rating_item_columns)` rating items.
 
@@ -162,6 +163,9 @@ that speed is *not* a valid indicator when a questionnaire tests knowledge or sk
 because experts are simply faster. Our tasks test experts' perception, so the flag is
 only a hint. In this sample the median index is
 `r sprintf("%.2f", median(quality_plot_data$time_rsi, na.rm = TRUE))`.
+
+We flag values strictly above `r speed_cutoff`, as Leiner words it.
+`r n_at_cutoff <- sum(quality_plot_data$time_rsi == speed_cutoff, na.rm = TRUE); if (n_at_cutoff == 0) "" else sprintf("%s exactly at %s %s therefore not flagged (the dot on the dashed line in the figure).", if (n_at_cutoff == 1) "One participant is" else paste(n_at_cutoff, "participants are"), speed_cutoff, if (n_at_cutoff == 1) "and is" else "and are")`
 
 **Were the fast participants careless?** The figure plots each participant's speed index
 against their performance in both tasks.
@@ -200,7 +204,7 @@ Ranks are among all `r nrow(data)` participants (1 = best).
 #| cache: false
 #| fig-width: 16
 #| fig-height: 6.5
-#| fig-alt: "Two scatter plots of each participant's speed index, against Task 1 accuracy (left) and Task 2 mean score (right). Most participants have an index between 0.4 and 1.9. The five participants above the cutoff of 2 are highlighted; in both tasks they lie above the chance line."
+#| fig-alt: "Two scatter plots of each participant's speed index, against Task 1 accuracy (left) and Task 2 mean score (right). Most participants have an index between 0.4 and 1.9. The participants above the speeding cutoff are highlighted; in both tasks they lie above the chance line."
 speed_panel <- function(y, y_label, chance, chance_label, y_labels, label_gap) {
   # ID labels go below each triangle, or above it when another flagged point sits
   # just below (otherwise the label would cover that point)
@@ -216,9 +220,10 @@ speed_panel <- function(y, y_label, chance, chance_label, y_labels, label_gap) {
     label_vjust = if_else(above, 0, 1)
   )
   ggplot(quality_plot_data, aes(time_rsi, .data[[y]])) +
-    geom_vline(xintercept = 2, linetype = "dashed", colour = "grey35") +
+    geom_vline(xintercept = speed_cutoff, linetype = "dashed", colour = "grey35") +
     geom_hline(yintercept = chance, linetype = "dotted", colour = "grey35") +
-    annotate("text", x = 2.03, y = Inf, label = "Above 2:\nflagged as too fast",
+    annotate("text", x = speed_cutoff + 0.03, y = Inf,
+             label = sprintf("Above %s:\nflagged as too fast", speed_cutoff),
              hjust = 0, vjust = 1.1, size = 5.5, colour = "#c4501f", lineheight = 0.8) +
     annotate("text", x = 0.3, y = chance, label = chance_label,
              hjust = 0, vjust = -0.5, size = 5.5, colour = "grey25") +
@@ -227,7 +232,8 @@ speed_panel <- function(y, y_label, chance, chance_label, y_labels, label_gap) {
     geom_point(data = speeders, colour = "#eb6834", shape = 17, size = 5.5) +
     geom_text(data = labels, aes(y = label_y, label = ID, vjust = label_vjust),
               size = 5.5, colour = "grey15") +
-    expand_limits(x = c(0.3, 2.7), y = chance - 2 * label_gap) +
+    expand_limits(x = c(0.3, max(2.7, speed_cutoff + 0.7)),
+                  y = chance - 2 * label_gap) +
     scale_x_continuous(breaks = seq(0.5, 2.5, 0.5)) +
     scale_y_continuous(labels = y_labels, expand = expansion(mult = c(0.03, 0.18))) +
     labs(x = "Speed index (TIME_RSI)", y = y_label) +

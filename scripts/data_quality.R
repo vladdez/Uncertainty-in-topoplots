@@ -8,11 +8,15 @@
 #
 # Quality screen (flags only; the main analyses keep everyone, the flagged
 # participants are dropped in sensitivity analyses):
-#   - Speeding: SoSci Survey's relative speed index TIME_RSI > 2 (completed at
-#     more than twice the typical speed; Leiner, 2019).
+#   - Speeding: SoSci Survey's relative speed index TIME_RSI > speed_cutoff
+#     (completed at more than twice the typical speed; Leiner, 2019). Strictly
+#     above: a value of exactly 2.00 is not flagged (decided 19 Nov 2026).
 #   - Straight-lining: the same rating for all 28 rating items (A301–A304).
 
 study_launch_date <- as.Date("2026-07-24")
+# Single definition of the speeding cutoff; pages/quality.qmd uses it for the
+# text, the dashed line and the label.
+speed_cutoff <- 2
 
 survey_records <- survey_raw %>% dplyr::slice(-1)
 completed_records <- survey_records %>%
@@ -34,7 +38,7 @@ quality_flags <- data %>%
   transmute(
     ID,
     time_rsi = readr::parse_number(TIME_RSI),
-    speeding = !is.na(time_rsi) & time_rsi > 2
+    speeding = !is.na(time_rsi) & time_rsi > speed_cutoff
   ) %>%
   left_join(
     data %>%
