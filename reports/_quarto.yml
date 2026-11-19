@@ -36,7 +36,7 @@ website:
           - href: addressed.md
             text: "Addressed (5)"
           - href: fixed.md
-            text: "Fixed (21)"
+            text: "Fixed (22)"
       - section: "Literature"
         contents:
           - href: manuscript-citations-audit.md

@@ -251,7 +251,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Statistical analysis</a></li><li class="breadcrumb-item"><a href="./fixed.html">Fixed (21)</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Statistical analysis</a></li><li class="breadcrumb-item"><a href="./fixed.html">Fixed (22)</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -314,7 +314,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./fixed.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Fixed (21)</span></a>
+ <span class="menu-text">Fixed (22)</span></a>
   </div>
 </li>
       </ul>
@@ -380,13 +380,14 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#f12" id="toc-f12" class="nav-link" data-scroll-target="#f12">F12. Task 1 text overstated weak effects (was U5)</a></li>
   <li><a href="#f13" id="toc-f13" class="nav-link" data-scroll-target="#f13">F13. Task 2 “detection score” was μ, not the expected score (was U6)</a></li>
   <li><a href="#f14" id="toc-f14" class="nav-link" data-scroll-target="#f14">F14. Multiplicity was handled inconsistently (was U8)</a></li>
-  <li><a href="#f15" id="toc-f15" class="nav-link" data-scroll-target="#f15">F15. Rating models: proportional odds and random slopes (was U9)</a></li>
-  <li><a href="#f16" id="toc-f16" class="nav-link" data-scroll-target="#f16">F16. Composite ranking and “leader” highlighting (was U10)</a></li>
+  <li><a href="#f15" id="toc-f15" class="nav-link" data-scroll-target="#f15">F15. Rating models assumed proportional odds (was U9)</a></li>
+  <li><a href="#f16" id="toc-f16" class="nav-link" data-scroll-target="#f16">F16. Rating ranking mixed different questions and overstated a leader (was U10)</a></li>
   <li><a href="#f17" id="toc-f17" class="nav-link" data-scroll-target="#f17">F17. Time outliers and the time estimand (was U11)</a></li>
   <li><a href="#f18" id="toc-f18" class="nav-link" data-scroll-target="#f18">F18. Fixed item order in the rating questions (was U13)</a></li>
   <li><a href="#f21" id="toc-f21" class="nav-link" data-scroll-target="#f21">F21. glmmTMB was built against an older TMB (was U17)</a></li>
   <li><a href="#f19" id="toc-f19" class="nav-link" data-scroll-target="#f19">F19. Sample definition and data quality (was U14)</a></li>
   <li><a href="#f20" id="toc-f20" class="nav-link" data-scroll-target="#f20">F20. Stale hard-coded text and suspicious items (was U15)</a></li>
+  <li><a href="#f22" id="toc-f22" class="nav-link" data-scroll-target="#f22">F22. Random slopes in the rating models were not explained (was U9)</a></li>
   <li><a href="#f9" id="toc-f9" class="nav-link" data-scroll-target="#f9">F9. Completion times were joined to the wrong trials</a></li>
   <li><a href="#f3" id="toc-f3" class="nav-link" data-scroll-target="#f3">F3. Analytic sample definition</a></li>
   <li><a href="#f4" id="toc-f4" class="nav-link" data-scroll-target="#f4">F4. Feedback codes filed under the wrong participant</a></li>
@@ -403,7 +404,7 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Statistical analysis</a></li><li class="breadcrumb-item"><a href="./fixed.html">Fixed (21)</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Statistical analysis</a></li><li class="breadcrumb-item"><a href="./fixed.html">Fixed (22)</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Fixed</h1>
 <p class="subtitle lead">Resolved issues and how they were resolved</p>
@@ -465,13 +466,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td><span class="badge sev-moderate">Moderate</span></td>
-<td><a href="#f15">F15. Rating models: proportional odds and random slopes</a></td>
+<td><a href="#f15">F15. Rating models assumed proportional odds</a></td>
 <td>Ratings</td>
 <td>18 Nov 2026</td>
 </tr>
 <tr class="odd">
 <td><span class="badge sev-moderate">Moderate</span></td>
-<td><a href="#f16">F16. Composite ranking and “leader” highlighting</a></td>
+<td><a href="#f16">F16. Rating ranking mixed different questions and overstated a leader</a></td>
 <td>Ratings</td>
 <td>18 Nov 2026</td>
 </tr>
@@ -506,54 +507,60 @@ ul.task-list li input[type="checkbox"] {
 <td>18 Nov 2026</td>
 </tr>
 <tr class="odd">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#f22">F22. Random slopes in the rating models were not explained</a></td>
+<td>Ratings</td>
+<td>18 Nov 2026</td>
+</tr>
+<tr class="even">
 <td><span class="badge sev-critical">Critical</span></td>
 <td><a href="#f9">F9. Completion times were joined to the wrong trials</a></td>
 <td>Task 1, Task 2</td>
 <td>16 Nov 2026</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><span class="badge sev-high">High</span></td>
 <td><a href="#f3">F3. Analytic sample definition</a></td>
 <td>Data</td>
 <td>16 Nov 2026</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span class="badge sev-moderate">Moderate</span></td>
 <td><a href="#f4">F4. Feedback codes filed under the wrong participant</a></td>
 <td>Feedback</td>
 <td>16 Nov 2026</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><span class="badge sev-low">Low</span></td>
 <td><a href="#f8">F8. Outdated sample sizes in text</a></td>
 <td>Task 2, manuscript</td>
 <td>16 Nov 2026</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span class="badge sev-high">High</span></td>
 <td><a href="#f2">F2. Task 1 ignored repeated comparison items</a></td>
 <td>Task 1</td>
 <td>3 Nov 2026</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><span class="badge sev-low">Low</span></td>
 <td><a href="#f6">F6. Task 2 descriptive error bars</a></td>
 <td>Task 2</td>
 <td>3 Nov 2026</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span class="badge sev-critical">Critical</span></td>
 <td><a href="#f1">F1. A304 aesthetic-rating labels were wrong</a></td>
 <td>Ratings</td>
 <td>28 Oct 2026</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><span class="badge sev-moderate">Moderate</span></td>
 <td><a href="#f5">F5. Obsolete pilot analysis file</a></td>
 <td>Project</td>
 <td>28 Oct 2026</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span class="badge sev-low">Low</span></td>
 <td><a href="#f7">F7. Reduced sample-figure caption</a></td>
 <td>Sample</td>
@@ -688,28 +695,27 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Task 2 Bivariate corner vs Basic is now reported once:</strong> −3.2 pp [−8.3, +1.8], Dunnett p = .351. With the image intercept in the model, no Task 2 contrast reaches adjusted p &lt; .05.</p>
 </section>
 <section id="f15" class="level2">
-<h2 class="anchored" data-anchor-id="f15">F15. Rating models: proportional odds and random slopes (was U9)</h2>
+<h2 class="anchored" data-anchor-id="f15">F15. Rating models assumed proportional odds (was U9)</h2>
 <div class="finding-meta sev-moderate status-resolved">
 <p><strong>Severity:</strong> Moderate · <strong>Area:</strong> Subjective-rating models</p>
 </div>
-<p><strong>Problem.</strong> The rating models (<code>rating_ord ~ vistype + (1 | ID)</code>) let participants differ only in their overall rating level, although every participant rated every visualization and could also differ in which visualizations they preferred (random slopes). The models also assume proportional odds (a visualization shifts all rating thresholds by the same amount); likelihood-ratio tests rejected this for all four questions (p = .011 to 3 × 10⁻⁵).</p>
-<p><strong>Resolution (18 Nov 2026).</strong> A new section on the Subjective page, “Model checks and sensitivity analyses”, covers three points.</p>
+<p><strong>Problem.</strong> The ordinal rating models assume proportional odds: a visualization shifts every rating step (1→2, 2→3, …) by the same amount, so its effect can be summarised by one odds ratio. Tests rejected this for all four questions (p = .011 to 3 × 10⁻⁵).</p>
+<p><strong>Resolution (18 Nov 2026).</strong> The Subjective page has a new section, “Model checks and sensitivity analyses”.</p>
 <ul>
-<li><strong>Proportional odds.</strong> A likelihood-ratio test (fixed-effects <code>clm</code> with and without visualization-specific thresholds) rejects proportional odds for all 4 items (p &lt; .001 to .011). The page therefore reports <em>model-smoothed mean ratings</em> (largest difference from the raw means: 0.08) and does not interpret odds ratios.</li>
-<li><strong>Random slopes.</strong> Each participant rated each visualization once per item, so <code>(1 + vistype | ID)</code> would have one observation per random effect. It cannot be separated from the latent observation-level error, so the random intercept is the maximal identifiable structure. The page explains this.</li>
-<li><strong>Sensitivity.</strong> A linear mixed model <code>rating ~ vistype + (1 | ID)</code> with the same Dunnett contrasts agrees with the ordinal model on whether each interval excludes zero for 24 of 24 contrasts.</li>
+<li>The page no longer interprets odds ratios. It reports <em>model-smoothed mean ratings</em> instead. These differ from the raw means by at most 0.08.</li>
+<li><strong>Sensitivity.</strong> A simpler linear model (<code>rating ~ vistype + (1 | ID)</code>) gives the same answer for 24 of 24 contrasts: the same intervals exclude zero.</li>
 </ul>
 </section>
 <section id="f16" class="level2">
-<h2 class="anchored" data-anchor-id="f16">F16. Composite ranking and “leader” highlighting (was U10)</h2>
+<h2 class="anchored" data-anchor-id="f16">F16. Rating ranking mixed different questions and overstated a leader (was U10)</h2>
 <div class="finding-meta sev-moderate status-resolved">
 <p><strong>Severity:</strong> Moderate · <strong>Area:</strong> Subjective ratings</p>
 </div>
-<p><strong>Problem.</strong> The overall ranking summed the mean ratings of the four questions with equal weight, although they measure different things (one is likelihood of use, F10; one was asked at a different time, F11), and neighbouring ranks were indistinguishable (e.g., Uncertainty markers 12.28 [11.62, 12.88] vs Basic 12.24 [11.70, 12.82]). The tables also highlighted a “leader” per question, e.g.&nbsp;Confidence intervals for comparison, although its difference from Basic (+0.18 [−0.09, 0.45]) included zero and its differences from the runners-up were never tested.</p>
+<p><strong>Problem.</strong> The overall ranking summed the mean ratings of the four questions with equal weight, although they measure different things (one is likelihood of use, F10; one was asked at a different time, F11), and neighbouring ranks were indistinguishable (e.g., Uncertainty markers 12.28 [11.62, 12.88] vs Basic 12.24 [11.70, 12.82]). The tables also highlighted a “leader” per question, e.g.&nbsp;Confidence intervals for comparison. But its difference from Basic (+0.18 [−0.09, 0.45]) included zero, so “no difference from Basic” was still plausible. Its differences from the other visualizations were never tested.</p>
 <p><strong>Resolution (18 Nov 2026).</strong></p>
 <ul>
 <li>The “Sum of mean ratings” column is removed. The page explains why: the items measure different things (F10) and were asked at different times (F11).</li>
-<li><code>is_leader</code> is replaced by <code>excludes_zero</code>. Red now marks contrasts whose Dunnett-adjusted interval excludes zero, for example Confidence intervals for comparison (+0.18 [−0.09, 0.45]) is no longer highlighted.</li>
+<li>The “leader” highlighting is removed. Red now marks only clear differences from Basic. A difference is clear when its Dunnett-adjusted 95% interval does not include zero. Zero means “rated the same as Basic”. In the code this flag is <code>excludes_zero</code>. Example: Confidence intervals for comparison has +0.18 [−0.09, 0.45]. This interval includes zero, so it is no longer red.</li>
 <li>A generated list under the figure names the contrasts that exclude zero. The page states that differences among the uncertainty visualizations were not tested, so it names no “best” visualization.</li>
 </ul>
 </section>
@@ -831,6 +837,14 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Task 2 axes.</strong> The estimate and gradient figures take their x-ranges from the data.</li>
 <li><strong>Task 1 below-chance items.</strong> These are not mis-keyed: all 3,066 trials pass an answer-key consistency check. They are hard MMN targets that resemble some N170 maps. The diagnostic is a collapsed section on the Task 1 page; the follow-up is <a href="./index.html#u16">U16</a>.</li>
 </ul>
+</section>
+<section id="f22" class="level2">
+<h2 class="anchored" data-anchor-id="f22">F22. Random slopes in the rating models were not explained (was U9)</h2>
+<div class="finding-meta sev-low status-resolved">
+<p><strong>Severity:</strong> Low · <strong>Area:</strong> Subjective-rating models</p>
+</div>
+<p><strong>Problem.</strong> The rating model (<code>rating_ord ~ vistype + (1 | ID)</code>) lets participants differ only in their overall rating level. The page did not say why participant-specific preferences for visualizations (random slopes) were left out.</p>
+<p><strong>Resolution (18 Nov 2026).</strong> Random slopes cannot be estimated here. Each participant rated each visualization only once per item. A participant-specific effect per visualization would rest on a single rating and cannot be told apart from ordinary noise. So the model keeps only each participant’s overall level (random intercept). The “Model checks and sensitivity analyses” section on the Subjective page explains this.</p>
 </section>
 <section id="f9" class="level2">
 <h2 class="anchored" data-anchor-id="f9">F9. Completion times were joined to the wrong trials</h2>

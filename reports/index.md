@@ -6,7 +6,7 @@ subtitle: "Open issues in the analysis (N = 146), most severe first"
 ::: {.callout-note}
 ## Status, 18 November 2026
 
-U3–U15 were worked through on 18 November 2026. Eleven are fixed ([F10–F20](fixed.md)).
+U3–U15 were worked through on 18 November 2026. Eleven are fixed ([F10–F20](fixed.md); U9 was later split into F15 and [F22](fixed.md#f22)).
 Two still need something that code cannot do: a human second coder (U12, now
 [A5](addressed.md#a5)) and a decision on the Task 2 scoring construct (U7, now
 [A4](addressed.md#a4)). U16 came up while fixing the others; U17 (glmmTMB build) is fixed as

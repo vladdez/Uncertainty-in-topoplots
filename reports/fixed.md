@@ -10,13 +10,14 @@ subtitle: "Resolved issues and how they were resolved"
 | [High]{.badge .sev-high} | [F12. Task 1 text overstated weak effects](#f12) | Task 1 | 18 Nov 2026 |
 | [Moderate]{.badge .sev-moderate} | [F13. Task 2 "detection score" was μ, not the expected score](#f13) | Task 2 | 18 Nov 2026 |
 | [Moderate]{.badge .sev-moderate} | [F14. Multiplicity was handled inconsistently](#f14) | All | 18 Nov 2026 |
-| [Moderate]{.badge .sev-moderate} | [F15. Rating models: proportional odds and random slopes](#f15) | Ratings | 18 Nov 2026 |
+| [Moderate]{.badge .sev-moderate} | [F15. Rating models assumed proportional odds](#f15) | Ratings | 18 Nov 2026 |
 | [Moderate]{.badge .sev-moderate} | [F16. Rating ranking mixed different questions and overstated a leader](#f16) | Ratings | 18 Nov 2026 |
 | [Moderate]{.badge .sev-moderate} | [F17. Time outliers and the time estimand](#f17) | Task 1, Task 2 | 18 Nov 2026 |
 | [Moderate]{.badge .sev-moderate} | [F18. Fixed item order in the rating questions](#f18) | Ratings, manuscript | 18 Nov 2026 |
 | [Low]{.badge .sev-low} | [F21. glmmTMB was built against an older TMB](#f21) | All models | 18 Nov 2026 |
 | [Low]{.badge .sev-low} | [F19. Sample definition and data quality](#f19) | Data | 18 Nov 2026 |
 | [Low]{.badge .sev-low} | [F20. Stale hard-coded text and suspicious items](#f20) | Task 1, Task 2 | 18 Nov 2026 |
+| [Low]{.badge .sev-low} | [F22. Random slopes in the rating models were not explained](#f22) | Ratings | 18 Nov 2026 |
 | [Critical]{.badge .sev-critical} | [F9. Completion times were joined to the wrong trials](#f9) | Task 1, Task 2 | 16 Nov 2026 |
 | [High]{.badge .sev-high} | [F3. Analytic sample definition](#f3) | Data | 16 Nov 2026 |
 | [Moderate]{.badge .sev-moderate} | [F4. Feedback codes filed under the wrong participant](#f4) | Feedback | 16 Nov 2026 |
@@ -148,33 +149,23 @@ the adjustment.
 Dunnett p = .351. With the image intercept in the model, no Task 2 contrast reaches
 adjusted p < .05.
 
-## F15. Rating models: proportional odds and random slopes (was U9) {#f15}
+## F15. Rating models assumed proportional odds (was U9) {#f15}
 
 ::: {.finding-meta .sev-moderate .status-resolved}
 **Severity:** Moderate · **Area:** Subjective-rating models
 :::
 
-**Problem.** The rating models (`rating_ord ~ vistype + (1 | ID)`) let participants differ
-only in their overall rating level, although every participant rated every visualization
-and could also differ in which visualizations they preferred (random slopes). The models
-also assume proportional odds (a visualization shifts all rating thresholds by the same
-amount); likelihood-ratio tests rejected this for all four questions (p = .011 to
-3 × 10⁻⁵).
+**Problem.** The ordinal rating models assume proportional odds: a visualization shifts
+every rating step (1→2, 2→3, …) by the same amount, so its effect can be summarised by
+one odds ratio. Tests rejected this for all four questions (p = .011 to 3 × 10⁻⁵).
 
-**Resolution (18 Nov 2026).** A new section on the Subjective page, "Model checks and
-sensitivity analyses", covers three points.
+**Resolution (18 Nov 2026).** The Subjective page has a new section, "Model checks and
+sensitivity analyses".
 
-- **Proportional odds.** A likelihood-ratio test (fixed-effects `clm` with and without
-  visualization-specific thresholds) rejects proportional odds for all 4 items (p < .001
-  to .011). The page therefore reports *model-smoothed mean ratings* (largest difference
-  from the raw means: 0.08) and does not interpret odds ratios.
-- **Random slopes.** Each participant rated each visualization once per item, so
-  `(1 + vistype | ID)` would have one observation per random effect. It cannot be
-  separated from the latent observation-level error, so the random intercept is the
-  maximal identifiable structure. The page explains this.
-- **Sensitivity.** A linear mixed model `rating ~ vistype + (1 | ID)` with the same
-  Dunnett contrasts agrees with the ordinal model on whether each interval excludes zero
-  for 24 of 24 contrasts.
+- The page no longer interprets odds ratios. It reports *model-smoothed mean ratings*
+  instead. These differ from the raw means by at most 0.08.
+- **Sensitivity.** A simpler linear model (`rating ~ vistype + (1 | ID)`) gives the same
+  answer for 24 of 24 contrasts: the same intervals exclude zero.
 
 ## F16. Rating ranking mixed different questions and overstated a leader (was U10) {#f16}
 
@@ -335,6 +326,22 @@ and data quality", with all numbers generated inline.
   answer-key consistency check. They are hard MMN targets that resemble some N170 maps.
   The diagnostic is a collapsed section on the Task 1 page; the follow-up is
   [U16](index.md#u16).
+
+## F22. Random slopes in the rating models were not explained (was U9) {#f22}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Area:** Subjective-rating models
+:::
+
+**Problem.** The rating model (`rating_ord ~ vistype + (1 | ID)`) lets participants differ
+only in their overall rating level. The page did not say why participant-specific
+preferences for visualizations (random slopes) were left out.
+
+**Resolution (18 Nov 2026).** Random slopes cannot be estimated here. Each participant
+rated each visualization only once per item. A participant-specific effect per
+visualization would rest on a single rating and cannot be told apart from ordinary
+noise. So the model keeps only each participant's overall level (random intercept). The
+"Model checks and sensitivity analyses" section on the Subjective page explains this.
 
 ## F9. Completion times were joined to the wrong trials {#f9}
 
