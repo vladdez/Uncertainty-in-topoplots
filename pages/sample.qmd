@@ -62,25 +62,27 @@ tibble(
   )
 ```
 
-## Sample definition and data quality
+## Sample definition
 
 ```{r data-quality}
 #| include: false
 #| cache: false
 source(project_path("scripts", "data_quality.R"))
+# "24 Jul 2026"; month.abb is English regardless of the system locale
+format_day_month_year <- function(d) {
+  sprintf("%d %s %s", as.integer(format(d, "%d")),
+          month.abb[as.integer(format(d, "%m"))], format(d, "%Y"))
+}
 ```
 
-- **Launch date.** Records started before `r format(study_launch_date, "%Y-%m-%d")` are
+- **Launch date.** Records started before `r format_day_month_year(study_launch_date)` are
   excluded. They are test runs of the questionnaire: `r n_pre_launch_completed` completed
-  records, all from `r paste(format(pre_launch_dates, "%Y-%m-%d"), collapse = ", ")`.
+  records, all from `r paste(format_day_month_year(pre_launch_dates), collapse = ", ")`.
 - **Completion.** Only records that reached the last page are analysed;
   `r n_incomplete_after_launch` records started after launch were not completed.
-- **Quality screen** (flagged, not excluded): `r sum(quality_flags$speeding)`
-  participants exceed SoSci Survey's relative speed index (`TIME_RSI > 2`), and
-  `r sum(quality_flags$straight_lining)` gave the same rating to all
-  `r length(rating_item_columns)` rating items; `r length(flagged_ids)` participants in
-  total. The main analyses keep them. The Subjective evaluation page reports the rating
-  contrasts without them as a sensitivity analysis.
+- **Quality control.** `r length(flagged_ids)` participants are flagged for possibly
+  careless answering but kept in all main analyses; see the
+  [Quality control](quality.qmd) page.
 
 ## Self-assessed visualization experience
 

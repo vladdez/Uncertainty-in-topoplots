@@ -887,7 +887,7 @@ likert_quality_sensitivity <- likert_contrasts |>
 ```
 
 **Sensitivity: quality screen.** Without the `r length(flagged_ids)` participants flagged
-for speeding or straight-lining (see the Sample page), the contrasts against Basic move by at
+for speeding or straight-lining (see the [Quality control](quality.qmd) page), the contrasts against Basic move by at
 most `r sprintf("%.2f", max(abs(likert_quality_sensitivity$shift)))` scale points, and
 `r sum(!likert_quality_sensitivity$agree)` of `r nrow(likert_quality_sensitivity)` intervals
 change their position relative to zero.

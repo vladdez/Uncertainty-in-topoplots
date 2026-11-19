@@ -1,0 +1,307 @@
+---
+title: "Quality control"
+execute:
+  warning: false
+  message: false
+---
+
+```{r shared-setup}
+#| include: false
+#| cache: false
+source("scripts/analysis_setup.R")
+source(project_path("scripts", "data_quality.R"))
+source(project_path("scripts", "task1_trials.R"))
+source(project_path("scripts", "task2_trials.R"))
+
+quality_plot_data <- quality_flags |>
+  left_join(
+    task1 |>
+      group_by(ID) |>
+      summarise(task1_accuracy = mean(correct, na.rm = TRUE), .groups = "drop"),
+    by = "ID"
+  ) |>
+  left_join(
+    task2 |>
+      mutate(ID = as.integer(ID)) |>
+      group_by(ID) |>
+      summarise(task2_score = mean(score, na.rm = TRUE), .groups = "drop"),
+    by = "ID"
+  ) |>
+  # Did the participant write anything in the two open feedback questions?
+  # (A305: about the visualizations; A306: general.) Punctuation-only answers
+  # such as "-" count as none.
+  left_join(
+    data |>
+      transmute(
+        ID,
+        feedback_vis = if_else(grepl("[[:alpha:]]", A305_01),
+                               sprintf("“%s”", trimws(A305_01)), "—"),
+        feedback_general = if_else(grepl("[[:alpha:]]", A306_01),
+                                   sprintf("“%s”", trimws(A306_01)), "—")
+      ),
+    by = "ID"
+  ) |>
+  mutate(
+    task1_rank = rank(-task1_accuracy, ties.method = "min"),
+    task2_rank = rank(-task2_score, ties.method = "min")
+  )
+
+# Task 2 chance: a random click lands on each of a map's regions with equal
+# probability (as on the Hit or miss page), so the expected score of a trial is
+# the mean score of its stimulus's regions; averaged over all trials shown.
+task2_chance_score <- task2 |>
+  left_join(
+    region_scores |>
+      group_by(stimulus) |>
+      summarise(random_click_score = mean(score), .groups = "drop"),
+    by = "stimulus"
+  ) |>
+  summarise(chance = mean(random_click_score, na.rm = TRUE)) |>
+  pull(chance)
+speeders <- filter(quality_plot_data, speeding)
+straight_liners <- filter(quality_plot_data, straight_lining)
+
+# Number of different answers (1-5) each participant used across the 28 ratings
+rating_variety <- data |>
+  select(ID, all_of(rating_item_columns)) |>
+  pivot_longer(-ID, values_to = "response") |>
+  mutate(rating = readr::parse_number(as.character(response))) |>
+  group_by(ID) |>
+  summarise(
+    n_values = n_distinct(rating, na.rm = TRUE),
+    only_value = if (n_values == 1) first(na.omit(rating)) else NA_real_,
+    .groups = "drop"
+  )
+straight_liner_values <- rating_variety |>
+  filter(ID %in% straight_liners$ID) |>
+  left_join(straight_liners, by = "ID")
+
+pct <- function(x) scales::percent(x, accuracy = 1)
+# "76% (70th)": value and rank among all participants (1 = best)
+# kable with a second header row that groups columns, e.g. "Task 1 accuracy"
+# over "Value | Rank" (kableExtra is not installed). `groups` = named colspans.
+kable_grouped <- function(df, col_names, groups, align) {
+  html <- as.character(knitr::kable(
+    df, format = "html", col.names = col_names, align = align,
+    table.attr = kable_table_attributes
+  ))
+  group_cells <- sprintf(
+    '<th colspan="%d" style="text-align:center;%s">%s</th>', groups,
+    ifelse(trimws(names(groups)) == "", "", "border-bottom:1px solid #adb5bd;"),
+    trimws(names(groups))
+  )
+  html <- sub("<thead>", paste0("<thead>
+<tr>", paste(group_cells, collapse = ""),
+                                "</tr>"), html, fixed = TRUE)
+  knitr::asis_output(html)
+}
+quality_table_groups <- c(" " = 2, "Task 1 accuracy" = 2, "Task 2 score" = 2,
+                          "Feedback" = 2)
+quality_table_columns <- c("Accuracy", "Rank", "Score", "Rank",
+                           "On the visualizations (A305)", "General (A306)")
+quality_table_align <- c("r", "r", "r", "r", "r", "r", "l", "l")
+speeders_above_chance <- all(speeders$task1_accuracy > 0.5 &
+                               speeders$task2_score > task2_chance_score)
+
+# Recompute TIME_RSI from the page times with Leiner's formula (median page time
+# over all downloaded records / own page time, capped at 3, averaged over pages)
+# to confirm what SoSci reports.
+rsi_records <- dplyr::slice(survey_raw, -1)
+rsi_page_times <- sapply(
+  rsi_records[grep("^TIME[0-9]{3}$", names(rsi_records), value = TRUE)],
+  readr::parse_number
+)
+rsi_page_medians <- apply(rsi_page_times, 2, median, na.rm = TRUE)
+rsi_page_factors <- pmin(sweep(1 / rsi_page_times, 2, rsi_page_medians, "*"), 3)
+rsi_page_factors[!is.finite(rsi_page_factors)] <- NA
+rsi_recomputed <- rowMeans(rsi_page_factors, na.rm = TRUE)
+rsi_reported <- readr::parse_number(rsi_records$TIME_RSI)
+rsi_check <- list(
+  n = sum(!is.na(rsi_reported)),
+  r = cor(rsi_recomputed, rsi_reported, use = "complete.obs"),
+  mad = mean(abs(rsi_recomputed - rsi_reported), na.rm = TRUE)
+)
+```
+
+Two checks flag participants who may not have answered carefully. Flagged participants
+are **kept** in all main analyses; the [Subjective evaluation](subjective.qmd) page
+repeats the rating contrasts without them as a sensitivity analysis.
+
+- **Too fast:** `r nrow(speeders)` participants have a speed index above 2.
+- **Same rating everywhere:** `r nrow(straight_liners)` participants gave the same rating
+  to all `r length(rating_item_columns)` rating items.
+
+`r length(flagged_ids)` participants are flagged in total.
+
+## Too fast: the speed index (TIME_RSI)
+
+SoSci Survey compares each participant's speed with the typical participant's
+(Leiner, 2019):
+
+1. On each page, the median time of all participants is divided by this participant's
+   time. A value of 2 means "twice as fast as typical on this page".
+2. Any value above 3 is counted as 3, so a single page skipped in a second does not
+   decide the result.
+3. The page values are averaged.
+
+As a formula, for participant $i$:
+
+$$
+\text{TIME\_RSI}_i = \frac{1}{P} \sum_{p=1}^{P} \min\left(3,\ \frac{M_p}{t_{ip}}\right)
+$$
+
+where $t_{ip}$ is participant $i$'s time on page $p$, $M_p$ is the median time of all
+participants on page $p$, and $P$ is the number of pages. Recomputing it this way from
+the page times of all `r rsi_check$n` downloaded records reproduces SoSci's values
+(correlation `r sprintf("%.3f", rsi_check$r)`, mean absolute difference
+`r sprintf("%.3f", rsi_check$mad)`, i.e. rounding).
+
+So 1 = typical speed, 2 = twice as fast. Leiner suggests treating values above 2.0 as
+suspicious, because such participants may not have read the questions. He also warns
+that speed is *not* a valid indicator when a questionnaire tests knowledge or skill,
+because experts are simply faster. Our tasks test experts' perception, so the flag is
+only a hint. In this sample the median index is
+`r sprintf("%.2f", median(quality_plot_data$time_rsi, na.rm = TRUE))`.
+
+**Were the fast participants careless?** The figure plots each participant's speed index
+against their performance in both tasks.
+
+- **Task 1** (two options, so guessing gives 50%): the `r nrow(speeders)` fast
+  participants answered
+  `r pct(min(speeders$task1_accuracy))`–`r pct(max(speeders$task1_accuracy))` correctly
+  (median of all participants:
+  `r pct(median(quality_plot_data$task1_accuracy, na.rm = TRUE))`).
+- **Task 2** (score from 0 to 1; clicking a random region gives
+  `r sprintf("%.2f", task2_chance_score)` on average): they scored
+  `r sprintf("%.2f", min(speeders$task2_score))`–`r sprintf("%.2f", max(speeders$task2_score))`
+  (median of all participants:
+  `r sprintf("%.2f", median(quality_plot_data$task2_score, na.rm = TRUE))`).
+
+`r if (speeders_above_chance) "All fast participants are above chance in both tasks, so they were fast but not guessing." else "Not all fast participants are above chance in both tasks (see the table)."`
+Some of them are among the weaker participants in one task, which is why the flag is
+kept as a sensitivity check rather than ignored.
+
+```{r quality-speed-table}
+speeders |>
+  arrange(desc(time_rsi)) |>
+  transmute(
+    ID, sprintf("%.2f", time_rsi),
+    pct(task1_accuracy), task1_rank,
+    sprintf("%.2f", task2_score), task2_rank,
+    feedback_vis, feedback_general
+  ) |>
+  kable_grouped(c("ID", "Speed index", quality_table_columns),
+                quality_table_groups, quality_table_align)
+```
+
+Ranks are among all `r nrow(data)` participants (1 = best).
+
+```{r quality-speed-figure}
+#| cache: false
+#| fig-width: 16
+#| fig-height: 6.5
+#| fig-alt: "Two scatter plots of each participant's speed index, against Task 1 accuracy (left) and Task 2 mean score (right). Most participants have an index between 0.4 and 1.9. The five participants above the cutoff of 2 are highlighted; in both tasks they lie above the chance line."
+speed_panel <- function(y, y_label, chance, chance_label, y_labels, label_gap) {
+  # ID labels go below each triangle, or above it when another flagged point sits
+  # just below (otherwise the label would cover that point)
+  labels <- speeders |> mutate(value = .data[[y]])
+  labels$above <- vapply(seq_len(nrow(labels)), \(k) {
+    others <- labels[-k, ]
+    any(abs(others$time_rsi - labels$time_rsi[k]) < 0.08 &
+          others$value < labels$value[k] &
+          others$value > labels$value[k] - 2.5 * label_gap)
+  }, logical(1))
+  labels <- mutate(labels,
+    label_y = if_else(above, value + label_gap, value - label_gap),
+    label_vjust = if_else(above, 0, 1)
+  )
+  ggplot(quality_plot_data, aes(time_rsi, .data[[y]])) +
+    geom_vline(xintercept = 2, linetype = "dashed", colour = "grey35") +
+    geom_hline(yintercept = chance, linetype = "dotted", colour = "grey35") +
+    annotate("text", x = 2.03, y = Inf, label = "Above 2:\nflagged as too fast",
+             hjust = 0, vjust = 1.1, size = 5.5, colour = "#c4501f", lineheight = 0.8) +
+    annotate("text", x = 0.3, y = chance, label = chance_label,
+             hjust = 0, vjust = -0.5, size = 5.5, colour = "grey25") +
+    geom_point(data = filter(quality_plot_data, !speeding),
+               colour = "grey70", size = 3, alpha = 0.8) +
+    geom_point(data = speeders, colour = "#eb6834", shape = 17, size = 5.5) +
+    geom_text(data = labels, aes(y = label_y, label = ID, vjust = label_vjust),
+              size = 5.5, colour = "grey15") +
+    expand_limits(x = c(0.3, 2.7), y = chance - 2 * label_gap) +
+    scale_x_continuous(breaks = seq(0.5, 2.5, 0.5)) +
+    scale_y_continuous(labels = y_labels, expand = expansion(mult = c(0.03, 0.18))) +
+    labs(x = "Speed index (TIME_RSI)", y = y_label) +
+    plot_theme(base_size = 20)
+}
+
+speed_panel("task1_accuracy", "Task 1 accuracy", 0.5, "Chance (50%)",
+            scales::label_percent(), 0.035) +
+  speed_panel("task2_score", "Task 2 mean score", task2_chance_score,
+              sprintf("Random click (%.2f)", task2_chance_score),
+              scales::label_number(accuracy = 0.01), 0.02) +
+  patchwork::plot_annotation(
+    caption = "Speed index: 1 = typical speed, 2 = twice as fast.",
+    theme = theme(plot.caption = element_text(size = 16, hjust = 0.5))
+  )
+```
+
+Each dot is one participant. Orange triangles are the participants flagged as too fast,
+labelled with their ID.
+
+Leiner, D. J. (2019). Too fast, too straight, too weird: Non-reactive indicators for
+meaningless data in internet surveys. *Survey Research Methods, 13*(3), 229–248.
+<https://doi.org/10.18148/srm/2019.v13i3.7403> (speed index: Section 4; cutoff and the
+caveat on knowledge questions: p. 242).
+
+
+## Same rating everywhere
+
+Each participant rated the `r length(rating_item_columns) / 4` visualizations on 4
+questions, `r length(rating_item_columns)` ratings on a 1–5 scale. A participant who
+gives every one of them the same answer has not told the visualizations apart, which can
+mean they stopped reading the questions ("straight-lining"; Leiner, 2019).
+
+The figure counts how many of the five possible answers each participant used across
+their `r length(rating_item_columns)` ratings. Almost everyone used several;
+`r nrow(straight_liners)` participants used only one:
+
+```{r quality-straight-table}
+straight_liner_values |>
+  transmute(
+    ID, only_value,
+    pct(task1_accuracy), task1_rank,
+    sprintf("%.2f", task2_score), task2_rank,
+    feedback_vis, feedback_general
+  ) |>
+  kable_grouped(c("ID", "Rating given to all items", quality_table_columns),
+                quality_table_groups, quality_table_align)
+```
+
+Ranks are among all `r nrow(data)` participants (1 = best); chance is 50% in Task 1 and
+`r sprintf("%.2f", task2_chance_score)` in Task 2. A constant middle rating (3) can also
+mean "no preference"; a near-chance task score and no written feedback make carelessness
+more plausible.
+
+```{r quality-straight-figure}
+#| cache: false
+#| fig-width: 10
+#| fig-height: 5
+#| fig-alt: "Bar chart of how many different answers participants used across their 28 ratings. Most used three to five different answers; two participants, highlighted, used only one."
+rating_variety |>
+  count(n_values) |>
+  tidyr::complete(n_values = 1:5, fill = list(n = 0)) |>
+  mutate(flagged = n_values == 1) |>
+  ggplot(aes(factor(n_values), n, fill = flagged)) +
+  geom_col(width = 0.7) +
+  geom_text(aes(label = n), vjust = -0.4, size = 6, colour = "grey15") +
+  scale_fill_manual(values = c(`TRUE` = "#2a78d6", `FALSE` = "grey70"), guide = "none") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.12))) +
+  labs(
+    x = paste("Different answers used across the", length(rating_item_columns),
+              "ratings (out of 5)"),
+    y = "Participants"
+  ) +
+  plot_theme(base_size = 20)
+```
+
+The blue bar holds the participants flagged for giving the same rating everywhere.
