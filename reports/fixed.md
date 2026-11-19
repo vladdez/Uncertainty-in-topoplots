@@ -11,7 +11,7 @@ subtitle: "Resolved issues and how they were resolved"
 | [Moderate]{.badge .sev-moderate} | [F13. Task 2 "detection score" was μ, not the expected score](#f13) | Task 2 | 18 Nov 2026 |
 | [Moderate]{.badge .sev-moderate} | [F14. Multiplicity was handled inconsistently](#f14) | All | 18 Nov 2026 |
 | [Moderate]{.badge .sev-moderate} | [F15. Rating models: proportional odds and random slopes](#f15) | Ratings | 18 Nov 2026 |
-| [Moderate]{.badge .sev-moderate} | [F16. Composite ranking and "leader" highlighting](#f16) | Ratings | 18 Nov 2026 |
+| [Moderate]{.badge .sev-moderate} | [F16. Rating ranking mixed different questions and overstated a leader](#f16) | Ratings | 18 Nov 2026 |
 | [Moderate]{.badge .sev-moderate} | [F17. Time outliers and the time estimand](#f17) | Task 1, Task 2 | 18 Nov 2026 |
 | [Moderate]{.badge .sev-moderate} | [F18. Fixed item order in the rating questions](#f18) | Ratings, manuscript | 18 Nov 2026 |
 | [Low]{.badge .sev-low} | [F21. glmmTMB was built against an older TMB](#f21) | All models | 18 Nov 2026 |
@@ -176,7 +176,7 @@ sensitivity analyses", covers three points.
   Dunnett contrasts agrees with the ordinal model on whether each interval excludes zero
   for 24 of 24 contrasts.
 
-## F16. Composite ranking and "leader" highlighting (was U10) {#f16}
+## F16. Rating ranking mixed different questions and overstated a leader (was U10) {#f16}
 
 ::: {.finding-meta .sev-moderate .status-resolved}
 **Severity:** Moderate · **Area:** Subjective ratings
@@ -186,17 +186,19 @@ sensitivity analyses", covers three points.
 weight, although they measure different things (one is likelihood of use, F10; one was
 asked at a different time, F11), and neighbouring ranks were indistinguishable (e.g.,
 Uncertainty markers 12.28 [11.62, 12.88] vs Basic 12.24 [11.70, 12.82]). The tables also
-highlighted a "leader" per question, e.g. Confidence intervals for comparison, although its
-difference from Basic (+0.18 [−0.09, 0.45]) included zero and its differences from the
-runners-up were never tested.
+highlighted a "leader" per question, e.g. Confidence intervals for comparison. But its
+difference from Basic (+0.18 [−0.09, 0.45]) included zero, so "no difference from Basic"
+was still plausible. Its differences from the other visualizations were never tested.
 
 **Resolution (18 Nov 2026).**
 
 - The "Sum of mean ratings" column is removed. The page explains why: the items measure
   different things (F10) and were asked at different times (F11).
-- `is_leader` is replaced by `excludes_zero`. Red now marks contrasts whose
-  Dunnett-adjusted interval excludes zero, for example Confidence intervals for
-  comparison (+0.18 [−0.09, 0.45]) is no longer highlighted.
+- The "leader" highlighting is removed. Red now marks only clear differences from Basic.
+  A difference is clear when its Dunnett-adjusted 95% interval does not include zero.
+  Zero means "rated the same as Basic". In the code this flag is `excludes_zero`.
+  Example: Confidence intervals for comparison has +0.18 [−0.09, 0.45]. This interval
+  includes zero, so it is no longer red.
 - A generated list under the figure names the contrasts that exclude zero. The page
   states that differences among the uncertainty visualizations were not tested, so it
   names no "best" visualization.
