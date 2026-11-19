@@ -35,3 +35,7 @@ reports/.quarto/
 pages/*_cache/
 
 /.luarc.json
+
+# knitr figure scratch space next to the pages (build by-product of
+# `cache: true`; the published copies live in docs/)
+pages/*_files/
