@@ -77,10 +77,18 @@ The analysis uses R packages including `dplyr`, `ggplot2`, `tidyr`, `forcats`,
 
 ## Data availability
 
-The raw survey data and participant feedback are not included in this
-repository because they may contain sensitive research information. To run the
-complete analysis, an authorized researcher must place the source data file in
-the project-relative `data/` directory as `data/data_uncertain_topoplots.csv`.
+The analysis reads `data/data_uncertain_topoplots_deidentified.csv`, a
+de-identified copy of the SoSci Survey export that is included in this
+repository, so the complete analysis can be re-run from a fresh clone. It has
+the same rows and columns as the export, with these changes: the SoSci
+invitation fields `SERIAL`, `REF` and `MAILSENT` are blank, the `STARTED` and
+`LASTDATA` timestamps are reduced to the date, and email addresses in free-text
+answers are replaced with `[email removed]`.
+
+The original export (`data/data_uncertain_topoplots.csv`) is not included.
+After a new export, an authorized researcher places it in `data/` and runs
+`Rscript scripts/deidentify_survey.R` to re-create the de-identified copy;
+`scripts/check_data_refresh.R` stops if the copy is out of date.
 
 The rendered website is generated in `docs/` and is included in version
 control for publication with GitHub Pages. It contains the figure gallery and

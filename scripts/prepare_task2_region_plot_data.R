@@ -20,7 +20,7 @@ task2_region_project_dir <- normalizePath(
 task2_region_data_path <- file.path(
   task2_region_project_dir,
   "data",
-  "data_uncertain_topoplots.csv"
+  "data_uncertain_topoplots_deidentified.csv"
 )
 task2_region_scores_path <- file.path(
   task2_region_project_dir,
@@ -72,7 +72,7 @@ task2_get_field <- function(x, field) {
 task2_survey_raw <- readr::read_delim(
   task2_region_data_path,
   delim = ";",
-  locale = readr::locale(encoding = "UTF-16LE"),
+  locale = readr::locale(encoding = "UTF-8"),
   col_types = readr::cols(.default = readr::col_character()),
   name_repair = "minimal",
   show_col_types = FALSE,

@@ -129,10 +129,12 @@ get_field <- function(x, field) {
   )[, 2]
 }
 
+# De-identified copy of the SoSci export, written by scripts/deidentify_survey.R
+# (same rows and columns as the private export; row 1 = variable labels).
 survey_raw <- readr::read_delim(
-  project_path("data", "data_uncertain_topoplots.csv"),
+  project_path("data", "data_uncertain_topoplots_deidentified.csv"),
   delim = ";",
-  locale = readr::locale(encoding = "UTF-16LE"),
+  locale = readr::locale(encoding = "UTF-8"),
   col_types = readr::cols(.default = readr::col_character()),
   name_repair = "minimal",
   show_col_types = FALSE,
@@ -157,7 +159,7 @@ data <- survey_raw %>%
 
 configure_analysis_cache <- function(extra_files = character()) {
   inputs <- c(
-    project_path("data", "data_uncertain_topoplots.csv"),
+    project_path("data", "data_uncertain_topoplots_deidentified.csv"),
     project_path("scripts", "analysis_setup.R"),
     extra_files
   )

@@ -10,7 +10,13 @@ source of truth for the procedure. Also obey the project `AGENTS.md`
 (the journal is compiled only via `scripts/compile-journal.ps1`).
 
 Hard rules:
-- Run `scripts/check_data_refresh.R` first and stop on any blocking problem.
+- First run `scripts/deidentify_survey.R` (re-creates the tracked
+  de-identified copy `data/data_uncertain_topoplots_deidentified.csv` from the
+  private export), then `scripts/check_data_refresh.R`; stop on any blocking
+  problem. Do this on every refresh: the analysis reads only the copy.
+- Never commit, copy into `docs/`, or print the private export
+  `data/data_uncertain_topoplots.csv`. Report personal data that the
+  automatic rules missed by column and ID only.
 - Do not edit or re-key existing rows of `data/a305_content_analysis.xlsx`
   as part of a refresh. New A305 codes are proposed to the caller first and
   appended only after approval. If you are running without a way to ask,

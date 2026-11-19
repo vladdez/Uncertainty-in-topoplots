@@ -20,6 +20,28 @@ suppressPackageStartupMessages({
   library(dplyr)
 })
 
+# 0. De-identified copy ------------------------------------------------------
+# The analysis reads data/data_uncertain_topoplots_deidentified.csv. It must
+# be regenerated from the private export after every new export.
+source("scripts/deidentify_survey.R")
+cat("\n== De-identified copy ==\n")
+if (!file.exists(survey_deidentified_path)) {
+  stop("Missing ", survey_deidentified_path,
+       ". Run: Rscript scripts/deidentify_survey.R")
+}
+if (file.exists(survey_raw_path)) {
+  expected <- deidentify_survey(read_raw_survey())
+  current <- read_deidentified_survey()
+  if (!identical(as.data.frame(expected), as.data.frame(current))) {
+    stop(survey_deidentified_path, " is out of date with the private export. ",
+         "Run: Rscript scripts/deidentify_survey.R")
+  }
+  cat("Up to date with the private export (", nrow(current) - 1L, " records).\n",
+      sep = "")
+} else {
+  cat("Private export not present; checking the de-identified copy only.\n")
+}
+
 source_lines <- readLines("scripts/analysis_setup.R", warn = FALSE)
 # Load only the data-preparation part of the shared setup; plotting libraries
 # and fonts are not needed here.

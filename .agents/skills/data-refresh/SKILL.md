@@ -1,23 +1,44 @@
 ---
 name: data-refresh
-description: Bring the whole project up to date after data/data_uncertain_topoplots.csv is replaced with a new survey export - validate the export, code new open-ended A305 feedback, update category normalization, re-render every website page and figure, and update hard-coded numbers in prose and the manuscript. Use when the user says the data was updated, new participants arrived, or asks to refresh/re-render everything.
+description: Bring the whole project up to date after data/data_uncertain_topoplots.csv is replaced with a new survey export - re-create the de-identified copy, validate the export, code new open-ended A305 feedback, update category normalization, re-render every website page and figure, and update hard-coded numbers in prose and the manuscript. Use when the user says the data was updated, new participants arrived, or asks to refresh/re-render everything.
 ---
 
 # Data refresh
 
-Goal: after a new LimeSurvey export replaces `data/data_uncertain_topoplots.csv`
-(UTF-16LE, `;`-separated), every derived artifact must reflect it, and
-nothing derived from the old data may silently survive. Read the project
-`AGENTS.md` first.
+Goal: after a new SoSci Survey export replaces `data/data_uncertain_topoplots.csv`
+(UTF-16LE, `;`-separated; private, git-ignored), every derived artifact must
+reflect it, and nothing derived from the old data may silently survive. Read
+the project `AGENTS.md` first.
+
+The analysis never reads the private export directly. It reads the
+de-identified copy `data/data_uncertain_topoplots_deidentified.csv` (tracked,
+public), which `scripts/deidentify_survey.R` writes from the export: same rows,
+columns and order; SERIAL/REF/MAILSENT blanked; STARTED/LASTDATA reduced to
+the date; email addresses replaced with `[email removed]`.
 
 Work in order. Each step has an exit condition; do not continue past a failed
 one.
 
-## 1. Validate the export
+## 1. Re-create the de-identified copy and validate the export
+
+**Always run this first, after every new export:**
 
 ```sh
+Rscript scripts/deidentify_survey.R
 Rscript scripts/check_data_refresh.R
 ```
+
+- `deidentify_survey.R` stops if the copy does not read back identically or
+  if an email address survived. Report how many emails it redacted.
+- `check_data_refresh.R` stops if the copy is out of date with the export.
+- Before committing, look at `git diff --stat` for the de-identified copy and
+  skim the new rows for personal data the automatic rules do not catch (names,
+  phone numbers, institutions with a person's name, URLs to personal pages in
+  free-text answers such as A004s, A006_27a, A305_01, A306_01). If you find
+  any, **stop and report** the column and participant ID (do not print the
+  value); the user decides whether to extend the rules in
+  `scripts/deidentify_survey.R`.
+- Never commit, copy or print the private export itself.
 
 (On Windows: `& "C:\Program Files\R\R-4.6.1\bin\Rscript.exe" scripts/check_data_refresh.R`.)
 
@@ -110,7 +131,7 @@ PDFs, which are stimuli).
 - Compare headline results before vs after (N, model estimates and contrasts
   relative to Basic, significance colouring). Report any contrast whose
   direction or significance changed.
-- Privacy: `docs/` must not contain the raw CSV or feedback PDFs
+- Privacy: `docs/` must not contain the raw CSV, the de-identified CSV or feedback PDFs
   (`git status docs/` - only HTML, images, site libs).
 
 ## 6. Update hard-coded numbers
