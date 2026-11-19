@@ -28,7 +28,10 @@ Rscript scripts/check_data_refresh.R
   by this ID. If the check reports meaning units that do not match their
   participant, **stop and report** which rows are affected and which
   participant actually wrote the text. Never re-key or edit existing coded
-  rows without the user's explicit approval.
+  rows without the user's explicit approval. An approved correction is
+  written into the workbook itself (no separate corrections file), with every
+  affected row shown before/after and the change recorded in the commit
+  message and the relevant `reports/` audit entry.
 - If N decreased, or previously coded IDs vanished, stop and ask: the export
   may have been filtered or reordered.
 
@@ -51,7 +54,9 @@ Exit: every free-text value is either mapped or deliberately `NA`.
 
 Follow `data/a305_content_analysis_prompt.md` exactly: fixed visualization
 labels, fixed 13-theme codebook, intensity -2..+2, participant wording kept
-verbatim (typo corrections only), one row per meaning unit.
+verbatim (typo corrections only), one row per meaning unit. `Meaning unit` is
+stored as `("excerpt")` with straight quotes and apostrophes only (no curly
+quotes).
 
 1. Take the responses listed under "Uncoded A305 responses" by the check.
 2. Draft the meaning units. Non-substantive responses ("N/A", "-", thanks

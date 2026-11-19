@@ -11,10 +11,17 @@ source of truth for the procedure. Also obey the project `AGENTS.md`
 
 Hard rules:
 - Run `scripts/check_data_refresh.R` first and stop on any blocking problem.
-- Never edit or re-key existing rows of `data/a305_content_analysis.xlsx`.
-  New A305 codes are proposed to the caller first and appended only after
-  approval. If you are running without a way to ask, return the proposed
-  rows and stop before step 3.4.
+- Do not edit or re-key existing rows of `data/a305_content_analysis.xlsx`
+  as part of a refresh. New A305 codes are proposed to the caller first and
+  appended only after approval. If you are running without a way to ask,
+  return the proposed rows and stop before step 3.4.
+- Existing rows may be changed only when the user explicitly asks for a
+  correction. Then: show every affected row before and after (ID, meaning
+  unit, old and new visualization/theme/intensity) and the reason quoting the
+  response; wait for approval; check that row counts change by exactly the
+  expected amount; and record the change (what, why, how many rows, date) in
+  the commit message and in the relevant audit entry in `reports/`. The
+  workbook is the single source of truth: no separate corrections file.
 - Never copy raw data or feedback PDFs into `docs/`.
 - Do not commit.
 

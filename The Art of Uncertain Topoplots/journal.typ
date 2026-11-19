@@ -539,8 +539,8 @@ We recruited participants with experience in EEG/ERP research or analysis. The s
 targeted researchers and students familiar with EEG/ERP data and topographic visualizations.
 Participation was voluntary.
 
-A total of 146 participants were included in the quantitative analysis. Country-of-work
-percentages were calculated from 142 valid responses: two participants selected "Prefer not
+A total of 149 participants were included in the quantitative analysis. Country-of-work
+percentages were calculated from 145 valid responses: two participants selected "Prefer not
 to say," and two entered occupations rather than countries. #emph[TODO: Add remaining
 demographics, EEG experience, and exclusion criteria.]
 
@@ -658,17 +658,15 @@ unhelpful."
 
 == Open-ended Feedback Content Analysis
 
-We analyzed responses to open-ended feedback about the study visualizations using a
-content-analysis workflow assisted by OpenAI's GPT-5.6 Sol model (`gpt-5.6-sol`)
-@openai2026gpt56sol via Codex @openai2026codex. The model was instructed to divide eligible
-responses into evaluative meaning units while retaining participants' wording. The complete
-analysis prompt was archived with the study materials.
-
-Each meaning unit was assigned to one visualization, one primary theme from a fixed
-codebook, and an evaluation intensity from -2 (strongly negative) to +2 (strongly positive).
-For example, the meaning unit "couldn't distinguish colors mapping from legend to scalp" was
-assigned to "Bivariate corner", coded under "Legend/color mapping", and given an evaluation
-intensity of -2. Missing, blank, and non-substantive responses were excluded.
+Responses to the open-ended feedback question were coded with large language model
+assistance (GPT-5.6 Sol @openai2026gpt56sol and Claude Opus 5.5 @anthropic2026opus55),
+following one fixed prompt and codebook that are archived with the study materials. The
+models divided responses into evaluative meaning units, retaining participants' wording, and
+gave each unit one visualization, one primary theme from the codebook, and an evaluation
+intensity from -2 (strongly negative) to +2 (strongly positive). For example, the meaning
+unit "couldn't distinguish colors mapping from legend to scalp" was assigned to "Bivariate
+corner", coded under "Legend/color mapping", and given an evaluation intensity of -2.
+Missing, blank, and non-substantive responses were excluded.
 
 = Results
 

@@ -143,10 +143,10 @@ agreement statistic.
 
 - **General-bivariates rule enforced.** 13 units that named neither bivariate variant
   but were coded to both Corner and Range are now coded once to General bivariates (IDs
-  7, 15, 18, 30, 41, 51 [2 units], 54, 56, 61, 65, 76, 79). The corrections are in
-  `data/a305_coding_corrections.csv`, each with a reason quoting the response. The
-  page applies them and shows them in a collapsible table. The original workbook is
-  unchanged.
+  7, 15, 18, 30, 41, 51 [2 units], 54, 56, 61, 65, 76, 79). On 19 Nov 2026 the
+  corrections were written into `data/a305_content_analysis.xlsx` (298 → 285 rows) and
+  the separate corrections file was removed; it remains in git history (commit
+  182d840, `data/a305_coding_corrections.csv`, with a reason quoting each response).
 - **Duplicated units.** Each meaning unit has an ID (`MU###`): 271 unique units in 285
   rows, 12 of which evaluate more than one visualization. Such a unit counts once for
   each visualization it evaluates, never twice within one. The page says that

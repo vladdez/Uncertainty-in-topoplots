@@ -11,55 +11,26 @@ params:
 #| include: false
 #| cache: false
 source("scripts/analysis_setup.R")
-configure_analysis_cache(c(
-  project_path("data", "a305_content_analysis.xlsx"),
-  project_path("data", "a305_coding_corrections.csv")
-))
+configure_analysis_cache(project_path("data", "a305_content_analysis.xlsx"))
 
-# First-coder output (LLM, see data/a305_content_analysis_prompt.md). One row
-# per meaning unit and visualization: a unit that evaluates several
+# Privacy: open-ended answers are printed verbatim on this public page, so
+# email addresses are redacted once here, before any table, PDF or export
+# below reads A305/A306.
+redact_emails <- function(x) {
+  stringr::str_replace_all(
+    x, "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}", "[email removed]"
+  )
+}
+data <- data |>
+  mutate(across(any_of(c("A305_01", "A306_01")), redact_emails))
+
+# LLM-coded content analysis (see data/a305_content_analysis_prompt.md). One
+# row per meaning unit and visualization: a unit that evaluates several
 # visualizations is repeated once per visualization.
-a305_first_coder <- readxl::read_xlsx(
+a305_content_analysis <- readxl::read_xlsx(
   project_path("data", "a305_content_analysis.xlsx"),
   sheet = "A305 content analysis",
   col_types = "text"
-)
-
-# Documented corrections (audit U12): units coded to both bivariate variants
-# although the response names neither variant are recoded to General
-# bivariates, as rule 4 of the coding prompt requires. The workbook itself is
-# left unchanged.
-a305_corrections <- readr::read_csv(
-  project_path("data", "a305_coding_corrections.csv"),
-  col_types = readr::cols(.default = "c")
-)
-
-apply_a305_corrections <- function(codes, corrections) {
-  corrected_keys <- corrections |>
-    select(ID, `Meaning unit`) |>
-    mutate(.corrected = TRUE)
-
-  codes |>
-    mutate(.row = row_number()) |>
-    left_join(corrected_keys, by = c("ID", "Meaning unit")) |>
-    mutate(
-      Visualization = if_else(
-        coalesce(.corrected, FALSE) &
-          Visualization %in% c("Bivariate corner", "Bivariate range"),
-        "General bivariates",
-        Visualization
-      )
-    ) |>
-    # The two former variant rows are now identical: keep one.
-    distinct(ID, Visualization, `Meaning unit`, Theme, `Evaluation intensity`,
-             .keep_all = TRUE) |>
-    arrange(.row) |>
-    select(-.row, -.corrected)
-}
-
-a305_content_analysis <- apply_a305_corrections(
-  a305_first_coder,
-  a305_corrections
 ) |>
   # Unique meaning unit = participant + retained wording; the same unit can
   # appear under several visualizations.
@@ -78,14 +49,13 @@ a305_n_zero <- a305_content_analysis |>
   filter(`Evaluation intensity` == "0") |>
   nrow()
 
-# Units coded to both variants that are NOT corrected: the response names
-# both variants explicitly.
-a305_both_variants_kept_ids <- a305_first_coder |>
+# Units coded to both bivariate variants: allowed only when the response
+# names both variants explicitly (rule 4 of the coding prompt).
+a305_both_variants_ids <- a305_content_analysis |>
   filter(Visualization %in% c("Bivariate corner", "Bivariate range")) |>
-  group_by(ID, `Meaning unit`) |>
+  group_by(unit_id) |>
   filter(n_distinct(Visualization) == 2) |>
   ungroup() |>
-  anti_join(a305_corrections, by = c("ID", "Meaning unit")) |>
   distinct(ID) |>
   pull(ID)
 ```
@@ -100,30 +70,17 @@ Participant comments are presented in two groups. Select an **Expand** button to
 
 `ID` links every unit to its original A305 response. Participant wording is retained as closely as possible; themes and intensities are interpretive codes. Use the search box or column filters to explore the table.
 
-References to bivariate plots without an identified variant are coded as `General bivariates`. Proposed redesigns are included only when they express an evaluation of the displayed visualization; suggestions alone are not assigned an intensity.
+References to bivariate plots without an identified variant are coded as `General bivariates`; a unit is coded to both Bivariate corner and Bivariate range only when the response names both variants (IDs `r paste(a305_both_variants_ids, collapse = " and ")`). Proposed redesigns are included only when they express an evaluation of the displayed visualization; suggestions alone are not assigned an intensity.
 
 ::: {.callout-warning}
 ## Coding is not yet validated
 
-All units were coded by a single coder, a large language model (prompt in `data/a305_content_analysis_prompt.md`). No second coder has checked the codes yet, so the themes and intensities below are provisional. A random subsample is prepared for a human second coder (see [Inter-coder agreement](#inter-coder-agreement)).
+The units were coded by large language models with one fixed prompt (`data/a305_content_analysis_prompt.md`): GPT-5.6 Sol (via Codex) coded the first responses and Claude coded the responses of later participants (IDs 115 and above) and checked all codes against the coding rules. No human coder has checked the codes yet, so the themes and intensities below are provisional. A random subsample is prepared for a human second coder (see [Inter-coder agreement](#inter-coder-agreement)).
 
-The coder used the neutral code 0 for only `r a305_n_zero` of `r a305_n_units` units, so the intensity scale is in practice a four-point negative/positive scale.
+The coders used the neutral code 0 for only `r a305_n_zero` of `r a305_n_units` units, so the intensity scale is in practice a four-point negative/positive scale.
 :::
 
-::: {.callout-note collapse="true"}
-## Corrections to the first coding (`r nrow(a305_corrections)` units) — Expand
-
-The first coding assigned these units to both Bivariate corner and Bivariate range, although the response does not name either variant. Following the coding rule, they are recoded once to `General bivariates`. Units whose response names both variants explicitly (IDs `r paste(a305_both_variants_kept_ids, collapse = " and ")`) keep both codes.
-
-```{r a305-corrections-table}
-#| echo: false
-a305_corrections |>
-  select(ID, `Meaning unit`, `Original visualizations`, `Corrected visualization`, Reason) |>
-  knitr::kable(format = "html", table.attr = kable_table_attributes)
-```
-:::
-
-[Download the first coder's content analysis as an Excel workbook](../data/a305_content_analysis.xlsx) · [Download the corrections](../data/a305_coding_corrections.csv)
+[Download the content analysis as an Excel workbook](../data/a305_content_analysis.xlsx)
 
 ### Theme codebook
 

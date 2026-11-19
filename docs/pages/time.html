@@ -228,8 +228,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>One rule applies to every table, figure, and model on this page: <strong>a trial page time above 180 s (3 minutes) is excluded.</strong></p>
 <ul>
 <li><strong>Why a fixed cap.</strong> Each trial is one decision on one page. The median page time is 12 s (Task 1) and 13 s (Task 2), so a page open for more than three minutes (over ten times the median) most likely records an interruption, not time spent on the task. The longest pages lasted 5,264 s and 11,221 s. The cap is fixed in seconds rather than estimated from the data, so it does not depend on which visualizations are slow.</li>
-<li><strong>What it removes.</strong> Task 1: 19 of 3,066 trials (0.6%, from 11 participants). Task 2: 21 of 3,066 trials (0.7%, from 15 participants).</li>
-<li><strong>What it replaces.</strong> Earlier versions of this page dropped trials outside 1.5 × IQR within each visualization for the descriptive tables only, while the models kept every trial. That rule removed 253 (Task 1, 8.3%) and 225 (Task 2, 7.3%) trials, mostly ordinary slow trials. The cap was chosen after the time distributions had been seen, so both alternatives are reported as <a href="#sensitivity">sensitivity analyses</a> below.</li>
+<li><strong>What it removes.</strong> Task 1: 19 of 3,129 trials (0.6%, from 11 participants). Task 2: 21 of 3,129 trials (0.7%, from 15 participants).</li>
+<li><strong>What it replaces.</strong> Earlier versions of this page dropped trials outside 1.5 × IQR within each visualization for the descriptive tables only, while the models kept every trial. That rule removed 259 (Task 1, 8.3%) and 230 (Task 2, 7.4%) trials, mostly ordinary slow trials. The cap was chosen after the time distributions had been seen, so both alternatives are reported as <a href="#sensitivity">sensitivity analyses</a> below.</li>
 </ul>
 <p><strong>What the model estimates are.</strong> The models analyze log time. Back-transformed estimates are <strong>geometric mean times for a typical participant</strong> (participant effect at zero) at the average presentation position. They are not arithmetic mean times, which are larger because time is right-skewed. Differences from Basic topoplot are reported as ratios of geometric means: a ratio of 1.40 means 40% longer.</p>
 <p><strong>Multiple comparisons.</strong> The primary comparisons are the six visualizations against Basic topoplot within each task, with Dunnett-adjusted 95% confidence intervals and p values (<code>emmeans</code> <code>dunnettx</code>). The same family is used on the Task 1, Task 2 and rating pages.</p>
@@ -339,59 +339,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot</td>
-<td style="text-align: right;">437</td>
+<td style="text-align: right;">446</td>
 <td style="text-align: right;">10</td>
-<td style="text-align: right;">10.6</td>
-<td style="text-align: right;">15.1</td>
-<td style="text-align: right;">17.1</td>
+<td style="text-align: right;">10.5</td>
+<td style="text-align: right;">14.9</td>
+<td style="text-align: right;">16.9</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Animation</td>
-<td style="text-align: right;">438</td>
+<td style="text-align: right;">447</td>
 <td style="text-align: right;">11</td>
 <td style="text-align: right;">11.6</td>
 <td style="text-align: right;">15.3</td>
-<td style="text-align: right;">13.8</td>
+<td style="text-align: right;">13.7</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: right;">435</td>
+<td style="text-align: right;">444</td>
 <td style="text-align: right;">11</td>
 <td style="text-align: right;">11.7</td>
 <td style="text-align: right;">16.0</td>
-<td style="text-align: right;">16.0</td>
+<td style="text-align: right;">15.9</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: right;">435</td>
+<td style="text-align: right;">444</td>
 <td style="text-align: right;">11</td>
-<td style="text-align: right;">11.6</td>
-<td style="text-align: right;">17.7</td>
-<td style="text-align: right;">21.1</td>
+<td style="text-align: right;">11.5</td>
+<td style="text-align: right;">17.6</td>
+<td style="text-align: right;">21.0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: right;">436</td>
+<td style="text-align: right;">445</td>
 <td style="text-align: right;">12</td>
-<td style="text-align: right;">12.2</td>
-<td style="text-align: right;">17.5</td>
-<td style="text-align: right;">18.0</td>
+<td style="text-align: right;">12.1</td>
+<td style="text-align: right;">17.4</td>
+<td style="text-align: right;">17.9</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: right;">434</td>
+<td style="text-align: right;">443</td>
 <td style="text-align: right;">14</td>
-<td style="text-align: right;">14.4</td>
-<td style="text-align: right;">19.8</td>
-<td style="text-align: right;">19.3</td>
+<td style="text-align: right;">14.5</td>
+<td style="text-align: right;">20.0</td>
+<td style="text-align: right;">19.4</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: right;">432</td>
+<td style="text-align: right;">441</td>
 <td style="text-align: right;">14</td>
-<td style="text-align: right;">14.9</td>
-<td style="text-align: right;">22.1</td>
-<td style="text-align: right;">22.6</td>
+<td style="text-align: right;">14.8</td>
+<td style="text-align: right;">21.9</td>
+<td style="text-align: right;">22.5</td>
 </tr>
 </tbody>
 </table>
@@ -510,31 +510,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot</td>
-<td style="text-align: right;">10.5</td>
+<td style="text-align: right;">10.4</td>
 <td style="text-align: right;">9.5</td>
-<td style="text-align: right;">11.6</td>
+<td style="text-align: right;">11.4</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: right;">11.8</td>
+<td style="text-align: right;">11.7</td>
 <td style="text-align: right;">10.7</td>
-<td style="text-align: right;">13.0</td>
+<td style="text-align: right;">12.9</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Confidence intervals</td>
+<td style="text-align: left;">Animation</td>
 <td style="text-align: right;">11.8</td>
 <td style="text-align: right;">10.7</td>
 <td style="text-align: right;">13.0</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Animation</td>
-<td style="text-align: right;">11.9</td>
+<td style="text-align: left;">Confidence intervals</td>
+<td style="text-align: right;">11.8</td>
 <td style="text-align: right;">10.8</td>
-<td style="text-align: right;">13.1</td>
+<td style="text-align: right;">13.0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: right;">12.4</td>
+<td style="text-align: right;">12.3</td>
 <td style="text-align: right;">11.2</td>
 <td style="text-align: right;">13.6</td>
 </tr>
@@ -546,9 +546,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: right;">14.6</td>
-<td style="text-align: right;">13.3</td>
-<td style="text-align: right;">16.1</td>
+<td style="text-align: right;">14.5</td>
+<td style="text-align: right;">13.2</td>
+<td style="text-align: right;">16.0</td>
 </tr>
 </tbody>
 </table>
@@ -625,50 +625,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Bivariate corner</td>
 <td style="text-align: left;">1.39</td>
-<td style="text-align: left;">1.25</td>
+<td style="text-align: left;">1.26</td>
 <td style="text-align: left;">1.54</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt;0.001</span></td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt; 0.001</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: left;">1.36</td>
-<td style="text-align: left;">1.22</td>
-<td style="text-align: left;">1.50</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt;0.001</span></td>
+<td style="text-align: left;">1.37</td>
+<td style="text-align: left;">1.24</td>
+<td style="text-align: left;">1.51</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt; 0.001</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;">1.18</td>
-<td style="text-align: left;">1.06</td>
+<td style="text-align: left;">1.19</td>
+<td style="text-align: left;">1.07</td>
 <td style="text-align: left;">1.31</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt;0.001</span></td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt; 0.001</span></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Animation</td>
-<td style="text-align: left;">1.13</td>
-<td style="text-align: left;">1.02</td>
-<td style="text-align: left;">1.25</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.0123</span></td>
+<td style="text-align: left;">Confidence intervals</td>
+<td style="text-align: left;">1.14</td>
+<td style="text-align: left;">1.03</td>
+<td style="text-align: left;">1.26</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00555</span></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: left;">1.13</td>
-<td style="text-align: left;">1.02</td>
-<td style="text-align: left;">1.25</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.0137</span></td>
+<td style="text-align: left;">Animation</td>
+<td style="text-align: left;">1.14</td>
+<td style="text-align: left;">1.03</td>
+<td style="text-align: left;">1.26</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00695</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;">1.12</td>
-<td style="text-align: left;">1.01</td>
-<td style="text-align: left;">1.24</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.0205</span></td>
+<td style="text-align: left;">1.13</td>
+<td style="text-align: left;">1.02</td>
+<td style="text-align: left;">1.25</td>
+<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.01110</span></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>With Dunnett-adjusted intervals, all six visualizations took longer than Basic topoplot: Bivariate corner (1.39 [1.25, 1.54]), Adjacent plots (1.36 [1.22, 1.50]), Bivariate range (1.18 [1.06, 1.31]), Animation (1.13 [1.02, 1.25]), Confidence intervals (1.13 [1.02, 1.25]), and Uncertainty markers (1.12 [1.01, 1.24]). Ratios above 1 mean longer than Basic topoplot.</p>
+<p>With Dunnett-adjusted intervals, all six visualizations took longer than Basic topoplot: Bivariate corner (1.39 [1.26, 1.54]), Adjacent plots (1.37 [1.24, 1.51]), Bivariate range (1.19 [1.07, 1.31]), Confidence intervals (1.14 [1.03, 1.26]), Animation (1.14 [1.03, 1.26]), and Uncertainty markers (1.13 [1.02, 1.25]). Ratios above 1 mean longer than Basic topoplot.</p>
 </section>
 </section>
 <section id="association-between-completion-time-and-accuracy" class="level3">
@@ -745,11 +745,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">146</td>
-<td style="text-align: left;">0.115</td>
-<td style="text-align: left;">-0.049</td>
-<td style="text-align: left;">0.272</td>
-<td style="text-align: left;">0.168</td>
+<td style="text-align: right;">149</td>
+<td style="text-align: left;">0.105</td>
+<td style="text-align: left;">-0.057</td>
+<td style="text-align: left;">0.262</td>
+<td style="text-align: left;">0.202</td>
 </tr>
 </tbody>
 </table>
@@ -780,7 +780,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <strong>Correlation details:</strong>
 <ul>
 <li>
-<strong>Unit:</strong> One record per participant (N = 146).
+<strong>Unit:</strong> One record per participant (N = 149).
 </li>
 <li>
 <strong>Accuracy:</strong> Proportion correct across the participant’s retained trials (at most 21).
@@ -826,17 +826,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Within participants: twice the usual trial time</td>
-<td style="text-align: left;">0.746</td>
-<td style="text-align: left;">0.659</td>
-<td style="text-align: left;">0.844</td>
+<td style="text-align: left;">0.745</td>
+<td style="text-align: left;">0.660</td>
+<td style="text-align: left;">0.842</td>
 <td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt;0.001</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Between participants: twice the typical completion time</td>
-<td style="text-align: left;">1.221</td>
-<td style="text-align: left;">1.009</td>
-<td style="text-align: left;">1.477</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.04</span></td>
+<td style="text-align: left;">1.195</td>
+<td style="text-align: left;">0.988</td>
+<td style="text-align: left;">1.445</td>
+<td style="text-align: left;">0.0671</td>
 </tr>
 </tbody>
 </table>
@@ -934,8 +934,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>At the participant level, accuracy and typical completion time had a Pearson correlation of 0.115 (95% CI -0.049 to 0.272, <em>p</em> = 0.168). In the adjusted mixed model, doubling the time spent on a trial was associated with an odds ratio of 0.746 for a correct response (95% CI 0.659 to 0.844). The between-participant odds ratio was 1.221 (95% CI 1.009 to 1.477).</p>
-<p>In short, participants’ typical speed was not clearly associated with their accuracy; a participant’s slower trials were less often answered correctly; and after adjustment, generally slower participants were more accurate. These are associations, not effects of time: a harder trial can both take longer and be answered incorrectly more often.</p>
+<p>At the participant level, accuracy and typical completion time had a Pearson correlation of 0.105 (95% CI -0.057 to 0.262, <em>p</em> = 0.202). In the adjusted mixed model, doubling the time spent on a trial was associated with an odds ratio of 0.745 for a correct response (95% CI 0.660 to 0.842). The between-participant odds ratio was 1.195 (95% CI 0.988 to 1.445).</p>
+<p>In short, participants’ typical speed was not clearly associated with their accuracy; a participant’s slower trials were less often answered correctly; and after adjustment, generally slower participants were not clearly more or less accurate. These are associations, not effects of time: a harder trial can both take longer and be answered incorrectly more often.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1004,21 +1004,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Overall participant correlation</td>
-<td style="text-align: left;">r = 0.115 (95% CI -0.049 to 0.272)</td>
-<td style="text-align: left;">0.168</td>
+<td style="text-align: left;">r = 0.105 (95% CI -0.057 to 0.262)</td>
+<td style="text-align: left;">0.2017</td>
 <td style="text-align: left;">Participants' typical speed was not clearly associated with their accuracy.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Within participants</td>
-<td style="text-align: left;">OR = 0.746 (95% CI 0.659 to 0.844)</td>
+<td style="text-align: left;">OR = 0.745 (95% CI 0.660 to 0.842)</td>
 <td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt;0.001</span></td>
 <td style="text-align: left;">A participant's slower trials were less often answered correctly.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Between participants (adjusted)</td>
-<td style="text-align: left;">OR = 1.221 (95% CI 1.009 to 1.477)</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.040</span></td>
-<td style="text-align: left;">After adjustment, generally slower participants were more accurate.</td>
+<td style="text-align: left;">OR = 1.195 (95% CI 0.988 to 1.445)</td>
+<td style="text-align: left;">0.0671</td>
+<td style="text-align: left;">After adjustment, generally slower participants were not clearly more or less accurate.</td>
 </tr>
 </tbody>
 </table>
@@ -1322,59 +1322,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot</td>
-<td style="text-align: right;">437</td>
+<td style="text-align: right;">446</td>
 <td style="text-align: right;">10</td>
 <td style="text-align: right;">10.3</td>
 <td style="text-align: right;">13.5</td>
-<td style="text-align: right;">12.6</td>
+<td style="text-align: right;">12.5</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Animation</td>
-<td style="text-align: right;">436</td>
+<td style="text-align: right;">445</td>
 <td style="text-align: right;">12</td>
-<td style="text-align: right;">13.0</td>
+<td style="text-align: right;">13.1</td>
 <td style="text-align: right;">17.3</td>
-<td style="text-align: right;">16.3</td>
+<td style="text-align: right;">16.2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: right;">437</td>
+<td style="text-align: right;">446</td>
 <td style="text-align: right;">13</td>
 <td style="text-align: right;">13.4</td>
 <td style="text-align: right;">18.4</td>
-<td style="text-align: right;">19.8</td>
+<td style="text-align: right;">19.7</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: right;">435</td>
+<td style="text-align: right;">444</td>
 <td style="text-align: right;">13</td>
-<td style="text-align: right;">13.8</td>
-<td style="text-align: right;">18.8</td>
-<td style="text-align: right;">18.1</td>
+<td style="text-align: right;">13.7</td>
+<td style="text-align: right;">18.7</td>
+<td style="text-align: right;">18.0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: right;">435</td>
+<td style="text-align: right;">444</td>
 <td style="text-align: right;">14</td>
 <td style="text-align: right;">14.1</td>
-<td style="text-align: right;">19.0</td>
-<td style="text-align: right;">18.0</td>
+<td style="text-align: right;">18.9</td>
+<td style="text-align: right;">17.9</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: right;">430</td>
+<td style="text-align: right;">439</td>
 <td style="text-align: right;">14</td>
 <td style="text-align: right;">13.6</td>
-<td style="text-align: right;">18.4</td>
-<td style="text-align: right;">17.7</td>
+<td style="text-align: right;">18.3</td>
+<td style="text-align: right;">17.5</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: right;">435</td>
+<td style="text-align: right;">444</td>
 <td style="text-align: right;">15</td>
-<td style="text-align: right;">16.3</td>
-<td style="text-align: right;">22.8</td>
-<td style="text-align: right;">22.3</td>
+<td style="text-align: right;">16.1</td>
+<td style="text-align: right;">22.6</td>
+<td style="text-align: right;">22.1</td>
 </tr>
 </tbody>
 </table>
@@ -1412,12 +1412,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Basic topoplot</td>
 <td style="text-align: right;">10.2</td>
 <td style="text-align: right;">9.3</td>
-<td style="text-align: right;">11.2</td>
+<td style="text-align: right;">11.1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Animation</td>
 <td style="text-align: right;">13.0</td>
-<td style="text-align: right;">11.8</td>
+<td style="text-align: right;">11.9</td>
 <td style="text-align: right;">14.2</td>
 </tr>
 <tr class="odd">
@@ -1428,15 +1428,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: right;">13.7</td>
+<td style="text-align: right;">13.6</td>
 <td style="text-align: right;">12.4</td>
-<td style="text-align: right;">15.0</td>
+<td style="text-align: right;">14.9</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Confidence intervals</td>
 <td style="text-align: right;">14.0</td>
 <td style="text-align: right;">12.8</td>
-<td style="text-align: right;">15.4</td>
+<td style="text-align: right;">15.3</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots</td>
@@ -1446,9 +1446,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: right;">16.3</td>
-<td style="text-align: right;">14.8</td>
-<td style="text-align: right;">17.8</td>
+<td style="text-align: right;">16.1</td>
+<td style="text-align: right;">14.7</td>
+<td style="text-align: right;">17.6</td>
 </tr>
 </tbody>
 </table>
@@ -1524,42 +1524,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: left;">1.59</td>
-<td style="text-align: left;">1.45</td>
-<td style="text-align: left;">1.75</td>
+<td style="text-align: left;">1.58</td>
+<td style="text-align: left;">1.44</td>
+<td style="text-align: left;">1.74</td>
 <td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt;0.001</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: left;">1.39</td>
+<td style="text-align: left;">1.40</td>
 <td style="text-align: left;">1.27</td>
 <td style="text-align: left;">1.53</td>
 <td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt;0.001</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: left;">1.37</td>
+<td style="text-align: left;">1.38</td>
 <td style="text-align: left;">1.25</td>
 <td style="text-align: left;">1.51</td>
 <td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt;0.001</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;">1.34</td>
-<td style="text-align: left;">1.22</td>
+<td style="text-align: left;">1.33</td>
+<td style="text-align: left;">1.21</td>
 <td style="text-align: left;">1.47</td>
 <td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt;0.001</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;">1.32</td>
-<td style="text-align: left;">1.20</td>
-<td style="text-align: left;">1.45</td>
+<td style="text-align: left;">1.33</td>
+<td style="text-align: left;">1.21</td>
+<td style="text-align: left;">1.46</td>
 <td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt;0.001</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Animation</td>
-<td style="text-align: left;">1.27</td>
+<td style="text-align: left;">1.28</td>
 <td style="text-align: left;">1.16</td>
 <td style="text-align: left;">1.40</td>
 <td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt;0.001</span></td>
@@ -1568,7 +1568,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<p>With Dunnett-adjusted intervals, all six visualizations took longer than Basic topoplot: Bivariate corner (1.59 [1.45, 1.75]), Adjacent plots (1.39 [1.27, 1.53]), Confidence intervals (1.37 [1.25, 1.51]), Uncertainty markers (1.34 [1.22, 1.47]), Bivariate range (1.32 [1.20, 1.45]), and Animation (1.27 [1.16, 1.40]). Ratios above 1 mean longer than Basic topoplot.</p>
+<p>With Dunnett-adjusted intervals, all six visualizations took longer than Basic topoplot: Bivariate corner (1.58 [1.44, 1.74]), Adjacent plots (1.40 [1.27, 1.53]), Confidence intervals (1.38 [1.25, 1.51]), Uncertainty markers (1.33 [1.21, 1.47]), Bivariate range (1.33 [1.21, 1.46]), and Animation (1.28 [1.16, 1.40]). Ratios above 1 mean longer than Basic topoplot.</p>
 </section>
 </section>
 </section>
@@ -1627,86 +1627,86 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Task 1</td>
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: left;"><strong>1.36 [1.22, 1.50]</strong></td>
-<td style="text-align: left;"><strong>1.38 [1.24, 1.55]</strong></td>
-<td style="text-align: left;"><strong>1.41 [1.28, 1.55]</strong></td>
+<td style="text-align: left;"><strong>1.37 [1.24, 1.51]</strong></td>
+<td style="text-align: left;"><strong>1.40 [1.25, 1.56]</strong></td>
+<td style="text-align: left;"><strong>1.42 [1.29, 1.55]</strong></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Task 1</td>
 <td style="text-align: left;">Animation</td>
-<td style="text-align: left;"><strong>1.13 [1.02, 1.25]</strong></td>
-<td style="text-align: left;"><strong>1.12 [1.00, 1.25]</strong></td>
-<td style="text-align: left;"><strong>1.15 [1.05, 1.27]</strong></td>
+<td style="text-align: left;"><strong>1.14 [1.03, 1.26]</strong></td>
+<td style="text-align: left;"><strong>1.13 [1.01, 1.26]</strong></td>
+<td style="text-align: left;"><strong>1.15 [1.05, 1.26]</strong></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Task 1</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: left;"><strong>1.39 [1.25, 1.54]</strong></td>
-<td style="text-align: left;"><strong>1.45 [1.29, 1.62]</strong></td>
-<td style="text-align: left;"><strong>1.40 [1.27, 1.54]</strong></td>
+<td style="text-align: left;"><strong>1.39 [1.26, 1.54]</strong></td>
+<td style="text-align: left;"><strong>1.45 [1.30, 1.62]</strong></td>
+<td style="text-align: left;"><strong>1.40 [1.28, 1.54]</strong></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Task 1</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;"><strong>1.18 [1.06, 1.31]</strong></td>
-<td style="text-align: left;"><strong>1.18 [1.06, 1.32]</strong></td>
-<td style="text-align: left;"><strong>1.18 [1.08, 1.30]</strong></td>
+<td style="text-align: left;"><strong>1.19 [1.07, 1.31]</strong></td>
+<td style="text-align: left;"><strong>1.19 [1.06, 1.33]</strong></td>
+<td style="text-align: left;"><strong>1.19 [1.08, 1.30]</strong></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Task 1</td>
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: left;"><strong>1.13 [1.02, 1.25]</strong></td>
-<td style="text-align: left;"><strong>1.14 [1.02, 1.28]</strong></td>
-<td style="text-align: left;"><strong>1.16 [1.06, 1.27]</strong></td>
+<td style="text-align: left;"><strong>1.14 [1.03, 1.26]</strong></td>
+<td style="text-align: left;"><strong>1.15 [1.03, 1.29]</strong></td>
+<td style="text-align: left;"><strong>1.16 [1.06, 1.28]</strong></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Task 1</td>
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;"><strong>1.12 [1.01, 1.24]</strong></td>
-<td style="text-align: left;"><strong>1.14 [1.02, 1.27]</strong></td>
-<td style="text-align: left;">1.09 [0.99, 1.20]</td>
+<td style="text-align: left;"><strong>1.13 [1.02, 1.25]</strong></td>
+<td style="text-align: left;"><strong>1.14 [1.02, 1.28]</strong></td>
+<td style="text-align: left;">1.10 [1.00, 1.20]</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Task 2</td>
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: left;"><strong>1.39 [1.27, 1.53]</strong></td>
-<td style="text-align: left;"><strong>1.40 [1.26, 1.56]</strong></td>
-<td style="text-align: left;"><strong>1.40 [1.28, 1.52]</strong></td>
+<td style="text-align: left;"><strong>1.40 [1.27, 1.53]</strong></td>
+<td style="text-align: left;"><strong>1.41 [1.27, 1.56]</strong></td>
+<td style="text-align: left;"><strong>1.40 [1.29, 1.52]</strong></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Task 2</td>
 <td style="text-align: left;">Animation</td>
-<td style="text-align: left;"><strong>1.27 [1.16, 1.40]</strong></td>
-<td style="text-align: left;"><strong>1.28 [1.15, 1.42]</strong></td>
-<td style="text-align: left;"><strong>1.27 [1.16, 1.38]</strong></td>
+<td style="text-align: left;"><strong>1.28 [1.16, 1.40]</strong></td>
+<td style="text-align: left;"><strong>1.28 [1.16, 1.42]</strong></td>
+<td style="text-align: left;"><strong>1.27 [1.17, 1.39]</strong></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Task 2</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: left;"><strong>1.59 [1.45, 1.75]</strong></td>
-<td style="text-align: left;"><strong>1.62 [1.46, 1.80]</strong></td>
-<td style="text-align: left;"><strong>1.54 [1.41, 1.67]</strong></td>
+<td style="text-align: left;"><strong>1.58 [1.44, 1.74]</strong></td>
+<td style="text-align: left;"><strong>1.61 [1.45, 1.79]</strong></td>
+<td style="text-align: left;"><strong>1.51 [1.39, 1.65]</strong></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Task 2</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;"><strong>1.32 [1.20, 1.45]</strong></td>
-<td style="text-align: left;"><strong>1.32 [1.19, 1.46]</strong></td>
-<td style="text-align: left;"><strong>1.29 [1.18, 1.40]</strong></td>
+<td style="text-align: left;"><strong>1.33 [1.21, 1.46]</strong></td>
+<td style="text-align: left;"><strong>1.32 [1.19, 1.47]</strong></td>
+<td style="text-align: left;"><strong>1.29 [1.19, 1.41]</strong></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Task 2</td>
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: left;"><strong>1.37 [1.25, 1.51]</strong></td>
+<td style="text-align: left;"><strong>1.38 [1.25, 1.51]</strong></td>
 <td style="text-align: left;"><strong>1.44 [1.30, 1.60]</strong></td>
 <td style="text-align: left;"><strong>1.35 [1.24, 1.47]</strong></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Task 2</td>
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;"><strong>1.34 [1.22, 1.47]</strong></td>
-<td style="text-align: left;"><strong>1.34 [1.21, 1.49]</strong></td>
-<td style="text-align: left;"><strong>1.31 [1.20, 1.43]</strong></td>
+<td style="text-align: left;"><strong>1.33 [1.21, 1.47]</strong></td>
+<td style="text-align: left;"><strong>1.34 [1.21, 1.48]</strong></td>
+<td style="text-align: left;"><strong>1.31 [1.20, 1.42]</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1738,15 +1738,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Task 1</td>
-<td style="text-align: right;">3047</td>
-<td style="text-align: right;">3066</td>
-<td style="text-align: right;">2813</td>
+<td style="text-align: right;">3110</td>
+<td style="text-align: right;">3129</td>
+<td style="text-align: right;">2870</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Task 2</td>
-<td style="text-align: right;">3045</td>
-<td style="text-align: right;">3066</td>
-<td style="text-align: right;">2841</td>
+<td style="text-align: right;">3108</td>
+<td style="text-align: right;">3129</td>
+<td style="text-align: right;">2899</td>
 </tr>
 </tbody>
 </table>
@@ -1784,21 +1784,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Within participants: twice the usual trial time</td>
-<td style="text-align: left;">0.746 [0.659, 0.844]</td>
-<td style="text-align: left;">0.791 [0.708, 0.883]</td>
-<td style="text-align: left;">0.794 [0.683, 0.923]</td>
+<td style="text-align: left;">0.745 [0.660, 0.842]</td>
+<td style="text-align: left;">0.789 [0.708, 0.881]</td>
+<td style="text-align: left;">0.788 [0.679, 0.916]</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Between participants: twice the typical completion time</td>
-<td style="text-align: left;">1.221 [1.009, 1.477]</td>
-<td style="text-align: left;">1.240 [1.034, 1.488]</td>
-<td style="text-align: left;">1.425 [1.106, 1.837]</td>
+<td style="text-align: left;">1.195 [0.988, 1.445]</td>
+<td style="text-align: left;">1.215 [1.013, 1.458]</td>
+<td style="text-align: left;">1.373 [1.067, 1.768]</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>The direction and clarity of both time–accuracy associations are the same under all three rules.</p>
+<p>The verdict of 1 time–accuracy association(s) depends on the outlier rule; see the table.</p>
 </div>
 </div>
 </div>

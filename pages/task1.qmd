@@ -60,10 +60,35 @@ source("scripts/analysis_setup.R")
   contained accuracy, visualization type, ERP pattern, presentation position, target
   stimulus, and distractor stimulus.
 
+```{r task1-stimulus-exposure}
+task1_exposure <- task1_model |>
+  mutate(across(c(stimulus, wrong_image), as.character)) |>
+  group_by(ID) |>
+  summarise(
+    targets = n_distinct(stimulus),
+    distractors = n_distinct(wrong_image),
+    identities = n_distinct(c(stimulus, wrong_image)),
+    .groups = "drop"
+  )
+task1_n_identities <- n_distinct(c(
+  as.character(task1_model$stimulus), as.character(task1_model$wrong_image)
+))
+task1_exposure_text <- function(x) {
+  sprintf("%d--%d", min(x), max(x))
+}
+task1_n_saw_all <- sum(task1_exposure$identities == task1_n_identities)
+```
+
 - Stimulus assignment was incomplete but overlapping across participants. Across their
-  21 trials, participants saw 12--20 unique target stimuli (median 16), 13--20 unique
-  distractors (median 15), and 18--28 unique stimulus identities across both roles
-  (median 23). No participant saw all 30 stimulus identities. Because specific targets
+  `r task1_n_trials` trials, participants saw
+  `r task1_exposure_text(task1_exposure$targets)` unique target stimuli
+  (median `r median(task1_exposure$targets)`),
+  `r task1_exposure_text(task1_exposure$distractors)` unique distractors
+  (median `r median(task1_exposure$distractors)`), and
+  `r task1_exposure_text(task1_exposure$identities)` unique stimulus identities
+  across both roles (median `r median(task1_exposure$identities)`).
+  `r if (task1_n_saw_all == 0) "No participant" else paste(task1_n_saw_all, if (task1_n_saw_all == 1) "participant" else "participants")`
+  saw all `r task1_n_identities` stimulus identities. Because specific targets
   and distractors may differ in difficulty, this design motivates separate target- and
   distractor-stimulus random intercepts in the inferential model.
 

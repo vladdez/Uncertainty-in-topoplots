@@ -3065,3 +3065,66 @@ ID,trial,pattern,vistype,vistype_label,subject,stimulus,selected_region,selected
 146,19,MMN,basic,Basic topoplot,20,MMN_20,25,0.35,41,1,FALSE,miss
 146,20,P3,basic,Basic topoplot,10,P3_10,40,0.7,32,1,FALSE,miss
 146,21,N170,basic,Basic topoplot,15,N170_15,15,0.42,56,1,FALSE,miss
+147,1,MMN,adjacent,Adjacent plots,16,MMN_16,59,0.58,64,1,FALSE,miss
+147,2,P3,adjacent,Adjacent plots,4,P3_4,25,0.53,62,1,FALSE,miss
+147,3,N170,adjacent,Adjacent plots,15,N170_15,57,0.59,56,1,FALSE,miss
+147,4,MMN,bivariate_corner,Bivariate corner,26,MMN_26,33,0.39,55,1,FALSE,miss
+147,5,P3,bivariate_corner,Bivariate corner,13,P3_13,31,0.54,60,1,FALSE,miss
+147,6,N170,bivariate_corner,Bivariate corner,8,N170_8,58,0.66,51,1,FALSE,miss
+147,7,MMN,bivariate_range,Bivariate range,20,MMN_20,48,0.94,41,1,FALSE,miss
+147,8,P3,bivariate_range,Bivariate range,10,P3_10,20,0.14,32,1,FALSE,miss
+147,9,N170,bivariate_range,Bivariate range,7,N170_7,19,0.37,53,1,FALSE,miss
+147,10,MMN,triple_CI,Confidence intervals,30,MMN_30,41,1,41,1,TRUE,hit
+147,11,P3,triple_CI,Confidence intervals,24,P3_24,52,0.99,43,1,FALSE,miss
+147,12,N170,triple_CI,Confidence intervals,24,N170_24,54,0.8,56,1,FALSE,miss
+147,13,MMN,uncert_markers,Uncertainty markers,1,MMN_1,53,0.65,32,1,FALSE,miss
+147,14,P3,uncert_markers,Uncertainty markers,7,P3_7,20,0.27,63,1,FALSE,miss
+147,15,N170,uncert_markers,Uncertainty markers,6,N170_6,58,0.47,60,1,FALSE,miss
+147,16,MMN,animation,Animation,29,MMN_29,41,0.41,64,1,FALSE,miss
+147,17,P3,animation,Animation,16,P3_16,44,0.86,32,1,FALSE,miss
+147,18,N170,animation,Animation,27,N170_27,57,0.59,56,1,FALSE,miss
+147,19,MMN,basic,Basic topoplot,15,MMN_15,48,0.56,60,1,FALSE,miss
+147,20,P3,basic,Basic topoplot,12,P3_12,25,0.48,41,1,FALSE,miss
+147,21,N170,basic,Basic topoplot,10,N170_10,58,0.84,1,1,FALSE,miss
+148,1,MMN,adjacent,Adjacent plots,16,MMN_16,60,0.81,64,1,FALSE,miss
+148,2,P3,adjacent,Adjacent plots,8,P3_8,51,1,45;51,2,TRUE,hit
+148,3,N170,adjacent,Adjacent plots,8,N170_8,51,1,51,1,TRUE,hit
+148,4,MMN,bivariate_corner,Bivariate corner,29,MMN_29,64,1,64,1,TRUE,hit
+148,5,P3,bivariate_corner,Bivariate corner,13,P3_13,15,0.21,60,1,FALSE,miss
+148,6,N170,bivariate_corner,Bivariate corner,24,N170_24,56,1,56,1,TRUE,hit
+148,7,MMN,bivariate_range,Bivariate range,30,MMN_30,20,0.54,41,1,FALSE,miss
+148,8,P3,bivariate_range,Bivariate range,24,P3_24,52,0.99,43,1,FALSE,miss
+148,9,N170,bivariate_range,Bivariate range,26,N170_26,61,1,61,1,TRUE,hit
+148,10,MMN,triple_CI,Confidence intervals,2,MMN_2,60,0.53,64,1,FALSE,miss
+148,11,P3,triple_CI,Confidence intervals,4,P3_4,25,0.53,62,1,FALSE,miss
+148,12,N170,triple_CI,Confidence intervals,6,N170_6,60,1,60,1,TRUE,hit
+148,13,MMN,uncert_markers,Uncertainty markers,19,MMN_19,41,1,41,1,TRUE,hit
+148,14,P3,uncert_markers,Uncertainty markers,12,P3_12,61,0.8,41,1,FALSE,miss
+148,15,N170,uncert_markers,Uncertainty markers,15,N170_15,56,1,56,1,TRUE,hit
+148,16,MMN,animation,Animation,11,MMN_11,63,1,63,1,TRUE,hit
+148,17,P3,animation,Animation,16,P3_16,39,0.85,32,1,FALSE,miss
+148,18,N170,animation,Animation,7,N170_7,60,0.89,53,1,FALSE,miss
+148,19,MMN,basic,Basic topoplot,15,MMN_15,55,0.88,60,1,FALSE,miss
+148,20,P3,basic,Basic topoplot,7,P3_7,25,0.41,63,1,FALSE,miss
+148,21,N170,basic,Basic topoplot,16,N170_16,56,0.93,61,1,FALSE,miss
+149,1,MMN,adjacent,Adjacent plots,11,MMN_11,22,0.64,63,1,FALSE,miss
+149,2,P3,adjacent,Adjacent plots,13,P3_13,55,0.88,60,1,FALSE,miss
+149,3,N170,adjacent,Adjacent plots,12,N170_12,54,0.9,64,1,FALSE,miss
+149,4,MMN,bivariate_corner,Bivariate corner,16,MMN_16,64,1,64,1,TRUE,hit
+149,5,P3,bivariate_corner,Bivariate corner,8,P3_8,17,0.87,45;51,2,FALSE,miss
+149,6,N170,bivariate_corner,Bivariate corner,6,N170_6,21,0.49,60,1,FALSE,miss
+149,7,MMN,bivariate_range,Bivariate range,20,MMN_20,55,0.78,41,1,FALSE,miss
+149,8,P3,bivariate_range,Bivariate range,10,P3_10,45,0.52,32,1,FALSE,miss
+149,9,N170,bivariate_range,Bivariate range,10,N170_10,1,1,1,1,TRUE,hit
+149,10,MMN,triple_CI,Confidence intervals,2,MMN_2,60,0.53,64,1,FALSE,miss
+149,11,P3,triple_CI,Confidence intervals,12,P3_12,60,0.76,41,1,FALSE,miss
+149,12,N170,triple_CI,Confidence intervals,26,N170_26,61,1,61,1,TRUE,hit
+149,13,MMN,uncert_markers,Uncertainty markers,26,MMN_26,48,0.82,55,1,FALSE,miss
+149,14,P3,uncert_markers,Uncertainty markers,4,P3_4,34,0.64,62,1,FALSE,miss
+149,15,N170,uncert_markers,Uncertainty markers,27,N170_27,54,0.82,56,1,FALSE,miss
+149,16,MMN,animation,Animation,1,MMN_1,53,0.65,32,1,FALSE,miss
+149,17,P3,animation,Animation,24,P3_24,31,0.53,43,1,FALSE,miss
+149,18,N170,animation,Animation,8,N170_8,54,0.92,51,1,FALSE,miss
+149,19,MMN,basic,Basic topoplot,30,MMN_30,33,0.82,41,1,FALSE,miss
+149,20,P3,basic,Basic topoplot,20,P3_20,39,0.82,64,1,FALSE,miss
+149,21,N170,basic,Basic topoplot,7,N170_7,53,1,53,1,TRUE,hit
