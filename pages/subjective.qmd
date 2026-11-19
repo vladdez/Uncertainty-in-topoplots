@@ -21,7 +21,9 @@ format_p_value <- function(p) {
 ## Rating items
 
 Each participant rated all seven visualizations on four items, each on a 5-point scale.
-The items were not all asked at the same point in the study.
+The comparison item was asked right after Task 1; the other three after Task 2, when
+participants had used each visualization in both tasks. Comparisons within an item are
+unaffected, but differences between items may partly reflect this timing.
 
 | Item | Label on this page | Survey wording or label | Response scale | Asked |
 |---|---|---|---|---|
