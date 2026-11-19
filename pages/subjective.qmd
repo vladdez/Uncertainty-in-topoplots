@@ -332,6 +332,81 @@ location. The analysis therefore reports model-smoothed *mean* ratings, which st
 the raw means (largest absolute difference `r sprintf("%.2f", max_raw_model_difference)`
 scale points), rather than interpreting the odds ratios.
 
+::: {.callout-note title="Seeing the proportional-odds problem — Expand" collapse="true"}
+
+**What the figure shows.** Each small panel is one visualization (columns) on one rating
+question (rows). It compares that visualization with Basic topoplot at four cut-offs of
+the 1–5 scale: rated at least 2, at least 3, at least 4, and rated 5.
+
+**How to read one point.** Its height is the odds ratio against Basic: how much more
+(or less) likely people were to rate the visualization at least this high.
+
+- **1** (blue dashed line): the same as Basic.
+- **4**: four times Basic's odds; **1/4**: a quarter of Basic's odds.
+- The axis is logarithmic, so "4 times" and "a quarter" are equally far from the line.
+
+**How to read the line.**
+
+- **Flat:** the visualization moves all ratings up or down evenly. One number (an odds
+  ratio) would describe it well. This is what the ordinal model assumes ("proportional
+  odds").
+- **Rising** (low on the left, higher on the right): many people gave it a low rating,
+  but some still gave it a high one. Opinions are divided.
+- **Falling:** almost nobody gave it a low rating, but its lead over Basic shrinks
+  among the top ratings.
+
+**What it means here.** Several lines are clearly not flat. For example, Bivariate
+corner and Bivariate range rise steeply for comparison and for appeal: many participants
+rated them low, yet some still rated them 4 or 5. A single odds ratio would hide this,
+which is why this page reports mean ratings instead.
+
+```{r likert-po-figure}
+#| fig-width: 13
+#| fig-height: 8
+#| fig-alt: "Grid of small line charts, one per visualization and rating question. Each shows the odds ratio against Basic topoplot at the cut-offs rated at least 2, 3, 4 and 5. Several lines slope steeply, especially for Bivariate corner and Bivariate range on comparison and appeal."
+# Odds ratio against Basic at each cut-off, computed from the raw rating shares
+# (not from the model); 0.5 is added to counts so that empty cells stay finite.
+likert_po_steps <- purrr::map_dfr(2:5, \(cutoff) {
+  likert |>
+    filter(!is.na(rating)) |>
+    group_by(question, vistype) |>
+    summarise(share = (sum(rating >= cutoff) + 0.5) / (n() + 1), .groups = "drop") |>
+    mutate(cutoff = cutoff)
+}) |>
+  group_by(question, cutoff) |>
+  mutate(odds_ratio = exp(qlogis(share) - qlogis(share[vistype == "basic"]))) |>
+  ungroup() |>
+  filter(vistype != "basic") |>
+  mutate(
+    vistype = droplevels(vistype),
+    vis_label = factor(table_vistype(vistype), levels = table_vistype(levels(vistype)))
+  )
+
+ggplot(likert_po_steps, aes(cutoff, odds_ratio, group = vis_label)) +
+  geom_hline(yintercept = 1, linetype = "dashed", colour = "#3B78B4") +
+  geom_line(colour = "grey45", linewidth = 0.7) +
+  geom_point(size = 2.4, colour = "#222222") +
+  scale_x_continuous(breaks = 2:5) +
+  scale_y_log10(breaks = 4^(-2:3), labels = c("1/16", "1/4", "1", "4", "16", "64")) +
+  facet_grid(
+    question ~ vis_label,
+    labeller = labeller(question = label_wrap_gen(22), vis_label = label_wrap_gen(12))
+  ) +
+  labs(x = "Rated at least", y = "Odds ratio vs Basic topoplot (log scale)") +
+  theme_classic(base_size = 26) +
+  theme(
+    strip.background = element_blank(),
+    strip.text.x = element_text(lineheight = 0.45),
+    strip.text.y = element_text(angle = 0, hjust = 0, lineheight = 0.45),
+    panel.border = element_rect(fill = NA, colour = "grey85")
+  )
+```
+
+Computed from the raw rating shares, not from the model; 0.5 is added to each count so
+that a cut-off nobody reached still gives a finite value.
+
+:::
+
 **Random-effects structure.** Each participant gave exactly one rating per visualization and
 criterion. Participant-specific visualization effects (`(1 + vistype | ID)`) would have one
 observation per random effect and are not identifiable separately from the observation-level
