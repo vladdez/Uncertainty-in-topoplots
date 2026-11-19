@@ -247,7 +247,12 @@ mean, i.e. the median time of a typical participant.
 :::
 
 **Problem.** In every rating question the visualizations appear in the same order:
-Adjacent first, Basic always last.
+Adjacent first, Basic always last. An item's position affects its rating on its own (the
+first item sets a reference for the rest, attention drops towards the end, and the last
+item is seen in contrast to everything before it). Because every participant saw the
+same order, these position effects are mixed up with the visualizations and cannot be
+separated statistically. This matters most for Basic: it is the reference in every
+comparison and also the item most affected by being last.
 
 **Resolution (18 Nov 2026).** This cannot be fixed after data collection, so it is
 reported:
