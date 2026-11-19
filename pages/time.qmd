@@ -384,10 +384,19 @@ zero) at the average presentation position. They are not arithmetic mean times, 
 are larger because time is right-skewed. Differences from Basic topoplot are reported as
 ratios of geometric means: a ratio of 1.40 means 40% longer.
 
+*In plain words:* a geometric mean multiplies the times instead of adding them, so a few
+very slow trials pull it up much less than an ordinary average. For 5 s, 10 s and 60 s
+the ordinary average is 25 s, the geometric mean about 14 s: close to a typical time.
+
 **Multiple comparisons.** The primary comparisons are the six visualizations against
 Basic topoplot within each task, with Dunnett-adjusted 95% confidence intervals and p
 values (`emmeans` `dunnettx`). The same family is used on the Task 1, Task 2 and rating
 pages.
+
+*In plain words:* with six comparisons, the chance that at least one ordinary 95%
+interval is wrong is about 26%. Dunnett's method widens the six intervals just enough
+that all six together are right with 95% confidence. A difference whose Dunnett interval
+excludes "no difference" (ratio 1) therefore holds even though six comparisons were made.
 
 ## Task 1: comparison
 
