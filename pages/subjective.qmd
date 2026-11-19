@@ -141,7 +141,10 @@ likert <- data %>%
     )
   ) %>%
   select(ID, question, vistype, rating)
+```
 
+::: {.callout-note title="Preview of participant ratings (first 20 rows) — Expand" collapse="true"}
+```{r likert-preview}
 likert |>
   slice_head(n = 20) |>
   mutate(vistype = table_vistype(vistype)) |>
@@ -153,10 +156,10 @@ likert |>
       "Visualization type",
       "Rating"
     ),
-    caption = "Preview of participant ratings (first 20 rows)",
     table.attr = kable_table_attributes
   )
 ```
+:::
 ```{r likert-summary-table}
 likert_table <- likert %>%
   group_by(vistype, question) %>%
