@@ -710,10 +710,11 @@ case study, consistent with the caution expressed in PF-25.
 = Limitations
 
 In every rating item the visualizations were listed in the same order, with the basic
-topoplot always last. Order and context effects on the subjective ratings therefore cannot
-be separated from differences between the visualizations. The comparison rating was also
-collected at a different point in the study than the other three ratings (after Task 1
-rather than after Task 2).
+topoplot always last. Because the order was not varied, position effects cannot be separated
+from differences between visualizations; this particularly affects the basic topoplot, the
+reference for all rating comparisons. Future studies should randomize or counterbalance the
+item order. The comparison rating was also collected at a different point in the study than
+the other three ratings (after Task 1 rather than after Task 2).
 
 [TODO: Further limitations]
 
