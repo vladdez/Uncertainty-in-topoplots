@@ -202,9 +202,12 @@ hit_miss_estimates <- purrr::imap_dfr(hit_miss_models, \(model, name) {
     transmute(outcome = name, vistype, prob, lower = asymp.LCL, upper = asymp.UCL)
 })
 
+# Primary family as on the other pages: the six comparisons with Basic,
+# Dunnett-adjusted (exact multivariate-t; Monte Carlo, hence the seed).
 hit_miss_contrasts <- purrr::imap_dfr(hit_miss_models, \(model, name) {
+  set.seed(20261118)
   emmeans(model, ~vistype) |>
-    contrast(method = "trt.vs.ctrl", ref = "basic", adjust = "none") |>
+    contrast(method = "trt.vs.ctrl", ref = "basic", adjust = "mvt") |>
     summary(infer = TRUE, type = "response") |>
     as.data.frame() |>
     transmute(
@@ -245,7 +248,8 @@ hit_miss_estimates |>
     caption = paste(
       "Model-estimated probabilities, averaged equally over ERP patterns at the middle",
       "presentation position, for a typical participant, stimulus and image. p-values",
-      "compare each visualization with Basic topoplot, unadjusted."
+      "compare each visualization with Basic topoplot, Dunnett-adjusted for the six",
+      "comparisons with Basic."
     ),
     table.attr = kable_table_attributes
   )
@@ -268,7 +272,8 @@ hit_miss_contrasts |>
   knitr::kable(
     format = "html",
     escape = FALSE,
-    col.names = c("Outcome", "Visualization", "Odds ratio [95% CI]", "p"),
+    col.names = c("Outcome", "Visualization", "Odds ratio [simultaneous 95% CI]",
+                  "p (Dunnett-adjusted)"),
     table.attr = kable_table_attributes
   )
 ```

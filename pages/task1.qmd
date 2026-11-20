@@ -822,7 +822,6 @@ task1_basic_contrasts <- tibble::tibble(
   standard_error = task1_contrast_sd,
   lower_ci = difference - task1_dunnett_critical * standard_error,
   upper_ci = difference + task1_dunnett_critical * standard_error,
-  p_unadjusted = 2 * pnorm(abs(task1_contrast_z), lower.tail = FALSE),
   p_adjusted = vapply(
     abs(task1_contrast_z),
     \(z) mean(task1_max_abs_z >= z),
@@ -958,19 +957,17 @@ task1_basic_contrasts |>
     vistype = paste(table_vistype(vistype), "vs Basic topoplot"),
     difference = sprintf("%+.1f", 100 * difference),
     interval = sprintf("[%+.1f, %+.1f]", 100 * lower_ci, 100 * upper_ci),
-    p_adjusted = format_pvalue_html(p_adjusted, eps = 0.0001),
-    p_unadjusted = format.pval(p_unadjusted, digits = 2, eps = 0.001)
+    p_adjusted = format_pvalue_html(p_adjusted, eps = 0.0001)
   ) |>
   knitr::kable(
     format = "html",
     escape = FALSE,
-    align = c("l", "r", "r", "r", "r"),
+    align = c("l", "r", "r", "r"),
     col.names = c(
       "Comparison",
       "Difference (pp)",
       "Simultaneous 95% CI (pp)",
-      "p (Dunnett-adjusted)",
-      "p (unadjusted)"
+      "p (Dunnett-adjusted)"
     ),
     caption = paste(
       "Primary Task 1 comparisons: population-average accuracy differences from",
@@ -1038,7 +1035,7 @@ task1_coefficient_results |>
     estimate,
     standard_error,
     z_value,
-    p_value = format_pvalue_html(p_value)
+    p_value = format.pval(p_value, digits = 3, eps = 0.001)
   ) |>
   knitr::kable(
     format = "html",
@@ -1053,8 +1050,8 @@ task1_coefficient_results |>
     ),
     caption = paste(
       "Fixed effects for the comparison-task accuracy model.",
-      "p values are unadjusted Wald tests of single coefficients;",
-      "values with p < .05 are shown in dark red."
+      "p values are unadjusted Wald tests of single coefficients. For the",
+      "visualization rows, use the Dunnett-adjusted comparisons instead."
     ),
     table.attr = kable_table_attributes
   )
@@ -1170,19 +1167,6 @@ task1_effect_sentence <- function(
   paste(sentences, collapse = " ")
 }
 
-task1_visual_coefficients <- task1_coefficient_results |>
-  filter(startsWith(term, "vistype"))
-
-task1_coefficient_sentence <- task1_effect_sentence(
-  labels = sub(" vs Basic topoplot$", "", task1_visual_coefficients$term_label),
-  estimate = task1_visual_coefficients$odds_ratio,
-  lower = task1_visual_coefficients$lower_or,
-  upper = task1_visual_coefficients$upper_or,
-  p = task1_visual_coefficients$p_value,
-  interval_text = "unadjusted 95% CI",
-  p_text = "unadjusted *p*"
-)
-
 task1_pattern_sentence <- function(result, label) {
   claim <- if (result$lower_or > 1) {
     "had higher odds of a correct response than MMN trials"
@@ -1252,8 +1236,6 @@ task1_dunnett_or_sentence <- task1_effect_sentence(
 ```
 
 #### Coefficient conclusion
-
-**Unadjusted coefficients.** `r task1_coefficient_sentence`
 
 **Dunnett-adjusted odds ratios.** `r task1_dunnett_or_sentence`
 
@@ -1646,15 +1628,13 @@ task1_bt_results |>
   transmute(
     Comparison = comparison,
     `Odds ratio` = sprintf("%.2f", odds_ratio),
-    `95% CI (unadjusted)` = sprintf("[%.2f, %.2f]", lower_ci, upper_ci),
-    `p (unadjusted)` = format.pval(p_value, digits = 3, eps = 0.001),
     `Simultaneous 95% CI` = sprintf("[%.2f, %.2f]", lower_adjusted, upper_adjusted),
     `p (Dunnett-adjusted)` = format_pvalue_html(p_adjusted)
   ) |>
   knitr::kable(
     format = "html",
     escape = FALSE,
-    align = c("l", "r", "r", "r", "r", "r"),
+    align = c("l", "r", "r", "r"),
     caption = paste(
       "Conditional logistic paired-choice sensitivity analysis.",
       "Adjusted intervals and p values are Dunnett-type (multivariate normal)",
@@ -1679,8 +1659,8 @@ model_table_note(
     "participant.</li>",
     "<li><strong>Interpretation:</strong> An odds ratio below 1 indicates weaker ",
     "preference for the matching candidate than under Basic topoplot.</li>",
-    "<li><strong>Multiplicity:</strong> Both unadjusted and Dunnett-adjusted values ",
-    "are shown; the joint robust Wald test is reported below.</li>",
+    "<li><strong>Multiplicity:</strong> Dunnett-adjusted values for the six ",
+    "comparisons with Basic; the joint robust Wald test is reported below.</li>",
     "</ul>"
   ),
   label = "Sensitivity-model details"
@@ -1703,16 +1683,6 @@ model_table_note(
 #| include: false
 #| cache: false
 task1_bt_labels <- sub(" vs Basic topoplot$", "", task1_bt_results$comparison)
-task1_bt_unadjusted_sentence <- task1_effect_sentence(
-  labels = task1_bt_labels,
-  estimate = task1_bt_results$odds_ratio,
-  lower = task1_bt_results$lower_ci,
-  upper = task1_bt_results$upper_ci,
-  p = task1_bt_results$p_value,
-  interval_text = "unadjusted 95% CI",
-  p_text = "unadjusted *p*",
-  outcome = "the odds of selecting the matching candidate were"
-)
 task1_bt_adjusted_sentence <- task1_effect_sentence(
   labels = task1_bt_labels,
   estimate = task1_bt_results$odds_ratio,
@@ -1731,8 +1701,6 @@ presentation position, the joint participant-clustered Wald test
 visualization type changed preference for the matching candidate,
 $\chi^2(`r task1_bt_wald_df`) = `r sprintf("%.2f", task1_bt_wald_chisq)`$,
 *p* `r task1_format_p(task1_bt_wald_p)`.
-
-**Unadjusted.** `r task1_bt_unadjusted_sentence`
 
 **Dunnett-adjusted.** `r task1_bt_adjusted_sentence`
 

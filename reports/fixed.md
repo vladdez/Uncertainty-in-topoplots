@@ -5,6 +5,7 @@ subtitle: "Resolved issues and how they were resolved"
 
 | | Issue | Area | Fixed on |
 |--|------------------|----|----|
+| [Moderate]{.badge .sev-moderate} | [F23. Unadjusted copies of the main comparisons with Basic](#f23) | Task 1, Task 2, Hit or miss | 20 Nov 2026 |
 | [High]{.badge .sev-high} | [F10. A303 measures likelihood of use, not helpfulness](#f10) | Ratings, manuscript | 18 Nov 2026 |
 | [High]{.badge .sev-high} | [F11. A301 was asked after Task 1 only](#f11) | Ratings, manuscript | 18 Nov 2026 |
 | [High]{.badge .sev-high} | [F12. Task 1 text overstated weak effects](#f12) | Task 1 | 18 Nov 2026 |
@@ -31,6 +32,35 @@ subtitle: "Resolved issues and how they were resolved"
 : {.findings-table}
 
 Dates are when the fix was committed (from Git history).
+
+## F23. Unadjusted copies of the main comparisons with Basic {#f23}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Area:** Task 1, Task 2, Hit or miss
+:::
+
+**Problem.** The main results are the six comparisons of each visualization with Basic,
+Dunnett-adjusted (F14). Several places still showed the same six comparisons without
+adjustment. These copies added nothing and invited picking the smaller p value. Example:
+Task 1, Bivariate range vs Basic was p = .033 unadjusted but .13 adjusted.
+
+- **Task 1:** a "p (unadjusted)" column in the main comparison table; an "Unadjusted
+  coefficients" sentence; unadjusted intervals, p values and a sentence in the
+  conditional-logit sensitivity analysis.
+- **Task 1 and Task 2 coefficient tables:** unadjusted p values below .05 were
+  highlighted in dark red, so they looked like findings.
+- **Hit or miss:** the p values against Basic were unadjusted only.
+
+**Resolution (20 Nov 2026).**
+
+- **Task 1:** the unadjusted column, sentences and intervals are removed. Only the
+  Dunnett-adjusted results remain.
+- **Coefficient tables:** kept, because they show the whole model (ERP pattern,
+  position). The red highlighting is removed, and the caption points to the
+  Dunnett-adjusted comparisons for the visualization rows.
+- **Hit or miss:** p values and intervals against Basic are now Dunnett-adjusted. Of the
+  four comparisons below .05 before, one remains: Adjacent plots for exact hits
+  (p = .031).
 
 ## F10. A303 measures likelihood of use, not helpfulness (was U3) {#f10}
 

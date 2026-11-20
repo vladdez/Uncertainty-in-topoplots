@@ -521,7 +521,7 @@ summary(model_task2_base)$coefficients$cond |>
     estimate = Estimate,
     standard_error = .data[["Std. Error"]],
     z_value = .data[["z value"]],
-    p_value = format_pvalue_html(.data[["Pr(>|z|)"]])
+    p_value = format.pval(.data[["Pr(>|z|)"]], digits = 3, eps = 0.001)
   ) |>
   knitr::kable(
     format = "html",
@@ -536,8 +536,8 @@ summary(model_task2_base)$coefficients$cond |>
     ),
     caption = paste(
       "Fixed effects for the base sensitivity detection-score model.",
-      "P values are unadjusted Wald tests of single coefficients; values with p < .05",
-      "are shown in dark red. Visualization comparisons are reported with the",
+      "P values are unadjusted Wald tests of single coefficients.",
+      "Visualization comparisons are reported with the",
       "Dunnett-adjusted contrasts below."
     ),
     table.attr = kable_table_attributes
@@ -630,7 +630,7 @@ summary(model_task2)$coefficients$cond |>
     estimate = Estimate,
     standard_error = .data[["Std. Error"]],
     z_value = .data[["z value"]],
-    p_value = format_pvalue_html(.data[["Pr(>|z|)"]])
+    p_value = format.pval(.data[["Pr(>|z|)"]], digits = 3, eps = 0.001)
   ) |>
   knitr::kable(
     format = "html",
@@ -645,8 +645,8 @@ summary(model_task2)$coefficients$cond |>
     ),
     caption = paste(
       "Fixed effects for the detection-score model.",
-      "P values are unadjusted Wald tests of single coefficients; values with p < .05",
-      "are shown in dark red. Visualization comparisons are reported with the",
+      "P values are unadjusted Wald tests of single coefficients.",
+      "Visualization comparisons are reported with the",
       "Dunnett-adjusted contrasts below."
     ),
     table.attr = kable_table_attributes
