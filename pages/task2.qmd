@@ -1123,6 +1123,11 @@ These 21 pairwise comparisons are exploratory and are not part of the primary fa
 They use a different adjustment (Tukey, for 21 comparisons), so their p values for the
 comparisons with Basic topoplot are larger than the primary Dunnett-adjusted values.
 
+**Why Tukey and not Dunnett.** Dunnett adjusts comparisons with one reference (here,
+the six visualizations against Basic). These comparisons have no single reference: every
+visualization is compared with every other. Tukey is the standard adjustment for all
+pairs. Its intervals are wider, because it accounts for 21 comparisons instead of 6.
+
 ```{r task2-pairwise-comparisons}
 task2_pairs <- pairs(
   emm_task2,

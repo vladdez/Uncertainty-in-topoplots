@@ -1282,7 +1282,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> Estimate,</span>
 <span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">standard_error =</span> .data[[<span class="st">"Std. Error"</span>]],</span>
 <span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_value =</span> .data[[<span class="st">"z value"</span>]],</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> <span class="fu">format_pvalue_html</span>(.data[[<span class="st">"Pr(&gt;|z|)"</span>]])</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> <span class="fu">format.pval</span>(.data[[<span class="st">"Pr(&gt;|z|)"</span>]], <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">eps =</span> <span class="fl">0.001</span>)</span>
 <span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
 <span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
 <span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
@@ -1297,8 +1297,8 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    ),</span>
 <span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">paste</span>(</span>
 <span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Fixed effects for the base sensitivity detection-score model."</span>,</span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>      <span class="st">"P values are unadjusted Wald tests of single coefficients; values with p &lt; .05"</span>,</span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>      <span class="st">"are shown in dark red. Visualization comparisons are reported with the"</span>,</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>      <span class="st">"P values are unadjusted Wald tests of single coefficients."</span>,</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Visualization comparisons are reported with the"</span>,</span>
 <span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Dunnett-adjusted contrasts below."</span></span>
 <span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>    ),</span>
 <span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
@@ -1306,7 +1306,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 </details>
 <div class="cell-output-display">
 <table class="table table-striped table-hover table-sm caption-top small">
-<caption>Fixed effects for the base sensitivity detection-score model. P values are unadjusted Wald tests of single coefficients; values with p &lt; .05 are shown in dark red. Visualization comparisons are reported with the Dunnett-adjusted contrasts below.</caption>
+<caption>Fixed effects for the base sensitivity detection-score model. P values are unadjusted Wald tests of single coefficients. Visualization comparisons are reported with the Dunnett-adjusted contrasts below.</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Term</th>
@@ -1322,14 +1322,14 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <td style="text-align: right;">0.622</td>
 <td style="text-align: right;">0.057</td>
 <td style="text-align: right;">10.980</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt; 0.001</span></td>
+<td style="text-align: left;">&lt; 0.001</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots vs Basic topoplot</td>
 <td style="text-align: right;">0.134</td>
 <td style="text-align: right;">0.064</td>
 <td style="text-align: right;">2.086</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.03699</span></td>
+<td style="text-align: left;">0.03699</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Animation vs Basic topoplot</td>
@@ -1357,7 +1357,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <td style="text-align: right;">0.182</td>
 <td style="text-align: right;">0.065</td>
 <td style="text-align: right;">2.816</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">0.00486</span></td>
+<td style="text-align: left;">0.00486</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Uncertainty markers vs Basic topoplot</td>
@@ -1525,7 +1525,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> Estimate,</span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">standard_error =</span> .data[[<span class="st">"Std. Error"</span>]],</span>
 <span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_value =</span> .data[[<span class="st">"z value"</span>]],</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> <span class="fu">format_pvalue_html</span>(.data[[<span class="st">"Pr(&gt;|z|)"</span>]])</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> <span class="fu">format.pval</span>(.data[[<span class="st">"Pr(&gt;|z|)"</span>]], <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">eps =</span> <span class="fl">0.001</span>)</span>
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
 <span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
 <span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
@@ -1540,8 +1540,8 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    ),</span>
 <span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">paste</span>(</span>
 <span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Fixed effects for the detection-score model."</span>,</span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>      <span class="st">"P values are unadjusted Wald tests of single coefficients; values with p &lt; .05"</span>,</span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>      <span class="st">"are shown in dark red. Visualization comparisons are reported with the"</span>,</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>      <span class="st">"P values are unadjusted Wald tests of single coefficients."</span>,</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Visualization comparisons are reported with the"</span>,</span>
 <span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Dunnett-adjusted contrasts below."</span></span>
 <span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>    ),</span>
 <span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
@@ -1549,7 +1549,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 </details>
 <div class="cell-output-display">
 <table class="table table-striped table-hover table-sm caption-top small">
-<caption>Fixed effects for the detection-score model. P values are unadjusted Wald tests of single coefficients; values with p &lt; .05 are shown in dark red. Visualization comparisons are reported with the Dunnett-adjusted contrasts below.</caption>
+<caption>Fixed effects for the detection-score model. P values are unadjusted Wald tests of single coefficients. Visualization comparisons are reported with the Dunnett-adjusted contrasts below.</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Term</th>
@@ -1565,7 +1565,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <td style="text-align: right;">0.682</td>
 <td style="text-align: right;">0.178</td>
 <td style="text-align: right;">3.824</td>
-<td style="text-align: left;"><span style="color:#B2182B;font-weight:700">&lt;0.001</span></td>
+<td style="text-align: left;">&lt;0.001</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots vs Basic topoplot</td>
@@ -2323,6 +2323,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>These 21 pairwise comparisons are exploratory and are not part of the primary family. They use a different adjustment (Tukey, for 21 comparisons), so their p values for the comparisons with Basic topoplot are larger than the primary Dunnett-adjusted values.</p>
+<p><strong>Why Tukey and not Dunnett.</strong> Dunnett adjusts comparisons with one reference (here, the six visualizations against Basic). These comparisons have no single reference: every visualization is compared with every other. Tukey is the standard adjustment for all pairs. Its intervals are wider, because it accounts for 21 comparisons instead of 6.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
