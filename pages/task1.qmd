@@ -736,6 +736,33 @@ ggsave_st(
 
 ### Accuracy differences relative to Basic topoplot
 
+::: {.callout-note title="What is a contrast? — Expand" collapse="true"}
+A **contrast** is one comparison computed from a model, for example "Confidence
+intervals minus Basic topoplot".
+
+| Type | What is compared | Adjustment | Where |
+|---|---|---|---|
+| **Primary** (main results) | each uncertainty visualization vs Basic topoplot (6 per outcome) | Dunnett, for 6 comparisons | Task 1, Task 2, Hit or miss, Time, Subjective evaluation |
+| **Secondary** | two uncertainty visualizations against each other (21 pairs) | Tukey, for 21 comparisons | Task 2, collapsed box |
+| **Model coefficients** | every model term | none: for visualization rows, use the primary contrasts | coefficient tables |
+
+A primary result counts as clear only if it holds after accounting for all six
+comparisons.
+
+**Definitions**
+
+- **Adjustment (for multiple comparisons):** each extra comparison adds a chance of a
+  false "difference". An adjustment widens intervals and raises *p* values so that the
+  whole set of comparisons, not just one, stays at the 95% / 5% level.
+- **Dunnett:** the adjustment for comparing several conditions with one reference
+  (here, Basic topoplot).
+- **Tukey:** the adjustment for comparing every condition with every other.
+- **Unadjusted *p* value:** the *p* value of one comparison on its own, ignoring that
+  others were made.
+- **Model coefficient:** a number in the fitted model; for a visualization it is its
+  difference from Basic topoplot on the model's scale (here, log odds).
+:::
+
 - These comparisons estimate the population-average accuracy difference between each
   visualization and the basic topoplot. They are the **primary comparisons** for Task 1.
 
