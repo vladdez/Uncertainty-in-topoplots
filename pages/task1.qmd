@@ -107,8 +107,8 @@ task1_n_patterns <- n_distinct(task1_model$pattern)
 - Accuracy was calculated as correct responses divided by all responses
   (`correct / (correct + incorrect)`). Each visualization type had
   `r format(task1_n_responses_per_vistype, big.mark = ",")` responses
-  (`r task1_n_participants` participants × `r task1_n_patterns` trials). This is an
-  unadjusted pooled proportion.
+  (`r task1_n_participants` participants × `r task1_n_patterns` trials). This is the
+  raw share of correct answers, not a model estimate.
 
 - For each visualization type, accuracy was first averaged across three trials
  within each participant and then summarized across participants.
