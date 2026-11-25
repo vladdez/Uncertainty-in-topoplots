@@ -100,6 +100,23 @@ vistypes <- c(
   "triple_CI", "uncert_markers", "basic"
 )
 
+# One display order for every figure and table (audit V1): Basic topoplot first,
+# then the order of the paper's Figure 1 (panels A-F). `vistypes` above keeps the
+# survey's column order and must not be reordered.
+vistype_order <- c(
+  "basic", "adjacent", "bivariate_corner", "bivariate_range",
+  "uncert_markers", "triple_CI", "animation"
+)
+
+# Factor in display order. Horizontal figures (categories on y) draw the first
+# level at the bottom, so pass `top_first = TRUE` there to put Basic at the top.
+# Keys not in `vistype_order` (e.g. "General bivariates") are kept, after the rest.
+order_vistype <- function(x, top_first = FALSE) {
+  x <- as.character(x)
+  levels <- c(intersect(vistype_order, unique(x)), setdiff(unique(x), vistype_order))
+  factor(x, levels = if (top_first) rev(levels) else levels)
+}
+
 vistype_labels <- c(
   adjacent = "Adjacent plots",
   animation = "Animation",
@@ -242,6 +259,24 @@ plot_theme <- function(base_size = 20) {
     )
 }
 
+# Continue the x-axis baseline into a double slash at a panel edge.
+# Use physical units so the mark keeps its shape regardless of axis range.
+x_axis_end_mark <- function(base_size = 20, size = 1, side = c("right", "left")) {
+  direction <- if (match.arg(side) == "right") 1 else -1
+  offset <- direction * size
+  edge <- direction * Inf
+  annotation_custom(
+    grid::segmentsGrob(
+      x0 = grid::unit(c(-0.5, 0.2, 1.6) * offset, "mm"),
+      x1 = grid::unit(c(0.9, 1.6, 3.0) * offset, "mm"),
+      y0 = grid::unit(c(0, -1.2, -1.2) * offset, "mm"),
+      y1 = grid::unit(c(0, 1.2, 1.2) * offset, "mm"),
+      gp = grid::gpar(lwd = base_size / 22 * ggplot2::.pt)
+    ),
+    xmin = edge, xmax = edge, ymin = -Inf, ymax = -Inf
+  )
+}
+
 # Probabilities (binomial) or means (beta) of a logit-link glmmTMB model with
 # scalar random intercepts, per visualization: averaged equally over ERP patterns
 # at the middle presentation position.
@@ -253,7 +288,11 @@ plot_theme <- function(base_size = 20) {
 #   which is what emmeans(type = "response") returns.
 # Intervals: 2.5th and 97.5th percentiles over draws of all fixed parameters
 # (coefficients and random-intercept SDs) from their joint sampling distribution.
-marginal_response_by_vistype <- function(model, n_draws = 4000, seed = 20261118) {
+# The optional 99% marginal interval uses the same draws as the 95% interval.
+# Set keep_draws = TRUE to retain paired marginal predictions for contrasts.
+marginal_response_by_vistype <- function(
+  model, n_draws = 4000, seed = 20261118, include_99 = FALSE, keep_draws = FALSE
+) {
   re_terms <- model$modelInfo$reTrms$cond$cnms
   stopifnot(
     family(model)$link == "logit",
@@ -285,16 +324,35 @@ marginal_response_by_vistype <- function(model, n_draws = 4000, seed = 20261118)
 
   set.seed(seed)
   draws <- MASS::mvrnorm(n_draws, par, model$sdr$cov.fixed)
-  purrr::map_dfr(seq_len(n_draws), \(i) from_par(draws[i, ])) |>
+  marginal_99 <- if (include_99) {
+    rlang::quos(
+      marginal_lower_99 = quantile(marginal, 0.005),
+      marginal_upper_99 = quantile(marginal, 0.995)
+    )
+  }
+  predictions <- purrr::map_dfr(
+    seq_len(n_draws),
+    \(i) from_par(draws[i, ]),
+    .id = if (keep_draws) "draw" else NULL
+  )
+  estimates <- predictions |>
     dplyr::group_by(vistype) |>
     dplyr::summarise(
       marginal_lower = quantile(marginal, 0.025),
       marginal_upper = quantile(marginal, 0.975),
       conditional_lower = quantile(conditional, 0.025),
       conditional_upper = quantile(conditional, 0.975),
+      !!!marginal_99,
       .groups = "drop"
     ) |>
     dplyr::left_join(from_par(par), by = "vistype")
+  if (keep_draws) {
+    return(list(
+      estimates = estimates,
+      marginal_draws = dplyr::select(predictions, draw, vistype, marginal)
+    ))
+  }
+  estimates
 }
 
 # Numbers quoted in the manuscript and supplement (Typst reads them with
@@ -325,15 +383,18 @@ number_word <- function(n) {
   ifelse(n >= 0 & n <= 10 & n == round(n), words[n + 1], format(n, big.mark = ","))
 }
 
-# APA-style p value without the leading zero: ".024", "< .001".
+# APA-style p value without the leading zero: ".024", "< .001". A p below .05
+# that would round to ".050" gets four decimals (".0497"), so the printed value
+# stays on the same side of .05 as the test.
 p_text <- function(p) {
-  ifelse(p < .001, "< .001", sub("^0", "", sprintf("%.3f", p)))
+  digits <- ifelse(p < .05 & round(p, 3) >= .05, 4, 3)
+  ifelse(p < .001, "< .001", sub("^0", "", sprintf("%.*f", digits, p)))
 }
 
 # Signed number with a real minus sign: "+1.0", "−4.8".
 signed_text <- function(x, digits = 1) {
   out <- sprintf(paste0("%+.", digits, "f"), x)
-  sub("^-", "−", out)
+  sub("^-", intToUtf8(0x2212), out)
 }
 
 remove_group_iqr_outliers <- function(df, value, group) {
