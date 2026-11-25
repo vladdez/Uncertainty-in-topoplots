@@ -7,7 +7,7 @@ params:
   export_artifacts: false
 ---
 
-## Explanation of the task 2
+## Task design {#explanation-of-the-task-2}
 
 Task 2 examined whether participants could combine information about estimated voltage
 and its uncertainty to locate a relevant spatial region. On each trial, participants saw
@@ -30,7 +30,7 @@ source("scripts/analysis_setup.R")
 configure_analysis_cache(project_path("regions.txt"))
 ```
 
-## Response scoring and trial reconstruction
+## Trial reconstruction and scoring {#response-scoring-and-trial-reconstruction}
 
 - For each participant we reconstructed presentation order. Each participant went through 21 randomly shuffled pages.
 
@@ -107,7 +107,7 @@ The polygon definitions are stored in
 #| file: scripts/task2_trials.R
 ```
 
-## Descriptive detection scores
+## Observed detection scores {#descriptive-detection-scores}
 
 - The analysis contains `r scales::comma(nrow(task2))` responses: `r n_distinct(task2$ID)`
   participants x `r n_distinct(task2$trial)` trials. Each visualization type therefore has
@@ -209,7 +209,7 @@ task2_table <- task2_model %>%
   )
 
 task2_table |>
-  arrange(desc(median)) |>
+  arrange(order_vistype(vistype)) |>
   mutate(vistype = table_vistype(vistype)) |>
   knitr::kable(
     format = "html",
@@ -225,6 +225,86 @@ task2_table |>
     table.attr = kable_table_attributes
   )
 ```
+
+::: {.panel-tabset}
+
+### Cumulative distribution
+
+```{r task2-score-ecdf}
+#| cache: false
+#| fig-cap: !expr paste0("Cumulative distribution of the ", scales::comma(nrow(task2_model)), " trial-level detection scores, one line per visualization (", scales::comma(nrow(task2_model) / n_distinct(task2_model$vistype)), " responses each). Each line gives the share of responses at or below a score; Basic topoplot in blue. The final jump at 100% is the share of responses that selected the strongest region. Legend entries follow the order used in all figures (Basic topoplot first).")
+#| fig-alt: "Seven step lines of the cumulative share of responses against the detection score, one per visualization, rising slowly up to about 80% and then jumping to 100% at a score of 100%. The lines lie close together; Basic topoplot is drawn in blue."
+# ECDF instead of the 0.01-bin histogram alone (audit V17e): no comb pattern, and
+# the visualizations can be compared on one axis. The lines run close together, so
+# end labels would collide; a legend inside the empty upper-left corner names them.
+# Legend in the display order of every figure (audit V1), not in the order of the
+# lines: the lines run close together, so the visualizations are found by name.
+# Grey shades follow the legend, darkest first.
+task2_ecdf_order <- levels(order_vistype(task2_model$vistype))
+task2_ecdf_others <- setdiff(task2_ecdf_order, "basic")
+task2_ecdf_colours <- c(
+  basic = basic_accent,
+  setNames(
+    grDevices::colorRampPalette(c("#252525", "#B0B0B0"))(length(task2_ecdf_others)),
+    task2_ecdf_others
+  )
+)
+
+task2_ecdf_data <- task2_model |>
+  mutate(vistype = factor(as.character(vistype), levels = task2_ecdf_order))
+
+task2_score_ecdf_figure <- ggplot(
+  task2_ecdf_data,
+  aes(x = score, colour = vistype)
+) +
+  # Grey lines first, Basic topoplot drawn on top.
+  stat_ecdf(
+    data = \(d) filter(d, vistype != "basic"),
+    geom = "step",
+    linewidth = 0.8
+  ) +
+  stat_ecdf(
+    data = \(d) filter(d, vistype == "basic"),
+    geom = "step",
+    linewidth = 1.3
+  ) +
+  scale_colour_manual(
+    values = task2_ecdf_colours,
+    breaks = task2_ecdf_order,
+    labels = figure_vistype,
+    name = NULL
+  ) +
+  scale_x_continuous(
+    "Detection score (0% = weakest region, 100% = strongest region)",
+    limits = c(-0.01, 1.01),
+    breaks = seq(0, 1, 0.2),
+    labels = scales::label_percent(accuracy = 1),
+    expand = expansion(mult = 0)
+  ) +
+  scale_y_continuous(
+    "Share of responses (cumulative)",
+    limits = c(0, 1),
+    breaks = seq(0, 1, 0.2),
+    labels = scales::label_percent(accuracy = 1),
+    expand = expansion(mult = c(0, 0.02))
+  ) +
+  guides(colour = guide_legend(override.aes = list(linewidth = 1.3))) +
+  # No in-figure title (one title per figure): the caption names the figure.
+  plot_theme(base_size = 20) +
+  theme(
+    axis.text = element_text(size = 20),
+    legend.text = element_text(size = 20),
+    legend.position = "inside",
+    legend.position.inside = c(0.02, 0.98),
+    legend.justification = c(0, 1),
+    legend.key.width = unit(1.6, "lines"),
+    legend.background = element_rect(fill = "white", colour = NA)
+  )
+
+task2_score_ecdf_figure
+```
+
+### Histogram
 
 ```{r task2-score-distribution}
 #| cache: false
@@ -309,6 +389,12 @@ ggsave_st(
 )
 ```
 
+:::
+
+::: {.panel-tabset}
+
+### Gradient
+
 ```{r task2-descriptive-gradient-plot}
 #| cache: false
 #| fig-cap: >-
@@ -325,14 +411,6 @@ task2_gradient_participants <- task2_model |>
     .groups = "drop"
   )
 
-# Rows are ordered by the value the figure shows: the mean of participant means.
-task2_gradient_order <- task2_gradient_participants |>
-  group_by(vistype) |>
-  summarise(mean_score = mean(participant_score), .groups = "drop") |>
-  arrange(mean_score) |>
-  pull(vistype) |>
-  as.character()
-
 task2_gradient_summary <- task2_gradient_participants |>
   group_by(vistype) |>
   summarise(
@@ -343,7 +421,9 @@ task2_gradient_summary <- task2_gradient_participants |>
     .groups = "drop"
   ) |>
   mutate(
-    vistype = factor(vistype, levels = task2_gradient_order),
+    # Rows in the display order of every figure (audit V1), Basic topoplot at the
+    # top: y_position counts up from the bottom row.
+    vistype = order_vistype(vistype, top_first = TRUE),
     y_position = as.numeric(vistype),
     lower_95 = mean_score - qt(0.975, df) * se_score,
     upper_95 = mean_score + qt(0.975, df) * se_score
@@ -391,6 +471,59 @@ task2_gradient_data <- task2_gradient_summary |>
     )
   )
 
+task2_score_plot_layers <- function(mean_tick_colour = "#111111", mean_tick_half_height = 0.31) {
+  list(
+    geom_segment(
+      data = task2_gradient_summary,
+      aes(
+        x = mean_score,
+        xend = mean_score,
+        y = y_position - mean_tick_half_height,
+        yend = y_position + mean_tick_half_height
+      ),
+      inherit.aes = FALSE,
+      linewidth = 0.8,
+      colour = mean_tick_colour
+    ),
+    geom_text(
+      data = task2_gradient_summary,
+      aes(
+        x = mean_score,
+        y = y_position + 0.42,
+        label = scales::percent(mean_score, accuracy = 1)
+      ),
+      inherit.aes = FALSE,
+      size = 6
+    ),
+    scale_x_continuous(
+      "Detection score (mean of participant means)",
+      limits = task2_gradient_limits,
+      breaks = scales::breaks_width(0.05),
+      labels = scales::label_percent(accuracy = 1),
+      # Keep the end ticks clear of the break marks.
+      expand = expansion(mult = 0.01)
+    ),
+    scale_y_continuous(
+      breaks = task2_gradient_summary$y_position,
+      labels = figure_vistype(task2_gradient_summary$vistype),
+      expand = expansion(add = c(0.5, 0.65))
+    ),
+    labs(y = NULL),
+    x_axis_end_mark(side = "left"),
+    x_axis_end_mark(),
+    coord_cartesian(clip = "off"),
+    plot_theme(base_size = 20),
+    theme(
+      axis.text = element_text(size = 20),
+      axis.text.y = element_text(
+        colour = vistype_label_colours(task2_gradient_summary$vistype, other = "black")
+      ),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank()
+    )
+  )
+}
+
 task2_gradient_figure <- ggplot(
   task2_gradient_data,
   aes(x = score, y = y_position)
@@ -401,51 +534,8 @@ task2_gradient_figure <- ggplot(
     height = 0.62,
     fill = "#6BAED6"
   ) +
-  geom_segment(
-    data = task2_gradient_summary,
-    aes(
-      x = mean_score,
-      xend = mean_score,
-      y = y_position - 0.31,
-      yend = y_position + 0.31
-    ),
-    inherit.aes = FALSE,
-    linewidth = 0.8,
-    colour = "#111111"
-  ) +
-  geom_text(
-    data = task2_gradient_summary,
-    aes(
-      x = mean_score,
-      y = y_position + 0.42,
-      label = scales::percent(mean_score, accuracy = 1)
-    ),
-    inherit.aes = FALSE,
-    size = 6
-  ) +
   scale_alpha_identity() +
-  scale_x_continuous(
-    "Detection score (mean of participant means)",
-    limits = task2_gradient_limits,
-    breaks = scales::breaks_width(0.05),
-    labels = scales::label_percent(accuracy = 1),
-    expand = expansion(mult = c(0, 0))
-  ) +
-  scale_y_continuous(
-    breaks = task2_gradient_summary$y_position,
-    labels = figure_vistype(task2_gradient_summary$vistype),
-    expand = expansion(add = c(0.5, 0.65))
-  ) +
-  labs(y = NULL) +
-  plot_theme(base_size = 20) +
-  theme(
-    axis.text = element_text(size = 20),
-    axis.text.y = element_text(
-      colour = vistype_label_colours(task2_gradient_summary$vistype, other = "black")
-    ),
-    axis.ticks.y = element_blank(),
-    axis.line.y = element_blank()
-  )
+  task2_score_plot_layers()
 
 task2_gradient_figure
 
@@ -460,6 +550,52 @@ ggsave_st(
   bg = "white"
 )
 ```
+
+### 95% CI whiskers
+
+```{r task2-descriptive-whisker-plot}
+#| cache: false
+#| fig-cap: >-
+#|   The black tick and percentage label show the across-participant mean
+#|   detection score. The whiskers show its two-sided 95% t-confidence interval.
+#| fig-alt: >-
+#|   Mean detection scores and 95% confidence intervals for seven visualisation
+#|   types, shown as horizontal capped intervals.
+
+ggplot(task2_gradient_summary, aes(x = mean_score, y = y_position)) +
+  geom_errorbar(
+    aes(
+      xmin = lower_95,
+      xmax = upper_95,
+      colour = vistype_label_colours(vistype, other = "black")
+    ),
+    orientation = "y",
+    width = 0.28,
+    linewidth = 0.8
+  ) +
+  scale_colour_identity() +
+  task2_score_plot_layers()
+```
+
+### Ambiguation
+
+```{r task2-descriptive-ambiguation-plot}
+#| cache: false
+#| fig-cap: >-
+#|   The dark band spans the two-sided 95% t-confidence interval for the mean.
+#|   The lighter ends extend to the 99% interval. The white tick and percentage
+#|   label show the mean. Design adapted from panel (f) of
+#|   [Gschwandtner et al. (2016)](https://doi.org/10.1109/TVCG.2015.2467752).
+#| fig-alt: >-
+#|   Mean detection scores by visualisation type. Each horizontal bar has
+#|   a dark 95% confidence interval and lighter ends reaching the 99% limits.
+
+source("scripts/ambiguation_plot.R", local = TRUE)
+make_ambiguation_plot(task2_gradient_summary, mean_score, se_score) +
+  task2_score_plot_layers(mean_tick_colour = "white", mean_tick_half_height = 0.20)
+```
+
+:::
 
 ## Detection-score analysis
 
@@ -537,6 +673,9 @@ model_task2_base <- glmmTMB(
 summary(model_task2_base)$coefficients$cond |>
   as.data.frame() |>
   tibble::rownames_to_column("term") |>
+  # Visualization terms in the display order of every figure (audit V1); the other
+  # terms keep the model's order after them.
+  arrange(match(term, c("(Intercept)", paste0("vistype", vistype_order)), nomatch = 99L)) |>
   transmute(
     term = dplyr::recode(
       term,
@@ -646,6 +785,9 @@ model_table_note(
 summary(model_task2)$coefficients$cond |>
   as.data.frame() |>
   tibble::rownames_to_column("term") |>
+  # Visualization terms in the display order of every figure (audit V1); the other
+  # terms keep the model's order after them.
+  arrange(match(term, c("(Intercept)", paste0("vistype", vistype_order)), nomatch = 99L)) |>
   transmute(
     term = dplyr::recode(
       term,
@@ -811,7 +953,7 @@ model_table_note(
 )
 ```
 
-### Expected detection scores
+### Model-estimated detection scores {#expected-detection-scores}
 
 - The ordered-beta model has three parts: the probability of an exact 0, the
   probability of an exact 1, and the mean μ of the continuous scores in between. The
@@ -924,11 +1066,13 @@ task2_estimates <- task2_expected_summary |>
     lower_ci = marginal_lower,
     upper_ci = marginal_upper
   ) |>
-  arrange(predicted_score) |>
-  mutate(vistype = factor(vistype, levels = vistype))
+  # Rows in the display order of every figure (audit V1), Basic topoplot at the top
+  # of the horizontal figure.
+  mutate(vistype = order_vistype(vistype, top_first = TRUE)) |>
+  arrange(vistype)
 
 task2_expected_summary |>
-  arrange(desc(marginal)) |>
+  arrange(order_vistype(vistype)) |>
   transmute(
     vistype = table_vistype(vistype),
     marginal = sprintf(
@@ -993,7 +1137,7 @@ model_table_note(
   `r scales::percent(task2_expected_value("basic", "marginal"), accuracy = 0.1)`, and the
   observed mean is `r scales::percent(task2_observed_means[["basic"]], accuracy = 0.1)`.
 
-### Primary comparisons: each visualization versus Basic topoplot
+### Tests vs Basic topoplot {#primary-comparisons-each-visualization-versus-basic-topoplot}
 
 - **Primary family.** The six comparisons of each visualization with Basic topoplot
   form one family. P values and intervals are adjusted for these six comparisons with
@@ -1059,7 +1203,9 @@ task2_basic_contrasts <- tibble::tibble(
     task2_dunnett |> select(vistype, logit_difference = estimate, SE, z.ratio, p.value),
     by = "vistype"
   ) |>
-  mutate(vistype = factor(vistype, levels = levels(task2_estimates$vistype)))
+  # Display order of every figure and table (audit V1); the contrast figure
+  # reverses it so that the first row is at the top.
+  mutate(vistype = order_vistype(vistype))
 
 task2_dunnett_significant <- task2_basic_contrasts |> filter(p.value < 0.05)
 task2_corner <- task2_basic_contrasts |> filter(vistype == "bivariate_corner")
@@ -1095,7 +1241,7 @@ task2_dunnett_sentence <- if (nrow(task2_dunnett_significant) == 0) {
 }
 
 task2_basic_contrasts |>
-  arrange(desc(difference)) |>
+  arrange(vistype) |>
   transmute(
     vistype = paste(table_vistype(vistype), "vs Basic topoplot"),
     difference = sprintf(
@@ -1316,7 +1462,7 @@ ggsave_print(
 )
 ```
 
-### Detection-score differences relative to Basic topoplot
+### Differences vs Basic topoplot {#detection-score-differences-relative-to-basic-topoplot}
 
 **Figure method.** The contrasts are the primary comparisons from the table above:
 differences in expected score E[y] (averaged over random effects) between each
@@ -1341,7 +1487,8 @@ task2_contrast_limit <- max(
 make_detection_score_contrast_figure <- function(print = FALSE) {
   s <- interval_figure_sizes(print)
   plot <- ggplot(
-    task2_basic_contrasts,
+    # Adjacent plots, the first row of the display order, at the top.
+    mutate(task2_basic_contrasts, vistype = order_vistype(vistype, top_first = TRUE)),
     aes(x = difference, y = vistype)
   ) +
     geom_vline(
@@ -1428,7 +1575,7 @@ ggsave_print(
 )
 ```
 
-## Sensitivity analysis: exact-peak responses
+## Exact-peak sensitivity analysis {#sensitivity-analysis-exact-peak-responses}
 
 - About `r round(100 * mean(task2_model$score == 1))`% of responses have a score of
   exactly 1. Scores are rescaled within each stimulus, so a score of 1 marks the strongest
@@ -1502,24 +1649,35 @@ task2_peak_ppc <- task2_peak_simulated |>
   ) |>
   mutate(
     inside = observed >= lower & observed <= upper,
-    vistype = factor(vistype, levels = levels(task2_model$vistype))
+    # Display order of every figure and table (audit V1).
+    vistype = order_vistype(vistype)
   )
 
 task2_peak_ppc |>
   filter(statistic %in% c("share_one", "share_one_vs_basic")) |>
   filter(!(statistic == "share_one_vs_basic" & vistype == "basic")) |>
   arrange(statistic, vistype) |>
+  # Shares in %, differences from Basic in percentage points (signed).
+  mutate(is_share = statistic == "share_one") |>
   transmute(
     statistic = if_else(
-      statistic == "share_one",
+      is_share,
       "Share of exact-peak responses",
       "Difference from Basic topoplot"
     ),
     vistype = table_vistype(vistype),
-    observed = sprintf("%.1f%%", 100 * observed),
-    simulated = sprintf(
-      "%.1f%% [%.1f%%, %.1f%%]",
-      100 * median, 100 * lower, 100 * upper
+    observed = if_else(
+      is_share,
+      sprintf("%.1f%%", 100 * observed),
+      sprintf("%+.1f pp", 100 * observed)
+    ),
+    simulated = if_else(
+      is_share,
+      sprintf("%.1f%% [%.1f%%, %.1f%%]", 100 * median, 100 * lower, 100 * upper),
+      sprintf(
+        "%+.1f pp [%+.1f, %+.1f]",
+        100 * median, 100 * lower, 100 * upper
+      )
     ),
     inside = if_else(
       inside,
@@ -1558,6 +1716,7 @@ task2_peak_ppc_plot_data <- task2_peak_ppc |>
   filter(statistic %in% c("share_one", "share_one_vs_basic")) |>
   filter(!(statistic == "share_one_vs_basic" & vistype == "basic")) |>
   mutate(
+    # First row of the display order (Basic topoplot) at the top.
     vistype = forcats::fct_rev(vistype),
     # Factor with both levels, so the two panels share one legend.
     inside = factor(inside, levels = c(FALSE, TRUE))
@@ -1635,7 +1794,7 @@ task2_peak_ppc_share_panel + task2_peak_ppc_difference_panel +
   theme(legend.position = "bottom")
 ```
 
-### Two-part model
+### Two-part model for hits and misses {#two-part-model}
 
 - **Exact peak:** logistic mixed model for `score == 1`.
 - **Closeness of misses:** beta mixed model for the trials with `score < 1`. The
@@ -1697,6 +1856,7 @@ task2_peak_response_estimates <- bind_rows(
 )
 
 task2_peak_response_estimates |>
+  arrange(order_vistype(vistype)) |>
   transmute(
     part,
     vistype = table_vistype(vistype),
@@ -1725,7 +1885,7 @@ it): exact peak `r task2_peak_overall_text("Exact peak")`; misses
 `r task2_peak_overall_text("Misses")`. When the overall test is not significant, read the
 single comparisons with Basic below as exploratory.
 
-### Visualization effects across models
+### Visualization effects by model {#visualization-effects-across-models}
 
 ```{r task2-peak-contrasts}
 task2_peak_contrasts <- list(
@@ -1749,7 +1909,8 @@ task2_peak_contrasts <- list(
   }) |>
   mutate(
     model = factor(model, levels = unique(model)),
-    vistype = factor(vistype, levels = levels(task2_model$vistype)),
+    # Display order of every figure and table (audit V1).
+    vistype = order_vistype(vistype),
     excludes_zero = lower > 0 | upper < 0
   )
 
@@ -1800,20 +1961,30 @@ model_table_note(
 #| fig-width: 12
 #| fig-height: 5.5
 #| fig-alt: "Differences from Basic topoplot on the logit scale for the ordered-beta model, the exact-peak logistic model, and the beta model of missed trials, with 95% confidence intervals."
+# Rows in the display order of every figure (audit V1), as in the detection-score
+# contrast figure: Adjacent plots at the top. Basic topoplot is the reference and
+# has no row.
 task2_peak_contrast_plot <- task2_peak_contrasts |>
-  mutate(vistype = forcats::fct_rev(vistype)) |>
+  mutate(vistype = order_vistype(vistype, top_first = TRUE)) |>
   ggplot(aes(x = estimate, y = vistype)) +
-  geom_vline(xintercept = 0, linetype = "dashed", colour = "#377EB8") +
+  geom_vline(xintercept = 0, linetype = "dashed", colour = basic_accent) +
   geom_errorbar(
-    aes(xmin = lower, xmax = upper),
+    aes(xmin = lower, xmax = upper, colour = excludes_zero),
     orientation = "y",
     width = 0.2,
-    linewidth = 0.6,
-    colour = "#333333"
+    linewidth = 0.6
   ) +
-  geom_point(aes(fill = excludes_zero), shape = 21, size = 3) +
-  scale_fill_manual(
-    values = c(`TRUE` = "#B2182B", `FALSE` = "white"),
+  # Neutral encoding as in the rating contrast figure (audit V17c, V17d): filled
+  # dark point = interval excludes zero, open grey point = includes zero. No red.
+  geom_point(
+    aes(colour = excludes_zero, shape = excludes_zero),
+    fill = "white",
+    size = 3.45,
+    stroke = 1.1
+  ) +
+  scale_shape_manual(values = c(`FALSE` = 21, `TRUE` = 19), guide = "none") +
+  scale_colour_manual(
+    values = c(`FALSE` = "#8C8C8C", `TRUE` = "#222222"),
     guide = "none"
   ) +
   scale_y_discrete(labels = figure_vistype) +
@@ -1833,7 +2004,10 @@ task2_peak_contrast_plot /
   basic_axis_caption("Difference (logit scale) from", size = 20) +
   plot_layout(heights = c(1, 0.08)) +
   plot_annotation(
-    caption = "Filled red: Dunnett-adjusted 95% confidence interval excludes zero.",
+    caption = paste(
+      "Filled points: Dunnett-adjusted 95% confidence interval excludes zero;",
+      "open grey points: interval includes zero."
+    ),
     theme = theme(
       plot.caption = element_text(
         hjust = 0, colour = "grey30", family = "Lato", size = 18
@@ -1914,7 +2088,7 @@ task2_peak_agreement |>
   )
 ```
 
-## Sensitivity analysis: rank and top-3 outcomes
+## Rank and top-3 sensitivity analysis {#sensitivity-analysis-rank-and-top-3-outcomes}
 
 ```{r task2-rank-data}
 # Rank of every region within its stimulus by score (1 = strongest region).
@@ -2030,7 +2204,8 @@ task2_outcome_contrasts <- list(
   }) |>
   mutate(
     outcome = factor(outcome, levels = unique(outcome)),
-    vistype = factor(vistype, levels = levels(task2_model$vistype))
+    # Display order of every figure and table (audit V1).
+    vistype = order_vistype(vistype)
   )
 
 task2_outcome_contrasts |>
@@ -2137,7 +2312,7 @@ task2_modal_regions |>
 
 :::
 
-## Summary of the Task 2 detection-score results
+## Key findings {#summary-of-the-task-2-detection-score-results}
 
 ```{r task2-summary-text}
 #| include: false
@@ -2374,6 +2549,6 @@ task2_interpretation <- if (task2_any_primary_effect) {
   this is not resolved here.
 - **Interpretation.** `r task2_interpretation`
 
-## Completion-time analysis
+## Completion time {#completion-time-analysis}
 
 Completion time is analysed on the [Time analysis](time.qmd) page.
