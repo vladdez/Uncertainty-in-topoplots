@@ -4,7 +4,10 @@
 # Sample definition (applied in analysis_setup.R):
 #   1. Records started on or after the study launch date (2026-07-24). Earlier
 #      records are test/pilot runs of the questionnaire.
-#   2. Records that reached the last page (TIME051 present).
+#   2. Records that reached page 51 (TIME051 present). Page 51 (open feedback)
+#      is the last questionnaire page; pages 52-53 only lead to the optional
+#      raffle, so FINISHED = 0 or LASTPAGE = 52 does not mean an incomplete
+#      questionnaire.
 #
 # Quality screen (flags only; the main analyses keep everyone, the flagged
 # participants are dropped in sensitivity analyses):

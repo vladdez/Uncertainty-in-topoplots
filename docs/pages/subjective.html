@@ -198,6 +198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#model-estimated-ratings" id="toc-model-estimated-ratings" class="nav-link" data-scroll-target="#model-estimated-ratings">Model-estimated ratings</a></li>
   <li><a href="#differences-relative-to-basic-topoplot" id="toc-differences-relative-to-basic-topoplot" class="nav-link" data-scroll-target="#differences-relative-to-basic-topoplot">Differences relative to Basic topoplot</a></li>
+  <li><a href="#summary-of-the-subjective-rating-results" id="toc-summary-of-the-subjective-rating-results" class="nav-link" data-scroll-target="#summary-of-the-subjective-rating-results">Summary of the subjective-rating results</a></li>
   </ul>
 </nav>
     </div>
@@ -605,50 +606,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot</td>
 <td style="text-align: right;">3.87</td>
-<td style="text-align: right;">2.38</td>
+<td style="text-align: right;">2.39</td>
 <td style="text-align: right;">2.59</td>
 <td style="text-align: right;">3.38</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots</td>
 <td style="text-align: right;">3.89</td>
-<td style="text-align: right;">4.19</td>
-<td style="text-align: right;">4.09</td>
-<td style="text-align: right;">4.01</td>
+<td style="text-align: right;">4.20</td>
+<td style="text-align: right;">4.10</td>
+<td style="text-align: right;">4.02</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Animation</td>
 <td style="text-align: right;">3.81</td>
-<td style="text-align: right;">3.48</td>
-<td style="text-align: right;">2.95</td>
+<td style="text-align: right;">3.49</td>
+<td style="text-align: right;">2.93</td>
 <td style="text-align: right;">3.87</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: right;">2.30</td>
-<td style="text-align: right;">3.50</td>
-<td style="text-align: right;">2.36</td>
-<td style="text-align: right;">2.47</td>
+<td style="text-align: right;">2.29</td>
+<td style="text-align: right;">3.49</td>
+<td style="text-align: right;">2.35</td>
+<td style="text-align: right;">2.46</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: right;">2.49</td>
-<td style="text-align: right;">3.51</td>
-<td style="text-align: right;">2.60</td>
-<td style="text-align: right;">2.68</td>
+<td style="text-align: right;">2.48</td>
+<td style="text-align: right;">3.50</td>
+<td style="text-align: right;">2.59</td>
+<td style="text-align: right;">2.67</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Confidence intervals</td>
 <td style="text-align: right;">4.05</td>
-<td style="text-align: right;">3.61</td>
+<td style="text-align: right;">3.62</td>
 <td style="text-align: right;">3.37</td>
 <td style="text-align: right;">3.53</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: right;">3.20</td>
+<td style="text-align: right;">3.21</td>
 <td style="text-align: right;">3.78</td>
-<td style="text-align: right;">2.92</td>
+<td style="text-align: right;">2.91</td>
 <td style="text-align: right;">2.33</td>
 </tr>
 </tbody>
@@ -708,22 +709,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
 <span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Evaluation criterion"</span>,</span>
 <span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Visualization type"</span>,</span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Estimated rating"</span>,</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Expected rating, typical participant"</span>,</span>
 <span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Lower 95% CI"</span>,</span>
 <span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Upper 95% CI"</span></span>
 <span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Model-smoothed mean ratings"</span>,</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Expected ratings for a typical participant (participant effect at zero)"</span>,</span>
 <span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
 <span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-striped table-hover table-sm caption-top small">
-<caption>Model-smoothed mean ratings</caption>
+<caption>Expected ratings for a typical participant (participant effect at zero)</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Evaluation criterion</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Visualization type</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Estimated rating</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Expected rating, typical participant</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">Lower 95% CI</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">Upper 95% CI</th>
 </tr>
@@ -739,37 +740,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Animation</td>
-<td style="text-align: right;">3.90</td>
-<td style="text-align: right;">3.73</td>
-<td style="text-align: right;">4.07</td>
+<td style="text-align: right;">3.89</td>
+<td style="text-align: right;">3.72</td>
+<td style="text-align: right;">4.06</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: right;">2.24</td>
-<td style="text-align: right;">2.05</td>
-<td style="text-align: right;">2.44</td>
+<td style="text-align: right;">2.23</td>
+<td style="text-align: right;">2.04</td>
+<td style="text-align: right;">2.43</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: right;">2.45</td>
-<td style="text-align: right;">2.25</td>
-<td style="text-align: right;">2.65</td>
+<td style="text-align: right;">2.44</td>
+<td style="text-align: right;">2.24</td>
+<td style="text-align: right;">2.64</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: right;">4.04</td>
+<td style="text-align: right;">4.05</td>
 <td style="text-align: right;">3.89</td>
-<td style="text-align: right;">4.20</td>
+<td style="text-align: right;">4.21</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: right;">3.21</td>
-<td style="text-align: right;">3.02</td>
-<td style="text-align: right;">3.40</td>
+<td style="text-align: right;">3.22</td>
+<td style="text-align: right;">3.03</td>
+<td style="text-align: right;">3.41</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Helpful for comparison</td>
@@ -782,36 +783,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Adjacent plots</td>
 <td style="text-align: right;">4.14</td>
-<td style="text-align: right;">3.99</td>
+<td style="text-align: right;">4.00</td>
 <td style="text-align: right;">4.29</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Animation</td>
-<td style="text-align: right;">3.50</td>
+<td style="text-align: right;">3.51</td>
 <td style="text-align: right;">3.31</td>
 <td style="text-align: right;">3.70</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: right;">3.56</td>
-<td style="text-align: right;">3.37</td>
-<td style="text-align: right;">3.76</td>
+<td style="text-align: right;">3.55</td>
+<td style="text-align: right;">3.36</td>
+<td style="text-align: right;">3.75</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: right;">3.58</td>
-<td style="text-align: right;">3.38</td>
-<td style="text-align: right;">3.77</td>
+<td style="text-align: right;">3.57</td>
+<td style="text-align: right;">3.37</td>
+<td style="text-align: right;">3.76</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: right;">3.60</td>
-<td style="text-align: right;">3.41</td>
-<td style="text-align: right;">3.78</td>
+<td style="text-align: right;">3.61</td>
+<td style="text-align: right;">3.42</td>
+<td style="text-align: right;">3.79</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Helpful for detection and integration</td>
@@ -824,49 +825,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Basic topoplot</td>
 <td style="text-align: right;">2.37</td>
-<td style="text-align: right;">2.15</td>
-<td style="text-align: right;">2.58</td>
+<td style="text-align: right;">2.16</td>
+<td style="text-align: right;">2.59</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: right;">4.05</td>
-<td style="text-align: right;">3.87</td>
-<td style="text-align: right;">4.23</td>
+<td style="text-align: right;">4.06</td>
+<td style="text-align: right;">3.88</td>
+<td style="text-align: right;">4.24</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Animation</td>
-<td style="text-align: right;">2.95</td>
-<td style="text-align: right;">2.71</td>
-<td style="text-align: right;">3.18</td>
+<td style="text-align: right;">2.93</td>
+<td style="text-align: right;">2.70</td>
+<td style="text-align: right;">3.17</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: right;">2.31</td>
-<td style="text-align: right;">2.08</td>
-<td style="text-align: right;">2.53</td>
+<td style="text-align: right;">2.30</td>
+<td style="text-align: right;">2.07</td>
+<td style="text-align: right;">2.52</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: right;">2.57</td>
-<td style="text-align: right;">2.34</td>
-<td style="text-align: right;">2.80</td>
+<td style="text-align: right;">2.56</td>
+<td style="text-align: right;">2.33</td>
+<td style="text-align: right;">2.79</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Confidence intervals</td>
 <td style="text-align: right;">3.37</td>
-<td style="text-align: right;">3.15</td>
+<td style="text-align: right;">3.16</td>
 <td style="text-align: right;">3.59</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: right;">2.93</td>
-<td style="text-align: right;">2.70</td>
+<td style="text-align: right;">2.92</td>
+<td style="text-align: right;">2.69</td>
 <td style="text-align: right;">3.15</td>
 </tr>
 <tr class="odd">
@@ -879,8 +880,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">Aesthetically appealing</td>
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: right;">4.00</td>
-<td style="text-align: right;">3.84</td>
+<td style="text-align: right;">4.01</td>
+<td style="text-align: right;">3.85</td>
 <td style="text-align: right;">4.17</td>
 </tr>
 <tr class="odd">
@@ -893,23 +894,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">Aesthetically appealing</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: right;">2.42</td>
-<td style="text-align: right;">2.21</td>
-<td style="text-align: right;">2.62</td>
+<td style="text-align: right;">2.40</td>
+<td style="text-align: right;">2.20</td>
+<td style="text-align: right;">2.61</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Aesthetically appealing</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: right;">2.68</td>
-<td style="text-align: right;">2.47</td>
-<td style="text-align: right;">2.88</td>
+<td style="text-align: right;">2.66</td>
+<td style="text-align: right;">2.46</td>
+<td style="text-align: right;">2.87</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Aesthetically appealing</td>
 <td style="text-align: left;">Confidence intervals</td>
 <td style="text-align: right;">3.53</td>
 <td style="text-align: right;">3.34</td>
-<td style="text-align: right;">3.72</td>
+<td style="text-align: right;">3.71</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Aesthetically appealing</td>
@@ -921,7 +922,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">Aesthetically appealing</td>
 <td style="text-align: left;">Basic topoplot</td>
-<td style="text-align: right;">3.34</td>
+<td style="text-align: right;">3.35</td>
 <td style="text-align: right;">3.16</td>
 <td style="text-align: right;">3.53</td>
 </tr>
@@ -934,13 +935,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Separate cumulative-link mixed models with logit link are fitted for each "</span>,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"evaluation criterion: &lt;code&gt;rating_ord ~ vistype + (1 | ID)&lt;/code&gt;. "</span>,</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Estimated marginal means use &lt;code&gt;mode = &amp;quot;mean.class&amp;quot;&lt;/code&gt;: they are "</span>,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"model-smoothed mean ratings on the 1–5 scale, with asymptotic pointwise 95% "</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"confidence intervals (not adjusted for multiplicity)."</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"expected ratings on the 1–5 scale for a typical participant (participant effect "</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"set to zero), not averages over all participants, with asymptotic pointwise 95% "</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"confidence intervals (not adjusted for multiplicity). They stay close to the raw "</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"means (see the model checks below)."</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div class="model-table-note" role="note">
-<strong>Model:</strong> Separate cumulative-link mixed models with logit link are fitted for each evaluation criterion: <code>rating_ord ~ vistype + (1 | ID)</code>. Estimated marginal means use <code>mode = "mean.class"</code>: they are model-smoothed mean ratings on the 1–5 scale, with asymptotic pointwise 95% confidence intervals (not adjusted for multiplicity).
+<strong>Model:</strong> Separate cumulative-link mixed models with logit link are fitted for each evaluation criterion: <code>rating_ord ~ vistype + (1 | ID)</code>. Estimated marginal means use <code>mode = "mean.class"</code>: they are expected ratings on the 1–5 scale for a typical participant (participant effect set to zero), not averages over all participants, with asymptotic pointwise 95% confidence intervals (not adjusted for multiplicity). They stay close to the raw means (see the model checks below).
 </div>
 </div>
 </div>
@@ -949,74 +952,86 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Proportional odds: fixed-effects clm with and without visualization-specific</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#    thresholds (nominal effects), compared by likelihood-ratio test.</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>po_tests <span class="ot">&lt;-</span> likert_model_data <span class="sc">|&gt;</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  (\(data) <span class="fu">split</span>(data, data<span class="sc">$</span>question))() <span class="sc">|&gt;</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">imap_dfr</span>(<span class="cf">function</span>(data_question, question_name) {</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    po_fit <span class="ot">&lt;-</span> <span class="fu">clm</span>(rating_ord <span class="sc">~</span> vistype, <span class="at">data =</span> data_question)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    npo_fit <span class="ot">&lt;-</span> <span class="fu">clm</span>(rating_ord <span class="sc">~</span> <span class="dv">1</span>, <span class="at">nominal =</span> <span class="sc">~</span> vistype, <span class="at">data =</span> data_question)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    lrt <span class="ot">&lt;-</span> <span class="fu">anova</span>(po_fit, npo_fit)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tibble</span>(</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">question =</span> question_name,</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">lr_statistic =</span> lrt<span class="sc">$</span>LR.stat[<span class="dv">2</span>],</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">df =</span> lrt<span class="sc">$</span>df[<span class="dv">2</span>],</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">p_value =</span> lrt<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;Chisq)</span><span class="st">`</span>[<span class="dv">2</span>]</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Model-smoothed vs raw means.</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>raw_vs_model <span class="ot">&lt;-</span> likert <span class="sc">|&gt;</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(question, vistype) <span class="sc">|&gt;</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">raw_mean =</span> <span class="fu">mean</span>(rating, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">question =</span> <span class="fu">as.character</span>(question), <span class="at">vistype =</span> <span class="fu">as.character</span>(vistype)) <span class="sc">|&gt;</span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    likert_estimates <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">vistype =</span> <span class="fu">as.character</span>(vistype)),</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"question"</span>, <span class="st">"vistype"</span>)</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">abs_difference =</span> <span class="fu">abs</span>(estimated_rating <span class="sc">-</span> raw_mean))</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>max_raw_model_difference <span class="ot">&lt;-</span> <span class="fu">max</span>(raw_vs_model<span class="sc">$</span>abs_difference)</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Linear mixed model on the 1–5 ratings: same Dunnett contrasts vs Basic.</span></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>likert_lmm_contrasts <span class="ot">&lt;-</span> likert_model_data <span class="sc">|&gt;</span></span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  (\(data) <span class="fu">split</span>(data, data<span class="sc">$</span>question))() <span class="sc">|&gt;</span></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">imap_dfr</span>(<span class="cf">function</span>(data_question, question_name) {</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(rating <span class="sc">~</span> vistype <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> ID), <span class="at">data =</span> data_question)</span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    question_emmeans <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(fit, <span class="sc">~</span> vistype)</span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(<span class="dv">20261118</span>)  <span class="co"># adjust = "mvt" integrates numerically (Monte Carlo)</span></span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contrast</span>(</span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>      question_emmeans,</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">method =</span> <span class="st">"trt.vs.ctrl"</span>,</span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">ref =</span> <span class="fu">which</span>(question_emmeans<span class="sc">@</span>levels<span class="sc">$</span>vistype <span class="sc">==</span> <span class="st">"basic"</span>),</span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>      <span class="at">adjust =</span> <span class="st">"mvt"</span></span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>      <span class="fu">confint</span>() <span class="sc">|&gt;</span></span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>      <span class="fu">transmute</span>(</span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>        <span class="at">question =</span> question_name,</span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>        <span class="at">vistype =</span> stringr<span class="sc">::</span><span class="fu">str_remove</span>(contrast, <span class="st">" - basic$"</span>),</span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>        <span class="at">lmm_difference =</span> estimate,</span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>        <span class="at">lmm_lower =</span> lower.CL,</span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>        <span class="at">lmm_upper =</span> upper.CL</span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>po_tests <span class="sc">|&gt;</span></span>
-<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p_value =</span> <span class="fu">format_p_value</span>(p_value)) <span class="sc">|&gt;</span></span>
-<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">1</span>,</span>
-<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Evaluation criterion"</span>, <span class="st">"LR statistic"</span>, <span class="st">"df"</span>, <span class="st">"p"</span>),</span>
-<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">paste</span>(</span>
-<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Proportional-odds check: fixed-effects cumulative-link model vs a model with"</span>,</span>
-<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>      <span class="st">"visualization-specific thresholds (likelihood-ratio test)"</span></span>
-<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
-<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Proportional odds: cumulative-link mixed models with a participant random</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#    intercept, with and without visualization-specific thresholds (nominal</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#    effects), compared by likelihood-ratio test. clmm2 is used because clmm does</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#    not support nominal effects (it ignores the argument with a warning); a</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#    fixed-effects clm test would treat each participant's 7 ratings as</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#    independent and give too-small p values.</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>po_tests <span class="ot">&lt;-</span> likert_model_data <span class="sc">|&gt;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  (\(data) <span class="fu">split</span>(data, data<span class="sc">$</span>question))() <span class="sc">|&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">imap_dfr</span>(<span class="cf">function</span>(data_question, question_name) {</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    po_fit <span class="ot">&lt;-</span> <span class="fu">clmm2</span>(</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">location =</span> rating_ord <span class="sc">~</span> vistype, <span class="at">random =</span> ID,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> data_question, <span class="at">Hess =</span> <span class="cn">TRUE</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    npo_fit <span class="ot">&lt;-</span> <span class="fu">clmm2</span>(</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">location =</span> rating_ord <span class="sc">~</span> <span class="dv">1</span>, <span class="at">nominal =</span> <span class="sc">~</span> vistype, <span class="at">random =</span> ID,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> data_question, <span class="at">Hess =</span> <span class="cn">TRUE</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    lr_statistic <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> (npo_fit<span class="sc">$</span>logLik <span class="sc">-</span> po_fit<span class="sc">$</span>logLik)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> npo_fit<span class="sc">$</span>edf <span class="sc">-</span> po_fit<span class="sc">$</span>edf</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tibble</span>(</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">question =</span> question_name,</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">lr_statistic =</span> lr_statistic,</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">df =</span> df,</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">p_value =</span> <span class="fu">pchisq</span>(lr_statistic, df, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Expected ratings (typical participant) vs raw means.</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>raw_vs_model <span class="ot">&lt;-</span> likert <span class="sc">|&gt;</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(question, vistype) <span class="sc">|&gt;</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">raw_mean =</span> <span class="fu">mean</span>(rating, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">question =</span> <span class="fu">as.character</span>(question), <span class="at">vistype =</span> <span class="fu">as.character</span>(vistype)) <span class="sc">|&gt;</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    likert_estimates <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">vistype =</span> <span class="fu">as.character</span>(vistype)),</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"question"</span>, <span class="st">"vistype"</span>)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">abs_difference =</span> <span class="fu">abs</span>(estimated_rating <span class="sc">-</span> raw_mean))</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>max_raw_model_difference <span class="ot">&lt;-</span> <span class="fu">max</span>(raw_vs_model<span class="sc">$</span>abs_difference)</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Linear mixed model on the 1–5 ratings: same Dunnett contrasts vs Basic.</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>likert_lmm_contrasts <span class="ot">&lt;-</span> likert_model_data <span class="sc">|&gt;</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  (\(data) <span class="fu">split</span>(data, data<span class="sc">$</span>question))() <span class="sc">|&gt;</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">imap_dfr</span>(<span class="cf">function</span>(data_question, question_name) {</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">lmer</span>(rating <span class="sc">~</span> vistype <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> ID), <span class="at">data =</span> data_question)</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    question_emmeans <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(fit, <span class="sc">~</span> vistype)</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(<span class="dv">20261118</span>)  <span class="co"># adjust = "mvt" integrates numerically (Monte Carlo)</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">contrast</span>(</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>      question_emmeans,</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>      <span class="at">method =</span> <span class="st">"trt.vs.ctrl"</span>,</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>      <span class="at">ref =</span> <span class="fu">which</span>(question_emmeans<span class="sc">@</span>levels<span class="sc">$</span>vistype <span class="sc">==</span> <span class="st">"basic"</span>),</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">adjust =</span> <span class="st">"mvt"</span></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>      <span class="fu">confint</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>      <span class="fu">transmute</span>(</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>        <span class="at">question =</span> question_name,</span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>        <span class="at">vistype =</span> stringr<span class="sc">::</span><span class="fu">str_remove</span>(contrast, <span class="st">" - basic$"</span>),</span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>        <span class="at">lmm_difference =</span> estimate,</span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>        <span class="at">lmm_lower =</span> lower.CL,</span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>        <span class="at">lmm_upper =</span> upper.CL</span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>po_tests <span class="sc">|&gt;</span></span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p_value =</span> <span class="fu">format_p_value</span>(p_value)) <span class="sc">|&gt;</span></span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">1</span>,</span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Evaluation criterion"</span>, <span class="st">"LR statistic"</span>, <span class="st">"df"</span>, <span class="st">"p"</span>),</span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">paste</span>(</span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Proportional-odds check: cumulative-link mixed model (participant random"</span>,</span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>      <span class="st">"intercept) vs the same model with visualization-specific thresholds"</span>,</span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>      <span class="st">"(likelihood-ratio test)"</span></span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-striped table-hover table-sm caption-top small">
-<caption>Proportional-odds check: fixed-effects cumulative-link model vs a model with visualization-specific thresholds (likelihood-ratio test)</caption>
+<caption>Proportional-odds check: cumulative-link mixed model (participant random intercept) vs the same model with visualization-specific thresholds (likelihood-ratio test)</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Evaluation criterion</th>
@@ -1028,25 +1043,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Helpful for comparison</td>
-<td style="text-align: right;">36.2</td>
+<td style="text-align: right;">33.6</td>
 <td style="text-align: right;">18</td>
-<td style="text-align: left;">.007</td>
+<td style="text-align: left;">.014</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Helpful for detection and integration</td>
-<td style="text-align: right;">49.4</td>
+<td style="text-align: right;">48.9</td>
 <td style="text-align: right;">18</td>
 <td style="text-align: left;">&lt; .001</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Would use in publication or presentation</td>
-<td style="text-align: right;">38.3</td>
+<td style="text-align: right;">39.1</td>
 <td style="text-align: right;">18</td>
-<td style="text-align: left;">.004</td>
+<td style="text-align: left;">.003</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Aesthetically appealing</td>
-<td style="text-align: right;">50.5</td>
+<td style="text-align: right;">51.7</td>
 <td style="text-align: right;">18</td>
 <td style="text-align: left;">&lt; .001</td>
 </tr>
@@ -1054,7 +1069,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<p><strong>Proportional odds.</strong> The likelihood-ratio test rejects proportional odds for 4 of 4 criteria (p from &lt; .001 to .007): the visualizations differ in how ratings are spread over the scale, not only in their location. The analysis therefore reports model-smoothed <em>mean</em> ratings, which stay close to the raw means (largest absolute difference 0.08 scale points), rather than interpreting the odds ratios.</p>
+<p><strong>Proportional odds.</strong> The likelihood-ratio test rejects proportional odds for 4 of 4 criteria (p from &lt; .001 to .014): the visualizations differ in how ratings are spread over the scale, not only in their location. The analysis therefore reports expected (mean) ratings for a typical participant, which stay close to the raw means (largest absolute difference 0.08 scale points), rather than interpreting the odds ratios.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Seeing the proportional-odds problem — Expand">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1103,7 +1118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(likert_po_steps, <span class="fu">aes</span>(cutoff, odds_ratio, <span class="at">group =</span> vis_label)) <span class="sc">+</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">colour =</span> <span class="st">"#3B78B4"</span>) <span class="sc">+</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">colour =</span> basic_accent) <span class="sc">+</span></span>
 <span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour =</span> <span class="st">"grey45"</span>, <span class="at">linewidth =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
 <span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.4</span>, <span class="at">colour =</span> <span class="st">"#222222"</span>) <span class="sc">+</span></span>
 <span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">+</span></span>
@@ -1113,13 +1128,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">question =</span> <span class="fu">label_wrap_gen</span>(<span class="dv">22</span>), <span class="at">vis_label =</span> <span class="fu">label_wrap_gen</span>(<span class="dv">12</span>))</span>
 <span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Rated at least"</span>, <span class="at">y =</span> <span class="st">"Odds ratio vs Basic topoplot (log scale)"</span>) <span class="sc">+</span></span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>(<span class="at">base_size =</span> <span class="dv">26</span>) <span class="sc">+</span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">lineheight =</span> <span class="fl">0.45</span>),</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.y =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">lineheight =</span> <span class="fl">0.45</span>),</span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">colour =</span> <span class="st">"grey85"</span>)</span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Sizes balanced at the ~1100 px display width like the other rating figures</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># (16 in there, 13 in here, so their sizes x 13/16): panel labels near the</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># visualization labels, tick numbers near the tick numbers there.</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_theme</span>(<span class="at">base_size =</span> <span class="dv">26</span>) <span class="sc">+</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">23</span>),</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">26</span>),</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">26</span>),</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">lineheight =</span> <span class="fl">0.45</span>),</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.y =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">lineheight =</span> <span class="fl">0.45</span>),</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">colour =</span> <span class="st">"grey85"</span>)</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1153,199 +1174,248 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"bivariate_corner"</span></span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>likert_display_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">basic =</span> <span class="st">"Basic topoplot"</span>,</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">adjacent =</span> <span class="st">"Adjacent plots"</span>,</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">triple_CI =</span> <span class="st">"Confidence intervals"</span>,</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">uncert_markers =</span> <span class="st">"Uncertainty markers"</span>,</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">animation =</span> <span class="st">"Animation"</span>,</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">bivariate_range =</span> <span class="st">"Bivariate range"</span>,</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">bivariate_corner =</span> <span class="st">"Bivariate corner"</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>likert_panel_titles <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Helpful for comparison"</span> <span class="ot">=</span> <span class="st">"Helpful for comparison"</span>,</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Helpful for detection and integration"</span> <span class="ot">=</span> <span class="st">"Helpful for detection &amp; integration"</span>,</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Would use in publication or presentation"</span> <span class="ot">=</span> <span class="st">"Would use in publication"</span>,</span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Aesthetically appealing"</span> <span class="ot">=</span> <span class="st">"Aesthetically appealing"</span></span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>make_likert_estimate_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  question_name,</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_x =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_labels =</span> <span class="cn">TRUE</span></span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>) {</span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  plot_data <span class="ot">&lt;-</span> likert_estimates <span class="sc">|&gt;</span></span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(question <span class="sc">==</span> question_name) <span class="sc">|&gt;</span></span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour_group =</span> <span class="fu">if_else</span>(vistype <span class="sc">==</span> <span class="st">"basic"</span>, <span class="st">"basic"</span>, <span class="st">"other"</span>),</span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>      <span class="at">display_label =</span> <span class="fu">unname</span>(</span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>        likert_display_labels[<span class="fu">as.character</span>(vistype)]</span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">vistype =</span> <span class="fu">factor</span>(</span>
-<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>        vistype,</span>
-<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>        <span class="at">levels =</span> <span class="fu">rev</span>(likert_vistype_order)</span>
-<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>    plot_data,</span>
-<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(</span>
-<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> estimated_rating,</span>
-<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> vistype,</span>
-<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> colour_group</span>
-<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_errorbar</span>(</span>
-<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(</span>
-<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>        <span class="at">xmin =</span> lower_ci,</span>
-<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>        <span class="at">xmax =</span> upper_ci</span>
-<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>      <span class="at">orientation =</span> <span class="st">"y"</span>,</span>
-<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>      <span class="at">width =</span> <span class="fl">0.12</span>,</span>
-<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>      <span class="at">linewidth =</span> <span class="fl">0.55</span></span>
-<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Estimated values</span></span>
-<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(</span>
-<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"%.1f"</span>, estimated_rating)),</span>
-<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a>      <span class="at">nudge_y =</span> <span class="fl">0.32</span>,</span>
-<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a>      <span class="at">vjust =</span> <span class="fl">0.5</span>,</span>
-<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="dv">30</span> <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt</span>
-<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(</span>
-<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>  <span class="at">values =</span> <span class="fu">c</span>(</span>
-<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">basic =</span> <span class="st">"#3B78B4"</span>,</span>
-<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a>    <span class="at">other =</span> <span class="st">"#222222"</span></span>
-<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a>  <span class="at">guide =</span> <span class="st">"none"</span></span>
-<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
-<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">sprintf</span>(<span class="st">"%.0f"</span>, x),</span>
-<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a>      <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.02</span>))</span>
-<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Hide ordinary y-axis labels</span></span>
-<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(</span>
-<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="cn">NULL</span>,</span>
-<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a>      <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fl">0.5</span>)</span>
-<span id="cb10-96"><a href="#cb10-96" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb10-97"><a href="#cb10-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-98"><a href="#cb10-98" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Show custom labels placed slightly outside the panel</span></span>
-<span id="cb10-99"><a href="#cb10-99" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(</span>
-<span id="cb10-100"><a href="#cb10-100" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>),</span>
-<span id="cb10-101"><a href="#cb10-101" aria-hidden="true" tabindex="-1"></a>      <span class="at">clip =</span> <span class="st">"off"</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>likert_display_labels <span class="ot">&lt;-</span> <span class="fu">setNames</span>(</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">figure_vistype</span>(likert_vistype_order),</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  likert_vistype_order</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>likert_panel_titles <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Helpful for comparison"</span> <span class="ot">=</span> <span class="st">"Helpful for comparison"</span>,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Helpful for detection and integration"</span> <span class="ot">=</span> <span class="st">"Helpful for detection &amp; integration"</span>,</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Would use in publication or presentation"</span> <span class="ot">=</span> <span class="st">"Would use in publication"</span>,</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Aesthetically appealing"</span> <span class="ot">=</span> <span class="st">"Aesthetically appealing"</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Verbal anchors of 1 and 5 on each item's response scale (see "Rating items"),</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="co"># shown under the rating axis of the estimate figure (audit V2).</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>likert_anchors <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Helpful for comparison"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"very unhelpful"</span>, <span class="st">"very helpful"</span>),</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Helpful for detection and integration"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"very unhelpful"</span>, <span class="st">"very helpful"</span>),</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Would use in publication or presentation"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"very unlikely"</span>, <span class="st">"very likely"</span>),</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Aesthetically appealing"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"very unappealing"</span>, <span class="st">"very appealing"</span>)</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Sizes of the Likert figures: site version (nominal sizes, drawn at 96/180 of</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a><span class="co"># nominal by showtext) or print version (true pt; audit V7). Label and point</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="co"># sizes in mm as ggplot2 expects.</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>likert_figure_sizes <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">print =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (print) {</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">base =</span> print_text<span class="sc">$</span>text, <span class="at">title =</span> print_text<span class="sc">$</span>text, <span class="at">axis_x =</span> print_text<span class="sc">$</span>small,</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>         <span class="at">labels =</span> print_text<span class="sc">$</span>text <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt, <span class="at">values =</span> print_text<span class="sc">$</span>small <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt,</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>         <span class="at">caption =</span> print_text<span class="sc">$</span>text, <span class="at">point =</span> <span class="fl">1.5</span>, <span class="at">line =</span> <span class="fl">0.4</span>, <span class="at">margin =</span> <span class="dv">4</span>,</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>         <span class="at">label_space =</span> <span class="dv">84</span>, <span class="at">anchor =</span> print_text<span class="sc">$</span>small <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt, <span class="at">anchor_row =</span> <span class="dv">10</span>)</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Balanced at the ~1100 px display width of the 16-in site figure (audit</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># V2): panel titles one step above the visualization labels, tick numbers</span></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># and anchors close to the value labels. anchor_row is the height (pt) of</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the anchor line under each panel.</span></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">base =</span> <span class="dv">20</span>, <span class="at">title =</span> <span class="dv">36</span>, <span class="at">axis_x =</span> <span class="dv">28</span>, <span class="at">labels =</span> <span class="dv">34</span> <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt,</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>         <span class="at">values =</span> <span class="dv">30</span> <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt, <span class="at">caption =</span> <span class="dv">30</span>, <span class="at">point =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="fl">0.55</span>,</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>         <span class="at">margin =</span> <span class="dv">12</span>, <span class="at">label_space =</span> <span class="dv">215</span>, <span class="at">anchor =</span> <span class="dv">26</span> <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt, <span class="at">anchor_row =</span> <span class="dv">22</span>)</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>make_likert_estimate_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>  question_name,</span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_x =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_labels =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">print =</span> <span class="cn">FALSE</span></span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">likert_figure_sizes</span>(print)</span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>  plot_data <span class="ot">&lt;-</span> likert_estimates <span class="sc">|&gt;</span></span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(question <span class="sc">==</span> question_name) <span class="sc">|&gt;</span></span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour_group =</span> <span class="fu">if_else</span>(vistype <span class="sc">==</span> <span class="st">"basic"</span>, <span class="st">"basic"</span>, <span class="st">"other"</span>),</span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a>      <span class="at">display_label =</span> <span class="fu">unname</span>(</span>
+<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a>        likert_display_labels[<span class="fu">as.character</span>(vistype)]</span>
+<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>      <span class="at">vistype =</span> <span class="fu">factor</span>(</span>
+<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>        vistype,</span>
+<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a>        <span class="at">levels =</span> <span class="fu">rev</span>(likert_vistype_order)</span>
+<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a>    plot_data,</span>
+<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(</span>
+<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> estimated_rating,</span>
+<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> vistype,</span>
+<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> colour_group</span>
+<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_errorbar</span>(</span>
+<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(</span>
+<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a>        <span class="at">xmin =</span> lower_ci,</span>
+<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a>        <span class="at">xmax =</span> upper_ci</span>
+<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a>      <span class="at">orientation =</span> <span class="st">"y"</span>,</span>
+<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a>      <span class="at">width =</span> <span class="fl">0.12</span>,</span>
+<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a>      <span class="at">linewidth =</span> s<span class="sc">$</span>line</span>
+<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> s<span class="sc">$</span>point) <span class="sc">+</span></span>
+<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-96"><a href="#cb10-96" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Estimated values</span></span>
+<span id="cb10-97"><a href="#cb10-97" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(</span>
+<span id="cb10-98"><a href="#cb10-98" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"%.1f"</span>, estimated_rating)),</span>
+<span id="cb10-99"><a href="#cb10-99" aria-hidden="true" tabindex="-1"></a>      <span class="at">nudge_y =</span> <span class="fl">0.32</span>,</span>
+<span id="cb10-100"><a href="#cb10-100" aria-hidden="true" tabindex="-1"></a>      <span class="at">vjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb10-101"><a href="#cb10-101" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>values</span>
 <span id="cb10-102"><a href="#cb10-102" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
 <span id="cb10-103"><a href="#cb10-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-104"><a href="#cb10-104" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
-<span id="cb10-105"><a href="#cb10-105" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">unname</span>(likert_panel_titles[question_name]),</span>
-<span id="cb10-106"><a href="#cb10-106" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="cn">NULL</span>,</span>
-<span id="cb10-107"><a href="#cb10-107" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="cn">NULL</span></span>
-<span id="cb10-108"><a href="#cb10-108" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb10-109"><a href="#cb10-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-110"><a href="#cb10-110" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>(<span class="at">base_family =</span> <span class="st">"Lato"</span>, <span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
+<span id="cb10-104"><a href="#cb10-104" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(</span>
+<span id="cb10-105"><a href="#cb10-105" aria-hidden="true" tabindex="-1"></a>  <span class="at">values =</span> <span class="fu">c</span>(</span>
+<span id="cb10-106"><a href="#cb10-106" aria-hidden="true" tabindex="-1"></a>    <span class="at">basic =</span> basic_accent,</span>
+<span id="cb10-107"><a href="#cb10-107" aria-hidden="true" tabindex="-1"></a>    <span class="at">other =</span> <span class="st">"#222222"</span></span>
+<span id="cb10-108"><a href="#cb10-108" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb10-109"><a href="#cb10-109" aria-hidden="true" tabindex="-1"></a>  <span class="at">guide =</span> <span class="st">"none"</span></span>
+<span id="cb10-110"><a href="#cb10-110" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
 <span id="cb10-111"><a href="#cb10-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-112"><a href="#cb10-112" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb10-113"><a href="#cb10-113" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(</span>
-<span id="cb10-114"><a href="#cb10-114" aria-hidden="true" tabindex="-1"></a>        <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
-<span id="cb10-115"><a href="#cb10-115" aria-hidden="true" tabindex="-1"></a>        <span class="at">face =</span> <span class="st">"bold"</span>,</span>
-<span id="cb10-116"><a href="#cb10-116" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">50</span></span>
-<span id="cb10-117"><a href="#cb10-117" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb10-118"><a href="#cb10-118" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
-<span id="cb10-119"><a href="#cb10-119" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
-<span id="cb10-120"><a href="#cb10-120" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb10-121"><a href="#cb10-121" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb10-122"><a href="#cb10-122" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb10-123"><a href="#cb10-123" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">colour =</span> <span class="cn">NA</span>),</span>
-<span id="cb10-124"><a href="#cb10-124" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">colour =</span> <span class="cn">NA</span>),</span>
-<span id="cb10-125"><a href="#cb10-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-126"><a href="#cb10-126" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Space for custom labels</span></span>
-<span id="cb10-127"><a href="#cb10-127" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot.margin =</span> <span class="fu">margin</span>(</span>
-<span id="cb10-128"><a href="#cb10-128" aria-hidden="true" tabindex="-1"></a>    <span class="at">t =</span> <span class="fl">5.5</span>,</span>
-<span id="cb10-129"><a href="#cb10-129" aria-hidden="true" tabindex="-1"></a>    <span class="at">r =</span> <span class="fl">5.5</span>,</span>
-<span id="cb10-130"><a href="#cb10-130" aria-hidden="true" tabindex="-1"></a>        <span class="at">b =</span> <span class="dv">8</span>,</span>
-<span id="cb10-131"><a href="#cb10-131" aria-hidden="true" tabindex="-1"></a>    <span class="at">l =</span> <span class="cf">if</span> (show_labels) <span class="dv">245</span> <span class="cf">else</span> <span class="dv">12</span></span>
-<span id="cb10-132"><a href="#cb10-132" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-133"><a href="#cb10-133" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb10-134"><a href="#cb10-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-135"><a href="#cb10-135" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (show_labels) {</span>
-<span id="cb10-136"><a href="#cb10-136" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> p <span class="sc">+</span></span>
-<span id="cb10-137"><a href="#cb10-137" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text</span>(</span>
-<span id="cb10-138"><a href="#cb10-138" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> plot_data,</span>
-<span id="cb10-139"><a href="#cb10-139" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(</span>
-<span id="cb10-140"><a href="#cb10-140" aria-hidden="true" tabindex="-1"></a>          <span class="at">x =</span> <span class="fl">0.9</span>,</span>
-<span id="cb10-141"><a href="#cb10-141" aria-hidden="true" tabindex="-1"></a>          <span class="at">y =</span> vistype,</span>
-<span id="cb10-142"><a href="#cb10-142" aria-hidden="true" tabindex="-1"></a>          <span class="at">label =</span> display_label,</span>
-<span id="cb10-143"><a href="#cb10-143" aria-hidden="true" tabindex="-1"></a>          <span class="at">colour =</span> colour_group</span>
-<span id="cb10-144"><a href="#cb10-144" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb10-145"><a href="#cb10-145" aria-hidden="true" tabindex="-1"></a>        <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb10-146"><a href="#cb10-146" aria-hidden="true" tabindex="-1"></a>        <span class="at">hjust =</span> <span class="dv">1</span>,</span>
-<span id="cb10-147"><a href="#cb10-147" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">14</span>,</span>
-<span id="cb10-148"><a href="#cb10-148" aria-hidden="true" tabindex="-1"></a>        <span class="at">lineheight =</span> <span class="dv">1</span></span>
-<span id="cb10-149"><a href="#cb10-149" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb10-150"><a href="#cb10-150" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-112"><a href="#cb10-112" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb10-113"><a href="#cb10-113" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb10-114"><a href="#cb10-114" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">sprintf</span>(<span class="st">"%.0f"</span>, x),</span>
+<span id="cb10-115"><a href="#cb10-115" aria-hidden="true" tabindex="-1"></a>      <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.02</span>))</span>
+<span id="cb10-116"><a href="#cb10-116" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb10-117"><a href="#cb10-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-118"><a href="#cb10-118" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Hide ordinary y-axis labels</span></span>
+<span id="cb10-119"><a href="#cb10-119" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(</span>
+<span id="cb10-120"><a href="#cb10-120" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="cn">NULL</span>,</span>
+<span id="cb10-121"><a href="#cb10-121" aria-hidden="true" tabindex="-1"></a>      <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fl">0.5</span>)</span>
+<span id="cb10-122"><a href="#cb10-122" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb10-123"><a href="#cb10-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-124"><a href="#cb10-124" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Show custom labels placed slightly outside the panel</span></span>
+<span id="cb10-125"><a href="#cb10-125" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(</span>
+<span id="cb10-126"><a href="#cb10-126" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>),</span>
+<span id="cb10-127"><a href="#cb10-127" aria-hidden="true" tabindex="-1"></a>      <span class="at">clip =</span> <span class="st">"off"</span></span>
+<span id="cb10-128"><a href="#cb10-128" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb10-129"><a href="#cb10-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-130"><a href="#cb10-130" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb10-131"><a href="#cb10-131" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="fu">unname</span>(likert_panel_titles[question_name]),</span>
+<span id="cb10-132"><a href="#cb10-132" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb10-133"><a href="#cb10-133" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="cn">NULL</span></span>
+<span id="cb10-134"><a href="#cb10-134" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb10-135"><a href="#cb10-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-136"><a href="#cb10-136" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_theme</span>(<span class="at">base_size =</span> s<span class="sc">$</span>base) <span class="sc">+</span></span>
+<span id="cb10-137"><a href="#cb10-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-138"><a href="#cb10-138" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb10-139"><a href="#cb10-139" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(</span>
+<span id="cb10-140"><a href="#cb10-140" aria-hidden="true" tabindex="-1"></a>        <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb10-141"><a href="#cb10-141" aria-hidden="true" tabindex="-1"></a>        <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb10-142"><a href="#cb10-142" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> s<span class="sc">$</span>title</span>
+<span id="cb10-143"><a href="#cb10-143" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb10-144"><a href="#cb10-144" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>axis_x),</span>
+<span id="cb10-145"><a href="#cb10-145" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>axis_x),</span>
+<span id="cb10-146"><a href="#cb10-146" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-147"><a href="#cb10-147" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-148"><a href="#cb10-148" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-149"><a href="#cb10-149" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">colour =</span> <span class="cn">NA</span>),</span>
+<span id="cb10-150"><a href="#cb10-150" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">colour =</span> <span class="cn">NA</span>),</span>
 <span id="cb10-151"><a href="#cb10-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-152"><a href="#cb10-152" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>show_x) {</span>
-<span id="cb10-153"><a href="#cb10-153" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> p <span class="sc">+</span></span>
-<span id="cb10-154"><a href="#cb10-154" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(</span>
-<span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb10-156"><a href="#cb10-156" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb10-157"><a href="#cb10-157" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb10-158"><a href="#cb10-158" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb10-159"><a href="#cb10-159" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb10-160"><a href="#cb10-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-161"><a href="#cb10-161" aria-hidden="true" tabindex="-1"></a>  p</span>
-<span id="cb10-162"><a href="#cb10-162" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-163"><a href="#cb10-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-164"><a href="#cb10-164" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">make_likert_estimate_plot</span>(</span>
-<span id="cb10-165"><a href="#cb10-165" aria-hidden="true" tabindex="-1"></a>  question_columns[<span class="dv">1</span>],</span>
-<span id="cb10-166"><a href="#cb10-166" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_x =</span> <span class="cn">FALSE</span></span>
-<span id="cb10-167"><a href="#cb10-167" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-168"><a href="#cb10-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-169"><a href="#cb10-169" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">make_likert_estimate_plot</span>(</span>
-<span id="cb10-170"><a href="#cb10-170" aria-hidden="true" tabindex="-1"></a>  question_columns[<span class="dv">2</span>],</span>
-<span id="cb10-171"><a href="#cb10-171" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_x =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb10-172"><a href="#cb10-172" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_labels =</span> <span class="cn">FALSE</span></span>
-<span id="cb10-173"><a href="#cb10-173" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-174"><a href="#cb10-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-175"><a href="#cb10-175" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">make_likert_estimate_plot</span>(</span>
-<span id="cb10-176"><a href="#cb10-176" aria-hidden="true" tabindex="-1"></a>  question_columns[<span class="dv">3</span>],</span>
-<span id="cb10-177"><a href="#cb10-177" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_x =</span> <span class="cn">TRUE</span></span>
-<span id="cb10-178"><a href="#cb10-178" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-179"><a href="#cb10-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-180"><a href="#cb10-180" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">make_likert_estimate_plot</span>(</span>
-<span id="cb10-181"><a href="#cb10-181" aria-hidden="true" tabindex="-1"></a>  question_columns[<span class="dv">4</span>],</span>
-<span id="cb10-182"><a href="#cb10-182" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_x =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb10-183"><a href="#cb10-183" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_labels =</span> <span class="cn">FALSE</span></span>
-<span id="cb10-184"><a href="#cb10-184" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-185"><a href="#cb10-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-186"><a href="#cb10-186" aria-hidden="true" tabindex="-1"></a>likert_estimate_figure <span class="ot">&lt;-</span></span>
-<span id="cb10-187"><a href="#cb10-187" aria-hidden="true" tabindex="-1"></a>  (p1 <span class="sc">+</span> p2) <span class="sc">/</span></span>
-<span id="cb10-188"><a href="#cb10-188" aria-hidden="true" tabindex="-1"></a>  (p3 <span class="sc">+</span> p4) <span class="sc">+</span></span>
-<span id="cb10-189"><a href="#cb10-189" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(</span>
-<span id="cb10-190"><a href="#cb10-190" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Model-smoothed mean rating (pointwise 95% CI)"</span>,</span>
-<span id="cb10-191"><a href="#cb10-191" aria-hidden="true" tabindex="-1"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(</span>
-<span id="cb10-192"><a href="#cb10-192" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.caption =</span> <span class="fu">element_text</span>(</span>
-<span id="cb10-193"><a href="#cb10-193" aria-hidden="true" tabindex="-1"></a>        <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
-<span id="cb10-194"><a href="#cb10-194" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">26</span>,</span>
-<span id="cb10-195"><a href="#cb10-195" aria-hidden="true" tabindex="-1"></a>        <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
-<span id="cb10-196"><a href="#cb10-196" aria-hidden="true" tabindex="-1"></a>        <span class="at">lineheight =</span> <span class="fl">1.1</span>,</span>
-<span id="cb10-197"><a href="#cb10-197" aria-hidden="true" tabindex="-1"></a>        <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">10</span>, <span class="at">b =</span> <span class="dv">6</span>)</span>
-<span id="cb10-198"><a href="#cb10-198" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb10-199"><a href="#cb10-199" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.caption.position =</span> <span class="st">"plot"</span>,</span>
-<span id="cb10-200"><a href="#cb10-200" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">12</span>, <span class="dv">12</span>)</span>
-<span id="cb10-201"><a href="#cb10-201" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb10-202"><a href="#cb10-202" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-203"><a href="#cb10-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-204"><a href="#cb10-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-205"><a href="#cb10-205" aria-hidden="true" tabindex="-1"></a>likert_estimate_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-152"><a href="#cb10-152" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Space for custom labels</span></span>
+<span id="cb10-153"><a href="#cb10-153" aria-hidden="true" tabindex="-1"></a>       <span class="at">plot.margin =</span> <span class="fu">margin</span>(</span>
+<span id="cb10-154"><a href="#cb10-154" aria-hidden="true" tabindex="-1"></a>    <span class="at">t =</span> <span class="fl">5.5</span>,</span>
+<span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a>    <span class="at">r =</span> <span class="fl">5.5</span>,</span>
+<span id="cb10-156"><a href="#cb10-156" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Small: the anchor line follows directly under the axis.</span></span>
+<span id="cb10-157"><a href="#cb10-157" aria-hidden="true" tabindex="-1"></a>        <span class="at">b =</span> <span class="cf">if</span> (print) <span class="dv">1</span> <span class="cf">else</span> <span class="dv">3</span>,</span>
+<span id="cb10-158"><a href="#cb10-158" aria-hidden="true" tabindex="-1"></a>    <span class="at">l =</span> <span class="cf">if</span> (show_labels) s<span class="sc">$</span>label_space <span class="cf">else</span> s<span class="sc">$</span>margin</span>
+<span id="cb10-159"><a href="#cb10-159" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-160"><a href="#cb10-160" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-161"><a href="#cb10-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-162"><a href="#cb10-162" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (show_labels) {</span>
+<span id="cb10-163"><a href="#cb10-163" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> p <span class="sc">+</span></span>
+<span id="cb10-164"><a href="#cb10-164" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text</span>(</span>
+<span id="cb10-165"><a href="#cb10-165" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> plot_data,</span>
+<span id="cb10-166"><a href="#cb10-166" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(</span>
+<span id="cb10-167"><a href="#cb10-167" aria-hidden="true" tabindex="-1"></a>          <span class="at">x =</span> <span class="fl">0.9</span>,</span>
+<span id="cb10-168"><a href="#cb10-168" aria-hidden="true" tabindex="-1"></a>          <span class="at">y =</span> vistype,</span>
+<span id="cb10-169"><a href="#cb10-169" aria-hidden="true" tabindex="-1"></a>          <span class="at">label =</span> display_label,</span>
+<span id="cb10-170"><a href="#cb10-170" aria-hidden="true" tabindex="-1"></a>          <span class="at">colour =</span> colour_group</span>
+<span id="cb10-171"><a href="#cb10-171" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb10-172"><a href="#cb10-172" aria-hidden="true" tabindex="-1"></a>        <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-173"><a href="#cb10-173" aria-hidden="true" tabindex="-1"></a>        <span class="at">hjust =</span> <span class="dv">1</span>,</span>
+<span id="cb10-174"><a href="#cb10-174" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> s<span class="sc">$</span>labels,</span>
+<span id="cb10-175"><a href="#cb10-175" aria-hidden="true" tabindex="-1"></a>        <span class="at">lineheight =</span> <span class="dv">1</span></span>
+<span id="cb10-176"><a href="#cb10-176" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb10-177"><a href="#cb10-177" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-178"><a href="#cb10-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-179"><a href="#cb10-179" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>show_x) {</span>
+<span id="cb10-180"><a href="#cb10-180" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> p <span class="sc">+</span></span>
+<span id="cb10-181"><a href="#cb10-181" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme</span>(</span>
+<span id="cb10-182"><a href="#cb10-182" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-183"><a href="#cb10-183" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-184"><a href="#cb10-184" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb10-185"><a href="#cb10-185" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb10-186"><a href="#cb10-186" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-187"><a href="#cb10-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-188"><a href="#cb10-188" aria-hidden="true" tabindex="-1"></a>  p</span>
+<span id="cb10-189"><a href="#cb10-189" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-190"><a href="#cb10-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-191"><a href="#cb10-191" aria-hidden="true" tabindex="-1"></a><span class="co"># Anchor line under a panel: the verbal labels of 1 and 5, aligned with the ends</span></span>
+<span id="cb10-192"><a href="#cb10-192" aria-hidden="true" tabindex="-1"></a><span class="co"># of the rating axis (same x range as the panel above it: 1 to 5 plus the 2%</span></span>
+<span id="cb10-193"><a href="#cb10-193" aria-hidden="true" tabindex="-1"></a><span class="co"># expansion). Stacked under its panel in the patchwork grid, which aligns the</span></span>
+<span id="cb10-194"><a href="#cb10-194" aria-hidden="true" tabindex="-1"></a><span class="co"># two panels.</span></span>
+<span id="cb10-195"><a href="#cb10-195" aria-hidden="true" tabindex="-1"></a>make_likert_anchor_row <span class="ot">&lt;-</span> <span class="cf">function</span>(question_name, <span class="at">print =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb10-196"><a href="#cb10-196" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">likert_figure_sizes</span>(print)</span>
+<span id="cb10-197"><a href="#cb10-197" aria-hidden="true" tabindex="-1"></a>  anchors <span class="ot">&lt;-</span> likert_anchors[[question_name]]</span>
+<span id="cb10-198"><a href="#cb10-198" aria-hidden="true" tabindex="-1"></a>  x_range <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">0.02</span> <span class="sc">*</span> <span class="dv">4</span></span>
+<span id="cb10-199"><a href="#cb10-199" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb10-200"><a href="#cb10-200" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(</span>
+<span id="cb10-201"><a href="#cb10-201" aria-hidden="true" tabindex="-1"></a>      <span class="st">"text"</span>, <span class="at">x =</span> x_range[<span class="dv">1</span>], <span class="at">y =</span> <span class="dv">1</span>, <span class="at">label =</span> anchors[<span class="dv">1</span>], <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">vjust =</span> <span class="dv">1</span>,</span>
+<span id="cb10-202"><a href="#cb10-202" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>anchor, <span class="at">family =</span> <span class="st">"Lato"</span>, <span class="at">colour =</span> <span class="st">"grey30"</span></span>
+<span id="cb10-203"><a href="#cb10-203" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb10-204"><a href="#cb10-204" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(</span>
+<span id="cb10-205"><a href="#cb10-205" aria-hidden="true" tabindex="-1"></a>      <span class="st">"text"</span>, <span class="at">x =</span> x_range[<span class="dv">2</span>], <span class="at">y =</span> <span class="dv">1</span>, <span class="at">label =</span> anchors[<span class="dv">2</span>], <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">vjust =</span> <span class="dv">1</span>,</span>
+<span id="cb10-206"><a href="#cb10-206" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>anchor, <span class="at">family =</span> <span class="st">"Lato"</span>, <span class="at">colour =</span> <span class="st">"grey30"</span></span>
+<span id="cb10-207"><a href="#cb10-207" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb10-208"><a href="#cb10-208" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> x_range, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">expand =</span> <span class="cn">FALSE</span>, <span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
+<span id="cb10-209"><a href="#cb10-209" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb10-210"><a href="#cb10-210" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">0</span>, <span class="fl">5.5</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb10-211"><a href="#cb10-211" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-212"><a href="#cb10-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-213"><a href="#cb10-213" aria-hidden="true" tabindex="-1"></a><span class="co"># Site version, or with print = TRUE the print version (audit V7). Every panel</span></span>
+<span id="cb10-214"><a href="#cb10-214" aria-hidden="true" tabindex="-1"></a><span class="co"># shows the 1-5 axis with its item's anchors underneath (audit V2).</span></span>
+<span id="cb10-215"><a href="#cb10-215" aria-hidden="true" tabindex="-1"></a>make_likert_estimate_figure <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">print =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb10-216"><a href="#cb10-216" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">likert_figure_sizes</span>(print)</span>
+<span id="cb10-217"><a href="#cb10-217" aria-hidden="true" tabindex="-1"></a>  p1 <span class="ot">&lt;-</span> <span class="fu">make_likert_estimate_plot</span>(question_columns[<span class="dv">1</span>], <span class="at">show_x =</span> <span class="cn">TRUE</span>, <span class="at">print =</span> print)</span>
+<span id="cb10-218"><a href="#cb10-218" aria-hidden="true" tabindex="-1"></a>  p2 <span class="ot">&lt;-</span> <span class="fu">make_likert_estimate_plot</span>(</span>
+<span id="cb10-219"><a href="#cb10-219" aria-hidden="true" tabindex="-1"></a>    question_columns[<span class="dv">2</span>], <span class="at">show_x =</span> <span class="cn">TRUE</span>, <span class="at">show_labels =</span> <span class="cn">FALSE</span>, <span class="at">print =</span> print</span>
+<span id="cb10-220"><a href="#cb10-220" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-221"><a href="#cb10-221" aria-hidden="true" tabindex="-1"></a>  p3 <span class="ot">&lt;-</span> <span class="fu">make_likert_estimate_plot</span>(question_columns[<span class="dv">3</span>], <span class="at">show_x =</span> <span class="cn">TRUE</span>, <span class="at">print =</span> print)</span>
+<span id="cb10-222"><a href="#cb10-222" aria-hidden="true" tabindex="-1"></a>  p4 <span class="ot">&lt;-</span> <span class="fu">make_likert_estimate_plot</span>(</span>
+<span id="cb10-223"><a href="#cb10-223" aria-hidden="true" tabindex="-1"></a>    question_columns[<span class="dv">4</span>], <span class="at">show_x =</span> <span class="cn">TRUE</span>, <span class="at">show_labels =</span> <span class="cn">FALSE</span>, <span class="at">print =</span> print</span>
+<span id="cb10-224"><a href="#cb10-224" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-225"><a href="#cb10-225" aria-hidden="true" tabindex="-1"></a>  anchor_rows <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map</span>(question_columns, make_likert_anchor_row, <span class="at">print =</span> print)</span>
+<span id="cb10-226"><a href="#cb10-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-227"><a href="#cb10-227" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wrap_plots</span>(</span>
+<span id="cb10-228"><a href="#cb10-228" aria-hidden="true" tabindex="-1"></a>    p1, p2, anchor_rows[[<span class="dv">1</span>]], anchor_rows[[<span class="dv">2</span>]],</span>
+<span id="cb10-229"><a href="#cb10-229" aria-hidden="true" tabindex="-1"></a>    p3, p4, anchor_rows[[<span class="dv">3</span>]], anchor_rows[[<span class="dv">4</span>]],</span>
+<span id="cb10-230"><a href="#cb10-230" aria-hidden="true" tabindex="-1"></a>    <span class="at">ncol =</span> <span class="dv">2</span>,</span>
+<span id="cb10-231"><a href="#cb10-231" aria-hidden="true" tabindex="-1"></a>    <span class="at">heights =</span> grid<span class="sc">::</span><span class="fu">unit</span>(</span>
+<span id="cb10-232"><a href="#cb10-232" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="dv">1</span>, s<span class="sc">$</span>anchor_row, <span class="dv">1</span>, s<span class="sc">$</span>anchor_row),</span>
+<span id="cb10-233"><a href="#cb10-233" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"null"</span>, <span class="st">"pt"</span>, <span class="st">"null"</span>, <span class="st">"pt"</span>)</span>
+<span id="cb10-234"><a href="#cb10-234" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-235"><a href="#cb10-235" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-236"><a href="#cb10-236" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_annotation</span>(</span>
+<span id="cb10-237"><a href="#cb10-237" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Expected rating, typical participant (pointwise 95% CI)"</span>,</span>
+<span id="cb10-238"><a href="#cb10-238" aria-hidden="true" tabindex="-1"></a>      <span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb10-239"><a href="#cb10-239" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.caption =</span> <span class="fu">element_text</span>(</span>
+<span id="cb10-240"><a href="#cb10-240" aria-hidden="true" tabindex="-1"></a>          <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb10-241"><a href="#cb10-241" aria-hidden="true" tabindex="-1"></a>          <span class="at">size =</span> s<span class="sc">$</span>caption,</span>
+<span id="cb10-242"><a href="#cb10-242" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
+<span id="cb10-243"><a href="#cb10-243" aria-hidden="true" tabindex="-1"></a>          <span class="at">lineheight =</span> <span class="fl">1.1</span>,</span>
+<span id="cb10-244"><a href="#cb10-244" aria-hidden="true" tabindex="-1"></a>          <span class="at">margin =</span> <span class="cf">if</span> (print) <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">4</span>, <span class="at">b =</span> <span class="dv">2</span>) <span class="cf">else</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">10</span>, <span class="at">b =</span> <span class="dv">6</span>)</span>
+<span id="cb10-245"><a href="#cb10-245" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb10-246"><a href="#cb10-246" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.caption.position =</span> <span class="st">"plot"</span>,</span>
+<span id="cb10-247"><a href="#cb10-247" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.margin =</span> <span class="cf">if</span> (print) <span class="fu">margin</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>) <span class="cf">else</span> <span class="fu">margin</span>(<span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">12</span>, <span class="dv">12</span>)</span>
+<span id="cb10-248"><a href="#cb10-248" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb10-249"><a href="#cb10-249" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-250"><a href="#cb10-250" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-251"><a href="#cb10-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-252"><a href="#cb10-252" aria-hidden="true" tabindex="-1"></a>likert_estimate_figure <span class="ot">&lt;-</span> <span class="fu">make_likert_estimate_figure</span>()</span>
+<span id="cb10-253"><a href="#cb10-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-254"><a href="#cb10-254" aria-hidden="true" tabindex="-1"></a>likert_estimate_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1365,7 +1435,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dpi =</span> <span class="dv">180</span>,</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">device =</span> ragg<span class="sc">::</span>agg_png,</span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">bg =</span> <span class="st">"white"</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Print version: full journal width (four panels).</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave_print</span>(</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"likert_estimate_figure.pdf"</span>),</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_likert_estimate_figure</span>(<span class="at">print =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> print_width[[<span class="st">"full"</span>]],</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Taller than the contrast figure: every panel has its own axis and anchors.</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="fl">4.8</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -1374,74 +1453,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>contrast_p1 <span class="ot">&lt;-</span> <span class="fu">make_likert_contrast_plot</span>(question_columns[<span class="dv">1</span>], <span class="at">show_x =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>contrast_p2 <span class="ot">&lt;-</span> <span class="fu">make_likert_contrast_plot</span>(</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  question_columns[<span class="dv">2</span>],</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_x =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_labels =</span> <span class="cn">FALSE</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>contrast_p3 <span class="ot">&lt;-</span> <span class="fu">make_likert_contrast_plot</span>(question_columns[<span class="dv">3</span>], <span class="at">show_x =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>contrast_p4 <span class="ot">&lt;-</span> <span class="fu">make_likert_contrast_plot</span>(</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  question_columns[<span class="dv">4</span>],</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_x =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_labels =</span> <span class="cn">FALSE</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>likert_contrast_caption <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fl">0.587</span>,</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fl">0.5</span>,</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"Difference in model-smoothed mean rating vs"</span>,</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="dv">1</span>,</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">50</span> <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt,</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"#222222"</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fl">0.593</span>,</span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fl">0.5</span>,</span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"Basic topoplot"</span>,</span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="dv">0</span>,</span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">50</span> <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt,</span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"#377EB8"</span></span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>likert_contrast_figure <span class="ot">&lt;-</span></span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>  ((contrast_p1 <span class="sc">+</span> contrast_p2) <span class="sc">/</span></span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    (contrast_p3 <span class="sc">+</span> contrast_p4) <span class="sc">/</span></span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>    likert_contrast_caption) <span class="sc">+</span></span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.16</span>)) <span class="sc">&amp;</span></span>
-<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">12</span>))</span>
-<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave_st</span>(</span>
-<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"likert_contrast_figure.png"</span>),</span>
-<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>  likert_contrast_figure,</span>
-<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">16</span>,</span>
-<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="dv">11</span>,</span>
-<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">units =</span> <span class="st">"in"</span>,</span>
-<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">dpi =</span> <span class="dv">180</span>,</span>
-<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">device =</span> ragg<span class="sc">::</span>agg_png,</span>
-<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">bg =</span> <span class="st">"white"</span></span>
-<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Site version, or with print = TRUE the print version (audit V7).</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>make_likert_contrast_figure <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">print =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">likert_figure_sizes</span>(print)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  contrast_p1 <span class="ot">&lt;-</span> <span class="fu">make_likert_contrast_plot</span>(question_columns[<span class="dv">1</span>], <span class="at">show_x =</span> <span class="cn">FALSE</span>, <span class="at">print =</span> print)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  contrast_p2 <span class="ot">&lt;-</span> <span class="fu">make_likert_contrast_plot</span>(</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    question_columns[<span class="dv">2</span>], <span class="at">show_x =</span> <span class="cn">FALSE</span>, <span class="at">show_labels =</span> <span class="cn">FALSE</span>, <span class="at">print =</span> print</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  contrast_p3 <span class="ot">&lt;-</span> <span class="fu">make_likert_contrast_plot</span>(question_columns[<span class="dv">3</span>], <span class="at">show_x =</span> <span class="cn">TRUE</span>, <span class="at">print =</span> print)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  contrast_p4 <span class="ot">&lt;-</span> <span class="fu">make_likert_contrast_plot</span>(</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    question_columns[<span class="dv">4</span>], <span class="at">show_x =</span> <span class="cn">TRUE</span>, <span class="at">show_labels =</span> <span class="cn">FALSE</span>, <span class="at">print =</span> print</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Axis caption with Basic topoplot in its accent colour, centred under the</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># data panels (the left column also holds the visualization labels).</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  caption_x <span class="ot">&lt;-</span> <span class="cf">if</span> (print) <span class="fl">0.556</span> <span class="cf">else</span> <span class="fl">0.556</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  caption_size <span class="ot">&lt;-</span> s<span class="sc">$</span>caption</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  likert_contrast_caption <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>      <span class="st">"text"</span>,</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> caption_x <span class="sc">-</span> <span class="fl">0.003</span>,</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="fl">0.5</span>,</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> <span class="st">"Difference in expected rating vs"</span>,</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">hjust =</span> <span class="dv">1</span>,</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> caption_size <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt,</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">"#222222"</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">"text"</span>,</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> caption_x <span class="sc">+</span> <span class="fl">0.003</span>,</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="fl">0.5</span>,</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> <span class="st">"Basic topoplot"</span>,</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">hjust =</span> <span class="dv">0</span>,</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> caption_size <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt,</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> basic_accent</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>()</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>  ((contrast_p1 <span class="sc">+</span> contrast_p2) <span class="sc">/</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>    (contrast_p3 <span class="sc">+</span> contrast_p4) <span class="sc">/</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>    likert_contrast_caption) <span class="sc">+</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="cf">if</span> (print) <span class="fl">0.1</span> <span class="cf">else</span> <span class="fl">0.12</span>)) <span class="sc">&amp;</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="cf">if</span> (print) <span class="fu">margin</span>(<span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">4</span>) <span class="cf">else</span> <span class="fu">margin</span>(<span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">12</span>))</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>likert_contrast_figure <span class="ot">&lt;-</span> <span class="fu">make_likert_contrast_figure</span>()</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave_st</span>(</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"likert_contrast_figure.png"</span>),</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>  likert_contrast_figure,</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">16</span>,</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="dv">11</span>,</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">units =</span> <span class="st">"in"</span>,</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">dpi =</span> <span class="dv">180</span>,</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">device =</span> ragg<span class="sc">::</span>agg_png,</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">bg =</span> <span class="st">"white"</span></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Print version: full journal width (four panels).</span></span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave_print</span>(</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"likert_contrast_figure.pdf"</span>),</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_likert_contrast_figure</span>(<span class="at">print =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> print_width[[<span class="st">"full"</span>]],</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="fl">4.4</span></span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../figures/likert_contrast_figure.png" class="img-fluid figure-img"></p>
-<figcaption>Differences in model-smoothed mean ratings relative to Basic topoplot for the four rating items. Intervals are Dunnett-adjusted 95% confidence intervals (exact multivariate-t adjustment; family = the six contrasts against Basic within each item). Red marks intervals that exclude zero.</figcaption>
+<figcaption>Differences in expected ratings (typical participant) relative to Basic topoplot for the four rating items. Intervals are Dunnett-adjusted 95% confidence intervals (exact multivariate-t adjustment; family = the six contrasts against Basic within each item). Red marks intervals that exclude zero.</figcaption>
 </figure>
 </div>
 <p><strong>Contrasts against Basic topoplot</strong> (Dunnett-adjusted 95% CIs; only intervals that exclude zero are listed):</p>
 <ul>
-<li>Helpful for comparison: Uncertainty markers (-0.65 [-0.95, -0.35]); Bivariate range (-1.40 [-1.72, -1.09]); Bivariate corner (-1.61 [-1.92, -1.31]).</li>
-<li>Helpful for detection and integration: Adjacent plots (+1.77 [+1.45, +2.10]); Uncertainty markers (+1.39 [+1.05, +1.74]); Confidence intervals (+1.23 [+0.88, +1.58]); Bivariate range (+1.21 [+0.85, +1.57]); Bivariate corner (+1.20 [+0.84, +1.56]); Animation (+1.14 [+0.78, +1.49]).</li>
-<li>Would use in publication or presentation: Adjacent plots (+1.47 [+1.12, +1.83]); Confidence intervals (+0.79 [+0.41, +1.18]).</li>
-<li>Aesthetically appealing: Adjacent plots (+0.66 [+0.36, +0.97]); Animation (+0.55 [+0.24, +0.87]); Bivariate range (-0.67 [-1.01, -0.32]); Bivariate corner (-0.93 [-1.28, -0.58]); Uncertainty markers (-1.00 [-1.34, -0.67]).</li>
+<li>Helpful for comparison: Uncertainty markers (-0.64 [-0.94, -0.34]); Bivariate range (-1.42 [-1.73, -1.11]); Bivariate corner (-1.62 [-1.93, -1.32]).</li>
+<li>Helpful for detection and integration: Adjacent plots (+1.77 [+1.45, +2.10]); Uncertainty markers (+1.39 [+1.05, +1.73]); Confidence intervals (+1.23 [+0.89, +1.58]); Bivariate range (+1.19 [+0.84, +1.55]); Bivariate corner (+1.18 [+0.82, +1.54]); Animation (+1.13 [+0.78, +1.49]).</li>
+<li>Would use in publication or presentation: Adjacent plots (+1.48 [+1.12, +1.83]); Confidence intervals (+0.79 [+0.41, +1.18]).</li>
+<li>Aesthetically appealing: Adjacent plots (+0.66 [+0.36, +0.97]); Animation (+0.55 [+0.23, +0.86]); Bivariate range (-0.68 [-1.03, -0.34]); Bivariate corner (-0.94 [-1.29, -0.60]); Uncertainty markers (-1.01 [-1.34, -0.68]).</li>
 </ul>
 <p>Differences between the uncertainty visualizations themselves were not tested, so the page does not name a best visualization for any item.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Sensitivity: linear mixed model on the 1–5 ratings">
@@ -1504,35 +1596,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Animation</td>
-<td style="text-align: left;">+0.04 [-0.24, +0.32]</td>
-<td style="text-align: left;">-0.06 [-0.36, +0.24]</td>
+<td style="text-align: left;">+0.03 [-0.25, +0.31]</td>
+<td style="text-align: left;">-0.07 [-0.37, +0.23]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: left;">-1.61 [-1.92, -1.31]</td>
-<td style="text-align: left;">-1.58 [-1.88, -1.28]</td>
+<td style="text-align: left;">-1.62 [-1.93, -1.32]</td>
+<td style="text-align: left;">-1.59 [-1.89, -1.29]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;">-1.40 [-1.72, -1.09]</td>
-<td style="text-align: left;">-1.38 [-1.68, -1.08]</td>
+<td style="text-align: left;">-1.42 [-1.73, -1.11]</td>
+<td style="text-align: left;">-1.39 [-1.69, -1.09]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Confidence intervals</td>
 <td style="text-align: left;">+0.19 [-0.08, +0.46]</td>
-<td style="text-align: left;">+0.17 [-0.12, +0.47]</td>
+<td style="text-align: left;">+0.18 [-0.12, +0.48]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;">-0.65 [-0.95, -0.35]</td>
+<td style="text-align: left;">-0.64 [-0.94, -0.34]</td>
 <td style="text-align: left;">-0.67 [-0.97, -0.37]</td>
 <td style="text-align: left;">yes</td>
 </tr>
@@ -1546,64 +1638,64 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Animation</td>
-<td style="text-align: left;">+1.14 [+0.78, +1.49]</td>
+<td style="text-align: left;">+1.13 [+0.78, +1.49]</td>
 <td style="text-align: left;">+1.10 [+0.77, +1.43]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: left;">+1.20 [+0.84, +1.56]</td>
-<td style="text-align: left;">+1.11 [+0.78, +1.45]</td>
+<td style="text-align: left;">+1.18 [+0.82, +1.54]</td>
+<td style="text-align: left;">+1.10 [+0.77, +1.43]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;">+1.21 [+0.85, +1.57]</td>
-<td style="text-align: left;">+1.13 [+0.79, +1.46]</td>
+<td style="text-align: left;">+1.19 [+0.84, +1.55]</td>
+<td style="text-align: left;">+1.11 [+0.78, +1.44]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: left;">+1.23 [+0.88, +1.58]</td>
+<td style="text-align: left;">+1.23 [+0.89, +1.58]</td>
 <td style="text-align: left;">+1.23 [+0.90, +1.56]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;">+1.39 [+1.05, +1.74]</td>
-<td style="text-align: left;">+1.40 [+1.06, +1.73]</td>
+<td style="text-align: left;">+1.39 [+1.05, +1.73]</td>
+<td style="text-align: left;">+1.39 [+1.06, +1.72]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: left;">+1.47 [+1.12, +1.83]</td>
-<td style="text-align: left;">+1.50 [+1.13, +1.87]</td>
+<td style="text-align: left;">+1.48 [+1.12, +1.83]</td>
+<td style="text-align: left;">+1.51 [+1.14, +1.88]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Animation</td>
-<td style="text-align: left;">+0.37 [-0.03, +0.77]</td>
-<td style="text-align: left;">+0.36 [-0.02, +0.73]</td>
+<td style="text-align: left;">+0.35 [-0.05, +0.75]</td>
+<td style="text-align: left;">+0.34 [-0.03, +0.71]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: left;">-0.27 [-0.66, +0.12]</td>
-<td style="text-align: left;">-0.23 [-0.60, +0.14]</td>
+<td style="text-align: left;">-0.28 [-0.67, +0.11]</td>
+<td style="text-align: left;">-0.24 [-0.61, +0.13]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;">-0.01 [-0.40, +0.39]</td>
-<td style="text-align: left;">+0.01 [-0.36, +0.38]</td>
+<td style="text-align: left;">-0.02 [-0.42, +0.37]</td>
+<td style="text-align: left;">-0.01 [-0.38, +0.36]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="odd">
@@ -1616,8 +1708,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;">+0.35 [-0.04, +0.74]</td>
-<td style="text-align: left;">+0.33 [-0.04, +0.70]</td>
+<td style="text-align: left;">+0.34 [-0.05, +0.73]</td>
+<td style="text-align: left;">+0.32 [-0.05, +0.69]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="odd">
@@ -1630,35 +1722,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">Aesthetically appealing</td>
 <td style="text-align: left;">Animation</td>
-<td style="text-align: left;">+0.55 [+0.24, +0.87]</td>
+<td style="text-align: left;">+0.55 [+0.23, +0.86]</td>
 <td style="text-align: left;">+0.49 [+0.16, +0.82]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Aesthetically appealing</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: left;">-0.93 [-1.28, -0.58]</td>
-<td style="text-align: left;">-0.91 [-1.24, -0.58]</td>
+<td style="text-align: left;">-0.94 [-1.29, -0.60]</td>
+<td style="text-align: left;">-0.92 [-1.25, -0.59]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Aesthetically appealing</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;">-0.67 [-1.01, -0.32]</td>
-<td style="text-align: left;">-0.69 [-1.02, -0.36]</td>
+<td style="text-align: left;">-0.68 [-1.03, -0.34]</td>
+<td style="text-align: left;">-0.71 [-1.04, -0.38]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Aesthetically appealing</td>
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: left;">+0.19 [-0.14, +0.51]</td>
+<td style="text-align: left;">+0.18 [-0.15, +0.50]</td>
 <td style="text-align: left;">+0.15 [-0.18, +0.48]</td>
 <td style="text-align: left;">yes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Aesthetically appealing</td>
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;">-1.00 [-1.34, -0.67]</td>
+<td style="text-align: left;">-1.01 [-1.34, -0.68]</td>
 <td style="text-align: left;">-1.05 [-1.38, -0.72]</td>
 <td style="text-align: left;">yes</td>
 </tr>
@@ -1698,7 +1790,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Evaluation criterion"</span>,</span>
 <span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Visualization type"</span>,</span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Estimated rating"</span>,</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Expected rating, typical participant"</span>,</span>
 <span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Lower 95% CI"</span>,</span>
 <span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Upper 95% CI"</span>,</span>
 <span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>      <span class="st">"CI width"</span>,</span>
@@ -1716,7 +1808,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Evaluation criterion</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Visualization type</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Estimated rating</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Expected rating, typical participant</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">Lower 95% CI</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">Upper 95% CI</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">CI width</th>
@@ -1728,10 +1820,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Aesthetically appealing</td>
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: right;">4.00</td>
-<td style="text-align: right;">3.84</td>
+<td style="text-align: right;">4.01</td>
+<td style="text-align: right;">3.85</td>
 <td style="text-align: right;">4.17</td>
-<td style="text-align: right;">0.33</td>
+<td style="text-align: right;">0.32</td>
 <td style="text-align: right;">0.16</td>
 <td style="text-align: right;">0.16</td>
 </tr>
@@ -1741,26 +1833,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">3.89</td>
 <td style="text-align: right;">3.72</td>
 <td style="text-align: right;">4.07</td>
-<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">0.34</td>
 <td style="text-align: right;">0.17</td>
 <td style="text-align: right;">0.17</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Aesthetically appealing</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: right;">2.42</td>
-<td style="text-align: right;">2.21</td>
-<td style="text-align: right;">2.62</td>
-<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">2.40</td>
+<td style="text-align: right;">2.20</td>
+<td style="text-align: right;">2.61</td>
+<td style="text-align: right;">0.41</td>
 <td style="text-align: right;">0.21</td>
 <td style="text-align: right;">0.21</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Aesthetically appealing</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: right;">2.68</td>
-<td style="text-align: right;">2.47</td>
-<td style="text-align: right;">2.88</td>
+<td style="text-align: right;">2.66</td>
+<td style="text-align: right;">2.46</td>
+<td style="text-align: right;">2.87</td>
 <td style="text-align: right;">0.41</td>
 <td style="text-align: right;">0.21</td>
 <td style="text-align: right;">0.21</td>
@@ -1770,7 +1862,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Confidence intervals</td>
 <td style="text-align: right;">3.53</td>
 <td style="text-align: right;">3.34</td>
-<td style="text-align: right;">3.72</td>
+<td style="text-align: right;">3.71</td>
 <td style="text-align: right;">0.37</td>
 <td style="text-align: right;">0.19</td>
 <td style="text-align: right;">0.19</td>
@@ -1781,14 +1873,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">2.34</td>
 <td style="text-align: right;">2.15</td>
 <td style="text-align: right;">2.53</td>
-<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">0.38</td>
 <td style="text-align: right;">0.19</td>
 <td style="text-align: right;">0.19</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Aesthetically appealing</td>
 <td style="text-align: left;">Basic topoplot</td>
-<td style="text-align: right;">3.34</td>
+<td style="text-align: right;">3.35</td>
 <td style="text-align: right;">3.16</td>
 <td style="text-align: right;">3.53</td>
 <td style="text-align: right;">0.37</td>
@@ -1808,9 +1900,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Animation</td>
-<td style="text-align: right;">3.90</td>
-<td style="text-align: right;">3.73</td>
-<td style="text-align: right;">4.07</td>
+<td style="text-align: right;">3.89</td>
+<td style="text-align: right;">3.72</td>
+<td style="text-align: right;">4.06</td>
 <td style="text-align: right;">0.34</td>
 <td style="text-align: right;">0.17</td>
 <td style="text-align: right;">0.17</td>
@@ -1818,9 +1910,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: right;">2.24</td>
-<td style="text-align: right;">2.05</td>
-<td style="text-align: right;">2.44</td>
+<td style="text-align: right;">2.23</td>
+<td style="text-align: right;">2.04</td>
+<td style="text-align: right;">2.43</td>
 <td style="text-align: right;">0.38</td>
 <td style="text-align: right;">0.19</td>
 <td style="text-align: right;">0.19</td>
@@ -1828,9 +1920,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: right;">2.45</td>
-<td style="text-align: right;">2.25</td>
-<td style="text-align: right;">2.65</td>
+<td style="text-align: right;">2.44</td>
+<td style="text-align: right;">2.24</td>
+<td style="text-align: right;">2.64</td>
 <td style="text-align: right;">0.40</td>
 <td style="text-align: right;">0.20</td>
 <td style="text-align: right;">0.20</td>
@@ -1838,9 +1930,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: right;">4.04</td>
+<td style="text-align: right;">4.05</td>
 <td style="text-align: right;">3.89</td>
-<td style="text-align: right;">4.20</td>
+<td style="text-align: right;">4.21</td>
 <td style="text-align: right;">0.31</td>
 <td style="text-align: right;">0.16</td>
 <td style="text-align: right;">0.16</td>
@@ -1848,9 +1940,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Helpful for comparison</td>
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: right;">3.21</td>
-<td style="text-align: right;">3.02</td>
-<td style="text-align: right;">3.40</td>
+<td style="text-align: right;">3.22</td>
+<td style="text-align: right;">3.03</td>
+<td style="text-align: right;">3.41</td>
 <td style="text-align: right;">0.38</td>
 <td style="text-align: right;">0.19</td>
 <td style="text-align: right;">0.19</td>
@@ -1869,16 +1961,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Adjacent plots</td>
 <td style="text-align: right;">4.14</td>
-<td style="text-align: right;">3.99</td>
+<td style="text-align: right;">4.00</td>
 <td style="text-align: right;">4.29</td>
-<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">0.29</td>
 <td style="text-align: right;">0.15</td>
 <td style="text-align: right;">0.15</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Animation</td>
-<td style="text-align: right;">3.50</td>
+<td style="text-align: right;">3.51</td>
 <td style="text-align: right;">3.31</td>
 <td style="text-align: right;">3.70</td>
 <td style="text-align: right;">0.39</td>
@@ -1888,9 +1980,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: right;">3.56</td>
-<td style="text-align: right;">3.37</td>
-<td style="text-align: right;">3.76</td>
+<td style="text-align: right;">3.55</td>
+<td style="text-align: right;">3.36</td>
+<td style="text-align: right;">3.75</td>
 <td style="text-align: right;">0.39</td>
 <td style="text-align: right;">0.20</td>
 <td style="text-align: right;">0.20</td>
@@ -1898,9 +1990,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: right;">3.58</td>
-<td style="text-align: right;">3.38</td>
-<td style="text-align: right;">3.77</td>
+<td style="text-align: right;">3.57</td>
+<td style="text-align: right;">3.37</td>
+<td style="text-align: right;">3.76</td>
 <td style="text-align: right;">0.39</td>
 <td style="text-align: right;">0.20</td>
 <td style="text-align: right;">0.20</td>
@@ -1908,10 +2000,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: right;">3.60</td>
-<td style="text-align: right;">3.41</td>
-<td style="text-align: right;">3.78</td>
-<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">3.61</td>
+<td style="text-align: right;">3.42</td>
+<td style="text-align: right;">3.79</td>
+<td style="text-align: right;">0.36</td>
 <td style="text-align: right;">0.18</td>
 <td style="text-align: right;">0.18</td>
 </tr>
@@ -1929,18 +2021,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Helpful for detection and integration</td>
 <td style="text-align: left;">Basic topoplot</td>
 <td style="text-align: right;">2.37</td>
-<td style="text-align: right;">2.15</td>
-<td style="text-align: right;">2.58</td>
+<td style="text-align: right;">2.16</td>
+<td style="text-align: right;">2.59</td>
 <td style="text-align: right;">0.43</td>
-<td style="text-align: right;">0.22</td>
-<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">0.21</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: right;">4.05</td>
-<td style="text-align: right;">3.87</td>
-<td style="text-align: right;">4.23</td>
+<td style="text-align: right;">4.06</td>
+<td style="text-align: right;">3.88</td>
+<td style="text-align: right;">4.24</td>
 <td style="text-align: right;">0.36</td>
 <td style="text-align: right;">0.18</td>
 <td style="text-align: right;">0.18</td>
@@ -1948,9 +2040,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Animation</td>
-<td style="text-align: right;">2.95</td>
-<td style="text-align: right;">2.71</td>
-<td style="text-align: right;">3.18</td>
+<td style="text-align: right;">2.93</td>
+<td style="text-align: right;">2.70</td>
+<td style="text-align: right;">3.17</td>
 <td style="text-align: right;">0.47</td>
 <td style="text-align: right;">0.23</td>
 <td style="text-align: right;">0.23</td>
@@ -1958,20 +2050,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: right;">2.31</td>
-<td style="text-align: right;">2.08</td>
-<td style="text-align: right;">2.53</td>
-<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">2.30</td>
+<td style="text-align: right;">2.07</td>
+<td style="text-align: right;">2.52</td>
+<td style="text-align: right;">0.44</td>
 <td style="text-align: right;">0.22</td>
 <td style="text-align: right;">0.22</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: right;">2.57</td>
-<td style="text-align: right;">2.34</td>
-<td style="text-align: right;">2.80</td>
-<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">2.56</td>
+<td style="text-align: right;">2.33</td>
+<td style="text-align: right;">2.79</td>
+<td style="text-align: right;">0.45</td>
 <td style="text-align: right;">0.23</td>
 <td style="text-align: right;">0.23</td>
 </tr>
@@ -1979,7 +2071,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Confidence intervals</td>
 <td style="text-align: right;">3.37</td>
-<td style="text-align: right;">3.15</td>
+<td style="text-align: right;">3.16</td>
 <td style="text-align: right;">3.59</td>
 <td style="text-align: right;">0.44</td>
 <td style="text-align: right;">0.22</td>
@@ -1988,10 +2080,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Would use in publication or presentation</td>
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: right;">2.93</td>
-<td style="text-align: right;">2.70</td>
+<td style="text-align: right;">2.92</td>
+<td style="text-align: right;">2.69</td>
 <td style="text-align: right;">3.15</td>
-<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">0.45</td>
 <td style="text-align: right;">0.23</td>
 <td style="text-align: right;">0.23</td>
 </tr>
@@ -2023,6 +2115,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+</section>
+<section id="summary-of-the-subjective-rating-results" class="level2">
+<h2 class="anchored" data-anchor-id="summary-of-the-subjective-rating-results">Summary of the subjective-rating results</h2>
+<ul>
+<li><strong>Expected ratings and contrasts with Basic topoplot</strong> (expected rating on the 1–5 scale for a typical participant from the ordinal model; differences are Dunnett-adjusted for the six comparisons with Basic within each item).
+<ul>
+<li><strong>Helpful for comparison.</strong> Basic topoplot 3.86 (95% CI 3.69–4.02); the uncertainty visualizations ranged from 2.23 (Bivariate corner) to 4.05 (Confidence intervals). Rated lower than Basic: Uncertainty markers (−0.64, 95% CI −0.94 to −0.34), Bivariate range (−1.42, 95% CI −1.73 to −1.11), and Bivariate corner (−1.62, 95% CI −1.93 to −1.32). The intervals for Confidence intervals, Adjacent plots, and Animation included 0.</li>
+<li><strong>Helpful for detection and integration.</strong> Basic topoplot 2.37 (95% CI 2.16–2.59); the uncertainty visualizations ranged from 3.51 (Animation) to 4.14 (Adjacent plots). Rated higher than Basic: Adjacent plots (+1.77, 95% CI +1.45 to +2.10), Uncertainty markers (+1.39, 95% CI +1.05 to +1.73), Confidence intervals (+1.23, 95% CI +0.89 to +1.58), Bivariate range (+1.19, 95% CI +0.84 to +1.55), Bivariate corner (+1.18, 95% CI +0.82 to +1.54), and Animation (+1.13, 95% CI +0.78 to +1.49).</li>
+<li><strong>Would use in publication or presentation.</strong> Basic topoplot 2.58 (95% CI 2.35–2.81); the uncertainty visualizations ranged from 2.30 (Bivariate corner) to 4.06 (Adjacent plots). Rated higher than Basic: Adjacent plots (+1.48, 95% CI +1.12 to +1.83) and Confidence intervals (+0.79, 95% CI +0.41 to +1.18). The intervals for Animation, Uncertainty markers, Bivariate range, and Bivariate corner included 0.</li>
+<li><strong>Aesthetically appealing.</strong> Basic topoplot 3.35 (95% CI 3.16–3.53); the uncertainty visualizations ranged from 2.34 (Uncertainty markers) to 4.01 (Adjacent plots). Rated higher than Basic: Adjacent plots (+0.66, 95% CI +0.36 to +0.97) and Animation (+0.55, 95% CI +0.23 to +0.86). Rated lower than Basic: Bivariate range (−0.68, 95% CI −1.03 to −0.34), Bivariate corner (−0.94, 95% CI −1.29 to −0.60), and Uncertainty markers (−1.01, 95% CI −1.34 to −0.68). The interval for Confidence intervals included 0.</li>
+</ul></li>
+<li><strong>Overall.</strong> 16 of 24 contrasts excluded 0: 10 with a higher and 6 with a lower rating than Basic topoplot. Differences between the uncertainty visualizations themselves were not tested.</li>
+<li><strong>Proportional-odds check.</strong> The likelihood-ratio test rejected proportional odds for 4 of 4 items (<em>p</em> from &lt; .001 to .014). The page therefore reports expected ratings rather than odds ratios; they differ from the raw means by at most 0.08 scale points.</li>
+<li><strong>Sensitivity: quality screen.</strong> Without the 7 flagged participants, the contrasts moved by at most 0.07 scale points, and 0 of 24 intervals changed their position relative to 0.</li>
+<li><strong>Sensitivity: linear mixed model.</strong> A linear mixed model on the 1–5 ratings, which does not assume proportional odds, reached the same conclusion (interval excluding 0 or not) for 24 of 24 contrasts.</li>
+<li><strong>Caveat.</strong> The visualizations were listed in the same order for every participant (Basic topoplot last), so order effects cannot be separated from differences between visualizations.</li>
+</ul>
 
 
 </section>

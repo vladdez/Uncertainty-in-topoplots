@@ -30,7 +30,7 @@ most closely matched the target.](<../The Art of Uncertain Topoplots/figures/tas
 source("scripts/analysis_setup.R")
 ```
 
-## Trial reconstruction and presentation order
+### Trial reconstruction and presentation order
 
 - Trial information was reconstructed from the survey records and joined with each
   participant's responses using participant, trial, and question identifiers.
@@ -59,6 +59,13 @@ source("scripts/analysis_setup.R")
   `r format(task1_n_responses, big.mark = ",")` reconstructed records
   contained accuracy, visualization type, ERP pattern, presentation position, target
   stimulus, and distractor stimulus.
+
+```{r task1-no-missing-check}
+#| include: false
+# task1_trials.R drops rows with missing values; the sentence above is only true
+# while it drops none.
+stopifnot(nrow(task1_model) == task1_n_responses)
+```
 
 ```{r task1-stimulus-exposure}
 task1_exposure <- task1_model |>
@@ -200,8 +207,9 @@ vistype_table |>
 
 ```{r task1-descriptive-gradient-plot}
 #| fig-cap: >-
-#|   The black line and label show the across-participant mean. The dark-blue region
-#|   shows its two-sided 95% t-confidence interval.
+#|   The black line and label show the across-participant mean. The blue band is fully
+#|   opaque inside its two-sided 95% t-confidence interval and fades linearly to
+#|   transparent as the confidence level rises from 95% to 100%.
 
 task1_gradient_data <- task1_gradient_summary |>
   tidyr::crossing(accuracy = seq(0.60, 0.90, length.out = 241)) |>
@@ -257,16 +265,14 @@ task1_gradient_figure <- ggplot(
   ) +
   scale_y_continuous(
     breaks = task1_gradient_summary$y_position,
-    labels = unname(
-      vistype_labels[as.character(task1_gradient_summary$vistype)]
-    ),
+    labels = figure_vistype(task1_gradient_summary$vistype),
     expand = expansion(add = c(0.5, 0.65))
   ) +
   labs(
     title = "Comparison task accuracy",
     y = NULL
   ) +
-  theme_classic(base_family = "Lato", base_size = 20) +
+  plot_theme(base_size = 20) +
   theme(
     plot.title = element_text(
       hjust = 0.5,
@@ -274,7 +280,9 @@ task1_gradient_figure <- ggplot(
       size = 22
     ),
     axis.text = element_text(size = 20),
-    axis.text.y = element_text(lineheight = 0.75),
+    axis.text.y = element_text(
+      colour = vistype_label_colours(task1_gradient_summary$vistype, other = "black")
+    ),
     axis.ticks.y = element_blank(),
     axis.line.y = element_blank()
   )
@@ -550,7 +558,7 @@ There are three ways to summarize the model:
 | 2 | Average over the participants and stimuli observed in the study, using their fitted random effects. | Sample-averaged model prediction. |
 | 3 | Average over the modelled distributions of participant and stimulus random effects. | Population-averaged model prediction. |
 
-We chose option 3 becausewe are more interested in accuracy over population
+We chose option 3 because we are more interested in accuracy across the population
 ([Hu et al., 1998](https://pubmed.ncbi.nlm.nih.gov/9554609/);
 [Hedeker et al., 2018](https://pmc.ncbi.nlm.nih.gov/articles/PMC5650580/)).
 
@@ -638,99 +646,93 @@ model_table_note(
 
 ```{r}
 #| cache: false
+#| fig-cap: "Population-average comparison-task accuracy of each visualization. Bars: pointwise 95% confidence intervals (one per visualization, not adjusted for comparisons)."
 # Model-estimated probability of a correct response for each visualization type.
-comparison_axis_colours <- ifelse(
-  levels(accuracy_estimates$vistype) == "basic",
-  "#377EB8",
-  "#222222"
-)
-
 comparison_accuracy_limits <- c(
   max(0, min(accuracy_estimates$lower_ci, na.rm = TRUE) - 0.03),
   min(1, max(accuracy_estimates$upper_ci, na.rm = TRUE) + 0.03)
 )
 
-comparison_accuracy_figure <- ggplot(
-  accuracy_estimates,
-  aes(
-    x = accuracy,
-    y = vistype,
-    colour = vistype == "basic"
-  )
-) +
-  geom_errorbar(
+# Site version, or with print = TRUE the print version (audit V7).
+make_comparison_accuracy_figure <- function(print = FALSE) {
+  s <- interval_figure_sizes(print)
+  ggplot(
+    accuracy_estimates,
     aes(
-      xmin = lower_ci,
-      xmax = upper_ci
-    ),
-    orientation = "y",
-    width = 0.14,
-    linewidth = 0.55
+      x = accuracy,
+      y = vistype,
+      colour = vistype == "basic"
+    )
   ) +
-  geom_point(size = 3) +
-  geom_text(
-    aes(label = scales::percent(accuracy, accuracy = 1)),
-    nudge_y = 0.36,
-    vjust = 0.5,
-    size = 5.5
-  ) +
-  scale_y_discrete(
-    expand = expansion(add = 0.5),
-    labels = function(x) {
-      publication_labels <- c(
-        basic = "Basic topoplot",
-        adjacent = "Adjacent plots",
-        bivariate_corner = "Bivariate corners",
-        bivariate_range = "Bivariate range",
-        triple_CI = "Confidence intervals",
-        uncert_markers = "Uncertainty markers",
-        animation = "Animation"
-      )
-      unname(publication_labels[x])
-    }
-  ) +
-  scale_colour_manual(
-    values = c(`FALSE` = "#222222", `TRUE` = "#377EB8"),
-    guide = "none"
-  ) +
-  scale_x_continuous(
-    labels = scales::label_percent(accuracy = 1),
-    limits = comparison_accuracy_limits,
-    breaks = scales::breaks_width(0.05),
-    expand = expansion(mult = 0)
-  ) +
-  labs(
-    title = "Comparison task accuracy",
-    subtitle = "Population-average accuracy with 95% confidence intervals",
-    x = "Model-estimated comparison-task accuracy",
-    y = NULL
-  ) +
-  theme_classic(base_family = "Lato", base_size = 20) +
-  theme(
-    plot.title = element_text(hjust = 0.5, face = "bold"),
-    plot.subtitle = element_text(hjust = 0.5, size = 18),
-    plot.title.position = "plot",
-    axis.text.y = element_text(
-      size = 24,
-      colour = comparison_axis_colours,
-      margin = margin(r = 12)
-    ),
-    axis.text.x = element_text(size = 20),
-    axis.ticks.y = element_blank(),
-    axis.line.y = element_blank()
-  )
+    geom_errorbar(
+      aes(
+        xmin = lower_ci,
+        xmax = upper_ci
+      ),
+      orientation = "y",
+      width = 0.14,
+      linewidth = s$line
+    ) +
+    geom_point(size = s$point) +
+    geom_text(
+      aes(label = scales::percent(accuracy, accuracy = 1)),
+      nudge_y = 0.36,
+      vjust = 0.5,
+      size = s$label
+    ) +
+    scale_y_discrete(
+      expand = expansion(add = 0.5),
+      labels = figure_vistype
+    ) +
+    scale_colour_manual(
+      values = c(`FALSE` = "#222222", `TRUE` = basic_accent),
+      guide = "none"
+    ) +
+    scale_x_continuous(
+      labels = scales::label_percent(accuracy = 1),
+      limits = comparison_accuracy_limits,
+      breaks = scales::breaks_width(0.05),
+      expand = expansion(mult = 0)
+    ) +
+    # No in-figure title or subtitle (Wilke ch. 22): the caption names the
+    # estimate and the intervals.
+    labs(
+      x = "Model-estimated comparison-task accuracy",
+      y = NULL
+    ) +
+    plot_theme(base_size = s$base) +
+    theme(
+      axis.text.y = element_text(
+        size = s$axis_y,
+        colour = vistype_label_colours(levels(accuracy_estimates$vistype)),
+        margin = margin(r = s$margin)
+      ),
+      axis.text.x = element_text(size = s$axis_x),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank()
+    )
+}
 
+comparison_accuracy_figure <- make_comparison_accuracy_figure()
 comparison_accuracy_figure
 
 ggsave_st(
   project_path("figures", "comparison_accuracy_figure.png"),
   comparison_accuracy_figure,
   width = 9,
-  height = 5.5,
+  height = 5,
   units = "in",
   dpi = 180,
   device = ragg::agg_png,
   bg = "white"
+)
+
+# Print version: one journal column wide.
+ggsave_print(
+  project_path("figures", "comparison_accuracy_figure.pdf"),
+  make_comparison_accuracy_figure(print = TRUE),
+  width = print_width[["column"]],
+  height = 2.5
 )
 ```
 
@@ -775,6 +777,7 @@ comparisons.
 
 ```{r task1-basic-contrast-figure}
 #| cache: false
+#| fig-cap: "Population-average accuracy difference of each visualization from Basic topoplot. Bars: Dunnett-adjusted simultaneous 95% CIs for the six comparisons. Dashed line: no difference."
 task1_basic_reference <- which(task1_vistype_levels == "basic")
 task1_contrast_draws <- sweep(
   task1_population_draws,
@@ -837,104 +840,73 @@ task1_contrast_limits <- c(
   min(1, max(task1_basic_contrasts$upper_ci, na.rm = TRUE) + 0.03)
 )
 
-task1_contrast_labels <- c(
-  adjacent = "Adjacent plots",
-  bivariate_corner = "Bivariate corners",
-  bivariate_range = "Bivariate range",
-  triple_CI = "Confidence intervals",
-  uncert_markers = "Uncertainty markers",
-  animation = "Animation"
-)
+# Site version, or with print = TRUE the print version (audit V7).
+make_comparison_accuracy_contrast_figure <- function(print = FALSE) {
+  s <- interval_figure_sizes(print)
+  plot <- ggplot(
+    task1_basic_contrasts,
+    aes(x = difference, y = vistype)
+  ) +
+    geom_vline(
+      xintercept = 0,
+      linetype = "dashed",
+      linewidth = if (print) s$line else 0.6,
+      colour = "#377EB8"
+    ) +
+    geom_errorbar(
+      aes(xmin = lower_ci, xmax = upper_ci),
+      orientation = "y",
+      width = 0.14,
+      linewidth = s$line,
+      colour = "#333333"
+    ) +
+    geom_point(size = s$point, colour = "#333333") +
+    geom_text(
+      # Beside the point, on the side away from zero (no overlap with the
+      # dashed zero line).
+      aes(hjust = side_away_from_zero(difference), label = ifelse(
+        abs(difference) < 0.005,
+        "0 pp",
+        sprintf("%+.0f pp", 100 * difference)
+      )),
+      nudge_y = 0.32,
+      vjust = 0.5,
+      size = s$label,
+      colour = "#333333"
+    ) +
+    scale_y_discrete(
+      labels = figure_vistype,
+      expand = expansion(add = 0.5)
+    ) +
+    scale_x_continuous(
+      limits = task1_contrast_limits,
+      labels = function(x) ifelse(
+        abs(x) < 0.005,
+        "0 pp",
+        sprintf("%+.0f pp", 100 * x)
+      ),
+      breaks = scales::breaks_width(0.05),
+      expand = expansion(mult = 0)
+    ) +
+    labs(
+      x = NULL,
+      y = NULL
+    ) +
+    plot_theme(base_size = s$base) +
+    theme(
+      axis.text.y = element_text(size = s$axis_y, margin = margin(r = s$margin)),
+      axis.text.x = element_text(size = s$axis_x),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank()
+    )
 
-comparison_accuracy_contrast_figure <- ggplot(
-  task1_basic_contrasts,
-  aes(x = difference, y = vistype)
-) +
-  geom_vline(
-    xintercept = 0,
-    linetype = "dashed",
-    linewidth = 0.6,
-    colour = "#377EB8"
-  ) +
-  geom_errorbar(
-    aes(xmin = lower_ci, xmax = upper_ci),
-    orientation = "y",
-    width = 0.14,
-    linewidth = 0.55,
-    colour = "#333333"
-  ) +
-  geom_point(size = 3, colour = "#333333") +
-  geom_text(
-    aes(label = ifelse(
-      abs(difference) < 0.005,
-      "0 pp",
-      sprintf("%+.0f pp", 100 * difference)
-    )),
-    nudge_y = 0.32,
-    vjust = 0.5,
-    size = 5.5,
-    colour = "#333333"
-  ) +
-  scale_y_discrete(
-    labels = function(x) unname(task1_contrast_labels[x]),
-    expand = expansion(add = 0.5)
-  ) +
-  scale_x_continuous(
-    limits = task1_contrast_limits,
-    labels = function(x) ifelse(
-      abs(x) < 0.005,
-      "0 pp",
-      sprintf("%+.0f pp", 100 * x)
-    ),
-    breaks = scales::breaks_width(0.05),
-    expand = expansion(mult = 0)
-  ) +
-  labs(
-    title = "Comparison task accuracy differences",
-    subtitle = "Population-average contrasts, Dunnett-adjusted simultaneous 95% CIs",
-    x = NULL,
-    y = NULL
-  ) +
-  theme_classic(base_family = "Lato", base_size = 20) +
-  theme(
-    plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
-    plot.subtitle = element_text(hjust = 0.5, size = 18),
-    plot.title.position = "plot",
-    axis.text.y = element_text(size = 24, margin = margin(r = 12)),
-    axis.text.x = element_text(size = 20),
-    axis.ticks.y = element_blank(),
-    axis.line.y = element_blank()
-  )
+  # Axis caption with Basic topoplot in its accent colour.
+  plot /
+    basic_axis_caption("Difference in estimated accuracy vs", size = s$caption) +
+    plot_layout(heights = c(1, 0.10))
+}
 
-comparison_accuracy_contrast_caption <- ggplot() +
-  annotate(
-    "text",
-    x = 0.497,
-    y = 0.5,
-    label = "Difference in estimated accuracy vs",
-    hjust = 1,
-    size = 20 / ggplot2::.pt,
-    family = "Lato",
-    colour = "#222222"
-  ) +
-  annotate(
-    "text",
-    x = 0.503,
-    y = 0.5,
-    label = "Basic topoplot",
-    hjust = 0,
-    size = 20 / ggplot2::.pt,
-    family = "Lato",
-    colour = "#377EB8"
-  ) +
-  coord_cartesian(xlim = c(0, 1), ylim = c(0, 1), clip = "off") +
-  theme_void()
-
-comparison_accuracy_contrast_figure <-
-  comparison_accuracy_contrast_figure /
-  comparison_accuracy_contrast_caption +
-  plot_layout(heights = c(1, 0.10))
-
+comparison_accuracy_contrast_figure <- make_comparison_accuracy_contrast_figure()
 comparison_accuracy_contrast_figure
 
 ggsave_st(
@@ -946,6 +918,14 @@ ggsave_st(
   dpi = 180,
   device = ragg::agg_png,
   bg = "white"
+)
+
+# Print version: one journal column wide.
+ggsave_print(
+  project_path("figures", "comparison_accuracy_contrast_figure.pdf"),
+  make_comparison_accuracy_contrast_figure(print = TRUE),
+  width = print_width[["column"]],
+  height = 2.5
 )
 ```
 
@@ -1248,6 +1228,35 @@ visualization-type test is reported below.
 - A likelihood-ratio test compares the model containing visualization type with a reduced
   model that retains ERP pattern, presentation position, and the same random effects. It
   evaluates whether visualization type improves the model overall after these adjustments.
+
+::: {.callout-note title="What is an overall (omnibus) test? — Expand" collapse="true"}
+An **overall test**, also called an **omnibus test**, asks one question before any
+single comparison: **does visualization type make any difference at all?**
+
+Here it is a **likelihood-ratio test** that compares two models:
+
+- a model **without** visualization type (ERP pattern, position, random effects);
+- the same model **with** visualization type added.
+
+If adding visualization type makes the model fit clearly better, the visualizations
+differ somewhere. The result is written as χ²(df) = value, *p*:
+
+- **df** (degrees of freedom) = 6: seven visualizations give six extra parameters
+  beyond the reference, Basic topoplot.
+- **χ²**: how much the fit improved.
+- ***p***: the chance of an improvement at least this large if visualization type made
+  no difference.
+
+| Question | Test |
+|---|---|
+| Is there any difference among the seven visualizations? | Overall test (one test) |
+| Which visualization differs from Basic, and by how much? | Six Dunnett-adjusted contrasts (primary) |
+
+The overall test cannot say *which* visualization differs. It pools all six
+differences into one number, so it can disagree with the contrasts: several small
+differences can add up to a significant overall test while no single contrast is
+significant.
+:::
 
 ```{r}
 model_no_random_effects <- glmmTMB(
@@ -1707,11 +1716,17 @@ $\chi^2(`r task1_bt_wald_df`) = `r sprintf("%.2f", task1_bt_wald_chisq)`$,
 The sensitivity analysis separates matching performance from images' general tendency
 to be selected; it does not replace the primary mixed-effects accuracy analysis.
 
-## Item-level diagnostic: target images below chance
+## Item-level diagnostics {#task1-item-diagnostics}
+
+In Task 1, participants pick which of two maps matches the target, so guessing gives
+50%. This section checks whether any target image was matched correctly less often than
+that, why, and whether it changes the main comparison.
+
+### Target images below chance {#task1-below-chance}
 
 ```{r task1-item-diagnostic}
 #| cache: false
-# Answer-key checks: the matching candidate is the target stimulus, its file is the
+# Answer-key checks: the matching candidate is the target image, its file is the
 # option named by the solution code, and "correct" equals answered == solution.
 task1_key_checks <- task1 |>
   mutate(
@@ -1737,7 +1752,6 @@ task1_target_accuracy <- task1_items |>
     accuracy_vs_n170 = mean(correct[distractor_pattern == "N170"]),
     n_vs_n170 = sum(distractor_pattern == "N170"),
     accuracy_vs_p3 = mean(correct[distractor_pattern == "P3"]),
-    accuracy_vs_mmn = mean(correct[distractor_pattern == "MMN"]),
     .groups = "drop"
   ) |>
   mutate(
@@ -1759,11 +1773,11 @@ task1_below_chance <- task1_target_accuracy |>
              n_as_distractor = n),
     by = "stimulus"
   )
+task1_hard_targets <- task1_below_chance$stimulus
 
-task1_pair_accuracy <- task1_items |>
+task1_worst_pair <- task1_items |>
   group_by(stimulus, wrong_image) |>
-  summarise(n = n(), accuracy = mean(correct), .groups = "drop")
-task1_worst_pair <- task1_pair_accuracy |>
+  summarise(n = n(), accuracy = mean(correct), .groups = "drop") |>
   filter(n >= 10) |>
   slice_min(accuracy, n = 1, with_ties = FALSE)
 
@@ -1774,6 +1788,10 @@ task1_mmn_vs_n170 <- task1_class_accuracy |>
   filter(pattern == "MMN", distractor_pattern == "N170")
 task1_mmn_vs_p3 <- task1_class_accuracy |>
   filter(pattern == "MMN", distractor_pattern == "P3")
+
+task1_hard_vistype_counts <- task1_model |>
+  filter(stimulus %in% task1_hard_targets) |>
+  count(vistype)
 
 task1_below_chance |>
   transmute(
@@ -1792,16 +1810,45 @@ task1_below_chance |>
     col.names = c(
       "Target image",
       "Trials",
-      "Accuracy [exact 95% CI]",
-      "p vs 50% (binomial)",
-      "Accuracy vs N170 distractor",
-      "Accuracy vs P3 distractor",
-      "Accuracy when this image is the distractor"
+      "Correct [95% CI]",
+      "p vs 50%",
+      "Correct vs N170 distractor",
+      "Correct vs P3 distractor",
+      "Correct when it is the distractor"
     ),
-    caption = "Target images with accuracy below 50%, all visualization types pooled.",
+    caption = paste(
+      "Target images matched correctly less than half the time, all visualizations",
+      "pooled. CI: exact binomial; p: binomial test against 50%."
+    ),
     table.attr = kable_table_attributes
   )
+```
 
+- **Not a coding error.** The answer key was checked in
+  `r if (task1_key_failures == 0) "all" else paste("all but", task1_key_failures, "of the")`
+  `r format(nrow(task1_key_checks), big.mark = ",")` trials: the correct option is the
+  target image, its file belongs to the target's ERP class, the other option is the
+  logged distractor, and "correct" equals "answer = solution".
+- **The problem is N170 distractors.** Against a P3 distractor these targets are matched
+  well; against an N170 distractor they are mostly missed. The worst pair was
+  `r task1_worst_pair$stimulus` against `r task1_worst_pair$wrong_image`
+  (`r sprintf("%.0f%%", 100 * task1_worst_pair$accuracy)` correct,
+  n = `r task1_worst_pair$n`). The same holds, more mildly, for all MMN targets:
+  `r sprintf("%.1f%%", 100 * task1_mmn_vs_n170$accuracy)` correct against N170 and
+  `r sprintf("%.1f%%", 100 * task1_mmn_vs_p3$accuracy)` against P3 (table below).
+- **The images are not confusing as distractors.** When they were the wrong option,
+  participants almost never chose them
+  (`r knitr::combine_words(sprintf("%.1f%% correct for %s", 100 * task1_below_chance$accuracy_as_distractor, task1_below_chance$stimulus))`).
+- **Why.** The MMN and N170 templates both show a negative area at the front and a
+  positive area at the back. These two MMN images are single-participant maps with a
+  low voltage range (colour scales of only ±1.5 and ±1.7 µV), so the pattern is faint,
+  and their positive area sits at the side, not at the back. Some N170 maps (for example
+  N170_7, N170_12 and N170_16) look more like the MMN template than these two MMN maps
+  do. Participants picked the map that looked more like the template, which here was
+  the distractor (stimuli in `Experimental stimuli/stimuli/SE/`).
+
+```{r task1-item-classes}
+#| cache: false
 task1_class_accuracy |>
   transmute(
     pattern,
@@ -1812,18 +1859,29 @@ task1_class_accuracy |>
   knitr::kable(
     format = "html",
     align = c("l", "l", "r", "r"),
-    col.names = c("Target class", "Distractor class", "Trials", "Accuracy"),
-    caption = "Accuracy by target and distractor ERP class.",
+    col.names = c("Target", "Distractor", "Trials", "Correct"),
+    caption = "Task 1 accuracy by the ERP pattern of the target and of the distractor.",
     table.attr = kable_table_attributes
   )
 ```
 
+- **Effect on the results.** The trials with these targets are spread evenly over the
+  visualizations
+  (`r min(task1_hard_vistype_counts$n)`–`r max(task1_hard_vistype_counts$n)` per
+  visualization), and the model's target and distractor terms absorb how hard each image
+  is. So they make the data noisier but do not favour any visualization, and they stay
+  in the primary analysis.
+- **For the manuscript.** The Stimuli section should say that some single-participant
+  MMN and N170 maps look alike, which makes MMN–N170 pairs harder.
+
+### Visualizations with and without these trials {#task1-hard-refit}
+
 ```{r task1-item-sensitivity}
 #| include: false
-# Sensitivity refit without the trials whose target is below chance. Documented
-# here only; the primary analysis keeps every trial.
+# Sensitivity refit without the trials whose target image is below chance.
+# Documented here only; the primary analysis keeps every trial.
 task1_model_without_hard <- task1_model |>
-  filter(!stimulus %in% task1_below_chance$stimulus) |>
+  filter(!stimulus %in% task1_hard_targets) |>
   droplevels()
 task1_fit_without_hard <- update(task1_fit, data = task1_model_without_hard)
 task1_fit_without_hard_null <- update(
@@ -1835,73 +1893,243 @@ task1_without_hard_lrt <- anova(
   task1_fit_without_hard
 )
 task1_without_hard_p <- task1_without_hard_lrt[["Pr(>Chisq)"]][2]
-task1_without_hard_or <- emmeans::emmeans(task1_fit_without_hard, ~ vistype) |>
-  emmeans::contrast(method = "trt.vs.ctrl", ref = "basic", adjust = "mvt") |>
-  summary(infer = TRUE, type = "response") |>
-  as.data.frame() |>
-  mutate(label = table_vistype(sub(" / basic$", "", as.character(contrast))))
-task1_without_hard_lowest <- task1_without_hard_or |>
-  slice_min(odds.ratio, n = 2)
-task1_without_hard_any <- any(
-  task1_without_hard_or$asymp.UCL < 1 | task1_without_hard_or$asymp.LCL > 1
-)
-task1_hard_vistype_counts <- task1_model |>
-  filter(stimulus %in% task1_below_chance$stimulus) |>
-  count(vistype)
 ```
 
-::: {.callout-note collapse="true" title="Diagnostic: are the below-chance targets mis-keyed?"}
-**Question.** `r nrow(task1_below_chance)` target images were matched less often than
-chance across all visualization types: `r knitr::combine_words(sprintf("%s (%.1f%%, n = %d)", task1_below_chance$stimulus, 100 * task1_below_chance$accuracy, task1_below_chance$n))`.
-The lowest target–distractor combination with at least 10 trials was
-`r task1_worst_pair$stimulus` against `r task1_worst_pair$wrong_image`
-(`r sprintf("%.0f%%", 100 * task1_worst_pair$accuracy)` correct,
-n = `r task1_worst_pair$n`).
+```{r task1-hard-primary-comparison}
+#| include: false
+#| cache: false
+# Primary comparisons (population-average accuracy differences from Basic, 10,000
+# coefficient draws, Dunnett-type max-|z| adjustment) for any refit of the primary
+# model, using the same prediction grid and quadrature as the primary analysis.
+task1_primary_contrasts_for <- function(fit, seed = 20261102, n_draws = 10000) {
+  set.seed(seed)
+  coefficient_draws <- MASS::mvrnorm(
+    n = n_draws,
+    mu = lme4::fixef(fit),
+    Sigma = as.matrix(vcov(fit))
+  )
+  eta_draws <- coefficient_draws %*% t(task1_design_matrix)
+  random_sd <- sqrt(sum(task1_random_effect_sds(fit)^2))
+  grid_draws <- matrix(0, nrow(eta_draws), ncol(eta_draws))
+  for (k in seq_along(task1_quadrature_nodes)) {
+    grid_draws <- grid_draws + task1_quadrature_weights[k] *
+      plogis(eta_draws + sqrt(2) * random_sd * task1_quadrature_nodes[k])
+  }
+  population_draws <- vapply(
+    task1_vistype_levels,
+    \(v) rowMeans(grid_draws[
+      , as.character(task1_prediction_grid$vistype) == v, drop = FALSE
+    ]),
+    numeric(nrow(grid_draws))
+  )
+  point <- task1_population_probabilities(fit)
+  reference <- which(task1_vistype_levels == "basic")
+  columns <- setdiff(seq_along(task1_vistype_levels), reference)
+  contrast_draws <- (population_draws - population_draws[, reference])[
+    , columns, drop = FALSE
+  ]
+  estimates <- (point - point[reference])[columns]
+  contrast_sd <- apply(contrast_draws, 2, sd)
+  z_draws <- sweep(
+    sweep(contrast_draws, 2, colMeans(contrast_draws)),
+    2, contrast_sd, FUN = "/"
+  )
+  max_abs_z <- apply(abs(z_draws), 1, max)
+  critical <- unname(quantile(max_abs_z, 0.95))
+  tibble::tibble(
+    vistype = task1_vistype_levels[columns],
+    difference = unname(estimates),
+    lower_ci = unname(estimates - critical * contrast_sd),
+    upper_ci = unname(estimates + critical * contrast_sd),
+    p_adjusted = unname(vapply(
+      abs(estimates / contrast_sd), \(z) mean(max_abs_z >= z), numeric(1)
+    ))
+  )
+}
 
-**Answer key.** The key is internally consistent: in
-`r if (task1_key_failures == 0) "all" else paste("all but", task1_key_failures, "of the")`
-`r format(nrow(task1_key_checks), big.mark = ",")` trials, the matching candidate is the
-target image, its file name belongs to the target's ERP class and to the option named by
-the solution code, the nonmatching file is the logged distractor, and the recorded
-accuracy equals "answered = solution". There is no sign of a coding or key error.
+# The helper must reproduce the primary table before it is used for the refit.
+task1_primary_check <- task1_primary_contrasts_for(task1_fit)
+task1_primary_rows <- match(
+  task1_primary_check$vistype,
+  as.character(task1_basic_contrasts$vistype)
+)
+stopifnot(
+  isTRUE(all.equal(
+    task1_primary_check$difference,
+    unname(task1_basic_contrasts$difference[task1_primary_rows])
+  )),
+  isTRUE(all.equal(
+    task1_primary_check$lower_ci,
+    unname(task1_basic_contrasts$lower_ci[task1_primary_rows])
+  )),
+  isTRUE(all.equal(
+    task1_primary_check$p_adjusted,
+    unname(task1_basic_contrasts$p_adjusted[task1_primary_rows])
+  ))
+)
 
-**Ambiguity, not mis-keying.** The difficulty is specific to N170 distractors. When the
-target was an MMN image, accuracy was
-`r sprintf("%.1f%%", 100 * task1_mmn_vs_n170$accuracy)` against an N170 distractor and
-`r sprintf("%.1f%%", 100 * task1_mmn_vs_p3$accuracy)` against a P3 distractor. For the
-below-chance targets, accuracy against N170 distractors was
-`r knitr::combine_words(sprintf("%.1f%% (%s)", 100 * task1_below_chance$accuracy_vs_n170, task1_below_chance$stimulus))`,
-but against P3 distractors it was
-`r knitr::combine_words(sprintf("%.1f%% (%s)", 100 * task1_below_chance$accuracy_vs_p3, task1_below_chance$stimulus))`.
-As distractors, the same images were almost never chosen
-(`r knitr::combine_words(sprintf("%.1f%% correct for %s", 100 * task1_below_chance$accuracy_as_distractor, task1_below_chance$stimulus))`).
-Visual inspection of the stimuli (`Experimental stimuli/stimuli/SE/`) agrees: the MMN
-and N170 class templates both show a frontal negativity with a posterior positivity.
-These two MMN images are weak single-subject maps (colour scales of ±1.5 and ±1.7 µV) whose positivity is
-lateral or temporal rather than posterior, whereas several N170 images (for example
-N170_7, N170_12, and N170_16) closely resemble the MMN template. Participants therefore
-picked the image that looked more like the template, which on these trials was the
-distractor.
+task1_without_hard_contrasts <- task1_primary_contrasts_for(task1_fit_without_hard)
+task1_without_hard_contrast_any <- any(
+  task1_without_hard_contrasts$upper_ci < 0 | task1_without_hard_contrasts$lower_ci > 0
+)
+```
 
-**Consequence for the analysis.** These trials are retained. Target and distractor
-random intercepts absorb image difficulty, and the trials with these targets were spread
-evenly over the visualization types (`r min(task1_hard_vistype_counts$n)`–`r max(task1_hard_vistype_counts$n)`
-trials per type), so hard items add noise rather than bias.
+- **What is compared.** The primary model is fitted again without the
+  `r format(nrow(task1_model) - nrow(task1_model_without_hard), big.mark = ",")` trials
+  whose target was `r knitr::combine_words(task1_hard_targets)`. The table puts the
+  primary comparison (accuracy difference from Basic topoplot, Dunnett-adjusted) on all
+  trials next to the same comparison without these trials.
+- **Overall test.** Visualization type: *p*
+  `r task1_format_p(task1_vistype_lrt[["Pr(>Chisq)"]])` on all trials and *p*
+  `r task1_format_p(task1_without_hard_p)` without the hard trials.
+- **Comparisons with Basic.** Without the hard trials,
+  `r if (task1_without_hard_contrast_any) "at least one interval excludes 0" else "all six intervals still include 0, so no visualization differs clearly from Basic"`.
 
-*Exploratory refit.* Without the
-`r format(nrow(task1_model) - nrow(task1_model_without_hard), big.mark = ",")` trials
-whose target was one of these images, the likelihood-ratio test for visualization type
-gave *p* `r task1_format_p(task1_without_hard_p)` (all trials:
-*p* `r task1_format_p(task1_vistype_lrt[["Pr(>Chisq)"]])`). The two lowest odds ratios
-relative to Basic were
-`r knitr::combine_words(sprintf("%s (OR = %.2f, Dunnett-adjusted simultaneous 95%% CI %.2f–%.2f, adjusted *p* %s)", task1_without_hard_lowest$label, task1_without_hard_lowest$odds.ratio, task1_without_hard_lowest$asymp.LCL, task1_without_hard_lowest$asymp.UCL, task1_format_p(task1_without_hard_lowest$p.value)))`;
-`r if (task1_without_hard_any) "at least one adjusted interval excluded 1" else "all six adjusted intervals included 1"`.
-The excluded images were chosen after looking at the data, so this refit is exploratory
-and does not replace the primary analysis.
+```{r task1-hard-primary-figure}
+#| cache: false
+#| fig-width: 10
+#| fig-height: 7
+#| fig-cap: "Population-average accuracy difference from Basic topoplot on all trials (dark grey) and without the trials whose target was one of the two hard MMN images (orange). Bars: Dunnett-adjusted simultaneous 95% CIs for the six comparisons. Dashed line: no difference."
+#| fig-alt: "Dot-and-interval plot of the six accuracy differences from Basic topoplot, each shown twice: on all trials (dark grey) and without the trials whose target was one of the two hard MMN images (orange). The two estimates for each visualization lie close together, and every interval crosses the zero line."
+task1_hard_compare <- dplyr::bind_rows(
+  task1_basic_contrasts |>
+    mutate(vistype = as.character(vistype)) |>
+    select(vistype, difference, lower_ci, upper_ci) |>
+    mutate(trials = "All trials"),
+  task1_without_hard_contrasts |>
+    select(vistype, difference, lower_ci, upper_ci) |>
+    mutate(trials = "Without the hard trials")
+) |>
+  mutate(
+    vistype = factor(vistype, levels = levels(task1_basic_contrasts$vistype)),
+    trials = factor(trials, levels = c("Without the hard trials", "All trials"))
+  )
 
-In the manuscript, the stimulus section should state that some single-subject MMN and
-N170 topographies are similar, which makes MMN–N170 pairs harder.
-:::
+task1_hard_dodge <- position_dodge(width = 0.55)
+ggplot(task1_hard_compare, aes(difference, vistype, colour = trials)) +
+  geom_vline(xintercept = 0, linetype = "dashed", linewidth = 0.6,
+             colour = "#377EB8") +
+  geom_errorbar(aes(xmin = lower_ci, xmax = upper_ci), orientation = "y",
+                width = 0.2, linewidth = 0.6, position = task1_hard_dodge) +
+  geom_point(size = 3.2, position = task1_hard_dodge) +
+  scale_colour_manual(
+    values = c("All trials" = "#333333", "Without the hard trials" = "#D55E00"),
+    breaks = c("All trials", "Without the hard trials"),
+    name = NULL
+  ) +
+  scale_y_discrete(labels = figure_vistype) +
+  scale_x_continuous(
+    labels = function(x) ifelse(abs(x) < 0.005, "0 pp", sprintf("%+.0f pp", 100 * x)),
+    breaks = scales::breaks_width(0.05)
+  ) +
+  labs(
+    x = "Difference in estimated accuracy vs Basic topoplot",
+    y = NULL
+  ) +
+  plot_theme(base_size = 20) +
+  theme(
+    legend.position = "top",
+    legend.text = element_text(size = 20),
+    axis.text.y = element_text(size = 24, margin = margin(r = 12)),
+    axis.text.x = element_text(size = 20),
+    axis.ticks.y = element_blank(),
+    axis.line.y = element_blank()
+  )
+```
+
+```{r task1-hard-primary-table}
+#| cache: false
+task1_format_contrast <- function(d, l, u) {
+  sprintf("%+.1f [%+.1f, %+.1f]", 100 * d, 100 * l, 100 * u)
+}
+# Three decimals in every row (format.pval would pick one width per column).
+task1_format_p3 <- function(p) {
+  ifelse(p < 0.001, "< 0.001", sprintf("%.3f", p))
+}
+task1_basic_contrasts |>
+  arrange(desc(vistype)) |>
+  mutate(vistype = as.character(vistype)) |>
+  left_join(task1_without_hard_contrasts, by = "vistype",
+            suffix = c("_all", "_without")) |>
+  transmute(
+    comparison = paste(table_vistype(vistype), "vs Basic topoplot"),
+    all = task1_format_contrast(difference_all, lower_ci_all, upper_ci_all),
+    p_all = task1_format_p3(p_adjusted_all),
+    without = task1_format_contrast(difference_without, lower_ci_without,
+                                    upper_ci_without),
+    p_without = task1_format_p3(p_adjusted_without)
+  ) |>
+  knitr::kable(
+    format = "html",
+    escape = FALSE,
+    align = c("l", "r", "r", "r", "r"),
+    col.names = c(
+      "Comparison",
+      "All trials: difference [95% CI] (pp)", "p",
+      "Without the hard trials: difference [95% CI] (pp)", "p"
+    ),
+    caption = paste0(
+      "Hard trials: target ", knitr::combine_words(task1_hard_targets, and = " or "),
+      " (exploratory). CIs and p values are Dunnett-adjusted."
+    ),
+    table.attr = kable_table_attributes
+  )
+```
+
+- **Status.** The two images were chosen after looking at the data, so this comparison
+  is exploratory and does not replace the primary analysis.
+
+```{r manuscript-numbers-task1}
+#| include: false
+#| cache: false
+# Numbers quoted in supplement.typ (Data quality checks: item-level checks and
+# Table S5); see write_manuscript_numbers(). The supplement's description of
+# why the hard images are hard (voltage range, lateral positivity, look-alike
+# N170 maps) is written for MMN_19 and MMN_29; stop if the set changes.
+stopifnot(identical(sort(as.character(task1_hard_targets)), c("MMN_19", "MMN_29")))
+
+task1_pct1 <- function(x) sprintf("%.1f%%", 100 * x)
+task1_hard_rows <- task1_below_chance |>
+  arrange(stimulus) |>
+  transmute(
+    stimulus = as.character(stimulus),
+    accuracy = task1_pct1(accuracy),
+    n = n,
+    vs_n170 = task1_pct1(accuracy_vs_n170),
+    vs_p3 = task1_pct1(accuracy_vs_p3)
+  )
+task1_comparison_rows <- task1_basic_contrasts |>
+  arrange(desc(difference)) |>
+  mutate(vistype = as.character(vistype)) |>
+  left_join(task1_without_hard_contrasts, by = "vistype",
+            suffix = c("_all", "_without")) |>
+  transmute(
+    vistype,
+    all = sprintf("%s [%s, %s]", signed_text(100 * difference_all),
+                  signed_text(100 * lower_ci_all), signed_text(100 * upper_ci_all)),
+    p_all = p_text(p_adjusted_all),
+    without = sprintf("%s [%s, %s]", signed_text(100 * difference_without),
+                      signed_text(100 * lower_ci_without),
+                      signed_text(100 * upper_ci_without)),
+    p_without = p_text(p_adjusted_without)
+  )
+
+write_manuscript_numbers("task1", list(
+  n_participants = n_distinct(task1_model$ID),
+  n_trials = format(nrow(task1_key_checks), big.mark = ","),
+  n_key_failures = task1_key_failures,
+  hard_targets = purrr::transpose(as.list(task1_hard_rows)),
+  mmn_vs_n170 = task1_pct1(task1_mmn_vs_n170$accuracy),
+  mmn_vs_p3 = task1_pct1(task1_mmn_vs_p3$accuracy),
+  hard_trials_per_vis_min = min(task1_hard_vistype_counts$n),
+  hard_trials_per_vis_max = max(task1_hard_vistype_counts$n),
+  n_hard_trials = format(nrow(task1_model) - nrow(task1_model_without_hard), big.mark = ","),
+  overall_p_all = p_text(task1_vistype_lrt[["Pr(>Chisq)"]]),
+  overall_p_without = p_text(task1_without_hard_p),
+  without_hard_any_excludes_zero = task1_without_hard_contrast_any,
+  comparison = purrr::transpose(as.list(task1_comparison_rows))
+))
+```
 
 ## Summary of the Task 1 accuracy evidence
 

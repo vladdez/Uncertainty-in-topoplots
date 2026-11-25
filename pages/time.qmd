@@ -58,7 +58,9 @@ read_page_times <- function(first_var, last_var, offset, trials) {
 # log(time) mixed model. Back-transformed estimates are geometric means for a
 # typical participant (random intercept at zero) at the average position.
 # Differences from Basic are ratios of geometric means, Dunnett-adjusted
-# (emmeans "dunnettx", six comparisons with Basic topoplot).
+# (emmeans "mvt", exact multivariate t, six comparisons with Basic topoplot).
+# Degrees of freedom are asymptotic for every fit: emmeans would otherwise switch
+# to Kenward-Roger below 3,000 trials (e.g. the IQR sensitivity fit).
 ci_bounds <- function(df) {
   lower <- intersect(c("lower.CL", "asymp.LCL"), names(df))
   upper <- intersect(c("upper.CL", "asymp.UCL"), names(df))
@@ -78,7 +80,7 @@ fit_time_model <- function(time_data) {
     mutate(position_c = position - mean(position))
 
   fit <- lmer(log(time_sec) ~ vistype + position_c + (1 | ID), data = model_data)
-  emm <- emmeans(fit, ~ vistype)
+  emm <- emmeans(fit, ~ vistype, lmer.df = "asymptotic")
 
   estimates_raw <- as.data.frame(confint(emm, type = "response"))
   estimates_ci <- ci_bounds(estimates_raw)
@@ -91,11 +93,12 @@ fit_time_model <- function(time_data) {
     arrange(estimated_time) %>%
     mutate(vistype = factor(vistype, levels = vistype))
 
+  set.seed(20261118)  # adjust = "mvt" integrates numerically (Monte Carlo)
   contrasts_raw <- contrast(
     emm,
     method = "trt.vs.ctrl",
     ref = "basic",
-    adjust = "dunnettx"
+    adjust = "mvt"
   ) %>%
     summary(infer = c(TRUE, TRUE), type = "response") %>%
     as.data.frame()
@@ -197,7 +200,10 @@ time_estimate_table <- function(estimates, caption) {
 }
 
 time_estimate_plot <- function(estimates, title) {
-  ggplot(estimates, aes(x = estimated_time, y = vistype)) +
+  ggplot(
+    estimates,
+    aes(x = estimated_time, y = vistype, colour = vistype == "basic")
+  ) +
     geom_errorbar(
       aes(xmin = lower_ci, xmax = upper_ci),
       orientation = "y",
@@ -211,7 +217,11 @@ time_estimate_plot <- function(estimates, title) {
       vjust = 0.5,
       size = 6
     ) +
-    scale_y_discrete(expand = expansion(add = 0.5), labels = vistype_labels) +
+    scale_y_discrete(expand = expansion(add = 0.5), labels = figure_vistype) +
+    scale_colour_manual(
+      values = c(`FALSE` = "black", `TRUE` = basic_accent),
+      guide = "none"
+    ) +
     scale_x_continuous(
       labels = \(x) sprintf("%.0f s", x),
       expand = expansion(mult = c(0.05, 0.12))
@@ -225,10 +235,13 @@ time_estimate_plot <- function(estimates, title) {
         "Error bars: 95% confidence intervals for each level, not for differences."
       )
     ) +
-    theme_classic(base_family = "Lato", base_size = 20) +
+    plot_theme(base_size = 20) +
     theme(
-      plot.title = element_text(hjust = 0.5, face = "bold"),
+      plot.title = element_text(hjust = 0.5, face = "bold", size = rel(1.2)),
       plot.caption = element_text(hjust = 0.5, face = "italic"),
+      axis.text.y = element_text(
+        colour = vistype_label_colours(levels(estimates$vistype), other = "black")
+      ),
       axis.ticks.y = element_blank(),
       plot.margin = margin(8, 16, 12, 16)
     )
@@ -390,8 +403,8 @@ the ordinary average is 25 s, the geometric mean about 14 s: close to a typical 
 
 **Multiple comparisons.** The primary comparisons are the six visualizations against
 Basic topoplot within each task, with Dunnett-adjusted 95% confidence intervals and p
-values (`emmeans` `dunnettx`). The same family is used on the Task 1, Task 2 and rating
-pages.
+values (`emmeans` `mvt`, the exact multivariate-*t* adjustment). The same family,
+Dunnett-adjusted, is used on the Task 1, Task 2, Hit or miss and rating pages.
 
 *In plain words:* with six comparisons, the chance that at least one ordinary 95%
 interval is wrong is about 26%. Dunnett's method widens the six intervals just enough
@@ -415,20 +428,42 @@ excludes "no difference" (ratio 1) therefore holds even though six comparisons w
 ```{r task1-time-position-check}
 #| fig-width: 8
 #| fig-height: 4
+#| fig-cap: 'Points: geometric mean of completion time per presentation position. Ribbon: 95% confidence interval (t interval on log time, back-transformed). Log time axis.'
+# Geometric mean per position with a 95% t interval, both computed on log time
+# and back-transformed; log time axis to match (audit V17).
 task1_time %>%
   group_by(position) %>%
-  summarise(geometric_mean = exp(mean(log(time_sec))), .groups = "drop") %>%
+  summarise(
+    n = n(),
+    log_mean = mean(log(time_sec)),
+    log_se = sd(log(time_sec)) / sqrt(n),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    geometric_mean = exp(log_mean),
+    lower = exp(log_mean - qt(0.975, n - 1) * log_se),
+    upper = exp(log_mean + qt(0.975, n - 1) * log_se)
+  ) %>%
   ggplot(aes(position, geometric_mean)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), fill = "#3182BD", alpha = 0.2) +
   geom_line(colour = "#3182BD", linewidth = 0.8) +
   geom_point(colour = "#3182BD", size = 2.5) +
   scale_x_continuous(breaks = c(1, 5, 10, 15, 21)) +
+  scale_y_log10(
+    breaks = c(5, 10, 15, 20, 30, 40, 60, 90, 120),
+    labels = \(x) paste0(x, " s")
+  ) +
   labs(
     x = "Presentation position",
-    y = "Geometric-mean time (s)",
+    y = "Geometric-mean time (log scale)",
     title = "Times fall as participants learn the task"
   ) +
-  theme_classic(base_family = "Lato", base_size = 16) +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+  # Tick labels near the axis-title size at the display width (audit V2).
+  plot_theme(base_size = 17) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = rel(1.2)),
+    axis.text = element_text(size = 16)
+  )
 ```
 
 :::
@@ -533,18 +568,25 @@ task1_time_violin +
     linewidth = 0.6,
     colour = "#333333"
   ) +
-  scale_x_discrete(labels = vistype_labels) +
+  scale_x_discrete(labels = figure_vistype) +
   labs(
     title = "Time spent by visualization type",
     x = NULL,
     y = "Seconds spent on page (log scale)",
     caption = "Horizontal line: observed geometric mean."
   ) +
-  theme_classic(base_family = "Lato", base_size = 20) +
+  plot_theme(base_size = 20) +
   theme(
-    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.title = element_text(hjust = 0.5, face = "bold", size = rel(1.2)),
     plot.caption = element_text(hjust = 0.5, face = "italic"),
-    axis.text.x = element_text(angle = 35, hjust = 1)
+    axis.text.x = element_text(
+      angle = 35,
+      hjust = 1,
+      colour = vistype_label_colours(
+        levels(factor(task1_time$vistype)),
+        other = "black"
+      )
+    )
   )
 ```
 
@@ -848,20 +890,42 @@ task1_time_accuracy_summary %>%
 ```{r task2-time-position-check}
 #| fig-width: 8
 #| fig-height: 4
+#| fig-cap: 'Points: geometric mean of completion time per presentation position. Ribbon: 95% confidence interval (t interval on log time, back-transformed). Log time axis.'
+# Geometric mean per position with a 95% t interval, both computed on log time
+# and back-transformed; log time axis to match (audit V17).
 task2_time %>%
   group_by(position) %>%
-  summarise(geometric_mean = exp(mean(log(time_sec))), .groups = "drop") %>%
+  summarise(
+    n = n(),
+    log_mean = mean(log(time_sec)),
+    log_se = sd(log(time_sec)) / sqrt(n),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    geometric_mean = exp(log_mean),
+    lower = exp(log_mean - qt(0.975, n - 1) * log_se),
+    upper = exp(log_mean + qt(0.975, n - 1) * log_se)
+  ) %>%
   ggplot(aes(position, geometric_mean)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), fill = "#3182BD", alpha = 0.2) +
   geom_line(colour = "#3182BD", linewidth = 0.8) +
   geom_point(colour = "#3182BD", size = 2.5) +
   scale_x_continuous(breaks = c(1, 5, 10, 15, 21)) +
+  scale_y_log10(
+    breaks = c(5, 10, 15, 20, 30, 40, 60, 90, 120),
+    labels = \(x) paste0(x, " s")
+  ) +
   labs(
     x = "Presentation position",
-    y = "Geometric-mean time (s)",
+    y = "Geometric-mean time (log scale)",
     title = "Times fall as participants learn the task"
   ) +
-  theme_classic(base_family = "Lato", base_size = 16) +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+  # Tick labels near the axis-title size at the display width (audit V2).
+  plot_theme(base_size = 17) +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = rel(1.2)),
+    axis.text = element_text(size = 16)
+  )
 ```
 
 :::
@@ -1086,3 +1150,92 @@ time_accuracy_sensitivity %>%
 `r if (nrow(time_accuracy_changes) == 0) "The direction and clarity of both time–accuracy associations are the same under all three rules." else paste0("The verdict of ", nrow(time_accuracy_changes), " time–accuracy association(s) depends on the outlier rule; see the table.")`
 
 :::
+
+## Summary of the completion-time results
+
+```{r time-summary-text}
+#| include: false
+#| cache: false
+# Every number below comes from objects computed above. A visualization is
+# called slower or faster only when its Dunnett-adjusted interval excludes 1.
+time_summary_task <- function(estimates, contrasts) {
+  basic <- estimates |> filter(vistype == "basic")
+  verdicts <- contrast_verdict(contrasts$lower_ci, contrasts$upper_ci)
+  range_text <- if (all(verdicts == "slower")) {
+    sprintf(
+      " The visualizations took %.0f%% to %.0f%% longer than Basic topoplot.",
+      100 * (min(contrasts$ratio) - 1), 100 * (max(contrasts$ratio) - 1)
+    )
+  } else {
+    ""
+  }
+  paste0(
+    "Basic topoplot took ", sprintf("%.1f", basic$estimated_time),
+    " s (geometric mean for a typical participant, 95% CI ",
+    sprintf("%.1f–%.1f", basic$lower_ci, basic$upper_ci), "). With Dunnett-adjusted ",
+    "intervals (ratio to Basic), ", describe_time_contrasts(contrasts), ".",
+    range_text
+  )
+}
+
+time_summary_slowest <- c(
+  task1 = task1_time_contrasts$vistype[which.max(task1_time_contrasts$ratio)],
+  task2 = task2_time_contrasts$vistype[which.max(task2_time_contrasts$ratio)]
+)
+time_summary_all_slower <- all(
+  contrast_verdict(task1_time_contrasts$lower_ci, task1_time_contrasts$upper_ci) ==
+    "slower",
+  contrast_verdict(task2_time_contrasts$lower_ci, task2_time_contrasts$upper_ci) ==
+    "slower"
+)
+
+time_summary_association_labels <- c(
+  log_time_within = "the within-participant association",
+  log_time_between_c = "the between-participant association"
+)
+time_summary_accuracy_changes <- if (nrow(time_accuracy_changes) == 0) {
+  "Both time–accuracy associations keep their direction and clarity under all three rules."
+} else {
+  paste0(
+    "The time–accuracy verdict depends on the rule for ",
+    knitr::combine_words(sprintf(
+      "%s (%s with the cap, %s with all trials, %s with the IQR rule)",
+      time_summary_association_labels[time_accuracy_changes$term],
+      time_accuracy_changes$cap, time_accuracy_changes$all,
+      time_accuracy_changes$iqr
+    )),
+    "."
+  )
+}
+
+time_summary_or <- function(i) {
+  sprintf(
+    "OR = %.2f, 95%% CI %.2f–%.2f",
+    task1_time_accuracy_effects$odds_ratio[i],
+    task1_time_accuracy_effects$lower_ci[i],
+    task1_time_accuracy_effects$upper_ci[i]
+  )
+}
+```
+
+- **Task 1 (comparison).**
+  `r time_summary_task(time_estimates, task1_time_contrasts)`
+- **Task 2 (detection).**
+  `r time_summary_task(task2_time_estimates, task2_time_contrasts)`
+- **Outlier rule.** The main rule removed `r time_rule_counts$removed[1]` Task 1 and
+  `r time_rule_counts$removed[2]` Task 2 trial pages longer than `r time_cap_sec` s.
+  With all trials kept or with the 1.5 × IQR rule instead:
+  `r describe_sensitivity_changes(time_sensitivity_changes)`.
+- **Time and accuracy (Task 1).** Within participants, doubling the time on a trial went
+  with `r if (task1_time_accuracy_effects$upper_ci[1] < 1) "lower" else if (task1_time_accuracy_effects$lower_ci[1] > 1) "higher" else "no clear change in the"`
+  odds of a correct answer (`r time_summary_or(1)`). Between participants, twice the
+  typical time went with `r if (task1_time_accuracy_effects$upper_ci[2] < 1) "lower" else if (task1_time_accuracy_effects$lower_ci[2] > 1) "higher" else "no clear change in the"`
+  odds (`r time_summary_or(2)`), and the participant-level correlation was
+  *r* = `r sprintf("%.2f", task1_time_accuracy_correlation_table$correlation)` (95% CI
+  `r sprintf("%.2f", task1_time_accuracy_correlation_table$lower_ci)` to
+  `r sprintf("%.2f", task1_time_accuracy_correlation_table$upper_ci)`).
+- **Time and accuracy, outlier rules.** `r time_summary_accuracy_changes`
+- **Interpretation.**
+  `r if (time_summary_all_slower) paste0("With the main rule, every uncertainty visualization took longer than Basic topoplot in both tasks. ", if (time_summary_slowest[["task1"]] == time_summary_slowest[["task2"]]) paste0(table_vistype(time_summary_slowest[["task1"]]), " was the slowest in both tasks. ") else "") else "Not every visualization differed clearly from Basic topoplot; see the task bullets above. "`The
+  time–accuracy results are associations, not effects of time: a harder trial can both
+  take longer and be answered incorrectly more often.

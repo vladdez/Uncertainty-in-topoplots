@@ -78,8 +78,11 @@ format_day_month_year <- function(d) {
 - **Launch date.** Records started before `r format_day_month_year(study_launch_date)` are
   excluded. They are test runs of the questionnaire: `r n_pre_launch_completed` completed
   records, all from `r paste(format_day_month_year(pre_launch_dates), collapse = ", ")`.
-- **Completion.** Only records that reached the last page are analysed;
-  `r n_incomplete_after_launch` records started after launch were not completed.
+- **Completion.** Only records that reached page 51 are analysed. Page 51 (open
+  feedback) is the last questionnaire page; pages 52–53 only lead to the optional raffle.
+  Records that stopped there, or that SoSci Survey does not flag as finished, therefore
+  contain the whole questionnaire. `r n_incomplete_after_launch` records started after
+  launch did not reach page 51.
 - **Quality control.** `r length(flagged_ids)` participants are flagged for possibly
   careless answering but kept in all main analyses; see the
   [Quality control](quality.qmd) page.
@@ -97,7 +100,7 @@ data$A001 %>% table() %>%  data.frame() %>% dplyr::rename(level = !!names(.)[1])
     mutate(level = factor(level, levels = rev(c("Beginner", "Intermediate", "Expert")))) %>% 
     ggplot(data = ., aes(y = level, x = percent_score)) +  
     geom_col(stat="identity",  width = 0.8, fill ="#6BAED6") + labs(x = "Percent of respondents", y = "", title="Self-assessed level") +
-    geom_text(aes(label = paste0(percent_score, "%")), hjust = -0.2)  +  theme_classic(base_family = "Lato", base_size = 20) + 
+    geom_text(aes(label = paste0(percent_score, "%")), hjust = -0.2)  +  plot_theme(base_size = 20) + 
  scale_x_continuous(
     name = "Percent of respondents",
     labels = \(x) paste0(x, "%"),
@@ -131,29 +134,35 @@ data$A001 %>% table() %>%  data.frame() %>% dplyr::rename(level = !!names(.)[1])
 
 ::: {.callout-note title="Respondents by country of work (table)" collapse="true"}
 ```{r}
-country_responses <- data %>%
+# Answers that are not a country: the explicit refusal, and occupations entered
+# in the free-text field. Both are excluded from the country percentages.
+country_refusal_entries <- c("Prefer not to say")
+country_occupation_entries <- c("Professor", "Senior Researcher")
+
+country_all <- data %>%
   transmute(
-    country_work = case_when(
+    country_raw = trimws(case_when(
       A004 == "-2" & !is.na(A004s) & A004s != "" ~ A004s,
       TRUE ~ A004
-    )
+    ))
   ) %>%
   mutate(
-    country_work = trimws(country_work),
     country_work = case_when(
-      country_work %in% c("NL", "Nl", "The Netherlands") ~ "Netherlands",
-      country_work == "fr" ~ "France",
-      country_work == "UK" ~ "United Kingdom",
-      country_work %in% c("United States", "United States of America") ~ "USA",
-      country_work %in% c(
-        "Prefer not to say",
-        "Professor",
-        "Senior Researcher"
-      ) ~ NA_character_,
-      TRUE ~ country_work
+      country_raw %in% c("NL", "Nl", "The Netherlands") ~ "Netherlands",
+      country_raw == "fr" ~ "France",
+      country_raw == "UK" ~ "United Kingdom",
+      country_raw %in% c("United States", "United States of America") ~ "USA",
+      country_raw %in% c(country_refusal_entries, country_occupation_entries) ~
+        NA_character_,
+      TRUE ~ country_raw
     )
-  ) %>%
+  )
+country_responses <- country_all %>%
   filter(!is.na(country_work), country_work != "")
+country_n_refused <- sum(country_all$country_raw %in% country_refusal_entries)
+country_n_occupation <- sum(country_all$country_raw %in% country_occupation_entries)
+country_n_missing <- nrow(country_all) - nrow(country_responses) -
+  country_n_refused - country_n_occupation
 
 make_geography_plot <- function(summary_data, category, title,
                                 respondent_total = sum(summary_data$Freq),
@@ -182,7 +191,7 @@ make_geography_plot <- function(summary_data, category, title,
     scale_y_discrete(labels = format_category_labels) +
     labs(title = title, y = NULL) +
     coord_cartesian(clip = "off") +
-    theme_classic(base_family = "Lato", base_size = 20) +
+    plot_theme(base_size = 20) +
     theme(
       plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
       axis.text = element_text(size = 20),
@@ -365,6 +374,10 @@ make_geography_plot(country_all, country_work, NULL,
 
 ### Map of participants by country
 
+::: {.panel-tabset}
+
+#### Shaded countries
+
 ```{r country-count-map}
 #| fig-width: 12
 #| fig-height: 6.2
@@ -488,6 +501,224 @@ ggsave_st(
 )
 ```
 
+#### Proportional symbols
+
+```{r country-symbol-map-geometry}
+#| include: false
+# Layout of the proportional-symbol map, computed from the map geometry so that
+# neither map panel is padded with white space.
+# World extent: from land polygons above a small area threshold, so specks near
+# the antimeridian (Fiji, Samoa, Tonga, ...) do not stretch the bounding box.
+symbol_world_extent <- world_map |>
+  group_by(group) |>
+  mutate(
+    polygon_area = abs(sum(x * c(y[-1], y[1]) - c(x[-1], x[1]) * y)) / 2
+  ) |>
+  ungroup() |>
+  filter(polygon_area >= 5e-4)
+symbol_world_xlim <- range(symbol_world_extent$x)
+symbol_world_ylim <- range(symbol_world_extent$y)
+
+# Europe inset: a lon/lat box projected like the map.
+europe_box <- tidyr::expand_grid(
+  lon = seq(-12, 35, length.out = 40),
+  lat = seq(35, 63, length.out = 40)
+) |>
+  (\(box) project_equal_earth(box$lon, box$lat))()
+europe_xlim <- range(europe_box$x)
+europe_ylim <- range(europe_box$y)
+
+# Column widths and row heights that match both aspect ratios: world map on the
+# left over the full height; Europe inset and a legend row on the right.
+symbol_map_width <- 12          # in
+symbol_map_usable_width <- 11.8 # in, without outer margins
+symbol_map_legend_row <- 1.25   # in
+symbol_map_text_height <- 0.9   # in, caption and margins
+aspect_world <- diff(symbol_world_xlim) / diff(symbol_world_ylim)
+aspect_europe <- diff(europe_xlim) / diff(europe_ylim)
+right_share <- (symbol_map_usable_width / aspect_world - symbol_map_legend_row) /
+  (symbol_map_usable_width / aspect_world + symbol_map_usable_width / aspect_europe)
+symbol_map_panel_height <- (1 - right_share) * symbol_map_usable_width / aspect_world
+symbol_map_widths <- c(1 - right_share, right_share)
+symbol_map_heights <- c(
+  right_share * symbol_map_usable_width / aspect_europe,
+  symbol_map_legend_row
+)
+symbol_map_fig_height <- symbol_map_panel_height + symbol_map_text_height
+```
+
+```{r country-count-symbol-map}
+#| fig-width: 12
+#| fig-height: !expr symbol_map_fig_height
+#| out-width: 100%
+#| fig-alt: "World map in Equal Earth projection with all countries in light grey and one blue circle per country of work, placed at the centre of the country's mainland, next to an enlarged Europe inset with the same circle scale and count labels. Circle area is proportional to the number of participants."
+
+# Proportional symbols (Wilke ch. 15; audit V13): counts are shown by circle
+# area at each country's centre, so large countries do not dominate the way
+# they do in a choropleth of raw counts. The circle sits at the area-weighted
+# centroid of the country's largest polygon (its mainland), computed in the
+# equal-area projection, so e.g. Alaska or overseas territories do not pull it
+# away.
+polygon_centroid <- function(x, y) {
+  x2 <- c(x[-1], x[1])
+  y2 <- c(y[-1], y[1])
+  cross <- x * y2 - x2 * y
+  signed_area <- sum(cross) / 2  # negative for clockwise polygons
+  tibble::tibble(
+    cx = sum((x + x2) * cross) / (6 * signed_area),
+    cy = sum((y + y2) * cross) / (6 * signed_area),
+    area = abs(signed_area)
+  )
+}
+
+country_symbols <- world_map |>
+  filter(participants > 0) |>
+  group_by(region, group, participants) |>
+  reframe(polygon_centroid(x, y)) |>
+  group_by(region) |>
+  slice_max(area, n = 1, with_ties = FALSE) |>
+  ungroup() |>
+  # Large circles first, so smaller ones are drawn on top and stay visible.
+  arrange(desc(participants))
+
+stopifnot(nrow(country_symbols) == nrow(country_counts))
+
+# Round legend values up to the largest count.
+symbol_breaks <- c(1, 5, 10, 20, 30, 50)
+symbol_breaks <- symbol_breaks[symbol_breaks <= max(country_counts$participants)]
+
+# Europe inset: most participants work in Europe, where the circles overlap on
+# the world map. The inset shows the same countries enlarged; circle sizes use
+# the same scale in both panels (fixed limits), so a circle means the same count
+# everywhere. Extents and layout: chunk country-symbol-map-geometry.
+symbol_size_scale <- function(show_legend = TRUE) {
+  scale_size_area(
+    "Participants",
+    max_size = 16,
+    limits = c(0, max(country_counts$participants)),
+    breaks = symbol_breaks,
+    guide = if (show_legend) {
+      guide_legend(
+        nrow = 1,
+        title.position = "top",
+        title.hjust = 0.5,
+        label.position = "bottom",
+        override.aes = list(alpha = 0.8)
+      )
+    } else {
+      "none"
+    }
+  )
+}
+
+symbol_map_layers <- list(
+  geom_polygon(
+    data = world_map,
+    aes(x, y, group = group),
+    fill = "#E3E3E3",
+    colour = "white",
+    linewidth = 0.15
+  ),
+  geom_point(
+    data = country_symbols,
+    aes(cx, cy, size = participants),
+    shape = 21,
+    fill = "#3182BD",
+    colour = "white",
+    alpha = 0.8,
+    stroke = 0.6
+  )
+)
+
+country_symbol_world <- ggplot() +
+  symbol_map_layers +
+  annotate(
+    "rect",
+    xmin = europe_xlim[1], xmax = europe_xlim[2],
+    ymin = europe_ylim[1], ymax = europe_ylim[2],
+    fill = NA, colour = "grey45", linewidth = 0.4
+  ) +
+  symbol_size_scale(show_legend = TRUE) +
+  coord_fixed(xlim = symbol_world_xlim, ylim = symbol_world_ylim, expand = FALSE) +
+  theme_void(base_family = "Lato", base_size = 15)
+
+country_symbol_europe <- ggplot() +
+  symbol_map_layers +
+  geom_text(
+    data = filter(country_symbols, participants >= 5),
+    aes(cx, cy, label = participants),
+    family = "Lato",
+    size = 4,
+    colour = "white",
+    fontface = "bold"
+  ) +
+  # Panel label inside the frame (a plot title would float above the panel,
+  # aligned to the taller world map).
+  annotate(
+    "text",
+    x = europe_xlim[1] + 0.02 * diff(europe_xlim),
+    y = europe_ylim[2] - 0.03 * diff(europe_ylim),
+    label = "Europe",
+    hjust = 0, vjust = 1,
+    family = "Lato", size = 5, colour = "grey25"
+  ) +
+  symbol_size_scale(show_legend = FALSE) +
+  coord_fixed(xlim = europe_xlim, ylim = europe_ylim, expand = FALSE) +
+  theme_void(base_family = "Lato", base_size = 15) +
+  theme(
+    panel.border = element_rect(fill = NA, colour = "grey45", linewidth = 0.4)
+  )
+
+# Right column: the Europe inset with the size legend under it, so the space
+# beside the world map is used instead of a separate legend row.
+# One flat layout (a nested guide_area() would not receive the legend):
+# A = world map over both rows, B = Europe inset, C = legend under the inset.
+# Widths, heights and the figure height come from country-symbol-map-geometry.
+country_symbol_map <- country_symbol_world + country_symbol_europe +
+  patchwork::guide_area() +
+  patchwork::plot_layout(
+    design = "AB\nAC",
+    widths = symbol_map_widths,
+    heights = symbol_map_heights,
+    guides = "collect"
+  ) +
+  patchwork::plot_annotation(
+    caption = paste0(
+      "N = ", sum(country_counts$participants),
+      " respondents with a country of work; ",
+      n_distinct(country_counts$map_region), " countries.",
+      " Circle area is proportional to the number of participants, on the same",
+      " scale in both panels; numbers in the inset are counts of 5 or more.",
+      " Equal Earth projection."
+    ),
+    theme = theme(
+      plot.caption = element_text(
+        hjust = 0, size = 11, colour = "grey30", family = "Lato"
+      ),
+      plot.margin = margin(4, 4, 4, 4)
+    )
+  ) &
+  theme(
+    legend.title = element_text(size = 14, family = "Lato"),
+    legend.text = element_text(size = 13, family = "Lato")
+  )
+
+country_symbol_map
+
+ggsave_st(
+  project_path("figures", "country_work_participant_symbol_map.png"),
+  country_symbol_map,
+  width = symbol_map_width,
+  height = symbol_map_fig_height,
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
+)
+```
+
+:::
+
 ### Continent of work
 
 ```{r}
@@ -588,7 +819,7 @@ field %>%
   scale_y_discrete(labels = format_category_labels) +
   labs(title = "Research field", y = NULL) +
   coord_cartesian(clip = "off") +
-  theme_classic(base_family = "Lato", base_size = 20) +
+  plot_theme(base_size = 20) +
   theme(
     plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
     axis.text = element_text(size = 20),
@@ -683,7 +914,7 @@ software_reduced_plot <- function(plot_data, label_column = "software") {
     ) +
     labs(y = NULL) +  # section heading is the title (Wilke ch. 22)
     coord_cartesian(clip = "off") +
-    theme_classic(base_family = "Lato", base_size = 20) +
+    plot_theme(base_size = 20) +
     theme(
       plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
       axis.text = element_text(size = 20),
@@ -694,7 +925,7 @@ software_reduced_plot <- function(plot_data, label_column = "software") {
 
 ::: {.panel-tabset}
 
-### Grouped with logos (experiment)
+### Grouped with logos
 
 ```{r software-reduced-logos}
 #| cache: false
@@ -770,7 +1001,7 @@ software %>% filter(Freq != 0) %>%
   scale_y_discrete(labels = format_category_labels) +
   labs(y = NULL) +  # section heading is the title (Wilke ch. 22)
   coord_cartesian(clip = "off") +
-  theme_classic(base_family = "Lato", base_size = 20) +
+  plot_theme(base_size = 20) +
   theme(
     plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
     axis.text = element_text(size = 20),
@@ -805,8 +1036,19 @@ make_characteristic_plot <- function(
   label_column,
   title,
   bar_width = 0.7,
-  label_size = 20
+  label_size = 20,
+  print = FALSE
 ) {
+  # Site sizes (nominal, drawn at 96/180 of nominal by showtext), or print sizes
+  # in true pt (audit V7); value-label size in mm as ggplot2 expects.
+  s <- if (print) {
+    list(base = print_text$text, title = print_text$text, axis = print_text$small,
+         labels = print_text$text, value = print_text$small / ggplot2::.pt,
+         margin = margin(3, 10, 3, 3))
+  } else {
+    list(base = 20, title = 26, axis = 20, labels = label_size, value = 8,
+         margin = margin(8, 20, 8, 8))
+  }
   plot_data <- plot_data %>%
     filter(!is.na(.data[[label_column]])) %>%
     mutate(
@@ -821,7 +1063,7 @@ make_characteristic_plot <- function(
     geom_text(
       aes(label = paste0(round(percent_score), "%")),
       hjust = -0.15,
-      size = 8
+      size = s$value
     ) +
     scale_x_continuous(
       limits = c(0, 100),
@@ -832,14 +1074,14 @@ make_characteristic_plot <- function(
     scale_y_discrete(labels = format_category_labels) +
     labs(title = title, x = "Percent of respondents", y = NULL) +
     coord_cartesian(clip = "off") +
-    theme_classic(base_family = "Lato", base_size = 20) +
+    plot_theme(base_size = s$base) +
     theme(
-      plot.title = element_text(hjust = 0.5, face = "bold", size = 26),
-      axis.title.x = element_text(size = 20),
-      axis.text.x = element_text(size = 20),
-      axis.text.y = element_text(size = label_size),
+      plot.title = element_text(hjust = 0.5, face = "bold", size = s$title),
+      axis.title.x = element_text(size = s$axis),
+      axis.text.x = element_text(size = s$axis),
+      axis.text.y = element_text(size = s$labels),
       axis.ticks.y = element_blank(),
-      plot.margin = margin(8, 20, 8, 8)
+      plot.margin = s$margin
     )
 }
 
@@ -974,60 +1216,72 @@ software_over_3 <- software_combined %>%
   filter(percent_score >= 4, software != "Other") %>%
   bind_rows(software_other)
 
-p_country_over_3 <- make_characteristic_plot(
-  country_over_3,
-  "country_work",
-  "Country of work",
-  label_size = 24
-) +
-  scale_y_discrete(
-    labels = \(labels) labels %>%
-      stringr::str_replace_all("<", "&lt;") %>%
-      stringr::str_replace("^Other\\n", "*Other*<br>")
-  ) +
-  theme(
-    axis.text.y = ggtext::element_markdown(
-      size = 24,
-      lineheight = 0.75
-    )
-  )
+# Site version, or with print = TRUE the print version (audit V7). The print
+# version leaves out the in-figure note on software (multiple selections in D):
+# that belongs in the manuscript caption.
+make_participant_characteristics_over_3_figure <- function(print = FALSE) {
+  other_markdown <- \(labels) labels %>%
+    stringr::str_replace_all("<", "&lt;") %>%
+    stringr::str_replace("^Other\\n", "*Other*<br>")
 
-p_software_over_3 <- make_characteristic_plot(
-  software_over_3,
-  "software",
-  "Software used"
-) +
-  scale_y_discrete(
-    labels = \(labels) labels %>%
-      stringr::str_replace_all("<", "&lt;") %>%
-      stringr::str_replace("^Other\\n", "*Other*<br>")
+  p_country_over_3 <- make_characteristic_plot(
+    country_over_3,
+    "country_work",
+    "Country of work",
+    label_size = 24,
+    print = print
   ) +
-  theme(
-    axis.text.y = ggtext::element_markdown(
-      size = 20,
-      lineheight = 0.75
-    )
-  )
-
-participant_characteristics_over_3_figure <-
-  (p_experience + p_field) /
-  (p_country_over_3 + p_software_over_3) +
-  plot_layout(heights = c(0.65, 1.35)) +
-  plot_annotation(
-    tag_levels = "A",
-    caption = paste0(
-      "Multiple software selections were permitted in D."
-    ),
-    theme = theme(
-      plot.tag = element_text(face = "bold", size = 18),
-      plot.caption = element_text(
-        hjust = 0.5,
-        face = "italic",
-        family = "Lato",
-        size = 18
+    scale_y_discrete(labels = other_markdown) +
+    theme(
+      axis.text.y = ggtext::element_markdown(
+        size = if (print) print_text$text else 24,
+        lineheight = if (print) 0.9 else 0.75
       )
     )
-  )
+
+  p_software_over_3 <- make_characteristic_plot(
+    software_over_3,
+    "software",
+    "Software used",
+    print = print
+  ) +
+    scale_y_discrete(labels = other_markdown) +
+    theme(
+      axis.text.y = ggtext::element_markdown(
+        size = if (print) print_text$text else 20,
+        lineheight = if (print) 0.9 else 0.75
+      )
+    )
+
+  if (print) {
+    p_experience <- make_characteristic_plot(
+      experience_combined, "level", "Self-assessed level", print = TRUE
+    )
+    p_field <- make_characteristic_plot(
+      field_combined, "field", "Research field", print = TRUE
+    )
+  }
+
+  (p_experience + p_field) /
+    (p_country_over_3 + p_software_over_3) +
+    plot_layout(heights = c(0.65, 1.35)) +
+    plot_annotation(
+      tag_levels = "A",
+      caption = if (!print) "Multiple software selections were permitted in D.",
+      theme = theme(
+        plot.tag = element_text(face = "bold", size = if (print) print_text$text else 18),
+        plot.caption = element_text(
+          hjust = 0.5,
+          face = "italic",
+          family = "Lato",
+          size = 18
+        )
+      )
+    )
+}
+
+participant_characteristics_over_3_figure <-
+  make_participant_characteristics_over_3_figure()
 
 participant_characteristics_over_3_figure
 
@@ -1041,6 +1295,14 @@ if (isTRUE(params$export_artifacts)) {
     dpi = 180,
     device = ragg::agg_png,
     bg = "white"
+  )
+
+  # Print version: full journal width.
+  ggsave_print(
+    project_path("figures", "participant_characteristics_over_3_figure.pdf"),
+    make_participant_characteristics_over_3_figure(print = TRUE),
+    width = print_width[["full"]],
+    height = 5.6
   )
 }
 
@@ -1165,67 +1427,129 @@ composition <- bind_rows(
 
 composition_y <- as.numeric(composition$question)
 
-p_composition <- ggplot(composition) +
-  geom_rect(
-    aes(
-      xmin = xmin, xmax = xmax,
-      ymin = composition_y - 0.36, ymax = composition_y + 0.36,
-      fill = shade
-    ),
-    colour = "white",
-    linewidth = 1
+# Print copies of the icon labels (audit V7): showtext draws site text at 96/180
+# of its nominal size but print text at true size, while images keep their size
+# on both. So font sizes in the markup scale by text_k and image sizes by img_k.
+scale_markup <- function(labels, text_k, img_k) {
+  scale_number <- function(x, pattern, k, digits) {
+    stringr::str_replace_all(x, pattern, \(m) stringr::str_replace(
+      m, "[0-9.]+",
+      as.character(round(as.numeric(stringr::str_extract(m, "[0-9.]+")) * k, digits))
+    ))
+  }
+  labels %>%
+    scale_number("font-size:[0-9.]+pt", text_k, 1) %>%
+    scale_number("(width|height)='[0-9.]+'", img_k, 0)
+}
+
+# Site version, or with print = TRUE the print version (full journal width,
+# 8 pt text, 7 pt ticks and value labels).
+make_participant_characteristics_icons_compact <- function(print = FALSE) {
+  # Site sizes are nominal (drawn at 96/180 by showtext); print sizes are true pt.
+  s <- if (print) {
+    list(base = print_text$text, question = print_text$text, ticks = print_text$small,
+         segment = print_text$small / ggplot2::.pt, margin = margin(3, 42, 3, 3),
+         rect_line = 0.4, tag = print_text$text,
+         country = print_text$text, software = print_text$text, lineheight = 0.9)
+  } else {
+    list(base = 20, question = 22, ticks = 20, segment = 7,
+         margin = margin(8, 150, 8, 8), rect_line = 1, tag = 18,
+         country = 22, software = 20, lineheight = 0.75)
+  }
+  # Image sizes follow the text (print text / site text as drawn, 96/180), less
+  # 20%: print rows are closer together relative to the text than site rows.
+  img_shrink <- 0.8
+  country_labels <- \(labels) {
+    out <- country_icon_labels(labels)
+    if (!print) return(out)
+    scale_markup(out, s$country / 22, img_shrink * s$country / (22 * 96 / 180))
+  }
+  software_labels <- \(labels) {
+    out <- software_icon_labels(labels)
+    if (!print) return(out)
+    scale_markup(out, s$software / 20, img_shrink * s$software / (20 * 96 / 180))
+  }
+
+  p_composition <- ggplot(composition) +
+    geom_rect(
+      aes(
+        xmin = xmin, xmax = xmax,
+        ymin = composition_y - 0.36, ymax = composition_y + 0.36,
+        fill = shade
+      ),
+      colour = "white",
+      linewidth = s$rect_line
+    ) +
+    geom_text(
+      data = \(d) filter(d, inside),
+      aes(
+        x = (xmin + xmax) / 2,
+        y = as.numeric(question),
+        label = label,
+        colour = shade > 0.8
+      ),
+      family = "Lato",
+      size = s$segment,
+      lineheight = 0.9
+    ) +
+    geom_text(
+      data = \(d) filter(d, !inside),
+      aes(x = 100, y = as.numeric(question), label = label),
+      hjust = -0.08,
+      family = "Lato",
+      size = s$segment
+    ) +
+    scale_fill_gradient(low = "#C6DBEF", high = "#2171B5", guide = "none") +
+    scale_colour_manual(values = c(`FALSE` = "black", `TRUE` = "white"), guide = "none") +
+    scale_x_continuous(
+      limits = c(0, 100),
+      breaks = seq(0, 100, 25),
+      labels = \(x) paste0(x, "%"),
+      expand = expansion(mult = c(0, 0))
+    ) +
+    scale_y_continuous(
+      breaks = seq_along(levels(composition$question)),
+      labels = levels(composition$question),
+      expand = expansion(add = 0.5)
+    ) +
+    labs(x = "Percent of respondents", y = NULL) +
+    coord_cartesian(clip = "off") +
+    plot_theme(base_size = s$base) +
+    theme(
+      axis.text.y = element_text(size = s$question, face = "bold"),
+      axis.text.x = element_text(size = s$ticks),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank(),
+      plot.margin = s$margin
+    )
+
+  p_country <- make_characteristic_plot(
+    country_over_3, "country_work", "Country of work", print = print
   ) +
-  geom_text(
-    data = \(d) filter(d, inside),
-    aes(
-      x = (xmin + xmax) / 2,
-      y = as.numeric(question),
-      label = label,
-      colour = shade > 0.8
-    ),
-    family = "Lato",
-    size = 7,
-    lineheight = 0.9
+    scale_y_discrete(labels = country_labels) +
+    theme(axis.text.y = ggtext::element_markdown(
+      size = s$country, lineheight = s$lineheight
+    ))
+
+  p_software <- make_characteristic_plot(
+    software_over_3, "software", "Software used", print = print
   ) +
-  geom_text(
-    data = \(d) filter(d, !inside),
-    aes(x = 100, y = as.numeric(question), label = label),
-    hjust = -0.08,
-    family = "Lato",
-    size = 7
-  ) +
-  scale_fill_gradient(low = "#C6DBEF", high = "#2171B5", guide = "none") +
-  scale_colour_manual(values = c(`FALSE` = "black", `TRUE` = "white"), guide = "none") +
-  scale_x_continuous(
-    limits = c(0, 100),
-    breaks = seq(0, 100, 25),
-    labels = \(x) paste0(x, "%"),
-    expand = expansion(mult = c(0, 0))
-  ) +
-  scale_y_continuous(
-    breaks = seq_along(levels(composition$question)),
-    labels = levels(composition$question),
-    expand = expansion(add = 0.5)
-  ) +
-  labs(x = "Percent of respondents", y = NULL) +
-  coord_cartesian(clip = "off") +
-  theme_classic(base_family = "Lato", base_size = 20) +
-  theme(
-    axis.text.y = element_text(size = 22, face = "bold"),
-    axis.text.x = element_text(size = 20),
-    axis.ticks.y = element_blank(),
-    axis.line.y = element_blank(),
-    plot.margin = margin(8, 150, 8, 8)
-  )
+    scale_y_discrete(labels = software_labels) +
+    theme(axis.text.y = ggtext::element_markdown(
+      size = s$software, lineheight = if (print) s$lineheight else 0.7
+    ))
+
+  p_composition /
+    (p_country + p_software) +
+    plot_layout(heights = c(0.42, 1.58)) +
+    plot_annotation(
+      tag_levels = "A",
+      theme = theme(plot.tag = element_text(face = "bold", size = s$tag))
+    )
+}
 
 participant_characteristics_icons_compact <-
-  p_composition /
-  (p_country_icons + p_software_icons) +
-  plot_layout(heights = c(0.42, 1.58)) +
-  plot_annotation(
-    tag_levels = "A",
-    theme = theme(plot.tag = element_text(face = "bold", size = 18))
-  )
+  make_participant_characteristics_icons_compact()
 
 participant_characteristics_icons_compact
 
@@ -1240,7 +1564,77 @@ if (isTRUE(params$export_artifacts)) {
     device = ragg::agg_png,
     bg = "white"
   )
+
+  # Print version: full journal width.
+  ggsave_print(
+    project_path("figures", "participant_characteristics_icons_compact.pdf"),
+    make_participant_characteristics_icons_compact(print = TRUE),
+    width = print_width[["full"]],
+    height = 5.6
+  )
 }
 ```
 
 :::
+
+## Summary of the sample results
+
+```{r sample-summary-text}
+#| include: false
+#| cache: false
+# Every number below comes from objects computed above. Shares are of the
+# respondents who answered the question; "Other" is not named as a category.
+sample_share <- function(n, total) sprintf("%.0f%%", 100 * n / total)
+sample_top <- function(df, label, n = 3) {
+  rows <- df |>
+    filter(.data[[label]] != "Other", Freq > 0) |>
+    arrange(desc(Freq)) |>
+    slice_head(n = n)
+  knitr::combine_words(sprintf(
+    "%s (%.0f%%)", as.character(rows[[label]]), rows$percent_score
+  ))
+}
+
+sample_experience <- data |>
+  filter(!is.na(A001)) |>
+  count(A001, name = "Freq") |>
+  mutate(A001 = factor(A001, levels = c("Beginner", "Intermediate", "Expert"))) |>
+  arrange(A001)
+sample_n_countries <- n_distinct(country_responses$country_work)
+sample_country_counts <- country_responses |>
+  count(country_work, name = "Freq") |>
+  mutate(percent_score = Freq / sum(Freq) * 100)
+sample_largest_continent <- continent |> slice_max(Freq, n = 1, with_ties = FALSE)
+```
+
+- **Included sample.** `r nrow(data)` respondents who started after the launch date and
+  completed the questionnaire. The median completion time was
+  `r sprintf("%.1f", median(as.numeric(data$TIME_SUM), na.rm = TRUE) / 60)` minutes.
+  `r length(flagged_ids)` participants are flagged for possibly careless answering and
+  kept in all main analyses.
+- **Self-assessed experience.**
+  `r knitr::combine_words(sprintf("%s %s", sample_experience$A001, sample_share(sample_experience$Freq, sum(sample_experience$Freq))))`
+  (n = `r sum(sample_experience$Freq)`).
+- **Country of work.** `r nrow(country_responses)` respondents named
+  `r sample_n_countries` countries; the most frequent were
+  `r sample_top(sample_country_counts, "country_work")`.
+  `r sprintf("%.0f%%", sample_largest_continent$percent_score)` worked in
+  `r sample_largest_continent$continent`.
+- **Research field.** The largest groups were `r sample_top(field, "field", n = 2)`.
+- **Software** (multiple selections). The most frequently used tools were
+  `r sample_top(software, "software")`.
+
+```{r manuscript-numbers-sample}
+#| include: false
+#| cache: false
+# Numbers quoted in journal.typ (Participants); see write_manuscript_numbers().
+write_manuscript_numbers("sample", list(
+  n_participants = nrow(data),
+  n_country_valid = nrow(country_responses),
+  n_country_refused = country_n_refused,
+  n_country_refused_word = number_word(country_n_refused),
+  n_country_occupation = country_n_occupation,
+  n_country_occupation_word = number_word(country_n_occupation),
+  n_country_missing = country_n_missing
+))
+```

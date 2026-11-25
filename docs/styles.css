@@ -20,6 +20,13 @@
   margin-inline: auto;
 }
 
+/* Link to each figure's print PDF, under its caption. */
+.publication-figures .print-pdf {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
 /* Keep statistical model specifications attached to their output tables. */
 .model-table-note {
   margin: 0.35rem 0 1.25rem;

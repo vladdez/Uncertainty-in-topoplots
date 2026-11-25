@@ -11,6 +11,9 @@ params:
 #| include: false
 #| cache: false
 source("scripts/analysis_setup.R")
+# The cached quality-screen sensitivity analysis sources data_quality.R, so a
+# change to the flag rules must invalidate the cache.
+configure_analysis_cache(project_path("scripts", "data_quality.R"))
 
 # APA-style p-values: no leading zero, "< .001" below .001.
 format_p_value <- function(p) {
@@ -237,11 +240,11 @@ likert_estimates |>
     col.names = c(
       "Evaluation criterion",
       "Visualization type",
-      "Estimated rating",
+      "Expected rating, typical participant",
       "Lower 95% CI",
       "Upper 95% CI"
     ),
-    caption = "Model-smoothed mean ratings",
+    caption = "Expected ratings for a typical participant (participant effect at zero)",
     table.attr = kable_table_attributes
   )
 
@@ -249,8 +252,10 @@ model_table_note(paste0(
   "Separate cumulative-link mixed models with logit link are fitted for each ",
   "evaluation criterion: <code>rating_ord ~ vistype + (1 | ID)</code>. ",
   "Estimated marginal means use <code>mode = &quot;mean.class&quot;</code>: they are ",
-  "model-smoothed mean ratings on the 1–5 scale, with asymptotic pointwise 95% ",
-  "confidence intervals (not adjusted for multiplicity)."
+  "expected ratings on the 1–5 scale for a typical participant (participant effect ",
+  "set to zero), not averages over all participants, with asymptotic pointwise 95% ",
+  "confidence intervals (not adjusted for multiplicity). They stay close to the raw ",
+  "means (see the model checks below)."
 ))
 ```
 
@@ -258,23 +263,34 @@ model_table_note(paste0(
 
 ```{r likert-model-checks}
 #| cache: false
-# 1. Proportional odds: fixed-effects clm with and without visualization-specific
-#    thresholds (nominal effects), compared by likelihood-ratio test.
+# 1. Proportional odds: cumulative-link mixed models with a participant random
+#    intercept, with and without visualization-specific thresholds (nominal
+#    effects), compared by likelihood-ratio test. clmm2 is used because clmm does
+#    not support nominal effects (it ignores the argument with a warning); a
+#    fixed-effects clm test would treat each participant's 7 ratings as
+#    independent and give too-small p values.
 po_tests <- likert_model_data |>
   (\(data) split(data, data$question))() |>
   imap_dfr(function(data_question, question_name) {
-    po_fit <- clm(rating_ord ~ vistype, data = data_question)
-    npo_fit <- clm(rating_ord ~ 1, nominal = ~ vistype, data = data_question)
-    lrt <- anova(po_fit, npo_fit)
+    po_fit <- clmm2(
+      location = rating_ord ~ vistype, random = ID,
+      data = data_question, Hess = TRUE
+    )
+    npo_fit <- clmm2(
+      location = rating_ord ~ 1, nominal = ~ vistype, random = ID,
+      data = data_question, Hess = TRUE
+    )
+    lr_statistic <- 2 * (npo_fit$logLik - po_fit$logLik)
+    df <- npo_fit$edf - po_fit$edf
     tibble(
       question = question_name,
-      lr_statistic = lrt$LR.stat[2],
-      df = lrt$df[2],
-      p_value = lrt$`Pr(>Chisq)`[2]
+      lr_statistic = lr_statistic,
+      df = df,
+      p_value = pchisq(lr_statistic, df, lower.tail = FALSE)
     )
   })
 
-# 2. Model-smoothed vs raw means.
+# 2. Expected ratings (typical participant) vs raw means.
 raw_vs_model <- likert |>
   group_by(question, vistype) |>
   summarise(raw_mean = mean(rating, na.rm = TRUE), .groups = "drop") |>
@@ -317,8 +333,9 @@ po_tests |>
     digits = 1,
     col.names = c("Evaluation criterion", "LR statistic", "df", "p"),
     caption = paste(
-      "Proportional-odds check: fixed-effects cumulative-link model vs a model with",
-      "visualization-specific thresholds (likelihood-ratio test)"
+      "Proportional-odds check: cumulative-link mixed model (participant random",
+      "intercept) vs the same model with visualization-specific thresholds",
+      "(likelihood-ratio test)"
     ),
     table.attr = kable_table_attributes
   )
@@ -328,8 +345,8 @@ po_tests |>
 `r sum(po_tests$p_value < .05)` of 4 criteria (p from
 `r format_p_value(min(po_tests$p_value))` to `r format_p_value(max(po_tests$p_value))`):
 the visualizations differ in how ratings are spread over the scale, not only in their
-location. The analysis therefore reports model-smoothed *mean* ratings, which stay close to
-the raw means (largest absolute difference `r sprintf("%.2f", max_raw_model_difference)`
+location. The analysis therefore reports expected (mean) ratings for a typical participant,
+which stay close to the raw means (largest absolute difference `r sprintf("%.2f", max_raw_model_difference)`
 scale points), rather than interpreting the odds ratios.
 
 ::: {.callout-note title="Seeing the proportional-odds problem — Expand" collapse="true"}
@@ -383,7 +400,7 @@ likert_po_steps <- purrr::map_dfr(2:5, \(cutoff) {
   )
 
 ggplot(likert_po_steps, aes(cutoff, odds_ratio, group = vis_label)) +
-  geom_hline(yintercept = 1, linetype = "dashed", colour = "#3B78B4") +
+  geom_hline(yintercept = 1, linetype = "dashed", colour = basic_accent) +
   geom_line(colour = "grey45", linewidth = 0.7) +
   geom_point(size = 2.4, colour = "#222222") +
   scale_x_continuous(breaks = 2:5) +
@@ -393,9 +410,15 @@ ggplot(likert_po_steps, aes(cutoff, odds_ratio, group = vis_label)) +
     labeller = labeller(question = label_wrap_gen(22), vis_label = label_wrap_gen(12))
   ) +
   labs(x = "Rated at least", y = "Odds ratio vs Basic topoplot (log scale)") +
-  theme_classic(base_size = 26) +
+  # Sizes balanced at the ~1100 px display width like the other rating figures
+  # (16 in there, 13 in here, so their sizes x 13/16): panel labels near the
+  # visualization labels, tick numbers near the tick numbers there.
+  plot_theme(base_size = 26) +
   theme(
+    axis.text = element_text(size = 23),
+    axis.title = element_text(size = 26),
     strip.background = element_blank(),
+    strip.text = element_text(size = 26),
     strip.text.x = element_text(lineheight = 0.45),
     strip.text.y = element_text(angle = 0, hjust = 0, lineheight = 0.45),
     panel.border = element_rect(fill = NA, colour = "grey85")
@@ -431,14 +454,9 @@ likert_vistype_order <- c(
   "bivariate_corner"
 )
 
-likert_display_labels <- c(
-  basic = "Basic topoplot",
-  adjacent = "Adjacent plots",
-  triple_CI = "Confidence intervals",
-  uncert_markers = "Uncertainty markers",
-  animation = "Animation",
-  bivariate_range = "Bivariate range",
-  bivariate_corner = "Bivariate corner"
+likert_display_labels <- setNames(
+  figure_vistype(likert_vistype_order),
+  likert_vistype_order
 )
 
 likert_panel_titles <- c(
@@ -448,11 +466,42 @@ likert_panel_titles <- c(
   "Aesthetically appealing" = "Aesthetically appealing"
 )
 
+# Verbal anchors of 1 and 5 on each item's response scale (see "Rating items"),
+# shown under the rating axis of the estimate figure (audit V2).
+likert_anchors <- list(
+  "Helpful for comparison" = c("very unhelpful", "very helpful"),
+  "Helpful for detection and integration" = c("very unhelpful", "very helpful"),
+  "Would use in publication or presentation" = c("very unlikely", "very likely"),
+  "Aesthetically appealing" = c("very unappealing", "very appealing")
+)
+
+# Sizes of the Likert figures: site version (nominal sizes, drawn at 96/180 of
+# nominal by showtext) or print version (true pt; audit V7). Label and point
+# sizes in mm as ggplot2 expects.
+likert_figure_sizes <- function(print = FALSE) {
+  if (print) {
+    list(base = print_text$text, title = print_text$text, axis_x = print_text$small,
+         labels = print_text$text / ggplot2::.pt, values = print_text$small / ggplot2::.pt,
+         caption = print_text$text, point = 1.5, line = 0.4, margin = 4,
+         label_space = 84, anchor = print_text$small / ggplot2::.pt, anchor_row = 10)
+  } else {
+    # Balanced at the ~1100 px display width of the 16-in site figure (audit
+    # V2): panel titles one step above the visualization labels, tick numbers
+    # and anchors close to the value labels. anchor_row is the height (pt) of
+    # the anchor line under each panel.
+    list(base = 20, title = 36, axis_x = 28, labels = 34 / ggplot2::.pt,
+         values = 30 / ggplot2::.pt, caption = 30, point = 3, line = 0.55,
+         margin = 12, label_space = 215, anchor = 26 / ggplot2::.pt, anchor_row = 22)
+  }
+}
+
 make_likert_estimate_plot <- function(
   question_name,
   show_x = TRUE,
-  show_labels = TRUE
+  show_labels = TRUE,
+  print = FALSE
 ) {
+  s <- likert_figure_sizes(print)
 
   plot_data <- likert_estimates |>
     filter(question == question_name) |>
@@ -484,21 +533,21 @@ make_likert_estimate_plot <- function(
       ),
       orientation = "y",
       width = 0.12,
-      linewidth = 0.55
+      linewidth = s$line
     ) +
-    geom_point(size = 3) +
+    geom_point(size = s$point) +
 
     # Estimated values
     geom_text(
       aes(label = sprintf("%.1f", estimated_rating)),
       nudge_y = 0.32,
       vjust = 0.5,
-      size = 30 / ggplot2::.pt
+      size = s$values
     ) +
 
     scale_colour_manual(
   values = c(
-    basic = "#3B78B4",
+    basic = basic_accent,
     other = "#222222"
   ),
   guide = "none"
@@ -528,16 +577,16 @@ make_likert_estimate_plot <- function(
       y = NULL
     ) +
 
-    theme_classic(base_family = "Lato", base_size = 20) +
+    plot_theme(base_size = s$base) +
 
     theme(
       plot.title = element_text(
         hjust = 0.5,
         face = "bold",
-        size = 50
+        size = s$title
       ),
-      axis.text.x = element_text(size = 20),
-      axis.title.x = element_text(size = 20),
+      axis.text.x = element_text(size = s$axis_x),
+      axis.title.x = element_text(size = s$axis_x),
       axis.text.y = element_blank(),
       axis.ticks.y = element_blank(),
       axis.line.y = element_blank(),
@@ -548,8 +597,9 @@ make_likert_estimate_plot <- function(
        plot.margin = margin(
     t = 5.5,
     r = 5.5,
-        b = 8,
-    l = if (show_labels) 245 else 12
+        # Small: the anchor line follows directly under the axis.
+        b = if (print) 1 else 3,
+    l = if (show_labels) s$label_space else s$margin
   )
     )
 
@@ -565,7 +615,7 @@ make_likert_estimate_plot <- function(
         ),
         inherit.aes = FALSE,
         hjust = 1,
-        size = 14,
+        size = s$labels,
         lineheight = 1
       )
   }
@@ -582,46 +632,68 @@ make_likert_estimate_plot <- function(
   p
 }
 
-p1 <- make_likert_estimate_plot(
-  question_columns[1],
-  show_x = FALSE
-)
+# Anchor line under a panel: the verbal labels of 1 and 5, aligned with the ends
+# of the rating axis (same x range as the panel above it: 1 to 5 plus the 2%
+# expansion). Stacked under its panel in the patchwork grid, which aligns the
+# two panels.
+make_likert_anchor_row <- function(question_name, print = FALSE) {
+  s <- likert_figure_sizes(print)
+  anchors <- likert_anchors[[question_name]]
+  x_range <- c(1, 5) + c(-1, 1) * 0.02 * 4
+  ggplot() +
+    annotate(
+      "text", x = x_range[1], y = 1, label = anchors[1], hjust = 0, vjust = 1,
+      size = s$anchor, family = "Lato", colour = "grey30"
+    ) +
+    annotate(
+      "text", x = x_range[2], y = 1, label = anchors[2], hjust = 1, vjust = 1,
+      size = s$anchor, family = "Lato", colour = "grey30"
+    ) +
+    coord_cartesian(xlim = x_range, ylim = c(0, 1), expand = FALSE, clip = "off") +
+    theme_void() +
+    theme(plot.margin = margin(0, 5.5, 0, 0))
+}
 
-p2 <- make_likert_estimate_plot(
-  question_columns[2],
-  show_x = FALSE,
-  show_labels = FALSE
-)
-
-p3 <- make_likert_estimate_plot(
-  question_columns[3],
-  show_x = TRUE
-)
-
-p4 <- make_likert_estimate_plot(
-  question_columns[4],
-  show_x = TRUE,
-  show_labels = FALSE
-)
-
-likert_estimate_figure <-
-  (p1 + p2) /
-  (p3 + p4) +
-  plot_annotation(
-    caption = "Model-smoothed mean rating (pointwise 95% CI)",
-    theme = theme(
-      plot.caption = element_text(
-        hjust = 0.5,
-        size = 26,
-        family = "Lato",
-        lineheight = 1.1,
-        margin = margin(t = 10, b = 6)
-      ),
-      plot.caption.position = "plot",
-      plot.margin = margin(6, 12, 12, 12)
-    )
+# Site version, or with print = TRUE the print version (audit V7). Every panel
+# shows the 1-5 axis with its item's anchors underneath (audit V2).
+make_likert_estimate_figure <- function(print = FALSE) {
+  s <- likert_figure_sizes(print)
+  p1 <- make_likert_estimate_plot(question_columns[1], show_x = TRUE, print = print)
+  p2 <- make_likert_estimate_plot(
+    question_columns[2], show_x = TRUE, show_labels = FALSE, print = print
   )
+  p3 <- make_likert_estimate_plot(question_columns[3], show_x = TRUE, print = print)
+  p4 <- make_likert_estimate_plot(
+    question_columns[4], show_x = TRUE, show_labels = FALSE, print = print
+  )
+  anchor_rows <- purrr::map(question_columns, make_likert_anchor_row, print = print)
 
+  wrap_plots(
+    p1, p2, anchor_rows[[1]], anchor_rows[[2]],
+    p3, p4, anchor_rows[[3]], anchor_rows[[4]],
+    ncol = 2,
+    heights = grid::unit(
+      c(1, s$anchor_row, 1, s$anchor_row),
+      c("null", "pt", "null", "pt")
+    )
+  ) +
+    plot_annotation(
+      caption = "Expected rating, typical participant (pointwise 95% CI)",
+      theme = theme(
+        plot.caption = element_text(
+          hjust = 0.5,
+          size = s$caption,
+          family = "Lato",
+          lineheight = 1.1,
+          margin = if (print) margin(t = 4, b = 2) else margin(t = 10, b = 6)
+        ),
+        plot.caption.position = "plot",
+        plot.margin = if (print) margin(3, 4, 4, 4) else margin(6, 12, 12, 12)
+      )
+    )
+}
+
+likert_estimate_figure <- make_likert_estimate_figure()
 
 likert_estimate_figure
 
@@ -634,6 +706,15 @@ ggsave_st(
   dpi = 180,
   device = ragg::agg_png,
   bg = "white"
+)
+
+# Print version: full journal width (four panels).
+ggsave_print(
+  project_path("figures", "likert_estimate_figure.pdf"),
+  make_likert_estimate_figure(print = TRUE),
+  width = print_width[["full"]],
+  # Taller than the contrast figure: every panel has its own axis and anchors.
+  height = 4.8
 )
 ```
 
@@ -713,8 +794,10 @@ format_rating_difference <- function(x) {
 make_likert_contrast_plot <- function(
   question_name,
   show_x = TRUE,
-  show_labels = TRUE
+  show_labels = TRUE,
+  print = FALSE
 ) {
+  s <- likert_figure_sizes(print)
   plot_data <- likert_contrasts |>
     filter(question == question_name)
 
@@ -725,16 +808,16 @@ make_likert_contrast_plot <- function(
     geom_vline(
       xintercept = 0,
       linetype = "dashed",
-      linewidth = 0.6,
-      colour = "#3B78B4"
+      linewidth = if (print) s$line else 0.6,
+      colour = basic_accent
     ) +
     geom_errorbar(
       aes(xmin = lower_ci, xmax = upper_ci, colour = excludes_zero),
       orientation = "y",
       width = 0.12,
-      linewidth = 0.55
+      linewidth = s$line
     ) +
-    geom_point(aes(colour = excludes_zero), size = 3) +
+    geom_point(aes(colour = excludes_zero), size = s$point) +
     geom_text(
       aes(
         label = format_rating_difference(difference),
@@ -742,7 +825,7 @@ make_likert_contrast_plot <- function(
       ),
       nudge_y = 0.3,
       vjust = 0.5,
-      size = 30 / ggplot2::.pt
+      size = s$values
     ) +
     scale_colour_manual(
       values = c(`FALSE` = "#222222", `TRUE` = "#D94B5B"),
@@ -766,15 +849,18 @@ make_likert_contrast_plot <- function(
       x = NULL,
       y = NULL
     ) +
-    theme_classic(base_family = "Lato", base_size = 20) +
+    plot_theme(base_size = s$base) +
     theme(
       plot.title = element_text(
         hjust = 0.5,
         face = "bold",
-        size = 50
+        size = s$title
       ),
-      axis.text.x = element_text(size = 20),
-      axis.text.y = element_text(size = 40, margin = margin(r = 12)),
+      axis.text.x = element_text(size = s$axis_x),
+      axis.text.y = element_text(
+        size = if (print) s$base else s$labels * ggplot2::.pt,
+        margin = margin(r = s$margin)
+      ),
       axis.ticks.y = element_blank(),
       axis.line.y = element_blank(),
       panel.background = element_rect(fill = "white", colour = NA),
@@ -804,49 +890,54 @@ make_likert_contrast_plot <- function(
 #| fig-width: 16
 #| fig-height: 11
 
-contrast_p1 <- make_likert_contrast_plot(question_columns[1], show_x = FALSE)
-contrast_p2 <- make_likert_contrast_plot(
-  question_columns[2],
-  show_x = FALSE,
-  show_labels = FALSE
-)
-contrast_p3 <- make_likert_contrast_plot(question_columns[3], show_x = TRUE)
-contrast_p4 <- make_likert_contrast_plot(
-  question_columns[4],
-  show_x = TRUE,
-  show_labels = FALSE
-)
+# Site version, or with print = TRUE the print version (audit V7).
+make_likert_contrast_figure <- function(print = FALSE) {
+  s <- likert_figure_sizes(print)
+  contrast_p1 <- make_likert_contrast_plot(question_columns[1], show_x = FALSE, print = print)
+  contrast_p2 <- make_likert_contrast_plot(
+    question_columns[2], show_x = FALSE, show_labels = FALSE, print = print
+  )
+  contrast_p3 <- make_likert_contrast_plot(question_columns[3], show_x = TRUE, print = print)
+  contrast_p4 <- make_likert_contrast_plot(
+    question_columns[4], show_x = TRUE, show_labels = FALSE, print = print
+  )
 
-likert_contrast_caption <- ggplot() +
-  annotate(
-    "text",
-    x = 0.587,
-    y = 0.5,
-    label = "Difference in model-smoothed mean rating vs",
-    hjust = 1,
-    size = 50 / ggplot2::.pt,
-    family = "Lato",
-    colour = "#222222"
-  ) +
-  annotate(
-    "text",
-    x = 0.593,
-    y = 0.5,
-    label = "Basic topoplot",
-    hjust = 0,
-    size = 50 / ggplot2::.pt,
-    family = "Lato",
-    colour = "#377EB8"
-  ) +
-  coord_cartesian(xlim = c(0, 1), ylim = c(0, 1), clip = "off") +
-  theme_void()
+  # Axis caption with Basic topoplot in its accent colour, centred under the
+  # data panels (the left column also holds the visualization labels).
+  caption_x <- if (print) 0.556 else 0.556
+  caption_size <- s$caption
+  likert_contrast_caption <- ggplot() +
+    annotate(
+      "text",
+      x = caption_x - 0.003,
+      y = 0.5,
+      label = "Difference in expected rating vs",
+      hjust = 1,
+      size = caption_size / ggplot2::.pt,
+      family = "Lato",
+      colour = "#222222"
+    ) +
+    annotate(
+      "text",
+      x = caption_x + 0.003,
+      y = 0.5,
+      label = "Basic topoplot",
+      hjust = 0,
+      size = caption_size / ggplot2::.pt,
+      family = "Lato",
+      colour = basic_accent
+    ) +
+    coord_cartesian(xlim = c(0, 1), ylim = c(0, 1), clip = "off") +
+    theme_void()
 
-likert_contrast_figure <-
   ((contrast_p1 + contrast_p2) /
     (contrast_p3 + contrast_p4) /
     likert_contrast_caption) +
-  plot_layout(heights = c(1, 1, 0.16)) &
-  theme(plot.margin = margin(6, 12, 6, 12))
+    plot_layout(heights = c(1, 1, if (print) 0.1 else 0.12)) &
+    theme(plot.margin = if (print) margin(7, 4, 3, 4) else margin(6, 12, 6, 12))
+}
+
+likert_contrast_figure <- make_likert_contrast_figure()
 
 ggsave_st(
   project_path("figures", "likert_contrast_figure.png"),
@@ -858,9 +949,17 @@ ggsave_st(
   device = ragg::agg_png,
   bg = "white"
 )
+
+# Print version: full journal width (four panels).
+ggsave_print(
+  project_path("figures", "likert_contrast_figure.pdf"),
+  make_likert_contrast_figure(print = TRUE),
+  width = print_width[["full"]],
+  height = 4.4
+)
 ```
 
-![Differences in model-smoothed mean ratings relative to Basic topoplot for the four rating items. Intervals are Dunnett-adjusted 95% confidence intervals (exact multivariate-t adjustment; family = the six contrasts against Basic within each item). Red marks intervals that exclude zero.](../figures/likert_contrast_figure.png)
+![Differences in expected ratings (typical participant) relative to Basic topoplot for the four rating items. Intervals are Dunnett-adjusted 95% confidence intervals (exact multivariate-t adjustment; family = the six contrasts against Basic within each item). Red marks intervals that exclude zero.](../figures/likert_contrast_figure.png)
 
 ```{r likert-contrast-summary}
 #| include: false
@@ -998,7 +1097,7 @@ likert_estimates |>
     col.names = c(
       "Evaluation criterion",
       "Visualization type",
-      "Estimated rating",
+      "Expected rating, typical participant",
       "Lower 95% CI",
       "Upper 95% CI",
       "CI width",
@@ -1014,5 +1113,107 @@ model_table_note(paste0(
   "evaluation criterion: <code>rating_ord ~ vistype + (1 | ID)</code>. ",
   "The displayed interval widths and distances are calculated from the same ",
   "expected-rating estimates and their asymptotic pointwise 95% confidence intervals."
+))
+```
+
+## Summary of the subjective-rating results
+
+```{r subjective-summary-text}
+#| include: false
+#| cache: false
+# Every number below comes from objects computed above. A visualization is
+# rated higher or lower than Basic only when its Dunnett-adjusted interval
+# excludes zero; otherwise the text says that the interval includes 0.
+subjective_summary_item <- function(question_name) {
+  estimates <- likert_estimates |>
+    filter(question == question_name) |>
+    mutate(vistype = as.character(vistype))
+  basic <- estimates |> filter(vistype == "basic")
+  others <- estimates |> filter(vistype != "basic")
+  highest <- others |> slice_max(estimated_rating, n = 1, with_ties = FALSE)
+  lowest <- others |> slice_min(estimated_rating, n = 1, with_ties = FALSE)
+  contrasts <- likert_contrasts |>
+    filter(question == question_name) |>
+    mutate(vistype = as.character(vistype)) |>
+    arrange(desc(difference))
+  describe <- function(rows) {
+    knitr::combine_words(sprintf(
+      "%s (%s, 95%% CI %s to %s)",
+      table_vistype(rows$vistype),
+      signed_text(rows$difference, 2),
+      signed_text(rows$lower_ci, 2),
+      signed_text(rows$upper_ci, 2)
+    ))
+  }
+  higher <- contrasts |> filter(lower_ci > 0)
+  lower <- contrasts |> filter(upper_ci < 0)
+  unclear <- contrasts |> filter(lower_ci <= 0, upper_ci >= 0)
+  paste0(
+    "**", question_name, ".** Basic topoplot ",
+    sprintf("%.2f", basic$estimated_rating), " (95% CI ",
+    sprintf("%.2f–%.2f", basic$lower_ci, basic$upper_ci),
+    "); the uncertainty visualizations ranged from ",
+    sprintf("%.2f", lowest$estimated_rating), " (", table_vistype(lowest$vistype),
+    ") to ", sprintf("%.2f", highest$estimated_rating), " (",
+    table_vistype(highest$vistype), "). ",
+    if (nrow(higher) > 0) paste0("Rated higher than Basic: ", describe(higher), ". ") else "",
+    if (nrow(lower) > 0) paste0("Rated lower than Basic: ", describe(lower), ". ") else "",
+    if (nrow(unclear) == nrow(contrasts)) {
+      "No visualization differed clearly from Basic: all six intervals included 0."
+    } else if (nrow(unclear) > 0) {
+      paste0(
+        "The interval", if (nrow(unclear) > 1) "s" else "", " for ",
+        knitr::combine_words(table_vistype(unclear$vistype)), " included 0."
+      )
+    } else {
+      ""
+    }
+  )
+}
+
+subjective_po_rejected <- sum(po_tests$p_value < .05)
+subjective_n_contrasts <- nrow(likert_contrasts)
+subjective_n_clear <- sum(likert_contrasts$excludes_zero)
+subjective_n_higher <- sum(likert_contrasts$lower_ci > 0)
+subjective_n_lower <- sum(likert_contrasts$upper_ci < 0)
+```
+
+- **Expected ratings and contrasts with Basic topoplot** (expected rating on the 1–5 scale
+  for a typical participant from the ordinal model; differences are Dunnett-adjusted for
+  the six comparisons with Basic within each item).
+`r paste0("  - ", purrr::map_chr(question_columns, subjective_summary_item), collapse = "\n")`
+- **Overall.** `r subjective_n_clear` of `r subjective_n_contrasts` contrasts excluded 0:
+  `r subjective_n_higher` with a higher and `r subjective_n_lower` with a lower rating than
+  Basic topoplot. Differences between the uncertainty visualizations themselves were not
+  tested.
+- **Proportional-odds check.** The likelihood-ratio test rejected proportional odds for
+  `r subjective_po_rejected` of `r nrow(po_tests)` items (*p* from
+  `r format_p_value(min(po_tests$p_value))` to `r format_p_value(max(po_tests$p_value))`).
+  The page therefore reports expected ratings rather than odds ratios; they differ from
+  the raw means by at most `r sprintf("%.2f", max_raw_model_difference)` scale points.
+- **Sensitivity: quality screen.** Without the `r length(flagged_ids)` flagged
+  participants, the contrasts moved by at most
+  `r sprintf("%.2f", max(abs(likert_quality_sensitivity$shift)))` scale points, and
+  `r sum(!likert_quality_sensitivity$agree)` of `r nrow(likert_quality_sensitivity)`
+  intervals changed their position relative to 0.
+- **Sensitivity: linear mixed model.** A linear mixed model on the 1–5 ratings, which
+  does not assume proportional odds, reached the same conclusion (interval excluding 0
+  or not) for `r sum(likert_sensitivity$agree)` of `r nrow(likert_sensitivity)`
+  contrasts.
+- **Caveat.** The visualizations were listed in the same order for every participant
+  (Basic topoplot last), so order effects cannot be separated from differences between
+  visualizations.
+
+```{r manuscript-numbers-subjective}
+#| include: false
+#| cache: false
+# Numbers quoted in supplement.typ (Data quality checks: sensitivity without the
+# flagged participants); see write_manuscript_numbers().
+write_manuscript_numbers("subjective", list(
+  n_participants = nrow(data),
+  quality_max_shift = sprintf("%.2f", max(abs(likert_quality_sensitivity$shift))),
+  quality_n_changed = sum(!likert_quality_sensitivity$agree),
+  quality_n_changed_word = number_word(sum(!likert_quality_sensitivity$agree)),
+  quality_n_contrasts = nrow(likert_quality_sensitivity)
 ))
 ```

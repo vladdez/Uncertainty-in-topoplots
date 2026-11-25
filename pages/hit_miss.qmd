@@ -137,11 +137,11 @@ outcome_shares |>
   )
 ```
 
-![Hits and near hits per visualization type, for all patterns and each ERP pattern. Misses are the remainder (see the table above).](../figures/task2_hit_near_miss_by_vistype.png){#fig-hit-near-miss-bars width="100%" fig-alt="Side-by-side horizontal bars showing the share of hits and near hits for each of the seven visualization types, in four panels: all patterns, MMN, N170 and P3."}
+![Hits and near hits per visualization type, for all patterns and each ERP pattern. Misses are the remainder (see the table above). Whiskers are Wilson 95% intervals for each share; they treat responses as independent, so they are somewhat too narrow (the models below account for participants and stimuli).](../figures/task2_hit_near_miss_by_vistype.png){#fig-hit-near-miss-bars width="100%" fig-alt="Side-by-side horizontal bars with 95% interval whiskers showing the share of hits and near hits for each of the seven visualization types, in four panels: all patterns, MMN, N170 and P3."}
 
 ## Where participants clicked
 
-Each topoplot uses the survey's clickable grid. Region fill shows the ground truth, and dot area shows the share of responses for that region. Within each row (or each pattern, in the stimulus view), the most correct panel has an orange frame and the most missed a dark one.
+Each topoplot uses the survey's clickable grid. Region fill shows the ground truth, and dot area shows the share of responses for that region; shares below about 4% get a minimum dot size so that single responses stay visible. Within each row (or each pattern, in the stimulus view), the most correct panel has an orange frame and the most missed a dark one.
 
 ::: panel-tabset
 ### By stimulus
@@ -158,7 +158,7 @@ Each topoplot uses the survey's clickable grid. Region fill shows the ground tru
 :::
 
 ::: {.callout-note title="About these figures" collapse="true"}
-The topoplots and bar chart are rendered with UnfoldMakie by `uncertainty_project/working/task2_results/plot_task2_hits_misses.jl` (UnfoldMakie.jl, branch `uncert_bus`) from the aggregated counts written by `scripts/export_task2_hits_misses.R`. After a data refresh, rerun both scripts and copy the PNGs into `figures/`; the tables and models on this page update on their own.
+The topoplots and bar chart are rendered with UnfoldMakie by `uncertainty_project/working/task2_results/plot_task2_hits_misses.jl` (UnfoldMakie.jl, branch `uncert_bus`) from the aggregated counts written by `scripts/export_task2_hits_misses.R`. After a data refresh, rerun both scripts and copy the PNGs (web) and PDFs (print: 504 pt wide, or narrower to stay within 9 in of height; 7 pt minimum text; Lato embedded) into `figures/`. The script downloads Lato (Google Fonts, OFL) into the git-ignored `uncertainty_project/fonts/` on first use, or reads it from the folder named by `LATO_DIR`; the tables and models on this page update on their own.
 :::
 
 ## Models
@@ -196,10 +196,13 @@ stopifnot(all(purrr::map_lgl(hit_miss_models, \(m) {
   m$fit$convergence == 0 && isTRUE(m$sdr$pdHess)
 })))
 
+# Expected rates averaged over participants, stimuli and images (random
+# intercepts integrated out), not the typical-image values of
+# emmeans(type = "response"); see marginal_response_by_vistype().
 hit_miss_estimates <- purrr::imap_dfr(hit_miss_models, \(model, name) {
-  emmeans(model, ~vistype, type = "response") |>
-    as.data.frame() |>
-    transmute(outcome = name, vistype, prob, lower = asymp.LCL, upper = asymp.UCL)
+  marginal_response_by_vistype(model) |>
+    transmute(outcome = name, vistype, prob = marginal,
+              lower = marginal_lower, upper = marginal_upper)
 })
 
 # Primary family as on the other pages: the six comparisons with Basic,
@@ -247,9 +250,11 @@ hit_miss_estimates |>
                   "Hit or near hit [95% CI]", "p vs Basic"),
     caption = paste(
       "Model-estimated probabilities, averaged equally over ERP patterns at the middle",
-      "presentation position, for a typical participant, stimulus and image. p-values",
-      "compare each visualization with Basic topoplot, Dunnett-adjusted for the six",
-      "comparisons with Basic."
+      "presentation position and over participants, stimuli and images (random",
+      "intercepts integrated out), so they are comparable with the observed shares.",
+      "Intervals: 4,000 draws of the model parameters. p-values compare each",
+      "visualization with Basic topoplot, Dunnett-adjusted for the six comparisons",
+      "with Basic."
     ),
     table.attr = kable_table_attributes
   )
@@ -274,12 +279,17 @@ hit_miss_contrasts |>
     escape = FALSE,
     col.names = c("Outcome", "Visualization", "Odds ratio [simultaneous 95% CI]",
                   "p (Dunnett-adjusted)"),
+    caption = paste(
+      "Odds ratios of each visualization against Basic topoplot. Intervals and",
+      "p-values are Dunnett-adjusted (multivariate t) for the six comparisons with",
+      "Basic within each outcome, as on the other pages."
+    ),
     table.attr = kable_table_attributes
   )
 ```
 :::
 
-## Takeaways
+## Summary of the hit-or-miss results
 
 ```{r hit-miss-takeaways}
 #| include: false
@@ -291,9 +301,126 @@ stimulus_hits <- hit_miss |>
   summarise(hit = mean(hit), .groups = "drop")
 ```
 
+```{r hit-miss-summary-text}
+#| include: false
+#| cache: false
+# Every number below comes from objects computed above. An odds ratio is called
+# higher or lower only when its Dunnett-adjusted interval excludes 1 (as on the
+# Task 1 page); otherwise the text says that the interval includes 1.
+hit_miss_summary_p <- function(p) {
+  formatted <- format.pval(p, digits = 2, eps = 0.001)
+  if_else(startsWith(formatted, "<"), formatted, paste("=", formatted))
+}
+
+hit_miss_range_text <- function(name) {
+  rows <- hit_miss_estimates |> filter(outcome == name)
+  low <- slice_min(rows, prob, n = 1, with_ties = FALSE)
+  high <- slice_max(rows, prob, n = 1, with_ties = FALSE)
+  basic <- filter(rows, vistype == "basic")
+  sprintf(
+    "from %s for %s to %s for %s (Basic topoplot %s, 95%% CI %s–%s)",
+    scales::percent(low$prob, 1), table_vistype(low$vistype),
+    scales::percent(high$prob, 1), table_vistype(high$vistype),
+    scales::percent(basic$prob, 1), scales::percent(basic$lower, 1),
+    scales::percent(basic$upper, 1)
+  )
+}
+
+hit_miss_effects <- function(name, outcome) {
+  rows <- hit_miss_contrasts |>
+    filter(.data$outcome == name) |>
+    mutate(vistype = factor(vistype, levels = levels(hit_miss$vistype))) |>
+    arrange(vistype)
+  describe <- \(i) sprintf(
+    "%s (OR = %.2f, simultaneous 95%% CI %.2f–%.2f, adjusted *p* %s)",
+    table_vistype(as.character(rows$vistype[i])), rows$odds.ratio[i],
+    rows$lower[i], rows$upper[i], hit_miss_summary_p(rows$p.value[i])
+  )
+  lower_set <- which(rows$upper < 1)
+  higher_set <- which(rows$lower > 1)
+  unclear_set <- setdiff(seq_len(nrow(rows)), c(lower_set, higher_set))
+  sentences <- character()
+  if (length(lower_set) > 0) {
+    sentences <- c(sentences, paste0(
+      "Relative to Basic topoplot, ", outcome, " clearly lower for ",
+      knitr::combine_words(describe(lower_set)), "."
+    ))
+  }
+  if (length(higher_set) > 0) {
+    sentences <- c(sentences, paste0(
+      "Relative to Basic topoplot, ", outcome, " clearly higher for ",
+      knitr::combine_words(describe(higher_set)), "."
+    ))
+  }
+  if (length(unclear_set) == nrow(rows)) {
+    sentences <- c(sentences, paste0(
+      "No visualization type differed clearly from Basic topoplot: all ",
+      number_word(nrow(rows)), " intervals included 1."
+    ))
+  } else if (length(unclear_set) > 0) {
+    sentences <- c(sentences, paste0(
+      "The intervals for the other ", number_word(length(unclear_set)),
+      " visualization type", if (length(unclear_set) > 1) "s" else "",
+      " included 1."
+    ))
+  }
+  if (length(unclear_set) > 0) {
+    largest <- unclear_set[which.max(abs(log(rows$odds.ratio[unclear_set])))]
+    sentences <- c(sentences, paste0(
+      "The largest of these was for ", describe(largest),
+      ", but its interval also included 1."
+    ))
+  }
+  paste(sentences, collapse = " ")
+}
+
+hit_miss_clear <- hit_miss_contrasts |> filter(lower > 1 | upper < 1)
+hit_miss_overall_p <- setNames(hit_miss_overall$p, hit_miss_overall$outcome)
+hit_miss_clear_without_overall <- hit_miss_clear |>
+  filter(hit_miss_overall_p[outcome] >= 0.05)
+
+hit_miss_interpretation <- paste0(
+  if (nrow(hit_miss_clear) == 0) {
+    paste0(
+      "No comparison with Basic topoplot excluded 1 after adjustment, so the data ",
+      "give no clear evidence that a visualization changed how often participants ",
+      "found the peak or landed next to it. "
+    )
+  } else if (nrow(hit_miss_clear_without_overall) == nrow(hit_miss_clear)) {
+    paste0(
+      "The comparison", if (nrow(hit_miss_clear) > 1) "s" else "",
+      " that excluded 1 (",
+      knitr::combine_words(paste(
+        table_vistype(hit_miss_clear$vistype), "for",
+        tolower(hit_miss_clear$outcome)
+      )),
+      ") come", if (nrow(hit_miss_clear) > 1) "" else "s",
+      " from an outcome whose overall test was not significant, so ",
+      if (nrow(hit_miss_clear) > 1) "they are" else "it is",
+      " exploratory and should not be read as evidence that this visualization ",
+      "improved peak detection. "
+    )
+  } else {
+    paste0(
+      "At least one comparison with Basic excluded 1 for an outcome whose overall ",
+      "test was significant; see the sentences above. "
+    )
+  },
+  "The results should be reported as estimates with intervals."
+)
+```
+
 - Exact hits are rare for every visualization (`r scales::percent(min(outcome_shares$Hit), 1)`–`r scales::percent(max(outcome_shares$Hit), 1)`), but well above chance (`r scales::percent(mean(hit_miss$chance_hit), 0.1)`). `r table_vistype(best_hit$vistype)` has the most exact hits.
 - Counting near hits `r if (best_close$vistype != best_hit$vistype) "changes the ranking" else "keeps the same leader"`: `r table_vistype(best_close$vistype)` lands on or next to the peak most often (`r scales::percent(best_close[["Hit or near hit"]], 1)`), and `r table_vistype(worst_close$vistype)` least often (`r scales::percent(worst_close[["Hit or near hit"]], 1)`).
+- **Model-estimated probabilities** (averaged over participants, stimuli and images).
+  The probability of a hit ranged `r hit_miss_range_text("Hit")`. The probability of
+  a hit or near hit ranged `r hit_miss_range_text("Hit or near hit")`.
 - Once each image gets its own intercept, the overall effect of visualization type is
   `r if (all(hit_miss_overall$p >= 0.05)) "not statistically significant for either outcome" else if (all(hit_miss_overall$p < 0.05)) "significant for both outcomes" else "significant for only one outcome"`
   (hit `r overall_text("Hit")`; hit or near hit `r overall_text("Hit or near hit")`).
-- The stimulus matters more than the visualization: hit rates range from `r scales::percent(min(stimulus_hits$hit), 1)` to `r scales::percent(max(stimulus_hits$hit), 1)` across the 30 stimuli.
+- **Hit vs Basic topoplot** (odds ratios, Dunnett-adjusted).
+  `r hit_miss_effects("Hit", "the odds of a hit were")`
+- **Hit or near hit vs Basic topoplot** (odds ratios, Dunnett-adjusted).
+  `r hit_miss_effects("Hit or near hit", "the odds of a hit or near hit were")`
+- The stimulus matters more than the visualization: hit rates range from `r scales::percent(min(stimulus_hits$hit), 1)` to `r scales::percent(max(stimulus_hits$hit), 1)` across the 30 stimuli, against `r scales::percent(min(outcome_shares$Hit), 1)`–`r scales::percent(max(outcome_shares$Hit), 1)` across the seven visualization types.
+- **Interpretation.** `r hit_miss_interpretation`

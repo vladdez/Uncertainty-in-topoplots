@@ -237,7 +237,8 @@ speed_panel <- function(y, y_label, chance, chance_label, y_labels, label_gap) {
     scale_x_continuous(breaks = seq(0.5, 2.5, 0.5)) +
     scale_y_continuous(labels = y_labels, expand = expansion(mult = c(0.03, 0.18))) +
     labs(x = "Speed index (TIME_RSI)", y = y_label) +
-    plot_theme(base_size = 20)
+    plot_theme(base_size = 20) +
+    theme(axis.ticks.y = element_blank())
 }
 
 speed_panel("task1_accuracy", "Task 1 accuracy", 0.5, "Chance (50%)",
@@ -307,7 +308,73 @@ rating_variety |>
               "ratings (out of 5)"),
     y = "Participants"
   ) +
-  plot_theme(base_size = 20)
+  plot_theme(base_size = 20) +
+  theme(axis.ticks.y = element_blank())
 ```
 
 The blue bar holds the participants flagged for giving the same rating everywhere.
+
+## Summary of the quality-control results
+
+```{r quality-summary-text}
+#| include: false
+#| cache: false
+# Every number below comes from objects computed above.
+quality_n_both <- length(intersect(speeders$ID, straight_liners$ID))
+straight_liners_above_chance <- all(
+  straight_liner_values$task1_accuracy > 0.5 &
+    straight_liner_values$task2_score > task2_chance_score
+)
+```
+
+- **Flagged participants.** `r length(flagged_ids)` of `r nrow(data)` participants:
+  `r nrow(speeders)` with a speed index above `r speed_cutoff` and
+  `r nrow(straight_liners)` who gave the same rating to all
+  `r length(rating_item_columns)` rating items
+  (`r if (quality_n_both == 0) "no participant is flagged by both checks" else paste(quality_n_both, "flagged by both checks")`).
+- **Too fast.** The fast participants answered
+  `r pct(min(speeders$task1_accuracy))`–`r pct(max(speeders$task1_accuracy))` of the
+  Task 1 trials correctly (chance 50%) and had Task 2 mean scores of
+  `r sprintf("%.2f", min(speeders$task2_score))`–`r sprintf("%.2f", max(speeders$task2_score))`
+  (random click `r sprintf("%.2f", task2_chance_score)`).
+  `r if (speeders_above_chance) "All of them are above chance in both tasks: fast, but not guessing." else "Not all of them are above chance in both tasks."`
+- **Same rating everywhere.**
+  `r if (nrow(straight_liner_values) == 1) "The constant rating was" else "The constant ratings were"`
+  `r knitr::combine_words(sort(straight_liner_values$only_value))`. These participants
+  answered `r pct(min(straight_liner_values$task1_accuracy))`–`r pct(max(straight_liner_values$task1_accuracy))`
+  of the Task 1 trials correctly and had Task 2 mean scores of
+  `r sprintf("%.2f", min(straight_liner_values$task2_score))`–`r sprintf("%.2f", max(straight_liner_values$task2_score))`.
+  `r if (straight_liners_above_chance) "All of them are above chance in both tasks." else "Not all of them are above chance in both tasks (see the table)."`
+- **What was done.** No participant was excluded: all flagged participants are kept in
+  every main analysis. The [Subjective evaluation](subjective.qmd) page repeats the
+  rating contrasts without them as a sensitivity analysis.
+
+```{r manuscript-numbers-quality}
+#| include: false
+#| cache: false
+# Numbers quoted in journal.typ (Participants) and supplement.typ (Data quality
+# checks); see write_manuscript_numbers().
+write_manuscript_numbers("quality", list(
+  n_participants = nrow(data),
+  speed_cutoff = speed_cutoff,
+  n_speeders = nrow(speeders),
+  n_speeders_word = number_word(nrow(speeders)),
+  speed_index_min = sprintf("%.2f", min(speeders$time_rsi)),
+  speed_index_max = sprintf("%.2f", max(speeders$time_rsi)),
+  speed_index_median_all = sprintf("%.2f", median(quality_plot_data$time_rsi, na.rm = TRUE)),
+  speeders_task1_min = pct(min(speeders$task1_accuracy)),
+  # Lower end of a range without the % sign ("67–90%").
+  speeders_task1_min_number = sub("%$", "", pct(min(speeders$task1_accuracy))),
+  speeders_task1_max = pct(max(speeders$task1_accuracy)),
+  speeders_task2_min = sprintf("%.2f", min(speeders$task2_score)),
+  speeders_task2_max = sprintf("%.2f", max(speeders$task2_score)),
+  speeders_above_chance = speeders_above_chance,
+  task2_chance = sprintf("%.2f", task2_chance_score),
+  n_straight_liners = nrow(straight_liners),
+  n_straight_liners_word = number_word(nrow(straight_liners)),
+  straight_liner_values = knitr::combine_words(sort(straight_liner_values$only_value)),
+  n_flagged = length(flagged_ids),
+  n_flagged_word = number_word(length(flagged_ids)),
+  n_rating_items = length(rating_item_columns)
+))
+```

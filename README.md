@@ -1,115 +1,35 @@
 # Uncertainty in topoplots
 
-<p align="center">
-<strong>How should uncertainty be communicated in topographic visualizations?</strong>
-</p>
+Analysis code for an online study with EEG/ERP researchers comparing seven ways of
+showing uncertainty in topoplots.
 
-<p align="center">
-<a href="https://vladdez.github.io/Uncertainty-in-topoplots/">
-<img src="https://img.shields.io/badge/Explore_the_interactive_analysis-View_website-2563EB?style=for-the-badge&logo=githubpages&logoColor=white" alt="Explore the interactive analysis website">
-</a>
-</p>
+**Website:** <https://vladdez.github.io/Uncertainty-in-topoplots/> — results, figures and
+the audit of the analysis.
 
-<p align="center">
-Browse the sample description, task results, subjective evaluations, and
-publication-ready figures.
-</p>
+## Contents
 
-This repository contains the R/Quarto analysis for a study investigating how
-different visual representations of uncertainty influence the interpretation
-of topographic plots (topoplots).
+| Folder | What it holds |
+|---|---|
+| `pages/` | One Quarto page per analysis (sample, tasks, time, ratings, feedback, figures) |
+| `scripts/` | Shared setup (`analysis_setup.R`), trial reconstruction, data checks |
+| `data/` | De-identified survey export and the feedback coding workbook |
+| `figures/` | Exported figures |
+| `reports/` | Audit of the analysis (rendered to `audit/`) |
+| `docs/` | Rendered website (GitHub Pages) |
 
-The study compares seven visualization types:
-
-- adjacent plots;
-- animation;
-- bivariate corner;
-- bivariate range;
-- confidence intervals;
-- uncertainty markers; and
-- a basic topoplot.
-
-## Analysis
-
-The analysis includes:
-
-- participant characteristics;
-- accuracy and completion time for comparison and detection tasks;
-- mixed-effects models and model-estimated contrasts;
-- subjective ratings of helpfulness and aesthetic appeal; and
-- summaries of open-ended participant feedback.
-
-The website analysis is organized into separate Sample, Task 1, Task 2,
-Time analysis, Subjective evaluation, Open-ended feedback, and Publication
-figures pages. Each page analysis is stored in its corresponding file under
-`pages/`. Shared data preparation is defined in `scripts/analysis_setup.R`; the
-Task 1 and Task 2 trial reconstructions are in `scripts/task1_trials.R` and
-`scripts/task2_trials.R`, shown on the task pages and reused by the Time
-analysis page. The homepage remains at `index.qmd`.
-
-## Reproducing the analysis
-
-Open `Analysis.Rproj` in RStudio and render the website, or run:
+## Run
 
 ```sh
+Rscript install_dependencies.R
 quarto render
 ```
 
-The pages can also be rendered individually:
+## Data
 
-```sh
-quarto render index.qmd
-quarto render pages/sample.qmd
-quarto render pages/task1.qmd
-quarto render pages/task2.qmd
-quarto render pages/time.qmd
-quarto render pages/subjective.qmd
-quarto render pages/feedback.qmd
-quarto render pages/figures.qmd
-```
-
-Task 1 and Task 2 regenerate their publication PNGs automatically. Other
-optional standalone exports remain disabled during normal website rendering.
-
-The analysis uses R packages including `dplyr`, `ggplot2`, `tidyr`, `forcats`,
-`lme4`, `glmmTMB`, `ordinal`, `emmeans`, `purrr`, `patchwork`, `showtext`,
-`sysfonts`, `ragg`, `ggbeeswarm`, and `countrycode`.
-
-## Data availability
-
-The analysis reads `data/data_uncertain_topoplots_deidentified.csv`, a
-de-identified copy of the SoSci Survey export that is included in this
-repository, so the complete analysis can be re-run from a fresh clone. It has
-the same rows and columns as the export, with these changes: the SoSci
-invitation fields `SERIAL`, `REF` and `MAILSENT` are blank, the `STARTED` and
-`LASTDATA` timestamps are reduced to the date, and email addresses in free-text
-answers are replaced with `[email removed]`.
-
-The original export (`data/data_uncertain_topoplots.csv`) is not included.
-After a new export, an authorized researcher places it in `data/` and runs
-`Rscript scripts/deidentify_survey.R` to re-create the de-identified copy;
-`scripts/check_data_refresh.R` stops if the copy is out of date.
-
-The rendered website is generated in `docs/` and is included in version
-control for publication with GitHub Pages. It contains the figure gallery and
-the complete rendered analysis, including respondent-level output and
-open-ended feedback. Standalone feedback exports and local R/RStudio state
-remain excluded.
-
-## Website
-
-Render the site locally with:
-
-```sh
-quarto render
-```
-
-The generated site is written to `docs/`. In the GitHub repository settings,
-open **Pages**, select **Deploy from a branch**, and choose the `main` branch
-and `/docs` folder. The published site will then be available at:
-
-<https://vladdez.github.io/Uncertainty-in-topoplots/>
+The analysis reads `data/data_uncertain_topoplots_deidentified.csv`: the SoSci Survey
+export with invitation fields blanked, timestamps reduced to dates and email addresses
+removed. The original export is not included.
 
 ## License
 
-The code in this repository is available under the [MIT License](LICENSE).
+[MIT](LICENSE)

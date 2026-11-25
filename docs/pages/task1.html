@@ -219,8 +219,10 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#explanation-of-the-task-1" id="toc-explanation-of-the-task-1" class="nav-link active" data-scroll-target="#explanation-of-the-task-1">Explanation of the task 1</a></li>
+  <li><a href="#explanation-of-the-task-1" id="toc-explanation-of-the-task-1" class="nav-link active" data-scroll-target="#explanation-of-the-task-1">Explanation of the task 1</a>
+  <ul class="collapse">
   <li><a href="#trial-reconstruction-and-presentation-order" id="toc-trial-reconstruction-and-presentation-order" class="nav-link" data-scroll-target="#trial-reconstruction-and-presentation-order">Trial reconstruction and presentation order</a></li>
+  </ul></li>
   <li><a href="#accuracy-analysis" id="toc-accuracy-analysis" class="nav-link" data-scroll-target="#accuracy-analysis">Accuracy analysis</a>
   <ul class="collapse">
   <li><a href="#accuracy-by-visualisation-type" id="toc-accuracy-by-visualisation-type" class="nav-link" data-scroll-target="#accuracy-by-visualisation-type">Accuracy by visualisation type</a></li>
@@ -230,7 +232,11 @@ window.Quarto = {
   <li><a href="#model-fit-comparison" id="toc-model-fit-comparison" class="nav-link" data-scroll-target="#model-fit-comparison">Model fit comparison</a></li>
   </ul></li>
   <li><a href="#conditional-logistic-paired-choice-sensitivity-analysis" id="toc-conditional-logistic-paired-choice-sensitivity-analysis" class="nav-link" data-scroll-target="#conditional-logistic-paired-choice-sensitivity-analysis">Conditional logistic paired-choice sensitivity analysis</a></li>
-  <li><a href="#item-level-diagnostic-target-images-below-chance" id="toc-item-level-diagnostic-target-images-below-chance" class="nav-link" data-scroll-target="#item-level-diagnostic-target-images-below-chance">Item-level diagnostic: target images below chance</a></li>
+  <li><a href="#task1-item-diagnostics" id="toc-task1-item-diagnostics" class="nav-link" data-scroll-target="#task1-item-diagnostics">Item-level diagnostics</a>
+  <ul class="collapse">
+  <li><a href="#task1-below-chance" id="toc-task1-below-chance" class="nav-link" data-scroll-target="#task1-below-chance">Target images below chance</a></li>
+  <li><a href="#task1-hard-refit" id="toc-task1-hard-refit" class="nav-link" data-scroll-target="#task1-hard-refit">Visualizations with and without these trials</a></li>
+  </ul></li>
   <li><a href="#summary-of-the-task-1-accuracy-evidence" id="toc-summary-of-the-task-1-accuracy-evidence" class="nav-link" data-scroll-target="#summary-of-the-task-1-accuracy-evidence">Summary of the Task 1 accuracy evidence</a></li>
   <li><a href="#completion-time-analysis" id="toc-completion-time-analysis" class="nav-link" data-scroll-target="#completion-time-analysis">Completion-time analysis</a></li>
   </ul>
@@ -272,9 +278,8 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 </figcaption>
 </figure>
 </div>
-</section>
-<section id="trial-reconstruction-and-presentation-order" class="level2">
-<h2 class="anchored" data-anchor-id="trial-reconstruction-and-presentation-order">Trial reconstruction and presentation order</h2>
+<section id="trial-reconstruction-and-presentation-order" class="level3">
+<h3 class="anchored" data-anchor-id="trial-reconstruction-and-presentation-order">Trial reconstruction and presentation order</h3>
 <ul>
 <li>Trial information was reconstructed from the survey records and joined with each participant’s responses using participant, trial, and question identifiers.</li>
 </ul>
@@ -364,14 +369,15 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 </details>
 </div>
 </section>
+</section>
 <section id="accuracy-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="accuracy-analysis">Accuracy analysis</h2>
 <ul>
 <li><p>Every response was coded as correct (<code>1</code>) or incorrect (<code>0</code>).</p></li>
-<li><p>The analysis contains 3,129 responses: 149 participants × 21 trials.</p></li>
+<li><p>The analysis contains 3,150 responses: 150 participants × 21 trials.</p></li>
 <li><p>Visualization type was treated as a categorical variable, with the basic topoplot as the reference condition.</p></li>
 <li><p>Presentation position was represented by the centered variable <code>position_c</code>, calculated as <code>position - mean(position)</code>. Because positions ranged from 1 to 21, their mean was 11. Thus, <code>position_c = 0</code> represents position 11, negative values represent earlier trials, and positive values represent later trials. This variable tests whether accuracy changed linearly as participants progressed through the task.</p></li>
-<li><p>No responses were excluded for missing values. All 3,129 reconstructed records contained accuracy, visualization type, ERP pattern, presentation position, target stimulus, and distractor stimulus.</p></li>
+<li><p>No responses were excluded for missing values. All 3,150 reconstructed records contained accuracy, visualization type, ERP pattern, presentation position, target stimulus, and distractor stimulus.</p></li>
 </ul>
 <div class="cell">
 <details class="code-fold">
@@ -412,7 +418,7 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <section id="accuracy-by-visualisation-type" class="level3">
 <h3 class="anchored" data-anchor-id="accuracy-by-visualisation-type">Accuracy by visualisation type</h3>
 <ul>
-<li><p>Accuracy was calculated as correct responses divided by all responses (<code>correct / (correct + incorrect)</code>). Each visualization type had 447 responses (149 participants × 3 trials). This is the raw share of correct answers, not a model estimate.</p></li>
+<li><p>Accuracy was calculated as correct responses divided by all responses (<code>correct / (correct + incorrect)</code>). Each visualization type had 450 responses (150 participants × 3 trials). This is the raw share of correct answers, not a model estimate.</p></li>
 <li><p>For each visualization type, accuracy was first averaged across three trials within each participant and then summarized across participants.</p></li>
 <li><p>The dark-blue region shows the two-sided 95% <em>t</em>-confidence interval around the across-participant mean; opacity decreases beyond that interval.</p></li>
 </ul>
@@ -516,66 +522,66 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot</td>
-<td style="text-align: right;">447</td>
-<td style="text-align: right;">351</td>
-<td style="text-align: right;">96</td>
-<td style="text-align: left;">78.5%</td>
+<td style="text-align: right;">450</td>
+<td style="text-align: right;">353</td>
+<td style="text-align: right;">97</td>
+<td style="text-align: left;">78.4%</td>
 <td style="text-align: left;">74.2%</td>
-<td style="text-align: left;">82.8%</td>
+<td style="text-align: left;">82.7%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: right;">447</td>
-<td style="text-align: right;">340</td>
+<td style="text-align: right;">450</td>
+<td style="text-align: right;">343</td>
 <td style="text-align: right;">107</td>
-<td style="text-align: left;">76.1%</td>
-<td style="text-align: left;">72.0%</td>
-<td style="text-align: left;">80.1%</td>
+<td style="text-align: left;">76.2%</td>
+<td style="text-align: left;">72.2%</td>
+<td style="text-align: left;">80.3%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Animation</td>
-<td style="text-align: right;">447</td>
-<td style="text-align: right;">353</td>
-<td style="text-align: right;">94</td>
-<td style="text-align: left;">79.0%</td>
+<td style="text-align: right;">450</td>
+<td style="text-align: right;">355</td>
+<td style="text-align: right;">95</td>
+<td style="text-align: left;">78.9%</td>
 <td style="text-align: left;">75.0%</td>
-<td style="text-align: left;">82.9%</td>
+<td style="text-align: left;">82.8%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: right;">447</td>
-<td style="text-align: right;">332</td>
+<td style="text-align: right;">450</td>
+<td style="text-align: right;">335</td>
 <td style="text-align: right;">115</td>
-<td style="text-align: left;">74.3%</td>
-<td style="text-align: left;">69.8%</td>
-<td style="text-align: left;">78.8%</td>
+<td style="text-align: left;">74.4%</td>
+<td style="text-align: left;">70.0%</td>
+<td style="text-align: left;">78.9%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: right;">447</td>
-<td style="text-align: right;">334</td>
-<td style="text-align: right;">113</td>
-<td style="text-align: left;">74.7%</td>
-<td style="text-align: left;">70.6%</td>
-<td style="text-align: left;">78.8%</td>
+<td style="text-align: right;">450</td>
+<td style="text-align: right;">335</td>
+<td style="text-align: right;">115</td>
+<td style="text-align: left;">74.4%</td>
+<td style="text-align: left;">70.3%</td>
+<td style="text-align: left;">78.6%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: right;">447</td>
-<td style="text-align: right;">354</td>
-<td style="text-align: right;">93</td>
-<td style="text-align: left;">79.2%</td>
-<td style="text-align: left;">75.2%</td>
-<td style="text-align: left;">83.2%</td>
+<td style="text-align: right;">450</td>
+<td style="text-align: right;">356</td>
+<td style="text-align: right;">94</td>
+<td style="text-align: left;">79.1%</td>
+<td style="text-align: left;">75.1%</td>
+<td style="text-align: left;">83.1%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: right;">447</td>
-<td style="text-align: right;">342</td>
+<td style="text-align: right;">450</td>
+<td style="text-align: right;">345</td>
 <td style="text-align: right;">105</td>
-<td style="text-align: left;">76.5%</td>
-<td style="text-align: left;">72.5%</td>
-<td style="text-align: left;">80.5%</td>
+<td style="text-align: left;">76.7%</td>
+<td style="text-align: left;">72.7%</td>
+<td style="text-align: left;">80.6%</td>
 </tr>
 </tbody>
 </table>
@@ -638,24 +644,24 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
 <span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> task1_gradient_summary<span class="sc">$</span>y_position,</span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">unname</span>(</span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>      vistype_labels[<span class="fu">as.character</span>(task1_gradient_summary<span class="sc">$</span>vistype)]</span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.65</span>))</span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Comparison task accuracy"</span>,</span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span></span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>(<span class="at">base_family =</span> <span class="st">"Lato"</span>, <span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(</span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>      <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>      <span class="at">face =</span> <span class="st">"bold"</span>,</span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="dv">22</span></span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">lineheight =</span> <span class="fl">0.75</span>),</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">figure_vistype</span>(task1_gradient_summary<span class="sc">$</span>vistype),</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.65</span>))</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Comparison task accuracy"</span>,</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span></span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_theme</span>(<span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>      <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>      <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="dv">22</span></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="fu">vistype_label_colours</span>(task1_gradient_summary<span class="sc">$</span>vistype, <span class="at">other =</span> <span class="st">"black"</span>)</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>    ),</span>
 <span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
 <span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()</span>
 <span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>  )</span>
@@ -666,7 +672,7 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="task1_files/figure-html/task1-descriptive-gradient-plot-1.png" class="img-fluid figure-img" width="1260"></p>
-<figcaption>The black line and label show the across-participant mean. The dark-blue region shows its two-sided 95% t-confidence interval.</figcaption>
+<figcaption>The black line and label show the across-participant mean. The blue band is fully opaque inside its two-sided 95% t-confidence interval and fades linearly to transparent as the confidence level rises from 95% to 100%.</figcaption>
 </figure>
 </div>
 </div>
@@ -727,7 +733,7 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 </tr>
 </tbody>
 </table>
-<p>We chose option 3 becausewe are more interested in accuracy over population (<a href="https://pubmed.ncbi.nlm.nih.gov/9554609/">Hu et al., 1998</a>; <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5650580/">Hedeker et al., 2018</a>).</p>
+<p>We chose option 3 because we are more interested in accuracy across the population (<a href="https://pubmed.ncbi.nlm.nih.gov/9554609/">Hu et al., 1998</a>; <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5650580/">Hedeker et al., 2018</a>).</p>
 <p><strong>Accuracy-averaging sensitivity check.</strong> We compared Options 2 and 3. Across visualisation types, the largest difference was 0.4 percentage points. This difference did not meaningfully change the relative performance of the visualisation types.</p>
 <p>This does not make the sample representative of all EEG researchers.</p>
 </div>
@@ -747,7 +753,7 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <div class="callout-body-container callout-body">
 <p>We tested whether the effect of trial position differed between participants by adding a participant-specific position slope: <code>(1 + position_c | ID)</code>, while retaining the ERP pattern and stimulus terms. The model produced a singular fit and could not estimate this additional variation:</p>
 <ul>
-<li><p>The estimated variance of the position slopes was 0.00047.</p></li>
+<li><p>The estimated variance of the position slopes was 0.00046.</p></li>
 <li><p>The estimated correlation between the baseline accuracy and position slopes was -1.00.</p></li>
 </ul>
 <p>Together, these boundary estimates indicate that the data did not contain enough information to estimate participant baseline differences and participant-specific position effects separately.</p>
@@ -793,15 +799,15 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Animation</td>
-<td style="text-align: left;">79.4%</td>
+<td style="text-align: left;">79.2%</td>
 <td style="text-align: left;">71.3%</td>
-<td style="text-align: left;">85.6%</td>
+<td style="text-align: left;">85.5%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Confidence intervals</td>
-<td style="text-align: left;">78.5%</td>
-<td style="text-align: left;">70.4%</td>
-<td style="text-align: left;">84.8%</td>
+<td style="text-align: left;">78.4%</td>
+<td style="text-align: left;">70.1%</td>
+<td style="text-align: left;">84.7%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot</td>
@@ -811,27 +817,27 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots</td>
-<td style="text-align: left;">75.5%</td>
+<td style="text-align: left;">75.6%</td>
 <td style="text-align: left;">67.0%</td>
-<td style="text-align: left;">82.4%</td>
+<td style="text-align: left;">82.5%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Uncertainty markers</td>
-<td style="text-align: left;">74.7%</td>
-<td style="text-align: left;">65.9%</td>
+<td style="text-align: left;">74.8%</td>
+<td style="text-align: left;">66.0%</td>
 <td style="text-align: left;">81.9%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate corner</td>
-<td style="text-align: left;">73.8%</td>
+<td style="text-align: left;">73.9%</td>
 <td style="text-align: left;">65.1%</td>
-<td style="text-align: left;">81.0%</td>
+<td style="text-align: left;">81.2%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range</td>
-<td style="text-align: left;">73.1%</td>
-<td style="text-align: left;">64.2%</td>
-<td style="text-align: left;">80.4%</td>
+<td style="text-align: left;">72.9%</td>
+<td style="text-align: left;">64.1%</td>
+<td style="text-align: left;">80.2%</td>
 </tr>
 </tbody>
 </table>
@@ -896,93 +902,79 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model-estimated probability of a correct response for each visualization type.</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>comparison_axis_colours <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">levels</span>(accuracy_estimates<span class="sc">$</span>vistype) <span class="sc">==</span> <span class="st">"basic"</span>,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#377EB8"</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#222222"</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_limits <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>(<span class="dv">0</span>, <span class="fu">min</span>(accuracy_estimates<span class="sc">$</span>lower_ci, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">-</span> <span class="fl">0.03</span>),</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(<span class="dv">1</span>, <span class="fu">max</span>(accuracy_estimates<span class="sc">$</span>upper_ci, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fl">0.03</span>)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_figure <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  accuracy_estimates,</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> accuracy,</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> vistype,</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> vistype <span class="sc">==</span> <span class="st">"basic"</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">xmin =</span> lower_ci,</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">xmax =</span> upper_ci</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">orientation =</span> <span class="st">"y"</span>,</span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.14</span>,</span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">0.55</span></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(accuracy, <span class="at">accuracy =</span> <span class="dv">1</span>)),</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="fl">0.36</span>,</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">vjust =</span> <span class="fl">0.5</span>,</span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">5.5</span></span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(</span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fl">0.5</span>),</span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="cf">function</span>(x) {</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>      publication_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">basic =</span> <span class="st">"Basic topoplot"</span>,</span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">adjacent =</span> <span class="st">"Adjacent plots"</span>,</span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">bivariate_corner =</span> <span class="st">"Bivariate corners"</span>,</span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">bivariate_range =</span> <span class="st">"Bivariate range"</span>,</span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>        <span class="at">triple_CI =</span> <span class="st">"Confidence intervals"</span>,</span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>        <span class="at">uncert_markers =</span> <span class="st">"Uncertainty markers"</span>,</span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>        <span class="at">animation =</span> <span class="st">"Animation"</span></span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unname</span>(publication_labels[x])</span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(</span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">FALSE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#222222"</span>, <span class="st">`</span><span class="at">TRUE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#377EB8"</span>),</span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">guide =</span> <span class="st">"none"</span></span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>),</span>
-<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> comparison_accuracy_limits,</span>
-<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_width</span>(<span class="fl">0.05</span>),</span>
-<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="dv">0</span>)</span>
-<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Comparison task accuracy"</span>,</span>
-<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Population-average accuracy with 95% confidence intervals"</span>,</span>
-<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Model-estimated comparison-task accuracy"</span>,</span>
-<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span></span>
-<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>(<span class="at">base_family =</span> <span class="st">"Lato"</span>, <span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
-<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">18</span>),</span>
-<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span>,</span>
-<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(</span>
-<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="dv">24</span>,</span>
-<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> comparison_axis_colours,</span>
-<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>      <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">r =</span> <span class="dv">12</span>)</span>
-<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
-<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_limits <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>(<span class="dv">0</span>, <span class="fu">min</span>(accuracy_estimates<span class="sc">$</span>lower_ci, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">-</span> <span class="fl">0.03</span>),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(<span class="dv">1</span>, <span class="fu">max</span>(accuracy_estimates<span class="sc">$</span>upper_ci, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fl">0.03</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Site version, or with print = TRUE the print version (audit V7).</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>make_comparison_accuracy_figure <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">print =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">interval_figure_sizes</span>(print)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    accuracy_estimates,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> accuracy,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> vistype,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> vistype <span class="sc">==</span> <span class="st">"basic"</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_errorbar</span>(</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">xmin =</span> lower_ci,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">xmax =</span> upper_ci</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">orientation =</span> <span class="st">"y"</span>,</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">width =</span> <span class="fl">0.14</span>,</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">linewidth =</span> s<span class="sc">$</span>line</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> s<span class="sc">$</span>point) <span class="sc">+</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">label =</span> scales<span class="sc">::</span><span class="fu">percent</span>(accuracy, <span class="at">accuracy =</span> <span class="dv">1</span>)),</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">nudge_y =</span> <span class="fl">0.36</span>,</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">vjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>label</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fl">0.5</span>),</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> figure_vistype</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">values =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">FALSE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#222222"</span>, <span class="st">`</span><span class="at">TRUE</span><span class="st">`</span> <span class="ot">=</span> basic_accent),</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>      <span class="at">guide =</span> <span class="st">"none"</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>),</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">limits =</span> comparison_accuracy_limits,</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_width</span>(<span class="fl">0.05</span>),</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>      <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="dv">0</span>)</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># No in-figure title or subtitle (Wilke ch. 22): the caption names the</span></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># estimate and the intervals.</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Model-estimated comparison-task accuracy"</span>,</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="cn">NULL</span></span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_theme</span>(<span class="at">base_size =</span> s<span class="sc">$</span>base) <span class="sc">+</span></span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> s<span class="sc">$</span>axis_y,</span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>        <span class="at">colour =</span> <span class="fu">vistype_label_colours</span>(<span class="fu">levels</span>(accuracy_estimates<span class="sc">$</span>vistype)),</span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>        <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">r =</span> s<span class="sc">$</span>margin)</span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>axis_x),</span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_figure <span class="ot">&lt;-</span> <span class="fu">make_comparison_accuracy_figure</span>()</span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="task1_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="1260"></p>
+<figcaption>Population-average comparison-task accuracy of each visualization. Bars: pointwise 95% confidence intervals (one per visualization, not adjusted for comparisons).</figcaption>
 </figure>
 </div>
 </div>
@@ -992,12 +984,20 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"comparison_accuracy_figure.png"</span>),</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  comparison_accuracy_figure,</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">9</span>,</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="fl">5.5</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="dv">5</span>,</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">units =</span> <span class="st">"in"</span>,</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dpi =</span> <span class="dv">180</span>,</span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">device =</span> ragg<span class="sc">::</span>agg_png,</span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">bg =</span> <span class="st">"white"</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Print version: one journal column wide.</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave_print</span>(</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"comparison_accuracy_figure.pdf"</span>),</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_comparison_accuracy_figure</span>(<span class="at">print =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> print_width[[<span class="st">"column"</span>]],</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="fl">2.5</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -1133,110 +1133,80 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(<span class="dv">1</span>, <span class="fu">max</span>(task1_basic_contrasts<span class="sc">$</span>upper_ci, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fl">0.03</span>)</span>
 <span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>task1_contrast_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>  <span class="at">adjacent =</span> <span class="st">"Adjacent plots"</span>,</span>
-<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>  <span class="at">bivariate_corner =</span> <span class="st">"Bivariate corners"</span>,</span>
-<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>  <span class="at">bivariate_range =</span> <span class="st">"Bivariate range"</span>,</span>
-<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>  <span class="at">triple_CI =</span> <span class="st">"Confidence intervals"</span>,</span>
-<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>  <span class="at">uncert_markers =</span> <span class="st">"Uncertainty markers"</span>,</span>
-<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>  <span class="at">animation =</span> <span class="st">"Animation"</span></span>
-<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_contrast_figure <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a>  task1_basic_contrasts,</span>
-<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> difference, <span class="at">y =</span> vistype)</span>
-<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(</span>
-<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">xintercept =</span> <span class="dv">0</span>,</span>
-<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
-<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">0.6</span>,</span>
-<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"#377EB8"</span></span>
-<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(</span>
-<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">xmin =</span> lower_ci, <span class="at">xmax =</span> upper_ci),</span>
-<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">orientation =</span> <span class="st">"y"</span>,</span>
-<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.14</span>,</span>
-<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">0.55</span>,</span>
-<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"#333333"</span></span>
-<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">colour =</span> <span class="st">"#333333"</span>) <span class="sc">+</span></span>
-<span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
-<span id="cb11-91"><a href="#cb11-91" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">ifelse</span>(</span>
-<span id="cb11-92"><a href="#cb11-92" aria-hidden="true" tabindex="-1"></a>      <span class="fu">abs</span>(difference) <span class="sc">&lt;</span> <span class="fl">0.005</span>,</span>
-<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a>      <span class="st">"0 pp"</span>,</span>
-<span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sprintf</span>(<span class="st">"%+.0f pp"</span>, <span class="dv">100</span> <span class="sc">*</span> difference)</span>
-<span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a>    )),</span>
-<span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="fl">0.32</span>,</span>
-<span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a>    <span class="at">vjust =</span> <span class="fl">0.5</span>,</span>
-<span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">5.5</span>,</span>
-<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"#333333"</span></span>
-<span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(</span>
-<span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">unname</span>(task1_contrast_labels[x]),</span>
-<span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fl">0.5</span>)</span>
-<span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> task1_contrast_limits,</span>
-<span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(</span>
-<span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a>      <span class="fu">abs</span>(x) <span class="sc">&lt;</span> <span class="fl">0.005</span>,</span>
-<span id="cb11-109"><a href="#cb11-109" aria-hidden="true" tabindex="-1"></a>      <span class="st">"0 pp"</span>,</span>
-<span id="cb11-110"><a href="#cb11-110" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sprintf</span>(<span class="st">"%+.0f pp"</span>, <span class="dv">100</span> <span class="sc">*</span> x)</span>
-<span id="cb11-111"><a href="#cb11-111" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb11-112"><a href="#cb11-112" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_width</span>(<span class="fl">0.05</span>),</span>
-<span id="cb11-113"><a href="#cb11-113" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="dv">0</span>)</span>
-<span id="cb11-114"><a href="#cb11-114" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-115"><a href="#cb11-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb11-116"><a href="#cb11-116" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Comparison task accuracy differences"</span>,</span>
-<span id="cb11-117"><a href="#cb11-117" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Population-average contrasts, Dunnett-adjusted simultaneous 95% CIs"</span>,</span>
-<span id="cb11-118"><a href="#cb11-118" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
-<span id="cb11-119"><a href="#cb11-119" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span></span>
-<span id="cb11-120"><a href="#cb11-120" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-121"><a href="#cb11-121" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>(<span class="at">base_family =</span> <span class="st">"Lato"</span>, <span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
-<span id="cb11-122"><a href="#cb11-122" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb11-123"><a href="#cb11-123" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">22</span>),</span>
-<span id="cb11-124"><a href="#cb11-124" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">18</span>),</span>
-<span id="cb11-125"><a href="#cb11-125" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span>,</span>
-<span id="cb11-126"><a href="#cb11-126" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">24</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">r =</span> <span class="dv">12</span>)),</span>
-<span id="cb11-127"><a href="#cb11-127" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
-<span id="cb11-128"><a href="#cb11-128" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb11-129"><a href="#cb11-129" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb11-130"><a href="#cb11-130" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb11-131"><a href="#cb11-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-132"><a href="#cb11-132" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_contrast_caption <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb11-133"><a href="#cb11-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
-<span id="cb11-134"><a href="#cb11-134" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
-<span id="cb11-135"><a href="#cb11-135" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fl">0.497</span>,</span>
-<span id="cb11-136"><a href="#cb11-136" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fl">0.5</span>,</span>
-<span id="cb11-137"><a href="#cb11-137" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"Difference in estimated accuracy vs"</span>,</span>
-<span id="cb11-138"><a href="#cb11-138" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="dv">1</span>,</span>
-<span id="cb11-139"><a href="#cb11-139" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">20</span> <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt,</span>
-<span id="cb11-140"><a href="#cb11-140" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
-<span id="cb11-141"><a href="#cb11-141" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"#222222"</span></span>
-<span id="cb11-142"><a href="#cb11-142" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-143"><a href="#cb11-143" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
-<span id="cb11-144"><a href="#cb11-144" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
-<span id="cb11-145"><a href="#cb11-145" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fl">0.503</span>,</span>
-<span id="cb11-146"><a href="#cb11-146" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fl">0.5</span>,</span>
-<span id="cb11-147"><a href="#cb11-147" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"Basic topoplot"</span>,</span>
-<span id="cb11-148"><a href="#cb11-148" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="dv">0</span>,</span>
-<span id="cb11-149"><a href="#cb11-149" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">20</span> <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt,</span>
-<span id="cb11-150"><a href="#cb11-150" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
-<span id="cb11-151"><a href="#cb11-151" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"#377EB8"</span></span>
-<span id="cb11-152"><a href="#cb11-152" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-153"><a href="#cb11-153" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
-<span id="cb11-154"><a href="#cb11-154" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span>
-<span id="cb11-155"><a href="#cb11-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-156"><a href="#cb11-156" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_contrast_figure <span class="ot">&lt;-</span></span>
-<span id="cb11-157"><a href="#cb11-157" aria-hidden="true" tabindex="-1"></a>  comparison_accuracy_contrast_figure <span class="sc">/</span></span>
-<span id="cb11-158"><a href="#cb11-158" aria-hidden="true" tabindex="-1"></a>  comparison_accuracy_contrast_caption <span class="sc">+</span></span>
-<span id="cb11-159"><a href="#cb11-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.10</span>))</span>
-<span id="cb11-160"><a href="#cb11-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-161"><a href="#cb11-161" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_contrast_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Site version, or with print = TRUE the print version (audit V7).</span></span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>make_comparison_accuracy_contrast_figure <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">print =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">interval_figure_sizes</span>(print)</span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>  plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>    task1_basic_contrasts,</span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> difference, <span class="at">y =</span> vistype)</span>
+<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(</span>
+<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a>      <span class="at">xintercept =</span> <span class="dv">0</span>,</span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>      <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a>      <span class="at">linewidth =</span> <span class="cf">if</span> (print) s<span class="sc">$</span>line <span class="cf">else</span> <span class="fl">0.6</span>,</span>
+<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">"#377EB8"</span></span>
+<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_errorbar</span>(</span>
+<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">xmin =</span> lower_ci, <span class="at">xmax =</span> upper_ci),</span>
+<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>      <span class="at">orientation =</span> <span class="st">"y"</span>,</span>
+<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a>      <span class="at">width =</span> <span class="fl">0.14</span>,</span>
+<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a>      <span class="at">linewidth =</span> s<span class="sc">$</span>line,</span>
+<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">"#333333"</span></span>
+<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> s<span class="sc">$</span>point, <span class="at">colour =</span> <span class="st">"#333333"</span>) <span class="sc">+</span></span>
+<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(</span>
+<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Beside the point, on the side away from zero (no overlap with the</span></span>
+<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a>      <span class="co"># dashed zero line).</span></span>
+<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">hjust =</span> <span class="fu">side_away_from_zero</span>(difference), <span class="at">label =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a>        <span class="fu">abs</span>(difference) <span class="sc">&lt;</span> <span class="fl">0.005</span>,</span>
+<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0 pp"</span>,</span>
+<span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">"%+.0f pp"</span>, <span class="dv">100</span> <span class="sc">*</span> difference)</span>
+<span id="cb11-91"><a href="#cb11-91" aria-hidden="true" tabindex="-1"></a>      )),</span>
+<span id="cb11-92"><a href="#cb11-92" aria-hidden="true" tabindex="-1"></a>      <span class="at">nudge_y =</span> <span class="fl">0.32</span>,</span>
+<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a>      <span class="at">vjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>label,</span>
+<span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">"#333333"</span></span>
+<span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(</span>
+<span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> figure_vistype,</span>
+<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a>      <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fl">0.5</span>)</span>
+<span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a>      <span class="at">limits =</span> task1_contrast_limits,</span>
+<span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(</span>
+<span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a>        <span class="fu">abs</span>(x) <span class="sc">&lt;</span> <span class="fl">0.005</span>,</span>
+<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a>        <span class="st">"0 pp"</span>,</span>
+<span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">"%+.0f pp"</span>, <span class="dv">100</span> <span class="sc">*</span> x)</span>
+<span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_width</span>(<span class="fl">0.05</span>),</span>
+<span id="cb11-109"><a href="#cb11-109" aria-hidden="true" tabindex="-1"></a>      <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="dv">0</span>)</span>
+<span id="cb11-110"><a href="#cb11-110" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb11-111"><a href="#cb11-111" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb11-112"><a href="#cb11-112" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb11-113"><a href="#cb11-113" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="cn">NULL</span></span>
+<span id="cb11-114"><a href="#cb11-114" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb11-115"><a href="#cb11-115" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_theme</span>(<span class="at">base_size =</span> s<span class="sc">$</span>base) <span class="sc">+</span></span>
+<span id="cb11-116"><a href="#cb11-116" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb11-117"><a href="#cb11-117" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>axis_y, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">r =</span> s<span class="sc">$</span>margin)),</span>
+<span id="cb11-118"><a href="#cb11-118" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>axis_x),</span>
+<span id="cb11-119"><a href="#cb11-119" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-120"><a href="#cb11-120" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb11-121"><a href="#cb11-121" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-122"><a href="#cb11-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-123"><a href="#cb11-123" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Axis caption with Basic topoplot in its accent colour.</span></span>
+<span id="cb11-124"><a href="#cb11-124" aria-hidden="true" tabindex="-1"></a>  plot <span class="sc">/</span></span>
+<span id="cb11-125"><a href="#cb11-125" aria-hidden="true" tabindex="-1"></a>    <span class="fu">basic_axis_caption</span>(<span class="st">"Difference in estimated accuracy vs"</span>, <span class="at">size =</span> s<span class="sc">$</span>caption) <span class="sc">+</span></span>
+<span id="cb11-126"><a href="#cb11-126" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.10</span>))</span>
+<span id="cb11-127"><a href="#cb11-127" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-128"><a href="#cb11-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-129"><a href="#cb11-129" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_contrast_figure <span class="ot">&lt;-</span> <span class="fu">make_comparison_accuracy_contrast_figure</span>()</span>
+<span id="cb11-130"><a href="#cb11-130" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_contrast_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="task1_files/figure-html/task1-basic-contrast-figure-1.png" class="img-fluid figure-img" width="1260"></p>
+<figcaption>Population-average accuracy difference of each visualization from Basic topoplot. Bars: Dunnett-adjusted simultaneous 95% CIs for the six comparisons. Dashed line: no difference.</figcaption>
 </figure>
 </div>
 </div>
@@ -1251,7 +1221,15 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dpi =</span> <span class="dv">180</span>,</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">device =</span> ragg<span class="sc">::</span>agg_png,</span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">bg =</span> <span class="st">"white"</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Print version: one journal column wide.</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave_print</span>(</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"comparison_accuracy_contrast_figure.pdf"</span>),</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_comparison_accuracy_contrast_figure</span>(<span class="at">print =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> print_width[[<span class="st">"column"</span>]],</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="fl">2.5</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
@@ -1298,39 +1276,39 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Animation vs Basic topoplot</td>
-<td style="text-align: right;">+1.1</td>
-<td style="text-align: right;">[-4.7, +7.0]</td>
-<td style="text-align: right;">0.989</td>
+<td style="text-align: right;">+1.0</td>
+<td style="text-align: right;">[-4.8, +6.8]</td>
+<td style="text-align: right;">0.994</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Confidence intervals vs Basic topoplot</td>
-<td style="text-align: right;">+0.3</td>
-<td style="text-align: right;">[-5.6, +6.2]</td>
+<td style="text-align: right;">+0.1</td>
+<td style="text-align: right;">[-5.8, +6.0]</td>
 <td style="text-align: right;">1.000</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Adjacent plots vs Basic topoplot</td>
-<td style="text-align: right;">-2.7</td>
-<td style="text-align: right;">[-8.7, +3.2]</td>
-<td style="text-align: right;">0.686</td>
+<td style="text-align: right;">-2.6</td>
+<td style="text-align: right;">[-8.5, +3.3]</td>
+<td style="text-align: right;">0.721</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Uncertainty markers vs Basic topoplot</td>
-<td style="text-align: right;">-3.5</td>
-<td style="text-align: right;">[-9.7, +2.6]</td>
-<td style="text-align: right;">0.468</td>
+<td style="text-align: right;">-3.4</td>
+<td style="text-align: right;">[-9.5, +2.7]</td>
+<td style="text-align: right;">0.486</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate corner vs Basic topoplot</td>
-<td style="text-align: right;">-4.5</td>
-<td style="text-align: right;">[-10.7, +1.7]</td>
-<td style="text-align: right;">0.243</td>
+<td style="text-align: right;">-4.3</td>
+<td style="text-align: right;">[-10.5, +1.8]</td>
+<td style="text-align: right;">0.265</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate range vs Basic topoplot</td>
-<td style="text-align: right;">-5.1</td>
-<td style="text-align: right;">[-11.3, +1.1]</td>
-<td style="text-align: right;">0.137</td>
+<td style="text-align: right;">-5.3</td>
+<td style="text-align: right;">[-11.5, +0.8]</td>
+<td style="text-align: right;">0.116</td>
 </tr>
 </tbody>
 </table>
@@ -1425,73 +1403,73 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Basic topoplot (intercept)</td>
-<td style="text-align: right;">1.431</td>
+<td style="text-align: right;">1.439</td>
 <td style="text-align: right;">0.413</td>
-<td style="text-align: right;">3.464</td>
+<td style="text-align: right;">3.480</td>
 <td style="text-align: left;">&lt; 0.001</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Adjacent plots vs Basic topoplot</td>
-<td style="text-align: right;">-0.218</td>
-<td style="text-align: right;">0.189</td>
-<td style="text-align: right;">-1.150</td>
-<td style="text-align: left;">0.25006</td>
+<td style="text-align: right;">-0.209</td>
+<td style="text-align: right;">0.188</td>
+<td style="text-align: right;">-1.109</td>
+<td style="text-align: left;">0.26729</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Animation vs Basic topoplot</td>
-<td style="text-align: right;">0.097</td>
-<td style="text-align: right;">0.195</td>
-<td style="text-align: right;">0.497</td>
-<td style="text-align: left;">0.61935</td>
+<td style="text-align: right;">0.084</td>
+<td style="text-align: right;">0.194</td>
+<td style="text-align: right;">0.432</td>
+<td style="text-align: left;">0.66609</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate corner vs Basic topoplot</td>
-<td style="text-align: right;">-0.351</td>
+<td style="text-align: right;">-0.342</td>
 <td style="text-align: right;">0.188</td>
-<td style="text-align: right;">-1.863</td>
-<td style="text-align: left;">0.06244</td>
+<td style="text-align: right;">-1.824</td>
+<td style="text-align: left;">0.06821</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate range vs Basic topoplot</td>
-<td style="text-align: right;">-0.400</td>
-<td style="text-align: right;">0.187</td>
-<td style="text-align: right;">-2.138</td>
-<td style="text-align: left;">0.03256</td>
+<td style="text-align: right;">-0.415</td>
+<td style="text-align: right;">0.186</td>
+<td style="text-align: right;">-2.230</td>
+<td style="text-align: left;">0.02573</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Confidence intervals vs Basic topoplot</td>
-<td style="text-align: right;">0.026</td>
-<td style="text-align: right;">0.193</td>
-<td style="text-align: right;">0.132</td>
-<td style="text-align: left;">0.89506</td>
+<td style="text-align: right;">0.010</td>
+<td style="text-align: right;">0.192</td>
+<td style="text-align: right;">0.054</td>
+<td style="text-align: left;">0.95695</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Uncertainty markers vs Basic topoplot</td>
-<td style="text-align: right;">-0.279</td>
+<td style="text-align: right;">-0.273</td>
 <td style="text-align: right;">0.189</td>
-<td style="text-align: right;">-1.474</td>
-<td style="text-align: left;">0.14045</td>
+<td style="text-align: right;">-1.444</td>
+<td style="text-align: left;">0.14876</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">N170 vs MMN pattern</td>
-<td style="text-align: right;">0.124</td>
-<td style="text-align: right;">0.478</td>
-<td style="text-align: right;">0.259</td>
-<td style="text-align: left;">0.79541</td>
+<td style="text-align: right;">0.103</td>
+<td style="text-align: right;">0.479</td>
+<td style="text-align: right;">0.216</td>
+<td style="text-align: left;">0.82926</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">P3 vs MMN pattern</td>
-<td style="text-align: right;">1.246</td>
+<td style="text-align: right;">1.250</td>
 <td style="text-align: right;">0.477</td>
-<td style="text-align: right;">2.614</td>
-<td style="text-align: left;">0.00895</td>
+<td style="text-align: right;">2.621</td>
+<td style="text-align: left;">0.00876</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Presentation position (centered)</td>
-<td style="text-align: right;">-0.001</td>
+<td style="text-align: right;">0.000</td>
 <td style="text-align: right;">0.008</td>
-<td style="text-align: right;">-0.141</td>
-<td style="text-align: left;">0.88762</td>
+<td style="text-align: right;">-0.035</td>
+<td style="text-align: left;">0.97168</td>
 </tr>
 </tbody>
 </table>
@@ -1705,39 +1683,39 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Adjacent plots vs Basic topoplot</td>
-<td style="text-align: right;">0.80</td>
-<td style="text-align: right;">[0.50, 1.29]</td>
-<td style="text-align: right;">0.701</td>
+<td style="text-align: right;">0.81</td>
+<td style="text-align: right;">[0.51, 1.30]</td>
+<td style="text-align: right;">0.732</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Animation vs Basic topoplot</td>
-<td style="text-align: right;">1.10</td>
-<td style="text-align: right;">[0.67, 1.80]</td>
-<td style="text-align: right;">0.991</td>
+<td style="text-align: right;">1.09</td>
+<td style="text-align: right;">[0.67, 1.77]</td>
+<td style="text-align: right;">0.996</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate corner vs Basic topoplot</td>
-<td style="text-align: right;">0.70</td>
-<td style="text-align: right;">[0.44, 1.13]</td>
-<td style="text-align: right;">0.233</td>
+<td style="text-align: right;">0.71</td>
+<td style="text-align: right;">[0.44, 1.14]</td>
+<td style="text-align: right;">0.252</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate range vs Basic topoplot</td>
-<td style="text-align: right;">0.67</td>
-<td style="text-align: right;">[0.42, 1.07]</td>
-<td style="text-align: right;">0.129</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">[0.41, 1.05]</td>
+<td style="text-align: right;">0.104</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Confidence intervals vs Basic topoplot</td>
-<td style="text-align: right;">1.03</td>
-<td style="text-align: right;">[0.63, 1.67]</td>
+<td style="text-align: right;">1.01</td>
+<td style="text-align: right;">[0.62, 1.64]</td>
 <td style="text-align: right;">1.000</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Uncertainty markers vs Basic topoplot</td>
 <td style="text-align: right;">0.76</td>
 <td style="text-align: right;">[0.47, 1.22]</td>
-<td style="text-align: right;">0.460</td>
+<td style="text-align: right;">0.482</td>
 </tr>
 </tbody>
 </table>
@@ -1757,8 +1735,8 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 </div>
 <section id="coefficient-conclusion" class="level4">
 <h4 class="anchored" data-anchor-id="coefficient-conclusion">Coefficient conclusion</h4>
-<p><strong>Dunnett-adjusted odds ratios.</strong> No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.67, simultaneous 95% CI 0.42–1.07, adjusted <em>p</em> = 0.13) and Bivariate corner (OR = 0.70, simultaneous 95% CI 0.44–1.13, adjusted <em>p</em> = 0.23), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</p>
-<p><strong>Covariates.</strong> P3 trials had higher odds of a correct response than MMN trials (OR = 3.48, 95% CI 1.37–8.84, <em>p</em> = 0.009); N170 trials did not differ clearly from MMN trials (OR = 1.13, 95% CI 0.44–2.89, <em>p</em> = 0.8). The overall visualization-type test is reported below.</p>
+<p><strong>Dunnett-adjusted odds ratios.</strong> No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.66, simultaneous 95% CI 0.41–1.05, adjusted <em>p</em> = 0.10) and Bivariate corner (OR = 0.71, simultaneous 95% CI 0.44–1.14, adjusted <em>p</em> = 0.25), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</p>
+<p><strong>Covariates.</strong> P3 trials had higher odds of a correct response than MMN trials (OR = 3.49, 95% CI 1.37–8.89, <em>p</em> = 0.0088); N170 trials did not differ clearly from MMN trials (OR = 1.11, 95% CI 0.43–2.83, <em>p</em> = 0.83). The overall visualization-type test is reported below.</p>
 </section>
 </section>
 <section id="model-fit-comparison" class="level3">
@@ -1766,6 +1744,56 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <ul>
 <li>A likelihood-ratio test compares the model containing visualization type with a reduced model that retains ERP pattern, presentation position, and the same random effects. It evaluates whether visualization type improves the model overall after these adjustments.</li>
 </ul>
+<div class="callout callout-style-default callout-note callout-titled" title="What is an overall (omnibus) test? — Expand">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What is an overall (omnibus) test? — Expand
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>An <strong>overall test</strong>, also called an <strong>omnibus test</strong>, asks one question before any single comparison: <strong>does visualization type make any difference at all?</strong></p>
+<p>Here it is a <strong>likelihood-ratio test</strong> that compares two models:</p>
+<ul>
+<li>a model <strong>without</strong> visualization type (ERP pattern, position, random effects);</li>
+<li>the same model <strong>with</strong> visualization type added.</li>
+</ul>
+<p>If adding visualization type makes the model fit clearly better, the visualizations differ somewhere. The result is written as χ²(df) = value, <em>p</em>:</p>
+<ul>
+<li><strong>df</strong> (degrees of freedom) = 6: seven visualizations give six extra parameters beyond the reference, Basic topoplot.</li>
+<li><strong>χ²</strong>: how much the fit improved.</li>
+<li><strong><em>p</em></strong>: the chance of an improvement at least this large if visualization type made no difference.</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Is there any difference among the seven visualizations?</td>
+<td>Overall test (one test)</td>
+</tr>
+<tr class="even">
+<td>Which visualization differs from Basic, and by how much?</td>
+<td>Six Dunnett-adjusted contrasts (primary)</td>
+</tr>
+</tbody>
+</table>
+<p>The overall test cannot say <em>which</em> visualization differs. It pools all six differences into one number, so it can disagree with the contrasts: several small differences can add up to a significant overall test while no single contrast is significant.</p>
+</div>
+</div>
+</div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1894,25 +1922,25 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <tr class="odd">
 <td style="text-align: left;"><code>correct ~ vistype + pattern + position_c</code></td>
 <td style="text-align: right;">10</td>
-<td style="text-align: right;">3370.844</td>
-<td style="text-align: right;">3431.328</td>
-<td style="text-align: right;">-1675.422</td>
+<td style="text-align: right;">3394.823</td>
+<td style="text-align: right;">3455.375</td>
+<td style="text-align: right;">-1687.412</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>correct ~ pattern + position_c +</code><br>
 <code>(1 | ID) + (1 | stimulus) + (1 | wrong_image)</code></td>
 <td style="text-align: right;">7</td>
-<td style="text-align: right;">2821.009</td>
-<td style="text-align: right;"><span class="best-model-fit">2863.348</span></td>
-<td style="text-align: right;">-1403.505</td>
+<td style="text-align: right;">2839.907</td>
+<td style="text-align: right;"><span class="best-model-fit">2882.293</span></td>
+<td style="text-align: right;">-1412.953</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>correct ~ vistype + pattern + position_c +</code><br>
 <code>(1 | ID) + (1 | stimulus) + (1 | wrong_image)</code></td>
 <td style="text-align: right;">13</td>
-<td style="text-align: right;"><span class="best-model-fit">2819.979</span></td>
-<td style="text-align: right;">2898.610</td>
-<td style="text-align: right;"><span class="best-model-fit">-1396.990</span></td>
+<td style="text-align: right;"><span class="best-model-fit">2839.300</span></td>
+<td style="text-align: right;">2918.017</td>
+<td style="text-align: right;"><span class="best-model-fit">-1406.650</span></td>
 </tr>
 </tbody>
 </table>
@@ -1971,7 +1999,7 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <section id="model-comparison-summary" class="level4">
 <h4 class="anchored" data-anchor-id="model-comparison-summary">Model-comparison summary</h4>
 <p>Adding visualization type improved the adjusted model, <span class="math inline">\(\chi^2(6) =
-13.03\)</span>, <em>p</em> = 0.0426. The reduced and full models had AIC values of 2821.01 and 2819.98, respectively, compared with 3370.84 for the fixed-effects-only model. Thus, after accounting for ERP pattern, presentation position, participant baseline accuracy, and target- and distractor-stimulus difficulty, the analysis provided evidence that comparison-task accuracy differed overall among the seven visualization types.</p>
+12.61\)</span>, <em>p</em> = 0.0497. The reduced and full models had AIC values of 2839.91 and 2839.30, respectively, compared with 3394.82 for the fixed-effects-only model. Thus, after accounting for ERP pattern, presentation position, participant baseline accuracy, and target- and distractor-stimulus difficulty, the analysis provided evidence that comparison-task accuracy differed overall among the seven visualization types.</p>
 </section>
 </section>
 </section>
@@ -2235,38 +2263,38 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <tr class="odd">
 <td style="text-align: left;">Adjacent plots vs Basic topoplot</td>
 <td style="text-align: right;">0.80</td>
-<td style="text-align: right;">[0.52, 1.23]</td>
-<td style="text-align: right;">0.563</td>
+<td style="text-align: right;">[0.52, 1.24]</td>
+<td style="text-align: right;">0.5980</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Animation vs Basic topoplot</td>
-<td style="text-align: right;">1.03</td>
-<td style="text-align: right;">[0.65, 1.62]</td>
-<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.01</td>
+<td style="text-align: right;">[0.64, 1.60]</td>
+<td style="text-align: right;">1.0000</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bivariate corner vs Basic topoplot</td>
 <td style="text-align: right;">0.71</td>
-<td style="text-align: right;">[0.45, 1.11]</td>
-<td style="text-align: right;">0.202</td>
+<td style="text-align: right;">[0.45, 1.12]</td>
+<td style="text-align: right;">0.2159</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Bivariate range vs Basic topoplot</td>
-<td style="text-align: right;">0.68</td>
-<td style="text-align: right;">[0.44, 1.05]</td>
-<td style="text-align: right;">0.102</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">[0.43, 1.03]</td>
+<td style="text-align: right;">0.0814</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Confidence intervals vs Basic topoplot</td>
-<td style="text-align: right;">1.00</td>
-<td style="text-align: right;">[0.62, 1.62]</td>
-<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">[0.62, 1.60]</td>
+<td style="text-align: right;">1.0000</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Uncertainty markers vs Basic topoplot</td>
-<td style="text-align: right;">0.73</td>
-<td style="text-align: right;">[0.46, 1.17]</td>
-<td style="text-align: right;">0.334</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">[0.46, 1.18]</td>
+<td style="text-align: right;">0.3569</td>
 </tr>
 </tbody>
 </table>
@@ -2325,7 +2353,7 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Terms explanation">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -2334,7 +2362,7 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><strong>Conditional:</strong> The model compares the two candidate images within the same participant’s trial. It uses the fact that exactly one candidate was selected and removes the separate baseline for each trial. The term does not refer to an experimental condition.</li>
@@ -2345,17 +2373,20 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 </div>
 <section id="sensitivity-analysis-conclusion" class="level4">
 <h4 class="anchored" data-anchor-id="sensitivity-analysis-conclusion">Sensitivity-analysis conclusion</h4>
-<p>After accounting for candidate-image attractiveness, option position, ERP pattern, and presentation position, the joint participant-clustered Wald test indicated that visualization type changed preference for the matching candidate, <span class="math inline">\(\chi^2(6) = 13.24\)</span>, <em>p</em> = 0.039.</p>
-<p><strong>Dunnett-adjusted.</strong> No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.68, simultaneous 95% CI 0.44–1.05, adjusted <em>p</em> = 0.1) and Bivariate corner (OR = 0.71, simultaneous 95% CI 0.45–1.11, adjusted <em>p</em> = 0.2), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</p>
+<p>After accounting for candidate-image attractiveness, option position, ERP pattern, and presentation position, the joint participant-clustered Wald test indicated that visualization type changed preference for the matching candidate, <span class="math inline">\(\chi^2(6) = 12.96\)</span>, <em>p</em> = 0.044.</p>
+<p><strong>Dunnett-adjusted.</strong> No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.67, simultaneous 95% CI 0.43–1.03, adjusted <em>p</em> = 0.081) and Bivariate corner (OR = 0.71, simultaneous 95% CI 0.45–1.12, adjusted <em>p</em> = 0.216), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</p>
 <p>The sensitivity analysis separates matching performance from images’ general tendency to be selected; it does not replace the primary mixed-effects accuracy analysis.</p>
 </section>
 </section>
-<section id="item-level-diagnostic-target-images-below-chance" class="level2">
-<h2 class="anchored" data-anchor-id="item-level-diagnostic-target-images-below-chance">Item-level diagnostic: target images below chance</h2>
+<section id="task1-item-diagnostics" class="level2">
+<h2 class="anchored" data-anchor-id="task1-item-diagnostics">Item-level diagnostics</h2>
+<p>In Task 1, participants pick which of two maps matches the target, so guessing gives 50%. This section checks whether any target image was matched correctly less often than that, why, and whether it changes the main comparison.</p>
+<section id="task1-below-chance" class="level3">
+<h3 class="anchored" data-anchor-id="task1-below-chance">Target images below chance</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Answer-key checks: the matching candidate is the target stimulus, its file is the</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Answer-key checks: the matching candidate is the target image, its file is the</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># option named by the solution code, and "correct" equals answered == solution.</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>task1_key_checks <span class="ot">&lt;-</span> task1 <span class="sc">|&gt;</span></span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -2381,83 +2412,89 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">accuracy_vs_n170 =</span> <span class="fu">mean</span>(correct[distractor_pattern <span class="sc">==</span> <span class="st">"N170"</span>]),</span>
 <span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_vs_n170 =</span> <span class="fu">sum</span>(distractor_pattern <span class="sc">==</span> <span class="st">"N170"</span>),</span>
 <span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">accuracy_vs_p3 =</span> <span class="fu">mean</span>(correct[distractor_pattern <span class="sc">==</span> <span class="st">"P3"</span>]),</span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">accuracy_vs_mmn =</span> <span class="fu">mean</span>(correct[distractor_pattern <span class="sc">==</span> <span class="st">"MMN"</span>]),</span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower =</span> <span class="fu">map2_dbl</span>(n_correct, n, \(x, n) <span class="fu">binom.test</span>(x, n)<span class="sc">$</span>conf.int[<span class="dv">1</span>]),</span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">upper =</span> <span class="fu">map2_dbl</span>(n_correct, n, \(x, n) <span class="fu">binom.test</span>(x, n)<span class="sc">$</span>conf.int[<span class="dv">2</span>]),</span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_vs_chance =</span> <span class="fu">map2_dbl</span>(n_correct, n, \(x, n) <span class="fu">binom.test</span>(x, n, <span class="fl">0.5</span>)<span class="sc">$</span>p.value)</span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(accuracy)</span>
-<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>task1_distractor_accuracy <span class="ot">&lt;-</span> task1_items <span class="sc">|&gt;</span></span>
-<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(wrong_image) <span class="sc">|&gt;</span></span>
-<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">accuracy =</span> <span class="fu">mean</span>(correct), <span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>task1_below_chance <span class="ot">&lt;-</span> task1_target_accuracy <span class="sc">|&gt;</span></span>
-<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(accuracy <span class="sc">&lt;</span> <span class="fl">0.5</span>) <span class="sc">|&gt;</span></span>
-<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>    task1_distractor_accuracy <span class="sc">|&gt;</span></span>
-<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rename</span>(<span class="at">stimulus =</span> wrong_image, <span class="at">accuracy_as_distractor =</span> accuracy,</span>
-<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>             <span class="at">n_as_distractor =</span> n),</span>
-<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"stimulus"</span></span>
-<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower =</span> <span class="fu">map2_dbl</span>(n_correct, n, \(x, n) <span class="fu">binom.test</span>(x, n)<span class="sc">$</span>conf.int[<span class="dv">1</span>]),</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">upper =</span> <span class="fu">map2_dbl</span>(n_correct, n, \(x, n) <span class="fu">binom.test</span>(x, n)<span class="sc">$</span>conf.int[<span class="dv">2</span>]),</span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_vs_chance =</span> <span class="fu">map2_dbl</span>(n_correct, n, \(x, n) <span class="fu">binom.test</span>(x, n, <span class="fl">0.5</span>)<span class="sc">$</span>p.value)</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(accuracy)</span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>task1_distractor_accuracy <span class="ot">&lt;-</span> task1_items <span class="sc">|&gt;</span></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(wrong_image) <span class="sc">|&gt;</span></span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">accuracy =</span> <span class="fu">mean</span>(correct), <span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>task1_below_chance <span class="ot">&lt;-</span> task1_target_accuracy <span class="sc">|&gt;</span></span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(accuracy <span class="sc">&lt;</span> <span class="fl">0.5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>    task1_distractor_accuracy <span class="sc">|&gt;</span></span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rename</span>(<span class="at">stimulus =</span> wrong_image, <span class="at">accuracy_as_distractor =</span> accuracy,</span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>             <span class="at">n_as_distractor =</span> n),</span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"stimulus"</span></span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>task1_hard_targets <span class="ot">&lt;-</span> task1_below_chance<span class="sc">$</span>stimulus</span>
 <span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a>task1_pair_accuracy <span class="ot">&lt;-</span> task1_items <span class="sc">|&gt;</span></span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a>task1_worst_pair <span class="ot">&lt;-</span> task1_items <span class="sc">|&gt;</span></span>
 <span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(stimulus, wrong_image) <span class="sc">|&gt;</span></span>
-<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">accuracy =</span> <span class="fu">mean</span>(correct), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a>task1_worst_pair <span class="ot">&lt;-</span> task1_pair_accuracy <span class="sc">|&gt;</span></span>
-<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_min</span>(accuracy, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">with_ties =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a>task1_class_accuracy <span class="ot">&lt;-</span> task1_items <span class="sc">|&gt;</span></span>
-<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(pattern, distractor_pattern) <span class="sc">|&gt;</span></span>
-<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">accuracy =</span> <span class="fu">mean</span>(correct), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a>task1_mmn_vs_n170 <span class="ot">&lt;-</span> task1_class_accuracy <span class="sc">|&gt;</span></span>
-<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pattern <span class="sc">==</span> <span class="st">"MMN"</span>, distractor_pattern <span class="sc">==</span> <span class="st">"N170"</span>)</span>
-<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a>task1_mmn_vs_p3 <span class="ot">&lt;-</span> task1_class_accuracy <span class="sc">|&gt;</span></span>
-<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pattern <span class="sc">==</span> <span class="st">"MMN"</span>, distractor_pattern <span class="sc">==</span> <span class="st">"P3"</span>)</span>
-<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a>task1_below_chance <span class="sc">|&gt;</span></span>
-<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
-<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a>    stimulus,</span>
-<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a>    n,</span>
-<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">accuracy =</span> <span class="fu">sprintf</span>(<span class="st">"%.1f%% [%.1f, %.1f]"</span>, <span class="dv">100</span> <span class="sc">*</span> accuracy, <span class="dv">100</span> <span class="sc">*</span> lower, <span class="dv">100</span> <span class="sc">*</span> upper),</span>
-<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_vs_chance =</span> <span class="fu">format.pval</span>(p_vs_chance, <span class="at">digits =</span> <span class="dv">2</span>, <span class="at">eps =</span> <span class="fl">0.001</span>),</span>
-<span id="cb25-71"><a href="#cb25-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">vs_n170 =</span> <span class="fu">sprintf</span>(<span class="st">"%.1f%% (n = %d)"</span>, <span class="dv">100</span> <span class="sc">*</span> accuracy_vs_n170, n_vs_n170),</span>
-<span id="cb25-72"><a href="#cb25-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">vs_p3 =</span> <span class="fu">sprintf</span>(<span class="st">"%.1f%%"</span>, <span class="dv">100</span> <span class="sc">*</span> accuracy_vs_p3),</span>
-<span id="cb25-73"><a href="#cb25-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">as_distractor =</span> <span class="fu">sprintf</span>(<span class="st">"%.1f%% (n = %d)"</span>, <span class="dv">100</span> <span class="sc">*</span> accuracy_as_distractor,</span>
-<span id="cb25-74"><a href="#cb25-74" aria-hidden="true" tabindex="-1"></a>                            n_as_distractor)</span>
-<span id="cb25-75"><a href="#cb25-75" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb25-76"><a href="#cb25-76" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb25-77"><a href="#cb25-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb25-78"><a href="#cb25-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>),</span>
-<span id="cb25-79"><a href="#cb25-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
-<span id="cb25-80"><a href="#cb25-80" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Target image"</span>,</span>
-<span id="cb25-81"><a href="#cb25-81" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Trials"</span>,</span>
-<span id="cb25-82"><a href="#cb25-82" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Accuracy [exact 95% CI]"</span>,</span>
-<span id="cb25-83"><a href="#cb25-83" aria-hidden="true" tabindex="-1"></a>      <span class="st">"p vs 50% (binomial)"</span>,</span>
-<span id="cb25-84"><a href="#cb25-84" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Accuracy vs N170 distractor"</span>,</span>
-<span id="cb25-85"><a href="#cb25-85" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Accuracy vs P3 distractor"</span>,</span>
-<span id="cb25-86"><a href="#cb25-86" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Accuracy when this image is the distractor"</span></span>
-<span id="cb25-87"><a href="#cb25-87" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb25-88"><a href="#cb25-88" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Target images with accuracy below 50%, all visualization types pooled."</span>,</span>
-<span id="cb25-89"><a href="#cb25-89" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
-<span id="cb25-90"><a href="#cb25-90" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">accuracy =</span> <span class="fu">mean</span>(correct), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_min</span>(accuracy, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">with_ties =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a>task1_class_accuracy <span class="ot">&lt;-</span> task1_items <span class="sc">|&gt;</span></span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(pattern, distractor_pattern) <span class="sc">|&gt;</span></span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">accuracy =</span> <span class="fu">mean</span>(correct), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a>task1_mmn_vs_n170 <span class="ot">&lt;-</span> task1_class_accuracy <span class="sc">|&gt;</span></span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pattern <span class="sc">==</span> <span class="st">"MMN"</span>, distractor_pattern <span class="sc">==</span> <span class="st">"N170"</span>)</span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a>task1_mmn_vs_p3 <span class="ot">&lt;-</span> task1_class_accuracy <span class="sc">|&gt;</span></span>
+<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(pattern <span class="sc">==</span> <span class="st">"MMN"</span>, distractor_pattern <span class="sc">==</span> <span class="st">"P3"</span>)</span>
+<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a>task1_hard_vistype_counts <span class="ot">&lt;-</span> task1_model <span class="sc">|&gt;</span></span>
+<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(stimulus <span class="sc">%in%</span> task1_hard_targets) <span class="sc">|&gt;</span></span>
+<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(vistype)</span>
+<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a>task1_below_chance <span class="sc">|&gt;</span></span>
+<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a>    stimulus,</span>
+<span id="cb25-71"><a href="#cb25-71" aria-hidden="true" tabindex="-1"></a>    n,</span>
+<span id="cb25-72"><a href="#cb25-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">accuracy =</span> <span class="fu">sprintf</span>(<span class="st">"%.1f%% [%.1f, %.1f]"</span>, <span class="dv">100</span> <span class="sc">*</span> accuracy, <span class="dv">100</span> <span class="sc">*</span> lower, <span class="dv">100</span> <span class="sc">*</span> upper),</span>
+<span id="cb25-73"><a href="#cb25-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_vs_chance =</span> <span class="fu">format.pval</span>(p_vs_chance, <span class="at">digits =</span> <span class="dv">2</span>, <span class="at">eps =</span> <span class="fl">0.001</span>),</span>
+<span id="cb25-74"><a href="#cb25-74" aria-hidden="true" tabindex="-1"></a>    <span class="at">vs_n170 =</span> <span class="fu">sprintf</span>(<span class="st">"%.1f%% (n = %d)"</span>, <span class="dv">100</span> <span class="sc">*</span> accuracy_vs_n170, n_vs_n170),</span>
+<span id="cb25-75"><a href="#cb25-75" aria-hidden="true" tabindex="-1"></a>    <span class="at">vs_p3 =</span> <span class="fu">sprintf</span>(<span class="st">"%.1f%%"</span>, <span class="dv">100</span> <span class="sc">*</span> accuracy_vs_p3),</span>
+<span id="cb25-76"><a href="#cb25-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">as_distractor =</span> <span class="fu">sprintf</span>(<span class="st">"%.1f%% (n = %d)"</span>, <span class="dv">100</span> <span class="sc">*</span> accuracy_as_distractor,</span>
+<span id="cb25-77"><a href="#cb25-77" aria-hidden="true" tabindex="-1"></a>                            n_as_distractor)</span>
+<span id="cb25-78"><a href="#cb25-78" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb25-79"><a href="#cb25-79" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb25-80"><a href="#cb25-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb25-81"><a href="#cb25-81" aria-hidden="true" tabindex="-1"></a>    <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>),</span>
+<span id="cb25-82"><a href="#cb25-82" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb25-83"><a href="#cb25-83" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Target image"</span>,</span>
+<span id="cb25-84"><a href="#cb25-84" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Trials"</span>,</span>
+<span id="cb25-85"><a href="#cb25-85" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Correct [95% CI]"</span>,</span>
+<span id="cb25-86"><a href="#cb25-86" aria-hidden="true" tabindex="-1"></a>      <span class="st">"p vs 50%"</span>,</span>
+<span id="cb25-87"><a href="#cb25-87" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Correct vs N170 distractor"</span>,</span>
+<span id="cb25-88"><a href="#cb25-88" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Correct vs P3 distractor"</span>,</span>
+<span id="cb25-89"><a href="#cb25-89" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Correct when it is the distractor"</span></span>
+<span id="cb25-90"><a href="#cb25-90" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-91"><a href="#cb25-91" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">paste</span>(</span>
+<span id="cb25-92"><a href="#cb25-92" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Target images matched correctly less than half the time, all visualizations"</span>,</span>
+<span id="cb25-93"><a href="#cb25-93" aria-hidden="true" tabindex="-1"></a>      <span class="st">"pooled. CI: exact binomial; p: binomial test against 50%."</span></span>
+<span id="cb25-94"><a href="#cb25-94" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-95"><a href="#cb25-95" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
+<span id="cb25-96"><a href="#cb25-96" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-striped table-hover table-sm caption-top small">
-<caption>Target images with accuracy below 50%, all visualization types pooled.</caption>
+<caption>Target images matched correctly less than half the time, all visualizations pooled. CI: exact binomial; p: binomial test against 50%.</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Target image</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">Trials</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Accuracy [exact 95% CI]</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">p vs 50% (binomial)</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Accuracy vs N170 distractor</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Accuracy vs P3 distractor</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Accuracy when this image is the distractor</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Correct [95% CI]</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">p vs 50%</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Correct vs N170 distractor</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Correct vs P3 distractor</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Correct when it is the distractor</th>
 </tr>
 </thead>
 <tbody>
@@ -2472,16 +2509,24 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 </tr>
 <tr class="even">
 <td style="text-align: left;">MMN_29</td>
-<td style="text-align: right;">102</td>
-<td style="text-align: right;">46.1% [36.2, 56.2]</td>
-<td style="text-align: right;">0.488</td>
-<td style="text-align: right;">20.5% (n = 44)</td>
+<td style="text-align: right;">103</td>
+<td style="text-align: right;">45.6% [35.8, 55.7]</td>
+<td style="text-align: right;">0.431</td>
+<td style="text-align: right;">20.0% (n = 45)</td>
 <td style="text-align: right;">65.5%</td>
-<td style="text-align: right;">93.2% (n = 103)</td>
+<td style="text-align: right;">93.3% (n = 104)</td>
 </tr>
 </tbody>
 </table>
 </div>
+</div>
+<ul>
+<li><strong>Not a coding error.</strong> The answer key was checked in all 3,150 trials: the correct option is the target image, its file belongs to the target’s ERP class, the other option is the logged distractor, and “correct” equals “answer = solution”.</li>
+<li><strong>The problem is N170 distractors.</strong> Against a P3 distractor these targets are matched well; against an N170 distractor they are mostly missed. The worst pair was MMN_19 against N170_7 (9% correct, n = 11). The same holds, more mildly, for all MMN targets: 56.7% correct against N170 and 85.9% against P3 (table below).</li>
+<li><strong>The images are not confusing as distractors.</strong> When they were the wrong option, participants almost never chose them (94.7% correct for MMN_19 and 93.3% correct for MMN_29).</li>
+<li><strong>Why.</strong> The MMN and N170 templates both show a negative area at the front and a positive area at the back. These two MMN images are single-participant maps with a low voltage range (colour scales of only ±1.5 and ±1.7 µV), so the pattern is faint, and their positive area sits at the side, not at the back. Some N170 maps (for example N170_7, N170_12 and N170_16) look more like the MMN template than these two MMN maps do. Participants picked the map that looked more like the template, which here was the distractor (stimuli in <code>Experimental stimuli/stimuli/SE/</code>).</li>
+</ul>
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>task1_class_accuracy <span class="sc">|&gt;</span></span>
@@ -2494,94 +2539,244 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
 <span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>),</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Target class"</span>, <span class="st">"Distractor class"</span>, <span class="st">"Trials"</span>, <span class="st">"Accuracy"</span>),</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Accuracy by target and distractor ERP class."</span>,</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Target"</span>, <span class="st">"Distractor"</span>, <span class="st">"Trials"</span>, <span class="st">"Correct"</span>),</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Task 1 accuracy by the ERP pattern of the target and of the distractor."</span>,</span>
 <span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
 <span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-striped table-hover table-sm caption-top small">
-<caption>Accuracy by target and distractor ERP class.</caption>
+<caption>Task 1 accuracy by the ERP pattern of the target and of the distractor.</caption>
 <thead>
 <tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">Target class</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Distractor class</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Target</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Distractor</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">Trials</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Accuracy</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Correct</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">MMN</td>
 <td style="text-align: left;">N170</td>
-<td style="text-align: right;">512</td>
-<td style="text-align: right;">56.4%</td>
+<td style="text-align: right;">517</td>
+<td style="text-align: right;">56.7%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">MMN</td>
 <td style="text-align: left;">P3</td>
-<td style="text-align: right;">531</td>
+<td style="text-align: right;">533</td>
 <td style="text-align: right;">85.9%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">N170</td>
 <td style="text-align: left;">MMN</td>
-<td style="text-align: right;">509</td>
-<td style="text-align: right;">70.1%</td>
+<td style="text-align: right;">513</td>
+<td style="text-align: right;">69.8%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">N170</td>
 <td style="text-align: left;">P3</td>
-<td style="text-align: right;">534</td>
+<td style="text-align: right;">537</td>
 <td style="text-align: right;">88.6%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">P3</td>
 <td style="text-align: left;">MMN</td>
-<td style="text-align: right;">528</td>
-<td style="text-align: right;">84.8%</td>
+<td style="text-align: right;">532</td>
+<td style="text-align: right;">85.0%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">P3</td>
 <td style="text-align: left;">N170</td>
-<td style="text-align: right;">515</td>
-<td style="text-align: right;">74.4%</td>
+<td style="text-align: right;">518</td>
+<td style="text-align: right;">74.3%</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="Diagnostic: are the below-chance targets mis-keyed?">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<ul>
+<li><strong>Effect on the results.</strong> The trials with these targets are spread evenly over the visualizations (27–36 per visualization), and the model’s target and distractor terms absorb how hard each image is. So they make the data noisier but do not favour any visualization, and they stay in the primary analysis.</li>
+<li><strong>For the manuscript.</strong> The Stimuli section should say that some single-participant MMN and N170 maps look alike, which makes MMN–N170 pairs harder.</li>
+</ul>
+</section>
+<section id="task1-hard-refit" class="level3">
+<h3 class="anchored" data-anchor-id="task1-hard-refit">Visualizations with and without these trials</h3>
+<ul>
+<li><strong>What is compared.</strong> The primary model is fitted again without the 218 trials whose target was MMN_19 and MMN_29. The table puts the primary comparison (accuracy difference from Basic topoplot, Dunnett-adjusted) on all trials next to the same comparison without these trials.</li>
+<li><strong>Overall test.</strong> Visualization type: <em>p</em> = 0.05 on all trials and <em>p</em> = 0.024 without the hard trials.</li>
+<li><strong>Comparisons with Basic.</strong> Without the hard trials, all six intervals still include 0, so no visualization differs clearly from Basic.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>task1_hard_compare <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  task1_basic_contrasts <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">vistype =</span> <span class="fu">as.character</span>(vistype)) <span class="sc">|&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(vistype, difference, lower_ci, upper_ci) <span class="sc">|&gt;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">trials =</span> <span class="st">"All trials"</span>),</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  task1_without_hard_contrasts <span class="sc">|&gt;</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(vistype, difference, lower_ci, upper_ci) <span class="sc">|&gt;</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">trials =</span> <span class="st">"Without the hard trials"</span>)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">vistype =</span> <span class="fu">factor</span>(vistype, <span class="at">levels =</span> <span class="fu">levels</span>(task1_basic_contrasts<span class="sc">$</span>vistype)),</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">trials =</span> <span class="fu">factor</span>(trials, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Without the hard trials"</span>, <span class="st">"All trials"</span>))</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>task1_hard_dodge <span class="ot">&lt;-</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.55</span>)</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(task1_hard_compare, <span class="fu">aes</span>(difference, vistype, <span class="at">colour =</span> trials)) <span class="sc">+</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="fl">0.6</span>,</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">"#377EB8"</span>) <span class="sc">+</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> lower_ci, <span class="at">xmax =</span> upper_ci), <span class="at">orientation =</span> <span class="st">"y"</span>,</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">linewidth =</span> <span class="fl">0.6</span>, <span class="at">position =</span> task1_hard_dodge) <span class="sc">+</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">position =</span> task1_hard_dodge) <span class="sc">+</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"All trials"</span> <span class="ot">=</span> <span class="st">"#333333"</span>, <span class="st">"Without the hard trials"</span> <span class="ot">=</span> <span class="st">"#D55E00"</span>),</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">"All trials"</span>, <span class="st">"Without the hard trials"</span>),</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="cn">NULL</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> figure_vistype) <span class="sc">+</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(<span class="fu">abs</span>(x) <span class="sc">&lt;</span> <span class="fl">0.005</span>, <span class="st">"0 pp"</span>, <span class="fu">sprintf</span>(<span class="st">"%+.0f pp"</span>, <span class="dv">100</span> <span class="sc">*</span> x)),</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_width</span>(<span class="fl">0.05</span>)</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Difference in estimated accuracy vs Basic topoplot"</span>,</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_theme</span>(<span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">24</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">r =</span> <span class="dv">12</span>)),</span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="task1_files/figure-html/task1-hard-primary-figure-1.png" class="img-fluid figure-img" alt="Dot-and-interval plot of the six accuracy differences from Basic topoplot, each shown twice: on all trials (dark grey) and without the trials whose target was one of the two hard MMN images (orange). The two estimates for each visualization lie close together, and every interval crosses the zero line." width="1800"></p>
+<figcaption>Population-average accuracy difference from Basic topoplot on all trials (dark grey) and without the trials whose target was one of the two hard MMN images (orange). Bars: Dunnett-adjusted simultaneous 95% CIs for the six comparisons. Dashed line: no difference.</figcaption>
+</figure>
 </div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Diagnostic: are the below-chance targets mis-keyed?
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Question.</strong> 2 target images were matched less often than chance across all visualization types: MMN_19 (41.7%, n = 115) and MMN_29 (46.1%, n = 102). The lowest target–distractor combination with at least 10 trials was MMN_19 against N170_7 (9% correct, n = 11).</p>
-<p><strong>Answer key.</strong> The key is internally consistent: in all 3,129 trials, the matching candidate is the target image, its file name belongs to the target’s ERP class and to the option named by the solution code, the nonmatching file is the logged distractor, and the recorded accuracy equals “answered = solution”. There is no sign of a coding or key error.</p>
-<p><strong>Ambiguity, not mis-keying.</strong> The difficulty is specific to N170 distractors. When the target was an MMN image, accuracy was 56.4% against an N170 distractor and 85.9% against a P3 distractor. For the below-chance targets, accuracy against N170 distractors was 15.3% (MMN_19) and 20.5% (MMN_29), but against P3 distractors it was 69.6% (MMN_19) and 65.5% (MMN_29). As distractors, the same images were almost never chosen (94.7% correct for MMN_19 and 93.2% correct for MMN_29). Visual inspection of the stimuli (<code>Experimental stimuli/stimuli/SE/</code>) agrees: the MMN and N170 class templates both show a frontal negativity with a posterior positivity. These two MMN images are weak single-subject maps (colour scales of ±1.5 and ±1.7 µV) whose positivity is lateral or temporal rather than posterior, whereas several N170 images (for example N170_7, N170_12, and N170_16) closely resemble the MMN template. Participants therefore picked the image that looked more like the template, which on these trials was the distractor.</p>
-<p><strong>Consequence for the analysis.</strong> These trials are retained. Target and distractor random intercepts absorb image difficulty, and the trials with these targets were spread evenly over the visualization types (27–36 trials per type), so hard items add noise rather than bias.</p>
-<p><em>Exploratory refit.</em> Without the 217 trials whose target was one of these images, the likelihood-ratio test for visualization type gave <em>p</em> = 0.018 (all trials: <em>p</em> = 0.043). The two lowest odds ratios relative to Basic were Bivariate range (OR = 0.61, Dunnett-adjusted simultaneous 95% CI 0.37–1.00, adjusted <em>p</em> = 0.051) and Bivariate corner (OR = 0.63, Dunnett-adjusted simultaneous 95% CI 0.38–1.03, adjusted <em>p</em> = 0.075); all six adjusted intervals included 1. The excluded images were chosen after looking at the data, so this refit is exploratory and does not replace the primary analysis.</p>
-<p>In the manuscript, the stimulus section should state that some single-subject MMN and N170 topographies are similar, which makes MMN–N170 pairs harder.</p>
 </div>
 </div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>task1_format_contrast <span class="ot">&lt;-</span> <span class="cf">function</span>(d, l, u) {</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sprintf</span>(<span class="st">"%+.1f [%+.1f, %+.1f]"</span>, <span class="dv">100</span> <span class="sc">*</span> d, <span class="dv">100</span> <span class="sc">*</span> l, <span class="dv">100</span> <span class="sc">*</span> u)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Three decimals in every row (format.pval would pick one width per column).</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>task1_format_p3 <span class="ot">&lt;-</span> <span class="cf">function</span>(p) {</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(p <span class="sc">&lt;</span> <span class="fl">0.001</span>, <span class="st">"&lt; 0.001"</span>, <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, p))</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>task1_basic_contrasts <span class="sc">|&gt;</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(vistype)) <span class="sc">|&gt;</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vistype =</span> <span class="fu">as.character</span>(vistype)) <span class="sc">|&gt;</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(task1_without_hard_contrasts, <span class="at">by =</span> <span class="st">"vistype"</span>,</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">"_all"</span>, <span class="st">"_without"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">comparison =</span> <span class="fu">paste</span>(<span class="fu">table_vistype</span>(vistype), <span class="st">"vs Basic topoplot"</span>),</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">all =</span> <span class="fu">task1_format_contrast</span>(difference_all, lower_ci_all, upper_ci_all),</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_all =</span> <span class="fu">task1_format_p3</span>(p_adjusted_all),</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">without =</span> <span class="fu">task1_format_contrast</span>(difference_without, lower_ci_without,</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>                                    upper_ci_without),</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_without =</span> <span class="fu">task1_format_p3</span>(p_adjusted_without)</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">escape =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>),</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Comparison"</span>,</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">"All trials: difference [95% CI] (pp)"</span>, <span class="st">"p"</span>,</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Without the hard trials: difference [95% CI] (pp)"</span>, <span class="st">"p"</span></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">paste0</span>(</span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Hard trials: target "</span>, knitr<span class="sc">::</span><span class="fu">combine_words</span>(task1_hard_targets, <span class="at">and =</span> <span class="st">" or "</span>),</span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>      <span class="st">" (exploratory). CIs and p values are Dunnett-adjusted."</span></span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-sm caption-top small">
+<caption>Hard trials: target MMN_19 or MMN_29 (exploratory). CIs and p values are Dunnett-adjusted.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Comparison</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">All trials: difference [95% CI] (pp)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">p</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Without the hard trials: difference [95% CI] (pp)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Animation vs Basic topoplot</td>
+<td style="text-align: right;">+1.0 [-4.8, +6.8]</td>
+<td style="text-align: right;">0.994</td>
+<td style="text-align: right;">+0.3 [-5.5, +6.1]</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Confidence intervals vs Basic topoplot</td>
+<td style="text-align: right;">+0.1 [-5.8, +6.0]</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">-0.8 [-6.7, +5.1]</td>
+<td style="text-align: right;">0.999</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Adjacent plots vs Basic topoplot</td>
+<td style="text-align: right;">-2.6 [-8.5, +3.3]</td>
+<td style="text-align: right;">0.721</td>
+<td style="text-align: right;">-3.8 [-9.8, +2.1]</td>
+<td style="text-align: right;">0.354</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Uncertainty markers vs Basic topoplot</td>
+<td style="text-align: right;">-3.4 [-9.5, +2.7]</td>
+<td style="text-align: right;">0.486</td>
+<td style="text-align: right;">-4.0 [-10.2, +2.1]</td>
+<td style="text-align: right;">0.327</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bivariate corner vs Basic topoplot</td>
+<td style="text-align: right;">-4.3 [-10.5, +1.8]</td>
+<td style="text-align: right;">0.265</td>
+<td style="text-align: right;">-5.5 [-11.8, +0.7]</td>
+<td style="text-align: right;">0.105</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bivariate range vs Basic topoplot</td>
+<td style="text-align: right;">-5.3 [-11.5, +0.8]</td>
+<td style="text-align: right;">0.116</td>
+<td style="text-align: right;">-6.1 [-12.4, +0.1]</td>
+<td style="text-align: right;">0.059</td>
+</tr>
+</tbody>
+</table>
 </div>
+</div>
+<ul>
+<li><strong>Status.</strong> The two images were chosen after looking at the data, so this comparison is exploratory and does not replace the primary analysis.</li>
+</ul>
+</section>
 </section>
 <section id="summary-of-the-task-1-accuracy-evidence" class="level2">
 <h2 class="anchored" data-anchor-id="summary-of-the-task-1-accuracy-evidence">Summary of the Task 1 accuracy evidence</h2>
 <ul>
 <li><strong>Overall test.</strong> Adding visualization type improved the primary model, <span class="math inline">\(\chi^2(6) =
-13.03\)</span>, <em>p</em> = 0.043.</li>
-<li><strong>Primary contrasts</strong> (population-average accuracy, Dunnett-adjusted for six comparisons with Basic). No visualization type differed clearly from Basic topoplot: all six intervals included 0. The lowest point estimates were for Bivariate range (-5.1 pp, simultaneous 95% CI -11.3 to +1.1 pp, adjusted <em>p</em> = 0.14) and Bivariate corner (-4.5 pp, simultaneous 95% CI -10.7 to +1.7 pp, adjusted <em>p</em> = 0.24), but these intervals also included 0, so the data are compatible both with no difference and with a moderate accuracy cost.</li>
-<li><strong>Odds-ratio scale</strong> (Dunnett-adjusted). No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.67, simultaneous 95% CI 0.42–1.07, adjusted <em>p</em> = 0.13) and Bivariate corner (OR = 0.70, simultaneous 95% CI 0.44–1.13, adjusted <em>p</em> = 0.23), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</li>
-<li><strong>Sensitivity analysis</strong> (conditional logit, Dunnett-adjusted). No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.68, simultaneous 95% CI 0.44–1.05, adjusted <em>p</em> = 0.1) and Bivariate corner (OR = 0.71, simultaneous 95% CI 0.45–1.11, adjusted <em>p</em> = 0.2), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</li>
-<li><strong>Interpretation.</strong> Taken together, the evidence that any uncertainty visualization changed matching accuracy is weak: the overall test gave <em>p</em> = 0.043, and no Dunnett-adjusted contrast with Basic excluded zero. Bivariate range and Bivariate corner had the lowest estimates in both the primary model and the conditional-logit sensitivity analysis, so they are candidates for a small accuracy cost, but this study cannot distinguish that cost from no difference. The results should be reported as estimates with intervals, not as evidence that a visualization lowered accuracy.</li>
+12.61\)</span>, <em>p</em> = 0.05.</li>
+<li><strong>Primary contrasts</strong> (population-average accuracy, Dunnett-adjusted for six comparisons with Basic). No visualization type differed clearly from Basic topoplot: all six intervals included 0. The lowest point estimates were for Bivariate range (-5.3 pp, simultaneous 95% CI -11.5 to +0.8 pp, adjusted <em>p</em> = 0.12) and Bivariate corner (-4.3 pp, simultaneous 95% CI -10.5 to +1.8 pp, adjusted <em>p</em> = 0.26), but these intervals also included 0, so the data are compatible both with no difference and with a moderate accuracy cost.</li>
+<li><strong>Odds-ratio scale</strong> (Dunnett-adjusted). No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.66, simultaneous 95% CI 0.41–1.05, adjusted <em>p</em> = 0.10) and Bivariate corner (OR = 0.71, simultaneous 95% CI 0.44–1.14, adjusted <em>p</em> = 0.25), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</li>
+<li><strong>Sensitivity analysis</strong> (conditional logit, Dunnett-adjusted). No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.67, simultaneous 95% CI 0.43–1.03, adjusted <em>p</em> = 0.081) and Bivariate corner (OR = 0.71, simultaneous 95% CI 0.45–1.12, adjusted <em>p</em> = 0.216), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</li>
+<li><strong>Interpretation.</strong> Taken together, the evidence that any uncertainty visualization changed matching accuracy is weak: the overall test gave <em>p</em> = 0.05, and no Dunnett-adjusted contrast with Basic excluded zero. Bivariate range and Bivariate corner had the lowest estimates in both the primary model and the conditional-logit sensitivity analysis, so they are candidates for a small accuracy cost, but this study cannot distinguish that cost from no difference. The results should be reported as estimates with intervals, not as evidence that a visualization lowered accuracy.</li>
 </ul>
 </section>
 <section id="completion-time-analysis" class="level2">

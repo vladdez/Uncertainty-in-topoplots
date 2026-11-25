@@ -32,12 +32,22 @@ a305_content_analysis <- readxl::read_xlsx(
   sheet = "A305 content analysis",
   col_types = "text"
 ) |>
+  # The workbook is keyed on SoSci Survey's CASE number, which does not change
+  # between exports; the participant ID shown on the pages is looked up here.
+  mutate(CASE = as.integer(CASE)) |>
+  left_join(
+    data |> transmute(CASE, ID = as.character(ID)),
+    by = "CASE"
+  ) |>
+  relocate(ID) |>
   # Unique meaning unit = participant + retained wording; the same unit can
   # appear under several visualizations.
   mutate(unit_id = sprintf(
     "MU%03d",
     match(paste(ID, `Meaning unit`), unique(paste(ID, `Meaning unit`)))
   ))
+
+stopifnot(!anyNA(a305_content_analysis$ID))
 
 a305_n_units <- n_distinct(a305_content_analysis$unit_id)
 a305_n_rows <- nrow(a305_content_analysis)
@@ -68,7 +78,7 @@ Participant comments are presented in two groups. Select an **Expand** button to
 
 ## Qualitative content analysis
 
-`ID` links every unit to its original A305 response. Participant wording is retained as closely as possible; themes and intensities are interpretive codes. Use the search box or column filters to explore the table.
+`ID` links every unit to its original A305 response; it is the participant ID used on all pages. The downloadable workbook identifies participants by the survey's record number (`CASE`), which does not change between data exports. Participant wording is retained as closely as possible; themes and intensities are interpretive codes. Use the search box or column filters to explore the table.
 
 References to bivariate plots without an identified variant are coded as `General bivariates`; a unit is coded to both Bivariate corner and Bivariate range only when the response names both variants (IDs `r paste(a305_both_variants_ids, collapse = " and ")`). Proposed redesigns are included only when they express an evaluation of the displayed visualization; suggestions alone are not assigned an intensity.
 
@@ -237,22 +247,34 @@ intensity_axis_labels <- c(
   `2` = "+2"
 )
 
+# Codebook labels of the coding workbook -> visualization keys, so the axis shows
+# the same names as every other figure (audit V5). The codebook and data keep
+# their own labels; "General bivariates" has no key and keeps its name.
+codebook_vistype <- c(
+  Basic = "basic",
+  Adjacent = "adjacent",
+  `Bivariate corner` = "bivariate_corner",
+  `Bivariate range` = "bivariate_range",
+  `Confidence interval` = "triple_CI",
+  `Uncertainty markers` = "uncert_markers",
+  Animation = "animation"
+)
 visualization_axis_labels <- c(
-  Basic = "<span style='color:#377EB8'>Basic</span>",
-  Adjacent = "Adjacent",
-  `Bivariate corner` = "Bivariate<br>corner",
-  `Bivariate range` = "Bivariate<br>range",
-  `General bivariates` = "General<br>bivariates",
-  `Confidence interval` = "Confidence<br>interval",
-  `Uncertainty markers` = "Uncertainty<br>markers",
-  Animation = "Animation"
+  setNames(
+    markdown_vistype(codebook_vistype, stacked = TRUE),
+    names(codebook_vistype)
+  ),
+  `General bivariates` = "General<br>bivariates"
 )
 
 make_a305_intensity_figure <- function(
   plot_data,
-  angle_x_labels = FALSE,
   fade_sparse = FALSE
 ) {
+  # One fixed visualization order in every panel, with empty slots kept, so the
+  # columns line up across panels (Wilke ch. 21; audit V4).
+  visualization_limits <- levels(plot_data$visualization)
+
   theme_panel_counts <- plot_data |>
     count(theme, name = "n_entries") |>
     arrange(desc(n_entries), theme)
@@ -285,22 +307,16 @@ make_a305_intensity_figure <- function(
     plot_data
   }
 
-  x_axis_text <- if (angle_x_labels) {
-    ggtext::element_markdown(
-      size = 20,
-      angle = 30,
-      hjust = 1,
-      vjust = 1,
-      lineheight = 0.9,
-      margin = margin(t = 8)
-    )
-  } else {
-    ggtext::element_markdown(
-      size = 24,
-      lineheight = 0.85,
-      margin = margin(t = 6)
-    )
-  }
+  # Horizontal labels; slightly smaller when there are eight columns. (21 rather
+  # than 24 with seven columns, so "Confidence intervals" and "Uncertainty
+  # markers" keep a gap between them.)
+  x_axis_text <- ggtext::element_markdown(
+    size = if (length(visualization_limits) > 7) 19 else 21,
+    # showtext draws line gaps 180/96 times too wide (see the caption below), so
+    # 0.5 gives normal spacing between the two lines of a label.
+    lineheight = 0.5,
+    margin = margin(t = 6)
+  )
 
   ggplot(
     plot_data,
@@ -327,17 +343,22 @@ make_a305_intensity_figure <- function(
     ) +
     facet_wrap(
       vars(theme),
-      scales = "free_x",
+      scales = "fixed",
+      axes = "all_x",
       ncol = 2,
       labeller = as_labeller(theme_panel_labels)
     ) +
-    scale_x_discrete(labels = visualization_axis_labels, drop = TRUE) +
+    scale_x_discrete(
+      limits = visualization_limits,
+      labels = visualization_axis_labels,
+      drop = FALSE
+    ) +
     scale_colour_manual(
-      values = c(`FALSE` = "#333333", `TRUE` = "#377EB8"),
+      values = c(`FALSE` = "#333333", `TRUE` = basic_accent),
       guide = "none"
     ) +
     scale_fill_manual(
-      values = c(`FALSE` = "#D9D9D9", `TRUE` = "#B9D8F2"),
+      values = c(`FALSE` = "#D9D9D9", `TRUE` = basic_accent_fill),
       guide = "none"
     ) +
     scale_alpha_identity() +
@@ -350,27 +371,36 @@ make_a305_intensity_figure <- function(
     labs(
       x = NULL,
       y = "Participant-level median evaluation intensity",
-      caption = paste(
-        "Points represent participants, not individual meaning units.",
-        "Panel N is the number of plotted participant-visualization entries.",
+      # Two lines, so the caption can use a legible size (audit V2).
+      caption = paste0(
+        "Points represent participants, not individual meaning units. ",
+        "Panel N is the number of plotted participant-visualization entries.\n",
         if (fade_sparse) {
           paste0(
             "Faded points without a box: cells with ",
-            a305_sparse_max_n, " or fewer participants."
+            a305_sparse_max_n, " or fewer participants. "
           )
         },
         "-2 = strongly negative; +2 = strongly positive."
       )
     ) +
-    theme_classic(base_family = "Lato", base_size = 18) +
+    # Sizes balanced at the ~1100 px display width of this 15-in figure (audit
+    # V2): y tick labels and caption close to the x labels, panel and axis
+    # titles one step larger rather than twice as large.
+    plot_theme(base_size = 18) +
     theme(
-      strip.text = element_text(face = "bold", size = 40),
+      strip.text = element_text(face = "bold", size = 28),
       axis.text.x = x_axis_text,
-      axis.text.y = element_text(size = 16),
-      axis.title.y = element_text(size = 40),
+      axis.text.y = element_text(size = 22),
+      axis.title.y = element_text(size = 28),
       axis.ticks.x = element_blank(),
       panel.spacing = grid::unit(1.2, "lines"),
-      plot.caption = element_text(hjust = 0.5, face = "italic", size = 14)
+      # lineheight 0.6: showtext draws line gaps 180/96 times too wide, so this
+      # gives about 1.1 lines.
+      plot.caption = element_text(
+        hjust = 0.5, face = "italic", size = 22, lineheight = 0.6,
+        margin = margin(t = 12)
+      )
     )
 }
 
@@ -409,7 +439,6 @@ This additional version includes comments that evaluate bivariate plots in gener
 a305_intensity_by_theme_with_general_bivariates_figure <-
   make_a305_intensity_figure(
     a305_participant_theme_with_general_bivariates,
-    angle_x_labels = TRUE,
     fade_sparse = TRUE
   )
 
@@ -608,6 +637,91 @@ if (!is.null(a305_agreement)) {
     )
 }
 ```
+
+## Summary of the open-ended feedback
+
+```{r a305-summary-text}
+#| include: false
+#| cache: false
+# Every number below comes from objects computed above (participant-level
+# entries: one median intensity per participant, visualization and theme;
+# General bivariates excluded). Descriptive only: no test is run on these codes.
+a305_summary_label <- function(x) {
+  unname(table_vistype(codebook_vistype[as.character(x)]))
+}
+
+a305_summary_themes <- a305_participant_theme |>
+  count(theme, name = "entries") |>
+  arrange(desc(entries), theme)
+a305_summary_top_themes <- head(a305_summary_themes, 3)
+
+# Direction per visualization: positive versus negative participant entries.
+# "Mostly positive" or "mostly negative" when at least two thirds of the
+# non-neutral entries point one way; otherwise "mixed".
+a305_summary_direction <- a305_participant_theme |>
+  group_by(visualization) |>
+  summarise(
+    positive = sum(median_intensity > 0),
+    negative = sum(median_intensity < 0),
+    .groups = "drop"
+  ) |>
+  mutate(
+    share_positive = positive / (positive + negative),
+    direction = case_when(
+      share_positive >= 2 / 3 ~ "mostly positive",
+      share_positive <= 1 / 3 ~ "mostly negative",
+      TRUE ~ "mixed"
+    ),
+    text = sprintf(
+      "%s (%d positive, %d negative)",
+      a305_summary_label(visualization), positive, negative
+    )
+  ) |>
+  arrange(desc(share_positive))
+a305_summary_direction_text <- function(which_direction) {
+  rows <- filter(a305_summary_direction, direction == which_direction)
+  if (nrow(rows) == 0) "none" else knitr::combine_words(rows$text)
+}
+
+# The most frequent theme x visualization cells in each direction, among cells
+# with at least five participants.
+a305_summary_cells <- function(sign) {
+  a305_intensity_summary |>
+    filter(n_participants >= 5, sign * median_intensity > 0) |>
+    arrange(desc(n_participants), desc(abs(median_intensity))) |>
+    head(4) |>
+    mutate(text = sprintf(
+      "%s of %s (%d participants, median %s)",
+      tolower(theme), a305_summary_label(visualization), n_participants,
+      sprintf("%+g", median_intensity)
+    )) |>
+    pull(text) |>
+    knitr::combine_words()
+}
+```
+
+- **Data.** Visualization comments from `r n_distinct(a305_content_analysis$ID)` of
+  `r nrow(data)` participants were coded. They gave `r a305_n_units` meaning units;
+  `r nrow(a305_shared_units)` units evaluate more than one visualization.
+- **Main themes.** The most common themes were
+  `r knitr::combine_words(sprintf("%s (%d participant entries)", a305_summary_top_themes$theme, a305_summary_top_themes$entries))`,
+  out of `r nrow(a305_summary_themes)` themes.
+- **Mostly positive** (at least two thirds of the non-neutral participant entries
+  positive): `r a305_summary_direction_text("mostly positive")`.
+- **Mixed:** `r a305_summary_direction_text("mixed")`.
+- **Mostly negative:** `r a305_summary_direction_text("mostly negative")`.
+- **Most frequent negative cells** (at least five participants):
+  `r a305_summary_cells(-1)`.
+- **Most frequent positive cells** (at least five participants):
+  `r a305_summary_cells(1)`.
+- **Caveat: coding not yet validated.** The codes come from language models and no
+  human coder has checked them; the human second coding is
+  `r if (is.null(a305_agreement)) "not done yet" else paste(nrow(a305_second_coded), "of", nrow(a305_double_coding), "units complete")`.
+  The neutral code was used for only `r a305_n_zero` of `r a305_n_units` units.
+- **Interpretation.** These are descriptive counts from the participants who chose to
+  comment, and one participant can contribute to several visualizations. They show
+  which aspects participants mentioned and in which direction, not which visualization
+  works better, and they stay provisional until the coding is checked.
 
 ## Original responses
 

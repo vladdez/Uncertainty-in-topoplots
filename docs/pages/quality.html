@@ -221,6 +221,7 @@ window.Quarto = {
   <ul>
   <li><a href="#too-fast-the-speed-index-time_rsi" id="toc-too-fast-the-speed-index-time_rsi" class="nav-link active" data-scroll-target="#too-fast-the-speed-index-time_rsi">Too fast: the speed index (TIME_RSI)</a></li>
   <li><a href="#same-rating-everywhere" id="toc-same-rating-everywhere" class="nav-link" data-scroll-target="#same-rating-everywhere">Same rating everywhere</a></li>
+  <li><a href="#summary-of-the-quality-control-results" id="toc-summary-of-the-quality-control-results" class="nav-link" data-scroll-target="#summary-of-the-quality-control-results">Summary of the quality-control results</a></li>
   </ul>
 </nav>
     </div>
@@ -267,8 +268,8 @@ window.Quarto = {
 <p><span class="math display">\[
 \text{TIME\_RSI}_i = \frac{1}{P} \sum_{p=1}^{P} \min\left(3,\ \frac{M_p}{t_{ip}}\right)
 \]</span></p>
-<p>where <span class="math inline">\(t_{ip}\)</span> is participant <span class="math inline">\(i\)</span>’s time on page <span class="math inline">\(p\)</span>, <span class="math inline">\(M_p\)</span> is the median time of all participants on page <span class="math inline">\(p\)</span>, and <span class="math inline">\(P\)</span> is the number of pages. Recomputing it this way from the page times of all 338 downloaded records reproduces SoSci’s values (correlation 1.000, mean absolute difference 0.002, i.e.&nbsp;rounding).</p>
-<p>So 1 = typical speed, 2 = twice as fast. Leiner suggests treating values above 2.0 as suspicious, because such participants may not have read the questions. He also warns that speed is <em>not</em> a valid indicator when a questionnaire tests knowledge or skill, because experts are simply faster. Our tasks test experts’ perception, so the flag is only a hint. In this sample the median index is 1.11.</p>
+<p>where <span class="math inline">\(t_{ip}\)</span> is participant <span class="math inline">\(i\)</span>’s time on page <span class="math inline">\(p\)</span>, <span class="math inline">\(M_p\)</span> is the median time of all participants on page <span class="math inline">\(p\)</span>, and <span class="math inline">\(P\)</span> is the number of pages. Recomputing it this way from the page times of all 340 downloaded records reproduces SoSci’s values (correlation 1.000, mean absolute difference 0.002, i.e.&nbsp;rounding).</p>
+<p>So 1 = typical speed, 2 = twice as fast. Leiner suggests treating values above 2.0 as suspicious, because such participants may not have read the questions. He also warns that speed is <em>not</em> a valid indicator when a questionnaire tests knowledge or skill, because experts are simply faster. Our tasks test experts’ perception, so the flag is only a hint. In this sample the median index is 1.12.</p>
 <p>We flag values strictly above 2, as Leiner words it. One participant is exactly at 2 and is therefore not flagged (the dot on the dashed line in the figure).</p>
 <p><strong>Were the fast participants careless?</strong> The figure plots each participant’s speed index against their performance in both tasks.</p>
 <ul>
@@ -317,13 +318,13 @@ window.Quarto = {
 <td style="text-align: right;">76%</td>
 <td style="text-align: right;">70</td>
 <td style="text-align: right;">0.57</td>
-<td style="text-align: right;">131</td>
+<td style="text-align: right;">132</td>
 <td style="text-align: left;">—</td>
 <td style="text-align: left;">“great study, looking forward for the results”</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">2.34</td>
+<td style="text-align: right;">2.33</td>
 <td style="text-align: right;">90%</td>
 <td style="text-align: right;">11</td>
 <td style="text-align: right;">0.78</td>
@@ -333,19 +334,19 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">12</td>
-<td style="text-align: right;">2.20</td>
+<td style="text-align: right;">2.19</td>
 <td style="text-align: right;">67%</td>
-<td style="text-align: right;">112</td>
+<td style="text-align: right;">113</td>
 <td style="text-align: right;">0.67</td>
-<td style="text-align: right;">115</td>
+<td style="text-align: right;">116</td>
 <td style="text-align: left;">—</td>
 <td style="text-align: left;">—</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">139</td>
-<td style="text-align: right;">2.10</td>
+<td style="text-align: right;">2.09</td>
 <td style="text-align: right;">67%</td>
-<td style="text-align: right;">112</td>
+<td style="text-align: right;">113</td>
 <td style="text-align: right;">0.75</td>
 <td style="text-align: right;">61</td>
 <td style="text-align: left;">“my favorite wold e the bivariate color plot”</td>
@@ -365,7 +366,7 @@ window.Quarto = {
 </table>
 </div>
 </div>
-<p>Ranks are among all 149 participants (1 = best).</p>
+<p>Ranks are among all 150 participants (1 = best).</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -401,18 +402,19 @@ window.Quarto = {
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="fl">2.5</span>, <span class="fl">0.5</span>)) <span class="sc">+</span></span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> y_labels, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.18</span>))) <span class="sc">+</span></span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Speed index (TIME_RSI)"</span>, <span class="at">y =</span> y_label) <span class="sc">+</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_theme</span>(<span class="at">base_size =</span> <span class="dv">20</span>)</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="fu">speed_panel</span>(<span class="st">"task1_accuracy"</span>, <span class="st">"Task 1 accuracy"</span>, <span class="fl">0.5</span>, <span class="st">"Chance (50%)"</span>,</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            scales<span class="sc">::</span><span class="fu">label_percent</span>(), <span class="fl">0.035</span>) <span class="sc">+</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">speed_panel</span>(<span class="st">"task2_score"</span>, <span class="st">"Task 2 mean score"</span>, task2_chance_score,</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>              <span class="fu">sprintf</span>(<span class="st">"Random click (%.2f)"</span>, task2_chance_score),</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>              scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">accuracy =</span> <span class="fl">0.01</span>), <span class="fl">0.02</span>) <span class="sc">+</span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  patchwork<span class="sc">::</span><span class="fu">plot_annotation</span>(</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Speed index: 1 = typical speed, 2 = twice as fast."</span>,</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_theme</span>(<span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="fu">speed_panel</span>(<span class="st">"task1_accuracy"</span>, <span class="st">"Task 1 accuracy"</span>, <span class="fl">0.5</span>, <span class="st">"Chance (50%)"</span>,</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>            scales<span class="sc">::</span><span class="fu">label_percent</span>(), <span class="fl">0.035</span>) <span class="sc">+</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">speed_panel</span>(<span class="st">"task2_score"</span>, <span class="st">"Task 2 mean score"</span>, task2_chance_score,</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>              <span class="fu">sprintf</span>(<span class="st">"Random click (%.2f)"</span>, task2_chance_score),</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>              scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">accuracy =</span> <span class="fl">0.01</span>), <span class="fl">0.02</span>) <span class="sc">+</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  patchwork<span class="sc">::</span><span class="fu">plot_annotation</span>(</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Speed index: 1 = typical speed, 2 = twice as fast."</span>,</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -467,9 +469,9 @@ window.Quarto = {
 <td style="text-align: right;">91</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">67%</td>
-<td style="text-align: right;">112</td>
+<td style="text-align: right;">113</td>
 <td style="text-align: right;">0.56</td>
-<td style="text-align: right;">135</td>
+<td style="text-align: right;">136</td>
 <td style="text-align: left;">—</td>
 <td style="text-align: left;">—</td>
 </tr>
@@ -477,7 +479,7 @@ window.Quarto = {
 <td style="text-align: right;">133</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: right;">48%</td>
-<td style="text-align: right;">146</td>
+<td style="text-align: right;">147</td>
 <td style="text-align: right;">0.71</td>
 <td style="text-align: right;">85</td>
 <td style="text-align: left;">—</td>
@@ -487,7 +489,7 @@ window.Quarto = {
 </table>
 </div>
 </div>
-<p>Ranks are among all 149 participants (1 = best); chance is 50% in Task 1 and 0.39 in Task 2. A constant middle rating (3) can also mean “no preference”; a near-chance task score and no written feedback make carelessness more plausible.</p>
+<p>Ranks are among all 150 participants (1 = best); chance is 50% in Task 1 and 0.39 in Task 2. A constant middle rating (3) can also mean “no preference”; a near-chance task score and no written feedback make carelessness more plausible.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -505,7 +507,8 @@ window.Quarto = {
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>              <span class="st">"ratings (out of 5)"</span>),</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Participants"</span></span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_theme</span>(<span class="at">base_size =</span> <span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_theme</span>(<span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -516,6 +519,15 @@ window.Quarto = {
 </div>
 </div>
 <p>The blue bar holds the participants flagged for giving the same rating everywhere.</p>
+</section>
+<section id="summary-of-the-quality-control-results" class="level2">
+<h2 class="anchored" data-anchor-id="summary-of-the-quality-control-results">Summary of the quality-control results</h2>
+<ul>
+<li><strong>Flagged participants.</strong> 7 of 150 participants: 5 with a speed index above 2 and 2 who gave the same rating to all 28 rating items (no participant is flagged by both checks).</li>
+<li><strong>Too fast.</strong> The fast participants answered 67%–90% of the Task 1 trials correctly (chance 50%) and had Task 2 mean scores of 0.57–0.78 (random click 0.39). All of them are above chance in both tasks: fast, but not guessing.</li>
+<li><strong>Same rating everywhere.</strong> The constant ratings were 3 and 5. These participants answered 48%–67% of the Task 1 trials correctly and had Task 2 mean scores of 0.56–0.71. Not all of them are above chance in both tasks (see the table).</li>
+<li><strong>What was done.</strong> No participant was excluded: all flagged participants are kept in every main analysis. The <a href="../pages/subjective.html">Subjective evaluation</a> page repeats the rating contrasts without them as a sensitivity analysis.</li>
+</ul>
 
 
 </section>

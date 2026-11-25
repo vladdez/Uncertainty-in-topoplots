@@ -32,14 +32,16 @@ configure_analysis_cache(project_path("regions.txt"))
 
 ## Response scoring and trial reconstruction
 
-- For each participan we reconstructed presentation order. Each participant went through 21 randomly shuffled pages.
+- For each participant we reconstructed presentation order. Each participant went through 21 randomly shuffled pages.
 
 - For each trial, survey recorded the visualization, ERP stimulus shown
   and one region selected by participant. There were 64 regions on selectable grid.
 
 - The selected region was matched to the corresponding stimulus and its stored region score in `regions.txt`.
 
-- The region score represents |Voltage|/SE at that region. This calcaulation is actually more complicated. 
+- The region score is the mean |voltage| / SE in that region, rescaled within each
+  stimulus so that the weakest region scores 0 and the strongest 1. The steps are in the
+  note below.
 
 ::: {.callout-note title="How the 0–1 region score was calculated" collapse="true"}
 
@@ -226,7 +228,7 @@ task2_table |>
 
 ```{r task2-score-distribution}
 #| cache: false
-#| fig-cap: !expr paste0("Distribution of the ", scales::comma(nrow(task2_model)), " trial-level detection scores. Bars show frequencies at the recorded two-decimal score resolution. A score of 0 indicates selection of the weakest region for a stimulus, whereas 1 indicates selection of the strongest region. Intermediate values preserve graded performance.")
+#| fig-cap: !expr paste0("Distribution of the ", scales::comma(nrow(task2_model)), " trial-level detection scores. Bars show frequencies at the recorded score resolution of 1 percentage point. A score of 0% indicates selection of the weakest region for a stimulus, whereas 100% indicates selection of the strongest region. Intermediate values preserve graded performance.")
 
 task2_score_distribution <- task2_model |>
   transmute(score_index = as.integer(round(score * 100))) |>
@@ -277,19 +279,19 @@ task2_score_distribution_figure <- ggplot(
     guide = "none"
   ) +
   scale_x_continuous(
-    "Detection score (0 = weakest region, 1 = strongest region)",
+    "Detection score (0% = weakest region, 100% = strongest region)",
     limits = c(-0.01, 1.01),
     breaks = seq(0, 1, 0.2),
+    labels = scales::label_percent(accuracy = 1),
     expand = expansion(mult = 0)
   ) +
   scale_y_continuous(
     "Number of responses",
     expand = expansion(mult = c(0, 0.12))
   ) +
-  labs(title = "Distribution of detection scores") +
-  theme_classic(base_family = "Lato", base_size = 20) +
+  # No in-figure title (one title per figure): the caption names the figure.
+  plot_theme(base_size = 20) +
   theme(
-    plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
     axis.text = element_text(size = 20)
   )
 
@@ -311,13 +313,10 @@ ggsave_st(
 #| cache: false
 #| fig-cap: >-
 #|   Detection scores summarized from participant-level means, with gradient uncertainty.
-#|   For each visualization, the black line and number show the mean across participants;
-#|   the dark-blue region shows the 95% confidence interval around that mean.
-
-task2_gradient_order <- task2_table |>
-  arrange(median) |>
-  pull(vistype) |>
-  as.character()
+#|   For each visualization, the black line and number show the mean across participants.
+#|   The blue band is fully opaque inside the two-sided 95% t-confidence interval around
+#|   that mean and fades linearly to transparent as the confidence level rises from 95% to
+#|   100%.
 
 task2_gradient_participants <- task2_model |>
   group_by(ID, vistype) |>
@@ -325,6 +324,14 @@ task2_gradient_participants <- task2_model |>
     participant_score = mean(score),
     .groups = "drop"
   )
+
+# Rows are ordered by the value the figure shows: the mean of participant means.
+task2_gradient_order <- task2_gradient_participants |>
+  group_by(vistype) |>
+  summarise(mean_score = mean(participant_score), .groups = "drop") |>
+  arrange(mean_score) |>
+  pull(vistype) |>
+  as.character()
 
 task2_gradient_summary <- task2_gradient_participants |>
   group_by(vistype) |>
@@ -411,34 +418,31 @@ task2_gradient_figure <- ggplot(
     aes(
       x = mean_score,
       y = y_position + 0.42,
-      label = sprintf("%.2f", mean_score)
+      label = scales::percent(mean_score, accuracy = 1)
     ),
     inherit.aes = FALSE,
     size = 6
   ) +
   scale_alpha_identity() +
   scale_x_continuous(
-    "Participant-level mean score",
+    "Detection score (mean of participant means)",
     limits = task2_gradient_limits,
     breaks = scales::breaks_width(0.05),
+    labels = scales::label_percent(accuracy = 1),
     expand = expansion(mult = c(0, 0))
   ) +
   scale_y_continuous(
     breaks = task2_gradient_summary$y_position,
-    labels = unname(
-      vistype_labels[as.character(task2_gradient_summary$vistype)]
-    ),
+    labels = figure_vistype(task2_gradient_summary$vistype),
     expand = expansion(add = c(0.5, 0.65))
   ) +
-  labs(
-    title = "Detection task accuracy",
-    y = NULL
-  ) +
-  theme_classic(base_family = "Lato", base_size = 20) +
+  labs(y = NULL) +
+  plot_theme(base_size = 20) +
   theme(
-    plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
     axis.text = element_text(size = 20),
-    axis.text.y = element_text(lineheight = 0.75),
+    axis.text.y = element_text(
+      colour = vistype_label_colours(task2_gradient_summary$vistype, other = "black")
+    ),
     axis.ticks.y = element_blank(),
     axis.line.y = element_blank()
   )
@@ -470,6 +474,33 @@ ggsave_st(
   ordered-beta model retains this graded information while supporting the complete closed
   interval from 0 to 1. A binary logistic model would instead treat every score below 1
   as equally incorrect.
+
+::: {.callout-note title="What is an ordered-beta model? — Expand" collapse="true"}
+An **ordered-beta model** (Kubinec, 2023) is a regression model for scores between 0
+and 1 that include exact 0s and exact 1s. A plain beta model cannot handle exact 0s and
+1s.
+
+It treats each score as one of three ordered outcomes:
+
+| Outcome | Probability | Model part |
+|---|---|---|
+| Exactly 0 | P(0) = 1 − logit⁻¹(η − ψ₁) | lower cutpoint ψ₁ |
+| Between 0 and 1 | 1 − P(0) − P(1) | beta distribution with mean μ = logit⁻¹(η) |
+| Exactly 1 | P(1) = logit⁻¹(η − ψ₂) | upper cutpoint ψ₂ |
+
+- **One linear predictor η** (visualization, pattern, position and random effects)
+  drives all three parts. A higher η makes an exact 1 more likely, an exact 0 less
+  likely, and the scores in between higher. Each term therefore has a single
+  coefficient: positive means better detection.
+- **Coefficients** are on the logit scale, as in an ordinal logistic model.
+- **Expected score:** E[y] = P(1) + (1 − P(0) − P(1)) μ. The back-transformed
+  `emmeans` value is μ alone, so the expected scores below are computed from all three
+  parts.
+
+Reference: Kubinec, R. (2023). Ordered beta regression: A parsimonious, well-fitting
+model for continuous data with lower and upper bounds. *Political Analysis, 31*(4),
+519–536. <https://doi.org/10.1017/pan.2022.20>
+:::
 
 - Every participant completed 21 trials, so responses from the same participant are
   related. Adding `(1 | ID)` gives each participant their own baseline detection
@@ -1190,102 +1221,98 @@ intervals from the parameter draws.
 
 ```{r}
 #| cache: false
-detection_axis_colours <- ifelse(
-  levels(task2_estimates$vistype) == "basic",
-  "#377EB8",
-  "#222222"
-)
-
+#| fig-cap: "Expected detection score E[y] of each visualization, averaged over participants, stimuli and images. Bars: pointwise 95% confidence intervals (one per visualization, not adjusted for comparisons)."
 detection_score_limits <- c(
   floor(min(task2_estimates$lower_ci) / 0.05) * 0.05,
   ceiling(max(task2_estimates$upper_ci) / 0.05) * 0.05
 )
 
-detection_score_figure <- ggplot(
-  task2_estimates,
-  aes(
-    x = predicted_score,
-    y = vistype,
-    colour = vistype == "basic"
-  )
-) +
-  geom_errorbar(
+# Site version, or with print = TRUE the print version (audit V7).
+make_detection_score_figure <- function(print = FALSE) {
+  s <- interval_figure_sizes(print)
+  ggplot(
+    task2_estimates,
     aes(
-      xmin = lower_ci,
-      xmax = upper_ci
-    ),
-    orientation = "y",
-    width = 0.14,
-    linewidth = 0.55
+      x = predicted_score,
+      y = vistype,
+      colour = vistype == "basic"
+    )
   ) +
-  geom_point(size = 3) +
-  geom_text(
-    aes(label = scales::percent(predicted_score, accuracy = 1)),
-    nudge_y = 0.36,
-    vjust = 0.5,
-    size = 5.5
-  ) +
-  scale_y_discrete(
-    labels = function(x) {
-      publication_labels <- c(
-        basic = "Basic topoplot",
-        adjacent = "Adjacent plots",
-        bivariate_corner = "Bivariate corners",
-        bivariate_range = "Bivariate range",
-        triple_CI = "Confidence intervals",
-        uncert_markers = "Uncertainty markers",
-        animation = "Animation"
-      )
-      unname(publication_labels[x])
-    },
-    expand = expansion(add = 0.5)
-  ) +
-  scale_colour_manual(
-    values = c(`FALSE` = "#222222", `TRUE` = "#377EB8"),
-    guide = "none"
-  ) +
-  scale_x_continuous(
-    labels = scales::label_percent(accuracy = 1),
-    limits = detection_score_limits,
-    breaks = seq(detection_score_limits[1], detection_score_limits[2], 0.05),
-    expand = expansion(mult = c(0.02, 0.03))
-  ) +
-  labs(
-    title = "Detection task score",
-    subtitle = "Expected score with 95% confidence intervals",
-    x = "Expected detection score (averaged over participants and stimuli)",
-    y = NULL
-  ) +
-  theme_classic(base_family = "Lato", base_size = 20) +
-  theme(
-    plot.title = element_text(
-      hjust = 0.5,
-      face = "bold",
-      size = 22
-    ),
-    plot.title.position = "plot",
-    plot.subtitle = element_text(hjust = 0.5, size = 18),
-    axis.text.x = element_text(size = 20),
-    axis.text.y = element_text(
-      size = 24,
-      colour = detection_axis_colours,
-      margin = margin(r = 12)
-    ),
-    axis.ticks.y = element_blank(),
-    axis.line.y = element_blank()
-  )
+    geom_errorbar(
+      aes(
+        xmin = lower_ci,
+        xmax = upper_ci
+      ),
+      orientation = "y",
+      width = 0.14,
+      linewidth = s$line
+    ) +
+    geom_point(size = s$point) +
+    geom_text(
+      aes(label = scales::percent(predicted_score, accuracy = 1)),
+      nudge_y = 0.36,
+      vjust = 0.5,
+      size = s$label
+    ) +
+    scale_y_discrete(
+      labels = figure_vistype,
+      expand = expansion(add = 0.5)
+    ) +
+    scale_colour_manual(
+      values = c(`FALSE` = "#222222", `TRUE` = basic_accent),
+      guide = "none"
+    ) +
+    scale_x_continuous(
+      labels = scales::label_percent(accuracy = 1),
+      limits = detection_score_limits,
+      breaks = seq(detection_score_limits[1], detection_score_limits[2], 0.05),
+      expand = expansion(mult = c(0.02, 0.03))
+    ) +
+    # No in-figure title or subtitle (Wilke ch. 22): the caption names the
+    # estimate and the intervals. In print the axis title takes two lines to fit
+    # one column.
+    labs(
+      x = paste0(
+        "Expected detection score",
+        if (print) "
+  " else " ",
+        "(averaged over participants and stimuli)"
+      ),
+      y = NULL
+    ) +
+    plot_theme(base_size = s$base) +
+    theme(
+      axis.text.x = element_text(size = s$axis_x),
+      axis.text.y = element_text(
+        size = s$axis_y,
+        colour = vistype_label_colours(levels(task2_estimates$vistype)),
+        margin = margin(r = s$margin)
+      ),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank()
+    )
+}
 
+detection_score_figure <- make_detection_score_figure()
 detection_score_figure
 
 ggsave_st(
   project_path("figures", "detection_score_figure.png"),
   detection_score_figure,
   width = 9,
-  height = 5.5,
+  height = 5,
   units = "in",
   dpi = 180,
   device = ragg::agg_png,
   bg = "white"
+)
+
+# Print version: one journal column wide.
+ggsave_print(
+  project_path("figures", "detection_score_figure.pdf"),
+  make_detection_score_figure(print = TRUE),
+  width = print_width[["column"]],
+  height = 2.6
 )
 ```
 
@@ -1300,6 +1327,7 @@ familywise 95% confidence level.
 
 ```{r task2-basic-contrast-figure}
 #| cache: false
+#| fig-cap: "Difference in expected detection score E[y] of each visualization from Basic topoplot, averaged over participants, stimuli and images. Bars: Dunnett-adjusted simultaneous 95% confidence intervals for the six comparisons. Dashed line: no difference."
 task2_contrast_limit <- max(
   abs(c(task2_basic_contrasts$lower_ci, task2_basic_contrasts$upper_ci)),
   na.rm = TRUE
@@ -1309,115 +1337,94 @@ task2_contrast_limit <- max(
   ceiling(task2_contrast_limit / 0.05) * 0.05
 )
 
-task2_contrast_labels <- c(
-  adjacent = "Adjacent plots",
-  bivariate_corner = "Bivariate corners",
-  bivariate_range = "Bivariate range",
-  triple_CI = "Confidence intervals",
-  uncert_markers = "Uncertainty markers",
-  animation = "Animation"
-)
+# Site version, or with print = TRUE the print version (audit V7).
+make_detection_score_contrast_figure <- function(print = FALSE) {
+  s <- interval_figure_sizes(print)
+  plot <- ggplot(
+    task2_basic_contrasts,
+    aes(x = difference, y = vistype)
+  ) +
+    geom_vline(
+      xintercept = 0,
+      linetype = "dashed",
+      linewidth = if (print) s$line else 0.6,
+      colour = "#377EB8"
+    ) +
+    geom_errorbar(
+      aes(xmin = lower_ci, xmax = upper_ci),
+      orientation = "y",
+      width = 0.14,
+      linewidth = s$line,
+      colour = "#333333"
+    ) +
+    geom_point(size = s$point, colour = "#333333") +
+    geom_text(
+      # Beside the point, on the side away from zero (no overlap with the
+      # dashed zero line).
+      aes(hjust = side_away_from_zero(difference), label = ifelse(
+        abs(difference) < 0.005,
+        "0 pp",
+        sprintf("%+.0f pp", 100 * difference)
+      )),
+      nudge_y = 0.32,
+      vjust = 0.5,
+      size = s$label,
+      colour = "#333333"
+    ) +
+    scale_y_discrete(
+      labels = figure_vistype,
+      expand = expansion(add = 0.5)
+    ) +
+    scale_x_continuous(
+      limits = c(-task2_contrast_limit, task2_contrast_limit),
+      labels = function(x) ifelse(
+        abs(x) < 0.005,
+        "0 pp",
+        sprintf("%+.0f pp", 100 * x)
+      ),
+      breaks = scales::breaks_pretty(n = 5),
+      expand = expansion(mult = 0.04)
+    ) +
+    # No in-figure title or subtitle (Wilke ch. 22): the caption defines the
+    # intervals.
+    labs(
+      x = NULL,
+      y = NULL
+    ) +
+    plot_theme(base_size = s$base) +
+    theme(
+      axis.text.y = element_text(size = s$axis_y, margin = margin(r = s$margin)),
+      axis.text.x = element_text(size = s$axis_x),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank()
+    )
 
-detection_score_contrast_figure <- ggplot(
-  task2_basic_contrasts,
-  aes(x = difference, y = vistype)
-) +
-  geom_vline(
-    xintercept = 0,
-    linetype = "dashed",
-    linewidth = 0.6,
-    colour = "#377EB8"
-  ) +
-  geom_errorbar(
-    aes(xmin = lower_ci, xmax = upper_ci),
-    orientation = "y",
-    width = 0.14,
-    linewidth = 0.55,
-    colour = "#333333"
-  ) +
-  geom_point(size = 3, colour = "#333333") +
-  geom_text(
-    aes(label = ifelse(
-      abs(difference) < 0.005,
-      "0 pp",
-      sprintf("%+.0f pp", 100 * difference)
-    )),
-    nudge_y = 0.32,
-    vjust = 0.5,
-    size = 5.5,
-    colour = "#333333"
-  ) +
-  scale_y_discrete(
-    labels = function(x) unname(task2_contrast_labels[x]),
-    expand = expansion(add = 0.5)
-  ) +
-  scale_x_continuous(
-    limits = c(-task2_contrast_limit, task2_contrast_limit),
-    labels = function(x) ifelse(
-      abs(x) < 0.005,
-      "0 pp",
-      sprintf("%+.0f pp", 100 * x)
-    ),
-    breaks = scales::breaks_pretty(n = 5),
-    expand = expansion(mult = 0.04)
-  ) +
-  labs(
-    title = "Detection task score differences",
-    subtitle = "Expected-score contrasts with Dunnett-adjusted 95% confidence intervals",
-    x = NULL,
-    y = NULL
-  ) +
-  theme_classic(base_family = "Lato", base_size = 20) +
-  theme(
-    plot.title = element_text(hjust = 0.5, face = "bold", size = 22),
-    plot.subtitle = element_text(hjust = 0.5, size = 18),
-    plot.title.position = "plot",
-    axis.text.y = element_text(size = 24, margin = margin(r = 12)),
-    axis.text.x = element_text(size = 20),
-    axis.ticks.y = element_blank(),
-    axis.line.y = element_blank()
-  )
+  # Axis caption with Basic topoplot in its accent colour.
+  plot /
+    basic_axis_caption("Difference in expected detection score vs", size = s$caption) +
+    plot_layout(heights = c(1, 0.10))
+}
 
-detection_score_contrast_caption <- ggplot() +
-  annotate(
-    "text",
-    x = 0.497,
-    y = 0.5,
-    label = "Difference in expected detection score vs",
-    hjust = 1,
-    size = 20 / ggplot2::.pt,
-    family = "Lato",
-    colour = "#222222"
-  ) +
-  annotate(
-    "text",
-    x = 0.503,
-    y = 0.5,
-    label = "Basic topoplot",
-    hjust = 0,
-    size = 20 / ggplot2::.pt,
-    family = "Lato",
-    colour = "#377EB8"
-  ) +
-  coord_cartesian(xlim = c(0, 1), ylim = c(0, 1), clip = "off") +
-  theme_void()
-
-detection_score_contrast_figure <-
-  detection_score_contrast_figure /
-  detection_score_contrast_caption +
-  plot_layout(heights = c(1, 0.10))
-
+detection_score_contrast_figure <- make_detection_score_contrast_figure()
 detection_score_contrast_figure
 
 ggsave_st(
   project_path("figures", "detection_score_contrast_figure.png"),
   detection_score_contrast_figure,
   width = 9,
-  height = 5.25,
+  height = 4.8,
   units = "in",
   dpi = 180,
   device = ragg::agg_png,
   bg = "white"
+)
+
+# Print version: one journal column wide.
+ggsave_print(
+  project_path("figures", "detection_score_contrast_figure.pdf"),
+  make_detection_score_contrast_figure(print = TRUE),
+  width = print_width[["column"]],
+  height = 2.5
 )
 ```
 
@@ -1544,52 +1551,88 @@ task2_peak_ppc |>
 #| fig-width: 11
 #| fig-height: 5.5
 #| fig-alt: "Observed share of exact-peak responses for each visualization compared with 95% intervals simulated from the ordered-beta model, shown as levels and as differences from Basic topoplot."
-task2_peak_ppc |>
+# Two panels instead of one free-x facet, so each gets its own unit: the share
+# panel is in %, the difference panel in percentage points (audit V10). Same look
+# as a facet_wrap with a shared y axis.
+task2_peak_ppc_plot_data <- task2_peak_ppc |>
   filter(statistic %in% c("share_one", "share_one_vs_basic")) |>
   filter(!(statistic == "share_one_vs_basic" & vistype == "basic")) |>
   mutate(
-    statistic = factor(
-      statistic,
-      levels = c("share_one", "share_one_vs_basic"),
-      labels = c(
-        "Share of exact-peak responses",
-        "Difference from Basic topoplot"
-      )
-    ),
-    vistype = forcats::fct_rev(vistype)
-  ) |>
-  ggplot(aes(y = vistype)) +
-  geom_errorbar(
-    aes(xmin = lower, xmax = upper),
-    orientation = "y",
-    width = 0.25,
-    linewidth = 0.8,
-    colour = "#9ECAE1"
-  ) +
-  geom_point(aes(x = median), shape = 124, size = 5, colour = "#3182BD") +
-  geom_point(aes(x = observed, fill = inside), shape = 21, size = 3.5) +
-  scale_fill_manual(
-    values = c(`TRUE` = "#333333", `FALSE` = "#B2182B"),
-    labels = c(`TRUE` = "Inside 95% interval", `FALSE` = "Outside 95% interval"),
-    name = "Observed"
-  ) +
-  scale_x_continuous(labels = scales::label_percent(accuracy = 1)) +
-  scale_y_discrete(labels = \(x) table_vistype(x)) +
-  facet_wrap(~statistic, scales = "free_x") +
-  labs(
-    x = NULL,
-    y = NULL,
-    caption = "Blue: median and 95% interval of simulated data sets. Dots: observed values."
-  ) +
-  theme_classic(base_family = "Lato", base_size = 16) +
-  theme(
-    axis.ticks.y = element_blank(),
-    strip.background = element_blank(),
-    strip.text = element_text(face = "bold", size = 16),
-    panel.spacing.x = grid::unit(2.5, "lines"),
-    legend.position = "bottom",
-    plot.caption = element_text(hjust = 0, colour = "grey30")
+    vistype = forcats::fct_rev(vistype),
+    # Factor with both levels, so the two panels share one legend.
+    inside = factor(inside, levels = c(FALSE, TRUE))
   )
+task2_peak_ppc_rows <- rev(levels(task2_peak_ppc$vistype))
+
+task2_peak_ppc_panel <- function(stat, title, x_labels) {
+  task2_peak_ppc_plot_data |>
+    filter(statistic == stat) |>
+    mutate(panel = title) |>
+    ggplot(aes(y = vistype)) +
+    geom_errorbar(
+      aes(xmin = lower, xmax = upper),
+      orientation = "y",
+      width = 0.25,
+      linewidth = 0.8,
+      colour = "#9ECAE1"
+    ) +
+    geom_point(aes(x = median), shape = 124, size = 5, colour = "#3182BD") +
+    # show.legend = TRUE draws both keys even in a panel without a point outside
+    # its interval, so the two legends are identical and collected into one.
+    geom_point(aes(x = observed, fill = inside), shape = 21, size = 3.5, show.legend = TRUE) +
+    scale_fill_manual(
+      values = c(`TRUE` = "#333333", `FALSE` = "#B2182B"),
+      labels = c(`TRUE` = "Inside 95% interval", `FALSE` = "Outside 95% interval"),
+      limits = c("FALSE", "TRUE"),
+      name = "Observed"
+    ) +
+    scale_x_continuous(labels = x_labels) +
+    scale_y_discrete(labels = figure_vistype, limits = task2_peak_ppc_rows, drop = FALSE) +
+    facet_wrap(~panel) +
+    labs(x = NULL, y = NULL) +
+    # Text sizes for the ~1100 px display width of this 11-in figure (audit V2):
+    # tick labels close to the panel titles, so neither looks tiny or oversized.
+    plot_theme(base_size = 18) +
+    theme(
+      axis.text = element_text(size = 18),
+      axis.text.y = element_text(
+        colour = vistype_label_colours(task2_peak_ppc_rows, other = "black")
+      ),
+      axis.ticks.y = element_blank(),
+      strip.background = element_blank(),
+      strip.text = element_text(face = "bold", size = 19),
+      legend.position = "bottom",
+      legend.title = element_text(size = 18),
+      legend.text = element_text(size = 17)
+    )
+}
+
+task2_peak_ppc_share_panel <- task2_peak_ppc_panel(
+  "share_one",
+  "Share of exact-peak responses",
+  scales::label_percent(accuracy = 1)
+) +
+  theme(plot.margin = margin(r = 2.5 * 18))
+
+# y axis shared with the share panel: no tick labels here.
+task2_peak_ppc_difference_panel <- task2_peak_ppc_panel(
+  "share_one_vs_basic",
+  "Difference from Basic topoplot",
+  function(x) ifelse(abs(x) < 0.0005, "0 pp", sprintf("%+.0f pp", 100 * x))
+) +
+  theme(axis.text.y = element_blank(), axis.line.y = element_blank())
+
+task2_peak_ppc_share_panel + task2_peak_ppc_difference_panel +
+  plot_layout(guides = "collect") +
+  plot_annotation(
+    caption = "Blue: median and 95% interval of simulated data sets. Dots: observed values.",
+    theme = theme(
+      plot.caption = element_text(
+        hjust = 0, colour = "grey30", family = "Lato", size = 17
+      )
+    )
+  ) &
+  theme(legend.position = "bottom")
 ```
 
 ### Two-part model
@@ -1628,13 +1671,28 @@ stopifnot(
   isTRUE(task2_peak_miss_model$sdr$pdHess)
 )
 
+# Overall test of visualization type in each part: likelihood-ratio test against
+# the same model without vistype (as on the Hit or miss page).
+task2_peak_overall <- purrr::imap_dfr(
+  list(`Exact peak` = task2_peak_hit_model, `Misses` = task2_peak_miss_model),
+  \(model, name) {
+    reduced <- update(model, . ~ . - vistype)
+    chi <- as.numeric(2 * (logLik(model) - logLik(reduced)))
+    df <- attr(logLik(model), "df") - attr(logLik(reduced), "df")
+    tibble::tibble(part = name, chi = chi, df = df,
+                   p = pchisq(chi, df, lower.tail = FALSE))
+  }
+)
+task2_peak_overall_text <- function(name) {
+  r <- task2_peak_overall[task2_peak_overall$part == name, ]
+  sprintf("χ²(%d) = %.1f, p = %.2f", r$df, r$chi, r$p)
+}
+
+# Averaged over participants, stimuli and images (random intercepts integrated
+# out), as for E[y]; see marginal_response_by_vistype().
 task2_peak_response_estimates <- bind_rows(
-  `Probability of exact peak` = emmeans(
-    task2_peak_hit_model, ~vistype, type = "response"
-  ) |> as.data.frame() |> rename(estimate = prob),
-  `Mean score of misses` = emmeans(
-    task2_peak_miss_model, ~vistype, type = "response"
-  ) |> as.data.frame() |> rename(estimate = response),
+  `Probability of exact peak` = marginal_response_by_vistype(task2_peak_hit_model),
+  `Mean score of misses` = marginal_response_by_vistype(task2_peak_miss_model),
   .id = "part"
 )
 
@@ -1642,7 +1700,7 @@ task2_peak_response_estimates |>
   transmute(
     part,
     vistype = table_vistype(vistype),
-    value = sprintf("%.2f [%.2f, %.2f]", estimate, asymp.LCL, asymp.UCL)
+    value = sprintf("%.2f [%.2f, %.2f]", marginal, marginal_lower, marginal_upper)
   ) |>
   tidyr::pivot_wider(names_from = part, values_from = value) |>
   knitr::kable(
@@ -1654,12 +1712,18 @@ task2_peak_response_estimates |>
     ),
     caption = paste(
       "Model-estimated values from the two-part model, averaged equally over ERP",
-      "patterns at the middle presentation position, for a typical participant and",
-      "stimulus (random effects at zero)."
+      "patterns at the middle presentation position and over participants, stimuli",
+      "and images (random intercepts integrated out). Intervals: 4,000 draws of the",
+      "model parameters."
     ),
     table.attr = kable_table_attributes
   )
 ```
+
+**Overall test of visualization type** (likelihood ratio against the same model without
+it): exact peak `r task2_peak_overall_text("Exact peak")`; misses
+`r task2_peak_overall_text("Misses")`. When the overall test is not significant, read the
+single comparisons with Basic below as exploratory.
 
 ### Visualization effects across models
 
@@ -1736,7 +1800,7 @@ model_table_note(
 #| fig-width: 12
 #| fig-height: 5.5
 #| fig-alt: "Differences from Basic topoplot on the logit scale for the ordered-beta model, the exact-peak logistic model, and the beta model of missed trials, with 95% confidence intervals."
-task2_peak_contrasts |>
+task2_peak_contrast_plot <- task2_peak_contrasts |>
   mutate(vistype = forcats::fct_rev(vistype)) |>
   ggplot(aes(x = estimate, y = vistype)) +
   geom_vline(xintercept = 0, linetype = "dashed", colour = "#377EB8") +
@@ -1752,19 +1816,29 @@ task2_peak_contrasts |>
     values = c(`TRUE` = "#B2182B", `FALSE` = "white"),
     guide = "none"
   ) +
-  scale_y_discrete(labels = \(x) table_vistype(x)) +
+  scale_y_discrete(labels = figure_vistype) +
   facet_wrap(~model, nrow = 1) +
-  labs(
-    x = "Difference from Basic topoplot (logit scale)",
-    y = NULL,
-    caption = "Filled red: Dunnett-adjusted 95% confidence interval excludes zero."
-  ) +
-  theme_classic(base_family = "Lato", base_size = 16) +
+  labs(x = NULL, y = NULL) +
+  # Text sizes for the ~1100 px display width of this 12-in figure (audit V2).
+  plot_theme(base_size = 19) +
   theme(
+    axis.text = element_text(size = 19),
     axis.ticks.y = element_blank(),
     strip.background = element_blank(),
-    strip.text = element_text(face = "bold", size = 16),
-    plot.caption = element_text(hjust = 0, colour = "grey30")
+    strip.text = element_text(face = "bold", size = 20)
+  )
+
+# Axis caption as in the main contrast figures, with Basic topoplot in its accent.
+task2_peak_contrast_plot /
+  basic_axis_caption("Difference (logit scale) from", size = 20) +
+  plot_layout(heights = c(1, 0.08)) +
+  plot_annotation(
+    caption = "Filled red: Dunnett-adjusted 95% confidence interval excludes zero.",
+    theme = theme(
+      plot.caption = element_text(
+        hjust = 0, colour = "grey30", family = "Lato", size = 18
+      )
+    )
   )
 ```
 
@@ -2062,6 +2136,243 @@ task2_modal_regions |>
 ```
 
 :::
+
+## Summary of the Task 2 detection-score results
+
+```{r task2-summary-text}
+#| include: false
+#| cache: false
+# Every number below comes from objects computed above. A difference is called
+# higher or lower only when its interval excludes zero (as on the Task 1 page);
+# otherwise the text says that the interval includes no difference.
+task2_summary_p <- function(p) ifelse(p < .001, "< .001", paste("=", p_text(p)))
+
+task2_summary_effects <- function(estimate, lower, upper, describe, outcome) {
+  lower_set <- which(upper < 0)
+  higher_set <- which(lower > 0)
+  unclear_set <- setdiff(seq_along(estimate), c(lower_set, higher_set))
+  sentences <- character()
+  if (length(lower_set) > 0) {
+    sentences <- c(sentences, paste0(
+      "Relative to Basic topoplot, ", outcome, " clearly lower for ",
+      knitr::combine_words(describe(lower_set)), "."
+    ))
+  }
+  if (length(higher_set) > 0) {
+    sentences <- c(sentences, paste0(
+      "Relative to Basic topoplot, ", outcome, " clearly higher for ",
+      knitr::combine_words(describe(higher_set)), "."
+    ))
+  }
+  if (length(unclear_set) == length(estimate)) {
+    sentences <- c(sentences, paste0(
+      "No visualization type differed clearly from Basic topoplot: all ",
+      number_word(length(estimate)), " intervals included 0."
+    ))
+  } else if (length(unclear_set) > 0) {
+    sentences <- c(sentences, paste0(
+      "The intervals for the other ", number_word(length(unclear_set)),
+      " visualization type", if (length(unclear_set) > 1) "s" else "",
+      " included 0."
+    ))
+  }
+  if (length(unclear_set) > 0) {
+    largest <- unclear_set[which.max(abs(estimate[unclear_set]))]
+    sentences <- c(sentences, paste0(
+      "The largest of these was for ", describe(largest),
+      ", but its interval also included 0."
+    ))
+  }
+  paste(sentences, collapse = " ")
+}
+
+# Overall likelihood-ratio test of visualization type (the table above).
+task2_vistype_lrt <- anova(model_task2_no_vistype, model_task2)
+task2_lrt_chi <- task2_vistype_lrt[["Chisq"]][2]
+task2_lrt_df <- task2_vistype_lrt[["Chi Df"]][2]
+task2_lrt_p <- task2_vistype_lrt[["Pr(>Chisq)"]][2]
+
+# Expected scores E[y], averaged over random effects.
+task2_summary_highest <- task2_estimates |> slice_max(predicted_score, n = 1)
+task2_summary_lowest <- task2_estimates |> slice_min(predicted_score, n = 1)
+
+# Primary contrasts on the expected-score scale.
+task2_summary_primary <- task2_basic_contrasts |> arrange(vistype)
+task2_primary_sentence <- task2_summary_effects(
+  estimate = task2_summary_primary$difference,
+  lower = task2_summary_primary$lower_ci,
+  upper = task2_summary_primary$upper_ci,
+  describe = \(i) sprintf(
+    "%s (%+.1f pp, simultaneous 95%% CI %+.1f to %+.1f pp, adjusted *p* %s)",
+    table_vistype(as.character(task2_summary_primary$vistype[i])),
+    100 * task2_summary_primary$difference[i],
+    100 * task2_summary_primary$lower_ci[i],
+    100 * task2_summary_primary$upper_ci[i],
+    task2_summary_p(task2_summary_primary$p.value[i])
+  ),
+  outcome = "the expected detection score was"
+)
+task2_any_primary_effect <- any(
+  task2_summary_primary$upper_ci < 0 | task2_summary_primary$lower_ci > 0
+)
+
+# Two-part model: contrasts with Basic in each part (logit scale).
+task2_part_sentence <- function(model_name, outcome) {
+  rows <- task2_peak_contrasts |> filter(model == model_name) |> arrange(vistype)
+  task2_summary_effects(
+    estimate = rows$estimate,
+    lower = rows$lower,
+    upper = rows$upper,
+    describe = \(i) sprintf(
+      "%s (%+.2f logit, Dunnett-adjusted 95%% CI %+.2f to %+.2f)",
+      table_vistype(as.character(rows$vistype[i])),
+      rows$estimate[i], rows$lower[i], rows$upper[i]
+    ),
+    outcome = outcome
+  )
+}
+task2_part_effects <- task2_peak_contrasts |>
+  filter(model != "Ordered beta (primary)", excludes_zero)
+task2_part_overall_p <- setNames(task2_peak_overall$p, task2_peak_overall$part)
+
+# Posterior predictive check of exact-peak responses.
+task2_ppc_level <- task2_peak_ppc |> filter(statistic == "share_one")
+task2_ppc_diff <- task2_peak_ppc |>
+  filter(statistic == "share_one_vs_basic", vistype != "basic")
+task2_ppc_outside <- bind_rows(task2_ppc_level, task2_ppc_diff) |> filter(!inside)
+task2_ppc_count <- function(inside) {
+  if (all(inside)) {
+    paste("all", number_word(length(inside)))
+  } else {
+    paste(number_word(sum(inside)), "of", number_word(length(inside)))
+  }
+}
+task2_ppc_sentence <- paste0(
+  "The observed share of exact-peak responses lay inside the 95% interval of ",
+  scales::comma(task2_peak_n_sim), " data sets simulated from the primary model for ",
+  task2_ppc_count(task2_ppc_level$inside),
+  " visualization types, and the observed difference from Basic topoplot for ",
+  task2_ppc_count(task2_ppc_diff$inside), ".",
+  if (nrow(task2_ppc_outside) > 0) {
+    paste0(
+      " Outside the interval: ",
+      knitr::combine_words(sprintf(
+        "%s %s (observed %+.1f pp, simulated 95%% interval %+.1f to %+.1f pp)",
+        table_vistype(as.character(task2_ppc_outside$vistype)),
+        if_else(
+          task2_ppc_outside$statistic == "share_one",
+          "share", "difference from Basic"
+        ),
+        100 * task2_ppc_outside$observed,
+        100 * task2_ppc_outside$lower,
+        100 * task2_ppc_outside$upper
+      )),
+      ". The single ordered-beta predictor does not fully reproduce this exact-peak ",
+      "difference, which is why the two-part model is reported."
+    )
+  } else {
+    " The primary model reproduces the exact-peak responses."
+  }
+)
+
+# Rank and top-3 sensitivity outcomes.
+task2_scale_free_significant <- task2_outcome_significant |>
+  filter(outcome %in% c("Rank score", "Top 3"))
+task2_lowest_by_outcome <- task2_outcome_contrasts |>
+  group_by(outcome) |>
+  slice_min(estimate, n = 1, with_ties = FALSE) |>
+  ungroup() |>
+  pull(vistype) |>
+  as.character()
+task2_lowest_consistent <- length(unique(task2_lowest_by_outcome)) == 1
+# Does the exact-peak part of the two-part model point the other way for the
+# visualization with the lowest score estimate?
+task2_lowest_peak <- task2_peak_contrasts |>
+  filter(
+    model == "Exact peak (logistic)",
+    vistype == task2_lowest_by_outcome[1]
+  )
+task2_lowest_peak_estimate <- task2_lowest_peak$estimate
+
+task2_interpretation <- if (task2_any_primary_effect) {
+  paste0(
+    "At least one primary contrast excludes zero after adjustment; see the ",
+    "sentences above for which visualization types and in which direction."
+  )
+} else {
+  paste0(
+    "Taken together, the data give no clear evidence that any uncertainty ",
+    "visualization changed detection scores compared with Basic topoplot: the ",
+    "overall test gave *p* ", task2_summary_p(task2_lrt_p),
+    ", and no Dunnett-adjusted contrast with Basic excluded zero. ",
+    if (task2_lowest_consistent) {
+      paste0(
+        table_vistype(task2_lowest_by_outcome[1]), " had the lowest estimate for ",
+        "the score, the rank score and top 3, so it is a candidate for a small ",
+        "detection cost, but this study cannot distinguish that cost from no ",
+        "difference. ",
+        if (task2_lowest_peak_estimate > 0) {
+          paste0(
+            "Its exact-peak estimate in the two-part model pointed the other way ",
+            "(more exact hits than Basic",
+            if (task2_lowest_peak$excludes_zero) "" else ", interval including 0",
+            "), so a possible cost ",
+            "would lie in how close the misses were, not in how often the peak was ",
+            "found. "
+          )
+        } else {
+          ""
+        }
+      )
+    } else {
+      ""
+    },
+    if (nrow(task2_part_effects) > 0 && all(task2_part_overall_p >= 0.05)) {
+      paste0(
+        "The two-part interval", if (nrow(task2_part_effects) > 1) "s" else "",
+        " that excluded zero come", if (nrow(task2_part_effects) > 1) "" else "s",
+        " from a model whose overall tests were not significant and should be ",
+        "read as exploratory. "
+      )
+    } else {
+      ""
+    },
+    "The results should be reported as estimates with intervals."
+  )
+}
+```
+
+- **Overall test.** Adding visualization type
+  `r if (task2_lrt_p < 0.05) "improved" else "did not clearly improve"` the primary
+  ordered-beta model, $\chi^2(`r task2_lrt_df`) = `r sprintf("%.2f", task2_lrt_chi)`$,
+  *p* `r task2_summary_p(task2_lrt_p)`.
+- **Expected detection scores** (E[y], averaged over participants, stimuli and images).
+  They ranged from `r scales::percent(task2_summary_lowest$predicted_score, accuracy = 0.1)`
+  for `r table_vistype(as.character(task2_summary_lowest$vistype))` to
+  `r scales::percent(task2_summary_highest$predicted_score, accuracy = 0.1)` for
+  `r table_vistype(as.character(task2_summary_highest$vistype))`; Basic topoplot had
+  `r scales::percent(task2_expected_value("basic", "marginal"), accuracy = 0.1)`.
+- **Primary contrasts** (expected-score difference, Dunnett-adjusted for six comparisons
+  with Basic). `r task2_primary_sentence`
+- **Two-part model, overall tests.** Visualization type did
+  `r if (task2_part_overall_p[["Exact peak"]] < 0.05) "" else "not clearly "`improve
+  the exact-peak part (`r task2_peak_overall_text("Exact peak")`) and did
+  `r if (task2_part_overall_p[["Misses"]] < 0.05) "" else "not clearly "`improve the
+  part for the closeness of misses (`r task2_peak_overall_text("Misses")`).
+- **Two-part model, exact peak** (logistic, Dunnett-adjusted).
+  `r task2_part_sentence("Exact peak (logistic)", "the log-odds of selecting the strongest region were")`
+- **Two-part model, closeness of misses** (beta, Dunnett-adjusted).
+  `r task2_part_sentence("Misses (beta)", "the mean score of missed trials was")`
+- **Posterior predictive check.** `r task2_ppc_sentence`
+- **Rank and top-3 outcomes** (Dunnett-adjusted).
+  `r if (nrow(task2_scale_free_significant) == 0) "For neither scale-free outcome did any visualization differ from Basic topoplot." else paste0("For the rank score, ", task2_outcome_sentence("Rank score"), "; for top 3, ", task2_outcome_sentence("Top 3"), ".")`
+- **Scoring caveat.** For `r task2_p3_low_modal_top_region_n` of
+  `r n_distinct(task2_model$stimulus[task2_model$pattern == "P3"])` P3 stimuli, the most
+  frequently selected region (`r task2_p3_low_modal_top_region`) ranked only
+  `r scales::ordinal(min(task2_p3_low_modal_top_ranks))`–`r scales::ordinal(max(task2_p3_low_modal_top_ranks))`
+  by score. Participants may have targeted the voltage peak rather than the SNR peak;
+  this is not resolved here.
+- **Interpretation.** `r task2_interpretation`
 
 ## Completion-time analysis
 

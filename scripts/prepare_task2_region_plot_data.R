@@ -69,15 +69,10 @@ task2_get_field <- function(x, field) {
   )[, 2]
 }
 
-task2_survey_raw <- readr::read_delim(
-  task2_region_data_path,
-  delim = ";",
-  locale = readr::locale(encoding = "UTF-8"),
-  col_types = readr::cols(.default = readr::col_character()),
-  name_repair = "minimal",
-  show_col_types = FALSE,
-  progress = FALSE
-)
+# Survey data and the analytic sample come from the shared setup, so this script
+# cannot drift from the sample definition used on the analysis pages.
+source(file.path(task2_region_project_dir, "scripts", "analysis_setup.R"))
+task2_survey_raw <- survey_raw
 
 task2_required_columns <- c(
   "STARTED",
@@ -97,13 +92,9 @@ if (length(task2_missing_columns) > 0L) {
   )
 }
 
-# Match the participant inclusion rules used by the existing analysis pages.
-task2_survey <- task2_survey_raw |>
-  dplyr::slice(-1) |>
-  dplyr::filter(as.Date(STARTED) >= as.Date("2026-07-24")) |>
-  dplyr::filter(!is.na(readr::parse_number(TIME051))) |>
-  dplyr::select(-(1:5)) |>
-  dplyr::mutate(ID = dplyr::row_number(), .before = 1)
+# The shared analytic sample (analysis_setup.R: started on or after launch,
+# reached page 51), with the same participant IDs as on the analysis pages.
+task2_survey <- data
 
 task2_design <- task2_survey |>
   dplyr::select(ID, A205_01) |>
