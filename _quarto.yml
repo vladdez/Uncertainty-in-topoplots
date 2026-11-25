@@ -42,10 +42,10 @@ website:
         text: Task 1
       - href: pages/task2.qmd
         text: Task 2
-      - href: pages/hit_miss.qmd
-        text: Hit or miss
       - href: pages/time.qmd
         text: Time analysis
+      - href: pages/hit_miss.qmd
+        text: Hit or miss
       - href: pages/subjective.qmd
         text: Subjective evaluation
       - href: pages/feedback.qmd
