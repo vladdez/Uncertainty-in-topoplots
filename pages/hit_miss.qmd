@@ -141,7 +141,7 @@ outcome_shares |>
 
 ## Where participants clicked
 
-Each topoplot uses the survey's clickable grid. Region fill shows the ground truth, and dot area shows the share of responses for that region; shares below about 4% get a minimum dot size so that single responses stay visible. Within each row (or each pattern, in the stimulus view), the most correct panel has an orange frame and the most missed a dark one.
+Each topoplot uses the survey's clickable grid. Region fill shows the ground truth, and dot area shows the share of responses for that region; shares below about 4% get a minimum dot size so that single responses stay visible. Each panel's subtitle gives its hit rate and n; no panel is singled out as most correct or most missed, because with as few as 7 responses per panel those differences are mostly noise.
 
 ::: panel-tabset
 ### By stimulus
@@ -199,10 +199,17 @@ stopifnot(all(purrr::map_lgl(hit_miss_models, \(m) {
 # Expected rates averaged over participants, stimuli and images (random
 # intercepts integrated out), not the typical-image values of
 # emmeans(type = "response"); see marginal_response_by_vistype().
-hit_miss_estimates <- purrr::imap_dfr(hit_miss_models, \(model, name) {
-  marginal_response_by_vistype(model) |>
-    transmute(outcome = name, vistype, prob = marginal,
-              lower = marginal_lower, upper = marginal_upper)
+hit_miss_predictions <- purrr::map(
+  hit_miss_models,
+  \(model) marginal_response_by_vistype(model, include_99 = TRUE, keep_draws = TRUE)
+)
+hit_miss_estimates <- purrr::imap_dfr(hit_miss_predictions, \(predictions, name) {
+  predictions$estimates |>
+    transmute(
+      outcome = name, vistype, prob = marginal,
+      lower = marginal_lower, upper = marginal_upper,
+      lower_99 = marginal_lower_99, upper_99 = marginal_upper_99
+    )
 })
 
 # Primary family as on the other pages: the six comparisons with Basic,
@@ -220,9 +227,10 @@ hit_miss_contrasts <- purrr::imap_dfr(hit_miss_models, \(model, name) {
     )
 })
 
+# Rows in the display order of every figure and table (audit V1).
 hit_miss_estimates |>
   mutate(
-    vistype = factor(vistype, levels = levels(hit_miss$vistype)),
+    vistype = factor(vistype, levels = vistype_order),
     value = sprintf("%.0f%% [%.0f, %.0f]", 100 * prob, 100 * lower, 100 * upper)
   ) |>
   select(outcome, vistype, value) |>
@@ -231,7 +239,7 @@ hit_miss_estimates |>
     hit_miss_contrasts |>
       transmute(
         outcome = paste(outcome, "p"),
-        vistype = factor(vistype, levels = levels(hit_miss$vistype)),
+        vistype = factor(vistype, levels = vistype_order),
         p = format_pvalue_html(p.value)
       ) |>
       tidyr::pivot_wider(names_from = outcome, values_from = p),
@@ -265,9 +273,190 @@ without it): hit `r overall_text("Hit")`; hit or near hit
 `r overall_text("Hit or near hit")`. When the overall test is not significant, read the
 single comparisons with Basic above as exploratory.
 
+```{r hit-miss-model-ambiguation-plot}
+#| cache: false
+#| fig-width: 10
+#| fig-height: 5.5
+#| fig-cap: >-
+#|   Model-estimated probabilities at the middle presentation position,
+#|   averaged over ERP patterns, participants, stimuli, and images. The white
+#|   tick and percentage label show the estimate. Dark blue spans the pointwise
+#|   95% confidence interval and the light blue ends reach the 99% limits.
+#|   Both intervals use the same 4,000 model-parameter draws.
+#|   Design adapted from panel (f) of
+#|   [Gschwandtner et al. (2016)](https://doi.org/10.1109/TVCG.2015.2467752).
+#| fig-alt: >-
+#|   Two panels compare model-estimated probabilities of an exact hit and of a
+#|   hit or near hit across seven visualisation types. Each blue band shows the
+#|   95% interval in dark blue and extends to the 99% limits in light blue.
+
+source("scripts/ambiguation_plot.R", local = TRUE)
+hit_miss_plot_data <- hit_miss_estimates |>
+  transmute(
+    outcome = factor(
+      outcome,
+      levels = c("Hit", "Hit or near hit"),
+      labels = c("Exact hit", "Hit or near hit")
+    ),
+    vistype = order_vistype(vistype, top_first = TRUE),
+    y_position = as.numeric(vistype),
+    prob, lower_95 = lower, upper_95 = upper, lower_99, upper_99
+  )
+hit_miss_plot_rows <- hit_miss_plot_data |>
+  distinct(vistype, y_position) |>
+  arrange(y_position)
+hit_miss_axis_max <- ceiling(max(hit_miss_plot_data$upper_99) * 10) / 10
+
+plot_ambiguation_intervals(hit_miss_plot_data) +
+  geom_segment(
+    aes(x = prob, xend = prob, y = y_position - 0.20, yend = y_position + 0.20),
+    inherit.aes = FALSE,
+    colour = "white",
+    linewidth = 0.8
+  ) +
+  geom_text(
+    aes(x = prob, y = y_position + 0.43, label = scales::percent(prob, accuracy = 1)),
+    inherit.aes = FALSE,
+    vjust = 0,
+    size = 6
+  ) +
+  facet_wrap(vars(outcome), nrow = 1) +
+  scale_x_continuous(
+    "Model-estimated probability",
+    limits = c(0, hit_miss_axis_max),
+    breaks = scales::breaks_width(0.2),
+    labels = scales::label_percent(),
+    expand = expansion(add = c(0, 0.01))
+  ) +
+  scale_y_continuous(
+    breaks = hit_miss_plot_rows$y_position,
+    labels = figure_vistype(hit_miss_plot_rows$vistype),
+    expand = expansion(add = c(0.5, 0.85))
+  ) +
+  labs(y = NULL) +
+  (if (hit_miss_axis_max < 1) x_axis_end_mark()) +
+  coord_cartesian(clip = "off") +
+  plot_theme(base_size = 20) +
+  theme(
+    axis.text = element_text(size = 20),
+    axis.text.y = element_text(
+      colour = vistype_label_colours(hit_miss_plot_rows$vistype, other = "black")
+    ),
+    axis.ticks.y = element_blank(),
+    axis.line.y = element_blank(),
+    panel.spacing.x = grid::unit(5, "mm"),
+    strip.background = element_blank(),
+    strip.text = element_text(face = "bold", size = 21)
+  )
+```
+
+```{r hit-miss-model-probability-contrasts}
+#| cache: false
+#| fig-width: 10
+#| fig-height: 5.5
+#| fig-cap: >-
+#|   Difference in model-estimated probabilities versus Basic topoplot, in
+#|   percentage points (pp). Whiskers show approximate simultaneous 95%
+#|   confidence intervals for the six comparisons within each model, based on
+#|   4,000 joint parameter draws. The dashed blue line marks zero difference.
+#| fig-alt: >-
+#|   Two panels show the estimated change in exact-hit probability and in
+#|   hit-or-near-hit probability relative to Basic topoplot for each of the
+#|   six other visualisation types, with horizontal confidence intervals.
+
+hit_miss_probability_contrasts <- purrr::imap_dfr(
+  hit_miss_predictions,
+  \(predictions, name) {
+    draws <- tidyr::pivot_wider(
+      predictions$marginal_draws,
+      id_cols = draw, names_from = vistype, values_from = marginal
+    )
+    # Within each draw, all rates use the same model parameters.
+    contrast_draws <- sweep(as.matrix(select(draws, -draw, -basic)), 1, draws$basic, "-")
+    types <- colnames(contrast_draws)
+    estimates <- setNames(predictions$estimates$marginal, predictions$estimates$vistype)
+    difference <- unname(estimates[types] - estimates[["basic"]])
+
+    # As for Task 1, calibrate the interval with the largest absolute
+    # standardised deviation across the six comparisons in each draw.
+    standard_error <- apply(contrast_draws, 2, sd)
+    z_draws <- scale(contrast_draws, scale = standard_error)
+    critical <- unname(quantile(apply(abs(z_draws), 1, max), 0.95))
+    tibble(
+      outcome = name,
+      vistype = types,
+      difference,
+      lower_ci = difference - critical * standard_error,
+      upper_ci = difference + critical * standard_error
+    )
+  }
+) |>
+  mutate(
+    outcome = factor(
+      outcome,
+      levels = c("Hit", "Hit or near hit"),
+      labels = c("Exact hit", "Hit or near hit")
+    ),
+    vistype = order_vistype(vistype, top_first = TRUE)
+  )
+
+format_probability_difference <- function(x) {
+  ifelse(abs(x) < 0.005, "0 pp", sprintf("%+.0f pp", 100 * x))
+}
+s <- interval_figure_sizes()
+
+hit_miss_probability_contrast_plot <- ggplot(
+  hit_miss_probability_contrasts,
+  aes(x = difference, y = vistype)
+) +
+  geom_vline(xintercept = 0, linetype = "dashed", linewidth = 0.6, colour = basic_accent) +
+  geom_errorbar(
+    aes(xmin = lower_ci, xmax = upper_ci),
+    orientation = "y",
+    width = 0.14,
+    linewidth = s$line,
+    colour = "#333333"
+  ) +
+  geom_point(size = s$point, colour = "#333333") +
+  geom_text(
+    aes(
+      hjust = side_away_from_zero(difference),
+      label = format_probability_difference(difference)
+    ),
+    nudge_y = 0.32,
+    vjust = 0.5,
+    size = s$label,
+    colour = "#333333"
+  ) +
+  facet_wrap(vars(outcome), nrow = 1) +
+  scale_x_continuous(
+    breaks = scales::breaks_width(0.10),
+    labels = format_probability_difference,
+    expand = expansion(add = 0.02)
+  ) +
+  scale_y_discrete(labels = figure_vistype, expand = expansion(add = 0.5)) +
+  labs(x = NULL, y = NULL) +
+  plot_theme(base_size = s$base) +
+  theme(
+    axis.text.y = element_text(size = s$axis_y, margin = margin(r = s$margin)),
+    axis.text.x = element_text(size = s$axis_x),
+    axis.ticks.y = element_blank(),
+    axis.line.y = element_blank(),
+    panel.spacing.x = grid::unit(5, "mm"),
+    strip.background = element_blank(),
+    strip.text = element_text(face = "bold", size = 21)
+  )
+
+hit_miss_probability_contrast_plot /
+  basic_axis_caption("Difference in estimated probability vs", size = s$caption) +
+  plot_layout(heights = c(1, 0.10))
+```
+
 ::: {.callout-note title="Odds ratios vs Basic topoplot" collapse="true"}
 ```{r hit-miss-odds}
 hit_miss_contrasts |>
+  # Within each outcome, rows in the display order of every figure (audit V1).
+  arrange(factor(outcome, levels = unique(outcome)), order_vistype(vistype)) |>
   mutate(
     vistype = table_vistype(vistype),
     `OR [95% CI]` = sprintf("%.2f [%.2f, %.2f]", odds.ratio, lower, upper),
@@ -329,7 +518,7 @@ hit_miss_range_text <- function(name) {
 hit_miss_effects <- function(name, outcome) {
   rows <- hit_miss_contrasts |>
     filter(.data$outcome == name) |>
-    mutate(vistype = factor(vistype, levels = levels(hit_miss$vistype))) |>
+    mutate(vistype = order_vistype(vistype)) |>
     arrange(vistype)
   describe <- \(i) sprintf(
     "%s (OR = %.2f, simultaneous 95%% CI %.2f–%.2f, adjusted *p* %s)",
