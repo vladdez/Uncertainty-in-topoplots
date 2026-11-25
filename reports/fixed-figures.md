@@ -96,6 +96,19 @@ fixed. IDs keep their review numbers.
 ![After](img/figure1-label-collision-after.png){fig-alt="Figure 1 after the label fix"}
 :::
 
+- **Figure 1, third pass (25 Nov 2026):** the second pass made room for the lifted labels
+  by adding vertical space, which shrank the maps in row 2 (D and F) and pushed the
+  three heads in E into each other. The original spacing is back, so the maps have
+  their original size and E its original spacing. The labels now take no layout space:
+  row 1's labels sit in the top margin, row 2's in the empty band below row 1's colour
+  bars, still on one line per row and clear of the noses and electrode markers.
+
+::: {layout-ncol=2}
+![Before](img/figure1-label-collision-after.png){fig-alt="Figure 1 before the map-size fix"}
+
+![After](img/figure1-map-size-after.png){fig-alt="Figure 1 after the map-size fix"}
+:::
+
 ## V10. One score, several names and units {#v10}
 
 ::: {.finding-meta .sev-moderate .status-resolved}
