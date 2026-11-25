@@ -268,9 +268,8 @@ researchers assessed from how they measured it.
 
 _Perceptual studies_ assess how accurately and quickly participants identify areas with high
 uncertainty or compare its magnitude across different areas, typically measuring accuracy
-and response time @hullman2015hypothetical. Both approaches provide objective measures, but
-they test different abilities: reading uncertainty is not the same as using it to make a
-decision.
+and response time @sanyal2009user. Both approaches provide objective measures, but they test
+different abilities: reading uncertainty is not the same as using it to make a decision.
 
 _Decision-making studies_ go beyond interpretation accuracy. Correll et al. @correll2018task
 examined whether uncertainty affected participants' choices, whereas Fernandes et al.
@@ -291,10 +290,11 @@ ratings and qualitative feedback complement these performance measures by examin
 participants' experiences with each visualization design.
 == Uncertainty in EEG/ERP Visualization
 
-In ERP waveforms, uncertainty is commonly shown using error bars or shaded confidence
-intervals @allen2012data @kappenman2021erp @pernet2011limo. EEG scalp maps can also display
-statistical results, such as test statistics or significance markers, but these do not
-directly show uncertainty in the estimated voltage @pernet2011limo.
+In ERP waveforms, uncertainty can be shown, for example, with error bars or shaded bands for
+the standard error or a confidence interval @allen2012data @kappenman2021erp
+@pernet2011limo, although many published ERP plots omit it @mikheev2024art. EEG scalp maps
+can also display statistical results, such as test statistics or significance markers, but
+these do not directly show uncertainty in the estimated voltage @pernet2011limo.
 
 Some EEG tools already provide ways to visualize uncertainty. LIMO EEG calculates bootstrap
 confidence intervals for individual electrodes and time points, but its published examples
@@ -539,10 +539,31 @@ We recruited participants with experience in EEG/ERP research or analysis. The s
 targeted researchers and students familiar with EEG/ERP data and topographic visualizations.
 Participation was voluntary.
 
-A total of 149 participants were included in the quantitative analysis. Country-of-work
-percentages were calculated from 145 valid responses: two participants selected "Prefer not
-to say," and two entered occupations rather than countries. #emph[TODO: Add remaining
-demographics, EEG experience, and exclusion criteria.]
+// Numbers come from numbers.json, written by the analysis pages when they render
+// (write_manuscript_numbers() in scripts/analysis_setup.R); do not type them here.
+#let num = json("numbers.json")
+#let ns = num.sample
+#let nq = num.quality
+#let nr = num.subjective
+#assert(
+  ns.n_participants == nq.n_participants and ns.n_participants == nr.n_participants,
+  message: "numbers.json sections come from different samples; re-render the pages",
+)
+#assert(ns.n_country_missing == 0, message: "Some country answers are missing; update the Participants text")
+
+A total of #ns.n_participants participants were included in the quantitative analysis.
+Country-of-work percentages were calculated from #ns.n_country_valid valid responses:
+#ns.n_country_refused_word participants selected "Prefer not to say," and
+#ns.n_country_occupation_word entered occupations rather than countries. #emph[TODO: Add
+remaining demographics, EEG experience, and exclusion criteria.]
+
+We screened for careless responding with two checks that were not preregistered: unusually
+fast completion (relative speed index above #nq.speed_cutoff @leiner2019too;
+#nq.n_speeders_word participants) and the same rating on all #nq.n_rating_items rating items
+(#nq.n_straight_liners_word participants). We kept all participants and repeated the rating
+analyses without the #nq.n_flagged_word flagged ones; #if nr.quality_n_changed == 0 [no
+conclusion changed] else [#nr.quality_n_changed of #nr.quality_n_contrasts comparisons
+changed] (Section 1.1 and Table S4 of the supplementary material).
 
 // TODO: Report ethics approval or exemption and informed-consent procedures.
 
@@ -550,7 +571,9 @@ demographics, EEG experience, and exclusion criteria.]
 
 We used three characteristic ERP topographic patterns: mismatch negativity (MMN), P3, and
 N170 @kappenman2021erp. For each pattern, we prepared a pool of ten pattern variations, from
-which individual stimuli were selected during the experiment.
+which individual stimuli were selected during the experiment. Some single-participant MMN
+and N170 variations look alike, which made a few Task 1 items hard (Section 1.1.2 and Table
+S5 of the supplementary material).
 
 The patterns were displayed using seven visualization conditions: a basic topoplot and six
 uncertainty visualizations selected from the design pool described above. Each visualization

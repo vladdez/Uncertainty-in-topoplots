@@ -1,0 +1,113 @@
+{
+  "quality": {
+    "n_participants": 150,
+    "speed_cutoff": 2,
+    "n_speeders": 5,
+    "n_speeders_word": "five",
+    "speed_index_min": "2.06",
+    "speed_index_max": "2.49",
+    "speed_index_median_all": "1.12",
+    "speeders_task1_min": "67%",
+    "speeders_task1_min_number": "67",
+    "speeders_task1_max": "90%",
+    "speeders_task2_min": "0.57",
+    "speeders_task2_max": "0.78",
+    "speeders_above_chance": true,
+    "task2_chance": "0.39",
+    "n_straight_liners": 2,
+    "n_straight_liners_word": "two",
+    "straight_liner_values": "3 and 5",
+    "n_flagged": 7,
+    "n_flagged_word": "seven",
+    "n_rating_items": 28
+  },
+  "sample": {
+    "n_participants": 150,
+    "n_country_valid": 146,
+    "n_country_refused": 2,
+    "n_country_refused_word": "two",
+    "n_country_occupation": 2,
+    "n_country_occupation_word": "two",
+    "n_country_missing": 0
+  },
+  "subjective": {
+    "n_participants": 150,
+    "quality_max_shift": "0.07",
+    "quality_n_changed": 0,
+    "quality_n_changed_word": "zero",
+    "quality_n_contrasts": 24
+  },
+  "task1": {
+    "n_participants": 150,
+    "n_trials": "3,150",
+    "n_key_failures": 0,
+    "hard_targets": [
+      {
+        "stimulus": "MMN_19",
+        "accuracy": "41.7%",
+        "n": 115,
+        "vs_n170": "15.3%",
+        "vs_p3": "69.6%"
+      },
+      {
+        "stimulus": "MMN_29",
+        "accuracy": "45.6%",
+        "n": 103,
+        "vs_n170": "20.0%",
+        "vs_p3": "65.5%"
+      }
+    ],
+    "mmn_vs_n170": "56.7%",
+    "mmn_vs_p3": "85.9%",
+    "hard_trials_per_vis_min": 27,
+    "hard_trials_per_vis_max": 36,
+    "n_hard_trials": "218",
+    "overall_p_all": ".050",
+    "overall_p_without": ".024",
+    "without_hard_any_excludes_zero": false,
+    "comparison": [
+      {
+        "vistype": "animation",
+        "all": "+1.0 [−4.8, +6.8]",
+        "p_all": ".994",
+        "without": "+0.3 [−5.5, +6.1]",
+        "p_without": "1.000"
+      },
+      {
+        "vistype": "triple_CI",
+        "all": "+0.1 [−5.8, +6.0]",
+        "p_all": "1.000",
+        "without": "−0.8 [−6.7, +5.1]",
+        "p_without": ".999"
+      },
+      {
+        "vistype": "adjacent",
+        "all": "−2.6 [−8.5, +3.3]",
+        "p_all": ".721",
+        "without": "−3.8 [−9.8, +2.1]",
+        "p_without": ".354"
+      },
+      {
+        "vistype": "uncert_markers",
+        "all": "−3.4 [−9.5, +2.7]",
+        "p_all": ".486",
+        "without": "−4.0 [−10.2, +2.1]",
+        "p_without": ".327"
+      },
+      {
+        "vistype": "bivariate_corner",
+        "all": "−4.3 [−10.5, +1.8]",
+        "p_all": ".265",
+        "without": "−5.5 [−11.8, +0.7]",
+        "p_without": ".105"
+      },
+      {
+        "vistype": "bivariate_range",
+        "all": "−5.3 [−11.5, +0.8]",
+        "p_all": ".116",
+        "without": "−6.1 [−12.4, +0.1]",
+        "p_without": ".059"
+      }
+    ]
+  }
+}

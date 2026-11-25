@@ -456,6 +456,164 @@
 
 #place.flush()
 
+== Data quality checks <sec:quality-checks>
+
+// Numbers come from numbers.json, written by the analysis pages when they render
+// (write_manuscript_numbers() in scripts/analysis_setup.R). Re-render the pages
+// and recompile after a data refresh; do not type numbers here.
+#let num = json("numbers.json")
+#let nq = num.quality
+#let nr = num.subjective
+#let nt = num.task1
+#assert(
+  nq.n_participants == nt.n_participants and nq.n_participants == nr.n_participants,
+  message: "numbers.json sections come from different samples; re-render the pages",
+)
+#let cap(word) = upper(word.first()) + word.slice(1)
+#let p-eq(p) = if p.starts-with("<") [$p #p$] else [$p = #p$]
+#let vis-name = (
+  animation: "Hypothetical outcome animation",
+  triple_CI: "Interval-based representation",
+  adjacent: "Adjacent plots",
+  uncert_markers: "Uncertainty markers",
+  bivariate_corner: "Bivariate color: corners",
+  bivariate_range: "Bivariate color: range",
+)
+#let h1 = nt.hard_targets.at(0)
+#let h2 = nt.hard_targets.at(1)
+#let refit-effect = if nt.without_hard_any_excludes_zero [at least one interval
+  excludes zero] else [no conclusion changes]
+
+The checks below were not preregistered. The participant thresholds follow Leiner
+@leiner2019too; the item-level check was added after inspecting the data. We excluded no
+participant and no trial: every check served as a sensitivity analysis, and the primary
+analyses use all data. @tab:quality-summary summarizes the checks.
+
+#figure(
+  kind: table,
+  {
+    set text(size: 7.5pt, hyphenate: false)
+    set par(justify: false)
+    table(
+      columns: (1fr, 1.25fr, 0.8fr, 1.35fr),
+      align: left,
+      inset: (x: 4pt, y: 3.5pt),
+      stroke: 0.4pt + luma(210),
+
+      table.header(
+        [*Check*], [*Criterion*], [*Flagged*], [*Action and effect*],
+      ),
+
+      [Too fast], [Relative speed index above #nq.speed_cutoff @leiner2019too],
+      [#nq.n_speeders participants],
+      table.cell(rowspan: 2)[Kept. Ratings re-analyzed without all #nq.n_flagged:
+        #if nr.quality_n_changed == 0 [no conclusion changes] else [#nr.quality_n_changed
+        of #nr.quality_n_contrasts intervals change] (@sec:sensitivity)],
+
+      [Same rating everywhere], [Same rating on all #nq.n_rating_items rating items],
+      [#nq.n_straight_liners participants],
+
+      [Answer key (Task 1)], [Correct option, files and scoring consistent],
+      [#nt.n_key_failures of #nt.n_trials trials], [None needed],
+
+      [Target below chance (Task 1)], [Target matched correctly in less than 50% of
+        trials], [#nt.hard_targets.len() images (#nt.n_hard_trials trials)],
+      [Kept. Exploratory refit without them: #refit-effect (@tab:task1-hard-items)],
+    )
+  },
+  caption: [
+    Data quality checks. No participant or trial was excluded.
+  ],
+) <tab:quality-summary>
+
+=== Participant-level checks
+
+*Too fast.* SoSci Survey's relative speed index (TIME_RSI) @leiner2019too divides, on each
+page, the median time of all participants by the participant's own time, caps the value at
+3, and averages over pages; 1 means typical speed. Following Leiner @leiner2019too, we
+flagged indices above #nq.speed_cutoff. #cap(nq.n_speeders_word) participants exceeded
+this threshold (#nq.speed_index_min–#nq.speed_index_max\; median of all participants
+#nq.speed_index_median_all). Speed is not a valid indicator of carelessness in tasks that
+test knowledge or skill, because experts are faster @leiner2019too, so we treated the flag
+only as a hint. #if nq.speeders_above_chance [All #nq.n_speeders_word participants
+performed above chance in both tasks] else [Not all of them performed above chance in both
+tasks] (Task 1: #nq.speeders_task1_min_number–#nq.speeders_task1_max correct, chance 50%; Task 2:
+mean scores #nq.speeders_task2_min–#nq.speeders_task2_max, random clicking
+#nq.task2_chance).
+
+*Same rating everywhere.* #cap(nq.n_straight_liners_word) participants gave the same rating
+(#nq.straight_liner_values, respectively) to all #nq.n_rating_items subjective rating
+items, a pattern known as straight-lining @leiner2019too.
+
+=== Item-level checks <sec:item-checks>
+
+*Answer key.* In #if nt.n_key_failures == 0 [all] else [all but #nt.n_key_failures of the]
+#nt.n_trials Task 1 trials, the correct option was the target image, its file belonged to
+the target's ERP class, the other option was the logged distractor, and the recorded answer
+matched the scoring.
+
+*Target images below chance.* Two MMN target images were matched correctly less often than
+chance: #h1.stimulus (#h1.accuracy, $n = #h1.n$) and #h2.stimulus (#h2.accuracy,
+$n = #h2.n$). The difficulty was specific to N170 distractors: against an N170 distractor,
+these targets were matched correctly in #h1.vs_n170 and #h2.vs_n170 of trials, against a
+P3 distractor in #h1.vs_p3 and #h2.vs_p3. The same asymmetry appeared, more mildly, for all
+MMN targets (#nt.mmn_vs_n170 correct against N170 and #nt.mmn_vs_p3 against P3
+distractors). Both images are single-participant maps with a low voltage range (color
+scales of ±1.5 and ±1.7 µV) and a lateral rather than posterior positivity, whereas
+several N170 variations resemble the MMN template. The trials with these targets were
+spread evenly over the seven visualizations (#nt.hard_trials_per_vis_min–#nt.hard_trials_per_vis_max
+per visualization), so they add noise but do not favor any visualization.
+
+=== Sensitivity analyses <sec:sensitivity>
+
+*Without flagged participants.* Without the #nq.n_flagged_word flagged participants, the
+subjective-rating contrasts against the basic topoplot changed by at most
+#nr.quality_max_shift scale points, and #if nr.quality_n_changed == 0 [none of the
+#nr.quality_n_contrasts intervals changed] else [#nr.quality_n_changed of the
+#nr.quality_n_contrasts intervals changed] its position relative to zero.
+
+*Without the hard target images.* In an exploratory refit without the #nt.n_hard_trials
+trials whose target was #h1.stimulus or #h2.stimulus, the Task 1 estimates are shown in
+@tab:task1-hard-items; #if nt.without_hard_any_excludes_zero [at least one
+Dunnett-adjusted interval excludes zero] else [all six Dunnett-adjusted intervals still
+include zero]. The overall test of visualization type changed from #p-eq(nt.overall_p_all)
+to #p-eq(nt.overall_p_without). Because the two images were identified after inspecting
+the data, this refit does not replace the primary analysis.
+
+#figure(
+  kind: table,
+  {
+    set text(size: 7.5pt, hyphenate: false)
+    set par(justify: false)
+    table(
+      columns: (1fr, auto, auto, auto, auto),
+      align: (left, right, right, right, right),
+      inset: (x: 4pt, y: 3.5pt),
+      stroke: 0.4pt + luma(210),
+
+      table.header(
+        table.cell(rowspan: 2, align: bottom)[*Visualization*],
+        table.cell(colspan: 2, align: center)[*All trials*],
+        table.cell(colspan: 2, align: center)[*Without hard trials*],
+        [*Diff. [95% CI]*], [*$p$*],
+        [*Diff. [95% CI]*], [*$p$*],
+      ),
+
+      ..nt.comparison
+        .map(row => (
+          vis-name.at(row.vistype), row.all, row.p_all, row.without, row.p_without,
+        ))
+        .flatten(),
+    )
+  },
+  caption: [
+    Task 1 accuracy difference from the basic topoplot, in percentage points, on all trials
+    and without the #nt.n_hard_trials trials whose target was #h1.stimulus or
+    #h2.stimulus (exploratory). Intervals are Dunnett-adjusted simultaneous 95% CIs for the
+    six comparisons; $p$ values are adjusted in the same way.
+  ],
+) <tab:task1-hard-items>
+
 #set text(size: 8pt)
 #bibliography(
   "refs.bib",
