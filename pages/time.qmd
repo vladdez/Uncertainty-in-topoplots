@@ -90,8 +90,11 @@ fit_time_model <- function(time_data) {
     lower_ci = estimates_ci$lower,
     upper_ci = estimates_ci$upper
   ) %>%
-    arrange(estimated_time) %>%
-    mutate(vistype = factor(vistype, levels = vistype))
+    # Canonical visualization order (audit V1): the levels run bottom to top in
+    # the horizontal figures (Basic topoplot at the top); the rows of the table
+    # start with Basic topoplot.
+    mutate(vistype = order_vistype(vistype, top_first = TRUE)) %>%
+    arrange(desc(vistype))
 
   set.seed(20261118)  # adjust = "mvt" integrates numerically (Monte Carlo)
   contrasts_raw <- contrast(
@@ -110,7 +113,7 @@ fit_time_model <- function(time_data) {
     upper_ci = contrasts_ci$upper,
     p_value = contrasts_raw$p.value
   ) %>%
-    arrange(desc(ratio))
+    arrange(match(vistype, vistype_order))  # canonical order (audit V1)
 
   list(data = model_data, fit = fit, estimates = estimates, contrasts = contrasts)
 }
@@ -178,6 +181,60 @@ time_contrast_table <- function(contrasts, caption) {
       caption = caption,
       table.attr = kable_table_attributes
     )
+}
+
+# Ratios to Basic with their Dunnett-adjusted 95% CIs (audit V8), in the style of
+# the Task 1 contrast figure. Log axis (a ratio and its inverse lie equally far
+# from 1), limited to the intervals plus the reference line at 1, so no half of
+# the plot stays empty when all ratios lie on one side.
+# Rows follow the estimate figure above it: the canonical order (audit V1),
+# Adjacent plots at the top (there is no Basic topoplot row).
+time_contrast_plot <- function(contrasts, estimates) {
+  s <- interval_figure_sizes()
+  d <- contrasts |>
+    mutate(vistype = factor(vistype, levels = levels(estimates$vistype)))
+  range_log <- range(log(c(d$lower_ci, d$upper_ci, 1)))
+  pad <- 0.08 * diff(range_log)
+  limits <- exp(range_log + c(-pad, pad))
+  candidates <- c(0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.8, 2)
+  breaks <- candidates[candidates >= limits[1] & candidates <= limits[2]]
+  plot <- ggplot(d, aes(x = ratio, y = vistype)) +
+    geom_vline(xintercept = 1, linetype = "dashed", linewidth = 0.6, colour = basic_accent) +
+    geom_errorbar(
+      aes(xmin = lower_ci, xmax = upper_ci),
+      orientation = "y",
+      width = 0.14,
+      linewidth = s$line,
+      colour = "#333333"
+    ) +
+    geom_point(size = s$point, colour = "#333333") +
+    geom_text(
+      # Beside the point, on the side away from 1 (clear of the dashed line).
+      aes(hjust = side_away_from_zero(log(ratio)), label = sprintf("%.2f", ratio)),
+      nudge_y = 0.32,
+      vjust = 0.5,
+      size = s$label,
+      colour = "#333333"
+    ) +
+    scale_y_discrete(labels = figure_vistype, drop = TRUE, expand = expansion(add = 0.5)) +
+    scale_x_log10(
+      limits = limits,
+      breaks = breaks,
+      labels = \(x) sub("\\.?0+$", "", sprintf("%.2f", x)),
+      expand = expansion(mult = 0)
+    ) +
+    labs(x = NULL, y = NULL) +
+    plot_theme(base_size = s$base) +
+    theme(
+      axis.text.y = element_text(size = s$axis_y, margin = margin(r = s$margin)),
+      axis.text.x = element_text(size = s$axis_x),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank()
+    )
+
+  plot /
+    basic_axis_caption("Ratio of geometric mean time to", size = s$caption) +
+    plot_layout(heights = c(1, 0.10))
 }
 
 time_estimate_table <- function(estimates, caption) {
@@ -480,7 +537,7 @@ summarise_observed_time <- function(time_data) {
       sd_sec = sd(time_sec),
       .groups = "drop"
     ) |>
-    arrange(median_sec) |>
+    arrange(order_vistype(vistype)) |>  # canonical order (audit V1)
     mutate(
       vistype = table_vistype(vistype),
       across(c(median_sec, geometric_mean_sec, mean_sec, sd_sec), \(x) round(x, 1))
@@ -510,47 +567,55 @@ task1_time %>%
 ```
 
 ```{r task1-time-violin}
-# Log scale: the model works on log time, and a raw axis up to the cap would
-# squash the bulk of the distribution. Horizontal line = observed geometric mean.
-task1_time_violin <- ggplot(task1_time, aes(vistype, time_sec)) +
+#| fig-width: 8.5
+#| fig-height: 6.5
+# Horizontal violins (audit V16): labels read without rotation. Rows in the
+# canonical order of the time figures below (audit V1), Basic topoplot at the
+# top. Log scale: the model works
+# on log time, and a raw axis up to the cap would squash the bulk of the
+# distribution. Vertical line inside each violin = observed geometric mean.
+task1_time_gm <- task1_time %>%
+  group_by(vistype) %>%
+  summarise(log10_mean = mean(log10(time_sec)), .groups = "drop")
+task1_time_violin_data <- task1_time %>%
+  mutate(vistype = order_vistype(vistype, top_first = TRUE))
+
+task1_time_violin <- ggplot(task1_time_violin_data, aes(time_sec, vistype)) +
   geom_violin(
     trim = TRUE,
     fill = "#6BAED6",
     colour = "#333333",
     linewidth = 0.6
   ) +
-  scale_y_log10(breaks = c(2, 5, 10, 20, 50, 100, 180))
+  # A log axis cannot reach 0. No hard lower limit (the shortest trial is just
+  # under 1 s and must stay in its violin); the axis ends just below it, with a
+  # tick at 1 s.
+  scale_x_log10(breaks = c(1, 2, 5, 10, 20, 50, 100, 180))
 
-task1_time_violin_geometry <- ggplot_build(task1_time_violin)$data[[1]] %>%
+# Width of each violin at its geometric mean, so the mean line spans the violin.
+task1_time_violin_geometry <- layer_data(task1_time_violin, 1) %>%
   transmute(
-    x_position = as.numeric(x),
-    log10_time = y,
+    row_position = as.numeric(y),
+    log10_time = x,
     half_width = violinwidth * width / 2
   )
 
-task1_time_mean_bars <- task1_time %>%
-  group_by(vistype) %>%
-  summarise(log10_mean = mean(log10(time_sec)), .groups = "drop") %>%
-  mutate(
-    x_position = match(
-      as.character(vistype),
-      sort(unique(as.character(task1_time$vistype)))
-    )
-  ) %>%
+task1_time_mean_bars <- task1_time_gm %>%
+  mutate(row_position = match(as.character(vistype), levels(task1_time_violin_data$vistype))) %>%
   rowwise() %>%
   mutate(
     half_width = approx(
       x = task1_time_violin_geometry$log10_time[
-        task1_time_violin_geometry$x_position == x_position
+        task1_time_violin_geometry$row_position == row_position
       ],
       y = task1_time_violin_geometry$half_width[
-        task1_time_violin_geometry$x_position == x_position
+        task1_time_violin_geometry$row_position == row_position
       ],
       xout = log10_mean,
       rule = 2
     )$y,
-    x_start = x_position - half_width,
-    x_end = x_position + half_width,
+    y_start = row_position - half_width,
+    y_end = row_position + half_width,
     geometric_mean = 10^log10_mean
   ) %>%
   ungroup()
@@ -559,31 +624,35 @@ task1_time_violin +
   geom_segment(
     data = task1_time_mean_bars,
     aes(
-      x = x_start,
-      xend = x_end,
-      y = geometric_mean,
-      yend = geometric_mean
+      x = geometric_mean,
+      xend = geometric_mean,
+      y = y_start,
+      yend = y_end
     ),
     inherit.aes = FALSE,
-    linewidth = 0.6,
+    linewidth = 0.8,
     colour = "#333333"
   ) +
-  scale_x_discrete(labels = figure_vistype) +
+  scale_y_discrete(labels = figure_vistype) +
   labs(
-    title = "Time spent by visualization type",
-    x = NULL,
-    y = "Seconds spent on page (log scale)",
-    caption = "Horizontal line: observed geometric mean."
+    title = "Comparison task",
+    x = "Seconds spent on page (log scale)",
+    y = NULL,
+    caption = "Vertical line: observed geometric mean."
   ) +
   plot_theme(base_size = 20) +
   theme(
-    plot.title = element_text(hjust = 0.5, face = "bold", size = rel(1.2)),
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 30),
     plot.caption = element_text(hjust = 0.5, face = "italic"),
-    axis.text.x = element_text(
-      angle = 35,
-      hjust = 1,
+    axis.ticks.y = element_blank(),
+    # Visualization names are what the reader looks up first: larger than the
+    # tick numbers and the axis title (Wilke ch. 24).
+    axis.text.x = element_text(size = 22),
+    axis.title.x = element_text(size = 24),
+    axis.text.y = element_text(
+      size = 28,
       colour = vistype_label_colours(
-        levels(factor(task1_time$vistype)),
+        levels(task1_time_violin_data$vistype),
         other = "black"
       )
     )
@@ -611,6 +680,11 @@ time_estimate_plot(time_estimates, "Comparison task completion time")
 ```
 
 #### Differences from Basic topoplot
+
+```{r task1-time-contrast-figure}
+#| fig-cap: "Comparison task: ratio of each visualization's geometric mean time to Basic topoplot (log axis). Bars: Dunnett-adjusted 95% CIs for the six comparisons. Dashed line: no difference (ratio 1)."
+time_contrast_plot(task1_time_contrasts, time_estimates)
+```
 
 ```{r task1-time-contrasts}
 time_contrast_table(
@@ -992,6 +1066,11 @@ time_estimate_plot(task2_time_estimates, "Detection task completion time")
 
 #### Differences from Basic topoplot
 
+```{r task2-time-contrast-figure}
+#| fig-cap: "Detection task: ratio of each visualization's geometric mean time to Basic topoplot (log axis). Bars: Dunnett-adjusted 95% CIs for the six comparisons. Dashed line: no difference (ratio 1)."
+time_contrast_plot(task2_time_contrasts, task2_time_estimates)
+```
+
 ```{r task2-time-contrasts}
 time_contrast_table(
   task2_time_contrasts,
@@ -1061,7 +1140,7 @@ describe_sensitivity_changes <- function(changes) {
     )) %>%
     pull(text)
   paste0(
-    "The verdict changes for ", nrow(changes), " comparison",
+    "The verdict changes for ", number_word(nrow(changes)), " comparison",
     if (nrow(changes) > 1) "s" else "", " (", paste(details, collapse = "; "), ")"
   )
 }
@@ -1104,9 +1183,7 @@ time_sensitivity %>%
   arrange(task, rule) %>%
   select(task, vistype, rule, cell) %>%
   tidyr::pivot_wider(names_from = rule, values_from = cell) %>%
-  group_by(task) %>%
-  arrange(vistype, .by_group = TRUE) %>%
-  ungroup() %>%
+  arrange(task, match(vistype, vistype_order)) %>%  # canonical order (audit V1)
   mutate(vistype = table_vistype(vistype)) %>%
   rename(Task = task, `Visualization type` = vistype) %>%
   knitr::kable(
@@ -1147,7 +1224,7 @@ time_accuracy_sensitivity %>%
   )
 ```
 
-`r if (nrow(time_accuracy_changes) == 0) "The direction and clarity of both time–accuracy associations are the same under all three rules." else paste0("The verdict of ", nrow(time_accuracy_changes), " time–accuracy association(s) depends on the outlier rule; see the table.")`
+`r if (nrow(time_accuracy_changes) == 0) "The direction and clarity of both time–accuracy associations are the same under all three rules." else if (nrow(time_accuracy_changes) == 1) "The verdict of one time–accuracy association depends on the outlier rule; see the table." else "The verdicts of both time–accuracy associations depend on the outlier rule; see the table."`
 
 :::
 
