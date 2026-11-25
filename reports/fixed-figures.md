@@ -83,6 +83,19 @@ fixed. IDs keep their review numbers.
 ![After](img/figure1-teaser-after.png){fig-alt="Figure 1 teaser, after"}
 :::
 
+- **Figure 1, second pass (25 Nov 2026):** panel labels on one line per row (anchored to
+  the top of each panel's slot) and lifted clear of the topoplots ("A. Adjacent" no
+  longer touches the nose, "D. Marker size change" clears the electrode markers); more
+  space between the marker legend and the head and between each value and the next
+  marker; standard-error values with one decimal (2.0 … 4.4) in the legend and on the
+  colour bar, whose 4.4 end tick was missing.
+
+::: {layout-ncol=2}
+![Before](img/figure1-label-collision-before.png){fig-alt="Figure 1 before the label fix"}
+
+![After](img/figure1-label-collision-after.png){fig-alt="Figure 1 after the label fix"}
+:::
+
 ## V10. One score, several names and units {#v10}
 
 ::: {.finding-meta .sev-moderate .status-resolved}
