@@ -1,6 +1,6 @@
-ID,reason
-2,punctuation only
-60,punctuation only
-83,no comment
-85,N/A
-113,thanks without evaluation
+CASE,reason
+140,punctuation only
+682,punctuation only
+877,no comment
+939,N/A
+2271,thanks without evaluation

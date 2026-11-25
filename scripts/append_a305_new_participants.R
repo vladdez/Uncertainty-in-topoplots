@@ -1,3 +1,6 @@
+# HISTORICAL (already applied): written when the A305 workbook was keyed on the
+# participant ID. Since audit A3 (24 Nov 2026) the workbook is keyed on CASE;
+# do not re-run. New appends follow scripts/append_a305_ids_150_150.R.
 # Curated meaning units for substantive A305 comments from participants 115-146.
 # Run from the Analysis project directory. Existing workbook rows are preserved.
 path <- file.path("data", "a305_content_analysis.xlsx")

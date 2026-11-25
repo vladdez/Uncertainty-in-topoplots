@@ -6,15 +6,16 @@
 # The script is read-only. It reports:
 #   1. the analytic sample size and its change since the last coded workbook;
 #   2. whether existing A305 codes still match the participant they are keyed
-#      to (IDs are row positions, so a reordered export would silently shift
-#      them);
+#      to (the workbook is keyed on SoSci's CASE number since audit A3; this
+#      check still guards against wrong or invented wording);
 #   3. substantive A305 responses that have not been coded or explicitly
 #      excluded;
 #   4. free-text country and software entries that may need normalization;
 #   5. prose files that still contain the previous sample size.
 #
 # It stops with an error only for problems that would corrupt the analysis
-# (ID misalignment or invalid codes); everything else is reported for review.
+# (codes filed under the wrong participant or invalid codes); everything else
+# is reported for review.
 
 suppressPackageStartupMessages({
   library(dplyr)
@@ -85,32 +86,36 @@ coded <- readxl::read_xlsx(
   sheet = "A305 content analysis",
   col_types = "text"
 )
-coded_ids <- sort(unique(as.integer(coded$ID)))
-cat("Coded A305 participants:", length(coded_ids),
-    "| highest coded ID:", max(coded_ids), "\n")
+# The workbook is keyed on CASE (stable across exports); ID is looked up.
+stopifnot(names(coded)[1] == "CASE")
+coded <- coded |>
+  mutate(CASE = as.integer(CASE)) |>
+  left_join(select(data, CASE, ID), by = "CASE")
+coded_cases <- sort(unique(coded$CASE))
+coded_ids <- sort(unique(coded$ID))
+cat("Coded A305 participants:", length(coded_cases), "\n")
 
-# 2. ID alignment -------------------------------------------------------------
-section("A305 ID alignment")
+# 2. Participant alignment ----------------------------------------------------
+section("A305 participant alignment")
 responses <- data |>
-  transmute(ID, response = stringr::str_squish(as.character(A305_01)))
+  transmute(CASE, ID, response = stringr::str_squish(as.character(A305_01)))
 
 fragments <- coded |>
   mutate(
     row = row_number(),
-    ID = as.integer(ID),
     unit = stringr::str_remove_all(`Meaning unit`, '^\\(\\s*"|"\\s*\\)$')
   ) |>
   tidyr::separate_longer_delim(unit, delim = stringr::regex("\\.\\.\\.|…")) |>
   mutate(fragment = normalize_text(unit)) |>
   filter(nchar(fragment) >= 4) |>
-  left_join(responses, by = "ID") |>
+  left_join(select(responses, CASE, response), by = "CASE") |>
   mutate(word_share = purrr::map2_dbl(fragment, response, word_match_share))
 
 # A unit matches when most of its words occur in the participant's response,
 # allowing small spelling differences (coders corrected typos such as
 # "comfising" -> "confusing").
 unit_scores <- fragments |>
-  group_by(row, ID, `Meaning unit`) |>
+  group_by(row, CASE, ID, `Meaning unit`) |>
   summarise(word_share = min(word_share), .groups = "drop")
 unit_misses <- filter(unit_scores, word_share < 0.75)
 
@@ -118,21 +123,21 @@ cat("Meaning units matching their participant's response:",
     nrow(unit_scores) - nrow(unit_misses), "of", nrow(unit_scores), "\n")
 if (nrow(unit_misses) > 0) {
   cat("Meaning units NOT found in the response of the participant they are",
-      "keyed to (wrong ID, shifted export, or invented wording):\n")
+      "keyed to (wrong CASE or invented wording):\n")
   for (i in seq_len(nrow(unit_misses))) {
-    cat(sprintf("  workbook row %d, ID %d: %s\n", unit_misses$row[i] + 1L,
-                unit_misses$ID[i], unit_misses$`Meaning unit`[i]))
+    cat(sprintf("  workbook row %d, CASE %d (ID %d): %s\n", unit_misses$row[i] + 1L,
+                unit_misses$CASE[i], unit_misses$ID[i], unit_misses$`Meaning unit`[i]))
   }
   # One unmatched unit is usually a paraphrase; several unmatched units for the
-  # same participant indicate a wrong or shifted ID.
+  # same participant indicate a wrong CASE.
   suspicious_ids <- unit_scores |>
-    group_by(ID) |>
+    group_by(CASE) |>
     summarise(misses = sum(word_share < 0.75), share = mean(word_share < 0.75)) |>
     filter(misses >= 2 | share >= 0.5)
   if (nrow(suspicious_ids) > 0) {
     problems <- c(problems, paste0(
-      "A305 meaning units keyed to the wrong participant (IDs ",
-      paste(suspicious_ids$ID, collapse = ", "), ")"
+      "A305 meaning units keyed to the wrong participant (CASE ",
+      paste(suspicious_ids$CASE, collapse = ", "), ")"
     ))
   } else {
     cat("  Single unmatched units only: check they are faithful paraphrases.\n")
@@ -157,34 +162,37 @@ invalid <- coded |>
     !Visualization %in% allowed_visualizations |
       !Theme %in% allowed_themes |
       !`Evaluation intensity` %in% allowed_intensity |
-      !as.integer(ID) %in% data$ID
+      is.na(ID)
   )
 if (nrow(invalid) > 0) {
-  cat("Rows with invalid codes or unknown IDs:\n")
+  cat("Rows with invalid codes or CASE numbers outside the analytic sample:\n")
   print(as.data.frame(invalid), row.names = FALSE)
-  problems <- c(problems, "A305 workbook contains invalid codes or unknown IDs")
+  problems <- c(problems, "A305 workbook contains invalid codes or unknown CASE numbers")
 } else {
-  cat("All codes are within the codebook and all IDs exist.\n")
+  cat("All codes are within the codebook and every CASE is in the analytic sample.\n")
 }
 
 # 3. Uncoded responses --------------------------------------------------------
 section("Uncoded A305 responses")
 excluded_path <- project_path("data", "a305_excluded_ids.csv")
-excluded_ids <- if (file.exists(excluded_path)) {
-  readr::read_csv(excluded_path, col_types = "ic")$ID
+excluded_cases <- if (file.exists(excluded_path)) {
+  excluded <- readr::read_csv(excluded_path, col_types = "ic")
+  stopifnot(identical(names(excluded), c("CASE", "reason")))
+  excluded$CASE
 } else {
   integer()
 }
 uncoded <- responses |>
   filter(
     !is.na(response), response != "", response != "-9",
-    !ID %in% coded_ids, !ID %in% excluded_ids
+    !CASE %in% coded_cases, !CASE %in% excluded_cases
   )
 cat("Non-empty responses neither coded nor listed in",
     basename(excluded_path), ":", nrow(uncoded), "\n")
 if (nrow(uncoded) > 0) {
   for (i in seq_len(nrow(uncoded))) {
-    cat(sprintf("\n[ID %d] %s\n", uncoded$ID[i], uncoded$response[i]))
+    cat(sprintf("\n[CASE %d, ID %d] %s\n", uncoded$CASE[i], uncoded$ID[i],
+                uncoded$response[i]))
   }
 }
 

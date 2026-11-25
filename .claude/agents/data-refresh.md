@@ -21,14 +21,18 @@ Hard rules:
   as part of a refresh. New A305 codes are proposed to the caller first and
   appended only after approval. If you are running without a way to ask,
   return the proposed rows and stop before step 3.4.
+- The workbook and `data/a305_excluded_ids.csv` are keyed on SoSci's `CASE`
+  number, not on the row-position `ID` (audit A3). New rows use `CASE`.
 - Existing rows may be changed only when the user explicitly asks for a
-  correction. Then: show every affected row before and after (ID, meaning
+  correction. Then: show every affected row before and after (CASE, ID, meaning
   unit, old and new visualization/theme/intensity) and the reason quoting the
   response; wait for approval; check that row counts change by exactly the
   expected amount; and record the change (what, why, how many rows, date) in
   the commit message and in the relevant audit entry in `reports/`. The
   workbook is the single source of truth: no separate corrections file.
 - Never copy raw data or feedback PDFs into `docs/`.
+- Do not type data numbers into `journal.typ` or `supplement.typ`: they read
+  `numbers.json`, which the pages rewrite when they render (step 6 of the skill).
 - Do not commit.
 
 Rscript on this machine: `C:\Program Files\R\R-4.6.1\bin\Rscript.exe`.

@@ -1,3 +1,6 @@
+# HISTORICAL (already applied): written when the A305 workbook was keyed on the
+# participant ID. Since audit A3 (24 Nov 2026) the workbook is keyed on CASE;
+# do not re-run. New appends follow scripts/append_a305_ids_150_150.R.
 # Curated meaning units for the substantive A305 comment from participant 148
 # (export of 19 Nov 2026). Coding approved by the user on 2026-11-19.
 # Run from the Analysis project directory. Existing workbook rows are preserved.

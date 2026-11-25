@@ -45,16 +45,19 @@ Rscript scripts/check_data_refresh.R
 - Record the old and new analytic N (`git show HEAD:docs/pages/sample.html` or
   the previous render shows the old one).
 - **Participant `ID` is a row position** (`row_number()` after the date and
-  `TIME051` filters in `scripts/analysis_setup.R`). The A305 workbook is keyed
-  by this ID. If the check reports meaning units that do not match their
-  participant, **stop and report** which rows are affected and which
-  participant actually wrote the text. Never re-key or edit existing coded
+  `TIME051` filters in `scripts/analysis_setup.R`), so it can shift between
+  exports. The A305 workbook and `data/a305_excluded_ids.csv` are therefore
+  keyed on SoSci Survey's `CASE` number (kept in `data$CASE`; audit A3,
+  24 Nov 2026); pages look up the `ID` from `CASE`. If the check reports
+  meaning units that do not match their participant, **stop and report**
+  which rows are affected (CASE and ID) and which participant actually wrote
+  the text. Never re-key or edit existing coded
   rows without the user's explicit approval. An approved correction is
   written into the workbook itself (no separate corrections file), with every
   affected row shown before/after and the change recorded in the commit
   message and the relevant `reports/` audit entry.
-- If N decreased, or previously coded IDs vanished, stop and ask: the export
-  may have been filtered or reordered.
+- If N decreased, or previously coded CASE numbers vanished from the sample,
+  stop and ask: the export may have been filtered differently.
 
 Exit: no blocking problems.
 
@@ -82,13 +85,16 @@ quotes).
 1. Take the responses listed under "Uncoded A305 responses" by the check.
 2. Draft the meaning units. Non-substantive responses ("N/A", "-", thanks
    without evaluation) are not coded; add them to `data/a305_excluded_ids.csv`
-   (`ID,reason`; create the file with that header if missing).
+   (`CASE,reason`; create the file with that header if missing).
 3. **Show the proposed rows and exclusions to the user and wait for
-   approval** - coding is interpretive research data.
+   approval** - coding is interpretive research data. Show both the
+   participant ID and the CASE number.
 4. After approval, write a new script `scripts/append_a305_ids_<first>_<last>.R`
-   modeled on `scripts/append_a305_new_participants.R` (tribble of rows,
-   `stopifnot` guards on columns, unknown IDs, codebook values; appends below
-   existing rows; never rewrites them) and run it.
+   (named by participant ID) modeled on `scripts/append_a305_ids_150_150.R`:
+   a tribble keyed on `CASE`, `stopifnot` guards on columns, CASE numbers
+   outside the analytic sample, codebook values and straight quotes; appends
+   below existing rows; never rewrites them. Run it. (Scripts written before
+   24 Nov 2026 are ID-keyed and marked historical; do not model on them.)
 5. Re-run `scripts/check_data_refresh.R`.
 
 Exit: zero uncoded responses and no blocking problems.
@@ -139,9 +145,19 @@ PDFs, which are stimuli).
 The check's "Hard-coded sample sizes" section lists prose still containing the
 old N. Prefer replacing numbers in `.qmd` files with inline `` `r ...` `` code.
 
-- `The Art of Uncertain Topoplots/journal.typ`, Participants section: total N
-  and the country-of-work denominator and exclusions (take them from the
-  rendered Sample page). Compile only with `scripts/compile-journal.ps1`.
+- **Manuscript and supplement numbers are not typed.** `journal.typ` and
+  `supplement.typ` read `The Art of Uncertain Topoplots/numbers.json`, which the
+  Sample, Quality control, Subjective and Task 1 pages rewrite when they render
+  (`write_manuscript_numbers()` in `scripts/analysis_setup.R`). After the
+  re-render, check that `numbers.json` changed as expected and recompile:
+  `supplement.typ` with `typst compile`, `journal.typ` only with
+  `scripts/compile-journal.ps1`. Both stop with an error if the sections come
+  from different samples, and the Task 1 page stops if the below-chance
+  targets are no longer MMN_19 and MMN_29 (the supplement's description of
+  those images would then need rewriting). New manuscript numbers go into
+  `numbers.json` the same way, not into the `.typ` text.
+- The cross-references "Section 1.1", "Section 1.1.2", "Table S4" and
+  "Table S5" in `journal.typ` are typed: check them if the supplement changes.
 - `README.md` if it mentions N.
 - `reports/` are dated audit records: do not rewrite them; mention in the
   summary that their N is historical.
