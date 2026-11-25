@@ -8,9 +8,24 @@ fixed. IDs keep their review numbers.
 
 | | Issue | Figures | Fixed on |
 |--|------------------|----|----|
+| [High]{.badge .sev-high} | [V3. Hit/miss "most correct / most missed" frames highlight noise and ties](#v3) | Hit or miss | 25 Nov 2026 |
+| [Low]{.badge .sev-low} | [V17d. Task 2 peak contrasts: open circles, alphabetical order](#v17d) | Task 2 | 25 Nov 2026 |
+| [Low]{.badge .sev-low} | [V17e. Task 2 score histogram looks like a comb](#v17e) | Task 2 | 25 Nov 2026 |
+| [Low]{.badge .sev-low} | [V17h. Sample charts: the same "1%" for different bars](#v17h) | Sample | 25 Nov 2026 |
+| [Low]{.badge .sev-low} | [V17i. Reduced figure: country labels larger than the rest](#v17i) | Sample | 25 Nov 2026 |
+| [Moderate]{.badge .sev-moderate} | [V14. Logo labels carry unequal visual weight](#v14) | Sample | 25 Nov 2026 |
+| [Low]{.badge .sev-low} | [V17b. Rating contrast labels on the zero line](#v17b) | Subjective | 25 Nov 2026 |
+| [Low]{.badge .sev-low} | [V17c. Rating contrast figure: red for gains and losses alike](#v17c) | Subjective | 25 Nov 2026 |
+| [Low]{.badge .sev-low} | [V17f. Task 1 gradient plot: mean labels touch the band](#v17f) | Task 1 | 25 Nov 2026 |
+| [Low]{.badge .sev-low} | [V17g. Sample experience chart: Beginner on top](#v17g) | Sample | 25 Nov 2026 |
+| [Moderate]{.badge .sev-moderate} | [V11. Boxplots for 3–10 ordinal values](#v11) | Feedback | 25 Nov 2026 |
+| [Moderate]{.badge .sev-moderate} | [V16. Time violin: alphabetical, rotated labels, no task in title](#v16) | Time | 25 Nov 2026 |
+| [Moderate]{.badge .sev-moderate} | [V15. Compact figure: nominal field on a sequential ramp](#v15) | Sample | 25 Nov 2026 |
+| [Moderate]{.badge .sev-moderate} | [V8. No time contrast-vs-Basic figure](#v8) | Time | 25 Nov 2026 |
+| [Low]{.badge .sev-low} | [V17a. Time-position checks: tiny ticks, no ribbon, linear axis](#v17a) | Time | 24 Nov 2026 |
+| [Low]{.badge .sev-low} | [V17j. Two typefaces across the figures](#v17j) | All pages | 24 Nov 2026 |
 | [Moderate]{.badge .sev-moderate} | [V10. One score, several names and units](#v10) | Task 2 | 24 Nov 2026 |
 | [Moderate]{.badge .sev-moderate} | [V12. Hit/near-miss bars show no uncertainty](#v12) | Hit or miss | 24 Nov 2026 |
-| [Low]{.badge .sev-low} | [Further figure fixes](#further-figure-fixes) | Several | 24 Nov 2026 |
 | [Low]{.badge .sev-low} | [V18. Orphaned figure files in `pages/*_files`](#v18) | Project | 24 Nov 2026 |
 | [High]{.badge .sev-high} | [V2. Text sizes are unbalanced at final size](#v2) | Ratings, Task 2, Time, Feedback | 24 Nov 2026 |
 | [Moderate]{.badge .sev-moderate} | [V7. Publication figures: 180-dpi PNG, in-figure titles and subtitles](#v7) | `figures/` | 24 Nov 2026 |
@@ -22,14 +37,361 @@ fixed. IDs keep their review numbers.
 
 : {.findings-table}
 
-## Further figure fixes {#further-figure-fixes}
+## V3. Hit/miss "most correct / most missed" frames highlight noise and ties {#v3}
 
-::: {.finding-meta .sev-low .status-resolved}
-**Severity:** Low · **Fixed:** 24 Nov 2026 · Requested during the review, not separate findings
+::: {.finding-meta .sev-high .status-resolved}
+**Severity:** High · **Fixed:** 25 Nov 2026 · **Figures:** `figures/task2_hits_misses_stimulus_by_vistype.png`, `task2_hits_misses_pattern_by_vistype.png` · **Principle:** ch. 16 (no differences without uncertainty); ch. 4 (keep the accent for real emphasis)
 :::
 
-- **Time-position checks** (Time page): a 95% ribbon around the line and a log time
-  axis for the geometric means (open points of V17).
+**Problem.**
+
+- **Row P3_16 (checked):** every panel has 0% hits, yet Confidence intervals is framed
+  "Most correct in row" and Basic topoplot "Most missed in row".
+- **Rows MMN_1 and N170_12:** one "most missed" panel is framed out of several tied at
+  0%.
+- **Cell sizes:** cells hold n = 7–26, so these winners are mostly noise.
+- **Pattern grid:** it singles out differences such as 16% vs 12%.
+
+**Fix.**
+
+- Preferred: remove the frames.
+- Otherwise:
+  - name the metric (hit rate or mean score);
+  - skip rows where the extreme value is tied;
+  - print n or an interval.
+
+The plotting code is in the UnfoldMakie worktree
+(`uncertainty_project/working/task2_results/plot_task2_hits_misses.jl`).
+
+**Resolution (25 Nov 2026).** The frames are removed (the preferred fix): no panel is
+marked as most correct or most missed, and the legend's "Panels" block is gone. Each
+panel's subtitle keeps its hit rate and n. In the plotting script the frames are behind
+one switch (`T2_SHOW_MARKS = false`), so they can be restored. The Hit or miss page text
+now says why no panel is singled out.
+
+::: {layout-ncol=2}
+![Before](img/task2-hits-misses-pattern-frames-before.png){fig-alt="Hit/miss pattern grid with frames, before"}
+
+![After](img/task2-hits-misses-pattern-frames-after.png){fig-alt="Hit/miss pattern grid without frames, after"}
+:::
+
+::: {layout-ncol=2}
+![Before](img/task2-hits-misses-stimulus-frames-before.png){fig-alt="Hit/miss stimulus grid with frames, before"}
+
+![After](img/task2-hits-misses-stimulus-frames-after.png){fig-alt="Hit/miss stimulus grid without frames, after"}
+:::
+
+## V17d. Task 2 peak contrasts: open circles, alphabetical order {#v17d}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Figure:** `task2-peak-contrast-figure` (Task 2) · **Fixed:** 25 Nov 2026
+:::
+
+**Problem.** Open circles and alphabetical order (ch. 25, V1). Part of the smaller issues (V17).
+
+**Fix.** Same neutral encoding as [V17c](#v17c): a filled dark point and bar when the
+Dunnett-adjusted interval excludes zero, an open point with a grey bar when it includes
+zero; no red. Rows follow the Task 2 contrast figure on the same page (highest expected
+score at the top) in all three panels; one order for all figures is still open
+([V1](figures-wilke.md#v1)). In-figure caption: "Filled points: Dunnett-adjusted 95%
+confidence interval excludes zero; open grey points: interval includes zero." The table
+above the figure still marks such intervals in dark red, like the other tables.
+
+::: {layout-ncol=2}
+![Before](img/task2-peak-contrast-before.png){fig-alt="Task 2 peak contrast figure, before"}
+
+![After](img/task2-peak-contrast-after.png){fig-alt="Task 2 peak contrast figure, after"}
+:::
+
+## V17e. Task 2 score histogram looks like a comb {#v17e}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Figure:** `task2-score-distribution` (Task 2) · **Fixed:** 25 Nov 2026
+:::
+
+**Problem.** The 0.01-bin histogram looks like a comb (ch. 7–8). Part of the smaller issues (V17).
+
+**Fix.** A cumulative distribution (ECDF) in a first tab, one step line per visualization,
+Basic topoplot in blue on top and the other six in greys, with a legend ordered like the
+lines near 100%; the histogram stays in a second tab. The six greys are hard to tell
+apart where the lines overlap; the figure mainly contrasts Basic with the rest.
+
+::: {layout-ncol=2}
+![Before](img/task2-score-distribution-before.png){fig-alt="Task 2 score distribution, before"}
+
+![After: cumulative distribution](img/task2-score-ecdf-after.png){fig-alt="Task 2 score distribution, after"}
+:::
+
+## V17h. Sample charts: the same "1%" for different bars {#v17h}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Figure:** all-tools chart, full participant figure, continent chart (Sample) · **Fixed:** 25 Nov 2026
+:::
+
+**Problem.** Bars of different lengths carried the same "1%" label (for example 1.4% and
+0.7%) (ch. 22). Part of the smaller issues (V17).
+
+**Fix.** Values that round below 2% get one decimal (shared helper `percent_label()`):
+the all-tools chart now shows 1.3% and 0.7%, the full participant figure 1.4%, 1.3% and
+0.7%, and the continent chart 1.4% for Oceania. The all-countries chart needed no change:
+it already merges the smallest countries into "1 respondent" and "2 respondents" rows.
+
+::: {layout-ncol=2}
+![Before](img/sample-all-tools-before.png){fig-alt="All tools chart, before"}
+
+![After](img/sample-all-tools-after.png){fig-alt="All tools chart, after"}
+:::
+
+## V17i. Reduced figure: country labels larger than the rest {#v17i}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Figure:** reduced participant figure (Sample) · **Fixed:** 25 Nov 2026
+:::
+
+**Problem.** The country panel's labels were larger than the other panels' labels (ch. 21).
+Part of the smaller issues (V17).
+
+**Fix.** The country panel's axis labels now have the same size as the other panels
+(site version; the print version already used 8 pt throughout).
+
+::: {layout-ncol=2}
+![Before](img/sample-participant-characteristics-figure-over-3-percent-before.png){fig-alt="Reduced participant figure, before"}
+
+![After](img/sample-participant-characteristics-figure-over-3-percent-after.png){fig-alt="Reduced participant figure, after"}
+:::
+
+## V14. Logo labels carry unequal visual weight {#v14}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Fixed:** 25 Nov 2026 · **Figures:** `participant-characteristics-icons-figure`, `-icons-compact`, `software-reduced-logos` · **Principle:** ch. 29 "Add distinctiveness without sacrificing quick comprehension"; ch. 4, ch. 19
+:::
+
+**Problem.**
+
+- The logos differ in visual weight in ways unrelated to the data: multicolour MNE, the
+  red BrainVision block, the dark Brainstorm block.
+- Some logos are harder to read than plain names ("erplab", the R logo with an
+  asterisk).
+
+**Fix.** Keep text labels for the journal, as in the reduced figure. The logo version
+can stay on the web as an extra.
+
+**Resolution (25 Nov 2026).** The Sample page's "Figure with icons" now opens with the
+compact layout ("(alternative)" dropped) and has a third tab with the same compact
+figure in plain text labels: country names, and "MATLAB (own code)" etc. for the "My
+own code in …" answers, so no asterisk is needed. The logo version stays on the web.
+Open: the exported print PDF (`participant_characteristics_icons_compact.pdf`) is still
+the logo version; switch it to text labels if this figure goes into the journal.
+
+::: {layout-ncol=2}
+![Before](img/participant-compact-logos-before.png){fig-alt="Compact participant figure, before"}
+
+![After](img/participant-compact-text-after.png){fig-alt="Compact participant figure, after"}
+:::
+
+## V17b. Rating contrast labels on the zero line {#v17b}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Figure:** rating contrast figure (Subjective, Figures page) · **Fixed:** 25 Nov 2026
+:::
+
+**Problem.** The value labels ("+0.1", "0.0", "+0.2") were centred above each point and
+overlapped the dashed zero line (ch. 24). Part of the smaller issues (V17).
+
+**Fix.** Each label sits beside its point on the side away from zero, as in the Task 1 and
+Task 2 contrast figures. PNG and print PDF re-exported. The after image also shows V17c.
+
+::: {layout-ncol=2}
+![Before](img/likert-contrast-labels-before.png){fig-alt="Rating contrast figure labels, before"}
+
+![After](img/likert-contrast-after.png){fig-alt="Rating contrast figure labels, after"}
+:::
+
+## V17c. Rating contrast figure: red for gains and losses alike {#v17c}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Figure:** rating contrast figure (Subjective, Figures page) · **Fixed:** 25 Nov 2026
+:::
+
+**Problem.** Red marked "interval excludes zero" for gains and losses alike. Red reads as
+"bad", and colour was the only cue (ch. 20, ch. 4). Part of the smaller issues (V17).
+
+**Fix.** Neutral encoding: a filled dark point, bar and label when the interval excludes
+zero; an open point with grey bar and label when it includes zero. No red; works in
+greyscale. Captions on the Subjective and Figures pages updated ("Filled points: interval
+excludes zero; open grey points: interval includes zero").
+
+::: {layout-ncol=2}
+![Before](img/likert-contrast-colour-before.png){fig-alt="Rating contrast figure colour, before"}
+
+![After](img/likert-contrast-after.png){fig-alt="Rating contrast figure colour, after"}
+:::
+
+## V17f. Task 1 gradient plot: mean labels touch the band {#v17f}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Figure:** `task1-descriptive-gradient-plot` (Task 1) · **Fixed:** 25 Nov 2026
+:::
+
+**Problem.** The mean labels collided with the top of the band (ch. 24); the wrap of
+"Confidence intervals" was already fixed under [V5](#v5). Part of the smaller issues (V17).
+
+**Fix.** Each label's baseline now sits clearly above its band and below the band of the
+row above it.
+
+::: {layout-ncol=2}
+![Before](img/task1-gradient-labels-before.png){fig-alt="Task 1 gradient plot, before"}
+
+![After](img/task1-gradient-labels-after.png){fig-alt="Task 1 gradient plot, after"}
+:::
+
+## V17g. Sample experience chart: Beginner on top {#v17g}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Figure:** self-assessed level bar chart (Sample) · **Fixed:** 25 Nov 2026
+:::
+
+**Problem.** Beginner → Expert ran top to bottom, while the multipanel figures put Expert on
+top (ch. 21). Part of the smaller issues (V17).
+
+**Fix.** Expert on top, as in the multipanel figures.
+
+::: {layout-ncol=2}
+![Before](img/sample-experience-before.png){fig-alt="Self-assessed level chart, before"}
+
+![After](img/sample-experience-after.png){fig-alt="Self-assessed level chart, after"}
+:::
+
+## V11. Boxplots for 3–10 ordinal values {#v11}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Fixed:** 25 Nov 2026 · **Principle:** ch. 9 "Show observations when smoothed group shapes may overstate evidence"
+:::
+
+**Problem.** The feedback figures draw boxplots for 3–10 values on a 5-point scale. A
+box suggests more distributional detail than the data hold.
+
+**Fix.**
+
+- Show the points with a median tick.
+- Alternatively, use a theme × visualization matrix: diverging colour for the median
+  intensity, with n printed in each cell (ch. 6, ch. 4).
+- Also:
+  - lighten the boxed strips (ch. 23);
+  - add a reference line at 0 (ch. 23);
+  - enlarge the caption (ch. 24).
+
+**Resolution (25 Nov 2026).** Both fixes were made, and the Feedback page shows them in
+tabs:
+
+- **Theme × visualization matrix (first tab).** Colour: median of the participant-level
+  medians, binned in half-point steps (9 colours, brown negative to green positive; blue
+  stays the Basic accent). One dot per participant, growing as a square from the
+  lower-right corner; "● 1 participant" in the legend; empty cells white. Other tabs
+  keep variants for comparison: grey cut-off for 1–2 participants, all cells with n,
+  dots centred under the value.
+- **Points with a median tick** instead of boxplots, a dashed reference line at 0, light
+  grey strips and a larger caption. Cells with 1–2 participants keep faded points and get
+  no tick, as they get no median in the table.
+
+::: {layout-ncol=2}
+![Before](img/feedback-intensity-boxplots-before.png){fig-alt="Feedback intensity boxplots, before"}
+
+![After: points with median tick](img/feedback-intensity-points-after.png){fig-alt="Feedback intensity points with median tick, after"}
+:::
+
+![After: theme × visualization matrix](img/feedback-intensity-matrix-after.png){fig-alt="Theme by visualization matrix with binned median colour and one dot per participant"}
+
+## V16. Time violin: alphabetical, rotated labels, no task in title {#v16}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Fixed:** 25 Nov 2026 · **Figure:** `task1-time-violin` · **Principle:** ch. 6 "Turn bars horizontal when category labels are long", "Order categories by a meaningful rule"; ch. 22
+:::
+
+**Problem.**
+
+- The violins are in alphabetical order.
+- The labels are rotated 35°.
+- The title does not name the task.
+
+**Fix.**
+
+- Make the violins horizontal, in the canonical order (V1).
+- Title the plot "Comparison task".
+
+The log scale is already right.
+
+**Resolution (25 Nov 2026).** The violins are horizontal, so the labels read without
+rotation. Rows follow the time figures below them on the page (observed geometric
+mean, slowest at the top); one order for all figures is still open ([V1](figures-wilke.md#v1)).
+The title is "Comparison task", the geometric-mean line is now vertical ("Vertical line:
+observed geometric mean"), and the log scale is unchanged, now with a tick at 1 s
+(a log axis cannot show 0; the shortest trial is just under 1 s). Visualization names are
+larger than the tick numbers and the axis title (ch. 24).
+
+::: {layout-ncol=2}
+![Before](img/task1-time-violin-before.png){fig-alt="Time violin, vertical and alphabetical, before"}
+
+![After](img/task1-time-violin-after.png){fig-alt="Time violin, horizontal and sorted, after"}
+:::
+
+## V15. Compact figure: nominal field on a sequential ramp {#v15}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Fixed:** 25 Nov 2026 · **Figure:** `participant-characteristics-icons-compact`, panel A · **Principle:** ch. 4 "Use equal-prominence colors for unordered categories"
+:::
+
+**Problem.** Research field is a nominal variable, but it is coloured light to dark
+blue, which implies an order. Self-assessed level is ordered, so its ramp is fine.
+
+**Fix.** Give field a qualitative palette, or a single colour with direct labels.
+
+**Resolution (25 Nov 2026).** Research field is one flat mid-blue (`#6BAED6`, the bar
+colour of panels B and C), its segments separated by white gaps and named by their
+labels. Self-assessed level keeps its light-to-dark ramp, so only the ordered variable
+is shown as ordered. PNG and print PDF re-exported.
+
+::: {layout-ncol=2}
+![Before](img/participant-compact-field-before.png){fig-alt="Compact participant figure, field on a blue ramp"}
+
+![After](img/participant-compact-field-after.png){fig-alt="Compact participant figure, field in one mid-blue"}
+:::
+
+## V8. No time contrast-vs-Basic figure {#v8}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Fixed:** 25 Nov 2026 · **Principle:** ch. 16 "Plot uncertainty for the comparison you actually want to make"; ch. 3, ch. 17 (log axes start at 1)
+:::
+
+**Problem.** The time-estimate plots show intervals for levels and say they are "not
+for differences". The Dunnett ratios exist only as tables.
+
+**Fix.** Plot the ratios to Basic with Dunnett CIs on a log axis centred at 1.
+
+**Resolution (25 Nov 2026).** Both tasks on the Time page now have a figure of the
+ratios to Basic topoplot with their Dunnett-adjusted 95% CIs, just above the ratio
+table. The axis is logarithmic (a ratio and its inverse lie equally far from 1) and
+covers only the intervals plus the reference line at 1, so it does not leave an empty
+half when all ratios lie above 1; dashed line at 1 in the Basic accent; rows in the order of the estimate figure above (slowest at the top); value
+labels on the side away from 1. Same style as the Task 1 contrast figure.
+
+::: {layout-ncol=2}
+![Comparison task](img/time-contrast-task1-after.png){fig-alt="Ratio of geometric mean time to Basic topoplot, comparison task"}
+
+![Detection task](img/time-contrast-task2-after.png){fig-alt="Ratio of geometric mean time to Basic topoplot, detection task"}
+:::
+
+## V17a. Time-position checks: tiny ticks, no ribbon, linear axis {#v17a}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Figures:** time-position checks (Time page, both tasks) · **Fixed:** 24 Nov 2026
+:::
+
+**Problem.** The time-position checks had tiny tick labels, no 95% ribbon around the
+line, and a linear axis for geometric means (ch. 24, ch. 16, ch. 3). Part of the
+smaller issues (V17).
+
+**Fix.** Larger ticks ([V2](#v2)), a 95% ribbon and a log time axis.
 
 ::: {layout-ncol=2}
 ![Before](img/task1-time-position-before.png){fig-alt="Task 1 time-position check, before"}
@@ -37,77 +399,18 @@ fixed. IDs keep their review numbers.
 ![After](img/task1-time-position-after.png){fig-alt="Task 1 time-position check, after"}
 :::
 
-- **Proportional-odds figure** (Subjective page): text rebalanced for the display size,
-  Lato via `plot_theme()`.
+## V17j. Two typefaces across the figures {#v17j}
 
-::: {layout-ncol=2}
-![Before](img/likert-po-before.png){fig-alt="Proportional-odds figure, before"}
-
-![After](img/likert-po-after.png){fig-alt="Proportional-odds figure, after"}
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Figures:** all · **Fixed:** 24 Nov 2026
 :::
 
-- **Feedback figures:** two-line axis labels with normal line spacing (showtext drew the
-  gap about 1.9 times too wide).
+**Problem.** The Makie figures used a Helvetica-like font and the R figures used Lato;
+each R chunk restated `theme_classic()` (ch. 21, ch. 28). Part of the smaller issues (V17).
 
-::: {layout-ncol=2}
-![Before](img/feedback-line-gap-before.png){fig-alt="Feedback intensity figure, before"}
-
-![After](img/feedback-line-gap-after.png){fig-alt="Feedback intensity figure, after"}
-:::
-
-- **Compact participant figure:** print PDF at full width; now the main participant
-  figure on the Figures page.
-
-::: {layout-ncol=2}
-![Before](img/participant-compact-before.png){fig-alt="Compact participant figure, before"}
-
-![After](img/participant-compact-after.png){fig-alt="Compact participant figure, after"}
-:::
-
-- **Hit/miss key legends** (Makie print PDFs): the "Share of responses" labels were cut
-  off at the bottom; now complete.
-
-::: {layout-ncol=2}
-![Before](img/task2-hits-misses-pattern-by-vistype-before.png){fig-alt="Hit/miss pattern grid, before"}
-
-![After](img/task2-hits-misses-pattern-by-vistype-after.png){fig-alt="Hit/miss pattern grid, after"}
-:::
-
-- **Figure 1 of the paper** (teaser): regenerated in Lato at the print width (504 pt,
-  7–9 pt text) by a separate driver, `make_figure1.jl`, from the same data (P3, subject
-  8, 129 ms, condition 1; checked against all four colour bars of the old figure).
-
-::: {layout-ncol=2}
-![Before](img/figure1-teaser-before.png){fig-alt="Figure 1 teaser, before"}
-
-![After](img/figure1-teaser-after.png){fig-alt="Figure 1 teaser, after"}
-:::
-
-- **Figure 1, second pass (25 Nov 2026):** panel labels on one line per row (anchored to
-  the top of each panel's slot) and lifted clear of the topoplots ("A. Adjacent" no
-  longer touches the nose, "D. Marker size change" clears the electrode markers); more
-  space between the marker legend and the head and between each value and the next
-  marker; standard-error values with one decimal (2.0 … 4.4) in the legend and on the
-  colour bar, whose 4.4 end tick was missing.
-
-::: {layout-ncol=2}
-![Before](img/figure1-label-collision-before.png){fig-alt="Figure 1 before the label fix"}
-
-![After](img/figure1-label-collision-after.png){fig-alt="Figure 1 after the label fix"}
-:::
-
-- **Figure 1, third pass (25 Nov 2026):** the second pass made room for the lifted labels
-  by adding vertical space, which shrank the maps in row 2 (D and F) and pushed the
-  three heads in E into each other. The original spacing is back, so the maps have
-  their original size and E its original spacing. The labels now take no layout space:
-  row 1's labels sit in the top margin, row 2's in the empty band below row 1's colour
-  bars, still on one line per row and clear of the noses and electrode markers.
-
-::: {layout-ncol=2}
-![Before](img/figure1-label-collision-after.png){fig-alt="Figure 1 before the map-size fix"}
-
-![After](img/figure1-map-size-after.png){fig-alt="Figure 1 after the map-size fix"}
-:::
+**Fix.** `plot_theme()` sets Lato and replaces the 24 restated `theme_classic()` calls;
+the Makie figures use Lato (`lato_fonts()`, downloaded into a git-ignored cache).
+Figures are unchanged except the two Quality figures, now in Lato.
 
 ## V10. One score, several names and units {#v10}
 
@@ -189,7 +492,7 @@ Task 2 figure, "pp" for differences.
 ## V18. Orphaned figure files in `pages/*_files` {#v18}
 
 ::: {.finding-meta .sev-low .status-resolved}
-**Severity:** Low · **Area:** Project hygiene
+**Severity:** Low · **Area:** Project hygiene · **Fixed:** 24 Nov 2026
 :::
 
 **Problem.** Several tracked PNGs under `pages/*_files/figure-html/` are referenced by
@@ -206,34 +509,6 @@ mistake.
 
 **Fix.** Check each file against the current chunks, then remove the stale ones with
 `git rm`. **Not done:** deleting files needs your go-ahead.
-
-## Done well
-
-- Model estimates are dots with CIs on a restricted axis, not bars, and the CI type is
-  always stated (ch. 6, ch. 16, ch. 17).
-- The contrast-vs-Basic plots, with simultaneous CIs and a zero line, are close to
-  Wilke Fig. 16-8 (ch. 16, ch. 23).
-- Bar charts:
-  - start at zero;
-  - are horizontal, which suits the long labels;
-  - are sorted by value with "Other" last.
-
-  The participant multipanel uses a shared 0–100% scale (ch. 6, ch. 17, ch. 21).
-- The section heading serves as the figure title on the Sample page (ch. 22).
-- The map uses 6 bins and an equal-area projection (ch. 15).
-- Time violins use a log scale, and the line is labelled as the geometric mean (ch. 3,
-  ch. 8).
-- Everything is generated in code, with a cache tied to the data (ch. 28).
-
-## Priorities
-
-1. One canonical order, one set of names, and the Basic accent everywhere (V1, V5, V6).
-2. Re-export the publication figures at column size with balanced text, as vector files,
-   without in-figure titles (V2, V7).
-3. Remove or fix the hit/miss frames (V3).
-4. Feedback figure: a fixed order across panels and no boxplots for tiny n (V4, V11).
-5. Task 2 gradient sorted by mean, one score name and unit, and a time contrast figure
-   (V8–V10).
 
 **Resolution (24 Nov 2026).** A check of every figure file found:
 

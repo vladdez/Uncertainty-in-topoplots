@@ -17,13 +17,6 @@ hand. This page lists the open items; fixed ones move to
 | | Issue | Figures |
 |--|------------------|----|
 | [High]{.badge .sev-high} | [V1. The seven visualizations appear in a different order in every figure](#v1) | All pages |
-| [High]{.badge .sev-high} | [V3. Hit/miss "most correct / most missed" frames highlight noise and ties](#v3) | Hit or miss |
-| [Moderate]{.badge .sev-moderate} | [V8. No time contrast-vs-Basic figure](#v8) | Time |
-| [Moderate]{.badge .sev-moderate} | [V11. Boxplots for 3–10 ordinal values](#v11) | Feedback |
-| [Moderate]{.badge .sev-moderate} | [V14. Logo labels carry unequal visual weight](#v14) | Sample |
-| [Moderate]{.badge .sev-moderate} | [V15. Compact figure: nominal field on a sequential ramp](#v15) | Sample |
-| [Moderate]{.badge .sev-moderate} | [V16. Time violin: alphabetical, rotated labels, no task in title](#v16) | Time |
-| [Low]{.badge .sev-low} | [V17. Smaller issues](#v17) | Several |
 
 : {.findings-table}
 
@@ -46,137 +39,30 @@ Readers have to find each condition again in every figure.
 alternatives grouped by design family. Where sorting by value tells the story (ch. 6
 allows "another story-relevant criterion"), keep Basic pinned and highlighted.
 
-## V3. Hit/miss "most correct / most missed" frames highlight noise and ties {#v3}
+## Done well
 
-::: {.finding-meta .sev-high}
-**Severity:** High · **Figures:** `figures/task2_hits_misses_stimulus_by_vistype.png`, `task2_hits_misses_pattern_by_vistype.png` · **Principle:** ch. 16 (no differences without uncertainty); ch. 4 (keep the accent for real emphasis)
-:::
+- Model estimates are dots with CIs on a restricted axis, not bars, and the CI type is
+  always stated (ch. 6, ch. 16, ch. 17).
+- The contrast-vs-Basic plots, with simultaneous CIs and a zero line, are close to
+  Wilke Fig. 16-8 (ch. 16, ch. 23).
+- Bar charts:
+  - start at zero;
+  - are horizontal, which suits the long labels;
+  - are sorted by value with "Other" last.
 
-**Problem.**
+  The participant multipanel uses a shared 0–100% scale (ch. 6, ch. 17, ch. 21).
+- The section heading serves as the figure title on the Sample page (ch. 22).
+- The map uses 6 bins and an equal-area projection (ch. 15).
+- Time violins use a log scale, and the line is labelled as the geometric mean (ch. 3,
+  ch. 8).
+- Everything is generated in code, with a cache tied to the data (ch. 28).
 
-- **Row P3_16 (checked):** every panel has 0% hits, yet Confidence intervals is framed
-  "Most correct in row" and Basic topoplot "Most missed in row".
-- **Rows MMN_1 and N170_12:** one "most missed" panel is framed out of several tied at
-  0%.
-- **Cell sizes:** cells hold n = 7–26, so these winners are mostly noise.
-- **Pattern grid:** it singles out differences such as 16% vs 12%.
+## Priorities
 
-**Fix.**
-
-- Preferred: remove the frames.
-- Otherwise:
-  - name the metric (hit rate or mean score);
-  - skip rows where the extreme value is tied;
-  - print n or an interval.
-
-The plotting code is in the UnfoldMakie worktree
-(`uncertainty_project/working/task2_results/plot_task2_hits_misses.jl`).
-
-## V8. No time contrast-vs-Basic figure {#v8}
-
-::: {.finding-meta .sev-moderate}
-**Severity:** Moderate · **Principle:** ch. 16 "Plot uncertainty for the comparison you actually want to make"; ch. 3, ch. 17 (log axes start at 1)
-:::
-
-**Problem.** The time-estimate plots show intervals for levels and say they are "not
-for differences". The Dunnett ratios exist only as tables.
-
-**Fix.** Plot the ratios to Basic with Dunnett CIs on a log axis centred at 1.
-
-## V11. Boxplots for 3–10 ordinal values {#v11}
-
-::: {.finding-meta .sev-moderate}
-**Severity:** Moderate · **Principle:** ch. 9 "Show observations when smoothed group shapes may overstate evidence"
-:::
-
-**Problem.** The feedback figures draw boxplots for 3–10 values on a 5-point scale. A
-box suggests more distributional detail than the data hold.
-
-**Fix.**
-
-- Show the points with a median tick.
-- Alternatively, use a theme × visualization matrix: diverging colour for the median
-  intensity, with n printed in each cell (ch. 6, ch. 4).
-- Also:
-  - lighten the boxed strips (ch. 23);
-  - add a reference line at 0 (ch. 23);
-  - enlarge the caption (ch. 24).
-
-## V14. Logo labels carry unequal visual weight {#v14}
-
-::: {.finding-meta .sev-moderate}
-**Severity:** Moderate · **Figures:** `participant-characteristics-icons-figure`, `-icons-compact`, `software-reduced-logos` · **Principle:** ch. 29 "Add distinctiveness without sacrificing quick comprehension"; ch. 4, ch. 19
-:::
-
-**Problem.**
-
-- The logos differ in visual weight in ways unrelated to the data: multicolour MNE, the
-  red BrainVision block, the dark Brainstorm block.
-- Some logos are harder to read than plain names ("erplab", the R logo with an
-  asterisk).
-
-**Fix.** Keep text labels for the journal, as in the reduced figure. The logo version
-can stay on the web as an extra.
-
-## V15. Compact figure: nominal field on a sequential ramp {#v15}
-
-::: {.finding-meta .sev-moderate}
-**Severity:** Moderate · **Figure:** `participant-characteristics-icons-compact`, panel A · **Principle:** ch. 4 "Use equal-prominence colors for unordered categories"
-:::
-
-**Problem.** Research field is a nominal variable, but it is coloured light to dark
-blue, which implies an order. Self-assessed level is ordered, so its ramp is fine.
-
-**Fix.** Give field a qualitative palette, or a single colour with direct labels.
-
-## V16. Time violin: alphabetical, rotated labels, no task in title {#v16}
-
-::: {.finding-meta .sev-moderate}
-**Severity:** Moderate · **Figure:** `task1-time-violin` · **Principle:** ch. 6 "Turn bars horizontal when category labels are long", "Order categories by a meaningful rule"; ch. 22
-:::
-
-**Problem.**
-
-- The violins are in alphabetical order.
-- The labels are rotated 35°.
-- The title does not name the task.
-
-**Fix.**
-
-- Make the violins horizontal, in the canonical order (V1).
-- Title the plot "Comparison task".
-
-The log scale is already right.
-
-## V17. Smaller issues {#v17}
-
-::: {.finding-meta .sev-low}
-**Severity:** Low
-:::
-
-- **Time-position checks:** tiny ticks, no 95% ribbon, and a linear axis for geometric
-  means (ch. 24, ch. 16, ch. 3). *Fixed 24 Nov 2026: larger ticks
-  ([V2](fixed-figures.md#v2)), a 95% ribbon and a log time axis
-  ([further fixes](fixed-figures.md#further-figure-fixes)).*
-- **Contrast figures:** the value labels ("+1 pp", "0.0", "+0.1") overlap the dashed
-  zero line (ch. 24).
-- **Rating contrast figure:** red marks "interval excludes zero" for gains and losses
-  alike. Red reads as "bad", and the colour is the only cue. Use a neutral accent with
-  filled vs open points instead (ch. 20, ch. 4).
-- **`task2-peak-contrast-figure`:** open circles and alphabetical order (ch. 25, V1).
-- **`task2-score-distribution`:** the 0.01-bin histogram looks like a comb. Use an ECDF
-  or a display per visualization (ch. 7–8).
-- **`task1-descriptive-gradient-plot`:** the mean labels collide with the top of the
-  band, and "Confidence intervals" wraps with a large gap (ch. 24). *The wrap is fixed (one-line
-  names, [V5](fixed-figures.md#v5)); the label collision remains.*
-- **Sample, experience bar chart:** Beginner → Expert runs top to bottom, while the
-  multipanel figures put Expert on top (ch. 21).
-- **Sample, full country and software charts:** bars of different lengths carry the
-  same "1%" label (for example 1.4% and 0.7%). Show n, or one decimal, below 2% (ch. 22).
-- **Reduced figure:** the country panel's labels are larger than the other panels'
-  labels (ch. 21).
-- **Typefaces:** Makie figures use a Helvetica-like font and R figures use Lato. Set
-  Lato in the Makie theme, and use `plot_theme()` instead of restating `theme_classic()`
-  in each chunk (ch. 21, ch. 28). *Fixed 24 Nov 2026:* `plot_theme()` sets Lato and
-  replaces the 24 restated `theme_classic()` calls; the Makie figures use Lato
-  (`T2_THEME`). Figures are unchanged except the two Quality figures, now in Lato.
+1. One canonical order, one set of names, and the Basic accent everywhere (V1, V5, V6).
+2. Re-export the publication figures at column size with balanced text, as vector files,
+   without in-figure titles (V2, V7).
+3. Remove or fix the hit/miss frames (V3).
+4. Feedback figure: a fixed order across panels and no boxplots for tiny n (V4, V11).
+5. Task 2 gradient sorted by mean, one score name and unit, and a time contrast figure
+   (V8–V10).

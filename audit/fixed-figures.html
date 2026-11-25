@@ -251,7 +251,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./figures-wilke.html">Visualization</a></li><li class="breadcrumb-item"><a href="./fixed-figures.html">Fixed figures (11)</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./figures-wilke.html">Visualization</a></li><li class="breadcrumb-item"><a href="./fixed-figures.html">Fixed figures (26)</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -331,13 +331,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./manuscript-citations-audit.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Manuscript citations (22 open)</span></a>
+ <span class="menu-text">Manuscript citations (21 open)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./fixed-citations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Fixed citations (28)</span></a>
+ <span class="menu-text">Fixed citations (29)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -360,13 +360,19 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./figures-wilke.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Figures vs Wilke (8 open)</span></a>
+ <span class="menu-text">Figures vs Wilke (1 open)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./fixed-figures.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Fixed figures (11)</span></a>
+ <span class="menu-text">Fixed figures (26)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./requested-changes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Requested changes (6)</span></a>
   </div>
 </li>
       </ul>
@@ -381,12 +387,25 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#further-figure-fixes" id="toc-further-figure-fixes" class="nav-link active" data-scroll-target="#further-figure-fixes">Further figure fixes</a></li>
+  <li><a href="#v3" id="toc-v3" class="nav-link active" data-scroll-target="#v3">V3. Hit/miss “most correct / most missed” frames highlight noise and ties</a></li>
+  <li><a href="#v17d" id="toc-v17d" class="nav-link" data-scroll-target="#v17d">V17d. Task 2 peak contrasts: open circles, alphabetical order</a></li>
+  <li><a href="#v17e" id="toc-v17e" class="nav-link" data-scroll-target="#v17e">V17e. Task 2 score histogram looks like a comb</a></li>
+  <li><a href="#v17h" id="toc-v17h" class="nav-link" data-scroll-target="#v17h">V17h. Sample charts: the same “1%” for different bars</a></li>
+  <li><a href="#v17i" id="toc-v17i" class="nav-link" data-scroll-target="#v17i">V17i. Reduced figure: country labels larger than the rest</a></li>
+  <li><a href="#v14" id="toc-v14" class="nav-link" data-scroll-target="#v14">V14. Logo labels carry unequal visual weight</a></li>
+  <li><a href="#v17b" id="toc-v17b" class="nav-link" data-scroll-target="#v17b">V17b. Rating contrast labels on the zero line</a></li>
+  <li><a href="#v17c" id="toc-v17c" class="nav-link" data-scroll-target="#v17c">V17c. Rating contrast figure: red for gains and losses alike</a></li>
+  <li><a href="#v17f" id="toc-v17f" class="nav-link" data-scroll-target="#v17f">V17f. Task 1 gradient plot: mean labels touch the band</a></li>
+  <li><a href="#v17g" id="toc-v17g" class="nav-link" data-scroll-target="#v17g">V17g. Sample experience chart: Beginner on top</a></li>
+  <li><a href="#v11" id="toc-v11" class="nav-link" data-scroll-target="#v11">V11. Boxplots for 3–10 ordinal values</a></li>
+  <li><a href="#v16" id="toc-v16" class="nav-link" data-scroll-target="#v16">V16. Time violin: alphabetical, rotated labels, no task in title</a></li>
+  <li><a href="#v15" id="toc-v15" class="nav-link" data-scroll-target="#v15">V15. Compact figure: nominal field on a sequential ramp</a></li>
+  <li><a href="#v8" id="toc-v8" class="nav-link" data-scroll-target="#v8">V8. No time contrast-vs-Basic figure</a></li>
+  <li><a href="#v17a" id="toc-v17a" class="nav-link" data-scroll-target="#v17a">V17a. Time-position checks: tiny ticks, no ribbon, linear axis</a></li>
+  <li><a href="#v17j" id="toc-v17j" class="nav-link" data-scroll-target="#v17j">V17j. Two typefaces across the figures</a></li>
   <li><a href="#v10" id="toc-v10" class="nav-link" data-scroll-target="#v10">V10. One score, several names and units</a></li>
   <li><a href="#v12" id="toc-v12" class="nav-link" data-scroll-target="#v12">V12. Hit/near-miss bars show no uncertainty</a></li>
   <li><a href="#v18" id="toc-v18" class="nav-link" data-scroll-target="#v18">V18. Orphaned figure files in <code>pages/*_files</code></a></li>
-  <li><a href="#done-well" id="toc-done-well" class="nav-link" data-scroll-target="#done-well">Done well</a></li>
-  <li><a href="#priorities" id="toc-priorities" class="nav-link" data-scroll-target="#priorities">Priorities</a></li>
   <li><a href="#v2" id="toc-v2" class="nav-link" data-scroll-target="#v2">V2. Text sizes are unbalanced at final size</a></li>
   <li><a href="#v7" id="toc-v7" class="nav-link" data-scroll-target="#v7">V7. Publication figures: 180-dpi PNG, in-figure titles and subtitles</a></li>
   <li><a href="#v13" id="toc-v13" class="nav-link" data-scroll-target="#v13">V13. Country map is a choropleth of raw counts</a></li>
@@ -401,7 +420,7 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./figures-wilke.html">Visualization</a></li><li class="breadcrumb-item"><a href="./fixed-figures.html">Fixed figures (11)</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./figures-wilke.html">Visualization</a></li><li class="breadcrumb-item"><a href="./fixed-figures.html">Fixed figures (26)</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Fixed figures</h1>
 <p class="subtitle lead">Figure findings from the Wilke review that have been fixed</p>
@@ -433,6 +452,102 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
+<td><span class="badge sev-high">High</span></td>
+<td><a href="#v3">V3. Hit/miss “most correct / most missed” frames highlight noise and ties</a></td>
+<td>Hit or miss</td>
+<td>25 Nov 2026</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#v17d">V17d. Task 2 peak contrasts: open circles, alphabetical order</a></td>
+<td>Task 2</td>
+<td>25 Nov 2026</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#v17e">V17e. Task 2 score histogram looks like a comb</a></td>
+<td>Task 2</td>
+<td>25 Nov 2026</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#v17h">V17h. Sample charts: the same “1%” for different bars</a></td>
+<td>Sample</td>
+<td>25 Nov 2026</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#v17i">V17i. Reduced figure: country labels larger than the rest</a></td>
+<td>Sample</td>
+<td>25 Nov 2026</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v14">V14. Logo labels carry unequal visual weight</a></td>
+<td>Sample</td>
+<td>25 Nov 2026</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#v17b">V17b. Rating contrast labels on the zero line</a></td>
+<td>Subjective</td>
+<td>25 Nov 2026</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#v17c">V17c. Rating contrast figure: red for gains and losses alike</a></td>
+<td>Subjective</td>
+<td>25 Nov 2026</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#v17f">V17f. Task 1 gradient plot: mean labels touch the band</a></td>
+<td>Task 1</td>
+<td>25 Nov 2026</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#v17g">V17g. Sample experience chart: Beginner on top</a></td>
+<td>Sample</td>
+<td>25 Nov 2026</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v11">V11. Boxplots for 3–10 ordinal values</a></td>
+<td>Feedback</td>
+<td>25 Nov 2026</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v16">V16. Time violin: alphabetical, rotated labels, no task in title</a></td>
+<td>Time</td>
+<td>25 Nov 2026</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v15">V15. Compact figure: nominal field on a sequential ramp</a></td>
+<td>Sample</td>
+<td>25 Nov 2026</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v8">V8. No time contrast-vs-Basic figure</a></td>
+<td>Time</td>
+<td>25 Nov 2026</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#v17a">V17a. Time-position checks: tiny ticks, no ribbon, linear axis</a></td>
+<td>Time</td>
+<td>24 Nov 2026</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#v17j">V17j. Two typefaces across the figures</a></td>
+<td>All pages</td>
+<td>24 Nov 2026</td>
+</tr>
+<tr class="odd">
 <td><span class="badge sev-moderate">Moderate</span></td>
 <td><a href="#v10">V10. One score, several names and units</a></td>
 <td>Task 2</td>
@@ -446,53 +561,47 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td><span class="badge sev-low">Low</span></td>
-<td><a href="#further-figure-fixes">Further figure fixes</a></td>
-<td>Several</td>
-<td>24 Nov 2026</td>
-</tr>
-<tr class="even">
-<td><span class="badge sev-low">Low</span></td>
 <td><a href="#v18">V18. Orphaned figure files in <code>pages/*_files</code></a></td>
 <td>Project</td>
 <td>24 Nov 2026</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span class="badge sev-high">High</span></td>
 <td><a href="#v2">V2. Text sizes are unbalanced at final size</a></td>
 <td>Ratings, Task 2, Time, Feedback</td>
 <td>24 Nov 2026</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><span class="badge sev-moderate">Moderate</span></td>
 <td><a href="#v7">V7. Publication figures: 180-dpi PNG, in-figure titles and subtitles</a></td>
 <td><code>figures/</code></td>
 <td>24 Nov 2026</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span class="badge sev-moderate">Moderate</span></td>
 <td><a href="#v13">V13. Country map is a choropleth of raw counts</a></td>
 <td>Sample</td>
 <td>24 Nov 2026</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><span class="badge sev-moderate">Moderate</span></td>
 <td><a href="#v5">V5. Visualization names differ between figures</a></td>
 <td>All pages</td>
 <td>24 Nov 2026</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span class="badge sev-moderate">Moderate</span></td>
 <td><a href="#v6">V6. Basic topoplot is highlighted only in some figures</a></td>
 <td>All pages</td>
 <td>24 Nov 2026</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><span class="badge sev-high">High</span></td>
 <td><a href="#v4">V4. Feedback panels re-sort the visualizations in each panel</a></td>
 <td>Feedback</td>
 <td>24 Nov 2026</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span class="badge sev-moderate">Moderate</span></td>
 <td><a href="#v9">V9. Task 2 gradient plot sorted by median, shows means</a></td>
 <td>Task 2</td>
@@ -500,14 +609,481 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<section id="further-figure-fixes" class="level2">
-<h2 class="anchored" data-anchor-id="further-figure-fixes">Further figure fixes</h2>
-<div class="finding-meta sev-low status-resolved">
-<p><strong>Severity:</strong> Low · <strong>Fixed:</strong> 24 Nov 2026 · Requested during the review, not separate findings</p>
+<section id="v3" class="level2">
+<h2 class="anchored" data-anchor-id="v3">V3. Hit/miss “most correct / most missed” frames highlight noise and ties</h2>
+<div class="finding-meta sev-high status-resolved">
+<p><strong>Severity:</strong> High · <strong>Fixed:</strong> 25 Nov 2026 · <strong>Figures:</strong> <code>figures/task2_hits_misses_stimulus_by_vistype.png</code>, <code>task2_hits_misses_pattern_by_vistype.png</code> · <strong>Principle:</strong> ch.&nbsp;16 (no differences without uncertainty); ch.&nbsp;4 (keep the accent for real emphasis)</p>
 </div>
+<p><strong>Problem.</strong></p>
 <ul>
-<li><strong>Time-position checks</strong> (Time page): a 95% ribbon around the line and a log time axis for the geometric means (open points of V17).</li>
+<li><strong>Row P3_16 (checked):</strong> every panel has 0% hits, yet Confidence intervals is framed “Most correct in row” and Basic topoplot “Most missed in row”.</li>
+<li><strong>Rows MMN_1 and N170_12:</strong> one “most missed” panel is framed out of several tied at 0%.</li>
+<li><strong>Cell sizes:</strong> cells hold n = 7–26, so these winners are mostly noise.</li>
+<li><strong>Pattern grid:</strong> it singles out differences such as 16% vs 12%.</li>
 </ul>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Preferred: remove the frames.</li>
+<li>Otherwise:
+<ul>
+<li>name the metric (hit rate or mean score);</li>
+<li>skip rows where the extreme value is tied;</li>
+<li>print n or an interval.</li>
+</ul></li>
+</ul>
+<p>The plotting code is in the UnfoldMakie worktree (<code>uncertainty_project/working/task2_results/plot_task2_hits_misses.jl</code>).</p>
+<p><strong>Resolution (25 Nov 2026).</strong> The frames are removed (the preferred fix): no panel is marked as most correct or most missed, and the legend’s “Panels” block is gone. Each panel’s subtitle keeps its hit rate and n.&nbsp;In the plotting script the frames are behind one switch (<code>T2_SHOW_MARKS = false</code>), so they can be restored. The Hit or miss page text now says why no panel is singled out.</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-hits-misses-pattern-frames-before.png" class="img-fluid figure-img" alt="Hit/miss pattern grid with frames, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-hits-misses-pattern-frames-after.png" class="img-fluid figure-img" alt="Hit/miss pattern grid without frames, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-hits-misses-stimulus-frames-before.png" class="img-fluid figure-img" alt="Hit/miss stimulus grid with frames, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-hits-misses-stimulus-frames-after.png" class="img-fluid figure-img" alt="Hit/miss stimulus grid without frames, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v17d" class="level2">
+<h2 class="anchored" data-anchor-id="v17d">V17d. Task 2 peak contrasts: open circles, alphabetical order</h2>
+<div class="finding-meta sev-low status-resolved">
+<p><strong>Severity:</strong> Low · <strong>Figure:</strong> <code>task2-peak-contrast-figure</code> (Task 2) · <strong>Fixed:</strong> 25 Nov 2026</p>
+</div>
+<p><strong>Problem.</strong> Open circles and alphabetical order (ch.&nbsp;25, V1). Part of the smaller issues (V17).</p>
+<p><strong>Fix.</strong> Same neutral encoding as <a href="#v17c">V17c</a>: a filled dark point and bar when the Dunnett-adjusted interval excludes zero, an open point with a grey bar when it includes zero; no red. Rows follow the Task 2 contrast figure on the same page (highest expected score at the top) in all three panels; one order for all figures is still open (<a href="./figures-wilke.html#v1">V1</a>). In-figure caption: “Filled points: Dunnett-adjusted 95% confidence interval excludes zero; open grey points: interval includes zero.” The table above the figure still marks such intervals in dark red, like the other tables.</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-peak-contrast-before.png" class="img-fluid figure-img" alt="Task 2 peak contrast figure, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-peak-contrast-after.png" class="img-fluid figure-img" alt="Task 2 peak contrast figure, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v17e" class="level2">
+<h2 class="anchored" data-anchor-id="v17e">V17e. Task 2 score histogram looks like a comb</h2>
+<div class="finding-meta sev-low status-resolved">
+<p><strong>Severity:</strong> Low · <strong>Figure:</strong> <code>task2-score-distribution</code> (Task 2) · <strong>Fixed:</strong> 25 Nov 2026</p>
+</div>
+<p><strong>Problem.</strong> The 0.01-bin histogram looks like a comb (ch.&nbsp;7–8). Part of the smaller issues (V17).</p>
+<p><strong>Fix.</strong> A cumulative distribution (ECDF) in a first tab, one step line per visualization, Basic topoplot in blue on top and the other six in greys, with a legend ordered like the lines near 100%; the histogram stays in a second tab. The six greys are hard to tell apart where the lines overlap; the figure mainly contrasts Basic with the rest.</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-score-distribution-before.png" class="img-fluid figure-img" alt="Task 2 score distribution, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-score-ecdf-after.png" class="img-fluid figure-img" alt="Task 2 score distribution, after"></p>
+<figcaption>After: cumulative distribution</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v17h" class="level2">
+<h2 class="anchored" data-anchor-id="v17h">V17h. Sample charts: the same “1%” for different bars</h2>
+<div class="finding-meta sev-low status-resolved">
+<p><strong>Severity:</strong> Low · <strong>Figure:</strong> all-tools chart, full participant figure, continent chart (Sample) · <strong>Fixed:</strong> 25 Nov 2026</p>
+</div>
+<p><strong>Problem.</strong> Bars of different lengths carried the same “1%” label (for example 1.4% and 0.7%) (ch.&nbsp;22). Part of the smaller issues (V17).</p>
+<p><strong>Fix.</strong> Values that round below 2% get one decimal (shared helper <code>percent_label()</code>): the all-tools chart now shows 1.3% and 0.7%, the full participant figure 1.4%, 1.3% and 0.7%, and the continent chart 1.4% for Oceania. The all-countries chart needed no change: it already merges the smallest countries into “1 respondent” and “2 respondents” rows.</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/sample-all-tools-before.png" class="img-fluid figure-img" alt="All tools chart, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/sample-all-tools-after.png" class="img-fluid figure-img" alt="All tools chart, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v17i" class="level2">
+<h2 class="anchored" data-anchor-id="v17i">V17i. Reduced figure: country labels larger than the rest</h2>
+<div class="finding-meta sev-low status-resolved">
+<p><strong>Severity:</strong> Low · <strong>Figure:</strong> reduced participant figure (Sample) · <strong>Fixed:</strong> 25 Nov 2026</p>
+</div>
+<p><strong>Problem.</strong> The country panel’s labels were larger than the other panels’ labels (ch.&nbsp;21). Part of the smaller issues (V17).</p>
+<p><strong>Fix.</strong> The country panel’s axis labels now have the same size as the other panels (site version; the print version already used 8 pt throughout).</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/sample-participant-characteristics-figure-over-3-percent-before.png" class="img-fluid figure-img" alt="Reduced participant figure, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/sample-participant-characteristics-figure-over-3-percent-after.png" class="img-fluid figure-img" alt="Reduced participant figure, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v14" class="level2">
+<h2 class="anchored" data-anchor-id="v14">V14. Logo labels carry unequal visual weight</h2>
+<div class="finding-meta sev-moderate status-resolved">
+<p><strong>Severity:</strong> Moderate · <strong>Fixed:</strong> 25 Nov 2026 · <strong>Figures:</strong> <code>participant-characteristics-icons-figure</code>, <code>-icons-compact</code>, <code>software-reduced-logos</code> · <strong>Principle:</strong> ch.&nbsp;29 “Add distinctiveness without sacrificing quick comprehension”; ch.&nbsp;4, ch.&nbsp;19</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li>The logos differ in visual weight in ways unrelated to the data: multicolour MNE, the red BrainVision block, the dark Brainstorm block.</li>
+<li>Some logos are harder to read than plain names (“erplab”, the R logo with an asterisk).</li>
+</ul>
+<p><strong>Fix.</strong> Keep text labels for the journal, as in the reduced figure. The logo version can stay on the web as an extra.</p>
+<p><strong>Resolution (25 Nov 2026).</strong> The Sample page’s “Figure with icons” now opens with the compact layout (“(alternative)” dropped) and has a third tab with the same compact figure in plain text labels: country names, and “MATLAB (own code)” etc. for the “My own code in …” answers, so no asterisk is needed. The logo version stays on the web. Open: the exported print PDF (<code>participant_characteristics_icons_compact.pdf</code>) is still the logo version; switch it to text labels if this figure goes into the journal.</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/participant-compact-logos-before.png" class="img-fluid figure-img" alt="Compact participant figure, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/participant-compact-text-after.png" class="img-fluid figure-img" alt="Compact participant figure, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v17b" class="level2">
+<h2 class="anchored" data-anchor-id="v17b">V17b. Rating contrast labels on the zero line</h2>
+<div class="finding-meta sev-low status-resolved">
+<p><strong>Severity:</strong> Low · <strong>Figure:</strong> rating contrast figure (Subjective, Figures page) · <strong>Fixed:</strong> 25 Nov 2026</p>
+</div>
+<p><strong>Problem.</strong> The value labels (“+0.1”, “0.0”, “+0.2”) were centred above each point and overlapped the dashed zero line (ch.&nbsp;24). Part of the smaller issues (V17).</p>
+<p><strong>Fix.</strong> Each label sits beside its point on the side away from zero, as in the Task 1 and Task 2 contrast figures. PNG and print PDF re-exported. The after image also shows V17c.</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/likert-contrast-labels-before.png" class="img-fluid figure-img" alt="Rating contrast figure labels, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/likert-contrast-after.png" class="img-fluid figure-img" alt="Rating contrast figure labels, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v17c" class="level2">
+<h2 class="anchored" data-anchor-id="v17c">V17c. Rating contrast figure: red for gains and losses alike</h2>
+<div class="finding-meta sev-low status-resolved">
+<p><strong>Severity:</strong> Low · <strong>Figure:</strong> rating contrast figure (Subjective, Figures page) · <strong>Fixed:</strong> 25 Nov 2026</p>
+</div>
+<p><strong>Problem.</strong> Red marked “interval excludes zero” for gains and losses alike. Red reads as “bad”, and colour was the only cue (ch.&nbsp;20, ch.&nbsp;4). Part of the smaller issues (V17).</p>
+<p><strong>Fix.</strong> Neutral encoding: a filled dark point, bar and label when the interval excludes zero; an open point with grey bar and label when it includes zero. No red; works in greyscale. Captions on the Subjective and Figures pages updated (“Filled points: interval excludes zero; open grey points: interval includes zero”).</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/likert-contrast-colour-before.png" class="img-fluid figure-img" alt="Rating contrast figure colour, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/likert-contrast-after.png" class="img-fluid figure-img" alt="Rating contrast figure colour, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v17f" class="level2">
+<h2 class="anchored" data-anchor-id="v17f">V17f. Task 1 gradient plot: mean labels touch the band</h2>
+<div class="finding-meta sev-low status-resolved">
+<p><strong>Severity:</strong> Low · <strong>Figure:</strong> <code>task1-descriptive-gradient-plot</code> (Task 1) · <strong>Fixed:</strong> 25 Nov 2026</p>
+</div>
+<p><strong>Problem.</strong> The mean labels collided with the top of the band (ch.&nbsp;24); the wrap of “Confidence intervals” was already fixed under <a href="#v5">V5</a>. Part of the smaller issues (V17).</p>
+<p><strong>Fix.</strong> Each label’s baseline now sits clearly above its band and below the band of the row above it.</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task1-gradient-labels-before.png" class="img-fluid figure-img" alt="Task 1 gradient plot, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task1-gradient-labels-after.png" class="img-fluid figure-img" alt="Task 1 gradient plot, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v17g" class="level2">
+<h2 class="anchored" data-anchor-id="v17g">V17g. Sample experience chart: Beginner on top</h2>
+<div class="finding-meta sev-low status-resolved">
+<p><strong>Severity:</strong> Low · <strong>Figure:</strong> self-assessed level bar chart (Sample) · <strong>Fixed:</strong> 25 Nov 2026</p>
+</div>
+<p><strong>Problem.</strong> Beginner → Expert ran top to bottom, while the multipanel figures put Expert on top (ch.&nbsp;21). Part of the smaller issues (V17).</p>
+<p><strong>Fix.</strong> Expert on top, as in the multipanel figures.</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/sample-experience-before.png" class="img-fluid figure-img" alt="Self-assessed level chart, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/sample-experience-after.png" class="img-fluid figure-img" alt="Self-assessed level chart, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v11" class="level2">
+<h2 class="anchored" data-anchor-id="v11">V11. Boxplots for 3–10 ordinal values</h2>
+<div class="finding-meta sev-moderate status-resolved">
+<p><strong>Severity:</strong> Moderate · <strong>Fixed:</strong> 25 Nov 2026 · <strong>Principle:</strong> ch.&nbsp;9 “Show observations when smoothed group shapes may overstate evidence”</p>
+</div>
+<p><strong>Problem.</strong> The feedback figures draw boxplots for 3–10 values on a 5-point scale. A box suggests more distributional detail than the data hold.</p>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Show the points with a median tick.</li>
+<li>Alternatively, use a theme × visualization matrix: diverging colour for the median intensity, with n printed in each cell (ch.&nbsp;6, ch.&nbsp;4).</li>
+<li>Also:
+<ul>
+<li>lighten the boxed strips (ch.&nbsp;23);</li>
+<li>add a reference line at 0 (ch.&nbsp;23);</li>
+<li>enlarge the caption (ch.&nbsp;24).</li>
+</ul></li>
+</ul>
+<p><strong>Resolution (25 Nov 2026).</strong> Both fixes were made, and the Feedback page shows them in tabs:</p>
+<ul>
+<li><strong>Theme × visualization matrix (first tab).</strong> Colour: median of the participant-level medians, binned in half-point steps (9 colours, brown negative to green positive; blue stays the Basic accent). One dot per participant, growing as a square from the lower-right corner; “● 1 participant” in the legend; empty cells white. Other tabs keep variants for comparison: grey cut-off for 1–2 participants, all cells with n, dots centred under the value.</li>
+<li><strong>Points with a median tick</strong> instead of boxplots, a dashed reference line at 0, light grey strips and a larger caption. Cells with 1–2 participants keep faded points and get no tick, as they get no median in the table.</li>
+</ul>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/feedback-intensity-boxplots-before.png" class="img-fluid figure-img" alt="Feedback intensity boxplots, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/feedback-intensity-points-after.png" class="img-fluid figure-img" alt="Feedback intensity points with median tick, after"></p>
+<figcaption>After: points with median tick</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/feedback-intensity-matrix-after.png" class="img-fluid figure-img" alt="Theme by visualization matrix with binned median colour and one dot per participant"></p>
+<figcaption>After: theme × visualization matrix</figcaption>
+</figure>
+</div>
+</section>
+<section id="v16" class="level2">
+<h2 class="anchored" data-anchor-id="v16">V16. Time violin: alphabetical, rotated labels, no task in title</h2>
+<div class="finding-meta sev-moderate status-resolved">
+<p><strong>Severity:</strong> Moderate · <strong>Fixed:</strong> 25 Nov 2026 · <strong>Figure:</strong> <code>task1-time-violin</code> · <strong>Principle:</strong> ch.&nbsp;6 “Turn bars horizontal when category labels are long”, “Order categories by a meaningful rule”; ch.&nbsp;22</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li>The violins are in alphabetical order.</li>
+<li>The labels are rotated 35°.</li>
+<li>The title does not name the task.</li>
+</ul>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Make the violins horizontal, in the canonical order (V1).</li>
+<li>Title the plot “Comparison task”.</li>
+</ul>
+<p>The log scale is already right.</p>
+<p><strong>Resolution (25 Nov 2026).</strong> The violins are horizontal, so the labels read without rotation. Rows follow the time figures below them on the page (observed geometric mean, slowest at the top); one order for all figures is still open (<a href="./figures-wilke.html#v1">V1</a>). The title is “Comparison task”, the geometric-mean line is now vertical (“Vertical line: observed geometric mean”), and the log scale is unchanged, now with a tick at 1 s (a log axis cannot show 0; the shortest trial is just under 1 s). Visualization names are larger than the tick numbers and the axis title (ch.&nbsp;24).</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task1-time-violin-before.png" class="img-fluid figure-img" alt="Time violin, vertical and alphabetical, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task1-time-violin-after.png" class="img-fluid figure-img" alt="Time violin, horizontal and sorted, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v15" class="level2">
+<h2 class="anchored" data-anchor-id="v15">V15. Compact figure: nominal field on a sequential ramp</h2>
+<div class="finding-meta sev-moderate status-resolved">
+<p><strong>Severity:</strong> Moderate · <strong>Fixed:</strong> 25 Nov 2026 · <strong>Figure:</strong> <code>participant-characteristics-icons-compact</code>, panel A · <strong>Principle:</strong> ch.&nbsp;4 “Use equal-prominence colors for unordered categories”</p>
+</div>
+<p><strong>Problem.</strong> Research field is a nominal variable, but it is coloured light to dark blue, which implies an order. Self-assessed level is ordered, so its ramp is fine.</p>
+<p><strong>Fix.</strong> Give field a qualitative palette, or a single colour with direct labels.</p>
+<p><strong>Resolution (25 Nov 2026).</strong> Research field is one flat mid-blue (<code>#6BAED6</code>, the bar colour of panels B and C), its segments separated by white gaps and named by their labels. Self-assessed level keeps its light-to-dark ramp, so only the ordered variable is shown as ordered. PNG and print PDF re-exported.</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/participant-compact-field-before.png" class="img-fluid figure-img" alt="Compact participant figure, field on a blue ramp"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/participant-compact-field-after.png" class="img-fluid figure-img" alt="Compact participant figure, field in one mid-blue"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v8" class="level2">
+<h2 class="anchored" data-anchor-id="v8">V8. No time contrast-vs-Basic figure</h2>
+<div class="finding-meta sev-moderate status-resolved">
+<p><strong>Severity:</strong> Moderate · <strong>Fixed:</strong> 25 Nov 2026 · <strong>Principle:</strong> ch.&nbsp;16 “Plot uncertainty for the comparison you actually want to make”; ch.&nbsp;3, ch.&nbsp;17 (log axes start at 1)</p>
+</div>
+<p><strong>Problem.</strong> The time-estimate plots show intervals for levels and say they are “not for differences”. The Dunnett ratios exist only as tables.</p>
+<p><strong>Fix.</strong> Plot the ratios to Basic with Dunnett CIs on a log axis centred at 1.</p>
+<p><strong>Resolution (25 Nov 2026).</strong> Both tasks on the Time page now have a figure of the ratios to Basic topoplot with their Dunnett-adjusted 95% CIs, just above the ratio table. The axis is logarithmic (a ratio and its inverse lie equally far from 1) and covers only the intervals plus the reference line at 1, so it does not leave an empty half when all ratios lie above 1; dashed line at 1 in the Basic accent; rows in the order of the estimate figure above (slowest at the top); value labels on the side away from 1. Same style as the Task 1 contrast figure.</p>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/time-contrast-task1-after.png" class="img-fluid figure-img" alt="Ratio of geometric mean time to Basic topoplot, comparison task"></p>
+<figcaption>Comparison task</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/time-contrast-task2-after.png" class="img-fluid figure-img" alt="Ratio of geometric mean time to Basic topoplot, detection task"></p>
+<figcaption>Detection task</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v17a" class="level2">
+<h2 class="anchored" data-anchor-id="v17a">V17a. Time-position checks: tiny ticks, no ribbon, linear axis</h2>
+<div class="finding-meta sev-low status-resolved">
+<p><strong>Severity:</strong> Low · <strong>Figures:</strong> time-position checks (Time page, both tasks) · <strong>Fixed:</strong> 24 Nov 2026</p>
+</div>
+<p><strong>Problem.</strong> The time-position checks had tiny tick labels, no 95% ribbon around the line, and a linear axis for geometric means (ch.&nbsp;24, ch.&nbsp;16, ch.&nbsp;3). Part of the smaller issues (V17).</p>
+<p><strong>Fix.</strong> Larger ticks (<a href="#v2">V2</a>), a 95% ribbon and a log time axis.</p>
 <div class="quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
@@ -528,167 +1104,14 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<ul>
-<li><strong>Proportional-odds figure</strong> (Subjective page): text rebalanced for the display size, Lato via <code>plot_theme()</code>.</li>
-</ul>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/likert-po-before.png" class="img-fluid figure-img" alt="Proportional-odds figure, before"></p>
-<figcaption>Before</figcaption>
-</figure>
+</section>
+<section id="v17j" class="level2">
+<h2 class="anchored" data-anchor-id="v17j">V17j. Two typefaces across the figures</h2>
+<div class="finding-meta sev-low status-resolved">
+<p><strong>Severity:</strong> Low · <strong>Figures:</strong> all · <strong>Fixed:</strong> 24 Nov 2026</p>
 </div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/likert-po-after.png" class="img-fluid figure-img" alt="Proportional-odds figure, after"></p>
-<figcaption>After</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<ul>
-<li><strong>Feedback figures:</strong> two-line axis labels with normal line spacing (showtext drew the gap about 1.9 times too wide).</li>
-</ul>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/feedback-line-gap-before.png" class="img-fluid figure-img" alt="Feedback intensity figure, before"></p>
-<figcaption>Before</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/feedback-line-gap-after.png" class="img-fluid figure-img" alt="Feedback intensity figure, after"></p>
-<figcaption>After</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<ul>
-<li><strong>Compact participant figure:</strong> print PDF at full width; now the main participant figure on the Figures page.</li>
-</ul>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/participant-compact-before.png" class="img-fluid figure-img" alt="Compact participant figure, before"></p>
-<figcaption>Before</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/participant-compact-after.png" class="img-fluid figure-img" alt="Compact participant figure, after"></p>
-<figcaption>After</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<ul>
-<li><strong>Hit/miss key legends</strong> (Makie print PDFs): the “Share of responses” labels were cut off at the bottom; now complete.</li>
-</ul>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/task2-hits-misses-pattern-by-vistype-before.png" class="img-fluid figure-img" alt="Hit/miss pattern grid, before"></p>
-<figcaption>Before</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/task2-hits-misses-pattern-by-vistype-after.png" class="img-fluid figure-img" alt="Hit/miss pattern grid, after"></p>
-<figcaption>After</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<ul>
-<li><strong>Figure 1 of the paper</strong> (teaser): regenerated in Lato at the print width (504 pt, 7–9 pt text) by a separate driver, <code>make_figure1.jl</code>, from the same data (P3, subject 8, 129 ms, condition 1; checked against all four colour bars of the old figure).</li>
-</ul>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/figure1-teaser-before.png" class="img-fluid figure-img" alt="Figure 1 teaser, before"></p>
-<figcaption>Before</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/figure1-teaser-after.png" class="img-fluid figure-img" alt="Figure 1 teaser, after"></p>
-<figcaption>After</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<ul>
-<li><strong>Figure 1, second pass (25 Nov 2026):</strong> panel labels on one line per row (anchored to the top of each panel’s slot) and lifted clear of the topoplots (“A. Adjacent” no longer touches the nose, “D. Marker size change” clears the electrode markers); more space between the marker legend and the head and between each value and the next marker; standard-error values with one decimal (2.0 … 4.4) in the legend and on the colour bar, whose 4.4 end tick was missing.</li>
-</ul>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/figure1-label-collision-before.png" class="img-fluid figure-img" alt="Figure 1 before the label fix"></p>
-<figcaption>Before</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/figure1-label-collision-after.png" class="img-fluid figure-img" alt="Figure 1 after the label fix"></p>
-<figcaption>After</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<ul>
-<li><strong>Figure 1, third pass (25 Nov 2026):</strong> the second pass made room for the lifted labels by adding vertical space, which shrank the maps in row 2 (D and F) and pushed the three heads in E into each other. The original spacing is back, so the maps have their original size and E its original spacing. The labels now take no layout space: row 1’s labels sit in the top margin, row 2’s in the empty band below row 1’s colour bars, still on one line per row and clear of the noses and electrode markers.</li>
-</ul>
-<div class="quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/figure1-label-collision-after.png" class="img-fluid figure-img" alt="Figure 1 before the map-size fix"></p>
-<figcaption>Before</figcaption>
-</figure>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/figure1-map-size-after.png" class="img-fluid figure-img" alt="Figure 1 after the map-size fix"></p>
-<figcaption>After</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
+<p><strong>Problem.</strong> The Makie figures used a Helvetica-like font and the R figures used Lato; each R chunk restated <code>theme_classic()</code> (ch.&nbsp;21, ch.&nbsp;28). Part of the smaller issues (V17).</p>
+<p><strong>Fix.</strong> <code>plot_theme()</code> sets Lato and replaces the 24 restated <code>theme_classic()</code> calls; the Makie figures use Lato (<code>lato_fonts()</code>, downloaded into a git-ignored cache). Figures are unchanged except the two Quality figures, now in Lato.</p>
 </section>
 <section id="v10" class="level2">
 <h2 class="anchored" data-anchor-id="v10">V10. One score, several names and units</h2>
@@ -814,7 +1237,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="v18" class="level2">
 <h2 class="anchored" data-anchor-id="v18">V18. Orphaned figure files in <code>pages/*_files</code></h2>
 <div class="finding-meta sev-low status-resolved">
-<p><strong>Severity:</strong> Low · <strong>Area:</strong> Project hygiene</p>
+<p><strong>Severity:</strong> Low · <strong>Area:</strong> Project hygiene · <strong>Fixed:</strong> 24 Nov 2026</p>
 </div>
 <p><strong>Problem.</strong> Several tracked PNGs under <code>pages/*_files/figure-html/</code> are referenced by no page and produced by no chunk:</p>
 <ul>
@@ -825,34 +1248,6 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>One of them, Task 1 <code>unnamed-chunk-4</code>, is an old bar chart with ±1 SD error bars, a literal <code>&lt;U+00B1&gt;</code> in its caption, and bars cut off at 100%. It could be reused by mistake.</p>
 <p><strong>Fix.</strong> Check each file against the current chunks, then remove the stale ones with <code>git rm</code>. <strong>Not done:</strong> deleting files needs your go-ahead.</p>
-</section>
-<section id="done-well" class="level2">
-<h2 class="anchored" data-anchor-id="done-well">Done well</h2>
-<ul>
-<li>Model estimates are dots with CIs on a restricted axis, not bars, and the CI type is always stated (ch.&nbsp;6, ch.&nbsp;16, ch.&nbsp;17).</li>
-<li>The contrast-vs-Basic plots, with simultaneous CIs and a zero line, are close to Wilke Fig. 16-8 (ch.&nbsp;16, ch.&nbsp;23).</li>
-<li>Bar charts:
-<ul>
-<li>start at zero;</li>
-<li>are horizontal, which suits the long labels;</li>
-<li>are sorted by value with “Other” last.</li>
-</ul>
-The participant multipanel uses a shared 0–100% scale (ch.&nbsp;6, ch.&nbsp;17, ch.&nbsp;21).</li>
-<li>The section heading serves as the figure title on the Sample page (ch.&nbsp;22).</li>
-<li>The map uses 6 bins and an equal-area projection (ch.&nbsp;15).</li>
-<li>Time violins use a log scale, and the line is labelled as the geometric mean (ch.&nbsp;3, ch.&nbsp;8).</li>
-<li>Everything is generated in code, with a cache tied to the data (ch.&nbsp;28).</li>
-</ul>
-</section>
-<section id="priorities" class="level2">
-<h2 class="anchored" data-anchor-id="priorities">Priorities</h2>
-<ol type="1">
-<li>One canonical order, one set of names, and the Basic accent everywhere (V1, V5, V6).</li>
-<li>Re-export the publication figures at column size with balanced text, as vector files, without in-figure titles (V2, V7).</li>
-<li>Remove or fix the hit/miss frames (V3).</li>
-<li>Feedback figure: a fixed order across panels and no boxplots for tiny n (V4, V11).</li>
-<li>Task 2 gradient sorted by mean, one score name and unit, and a time contrast figure (V8–V10).</li>
-</ol>
 <p><strong>Resolution (24 Nov 2026).</strong> A check of every figure file found:</p>
 <ul>
 <li><strong>Published site (<code>docs/pages/*_files/</code>, tracked):</strong> no orphans; every PNG there is used by its page (Quarto cleans that folder on each render).</li>

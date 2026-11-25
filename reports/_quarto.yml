@@ -17,6 +17,7 @@ project:
     - fixed-citations.md
     - figures-wilke.md
     - fixed-figures.md
+    - requested-changes.md
 
 website:
   title: "Audit"
@@ -41,17 +42,19 @@ website:
       - section: "Literature"
         contents:
           - href: manuscript-citations-audit.md
-            text: "Manuscript citations (22 open)"
+            text: "Manuscript citations (21 open)"
           - href: fixed-citations.md
-            text: "Fixed citations (28)"
+            text: "Fixed citations (29)"
           - href: table-s3-literature-audit.md
             text: "Table S3 rankings"
       - section: "Visualization"
         contents:
           - href: figures-wilke.md
-            text: "Figures vs Wilke (8 open)"
+            text: "Figures vs Wilke (1 open)"
           - href: fixed-figures.md
-            text: "Fixed figures (11)"
+            text: "Fixed figures (26)"
+          - href: requested-changes.md
+            text: "Requested changes (6)"
 
 format:
   html:
