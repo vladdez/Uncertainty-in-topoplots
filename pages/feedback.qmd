@@ -172,13 +172,15 @@ Cells with only one or two participants are shown as faded points without a box 
 ```{r a305-participant-theme-aggregation}
 #| include: false
 
+# Codebook labels in the display order of every figure and table (audit V1;
+# vistype_order in analysis_setup.R): Basic first, then the order of Figure 1.
 visualization_order <- c(
   "Basic",
   "Adjacent",
   "Bivariate corner",
   "Bivariate range",
-  "Confidence interval",
   "Uncertainty markers",
+  "Confidence interval",
   "Animation"
 )
 
@@ -232,12 +234,281 @@ a305_intensity_summary <- a305_participant_theme |>
   arrange(theme, visualization)
 ```
 
+```{r a305-intensity-matrix-helpers}
+#| include: false
+# Codebook labels of the coding workbook -> visualization keys, so the axis shows
+# the same names as every other figure (audit V5). The codebook and data keep
+# their own labels; "General bivariates" has no key and keeps its name.
+# In the display order (audit V1): it sets the matrix columns.
+codebook_vistype <- c(
+  Basic = "basic",
+  Adjacent = "adjacent",
+  `Bivariate corner` = "bivariate_corner",
+  `Bivariate range` = "bivariate_range",
+  `Uncertainty markers` = "uncert_markers",
+  `Confidence interval` = "triple_CI",
+  Animation = "animation"
+)
+stopifnot(
+  identical(unname(codebook_vistype), vistype_order),
+  identical(names(codebook_vistype), visualization_order)
+)
+
+# Theme x visualization matrix (audit V11). Colour: median of the participant-
+# level medians on the -2..+2 scale, binned in half-point steps (9 colours; the
+# medians lie on that grid, 0.75 goes to +1; the cell text keeps the exact value),
+# brown (negative) to green (positive); blue
+# stays the Basic topoplot accent. Rows: themes by number of participant entries,
+# most at the top. Empty (white) cells: no comments.
+# cutoff = TRUE: cells with a305_sparse_max_n or fewer participants are grey and
+# not summarised, as in the table below. dots = TRUE: each participant is one
+# small dot in the cell instead of "n = k".
+# Text sizes are nominal: showtext draws them at 96/180 (see analysis_setup.R).
+format_intensity <- function(x) {
+  out <- ifelse(
+    x == round(x),
+    sprintf("%+d", as.integer(round(x))),
+    sub("0$", "", sprintf("%+.2f", x))
+  )
+  out[x == 0] <- "0"
+  chartr("-", "−", out)
+}
+
+# Nine bins, +2 at the top of the legend; colours sampled from the brown-green
+# diverging ramp at each bin centre.
+intensity_bins <- seq(2, -2, by = -0.5)
+intensity_bin_labels <- format_intensity(intensity_bins)
+intensity_bin_colours <- setNames(
+  scales::div_gradient_pal("#A6611A", "#F5F5F5", "#018571")(
+    scales::rescale(intensity_bins, from = c(-2, 2))
+  ),
+  intensity_bin_labels
+)
+
+# dot_corner = TRUE: dots packed into the lower-right corner (rows of up to 7,
+# filling right to left and bottom to top) instead of centred under the value.
+# values = FALSE: no median printed in the cell (colour only).
+# Symmetric corner layout: dots grow from the corner as a square, shell by
+# shell; in shell k (side k) the dots alternate one to the left, one up, two to
+# the left, two up, ..., closing with the diagonal corner of the shell. Returns
+# (col, row) offsets for the first n dots.
+square_corner_positions <- function(n) {
+  pos <- list()
+  k <- 1
+  while (length(pos) < n) {
+    for (j in seq_len(k - 1) - 1) {
+      pos[[length(pos) + 1]] <- c(k - 1, j)  # side: along the bottom
+      pos[[length(pos) + 1]] <- c(j, k - 1)  # up: along the right edge
+    }
+    pos[[length(pos) + 1]] <- c(k - 1, k - 1)
+    k <- k + 1
+  }
+  m <- do.call(rbind, pos[seq_len(n)])
+  tibble::tibble(k = seq_len(n), sq_col = m[, 1], sq_row = m[, 2])
+}
+
+make_a305_intensity_matrix <- function(summary, cutoff = TRUE, dots = FALSE,
+                                       dot_corner = FALSE, values = TRUE,
+                                       dot_square = FALSE) {
+  vis_levels <- figure_vistype(codebook_vistype)
+  theme_levels <- summary |>
+    count(theme, wt = n_participants) |>
+    arrange(n, desc(theme)) |>
+    pull(theme)
+
+  cells <- summary |>
+    mutate(
+      visualization = factor(
+        figure_vistype(codebook_vistype[as.character(visualization)]),
+        levels = vis_levels
+      ),
+      grey = cutoff & sparse,
+      fill_value = if_else(grey, NA_real_, median_intensity),
+      value_text = if_else(grey, "", format_intensity(median_intensity)),
+      cell_text = case_when(
+        dots & !values ~ "",
+        dots ~ value_text,
+        grey ~ paste0("n = ", n_participants),
+        TRUE ~ paste0(value_text, "
+n = ", n_participants)
+      ),
+      fill_bin = floor(fill_value * 2 + 0.5) / 2,
+      fill_bin = factor(format_intensity(fill_bin), levels = intensity_bin_labels),
+      dark = !is.na(fill_value) & abs(floor(fill_value * 2 + 0.5) / 2) >= 1.5
+    ) |>
+    tidyr::complete(
+      theme = theme_levels, visualization,
+      fill = list(grey = FALSE, cell_text = "", dark = FALSE, n_participants = 0L)
+    ) |>
+    mutate(
+      theme = factor(theme, levels = theme_levels),
+      x = as.numeric(visualization),
+      y = as.numeric(theme)
+    )
+
+  # One dot per participant, in rows of up to 7, in the lower part of the cell.
+  dot_data <- cells |>
+    filter(dots, n_participants > 0) |>
+    select(x, y, n_participants, dark) |>
+    tidyr::uncount(n_participants, .id = "k", .remove = FALSE) |>
+    mutate(
+      per_row = pmin(n_participants, 7),
+      col = (k - 1) %% 7,
+      row = (k - 1) %/% 7,
+      row_n = pmin(per_row, n_participants - row * 7),
+      dot_x = if (dot_corner) x + 0.40 - col * 0.115 else x + (col - (row_n - 1) / 2) * 0.115,
+      dot_y = if (dot_corner) y - 0.33 + row * 0.17 else y - 0.12 - row * 0.17
+    )
+  if (dot_square && nrow(dot_data) > 0) {
+    # Cells are about twice as wide as tall, so the vertical step is twice the
+    # horizontal one in data units (equal gaps on screen).
+    dot_data <- dot_data |>
+      left_join(square_corner_positions(max(dot_data$k)), by = "k") |>
+      mutate(
+        dot_x = x + 0.40 - sq_col * 0.105,
+        dot_y = y - 0.36 + sq_row * 0.205
+      )
+  }
+
+  ggplot(cells, aes(x, y)) +
+    # show.legend = TRUE: every bin keeps its swatch, also when no cell falls
+    # into it (ggplot2 >= 3.5 otherwise shows only the bins present).
+    geom_tile(
+      aes(fill = fill_bin), colour = "white", linewidth = 1.2,
+      show.legend = c(fill = TRUE, shape = FALSE)
+    ) +
+    geom_tile(
+      data = \(d) filter(d, grey), fill = "#E6E6E6", colour = "white", linewidth = 1.2
+    ) +
+    geom_text(
+      aes(label = cell_text, colour = dark),
+      nudge_y = if (dots) 0.2 else 0,
+      family = "Lato", size = 8.5, lineheight = 0.5
+    ) +
+    # One colour for every dot (dark with a thin white ring, visible on any
+    # fill), so the dots carry only the count.
+    # The dot is mapped to a constant so that it gets its own legend key.
+    geom_point(
+      data = dot_data,
+      aes(dot_x, dot_y, shape = "1 participant"),
+      fill = "#222222", colour = "white", stroke = 0.5,
+      size = 2.4
+    ) +
+    scale_shape_manual(values = c(`1 participant` = 21), name = NULL) +
+    guides(
+      fill = guide_legend(order = 1),
+      shape = guide_legend(order = 2, override.aes = list(size = 5, stroke = 0.8))
+    ) +
+    scale_fill_manual(
+      values = intensity_bin_colours,
+      limits = intensity_bin_labels,
+      drop = FALSE,
+      na.value = "white",
+      na.translate = FALSE,
+      name = "Median
+intensity"
+    ) +
+    scale_colour_manual(values = c(`FALSE` = "#222222", `TRUE` = "white"), guide = "none") +
+    scale_x_continuous(
+      breaks = seq_along(vis_levels),
+      labels = sub(" ", "
+", vis_levels),
+      position = "top",
+      expand = c(0, 0)
+    ) +
+    scale_y_continuous(
+      breaks = seq_along(theme_levels),
+      labels = theme_levels,
+      expand = c(0, 0)
+    ) +
+    labs(
+      x = NULL, y = NULL,
+      caption = paste0(
+        "Colour: median of participant-level median intensities (−2 strongly negative, +2 strongly positive). ",
+        if (dots) "Dots: participants." else "n: participants.",
+        "
+",
+        if (cutoff) paste0("Grey: ", a305_sparse_max_n, " or fewer participants, not summarised. ") else "",
+        "Empty: no comments."
+      )
+    ) +
+    plot_theme(base_size = 26) +
+    theme(
+      axis.line = element_blank(),
+      axis.ticks = element_blank(),
+      axis.text.x = element_text(
+        size = 24, lineheight = 0.5,
+        colour = vistype_label_colours(codebook_vistype, other = "#222222")
+      ),
+      axis.text.y = element_text(size = 26),
+      legend.title = element_text(size = 24, lineheight = 0.5),
+      legend.text = element_text(size = 24),
+      legend.key.height = grid::unit(2.2, "lines"),
+      legend.spacing.y = grid::unit(1, "lines"),
+      legend.key = element_rect(fill = "white", colour = NA),
+      plot.caption = element_text(hjust = 0, size = 22, lineheight = 0.6, margin = margin(t = 12))
+    )
+}
+```
+
+::: {.panel-tabset}
+
+### Matrix (dots in corner, square)
+
+```{r a305-intensity-matrix-dots-square}
+#| cache: false
+#| fig-width: 15
+#| fig-height: 12
+#| out-width: 100%
+#| fig-alt: "Matrix of evaluation themes by visualization type; every cell with comments is coloured by the binned median evaluation intensity, with one small dot per participant growing as a square from its lower-right corner and no printed values."
+make_a305_intensity_matrix(
+  a305_intensity_summary, cutoff = FALSE, dots = TRUE, dot_corner = TRUE,
+  values = FALSE, dot_square = TRUE
+)
+```
+
+### Matrix (cells with 3 or more participants)
+
+
+```{r a305-intensity-matrix-cutoff}
+#| cache: false
+#| fig-width: 15
+#| fig-height: 12
+#| out-width: 100%
+#| fig-alt: "Matrix of evaluation themes by visualization type; each cell with three or more participants is coloured by the median evaluation intensity, from brown (negative) to green (positive), and shows the median and the number of participants; cells with one or two participants are grey."
+make_a305_intensity_matrix(a305_intensity_summary, cutoff = TRUE)
+```
+
+### Matrix (all cells)
+
+```{r a305-intensity-matrix-all}
+#| cache: false
+#| fig-width: 15
+#| fig-height: 12
+#| out-width: 100%
+#| fig-alt: "Matrix of evaluation themes by visualization type; every cell with comments is coloured by the median evaluation intensity and shows the number of participants, including cells with only one or two participants."
+make_a305_intensity_matrix(a305_intensity_summary, cutoff = FALSE)
+```
+
+### Matrix (dots = participants)
+
+```{r a305-intensity-matrix-dots}
+#| cache: false
+#| fig-width: 15
+#| fig-height: 12
+#| out-width: 100%
+#| fig-alt: "Matrix of evaluation themes by visualization type; every cell with comments is coloured by the median evaluation intensity and shows one small dot per participant."
+make_a305_intensity_matrix(a305_intensity_summary, cutoff = FALSE, dots = TRUE)
+```
+
+### Participants with median
+
 ```{r a305-intensity-theme-figure}
 #| cache: false
 #| fig-width: 15
 #| fig-height: 19
 #| out-width: 100%
-#| fig-alt: "Faceted boxplots of participant-level median evaluation intensity by visualization type and qualitative theme, with individual participant points."
+#| fig-alt: "Faceted plots of participant-level median evaluation intensity by visualization type and qualitative theme: one point per participant, a horizontal tick at the median of each cell with three or more participants, and a dashed line at zero."
 
 intensity_axis_labels <- c(
   `-2` = "-2",
@@ -247,18 +518,6 @@ intensity_axis_labels <- c(
   `2` = "+2"
 )
 
-# Codebook labels of the coding workbook -> visualization keys, so the axis shows
-# the same names as every other figure (audit V5). The codebook and data keep
-# their own labels; "General bivariates" has no key and keeps its name.
-codebook_vistype <- c(
-  Basic = "basic",
-  Adjacent = "adjacent",
-  `Bivariate corner` = "bivariate_corner",
-  `Bivariate range` = "bivariate_range",
-  `Confidence interval` = "triple_CI",
-  `Uncertainty markers` = "uncert_markers",
-  Animation = "animation"
-)
 visualization_axis_labels <- c(
   setNames(
     markdown_vistype(codebook_vistype, stacked = TRUE),
@@ -271,8 +530,9 @@ make_a305_intensity_figure <- function(
   plot_data,
   fade_sparse = FALSE
 ) {
-  # One fixed visualization order in every panel, with empty slots kept, so the
-  # columns line up across panels (Wilke ch. 21; audit V4).
+  # One fixed visualization order in every panel (the display order of every
+  # figure, audit V1), with empty slots kept, so the columns line up across
+  # panels (Wilke ch. 21; audit V4).
   visualization_limits <- levels(plot_data$visualization)
 
   theme_panel_counts <- plot_data |>
@@ -301,11 +561,16 @@ make_a305_intensity_figure <- function(
     ungroup() |>
     mutate(theme = factor(theme, levels = theme_panel_order))
 
-  boxplot_data <- if (fade_sparse) {
-    filter(plot_data, n_group > a305_sparse_max_n)
-  } else {
-    plot_data
-  }
+  # Median tick per cell (audit V11: no boxes for 3-10 values on a 5-point
+  # code); sparse cells get no tick, as they get no median in the table.
+  median_data <- plot_data |>
+    group_by(theme, visualization) |>
+    summarise(
+      median_intensity = median(median_intensity),
+      n_group = n(),
+      .groups = "drop"
+    ) |>
+    filter(!fade_sparse | n_group > a305_sparse_max_n)
 
   # Horizontal labels; slightly smaller when there are eight columns. (21 rather
   # than 24 with seven columns, so "Confidence intervals" and "Uncertainty
@@ -327,11 +592,12 @@ make_a305_intensity_figure <- function(
       fill = visualization == "Basic"
     )
   ) +
-    geom_boxplot(
-      data = boxplot_data,
+    geom_hline(yintercept = 0, linetype = "dashed", linewidth = 0.5, colour = "#9E9E9E") +
+    geom_errorbar(
+      data = median_data,
+      aes(ymin = median_intensity, ymax = median_intensity),
       width = 0.62,
-      outlier.shape = NA,
-      linewidth = 0.6
+      linewidth = 1.4
     ) +
     ggbeeswarm::geom_beeswarm(
       aes(alpha = point_alpha),
@@ -377,7 +643,7 @@ make_a305_intensity_figure <- function(
         "Panel N is the number of plotted participant-visualization entries.\n",
         if (fade_sparse) {
           paste0(
-            "Faded points without a box: cells with ",
+            "Horizontal tick: median. Faded points without a tick: cells with ",
             a305_sparse_max_n, " or fewer participants. "
           )
         },
@@ -390,6 +656,8 @@ make_a305_intensity_figure <- function(
     plot_theme(base_size = 18) +
     theme(
       strip.text = element_text(face = "bold", size = 28),
+      # Light strips (audit V11): the panel titles, not their boxes, carry weight.
+      strip.background = element_rect(fill = "#F2F2F2", colour = NA),
       axis.text.x = x_axis_text,
       axis.text.y = element_text(size = 22),
       axis.title.y = element_text(size = 28),
@@ -398,7 +666,7 @@ make_a305_intensity_figure <- function(
       # lineheight 0.6: showtext draws line gaps 180/96 times too wide, so this
       # gives about 1.1 lines.
       plot.caption = element_text(
-        hjust = 0.5, face = "italic", size = 22, lineheight = 0.6,
+        hjust = 0.5, face = "italic", size = 26, lineheight = 0.6,
         margin = margin(t = 12)
       )
     )
@@ -423,6 +691,8 @@ ggsave_st(
 )
 ```
 
+:::
+
 ::: {.callout-note collapse="true"}
 ## Figure including general bivariate feedback — Expand
 
@@ -434,7 +704,7 @@ This additional version includes comments that evaluate bivariate plots in gener
 #| fig-width: 15
 #| fig-height: 19
 #| out-width: 100%
-#| fig-alt: "Faceted boxplots of participant-level median evaluation intensity by visualization type and qualitative theme, including general bivariate feedback, with non-overlapping individual participant points."
+#| fig-alt: "Faceted plots of participant-level median evaluation intensity by visualization type and qualitative theme, including general bivariate feedback: one point per participant, a median tick per cell with three or more participants, and a dashed line at zero."
 
 a305_intensity_by_theme_with_general_bivariates_figure <-
   make_a305_intensity_figure(
