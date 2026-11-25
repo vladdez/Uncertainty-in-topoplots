@@ -268,8 +268,12 @@ researchers assessed from how they measured it.
 
 _Perceptual studies_ assess how accurately and quickly participants identify areas with high
 uncertainty or compare its magnitude across different areas, typically measuring accuracy
-and response time @sanyal2009user. Both approaches provide objective measures, but they test
-different abilities: reading uncertainty is not the same as using it to make a decision.
+and response time @sanyal2009user. Whereas perceptual studies ask _where_ uncertainty is
+high, _probability-judgment studies_ ask participants to estimate properties of the depicted
+distributions, such as how likely one value is to exceed another, and score these estimates
+against the true values @hullman2015hypothetical. Both approaches provide objective
+measures, but they test different abilities: reading uncertainty is not the same as using it
+to make a decision.
 
 _Decision-making studies_ go beyond interpretation accuracy. Correll et al. @correll2018task
 examined whether uncertainty affected participants' choices, whereas Fernandes et al.

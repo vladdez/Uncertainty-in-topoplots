@@ -25,10 +25,10 @@ marked *Not verifiable* rather than filled in.
 
 | Part | Claims | Supported | Needs qualification | Overstated | Not supported | Misattributed | Not verifiable | Fixed |
 |---|---|---|---|---|---|---|---|---|
-| [A. Introduction & Related Work](#a.-introduction-and-related-work) | 45 | 31 | 10 | 1 | 2 | 1 | 0 |3 |
+| [A. Introduction & Related Work](#a.-introduction-and-related-work) | 45 | 31 | 10 | 1 | 2 | 1 | 0 | 4 |
 | [B. Methods to Conclusion](#b.-methods-to-conclusion-and-bibliography) | 25 | 14 | 7 | 1 | 0 | 0 | 3 | 0 |
 | [C. Supplement Tables S2–S3](#c.-supplement-tables-s2-and-s3) | 51 | 26 | 17 | 3 | 4 | 0 | 1 | 25 |
-| **Total** | **121** | **71** | **34** | **5** | **6** | **1** | **4** | **28** |
+| **Total** | **121** | **71** | **34** | **5** | **6** | **1** | **4** | **29** |
 
 : {.findings-table}
 
@@ -39,7 +39,6 @@ Open findings only; resolved ones move to [Fixed citations](fixed-citations.md).
 | | Location | Problem | Fix |
 |--|------|---------------|------|
 | [High]{.badge .sev-high} | `journal.typ:86–89` (A4) | Allen's 20% concerns graphics with **three variables** (two independent, one colour-coded dependent), not "more than three features". | Use Allen's own scope. |
-| [Low]{.badge .sev-low} | `journal.typ:269–271` (A36) | Citation fixed 24 Nov 2026 (now `sanyal2009user`). Remaining: the next sentence, "Both approaches provide objective measures", has no antecedent; only perceptual studies are described. | Rephrase, or restore the missing approach. |
 | [Moderate]{.badge .sev-moderate} | `journal.typ:449–457` (B7, B8) | Strode corners model: legend-lookup caveat and 3×3 fallback omitted (manuscript uses 5×5). Bernard: TeulingFig3 is top-rated only on **black** backgrounds. | Add the caveats or justify the choices. |
 | [Low]{.badge .sev-low} | `refs.bib` | Strode year (bib 2020, PDF 2019); Wilke ISBN; 7 uncited entries; GPT-5.6 Sol / Codex web pages not archived. | See part B. |
 
@@ -63,7 +62,7 @@ Claims checked: 45 (all cited sources are archived).
 Most important issues:
 
 1. **A4 (High), `journal.typ:86–89`.** The Introduction says Allen's 20% applies to "data with more than three features". Allen's "3D" graphics have exactly three variables (two independent and one dependent; Fig. 1A). The 20% is correct, but the population it describes is misstated.
-2. **A36 (Moderate), `journal.typ:266–268`.** Perceptual studies that "identify areas with high uncertainty … accuracy and response time" are attributed to Hullman et al. (2015). That HOPs study asked people to estimate properties of 1–3 distributions, with no spatial search. The description fits Sanyal et al. (2009), which is already in `refs.bib`. *Update 24 Nov 2026:* re-cited to `sanyal2009user` (now `journal.typ:269–271`); the "Both approaches" sentence that follows still needs rephrasing.
+2. *Fixed 25 Nov 2026, see [Fixed citations](fixed-citations.md#a36).* **A36 (Moderate), `journal.typ:266–268`.** Perceptual studies that "identify areas with high uncertainty … accuracy and response time" are attributed to Hullman et al. (2015). That HOPs study asked people to estimate properties of 1–3 distributions, with no spatial search. The description fits Sanyal et al. (2009), which is already in `refs.bib`. *Update 24 Nov 2026:* re-cited to `sanyal2009user` (now `journal.typ:269–271`); the "Both approaches" sentence that follows still needs rephrasing.
 3. *Fixed 24 Nov 2026, see [Fixed citations](fixed-citations.md#a41).* **A41 (Moderate), `journal.typ:291–292`.** "In ERP waveforms, uncertainty is *commonly* shown using error bars or shaded confidence intervals". The three cited sources give examples (Kappenman: ±1 SEM shading, not a CI; Pernet: bootstrap 95% CI; Allen: a *recommended* CI band, with the typical ERP panel described as having "no portrayal of uncertainty"). None of them shows how common this practice is. Mikheev's 40% without error bars points the other way.
 4. **A8 (Low), Table 1, Allen row.** The 26 Oct audit's single recommended wording correction ("Only 20% of audited 3D graphics portrayed uncertainty") has still not been applied.
 

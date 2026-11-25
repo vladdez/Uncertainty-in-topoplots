@@ -11,6 +11,7 @@ once the manuscript or supplement text is corrected. IDs keep their audit number
 |--|------------------|----|
 | [High]{.badge .sev-high} | [A2. Mikheev survey percentages did not exist in the paper](#a2) | Introduction |
 | [High]{.badge .sev-high} | [A17. Petek: "quantifying" counted rows where tools only draw](#a17) | Table 1 |
+| [Moderate]{.badge .sev-moderate} | [A36. Perceptual studies were cited to a probability-judgment study](#a36) | Related Work |
 | [Moderate]{.badge .sev-moderate} | [A41. ERP error bands were called "common"](#a41) | Related Work |
 | [High]{.badge .sev-high} | [C26. Sanyal 1D least uncertain: ranking reversed Table 1](#c26) | Supplement S3 |
 | [High]{.badge .sev-high} | [C27. Sanyal 1D most uncertain: unreported glyph size > error bars](#c27) | Supplement S3 |
@@ -130,6 +131,29 @@ example, with error bars or shaded bands for the standard error or a confidence 
 it @mikheev2024art." It no longer claims a prevalence, covers both the SEM bands and the
 confidence intervals the sources show, and adds the counterpoint from Mikheev et al.
 (2024).
+`journal.pdf` was recompiled with `scripts/compile-journal.ps1`.
+
+## A36. Perceptual studies were cited to a probability-judgment study {#a36}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Location:** `journal.typ:269–276`, Related Work (Evaluating Uncertainty Visualizations) · **Fixed:** 25 November 2026
+:::
+
+**Problem.** Perceptual studies that "identify areas with high uncertainty or compare its
+magnitude across different areas, typically measuring accuracy and response time" were
+cited to Hullman et al. (2015). That study asked people to estimate properties of one to
+three distributions, with no spatial search. The description fits Sanyal et al. (2009).
+After the citation was corrected (24 Nov), the next sentence, "Both approaches provide
+objective measures", had no antecedent: the overview names four kinds of evaluation, but
+the probability-judgment studies were no longer described.
+
+**Fix.** The perceptual sentence cites `sanyal2009user` (24 Nov). A sentence on
+probability-judgment studies, cited to Hullman et al. (2015), now comes before "Both
+approaches" (25 Nov): "Whereas perceptual studies ask _where_ uncertainty is high,
+_probability-judgment studies_ ask participants to estimate properties of the depicted
+distributions, such as how likely one value is to exceed another, and score these
+estimates against the true values @hullman2015hypothetical." "Both approaches" now refers
+to the two approaches just described.
 `journal.pdf` was recompiled with `scripts/compile-journal.ps1`.
 
 ## C26. Sanyal 1D least uncertain: ranking reversed Table 1 {#c26}
