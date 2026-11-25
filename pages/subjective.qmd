@@ -174,11 +174,12 @@ likert_table <- likert %>%
     names_from = question,
     values_from = mean_rating
   ) %>%
-  # Basic topoplot first (the reference), then the survey order. No composite
+  # Display order of every figure and table (audit V1): Basic topoplot first (the
+  # reference), then the order of the paper's Figure 1. No composite
   # score: the four items measure different things (A303 is likelihood of use)
   # and A301 was asked at a different time, so an equal-weight sum has no
   # clear meaning (audit U10).
-  arrange(vistype != "basic", vistype)
+  arrange(order_vistype(vistype))
 
 likert_table |>
   mutate(vistype = table_vistype(vistype)) |>
@@ -233,6 +234,8 @@ likert_estimates <- imap_dfr(
 )
 
 likert_estimates |>
+  # Criteria in survey order; visualizations in the display order (audit V1).
+  arrange(factor(question, levels = unname(question_labels)), order_vistype(vistype)) |>
   mutate(vistype = table_vistype(vistype)) |>
   knitr::kable(
     format = "html",
@@ -395,7 +398,8 @@ likert_po_steps <- purrr::map_dfr(2:5, \(cutoff) {
   ungroup() |>
   filter(vistype != "basic") |>
   mutate(
-    vistype = droplevels(vistype),
+    # Columns left to right in the display order (audit V1).
+    vistype = order_vistype(vistype),
     vis_label = factor(table_vistype(vistype), levels = table_vistype(levels(vistype)))
   )
 
@@ -444,19 +448,11 @@ model below is a sensitivity check that does not rely on proportional odds.
 #| fig-height: 11
 question_columns <- unname(question_labels)
 
-likert_vistype_order <- c(
-  "basic",
-  "adjacent",
-  "triple_CI",
-  "uncert_markers",
-  "animation",
-  "bivariate_range",
-  "bivariate_corner"
-)
-
+# Rows in the display order of every figure (audit V1; vistype_order in
+# analysis_setup.R): Basic topoplot at the top, then the order of Figure 1.
 likert_display_labels <- setNames(
-  figure_vistype(likert_vistype_order),
-  likert_vistype_order
+  figure_vistype(vistype_order),
+  vistype_order
 )
 
 likert_panel_titles <- c(
@@ -512,10 +508,8 @@ make_likert_estimate_plot <- function(
         likert_display_labels[as.character(vistype)]
       ),
     
-      vistype = factor(
-        vistype,
-        levels = rev(likert_vistype_order)
-      )
+      # Categories on y: top_first puts Basic at the top.
+      vistype = order_vistype(vistype, top_first = TRUE)
     )
 
   p <- ggplot(
@@ -767,9 +761,10 @@ likert_contrasts <- imap_dfr(
       )
   }
 ) |>
+  # Display order (audit V1) without Basic: Adjacent plots at the top.
+  mutate(vistype = order_vistype(vistype, top_first = TRUE)) |>
   group_by(question) |>
   mutate(
-    vistype = factor(vistype, levels = rev(likert_vistype_order[-1])),
     # Highlight contrasts whose Dunnett-adjusted interval excludes zero (no
     # "leader": differences between non-reference visualizations are not tested).
     excludes_zero = lower_ci > 0 | upper_ci < 0
@@ -817,9 +812,21 @@ make_likert_contrast_plot <- function(
       width = 0.12,
       linewidth = s$line
     ) +
-    geom_point(aes(colour = excludes_zero), size = s$point) +
+    # Neutral encoding (audit V17c): filled dark point = interval excludes zero,
+    # open grey point = includes zero. No red, which would read as "worse" for
+    # gains and losses alike; works in greyscale.
+    geom_point(
+      aes(colour = excludes_zero, shape = excludes_zero),
+      fill = "white",
+      size = s$point * 1.15,
+      stroke = if (print) 0.6 else 1.1
+    ) +
+    scale_shape_manual(values = c(`FALSE` = 21, `TRUE` = 19), guide = "none") +
     geom_text(
+      # Beside the point, on the side away from zero, so the label never sits on
+      # the dashed zero line (audit V17b; as in the Task 1 and Task 2 figures).
       aes(
+        hjust = side_away_from_zero(difference),
         label = format_rating_difference(difference),
         colour = excludes_zero
       ),
@@ -828,7 +835,7 @@ make_likert_contrast_plot <- function(
       size = s$values
     ) +
     scale_colour_manual(
-      values = c(`FALSE` = "#222222", `TRUE` = "#D94B5B"),
+      values = c(`FALSE` = "#8C8C8C", `TRUE` = "#222222"),
       guide = "none"
     ) +
     scale_y_discrete(
@@ -959,7 +966,7 @@ ggsave_print(
 )
 ```
 
-![Differences in expected ratings (typical participant) relative to Basic topoplot for the four rating items. Intervals are Dunnett-adjusted 95% confidence intervals (exact multivariate-t adjustment; family = the six contrasts against Basic within each item). Red marks intervals that exclude zero.](../figures/likert_contrast_figure.png)
+![Differences in expected ratings (typical participant) relative to Basic topoplot for the four rating items. Intervals are Dunnett-adjusted 95% confidence intervals (exact multivariate-t adjustment; family = the six contrasts against Basic within each item). Filled points: interval excludes zero; open grey points: interval includes zero.](../figures/likert_contrast_figure.png)
 
 ```{r likert-contrast-summary}
 #| include: false
@@ -1000,6 +1007,7 @@ does not name a best visualization for any item.
 ::: {.callout-note title="Sensitivity: linear mixed model on the 1–5 ratings" collapse="true"}
 ```{r likert-lmm-sensitivity}
 likert_sensitivity |>
+  arrange(match(question, question_columns), order_vistype(vistype)) |>
   mutate(
     vistype = unname(likert_display_labels[vistype]),
     clmm = sprintf("%+.2f [%+.2f, %+.2f]", difference, lower_ci, upper_ci),
@@ -1079,7 +1087,7 @@ likert_estimates |>
     lower_half = estimated_rating - lower_ci,
     upper_half = upper_ci - estimated_rating
   ) |>
-  arrange(question, vistype) |>
+  arrange(question, order_vistype(vistype)) |>
   mutate(vistype = table_vistype(vistype)) |>
   select(
     question,

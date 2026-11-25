@@ -62,7 +62,7 @@ Print PDF, full width: [likert_estimate_figure.pdf](../figures/likert_estimate_f
 
 ## Subjective-rating differences relative to Basic topoplot
 
-![Difference in expected rating (typical participant) from Basic topoplot. Bars: Dunnett-adjusted 95% confidence intervals (six comparisons with Basic within each item). Red: interval excludes zero.](../figures/likert_contrast_figure.png){fig-alt="Differences in expected ratings (typical participant) relative to Basic topoplot for the four rating items, with Dunnett-adjusted 95% confidence intervals."}
+![Difference in expected rating (typical participant) from Basic topoplot. Bars: Dunnett-adjusted 95% confidence intervals (six comparisons with Basic within each item). Filled points: interval excludes zero; open grey points: interval includes zero.](../figures/likert_contrast_figure.png){fig-alt="Differences in expected ratings (typical participant) relative to Basic topoplot for the four rating items, with Dunnett-adjusted 95% confidence intervals."}
 
 ::: {.print-pdf}
 Print PDF, full width: [likert_contrast_figure.pdf](../figures/likert_contrast_figure.pdf)
