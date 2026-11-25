@@ -24,6 +24,12 @@ other_last <- function(label, value) {
   )
 }
 
+# Bar value labels (audit V17h): whole percent from 2% up; below 2% one decimal,
+# so that e.g. one and two respondents (0.7% and 1.3%) do not both read "1%".
+percent_label <- function(x) {
+  if_else(round(x, 1) < 2, sprintf("%.1f%%", x), paste0(round(x), "%"))
+}
+
 format_category_labels <- function(labels) {
   lapply(
     labels,
@@ -97,7 +103,8 @@ n_total <- data %>%
 
 data$A001 %>% table() %>%  data.frame() %>% dplyr::rename(level = !!names(.)[1]) %>%
     mutate(percent_score = round(Freq / sum(Freq) * 100)) %>% 
-    mutate(level = factor(level, levels = rev(c("Beginner", "Intermediate", "Expert")))) %>% 
+    # Expert on top, as in the multipanel participant figures (audit V17g).
+    mutate(level = factor(level, levels = c("Beginner", "Intermediate", "Expert"))) %>% 
     ggplot(data = ., aes(y = level, x = percent_score)) +  
     geom_col(stat="identity",  width = 0.8, fill ="#6BAED6") + labs(x = "Percent of respondents", y = "", title="Self-assessed level") +
     geom_text(aes(label = paste0(percent_score, "%")), hjust = -0.2)  +  plot_theme(base_size = 20) + 
@@ -166,7 +173,7 @@ country_n_missing <- nrow(country_all) - nrow(country_responses) -
 
 make_geography_plot <- function(summary_data, category, title,
                                 respondent_total = sum(summary_data$Freq),
-                                percent_formatter = \(x) paste0(round(x), "%")) {
+                                percent_formatter = percent_label) {
   category <- rlang::enquo(category)
   summary_data <- summary_data %>%
     mutate(.percent_label = percent_formatter(percent_score))
@@ -282,8 +289,7 @@ flag_label <- function(labels, height = 11, width = 18) {
   )
 }
 
-# Same grouping as the reduced combined figure below: countries with less than
-# 2% of respondents are pooled into Other.
+# Pool countries with less than 2% of respondents into one bar.
 country_grouped <- country %>%
   mutate(country_work = as.character(country_work)) %>%
   mutate(country_work = if_else(
@@ -294,6 +300,7 @@ country_grouped <- country %>%
   mutate(percent_score = Freq / sum(Freq) * 100)
 
 make_geography_plot(country_grouped, country_work, NULL) +
+  x_axis_end_mark() +
   scale_y_discrete(labels = flag_label) +
   theme(axis.text.y = ggtext::element_markdown(size = 20, lineheight = 0.7))
 ```
@@ -358,8 +365,9 @@ make_geography_plot(country_all, country_work, NULL,
                     percent_formatter = \(x) if_else(
                       x %in% small_group_percentages,
                       sprintf("%.1f%%", x),
-                      paste0(round(x), "%")
+                      percent_label(x)
                     )) +
+  x_axis_end_mark() +
   ggtext::geom_richtext(
     data = small_country_flags,
     aes(x, y, label = label),
@@ -989,7 +997,7 @@ software %>% filter(Freq != 0) %>%
   # Sorted by share; the survey's own "Other" option goes last (Wilke ch. 6).
   ggplot(aes(percent_score, reorder(software, other_last(software, percent_score)))) +
   geom_col(width = 0.7, fill = "#6BAED6") +
-  geom_text(aes(label = paste0(round(percent_score), "%")),
+  geom_text(aes(label = percent_label(percent_score)),
             hjust = -0.15, size = 6) +
   scale_x_continuous(
     "Percent of respondents",
@@ -1037,7 +1045,8 @@ make_characteristic_plot <- function(
   title,
   bar_width = 0.7,
   label_size = 20,
-  print = FALSE
+  print = FALSE,
+  x_max = 100  # axis end in %; below 100 for panels whose bars stay short
 ) {
   # Site sizes (nominal, drawn at 96/180 of nominal by showtext), or print sizes
   # in true pt (audit V7); value-label size in mm as ggplot2 expects.
@@ -1061,13 +1070,13 @@ make_characteristic_plot <- function(
   ggplot(plot_data, aes(x = percent_score, y = display_label)) +
     geom_col(width = bar_width, fill = "#6BAED6") +
     geom_text(
-      aes(label = paste0(round(percent_score), "%")),
+      aes(label = percent_label(percent_score)),
       hjust = -0.15,
       size = s$value
     ) +
     scale_x_continuous(
-      limits = c(0, 100),
-      breaks = seq(0, 100, 25),
+      limits = c(0, x_max),
+      breaks = seq(0, x_max, if (x_max <= 50) 10 else 25),
       labels = \(x) paste0(x, "%"),
       expand = expansion(mult = c(0, 0.02))
     ) +
@@ -1161,13 +1170,11 @@ if (isTRUE(params$export_artifacts)) {
 }
 ```
 
-### Reduced figure
+### Figure with icons
 
-```{r participant-characteristics-figure-over-3-percent}
+```{r participant-characteristics-grouping}
+#| include: false
 #| cache: false
-#| fig-width: 15
-#| fig-height: 9
-
 country_over_3 <- country_combined %>%
   mutate(
     country_work = if_else(
@@ -1215,114 +1222,17 @@ software_other <- data %>%
 software_over_3 <- software_combined %>%
   filter(percent_score >= 4, software != "Other") %>%
   bind_rows(software_other)
-
-# Site version, or with print = TRUE the print version (audit V7). The print
-# version leaves out the in-figure note on software (multiple selections in D):
-# that belongs in the manuscript caption.
-make_participant_characteristics_over_3_figure <- function(print = FALSE) {
-  other_markdown <- \(labels) labels %>%
-    stringr::str_replace_all("<", "&lt;") %>%
-    stringr::str_replace("^Other\\n", "*Other*<br>")
-
-  p_country_over_3 <- make_characteristic_plot(
-    country_over_3,
-    "country_work",
-    "Country of work",
-    label_size = 24,
-    print = print
-  ) +
-    scale_y_discrete(labels = other_markdown) +
-    theme(
-      axis.text.y = ggtext::element_markdown(
-        size = if (print) print_text$text else 24,
-        lineheight = if (print) 0.9 else 0.75
-      )
-    )
-
-  p_software_over_3 <- make_characteristic_plot(
-    software_over_3,
-    "software",
-    "Software used",
-    print = print
-  ) +
-    scale_y_discrete(labels = other_markdown) +
-    theme(
-      axis.text.y = ggtext::element_markdown(
-        size = if (print) print_text$text else 20,
-        lineheight = if (print) 0.9 else 0.75
-      )
-    )
-
-  if (print) {
-    p_experience <- make_characteristic_plot(
-      experience_combined, "level", "Self-assessed level", print = TRUE
-    )
-    p_field <- make_characteristic_plot(
-      field_combined, "field", "Research field", print = TRUE
-    )
-  }
-
-  (p_experience + p_field) /
-    (p_country_over_3 + p_software_over_3) +
-    plot_layout(heights = c(0.65, 1.35)) +
-    plot_annotation(
-      tag_levels = "A",
-      caption = if (!print) "Multiple software selections were permitted in D.",
-      theme = theme(
-        plot.tag = element_text(face = "bold", size = if (print) print_text$text else 18),
-        plot.caption = element_text(
-          hjust = 0.5,
-          face = "italic",
-          family = "Lato",
-          size = 18
-        )
-      )
-    )
-}
-
-participant_characteristics_over_3_figure <-
-  make_participant_characteristics_over_3_figure()
-
-participant_characteristics_over_3_figure
-
-if (isTRUE(params$export_artifacts)) {
-  ggsave_st(
-    project_path("figures", "participant_characteristics_over_3_figure.png"),
-    participant_characteristics_over_3_figure,
-    width = 15,
-    height = 13,
-    units = "in",
-    dpi = 180,
-    device = ragg::agg_png,
-    bg = "white"
-  )
-
-  # Print version: full journal width.
-  ggsave_print(
-    project_path("figures", "participant_characteristics_over_3_figure.pdf"),
-    make_participant_characteristics_over_3_figure(print = TRUE),
-    width = print_width[["full"]],
-    height = 5.6
-  )
-}
-
 ```
 
-### Figure with icons
+Countries below 2% and software below 4% are grouped into Other. Flags identify
+countries, and lettering or logos identify software. The last tab shows the
+compact layout with plain text labels
+(audit V14: logos differ in visual weight in ways unrelated to the data).
 
-Same panels and grouping as the reduced figure; flags (C) and tool lettering or
-logos (D) replace the plain labels.
-
-::: {.panel-tabset}
-
-#### Bars
-
-```{r participant-characteristics-icons-figure}
-#| cache: false
-#| fig-width: 15
-#| fig-height: 10
-#| fig-cap: 'Multiple software selections were permitted in D. An asterisk denotes the survey answer "My own code in …".'
-
+```{r participant-characteristics-icon-labels}
+#| include: false
+# Label helpers shared by the three tabs below. icons = FALSE gives plain text:
+# country names, and "MATLAB (own code)" for the "My own code in ..." answers.
 country_icon_labels <- function(labels) {
   labels <- as.character(labels)
   is_other <- startsWith(labels, "Other")
@@ -1344,55 +1254,31 @@ software_icon_labels <- function(labels) {
   formatted
 }
 
-# Panels C and D are the reduced figure's bar charts with icon labels.
-p_country_icons <- make_characteristic_plot(
-  country_over_3,
-  "country_work",
-  "Country of work"
-) +
-  scale_y_discrete(labels = country_icon_labels) +
-  theme(axis.text.y = ggtext::element_markdown(size = 22, lineheight = 0.75))
+plain_country_labels <- function(labels) {
+  labels |>
+    as.character() |>
+    stringr::str_replace_all("<", "&lt;") |>
+    stringr::str_replace("^Other\\n", "*Other*<br>")
+}
 
-p_software_icons <- make_characteristic_plot(
-  software_over_3,
-  "software",
-  "Software used"
-) +
-  scale_y_discrete(labels = software_icon_labels) +
-  theme(axis.text.y = ggtext::element_markdown(size = 20, lineheight = 0.7))
-
-participant_characteristics_icons_figure <-
-  (p_experience + p_field) /
-  (p_country_icons + p_software_icons) +
-  plot_layout(heights = c(0.65, 1.35)) +
-  plot_annotation(
-    tag_levels = "A",
-    theme = theme(plot.tag = element_text(face = "bold", size = 18))
-  )
-
-participant_characteristics_icons_figure
-
-if (isTRUE(params$export_artifacts)) {
-  ggsave_st(
-    project_path("figures", "participant_characteristics_icons_figure.png"),
-    participant_characteristics_icons_figure,
-    width = 15,
-    height = 10,
-    units = "in",
-    dpi = 180,
-    device = ragg::agg_png,
-    bg = "white"
-  )
+plain_software_labels <- function(labels) {
+  labels |>
+    as.character() |>
+    stringr::str_replace("^My own code in (.*)$", "\\1 (own code)") |>
+    stringr::str_replace_all("<", "&lt;") |>
+    stringr::str_replace("^Other\\n", "*Other*<br>")
 }
 ```
 
-#### Compact (alternative)
+::: {.panel-tabset}
+
+#### Compact
 
 ```{r participant-characteristics-icons-compact}
 #| cache: false
 #| fig-width: 15
 #| fig-height: 9.2
-#| fig-cap: 'Alternative layout. Level and research field are parts of a whole, so each is shown as one stacked bar (A); this leaves more height for country and software (B, C). Flags indicate country of work, not nationality. Multiple software selections were permitted in C. An asterisk denotes the survey answer "My own code in …".'
+#| fig-cap: 'Level and research field are parts of a whole, so each is shown as one stacked bar (A); this leaves more height for country and software (B, C). B and C have their own axis ranges (0–40% and 0–75%). Flags indicate country of work, not nationality. Multiple software selections were permitted in C. An asterisk denotes the survey answer "My own code in …".'
 
 # Parts of a whole as one 100% bar each (Wilke ch. 10); segments ordered as
 # the answer scale (level) or by share (field), labelled directly so no legend
@@ -1423,7 +1309,17 @@ composition <- bind_rows(
     label = paste0(category, " ", round(percent_score), "%")
   ) %>%
   ungroup() %>%
-  mutate(question = factor(question, c("Research field", "Self-assessed level")))
+  mutate(
+    # Colour (audit V15): the ordered level gets a light-to-dark ramp; research
+    # field is nominal, so all its segments share one mid-blue (the bar colour
+    # of panels B and C), separated by the white gaps and named by their labels.
+    fill_colour = if_else(
+      question == "Research field",
+      "#6BAED6",
+      scales::seq_gradient_pal("#C6DBEF", "#2171B5")(scales::rescale(shade))
+    ),
+    question = factor(question, c("Research field", "Self-assessed level"))
+  )
 
 composition_y <- as.numeric(composition$question)
 
@@ -1444,7 +1340,12 @@ scale_markup <- function(labels, text_k, img_k) {
 
 # Site version, or with print = TRUE the print version (full journal width,
 # 8 pt text, 7 pt ticks and value labels).
-make_participant_characteristics_icons_compact <- function(print = FALSE) {
+# Axis ends: each bar panel gets its own range (no country above 24%, no tool
+# above 63%); the panels answer different questions (country sums to 100%,
+# software allows several answers), so a shared 0-100% axis only wasted space.
+make_participant_characteristics_icons_compact <- function(print = FALSE, icons = TRUE,
+                                                         country_max = 40,
+                                                         software_max = 75) {
   # Site sizes are nominal (drawn at 96/180 by showtext); print sizes are true pt.
   s <- if (print) {
     list(base = print_text$text, question = print_text$text, ticks = print_text$small,
@@ -1460,11 +1361,13 @@ make_participant_characteristics_icons_compact <- function(print = FALSE) {
   # 20%: print rows are closer together relative to the text than site rows.
   img_shrink <- 0.8
   country_labels <- \(labels) {
+    if (!icons) return(plain_country_labels(labels))
     out <- country_icon_labels(labels)
     if (!print) return(out)
     scale_markup(out, s$country / 22, img_shrink * s$country / (22 * 96 / 180))
   }
   software_labels <- \(labels) {
+    if (!icons) return(plain_software_labels(labels))
     out <- software_icon_labels(labels)
     if (!print) return(out)
     scale_markup(out, s$software / 20, img_shrink * s$software / (20 * 96 / 180))
@@ -1475,7 +1378,7 @@ make_participant_characteristics_icons_compact <- function(print = FALSE) {
       aes(
         xmin = xmin, xmax = xmax,
         ymin = composition_y - 0.36, ymax = composition_y + 0.36,
-        fill = shade
+        fill = fill_colour
       ),
       colour = "white",
       linewidth = s$rect_line
@@ -1499,7 +1402,7 @@ make_participant_characteristics_icons_compact <- function(print = FALSE) {
       family = "Lato",
       size = s$segment
     ) +
-    scale_fill_gradient(low = "#C6DBEF", high = "#2171B5", guide = "none") +
+    scale_fill_identity() +
     scale_colour_manual(values = c(`FALSE` = "black", `TRUE` = "white"), guide = "none") +
     scale_x_continuous(
       limits = c(0, 100),
@@ -1523,17 +1426,23 @@ make_participant_characteristics_icons_compact <- function(print = FALSE) {
       plot.margin = s$margin
     )
 
+  axis_end_mark <- x_axis_end_mark(s$base, size = if (print) 0.55 else 1)
+
   p_country <- make_characteristic_plot(
-    country_over_3, "country_work", "Country of work", print = print
+    country_over_3, "country_work", "Country of work", print = print,
+    x_max = country_max
   ) +
+    axis_end_mark +
     scale_y_discrete(labels = country_labels) +
     theme(axis.text.y = ggtext::element_markdown(
       size = s$country, lineheight = s$lineheight
     ))
 
   p_software <- make_characteristic_plot(
-    software_over_3, "software", "Software used", print = print
+    software_over_3, "software", "Software used", print = print,
+    x_max = software_max
   ) +
+    axis_end_mark +
     scale_y_discrete(labels = software_labels) +
     theme(axis.text.y = ggtext::element_markdown(
       size = s$software, lineheight = if (print) s$lineheight else 0.7
@@ -1575,6 +1484,68 @@ if (isTRUE(params$export_artifacts)) {
 }
 ```
 
+#### Bars
+
+```{r participant-characteristics-icons-figure}
+#| cache: false
+#| fig-width: 15
+#| fig-height: 10
+#| fig-cap: 'Multiple software selections were permitted in D. An asterisk denotes the survey answer "My own code in …".'
+
+# Panels C and D use the grouped country and software data with icon labels.
+p_country_icons <- make_characteristic_plot(
+  country_over_3,
+  "country_work",
+  "Country of work"
+) +
+  scale_y_discrete(labels = country_icon_labels) +
+  theme(axis.text.y = ggtext::element_markdown(size = 22, lineheight = 0.75))
+
+p_software_icons <- make_characteristic_plot(
+  software_over_3,
+  "software",
+  "Software used"
+) +
+  scale_y_discrete(labels = software_icon_labels) +
+  theme(axis.text.y = ggtext::element_markdown(size = 20, lineheight = 0.7))
+
+participant_characteristics_icons_figure <-
+  (p_experience + p_field) /
+  (p_country_icons + p_software_icons) +
+  plot_layout(heights = c(0.65, 1.35)) +
+  plot_annotation(
+    tag_levels = "A",
+    theme = theme(plot.tag = element_text(face = "bold", size = 18))
+  )
+
+participant_characteristics_icons_figure
+
+if (isTRUE(params$export_artifacts)) {
+  ggsave_st(
+    project_path("figures", "participant_characteristics_icons_figure.png"),
+    participant_characteristics_icons_figure,
+    width = 15,
+    height = 10,
+    units = "in",
+    dpi = 180,
+    device = ragg::agg_png,
+    bg = "white"
+  )
+}
+```
+
+
+
+#### Compact, text labels
+
+```{r participant-characteristics-text-compact}
+#| cache: false
+#| fig-width: 15
+#| fig-height: 9.2
+#| fig-cap: 'Compact layout with plain text labels instead of flags and logos (audit V14). Level and research field are parts of a whole, so each is shown as one stacked bar (A). Multiple software selections were permitted in C.'
+make_participant_characteristics_icons_compact(icons = FALSE)
+```
+
 :::
 
 ## Summary of the sample results
@@ -1603,7 +1574,10 @@ sample_experience <- data |>
 sample_n_countries <- n_distinct(country_responses$country_work)
 sample_country_counts <- country_responses |>
   count(country_work, name = "Freq") |>
-  mutate(percent_score = Freq / sum(Freq) * 100)
+  mutate(
+    country_work = if_else(country_work == "United Kingdom", "UK", country_work),
+    percent_score = Freq / sum(Freq) * 100
+  )
 sample_largest_continent <- continent |> slice_max(Freq, n = 1, with_ties = FALSE)
 ```
 

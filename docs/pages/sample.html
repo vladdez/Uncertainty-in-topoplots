@@ -203,7 +203,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#software-used" id="toc-software-used" class="nav-link" data-scroll-target="#software-used">Software used</a></li>
   <li><a href="#combined-figures" id="toc-combined-figures" class="nav-link" data-scroll-target="#combined-figures">Combined figures</a>
   <ul class="collapse">
-  <li><a href="#reduced-figure" id="toc-reduced-figure" class="nav-link" data-scroll-target="#reduced-figure">Reduced figure</a></li>
   <li><a href="#figure-with-icons" id="toc-figure-with-icons" class="nav-link" data-scroll-target="#figure-with-icons">Figure with icons</a></li>
   </ul></li>
   <li><a href="#summary-of-the-sample-results" id="toc-summary-of-the-sample-results" class="nav-link" data-scroll-target="#summary-of-the-sample-results">Summary of the sample results</a></li>
@@ -296,37 +295,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>A001 <span class="sc">%&gt;%</span> <span class="fu">table</span>() <span class="sc">%&gt;%</span>  <span class="fu">data.frame</span>() <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">level =</span> <span class="sc">!!</span><span class="fu">names</span>(.)[<span class="dv">1</span>]) <span class="sc">%&gt;%</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">percent_score =</span> <span class="fu">round</span>(Freq <span class="sc">/</span> <span class="fu">sum</span>(Freq) <span class="sc">*</span> <span class="dv">100</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">level =</span> <span class="fu">factor</span>(level, <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">c</span>(<span class="st">"Beginner"</span>, <span class="st">"Intermediate"</span>, <span class="st">"Expert"</span>)))) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data =</span> ., <span class="fu">aes</span>(<span class="at">y =</span> level, <span class="at">x =</span> percent_score)) <span class="sc">+</span>  </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">stat=</span><span class="st">"identity"</span>,  <span class="at">width =</span> <span class="fl">0.8</span>, <span class="at">fill =</span><span class="st">"#6BAED6"</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Percent of respondents"</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">title=</span><span class="st">"Self-assessed level"</span>) <span class="sc">+</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(percent_score, <span class="st">"%"</span>)), <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.2</span>)  <span class="sc">+</span>  <span class="fu">plot_theme</span>(<span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span> </span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Percent of respondents"</span>,</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> \(x) <span class="fu">paste0</span>(x, <span class="st">"%"</span>),</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">10</span>),</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">sec.axis =</span> <span class="fu">sec_axis</span>(</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">transform =</span> <span class="sc">~</span> . <span class="sc">*</span> n_total <span class="sc">/</span> <span class="dv">100</span>,</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Number of respondents"</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.12</span>))</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> format_category_labels) <span class="sc">+</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="dv">22</span>,</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">14</span>)</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="dv">20</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">10</span>),</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  )  <span class="sc">+</span> <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Expert on top, as in the multipanel participant figures (audit V17g).</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">level =</span> <span class="fu">factor</span>(level, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Beginner"</span>, <span class="st">"Intermediate"</span>, <span class="st">"Expert"</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="at">data =</span> ., <span class="fu">aes</span>(<span class="at">y =</span> level, <span class="at">x =</span> percent_score)) <span class="sc">+</span>  </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">stat=</span><span class="st">"identity"</span>,  <span class="at">width =</span> <span class="fl">0.8</span>, <span class="at">fill =</span><span class="st">"#6BAED6"</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Percent of respondents"</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">title=</span><span class="st">"Self-assessed level"</span>) <span class="sc">+</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(percent_score, <span class="st">"%"</span>)), <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.2</span>)  <span class="sc">+</span>  <span class="fu">plot_theme</span>(<span class="at">base_size =</span> <span class="dv">20</span>) <span class="sc">+</span> </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Percent of respondents"</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> \(x) <span class="fu">paste0</span>(x, <span class="st">"%"</span>),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">10</span>),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">sec.axis =</span> <span class="fu">sec_axis</span>(</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">transform =</span> <span class="sc">~</span> . <span class="sc">*</span> n_total <span class="sc">/</span> <span class="dv">100</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Number of respondents"</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.12</span>))</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> format_category_labels) <span class="sc">+</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="dv">22</span>,</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">14</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="dv">20</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">10</span>),</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>),</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  )  <span class="sc">+</span> <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -386,7 +386,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>make_geography_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(summary_data, category, title,</span>
 <span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>                                <span class="at">respondent_total =</span> <span class="fu">sum</span>(summary_data<span class="sc">$</span>Freq),</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>                                <span class="at">percent_formatter =</span> \(x) <span class="fu">paste0</span>(<span class="fu">round</span>(x), <span class="st">"%"</span>)) {</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>                                <span class="at">percent_formatter =</span> percent_label) {</span>
 <span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  category <span class="ot">&lt;-</span> rlang<span class="sc">::</span><span class="fu">enquo</span>(category)</span>
 <span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  summary_data <span class="ot">&lt;-</span> summary_data <span class="sc">%&gt;%</span></span>
 <span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">.percent_label =</span> <span class="fu">percent_formatter</span>(percent_score))</span>
@@ -626,18 +626,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Same grouping as the reduced combined figure below: countries with less than</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 2% of respondents are pooled into Other.</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>country_grouped <span class="ot">&lt;-</span> country <span class="sc">%&gt;%</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country_work =</span> <span class="fu">as.character</span>(country_work)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country_work =</span> <span class="fu">if_else</span>(</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    percent_score <span class="sc">&lt;</span> <span class="dv">2</span> <span class="sc">|</span> country_work <span class="sc">==</span> <span class="st">"Other"</span>, <span class="st">"Countries at &lt;2%"</span>, country_work</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_work) <span class="sc">%&gt;%</span></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Freq =</span> <span class="fu">sum</span>(Freq), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent_score =</span> Freq <span class="sc">/</span> <span class="fu">sum</span>(Freq) <span class="sc">*</span> <span class="dv">100</span>)</span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="fu">make_geography_plot</span>(country_grouped, country_work, <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Pool countries with less than 2% of respondents into one bar.</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>country_grouped <span class="ot">&lt;-</span> country <span class="sc">%&gt;%</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country_work =</span> <span class="fu">as.character</span>(country_work)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country_work =</span> <span class="fu">if_else</span>(</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    percent_score <span class="sc">&lt;</span> <span class="dv">2</span> <span class="sc">|</span> country_work <span class="sc">==</span> <span class="st">"Other"</span>, <span class="st">"Countries at &lt;2%"</span>, country_work</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_work) <span class="sc">%&gt;%</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Freq =</span> <span class="fu">sum</span>(Freq), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent_score =</span> Freq <span class="sc">/</span> <span class="fu">sum</span>(Freq) <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="fu">make_geography_plot</span>(country_grouped, country_work, <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">x_axis_end_mark</span>() <span class="sc">+</span></span>
 <span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> flag_label) <span class="sc">+</span></span>
 <span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">lineheight =</span> <span class="fl">0.7</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
@@ -708,16 +708,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>                    <span class="at">percent_formatter =</span> \(x) <span class="fu">if_else</span>(</span>
 <span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>                      x <span class="sc">%in%</span> small_group_percentages,</span>
 <span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">sprintf</span>(<span class="st">"%.1f%%"</span>, x),</span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">paste0</span>(<span class="fu">round</span>(x), <span class="st">"%"</span>)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">percent_label</span>(x)</span>
 <span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>                    )) <span class="sc">+</span></span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>  ggtext<span class="sc">::</span><span class="fu">geom_richtext</span>(</span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> small_country_flags,</span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(x, y, <span class="at">label =</span> label),</span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">label.colour =</span> <span class="cn">NA</span>,</span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">label.padding =</span> grid<span class="sc">::</span><span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"pt"</span>)</span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> flag_label) <span class="sc">+</span></span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">lineheight =</span> <span class="fl">0.7</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">x_axis_end_mark</span>() <span class="sc">+</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>  ggtext<span class="sc">::</span><span class="fu">geom_richtext</span>(</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> small_country_flags,</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(x, y, <span class="at">label =</span> label),</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">label.colour =</span> <span class="cn">NA</span>,</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">label.padding =</span> grid<span class="sc">::</span><span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"pt"</span>)</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> flag_label) <span class="sc">+</span></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">lineheight =</span> <span class="fl">0.7</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1629,7 +1630,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Sorted by share; the survey's own "Other" option goes last (Wilke ch. 6).</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(percent_score, <span class="fu">reorder</span>(software, <span class="fu">other_last</span>(software, percent_score)))) <span class="sc">+</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.7</span>, <span class="at">fill =</span> <span class="st">"#6BAED6"</span>) <span class="sc">+</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(percent_score), <span class="st">"%"</span>)),</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">percent_label</span>(percent_score)),</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.15</span>, <span class="at">size =</span> <span class="dv">6</span>) <span class="sc">+</span></span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Percent of respondents"</span>,</span>
@@ -1690,115 +1691,116 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  title,</span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">bar_width =</span> <span class="fl">0.7</span>,</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">label_size =</span> <span class="dv">20</span>,</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">print =</span> <span class="cn">FALSE</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>) {</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Site sizes (nominal, drawn at 96/180 of nominal by showtext), or print sizes</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># in true pt (audit V7); value-label size in mm as ggplot2 expects.</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="cf">if</span> (print) {</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">base =</span> print_text<span class="sc">$</span>text, <span class="at">title =</span> print_text<span class="sc">$</span>text, <span class="at">axis =</span> print_text<span class="sc">$</span>small,</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">labels =</span> print_text<span class="sc">$</span>text, <span class="at">value =</span> print_text<span class="sc">$</span>small <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt,</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">3</span>, <span class="dv">3</span>))</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">base =</span> <span class="dv">20</span>, <span class="at">title =</span> <span class="dv">26</span>, <span class="at">axis =</span> <span class="dv">20</span>, <span class="at">labels =</span> label_size, <span class="at">value =</span> <span class="dv">8</span>,</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">8</span>, <span class="dv">20</span>, <span class="dv">8</span>, <span class="dv">8</span>))</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  plot_data <span class="ot">&lt;-</span> plot_data <span class="sc">%&gt;%</span></span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(.data[[label_column]])) <span class="sc">%&gt;%</span></span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">display_label =</span> forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(</span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">factor</span>(.data[[label_column]]),</span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">other_last</span>(.data[[label_column]], percent_score)</span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(plot_data, <span class="fu">aes</span>(<span class="at">x =</span> percent_score, <span class="at">y =</span> display_label)) <span class="sc">+</span></span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">width =</span> bar_width, <span class="at">fill =</span> <span class="st">"#6BAED6"</span>) <span class="sc">+</span></span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(</span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(percent_score), <span class="st">"%"</span>)),</span>
-<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.15</span>,</span>
-<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>value</span>
-<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>),</span>
-<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">25</span>),</span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> \(x) <span class="fu">paste0</span>(x, <span class="st">"%"</span>),</span>
-<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.02</span>))</span>
-<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> format_category_labels) <span class="sc">+</span></span>
-<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> title, <span class="at">x =</span> <span class="st">"Percent of respondents"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
-<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_theme</span>(<span class="at">base_size =</span> s<span class="sc">$</span>base) <span class="sc">+</span></span>
-<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> s<span class="sc">$</span>title),</span>
-<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>axis),</span>
-<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>axis),</span>
-<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>labels),</span>
-<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.margin =</span> s<span class="sc">$</span>margin</span>
-<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a>experience_combined <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(A001), A001 <span class="sc">!=</span> <span class="st">""</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">level =</span> A001, <span class="at">name =</span> <span class="st">"Freq"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent_score =</span> Freq <span class="sc">/</span> <span class="fu">sum</span>(Freq) <span class="sc">*</span> <span class="dv">100</span>)</span>
-<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a>country_combined <span class="ot">&lt;-</span> country <span class="sc">%&gt;%</span></span>
-<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
-<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">country_work =</span> <span class="fu">as.character</span>(country_work),</span>
-<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a>    Freq,</span>
-<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a>    percent_score</span>
-<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a>field_combined <span class="ot">&lt;-</span> field <span class="sc">%&gt;%</span></span>
-<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(field), field <span class="sc">!=</span> <span class="st">""</span>)</span>
-<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a>software_combined <span class="ot">&lt;-</span> software <span class="sc">%&gt;%</span></span>
-<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Freq <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="sc">!</span><span class="fu">is.na</span>(software), software <span class="sc">!=</span> <span class="st">""</span>)</span>
-<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a>p_experience <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
-<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a>  experience_combined,</span>
-<span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a>  <span class="st">"level"</span>,</span>
-<span id="cb19-76"><a href="#cb19-76" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Self-assessed level"</span></span>
-<span id="cb19-77"><a href="#cb19-77" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a>p_country <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
-<span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a>  country_combined,</span>
-<span id="cb19-80"><a href="#cb19-80" aria-hidden="true" tabindex="-1"></a>  <span class="st">"country_work"</span>,</span>
-<span id="cb19-81"><a href="#cb19-81" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Country of work"</span></span>
-<span id="cb19-82"><a href="#cb19-82" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-83"><a href="#cb19-83" aria-hidden="true" tabindex="-1"></a>p_field <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
-<span id="cb19-84"><a href="#cb19-84" aria-hidden="true" tabindex="-1"></a>  field_combined,</span>
-<span id="cb19-85"><a href="#cb19-85" aria-hidden="true" tabindex="-1"></a>  <span class="st">"field"</span>,</span>
-<span id="cb19-86"><a href="#cb19-86" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Research field"</span></span>
-<span id="cb19-87"><a href="#cb19-87" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-88"><a href="#cb19-88" aria-hidden="true" tabindex="-1"></a>p_software <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
-<span id="cb19-89"><a href="#cb19-89" aria-hidden="true" tabindex="-1"></a>  software_combined,</span>
-<span id="cb19-90"><a href="#cb19-90" aria-hidden="true" tabindex="-1"></a>  <span class="st">"software"</span>,</span>
-<span id="cb19-91"><a href="#cb19-91" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Software used"</span></span>
-<span id="cb19-92"><a href="#cb19-92" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-93"><a href="#cb19-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-94"><a href="#cb19-94" aria-hidden="true" tabindex="-1"></a>participant_characteristics_figure <span class="ot">&lt;-</span></span>
-<span id="cb19-95"><a href="#cb19-95" aria-hidden="true" tabindex="-1"></a>  (p_experience <span class="sc">+</span> p_field) <span class="sc">/</span></span>
-<span id="cb19-96"><a href="#cb19-96" aria-hidden="true" tabindex="-1"></a>  (p_country <span class="sc">+</span> p_software) <span class="sc">+</span></span>
-<span id="cb19-97"><a href="#cb19-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">0.65</span>, <span class="fl">1.35</span>)) <span class="sc">+</span></span>
-<span id="cb19-98"><a href="#cb19-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(</span>
-<span id="cb19-99"><a href="#cb19-99" aria-hidden="true" tabindex="-1"></a>    <span class="at">tag_levels =</span> <span class="st">"A"</span>,</span>
-<span id="cb19-100"><a href="#cb19-100" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">paste0</span>(</span>
-<span id="cb19-101"><a href="#cb19-101" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Bars show percentages of respondents with valid responses. "</span>,</span>
-<span id="cb19-102"><a href="#cb19-102" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Multiple software selections were permitted."</span></span>
-<span id="cb19-103"><a href="#cb19-103" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb19-104"><a href="#cb19-104" aria-hidden="true" tabindex="-1"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(</span>
-<span id="cb19-105"><a href="#cb19-105" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.tag =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">18</span>),</span>
-<span id="cb19-106"><a href="#cb19-106" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.caption =</span> <span class="fu">element_text</span>(</span>
-<span id="cb19-107"><a href="#cb19-107" aria-hidden="true" tabindex="-1"></a>        <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
-<span id="cb19-108"><a href="#cb19-108" aria-hidden="true" tabindex="-1"></a>        <span class="at">face =</span> <span class="st">"italic"</span>,</span>
-<span id="cb19-109"><a href="#cb19-109" aria-hidden="true" tabindex="-1"></a>        <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
-<span id="cb19-110"><a href="#cb19-110" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">18</span></span>
-<span id="cb19-111"><a href="#cb19-111" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb19-112"><a href="#cb19-112" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb19-113"><a href="#cb19-113" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb19-114"><a href="#cb19-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-115"><a href="#cb19-115" aria-hidden="true" tabindex="-1"></a>participant_characteristics_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">print =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">x_max =</span> <span class="dv">100</span>  <span class="co"># axis end in %; below 100 for panels whose bars stay short</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Site sizes (nominal, drawn at 96/180 of nominal by showtext), or print sizes</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># in true pt (audit V7); value-label size in mm as ggplot2 expects.</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="cf">if</span> (print) {</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">base =</span> print_text<span class="sc">$</span>text, <span class="at">title =</span> print_text<span class="sc">$</span>text, <span class="at">axis =</span> print_text<span class="sc">$</span>small,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">labels =</span> print_text<span class="sc">$</span>text, <span class="at">value =</span> print_text<span class="sc">$</span>small <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">3</span>, <span class="dv">3</span>))</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">base =</span> <span class="dv">20</span>, <span class="at">title =</span> <span class="dv">26</span>, <span class="at">axis =</span> <span class="dv">20</span>, <span class="at">labels =</span> label_size, <span class="at">value =</span> <span class="dv">8</span>,</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">8</span>, <span class="dv">20</span>, <span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  plot_data <span class="ot">&lt;-</span> plot_data <span class="sc">%&gt;%</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(.data[[label_column]])) <span class="sc">%&gt;%</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">display_label =</span> forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">factor</span>(.data[[label_column]]),</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">other_last</span>(.data[[label_column]], percent_score)</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(plot_data, <span class="fu">aes</span>(<span class="at">x =</span> percent_score, <span class="at">y =</span> display_label)) <span class="sc">+</span></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">width =</span> bar_width, <span class="at">fill =</span> <span class="st">"#6BAED6"</span>) <span class="sc">+</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">percent_label</span>(percent_score)),</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.15</span>,</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>value</span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, x_max),</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_max, <span class="cf">if</span> (x_max <span class="sc">&lt;=</span> <span class="dv">50</span>) <span class="dv">10</span> <span class="cf">else</span> <span class="dv">25</span>),</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> \(x) <span class="fu">paste0</span>(x, <span class="st">"%"</span>),</span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>      <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.02</span>))</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> format_category_labels) <span class="sc">+</span></span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> title, <span class="at">x =</span> <span class="st">"Percent of respondents"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_theme</span>(<span class="at">base_size =</span> s<span class="sc">$</span>base) <span class="sc">+</span></span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> s<span class="sc">$</span>title),</span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>axis),</span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>axis),</span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>labels),</span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.margin =</span> s<span class="sc">$</span>margin</span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a>experience_combined <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(A001), A001 <span class="sc">!=</span> <span class="st">""</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">level =</span> A001, <span class="at">name =</span> <span class="st">"Freq"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent_score =</span> Freq <span class="sc">/</span> <span class="fu">sum</span>(Freq) <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a>country_combined <span class="ot">&lt;-</span> country <span class="sc">%&gt;%</span></span>
+<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">country_work =</span> <span class="fu">as.character</span>(country_work),</span>
+<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a>    Freq,</span>
+<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a>    percent_score</span>
+<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a>field_combined <span class="ot">&lt;-</span> field <span class="sc">%&gt;%</span></span>
+<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(field), field <span class="sc">!=</span> <span class="st">""</span>)</span>
+<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a>software_combined <span class="ot">&lt;-</span> software <span class="sc">%&gt;%</span></span>
+<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Freq <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="sc">!</span><span class="fu">is.na</span>(software), software <span class="sc">!=</span> <span class="st">""</span>)</span>
+<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a>p_experience <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
+<span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a>  experience_combined,</span>
+<span id="cb19-76"><a href="#cb19-76" aria-hidden="true" tabindex="-1"></a>  <span class="st">"level"</span>,</span>
+<span id="cb19-77"><a href="#cb19-77" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Self-assessed level"</span></span>
+<span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a>p_country <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
+<span id="cb19-80"><a href="#cb19-80" aria-hidden="true" tabindex="-1"></a>  country_combined,</span>
+<span id="cb19-81"><a href="#cb19-81" aria-hidden="true" tabindex="-1"></a>  <span class="st">"country_work"</span>,</span>
+<span id="cb19-82"><a href="#cb19-82" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Country of work"</span></span>
+<span id="cb19-83"><a href="#cb19-83" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-84"><a href="#cb19-84" aria-hidden="true" tabindex="-1"></a>p_field <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
+<span id="cb19-85"><a href="#cb19-85" aria-hidden="true" tabindex="-1"></a>  field_combined,</span>
+<span id="cb19-86"><a href="#cb19-86" aria-hidden="true" tabindex="-1"></a>  <span class="st">"field"</span>,</span>
+<span id="cb19-87"><a href="#cb19-87" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Research field"</span></span>
+<span id="cb19-88"><a href="#cb19-88" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-89"><a href="#cb19-89" aria-hidden="true" tabindex="-1"></a>p_software <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
+<span id="cb19-90"><a href="#cb19-90" aria-hidden="true" tabindex="-1"></a>  software_combined,</span>
+<span id="cb19-91"><a href="#cb19-91" aria-hidden="true" tabindex="-1"></a>  <span class="st">"software"</span>,</span>
+<span id="cb19-92"><a href="#cb19-92" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Software used"</span></span>
+<span id="cb19-93"><a href="#cb19-93" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-94"><a href="#cb19-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-95"><a href="#cb19-95" aria-hidden="true" tabindex="-1"></a>participant_characteristics_figure <span class="ot">&lt;-</span></span>
+<span id="cb19-96"><a href="#cb19-96" aria-hidden="true" tabindex="-1"></a>  (p_experience <span class="sc">+</span> p_field) <span class="sc">/</span></span>
+<span id="cb19-97"><a href="#cb19-97" aria-hidden="true" tabindex="-1"></a>  (p_country <span class="sc">+</span> p_software) <span class="sc">+</span></span>
+<span id="cb19-98"><a href="#cb19-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">0.65</span>, <span class="fl">1.35</span>)) <span class="sc">+</span></span>
+<span id="cb19-99"><a href="#cb19-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(</span>
+<span id="cb19-100"><a href="#cb19-100" aria-hidden="true" tabindex="-1"></a>    <span class="at">tag_levels =</span> <span class="st">"A"</span>,</span>
+<span id="cb19-101"><a href="#cb19-101" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">paste0</span>(</span>
+<span id="cb19-102"><a href="#cb19-102" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Bars show percentages of respondents with valid responses. "</span>,</span>
+<span id="cb19-103"><a href="#cb19-103" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Multiple software selections were permitted."</span></span>
+<span id="cb19-104"><a href="#cb19-104" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb19-105"><a href="#cb19-105" aria-hidden="true" tabindex="-1"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb19-106"><a href="#cb19-106" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.tag =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">18</span>),</span>
+<span id="cb19-107"><a href="#cb19-107" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.caption =</span> <span class="fu">element_text</span>(</span>
+<span id="cb19-108"><a href="#cb19-108" aria-hidden="true" tabindex="-1"></a>        <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
+<span id="cb19-109"><a href="#cb19-109" aria-hidden="true" tabindex="-1"></a>        <span class="at">face =</span> <span class="st">"italic"</span>,</span>
+<span id="cb19-110"><a href="#cb19-110" aria-hidden="true" tabindex="-1"></a>        <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
+<span id="cb19-111"><a href="#cb19-111" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">18</span></span>
+<span id="cb19-112"><a href="#cb19-112" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb19-113"><a href="#cb19-113" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-114"><a href="#cb19-114" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-115"><a href="#cb19-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-116"><a href="#cb19-116" aria-hidden="true" tabindex="-1"></a>participant_characteristics_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1823,132 +1825,203 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<section id="reduced-figure" class="level3">
-<h3 class="anchored" data-anchor-id="reduced-figure">Reduced figure</h3>
+<section id="figure-with-icons" class="level3">
+<h3 class="anchored" data-anchor-id="figure-with-icons">Figure with icons</h3>
+<p>Countries below 2% and software below 4% are grouped into Other. Flags identify countries, and lettering or logos identify software. The last tab shows the compact layout with plain text labels (audit V14: logos differ in visual weight in ways unrelated to the data).</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">Compact</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">Bars</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false" href="">Compact, text labels</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>country_over_3 <span class="ot">&lt;-</span> country_combined <span class="sc">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">country_work =</span> <span class="fu">if_else</span>(</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>      percent_score <span class="sc">&lt;</span> <span class="dv">2</span>,</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Other"</span>,</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>      country_work</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country_work) <span class="sc">%&gt;%</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Freq =</span> <span class="fu">sum</span>(Freq), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">percent_score =</span> Freq <span class="sc">/</span> <span class="fu">sum</span>(Freq) <span class="sc">*</span> <span class="dv">100</span>,</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">country_work =</span> <span class="fu">if_else</span>(</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>      country_work <span class="sc">==</span> <span class="st">"Other"</span>,</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Other</span><span class="sc">\n</span><span class="st">(each &lt;2%)"</span>,</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>      country_work</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>software_other_items <span class="ot">&lt;-</span> software_combined <span class="sc">%&gt;%</span></span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(percent_score <span class="sc">&lt;</span> <span class="dv">4</span> <span class="sc">|</span> software <span class="sc">==</span> <span class="st">"Other"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(item)</span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Count each respondent once in Other even if they selected more than one</span></span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="co"># software category that is being grouped.</span></span>
-<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>software_other <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ID, <span class="fu">all_of</span>(software_other_items)) <span class="sc">%&gt;%</span></span>
-<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span>ID,</span>
-<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"item"</span>,</span>
-<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"response"</span></span>
-<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span></span>
-<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">selected_other =</span> <span class="fu">any</span>(response <span class="sc">==</span> <span class="st">"Checked"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
-<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Freq =</span> <span class="fu">sum</span>(selected_other)) <span class="sc">%&gt;%</span></span>
-<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">item =</span> <span class="cn">NA_character_</span>,</span>
-<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">software =</span> <span class="st">"Other</span><span class="sc">\n</span><span class="st">(each &lt;4%)"</span>,</span>
-<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">percent_score =</span> Freq <span class="sc">/</span> n_total <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>software_over_3 <span class="ot">&lt;-</span> software_combined <span class="sc">%&gt;%</span></span>
-<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(percent_score <span class="sc">&gt;=</span> <span class="dv">4</span>, software <span class="sc">!=</span> <span class="st">"Other"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(software_other)</span>
-<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Site version, or with print = TRUE the print version (audit V7). The print</span></span>
-<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a><span class="co"># version leaves out the in-figure note on software (multiple selections in D):</span></span>
-<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a><span class="co"># that belongs in the manuscript caption.</span></span>
-<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>make_participant_characteristics_over_3_figure <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">print =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a>  other_markdown <span class="ot">&lt;-</span> \(labels) labels <span class="sc">%&gt;%</span></span>
-<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a>    stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">"&lt;"</span>, <span class="st">"&amp;lt;"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a>    stringr<span class="sc">::</span><span class="fu">str_replace</span>(<span class="st">"^Other</span><span class="sc">\\</span><span class="st">n"</span>, <span class="st">"*Other*&lt;br&gt;"</span>)</span>
-<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a>  p_country_over_3 <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
-<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a>    country_over_3,</span>
-<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a>    <span class="st">"country_work"</span>,</span>
-<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Country of work"</span>,</span>
-<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">label_size =</span> <span class="dv">24</span>,</span>
-<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">print =</span> print</span>
-<span id="cb21-63"><a href="#cb21-63" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb21-64"><a href="#cb21-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> other_markdown) <span class="sc">+</span></span>
-<span id="cb21-65"><a href="#cb21-65" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(</span>
-<span id="cb21-67"><a href="#cb21-67" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="cf">if</span> (print) print_text<span class="sc">$</span>text <span class="cf">else</span> <span class="dv">24</span>,</span>
-<span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a>        <span class="at">lineheight =</span> <span class="cf">if</span> (print) <span class="fl">0.9</span> <span class="cf">else</span> <span class="fl">0.75</span></span>
-<span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb21-70"><a href="#cb21-70" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb21-71"><a href="#cb21-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-72"><a href="#cb21-72" aria-hidden="true" tabindex="-1"></a>  p_software_over_3 <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
-<span id="cb21-73"><a href="#cb21-73" aria-hidden="true" tabindex="-1"></a>    software_over_3,</span>
-<span id="cb21-74"><a href="#cb21-74" aria-hidden="true" tabindex="-1"></a>    <span class="st">"software"</span>,</span>
-<span id="cb21-75"><a href="#cb21-75" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Software used"</span>,</span>
-<span id="cb21-76"><a href="#cb21-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">print =</span> print</span>
-<span id="cb21-77"><a href="#cb21-77" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb21-78"><a href="#cb21-78" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> other_markdown) <span class="sc">+</span></span>
-<span id="cb21-79"><a href="#cb21-79" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb21-80"><a href="#cb21-80" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(</span>
-<span id="cb21-81"><a href="#cb21-81" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="cf">if</span> (print) print_text<span class="sc">$</span>text <span class="cf">else</span> <span class="dv">20</span>,</span>
-<span id="cb21-82"><a href="#cb21-82" aria-hidden="true" tabindex="-1"></a>        <span class="at">lineheight =</span> <span class="cf">if</span> (print) <span class="fl">0.9</span> <span class="cf">else</span> <span class="fl">0.75</span></span>
-<span id="cb21-83"><a href="#cb21-83" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb21-84"><a href="#cb21-84" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb21-85"><a href="#cb21-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-86"><a href="#cb21-86" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (print) {</span>
-<span id="cb21-87"><a href="#cb21-87" aria-hidden="true" tabindex="-1"></a>    p_experience <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
-<span id="cb21-88"><a href="#cb21-88" aria-hidden="true" tabindex="-1"></a>      experience_combined, <span class="st">"level"</span>, <span class="st">"Self-assessed level"</span>, <span class="at">print =</span> <span class="cn">TRUE</span></span>
-<span id="cb21-89"><a href="#cb21-89" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb21-90"><a href="#cb21-90" aria-hidden="true" tabindex="-1"></a>    p_field <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
-<span id="cb21-91"><a href="#cb21-91" aria-hidden="true" tabindex="-1"></a>      field_combined, <span class="st">"field"</span>, <span class="st">"Research field"</span>, <span class="at">print =</span> <span class="cn">TRUE</span></span>
-<span id="cb21-92"><a href="#cb21-92" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb21-93"><a href="#cb21-93" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb21-94"><a href="#cb21-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-95"><a href="#cb21-95" aria-hidden="true" tabindex="-1"></a>  (p_experience <span class="sc">+</span> p_field) <span class="sc">/</span></span>
-<span id="cb21-96"><a href="#cb21-96" aria-hidden="true" tabindex="-1"></a>    (p_country_over_3 <span class="sc">+</span> p_software_over_3) <span class="sc">+</span></span>
-<span id="cb21-97"><a href="#cb21-97" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">0.65</span>, <span class="fl">1.35</span>)) <span class="sc">+</span></span>
-<span id="cb21-98"><a href="#cb21-98" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_annotation</span>(</span>
-<span id="cb21-99"><a href="#cb21-99" aria-hidden="true" tabindex="-1"></a>      <span class="at">tag_levels =</span> <span class="st">"A"</span>,</span>
-<span id="cb21-100"><a href="#cb21-100" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="cf">if</span> (<span class="sc">!</span>print) <span class="st">"Multiple software selections were permitted in D."</span>,</span>
-<span id="cb21-101"><a href="#cb21-101" aria-hidden="true" tabindex="-1"></a>      <span class="at">theme =</span> <span class="fu">theme</span>(</span>
-<span id="cb21-102"><a href="#cb21-102" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.tag =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="cf">if</span> (print) print_text<span class="sc">$</span>text <span class="cf">else</span> <span class="dv">18</span>),</span>
-<span id="cb21-103"><a href="#cb21-103" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.caption =</span> <span class="fu">element_text</span>(</span>
-<span id="cb21-104"><a href="#cb21-104" aria-hidden="true" tabindex="-1"></a>          <span class="at">hjust =</span> <span class="fl">0.5</span>,</span>
-<span id="cb21-105"><a href="#cb21-105" aria-hidden="true" tabindex="-1"></a>          <span class="at">face =</span> <span class="st">"italic"</span>,</span>
-<span id="cb21-106"><a href="#cb21-106" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
-<span id="cb21-107"><a href="#cb21-107" aria-hidden="true" tabindex="-1"></a>          <span class="at">size =</span> <span class="dv">18</span></span>
-<span id="cb21-108"><a href="#cb21-108" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb21-109"><a href="#cb21-109" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb21-110"><a href="#cb21-110" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb21-111"><a href="#cb21-111" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb21-112"><a href="#cb21-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-113"><a href="#cb21-113" aria-hidden="true" tabindex="-1"></a>participant_characteristics_over_3_figure <span class="ot">&lt;-</span></span>
-<span id="cb21-114"><a href="#cb21-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_participant_characteristics_over_3_figure</span>()</span>
-<span id="cb21-115"><a href="#cb21-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-116"><a href="#cb21-116" aria-hidden="true" tabindex="-1"></a>participant_characteristics_over_3_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parts of a whole as one 100% bar each (Wilke ch. 10); segments ordered as</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the answer scale (level) or by share (field), labelled directly so no legend</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># is needed. Segments too narrow for an inside label are labelled to the right.</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>composition <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  experience_combined <span class="sc">%&gt;%</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transmute</span>(</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">question =</span> <span class="st">"Self-assessed level"</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">category =</span> level,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>      percent_score,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">match</span>(level, <span class="fu">c</span>(<span class="st">"Beginner"</span>, <span class="st">"Intermediate"</span>, <span class="st">"Expert"</span>))</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  field_combined <span class="sc">%&gt;%</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transmute</span>(</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">question =</span> <span class="st">"Research field"</span>,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">category =</span> field,</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>      percent_score,</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">rank</span>(<span class="sc">-</span>percent_score, <span class="at">ties.method =</span> <span class="st">"first"</span>)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(question) <span class="sc">%&gt;%</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(order, <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">xmax =</span> <span class="fu">cumsum</span>(percent_score),</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">xmin =</span> xmax <span class="sc">-</span> percent_score,</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">shade =</span> order <span class="sc">/</span> <span class="fu">max</span>(order),</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">inside =</span> percent_score <span class="sc">&gt;=</span> <span class="dv">15</span>,</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">paste0</span>(category, <span class="st">" "</span>, <span class="fu">round</span>(percent_score), <span class="st">"%"</span>)</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Colour (audit V15): the ordered level gets a light-to-dark ramp; research</span></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># field is nominal, so all its segments share one mid-blue (the bar colour</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># of panels B and C), separated by the white gaps and named by their labels.</span></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill_colour =</span> <span class="fu">if_else</span>(</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>      question <span class="sc">==</span> <span class="st">"Research field"</span>,</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>      <span class="st">"#6BAED6"</span>,</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>      scales<span class="sc">::</span><span class="fu">seq_gradient_pal</span>(<span class="st">"#C6DBEF"</span>, <span class="st">"#2171B5"</span>)(scales<span class="sc">::</span><span class="fu">rescale</span>(shade))</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">question =</span> <span class="fu">factor</span>(question, <span class="fu">c</span>(<span class="st">"Research field"</span>, <span class="st">"Self-assessed level"</span>))</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>composition_y <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(composition<span class="sc">$</span>question)</span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Print copies of the icon labels (audit V7): showtext draws site text at 96/180</span></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a><span class="co"># of its nominal size but print text at true size, while images keep their size</span></span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a><span class="co"># on both. So font sizes in the markup scale by text_k and image sizes by img_k.</span></span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>scale_markup <span class="ot">&lt;-</span> <span class="cf">function</span>(labels, text_k, img_k) {</span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>  scale_number <span class="ot">&lt;-</span> <span class="cf">function</span>(x, pattern, k, digits) {</span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>    stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(x, pattern, \(m) stringr<span class="sc">::</span><span class="fu">str_replace</span>(</span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>      m, <span class="st">"[0-9.]+"</span>,</span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.character</span>(<span class="fu">round</span>(<span class="fu">as.numeric</span>(stringr<span class="sc">::</span><span class="fu">str_extract</span>(m, <span class="st">"[0-9.]+"</span>)) <span class="sc">*</span> k, digits))</span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a>  labels <span class="sc">%&gt;%</span></span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_number</span>(<span class="st">"font-size:[0-9.]+pt"</span>, text_k, <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_number</span>(<span class="st">"(width|height)='[0-9.]+'"</span>, img_k, <span class="dv">0</span>)</span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Site version, or with print = TRUE the print version (full journal width,</span></span>
+<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a><span class="co"># 8 pt text, 7 pt ticks and value labels).</span></span>
+<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Axis ends: each bar panel gets its own range (no country above 24%, no tool</span></span>
+<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a><span class="co"># above 63%); the panels answer different questions (country sums to 100%,</span></span>
+<span id="cb21-63"><a href="#cb21-63" aria-hidden="true" tabindex="-1"></a><span class="co"># software allows several answers), so a shared 0-100% axis only wasted space.</span></span>
+<span id="cb21-64"><a href="#cb21-64" aria-hidden="true" tabindex="-1"></a>make_participant_characteristics_icons_compact <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">print =</span> <span class="cn">FALSE</span>, <span class="at">icons =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb21-65"><a href="#cb21-65" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">country_max =</span> <span class="dv">40</span>,</span>
+<span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a>                                                         <span class="at">software_max =</span> <span class="dv">75</span>) {</span>
+<span id="cb21-67"><a href="#cb21-67" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Site sizes are nominal (drawn at 96/180 by showtext); print sizes are true pt.</span></span>
+<span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="cf">if</span> (print) {</span>
+<span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">base =</span> print_text<span class="sc">$</span>text, <span class="at">question =</span> print_text<span class="sc">$</span>text, <span class="at">ticks =</span> print_text<span class="sc">$</span>small,</span>
+<span id="cb21-70"><a href="#cb21-70" aria-hidden="true" tabindex="-1"></a>         <span class="at">segment =</span> print_text<span class="sc">$</span>small <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">3</span>, <span class="dv">42</span>, <span class="dv">3</span>, <span class="dv">3</span>),</span>
+<span id="cb21-71"><a href="#cb21-71" aria-hidden="true" tabindex="-1"></a>         <span class="at">rect_line =</span> <span class="fl">0.4</span>, <span class="at">tag =</span> print_text<span class="sc">$</span>text,</span>
+<span id="cb21-72"><a href="#cb21-72" aria-hidden="true" tabindex="-1"></a>         <span class="at">country =</span> print_text<span class="sc">$</span>text, <span class="at">software =</span> print_text<span class="sc">$</span>text, <span class="at">lineheight =</span> <span class="fl">0.9</span>)</span>
+<span id="cb21-73"><a href="#cb21-73" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb21-74"><a href="#cb21-74" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">base =</span> <span class="dv">20</span>, <span class="at">question =</span> <span class="dv">22</span>, <span class="at">ticks =</span> <span class="dv">20</span>, <span class="at">segment =</span> <span class="dv">7</span>,</span>
+<span id="cb21-75"><a href="#cb21-75" aria-hidden="true" tabindex="-1"></a>         <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">8</span>, <span class="dv">150</span>, <span class="dv">8</span>, <span class="dv">8</span>), <span class="at">rect_line =</span> <span class="dv">1</span>, <span class="at">tag =</span> <span class="dv">18</span>,</span>
+<span id="cb21-76"><a href="#cb21-76" aria-hidden="true" tabindex="-1"></a>         <span class="at">country =</span> <span class="dv">22</span>, <span class="at">software =</span> <span class="dv">20</span>, <span class="at">lineheight =</span> <span class="fl">0.75</span>)</span>
+<span id="cb21-77"><a href="#cb21-77" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-78"><a href="#cb21-78" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Image sizes follow the text (print text / site text as drawn, 96/180), less</span></span>
+<span id="cb21-79"><a href="#cb21-79" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 20%: print rows are closer together relative to the text than site rows.</span></span>
+<span id="cb21-80"><a href="#cb21-80" aria-hidden="true" tabindex="-1"></a>  img_shrink <span class="ot">&lt;-</span> <span class="fl">0.8</span></span>
+<span id="cb21-81"><a href="#cb21-81" aria-hidden="true" tabindex="-1"></a>  country_labels <span class="ot">&lt;-</span> \(labels) {</span>
+<span id="cb21-82"><a href="#cb21-82" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span>icons) <span class="fu">return</span>(<span class="fu">plain_country_labels</span>(labels))</span>
+<span id="cb21-83"><a href="#cb21-83" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> <span class="fu">country_icon_labels</span>(labels)</span>
+<span id="cb21-84"><a href="#cb21-84" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span>print) <span class="fu">return</span>(out)</span>
+<span id="cb21-85"><a href="#cb21-85" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_markup</span>(out, s<span class="sc">$</span>country <span class="sc">/</span> <span class="dv">22</span>, img_shrink <span class="sc">*</span> s<span class="sc">$</span>country <span class="sc">/</span> (<span class="dv">22</span> <span class="sc">*</span> <span class="dv">96</span> <span class="sc">/</span> <span class="dv">180</span>))</span>
+<span id="cb21-86"><a href="#cb21-86" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-87"><a href="#cb21-87" aria-hidden="true" tabindex="-1"></a>  software_labels <span class="ot">&lt;-</span> \(labels) {</span>
+<span id="cb21-88"><a href="#cb21-88" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span>icons) <span class="fu">return</span>(<span class="fu">plain_software_labels</span>(labels))</span>
+<span id="cb21-89"><a href="#cb21-89" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> <span class="fu">software_icon_labels</span>(labels)</span>
+<span id="cb21-90"><a href="#cb21-90" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span>print) <span class="fu">return</span>(out)</span>
+<span id="cb21-91"><a href="#cb21-91" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_markup</span>(out, s<span class="sc">$</span>software <span class="sc">/</span> <span class="dv">20</span>, img_shrink <span class="sc">*</span> s<span class="sc">$</span>software <span class="sc">/</span> (<span class="dv">20</span> <span class="sc">*</span> <span class="dv">96</span> <span class="sc">/</span> <span class="dv">180</span>))</span>
+<span id="cb21-92"><a href="#cb21-92" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-93"><a href="#cb21-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-94"><a href="#cb21-94" aria-hidden="true" tabindex="-1"></a>  p_composition <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(composition) <span class="sc">+</span></span>
+<span id="cb21-95"><a href="#cb21-95" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_rect</span>(</span>
+<span id="cb21-96"><a href="#cb21-96" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(</span>
+<span id="cb21-97"><a href="#cb21-97" aria-hidden="true" tabindex="-1"></a>        <span class="at">xmin =</span> xmin, <span class="at">xmax =</span> xmax,</span>
+<span id="cb21-98"><a href="#cb21-98" aria-hidden="true" tabindex="-1"></a>        <span class="at">ymin =</span> composition_y <span class="sc">-</span> <span class="fl">0.36</span>, <span class="at">ymax =</span> composition_y <span class="sc">+</span> <span class="fl">0.36</span>,</span>
+<span id="cb21-99"><a href="#cb21-99" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> fill_colour</span>
+<span id="cb21-100"><a href="#cb21-100" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb21-101"><a href="#cb21-101" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">"white"</span>,</span>
+<span id="cb21-102"><a href="#cb21-102" aria-hidden="true" tabindex="-1"></a>      <span class="at">linewidth =</span> s<span class="sc">$</span>rect_line</span>
+<span id="cb21-103"><a href="#cb21-103" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb21-104"><a href="#cb21-104" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(</span>
+<span id="cb21-105"><a href="#cb21-105" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> \(d) <span class="fu">filter</span>(d, inside),</span>
+<span id="cb21-106"><a href="#cb21-106" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(</span>
+<span id="cb21-107"><a href="#cb21-107" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> (xmin <span class="sc">+</span> xmax) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb21-108"><a href="#cb21-108" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="fu">as.numeric</span>(question),</span>
+<span id="cb21-109"><a href="#cb21-109" aria-hidden="true" tabindex="-1"></a>        <span class="at">label =</span> label,</span>
+<span id="cb21-110"><a href="#cb21-110" aria-hidden="true" tabindex="-1"></a>        <span class="at">colour =</span> shade <span class="sc">&gt;</span> <span class="fl">0.8</span></span>
+<span id="cb21-111"><a href="#cb21-111" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb21-112"><a href="#cb21-112" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
+<span id="cb21-113"><a href="#cb21-113" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>segment,</span>
+<span id="cb21-114"><a href="#cb21-114" aria-hidden="true" tabindex="-1"></a>      <span class="at">lineheight =</span> <span class="fl">0.9</span></span>
+<span id="cb21-115"><a href="#cb21-115" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb21-116"><a href="#cb21-116" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(</span>
+<span id="cb21-117"><a href="#cb21-117" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> \(d) <span class="fu">filter</span>(d, <span class="sc">!</span>inside),</span>
+<span id="cb21-118"><a href="#cb21-118" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">100</span>, <span class="at">y =</span> <span class="fu">as.numeric</span>(question), <span class="at">label =</span> label),</span>
+<span id="cb21-119"><a href="#cb21-119" aria-hidden="true" tabindex="-1"></a>      <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.08</span>,</span>
+<span id="cb21-120"><a href="#cb21-120" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
+<span id="cb21-121"><a href="#cb21-121" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>segment</span>
+<span id="cb21-122"><a href="#cb21-122" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb21-123"><a href="#cb21-123" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_identity</span>() <span class="sc">+</span></span>
+<span id="cb21-124"><a href="#cb21-124" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">FALSE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"black"</span>, <span class="st">`</span><span class="at">TRUE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"white"</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb21-125"><a href="#cb21-125" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb21-126"><a href="#cb21-126" aria-hidden="true" tabindex="-1"></a>      <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>),</span>
+<span id="cb21-127"><a href="#cb21-127" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">25</span>),</span>
+<span id="cb21-128"><a href="#cb21-128" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> \(x) <span class="fu">paste0</span>(x, <span class="st">"%"</span>),</span>
+<span id="cb21-129"><a href="#cb21-129" aria-hidden="true" tabindex="-1"></a>      <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb21-130"><a href="#cb21-130" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb21-131"><a href="#cb21-131" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb21-132"><a href="#cb21-132" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="fu">seq_along</span>(<span class="fu">levels</span>(composition<span class="sc">$</span>question)),</span>
+<span id="cb21-133"><a href="#cb21-133" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">levels</span>(composition<span class="sc">$</span>question),</span>
+<span id="cb21-134"><a href="#cb21-134" aria-hidden="true" tabindex="-1"></a>      <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fl">0.5</span>)</span>
+<span id="cb21-135"><a href="#cb21-135" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb21-136"><a href="#cb21-136" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Percent of respondents"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb21-137"><a href="#cb21-137" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
+<span id="cb21-138"><a href="#cb21-138" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_theme</span>(<span class="at">base_size =</span> s<span class="sc">$</span>base) <span class="sc">+</span></span>
+<span id="cb21-139"><a href="#cb21-139" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb21-140"><a href="#cb21-140" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>question, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb21-141"><a href="#cb21-141" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>ticks),</span>
+<span id="cb21-142"><a href="#cb21-142" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb21-143"><a href="#cb21-143" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb21-144"><a href="#cb21-144" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.margin =</span> s<span class="sc">$</span>margin</span>
+<span id="cb21-145"><a href="#cb21-145" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-146"><a href="#cb21-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-147"><a href="#cb21-147" aria-hidden="true" tabindex="-1"></a>  axis_end_mark <span class="ot">&lt;-</span> <span class="fu">x_axis_end_mark</span>(s<span class="sc">$</span>base, <span class="at">size =</span> <span class="cf">if</span> (print) <span class="fl">0.55</span> <span class="cf">else</span> <span class="dv">1</span>)</span>
+<span id="cb21-148"><a href="#cb21-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-149"><a href="#cb21-149" aria-hidden="true" tabindex="-1"></a>  p_country <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
+<span id="cb21-150"><a href="#cb21-150" aria-hidden="true" tabindex="-1"></a>    country_over_3, <span class="st">"country_work"</span>, <span class="st">"Country of work"</span>, <span class="at">print =</span> print,</span>
+<span id="cb21-151"><a href="#cb21-151" aria-hidden="true" tabindex="-1"></a>    <span class="at">x_max =</span> country_max</span>
+<span id="cb21-152"><a href="#cb21-152" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-153"><a href="#cb21-153" aria-hidden="true" tabindex="-1"></a>    axis_end_mark <span class="sc">+</span></span>
+<span id="cb21-154"><a href="#cb21-154" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> country_labels) <span class="sc">+</span></span>
+<span id="cb21-155"><a href="#cb21-155" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(</span>
+<span id="cb21-156"><a href="#cb21-156" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>country, <span class="at">lineheight =</span> s<span class="sc">$</span>lineheight</span>
+<span id="cb21-157"><a href="#cb21-157" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb21-158"><a href="#cb21-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-159"><a href="#cb21-159" aria-hidden="true" tabindex="-1"></a>  p_software <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
+<span id="cb21-160"><a href="#cb21-160" aria-hidden="true" tabindex="-1"></a>    software_over_3, <span class="st">"software"</span>, <span class="st">"Software used"</span>, <span class="at">print =</span> print,</span>
+<span id="cb21-161"><a href="#cb21-161" aria-hidden="true" tabindex="-1"></a>    <span class="at">x_max =</span> software_max</span>
+<span id="cb21-162"><a href="#cb21-162" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-163"><a href="#cb21-163" aria-hidden="true" tabindex="-1"></a>    axis_end_mark <span class="sc">+</span></span>
+<span id="cb21-164"><a href="#cb21-164" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> software_labels) <span class="sc">+</span></span>
+<span id="cb21-165"><a href="#cb21-165" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(</span>
+<span id="cb21-166"><a href="#cb21-166" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>software, <span class="at">lineheight =</span> <span class="cf">if</span> (print) s<span class="sc">$</span>lineheight <span class="cf">else</span> <span class="fl">0.7</span></span>
+<span id="cb21-167"><a href="#cb21-167" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb21-168"><a href="#cb21-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-169"><a href="#cb21-169" aria-hidden="true" tabindex="-1"></a>  p_composition <span class="sc">/</span></span>
+<span id="cb21-170"><a href="#cb21-170" aria-hidden="true" tabindex="-1"></a>    (p_country <span class="sc">+</span> p_software) <span class="sc">+</span></span>
+<span id="cb21-171"><a href="#cb21-171" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">0.42</span>, <span class="fl">1.58</span>)) <span class="sc">+</span></span>
+<span id="cb21-172"><a href="#cb21-172" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_annotation</span>(</span>
+<span id="cb21-173"><a href="#cb21-173" aria-hidden="true" tabindex="-1"></a>      <span class="at">tag_levels =</span> <span class="st">"A"</span>,</span>
+<span id="cb21-174"><a href="#cb21-174" aria-hidden="true" tabindex="-1"></a>      <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.tag =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> s<span class="sc">$</span>tag))</span>
+<span id="cb21-175"><a href="#cb21-175" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-176"><a href="#cb21-176" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-177"><a href="#cb21-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-178"><a href="#cb21-178" aria-hidden="true" tabindex="-1"></a>participant_characteristics_icons_compact <span class="ot">&lt;-</span></span>
+<span id="cb21-179"><a href="#cb21-179" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_participant_characteristics_icons_compact</span>()</span>
+<span id="cb21-180"><a href="#cb21-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-181"><a href="#cb21-181" aria-hidden="true" tabindex="-1"></a>participant_characteristics_icons_compact</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="sample_files/figure-html/participant-characteristics-figure-over-3-percent-1.png" class="img-fluid figure-img" width="2700"></p>
+<p><img src="sample_files/figure-html/participant-characteristics-icons-compact-1.png" class="img-fluid figure-img" width="2700"></p>
+<figcaption>Level and research field are parts of a whole, so each is shown as one stacked bar (A); this leaves more height for country and software (B, C). B and C have their own axis ranges (0–40% and 0–75%). Flags indicate country of work, not nationality. Multiple software selections were permitted in C. An asterisk denotes the survey answer “My own code in …”.</figcaption>
 </figure>
 </div>
 </div>
@@ -1956,10 +2029,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">isTRUE</span>(params<span class="sc">$</span>export_artifacts)) {</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsave_st</span>(</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"participant_characteristics_over_3_figure.png"</span>),</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    participant_characteristics_over_3_figure,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"participant_characteristics_icons_compact.png"</span>),</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    participant_characteristics_icons_compact,</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="dv">15</span>,</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="dv">13</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="fl">9.2</span>,</span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">"in"</span>,</span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">dpi =</span> <span class="dv">180</span>,</span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">device =</span> ragg<span class="sc">::</span>agg_png,</span>
@@ -1968,73 +2041,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Print version: full journal width.</span></span>
 <span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsave_print</span>(</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"participant_characteristics_over_3_figure.pdf"</span>),</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">make_participant_characteristics_over_3_figure</span>(<span class="at">print =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"participant_characteristics_icons_compact.pdf"</span>),</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">make_participant_characteristics_icons_compact</span>(<span class="at">print =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> print_width[[<span class="st">"full"</span>]],</span>
 <span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="fl">5.6</span></span>
 <span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-</section>
-<section id="figure-with-icons" class="level3">
-<h3 class="anchored" data-anchor-id="figure-with-icons">Figure with icons</h3>
-<p>Same panels and grouping as the reduced figure; flags (C) and tool lettering or logos (D) replace the plain labels.</p>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true" href="">Bars</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false" href="">Compact (alternative)</a></li></ul>
-<div class="tab-content">
-<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>country_icon_labels <span class="ot">&lt;-</span> <span class="cf">function</span>(labels) {</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  labels <span class="ot">&lt;-</span> <span class="fu">as.character</span>(labels)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  is_other <span class="ot">&lt;-</span> <span class="fu">startsWith</span>(labels, <span class="st">"Other"</span>)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  country_names <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">n.*$"</span>, <span class="st">""</span>, labels)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  formatted <span class="ot">&lt;-</span> <span class="fu">flag_label</span>(country_names, <span class="at">height =</span> <span class="dv">15</span>, <span class="at">width =</span> <span class="dv">24</span>)</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  formatted[is_other] <span class="ot">&lt;-</span> <span class="st">"*Other*&lt;br&gt;(each &amp;lt;2%)"</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  formatted</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Panels C and D use the grouped country and software data with icon labels.</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>p_country_icons <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  country_over_3,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"country_work"</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Country of work"</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> country_icon_labels) <span class="sc">+</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(<span class="at">size =</span> <span class="dv">22</span>, <span class="at">lineheight =</span> <span class="fl">0.75</span>))</span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>software_icon_labels <span class="ot">&lt;-</span> <span class="cf">function</span>(labels) {</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  labels <span class="ot">&lt;-</span> <span class="fu">as.character</span>(labels)</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  is_other <span class="ot">&lt;-</span> <span class="fu">startsWith</span>(labels, <span class="st">"Other"</span>)</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  software_names <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">n.*$"</span>, <span class="st">""</span>, labels)</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  formatted <span class="ot">&lt;-</span> <span class="fu">coalesce</span>(</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unname</span>(software_logo_labels[software_names]),</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    software_names</span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  formatted[is_other] <span class="ot">&lt;-</span> <span class="st">"*Other*&lt;br&gt;(each &amp;lt;4%)"</span></span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  formatted</span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Panels C and D are the reduced figure's bar charts with icon labels.</span></span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>p_country_icons <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>  country_over_3,</span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">"country_work"</span>,</span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Country of work"</span></span>
-<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> country_icon_labels) <span class="sc">+</span></span>
-<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(<span class="at">size =</span> <span class="dv">22</span>, <span class="at">lineheight =</span> <span class="fl">0.75</span>))</span>
-<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>p_software_icons <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
-<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>  software_over_3,</span>
-<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>  <span class="st">"software"</span>,</span>
-<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Software used"</span></span>
-<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> software_icon_labels) <span class="sc">+</span></span>
-<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">lineheight =</span> <span class="fl">0.7</span>))</span>
-<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>participant_characteristics_icons_figure <span class="ot">&lt;-</span></span>
-<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>  (p_experience <span class="sc">+</span> p_field) <span class="sc">/</span></span>
-<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>  (p_country_icons <span class="sc">+</span> p_software_icons) <span class="sc">+</span></span>
-<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">0.65</span>, <span class="fl">1.35</span>)) <span class="sc">+</span></span>
-<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(</span>
-<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">tag_levels =</span> <span class="st">"A"</span>,</span>
-<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.tag =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">18</span>))</span>
-<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a>participant_characteristics_icons_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>p_software_icons <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  software_over_3,</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"software"</span>,</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Software used"</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> software_icon_labels) <span class="sc">+</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">lineheight =</span> <span class="fl">0.7</span>))</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>participant_characteristics_icons_figure <span class="ot">&lt;-</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  (p_experience <span class="sc">+</span> p_field) <span class="sc">/</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>  (p_country_icons <span class="sc">+</span> p_software_icons) <span class="sc">+</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">0.65</span>, <span class="fl">1.35</span>)) <span class="sc">+</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">tag_levels =</span> <span class="st">"A"</span>,</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.tag =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">18</span>))</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>participant_characteristics_icons_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -2061,200 +2107,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 </div>
-<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parts of a whole as one 100% bar each (Wilke ch. 10); segments ordered as</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the answer scale (level) or by share (field), labelled directly so no legend</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># is needed. Segments too narrow for an inside label are labelled to the right.</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>composition <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  experience_combined <span class="sc">%&gt;%</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transmute</span>(</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">question =</span> <span class="st">"Self-assessed level"</span>,</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">category =</span> level,</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>      percent_score,</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">match</span>(level, <span class="fu">c</span>(<span class="st">"Beginner"</span>, <span class="st">"Intermediate"</span>, <span class="st">"Expert"</span>))</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  field_combined <span class="sc">%&gt;%</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">transmute</span>(</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">question =</span> <span class="st">"Research field"</span>,</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">category =</span> field,</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>      percent_score,</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">order =</span> <span class="fu">rank</span>(<span class="sc">-</span>percent_score, <span class="at">ties.method =</span> <span class="st">"first"</span>)</span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(question) <span class="sc">%&gt;%</span></span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(order, <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">xmax =</span> <span class="fu">cumsum</span>(percent_score),</span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">xmin =</span> xmax <span class="sc">-</span> percent_score,</span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">shade =</span> order <span class="sc">/</span> <span class="fu">max</span>(order),</span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">inside =</span> percent_score <span class="sc">&gt;=</span> <span class="dv">15</span>,</span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">paste0</span>(category, <span class="st">" "</span>, <span class="fu">round</span>(percent_score), <span class="st">"%"</span>)</span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">question =</span> <span class="fu">factor</span>(question, <span class="fu">c</span>(<span class="st">"Research field"</span>, <span class="st">"Self-assessed level"</span>)))</span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>composition_y <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(composition<span class="sc">$</span>question)</span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Print copies of the icon labels (audit V7): showtext draws site text at 96/180</span></span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="co"># of its nominal size but print text at true size, while images keep their size</span></span>
-<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="co"># on both. So font sizes in the markup scale by text_k and image sizes by img_k.</span></span>
-<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>scale_markup <span class="ot">&lt;-</span> <span class="cf">function</span>(labels, text_k, img_k) {</span>
-<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>  scale_number <span class="ot">&lt;-</span> <span class="cf">function</span>(x, pattern, k, digits) {</span>
-<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>    stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(x, pattern, \(m) stringr<span class="sc">::</span><span class="fu">str_replace</span>(</span>
-<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>      m, <span class="st">"[0-9.]+"</span>,</span>
-<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.character</span>(<span class="fu">round</span>(<span class="fu">as.numeric</span>(stringr<span class="sc">::</span><span class="fu">str_extract</span>(m, <span class="st">"[0-9.]+"</span>)) <span class="sc">*</span> k, digits))</span>
-<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>    ))</span>
-<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>  labels <span class="sc">%&gt;%</span></span>
-<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_number</span>(<span class="st">"font-size:[0-9.]+pt"</span>, text_k, <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_number</span>(<span class="st">"(width|height)='[0-9.]+'"</span>, img_k, <span class="dv">0</span>)</span>
-<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Site version, or with print = TRUE the print version (full journal width,</span></span>
-<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a><span class="co"># 8 pt text, 7 pt ticks and value labels).</span></span>
-<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a>make_participant_characteristics_icons_compact <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">print =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Site sizes are nominal (drawn at 96/180 by showtext); print sizes are true pt.</span></span>
-<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="cf">if</span> (print) {</span>
-<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">base =</span> print_text<span class="sc">$</span>text, <span class="at">question =</span> print_text<span class="sc">$</span>text, <span class="at">ticks =</span> print_text<span class="sc">$</span>small,</span>
-<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a>         <span class="at">segment =</span> print_text<span class="sc">$</span>small <span class="sc">/</span> ggplot2<span class="sc">::</span>.pt, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">3</span>, <span class="dv">42</span>, <span class="dv">3</span>, <span class="dv">3</span>),</span>
-<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a>         <span class="at">rect_line =</span> <span class="fl">0.4</span>, <span class="at">tag =</span> print_text<span class="sc">$</span>text,</span>
-<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a>         <span class="at">country =</span> print_text<span class="sc">$</span>text, <span class="at">software =</span> print_text<span class="sc">$</span>text, <span class="at">lineheight =</span> <span class="fl">0.9</span>)</span>
-<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">base =</span> <span class="dv">20</span>, <span class="at">question =</span> <span class="dv">22</span>, <span class="at">ticks =</span> <span class="dv">20</span>, <span class="at">segment =</span> <span class="dv">7</span>,</span>
-<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a>         <span class="at">margin =</span> <span class="fu">margin</span>(<span class="dv">8</span>, <span class="dv">150</span>, <span class="dv">8</span>, <span class="dv">8</span>), <span class="at">rect_line =</span> <span class="dv">1</span>, <span class="at">tag =</span> <span class="dv">18</span>,</span>
-<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a>         <span class="at">country =</span> <span class="dv">22</span>, <span class="at">software =</span> <span class="dv">20</span>, <span class="at">lineheight =</span> <span class="fl">0.75</span>)</span>
-<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Image sizes follow the text (print text / site text as drawn, 96/180), less</span></span>
-<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 20%: print rows are closer together relative to the text than site rows.</span></span>
-<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a>  img_shrink <span class="ot">&lt;-</span> <span class="fl">0.8</span></span>
-<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a>  country_labels <span class="ot">&lt;-</span> \(labels) {</span>
-<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> <span class="fu">country_icon_labels</span>(labels)</span>
-<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span>print) <span class="fu">return</span>(out)</span>
-<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_markup</span>(out, s<span class="sc">$</span>country <span class="sc">/</span> <span class="dv">22</span>, img_shrink <span class="sc">*</span> s<span class="sc">$</span>country <span class="sc">/</span> (<span class="dv">22</span> <span class="sc">*</span> <span class="dv">96</span> <span class="sc">/</span> <span class="dv">180</span>))</span>
-<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb25-71"><a href="#cb25-71" aria-hidden="true" tabindex="-1"></a>  software_labels <span class="ot">&lt;-</span> \(labels) {</span>
-<span id="cb25-72"><a href="#cb25-72" aria-hidden="true" tabindex="-1"></a>    out <span class="ot">&lt;-</span> <span class="fu">software_icon_labels</span>(labels)</span>
-<span id="cb25-73"><a href="#cb25-73" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span>print) <span class="fu">return</span>(out)</span>
-<span id="cb25-74"><a href="#cb25-74" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_markup</span>(out, s<span class="sc">$</span>software <span class="sc">/</span> <span class="dv">20</span>, img_shrink <span class="sc">*</span> s<span class="sc">$</span>software <span class="sc">/</span> (<span class="dv">20</span> <span class="sc">*</span> <span class="dv">96</span> <span class="sc">/</span> <span class="dv">180</span>))</span>
-<span id="cb25-75"><a href="#cb25-75" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb25-76"><a href="#cb25-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-77"><a href="#cb25-77" aria-hidden="true" tabindex="-1"></a>  p_composition <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(composition) <span class="sc">+</span></span>
-<span id="cb25-78"><a href="#cb25-78" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_rect</span>(</span>
-<span id="cb25-79"><a href="#cb25-79" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(</span>
-<span id="cb25-80"><a href="#cb25-80" aria-hidden="true" tabindex="-1"></a>        <span class="at">xmin =</span> xmin, <span class="at">xmax =</span> xmax,</span>
-<span id="cb25-81"><a href="#cb25-81" aria-hidden="true" tabindex="-1"></a>        <span class="at">ymin =</span> composition_y <span class="sc">-</span> <span class="fl">0.36</span>, <span class="at">ymax =</span> composition_y <span class="sc">+</span> <span class="fl">0.36</span>,</span>
-<span id="cb25-82"><a href="#cb25-82" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> shade</span>
-<span id="cb25-83"><a href="#cb25-83" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb25-84"><a href="#cb25-84" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">"white"</span>,</span>
-<span id="cb25-85"><a href="#cb25-85" aria-hidden="true" tabindex="-1"></a>      <span class="at">linewidth =</span> s<span class="sc">$</span>rect_line</span>
-<span id="cb25-86"><a href="#cb25-86" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb25-87"><a href="#cb25-87" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(</span>
-<span id="cb25-88"><a href="#cb25-88" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> \(d) <span class="fu">filter</span>(d, inside),</span>
-<span id="cb25-89"><a href="#cb25-89" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(</span>
-<span id="cb25-90"><a href="#cb25-90" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> (xmin <span class="sc">+</span> xmax) <span class="sc">/</span> <span class="dv">2</span>,</span>
-<span id="cb25-91"><a href="#cb25-91" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> <span class="fu">as.numeric</span>(question),</span>
-<span id="cb25-92"><a href="#cb25-92" aria-hidden="true" tabindex="-1"></a>        <span class="at">label =</span> label,</span>
-<span id="cb25-93"><a href="#cb25-93" aria-hidden="true" tabindex="-1"></a>        <span class="at">colour =</span> shade <span class="sc">&gt;</span> <span class="fl">0.8</span></span>
-<span id="cb25-94"><a href="#cb25-94" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb25-95"><a href="#cb25-95" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
-<span id="cb25-96"><a href="#cb25-96" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>segment,</span>
-<span id="cb25-97"><a href="#cb25-97" aria-hidden="true" tabindex="-1"></a>      <span class="at">lineheight =</span> <span class="fl">0.9</span></span>
-<span id="cb25-98"><a href="#cb25-98" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb25-99"><a href="#cb25-99" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(</span>
-<span id="cb25-100"><a href="#cb25-100" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> \(d) <span class="fu">filter</span>(d, <span class="sc">!</span>inside),</span>
-<span id="cb25-101"><a href="#cb25-101" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">100</span>, <span class="at">y =</span> <span class="fu">as.numeric</span>(question), <span class="at">label =</span> label),</span>
-<span id="cb25-102"><a href="#cb25-102" aria-hidden="true" tabindex="-1"></a>      <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.08</span>,</span>
-<span id="cb25-103"><a href="#cb25-103" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> <span class="st">"Lato"</span>,</span>
-<span id="cb25-104"><a href="#cb25-104" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>segment</span>
-<span id="cb25-105"><a href="#cb25-105" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb25-106"><a href="#cb25-106" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"#C6DBEF"</span>, <span class="at">high =</span> <span class="st">"#2171B5"</span>, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb25-107"><a href="#cb25-107" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">FALSE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"black"</span>, <span class="st">`</span><span class="at">TRUE</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"white"</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb25-108"><a href="#cb25-108" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb25-109"><a href="#cb25-109" aria-hidden="true" tabindex="-1"></a>      <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>),</span>
-<span id="cb25-110"><a href="#cb25-110" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">25</span>),</span>
-<span id="cb25-111"><a href="#cb25-111" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> \(x) <span class="fu">paste0</span>(x, <span class="st">"%"</span>),</span>
-<span id="cb25-112"><a href="#cb25-112" aria-hidden="true" tabindex="-1"></a>      <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb25-113"><a href="#cb25-113" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb25-114"><a href="#cb25-114" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(</span>
-<span id="cb25-115"><a href="#cb25-115" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="fu">seq_along</span>(<span class="fu">levels</span>(composition<span class="sc">$</span>question)),</span>
-<span id="cb25-116"><a href="#cb25-116" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">levels</span>(composition<span class="sc">$</span>question),</span>
-<span id="cb25-117"><a href="#cb25-117" aria-hidden="true" tabindex="-1"></a>      <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">add =</span> <span class="fl">0.5</span>)</span>
-<span id="cb25-118"><a href="#cb25-118" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb25-119"><a href="#cb25-119" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Percent of respondents"</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb25-120"><a href="#cb25-120" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
-<span id="cb25-121"><a href="#cb25-121" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_theme</span>(<span class="at">base_size =</span> s<span class="sc">$</span>base) <span class="sc">+</span></span>
-<span id="cb25-122"><a href="#cb25-122" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb25-123"><a href="#cb25-123" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>question, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb25-124"><a href="#cb25-124" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>ticks),</span>
-<span id="cb25-125"><a href="#cb25-125" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb25-126"><a href="#cb25-126" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb25-127"><a href="#cb25-127" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.margin =</span> s<span class="sc">$</span>margin</span>
-<span id="cb25-128"><a href="#cb25-128" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb25-129"><a href="#cb25-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-130"><a href="#cb25-130" aria-hidden="true" tabindex="-1"></a>  p_country <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
-<span id="cb25-131"><a href="#cb25-131" aria-hidden="true" tabindex="-1"></a>    country_over_3, <span class="st">"country_work"</span>, <span class="st">"Country of work"</span>, <span class="at">print =</span> print</span>
-<span id="cb25-132"><a href="#cb25-132" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-133"><a href="#cb25-133" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> country_labels) <span class="sc">+</span></span>
-<span id="cb25-134"><a href="#cb25-134" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(</span>
-<span id="cb25-135"><a href="#cb25-135" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>country, <span class="at">lineheight =</span> s<span class="sc">$</span>lineheight</span>
-<span id="cb25-136"><a href="#cb25-136" aria-hidden="true" tabindex="-1"></a>    ))</span>
-<span id="cb25-137"><a href="#cb25-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-138"><a href="#cb25-138" aria-hidden="true" tabindex="-1"></a>  p_software <span class="ot">&lt;-</span> <span class="fu">make_characteristic_plot</span>(</span>
-<span id="cb25-139"><a href="#cb25-139" aria-hidden="true" tabindex="-1"></a>    software_over_3, <span class="st">"software"</span>, <span class="st">"Software used"</span>, <span class="at">print =</span> print</span>
-<span id="cb25-140"><a href="#cb25-140" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-141"><a href="#cb25-141" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">labels =</span> software_labels) <span class="sc">+</span></span>
-<span id="cb25-142"><a href="#cb25-142" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.y =</span> ggtext<span class="sc">::</span><span class="fu">element_markdown</span>(</span>
-<span id="cb25-143"><a href="#cb25-143" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> s<span class="sc">$</span>software, <span class="at">lineheight =</span> <span class="cf">if</span> (print) s<span class="sc">$</span>lineheight <span class="cf">else</span> <span class="fl">0.7</span></span>
-<span id="cb25-144"><a href="#cb25-144" aria-hidden="true" tabindex="-1"></a>    ))</span>
-<span id="cb25-145"><a href="#cb25-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-146"><a href="#cb25-146" aria-hidden="true" tabindex="-1"></a>  p_composition <span class="sc">/</span></span>
-<span id="cb25-147"><a href="#cb25-147" aria-hidden="true" tabindex="-1"></a>    (p_country <span class="sc">+</span> p_software) <span class="sc">+</span></span>
-<span id="cb25-148"><a href="#cb25-148" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">0.42</span>, <span class="fl">1.58</span>)) <span class="sc">+</span></span>
-<span id="cb25-149"><a href="#cb25-149" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_annotation</span>(</span>
-<span id="cb25-150"><a href="#cb25-150" aria-hidden="true" tabindex="-1"></a>      <span class="at">tag_levels =</span> <span class="st">"A"</span>,</span>
-<span id="cb25-151"><a href="#cb25-151" aria-hidden="true" tabindex="-1"></a>      <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.tag =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> s<span class="sc">$</span>tag))</span>
-<span id="cb25-152"><a href="#cb25-152" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb25-153"><a href="#cb25-153" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb25-154"><a href="#cb25-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-155"><a href="#cb25-155" aria-hidden="true" tabindex="-1"></a>participant_characteristics_icons_compact <span class="ot">&lt;-</span></span>
-<span id="cb25-156"><a href="#cb25-156" aria-hidden="true" tabindex="-1"></a>  <span class="fu">make_participant_characteristics_icons_compact</span>()</span>
-<span id="cb25-157"><a href="#cb25-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-158"><a href="#cb25-158" aria-hidden="true" tabindex="-1"></a>participant_characteristics_icons_compact</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make_participant_characteristics_icons_compact</span>(<span class="at">icons =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="sample_files/figure-html/participant-characteristics-icons-compact-1.png" class="img-fluid figure-img" width="2700"></p>
-<figcaption>Alternative layout. Level and research field are parts of a whole, so each is shown as one stacked bar (A); this leaves more height for country and software (B, C). Flags indicate country of work, not nationality. Multiple software selections were permitted in C. An asterisk denotes the survey answer “My own code in …”.</figcaption>
+<p><img src="sample_files/figure-html/participant-characteristics-text-compact-1.png" class="img-fluid figure-img" width="2700"></p>
+<figcaption>Compact layout with plain text labels instead of flags and logos (audit V14). Level and research field are parts of a whole, so each is shown as one stacked bar (A). Multiple software selections were permitted in C.</figcaption>
 </figure>
 </div>
 </div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">isTRUE</span>(params<span class="sc">$</span>export_artifacts)) {</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsave_st</span>(</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"participant_characteristics_icons_compact.png"</span>),</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    participant_characteristics_icons_compact,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="dv">15</span>,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="fl">9.2</span>,</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">"in"</span>,</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">dpi =</span> <span class="dv">180</span>,</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">device =</span> ragg<span class="sc">::</span>agg_png,</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">bg =</span> <span class="st">"white"</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Print version: full journal width.</span></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsave_print</span>(</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">project_path</span>(<span class="st">"figures"</span>, <span class="st">"participant_characteristics_icons_compact.pdf"</span>),</span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">make_participant_characteristics_icons_compact</span>(<span class="at">print =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> print_width[[<span class="st">"full"</span>]],</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="fl">5.6</span></span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 </div>
 </div>
 </div>
@@ -2266,7 +2132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><strong>Included sample.</strong> 150 respondents who started after the launch date and completed the questionnaire. The median completion time was 18.3 minutes. 7 participants are flagged for possibly careless answering and kept in all main analyses.</li>
 <li><strong>Self-assessed experience.</strong> Beginner 17%, Intermediate 37%, and Expert 47% (n = 150).</li>
-<li><strong>Country of work.</strong> 146 respondents named 32 countries; the most frequent were Germany (24%), USA (18%), and United Kingdom (9%). 66% worked in Europe.</li>
+<li><strong>Country of work.</strong> 146 respondents named 32 countries; the most frequent were Germany (24%), USA (18%), and UK (9%). 66% worked in Europe.</li>
 <li><strong>Research field.</strong> The largest groups were Fundamental (81%) and Applied (16%).</li>
 <li><strong>Software</strong> (multiple selections). The most frequently used tools were EEGLAB (63%), MNE-Python (53%), and FieldTrip (41%).</li>
 </ul>
