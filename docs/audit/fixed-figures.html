@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Fixed figures – Audit</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-bbbf74a2b2e227808fd68eb048eacc9c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-f23fc50b85aa20d525edd74f5d91c01c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-bbbf74a2b2e227808fd68eb048eacc9c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./figures-wilke.html">Visualization</a></li><li class="breadcrumb-item"><a href="./fixed-figures.html">Fixed figures (11)</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Audit</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://vladdez.github.io/Uncertainty-in-topoplots/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">← Analysis site</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Statistical analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unresolved (0)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./addressed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Addressed (4)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fixed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fixed (31)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Literature</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./manuscript-citations-audit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manuscript citations (22 open)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fixed-citations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fixed citations (28)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./table-s3-literature-audit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Table S3 rankings</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Visualization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./figures-wilke.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Figures vs Wilke (8 open)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fixed-figures.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Fixed figures (11)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#further-figure-fixes" id="toc-further-figure-fixes" class="nav-link active" data-scroll-target="#further-figure-fixes">Further figure fixes</a></li>
+  <li><a href="#v10" id="toc-v10" class="nav-link" data-scroll-target="#v10">V10. One score, several names and units</a></li>
+  <li><a href="#v12" id="toc-v12" class="nav-link" data-scroll-target="#v12">V12. Hit/near-miss bars show no uncertainty</a></li>
+  <li><a href="#v18" id="toc-v18" class="nav-link" data-scroll-target="#v18">V18. Orphaned figure files in <code>pages/*_files</code></a></li>
+  <li><a href="#done-well" id="toc-done-well" class="nav-link" data-scroll-target="#done-well">Done well</a></li>
+  <li><a href="#priorities" id="toc-priorities" class="nav-link" data-scroll-target="#priorities">Priorities</a></li>
+  <li><a href="#v2" id="toc-v2" class="nav-link" data-scroll-target="#v2">V2. Text sizes are unbalanced at final size</a></li>
+  <li><a href="#v7" id="toc-v7" class="nav-link" data-scroll-target="#v7">V7. Publication figures: 180-dpi PNG, in-figure titles and subtitles</a></li>
+  <li><a href="#v13" id="toc-v13" class="nav-link" data-scroll-target="#v13">V13. Country map is a choropleth of raw counts</a></li>
+  <li><a href="#v5" id="toc-v5" class="nav-link" data-scroll-target="#v5">V5. Visualization names differ between figures</a></li>
+  <li><a href="#v6" id="toc-v6" class="nav-link" data-scroll-target="#v6">V6. Basic topoplot is highlighted only in some figures</a></li>
+  <li><a href="#v4" id="toc-v4" class="nav-link" data-scroll-target="#v4">V4. Feedback panels re-sort the visualizations in each panel</a></li>
+  <li><a href="#v9" id="toc-v9" class="nav-link" data-scroll-target="#v9">V9. Task 2 gradient plot sorted by median, shows means</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./figures-wilke.html">Visualization</a></li><li class="breadcrumb-item"><a href="./fixed-figures.html">Fixed figures (11)</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Fixed figures</h1>
+<p class="subtitle lead">Figure findings from the Wilke review that have been fixed</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Findings move here from <a href="./figures-wilke.html">Figures vs Wilke</a> once the figure is fixed. IDs keep their review numbers.</p>
+<table class="findings-table caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Issue</th>
+<th>Figures</th>
+<th>Fixed on</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v10">V10. One score, several names and units</a></td>
+<td>Task 2</td>
+<td>24 Nov 2026</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v12">V12. Hit/near-miss bars show no uncertainty</a></td>
+<td>Hit or miss</td>
+<td>24 Nov 2026</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#further-figure-fixes">Further figure fixes</a></td>
+<td>Several</td>
+<td>24 Nov 2026</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-low">Low</span></td>
+<td><a href="#v18">V18. Orphaned figure files in <code>pages/*_files</code></a></td>
+<td>Project</td>
+<td>24 Nov 2026</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-high">High</span></td>
+<td><a href="#v2">V2. Text sizes are unbalanced at final size</a></td>
+<td>Ratings, Task 2, Time, Feedback</td>
+<td>24 Nov 2026</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v7">V7. Publication figures: 180-dpi PNG, in-figure titles and subtitles</a></td>
+<td><code>figures/</code></td>
+<td>24 Nov 2026</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v13">V13. Country map is a choropleth of raw counts</a></td>
+<td>Sample</td>
+<td>24 Nov 2026</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v5">V5. Visualization names differ between figures</a></td>
+<td>All pages</td>
+<td>24 Nov 2026</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v6">V6. Basic topoplot is highlighted only in some figures</a></td>
+<td>All pages</td>
+<td>24 Nov 2026</td>
+</tr>
+<tr class="even">
+<td><span class="badge sev-high">High</span></td>
+<td><a href="#v4">V4. Feedback panels re-sort the visualizations in each panel</a></td>
+<td>Feedback</td>
+<td>24 Nov 2026</td>
+</tr>
+<tr class="odd">
+<td><span class="badge sev-moderate">Moderate</span></td>
+<td><a href="#v9">V9. Task 2 gradient plot sorted by median, shows means</a></td>
+<td>Task 2</td>
+<td>23 Nov 2026</td>
+</tr>
+</tbody>
+</table>
+<section id="further-figure-fixes" class="level2">
+<h2 class="anchored" data-anchor-id="further-figure-fixes">Further figure fixes</h2>
+<div class="finding-meta sev-low status-resolved">
+<p><strong>Severity:</strong> Low · <strong>Fixed:</strong> 24 Nov 2026 · Requested during the review, not separate findings</p>
+</div>
+<ul>
+<li><strong>Time-position checks</strong> (Time page): a 95% ribbon around the line and a log time axis for the geometric means (open points of V17).</li>
+</ul>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task1-time-position-before.png" class="img-fluid figure-img" alt="Task 1 time-position check, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task1-time-position-after.png" class="img-fluid figure-img" alt="Task 1 time-position check, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Proportional-odds figure</strong> (Subjective page): text rebalanced for the display size, Lato via <code>plot_theme()</code>.</li>
+</ul>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/likert-po-before.png" class="img-fluid figure-img" alt="Proportional-odds figure, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/likert-po-after.png" class="img-fluid figure-img" alt="Proportional-odds figure, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Feedback figures:</strong> two-line axis labels with normal line spacing (showtext drew the gap about 1.9 times too wide).</li>
+</ul>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/feedback-line-gap-before.png" class="img-fluid figure-img" alt="Feedback intensity figure, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/feedback-line-gap-after.png" class="img-fluid figure-img" alt="Feedback intensity figure, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Compact participant figure:</strong> print PDF at full width; now the main participant figure on the Figures page.</li>
+</ul>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/participant-compact-before.png" class="img-fluid figure-img" alt="Compact participant figure, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/participant-compact-after.png" class="img-fluid figure-img" alt="Compact participant figure, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Hit/miss key legends</strong> (Makie print PDFs): the “Share of responses” labels were cut off at the bottom; now complete.</li>
+</ul>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-hits-misses-pattern-by-vistype-before.png" class="img-fluid figure-img" alt="Hit/miss pattern grid, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-hits-misses-pattern-by-vistype-after.png" class="img-fluid figure-img" alt="Hit/miss pattern grid, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Figure 1 of the paper</strong> (teaser): regenerated in Lato at the print width (504 pt, 7–9 pt text) by a separate driver, <code>make_figure1.jl</code>, from the same data (P3, subject 8, 129 ms, condition 1; checked against all four colour bars of the old figure).</li>
+</ul>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/figure1-teaser-before.png" class="img-fluid figure-img" alt="Figure 1 teaser, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/figure1-teaser-after.png" class="img-fluid figure-img" alt="Figure 1 teaser, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v10" class="level2">
+<h2 class="anchored" data-anchor-id="v10">V10. One score, several names and units</h2>
+<div class="finding-meta sev-moderate status-resolved">
+<p><strong>Severity:</strong> Moderate · <strong>Principle:</strong> ch.&nbsp;22 “Label quantitative axes … with variables and units”; ch.&nbsp;21</p>
+</div>
+<p><strong>Problem.</strong> The same Task 2 score is described differently in different figures:</p>
+<ul>
+<li>The gradient plot is titled “Detection task accuracy”, its axis says “score”, and its values are 0–1 decimals.</li>
+<li>The model figures say “Detection task score” and use %.</li>
+<li><code>task2-peak-ppc-figure</code> labels a difference axis “%” where “pp” is meant.</li>
+</ul>
+<p><strong>Fix.</strong> Use one name and one unit for the score, and “pp” for differences. Define the fade beyond 95% in the gradient plots, e.g.&nbsp;“fades from 95% to 99.9% confidence” (ch.&nbsp;16).</p>
+<p><strong>Resolution (24 Nov 2026).</strong> One name (“detection score”) and one unit (%) in every Task 2 figure, “pp” for differences.</p>
+<ul>
+<li><strong>Histogram:</strong> axis “Detection score (0% = weakest region, 100% = strongest region)”; the in-figure title is removed (the caption is the title).</li>
+<li><strong>Gradient plot:</strong> axis “Detection score (mean of participant means)” in %.</li>
+<li><strong>PPC figure:</strong> rebuilt as two panels; the share panel keeps %, the difference panel shows pp.</li>
+<li><strong>Fade defined:</strong> the gradient captions (Task 1 and Task 2) say the band is opaque inside the 95% interval and fades to transparent between 95% and 100% confidence.</li>
+</ul>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-score-distribution-before.png" class="img-fluid figure-img" alt="Task 2 score histogram, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-score-distribution-after.png" class="img-fluid figure-img" alt="Task 2 score histogram, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-descriptive-gradient-plot-before.png" class="img-fluid figure-img" alt="Task 2 gradient plot, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-descriptive-gradient-plot-after.png" class="img-fluid figure-img" alt="Task 2 gradient plot, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-peak-ppc-figure-before.png" class="img-fluid figure-img" alt="Task 2 posterior predictive check, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-peak-ppc-figure-after.png" class="img-fluid figure-img" alt="Task 2 posterior predictive check, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v12" class="level2">
+<h2 class="anchored" data-anchor-id="v12">V12. Hit/near-miss bars show no uncertainty</h2>
+<div class="finding-meta sev-moderate status-resolved">
+<p><strong>Severity:</strong> Moderate · <strong>Figure:</strong> <code>figures/task2_hit_near_miss_by_vistype.png</code> · <strong>Principle:</strong> ch.&nbsp;16; ch.&nbsp;19 (dot size)</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li>Some differences between bars are 2–5 pp, yet the bars carry no intervals.</li>
+<li>The small orange and black dots on blue fills are hard to tell apart.</li>
+</ul>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Add Wilson 95% whiskers, or point the caption to the contrast models.</li>
+<li>Set a minimum dot size, or give the dots a white halo.</li>
+</ul>
+<p><strong>Resolution (24 Nov 2026).</strong></p>
+<ul>
+<li><strong>Intervals:</strong> every hit and near-hit bar has a Wilson 95% whisker (450 responses per bar for all patterns, 150 per pattern). The caption says they treat responses as independent, so they are somewhat too narrow; the models on the page account for participants and stimuli.</li>
+<li><strong>Dots:</strong> the hit/miss dots on the topoplots have a minimum size and a thicker white outline, so they stay visible on blue fills.</li>
+</ul>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-hit-near-miss-by-vistype-before.png" class="img-fluid figure-img" alt="Hit and near-hit bars, before"></p>
+<figcaption>Before</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/task2-hit-near-miss-by-vistype-after.png" class="img-fluid figure-img" alt="Hit and near-hit bars, after"></p>
+<figcaption>After</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="v18" class="level2">
+<h2 class="anchored" data-anchor-id="v18">V18. Orphaned figure files in <code>pages/*_files</code></h2>
+<div class="finding-meta sev-low status-resolved">
+<p><strong>Severity:</strong> Low · <strong>Area:</strong> Project hygiene</p>
+</div>
+<p><strong>Problem.</strong> Several tracked PNGs under <code>pages/*_files/figure-html/</code> are referenced by no page and produced by no chunk:</p>
+<ul>
+<li><strong>Task 1:</strong> <code>unnamed-chunk-4/7/11/12</code>;</li>
+<li><strong>Task 2:</strong> <code>task2-descriptive-plot-1</code>, <code>unnamed-chunk-9/10/11</code>;</li>
+<li><strong>Sample:</strong> <code>unnamed-chunk-6/8</code>;</li>
+<li><strong>Subjective:</strong> <code>likert-basic-contrast-figure-1</code>, <code>unnamed-chunk-3-1</code>.</li>
+</ul>
+<p>One of them, Task 1 <code>unnamed-chunk-4</code>, is an old bar chart with ±1 SD error bars, a literal <code>&lt;U+00B1&gt;</code> in its caption, and bars cut off at 100%. It could be reused by mistake.</p>
+<p><strong>Fix.</strong> Check each file against the current chunks, then remove the stale ones with <code>git rm</code>. <strong>Not done:</strong> deleting files needs your go-ahead.</p>
+</section>
+<section id="done-well" class="level2">
+<h2 class="anchored" data-anchor-id="done-well">Done well</h2>
+<ul>
+<li>Model estimates are dots with CIs on a restricted axis, not bars, and the CI type is always stated (ch.&nbsp;6, ch.&nbsp;16, ch.&nbsp;17).</li>
+<li>The contrast-vs-Basic plots, with simultaneous CIs and a zero line, are close to Wilke Fig. 16-8 (ch.&nbsp;16, ch.&nbsp;23).</li>
+<li>Bar charts:
+<ul>
+<li>start at zero;</li>
+<li>are horizontal, which suits the long labels;</li>
+<li>are sorted by value with “Other” last.</li>
+</ul>
+The participant multipanel uses a shared 0–100% scale (ch.&nbsp;6, ch.&nbsp;17, ch.&nbsp;21).</li>
+<li>The section heading serves as the figure title on the Sample page (ch.&nbsp;22).</li>
+<li>The map uses 6 bins and an equal-area projection (ch.&nbsp;15).</li>
+<li>Time violins use a log scale, and the line is labelled as the geometric mean (ch.&nbsp;3, ch.&nbsp;8).</li>
+<li>Everything is generated in code, with a cache tied to the data (ch.&nbsp;28).</li>
+</ul>
+</section>
+<section id="priorities" class="level2">
+<h2 class="anchored" data-anchor-id="priorities">Priorities</h2>
+<ol type="1">
+<li>One canonical order, one set of names, and the Basic accent everywhere (V1, V5, V6).</li>
+<li>Re-export the publication figures at column size with balanced text, as vector files, without in-figure titles (V2, V7).</li>
+<li>Remove or fix the hit/miss frames (V3).</li>
+<li>Feedback figure: a fixed order across panels and no boxplots for tiny n (V4, V11).</li>
+<li>Task 2 gradient sorted by mean, one score name and unit, and a time contrast figure (V8–V10).</li>
+</ol>
+<p><strong>Resolution (24 Nov 2026).</strong> A check of every figure file found:</p>
+<ul>
+<li><strong>Published site (<code>docs/pages/*_files/</code>, tracked):</strong> no orphans; every PNG there is used by its page (Quarto cleans that folder on each render).</li>
+<li><strong><code>pages/*_files/</code>:</strong> git-ignored render leftovers, not tracked (the “tracked” in the problem statement was wrong). 19 of them were used by no page, including the files listed above, two Quality figures left in <code>sample_files/</code> and old time figures in <code>task1_files/</code> and <code>task2_files/</code>. They were deleted; the 35 files that the current renders still use were kept.</li>
+</ul>
+</section>
+<section id="v2" class="level2">
+<h2 class="anchored" data-anchor-id="v2">V2. Text sizes are unbalanced at final size</h2>
+<div class="finding-meta sev-high status-resolved">
+<p><strong>Severity:</strong> High (for the journal) · <strong>Principle:</strong> ch.&nbsp;24 “Judge text and mark balance at final reproduction size”</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li><strong>Likert figures</strong> (<code>figures/likert_estimate_figure.png</code>, <code>figures/likert_contrast_figure.png</code>): panel titles are 50 pt and y labels 40 pt, but the 1–5 and ±2 tick numbers are tiny.</li>
+<li><strong>Tiny tick text elsewhere:</strong> the PPC and peak-contrast figures, the time-position plots, the feedback y axes and the feedback caption.</li>
+<li><strong>Sizes not as coded:</strong> exports use showtext at 96 dpi on 180-dpi devices, so the point sizes in the code are not the printed sizes.</li>
+</ul>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Export at the journal column widths (about 3.5 in or 7 in).</li>
+<li>Set real point sizes: ticks 8–9 pt, labels 9–10 pt.</li>
+<li>Drop the dpi-ratio workaround for exports.</li>
+<li>Add anchor labels to the rating axis (what 1 and 5 mean).</li>
+</ul>
+<p><strong>Resolution (24 Nov 2026).</strong></p>
+<ul>
+<li><strong>Print sizes.</strong> The publication figures have print PDFs at the journal widths with real point sizes (8 pt text, 7 pt ticks), exported with <code>cairo_pdf</code> rather than the showtext dpi workaround (<a href="#v7">V7</a>).</li>
+<li><strong>Website figures rebalanced</strong> (sizes at the ~1100 px display width):
+<ul>
+<li>Task 2 PPC figure: ticks about 9.5 → 13 px, panel titles, legend and caption larger.</li>
+<li>Task 2 peak-contrast figure: ticks about 8.7 → 13 px, panel titles and captions larger.</li>
+<li>Time-position checks: ticks and axis titles larger.</li>
+<li>Feedback figures: y ticks about 8.7 → 12 px; caption 14 → 22 (two lines); panel and axis titles 40 → 28.</li>
+<li>Likert figures: panel titles 50 → 36, tick numbers 20 → 28, labels 40 → 34.</li>
+</ul></li>
+<li><strong>Rating anchors.</strong> Every panel of the Likert estimate figure shows its 1–5 axis with the item’s anchors at the ends: very unhelpful / very helpful (comparison, detection), very unlikely / very likely (publication use), very unappealing / very appealing (aesthetics). Web and print (7 pt).</li>
+</ul>
+</section>
+<section id="v7" class="level2">
+<h2 class="anchored" data-anchor-id="v7">V7. Publication figures: 180-dpi PNG, in-figure titles and subtitles</h2>
+<div class="finding-meta sev-moderate status-resolved">
+<p><strong>Severity:</strong> Moderate (for the journal) · <strong>Figures:</strong> <code>figures/comparison_accuracy*</code>, <code>detection_score*</code>, <code>likert_*</code> · <strong>Principle:</strong> ch.&nbsp;27 “Match vector or bitmap storage to figure complexity”, “Preserve a maximum-quality master”; ch.&nbsp;22 “Give every figure one title in the location its medium expects”</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li>The publication figures are 180-dpi PNGs.</li>
+<li>They carry their own titles and subtitles. One subtitle, for example, defines the CI (“Dunnett-adjusted simultaneous 95% CIs”).</li>
+</ul>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Export the ggplot figures as PDF or SVG (<code>cairo_pdf</code>, <code>svglite</code>).</li>
+<li>Export the Makie grids as PDF, or as PNG/TIFF at 300 dpi or more.</li>
+<li>Add a <code>title = FALSE</code> switch for the exports and move the CI definition into the manuscript caption.</li>
+</ul>
+<p>The Sample page already works this way.</p>
+<p><strong>Resolution (24 Nov 2026).</strong></p>
+<ul>
+<li><strong>Print PDFs at the template’s widths.</strong> Every figure on the Figures page has a PDF in <code>figures/</code> laid out at its print size (IEEE VGTC template: full width 504 pt = 7.0 in, one column 246 pt), with 8 pt text, 7 pt ticks and value labels, and Lato embedded: participant characteristics, both Likert figures (full width); comparison accuracy and its contrasts, detection score and its contrasts (one column). Helpers in <code>scripts/analysis_setup.R</code>: <code>print_width</code>, <code>print_text</code>, <code>ggsave_print()</code> (<code>cairo_pdf</code>); each figure is built by one function with a <code>print</code> switch, so the web PNG and the PDF come from the same code.</li>
+<li><strong>No in-figure titles.</strong> The titles and subtitles of the accuracy and detection figures are removed (web and print). Their definitions moved into figure captions, for example “Bars: Dunnett-adjusted simultaneous 95% confidence intervals for the six comparisons” (Task 2 contrast figure); the same text belongs in the manuscript captions.</li>
+<li><strong>Makie grids.</strong> The four hit/miss figures also get print PDFs at 504 pt width (one narrower to stay under 9 in tall), with the smallest text at 7 pt and Lato.</li>
+<li><strong>Figures page.</strong> Each figure shows its caption and a link to its print PDF.</li>
+</ul>
+</section>
+<section id="v13" class="level2">
+<h2 class="anchored" data-anchor-id="v13">V13. Country map is a choropleth of raw counts</h2>
+<div class="finding-meta sev-moderate status-resolved">
+<p><strong>Severity:</strong> Moderate · <strong>Figure:</strong> <code>country-count-map</code> · <strong>Principle:</strong> ch.&nbsp;15 “Use choropleths primarily for densities, and check area bias”</p>
+</div>
+<p><strong>Problem.</strong> Russia, Canada, Australia, Brazil and China dominate the map visually with 1–6 participants each. Europe, at about two-thirds of the sample, is barely visible.</p>
+<p><strong>Fix.</strong> Use proportional symbols at the country centroids, or add a Europe inset, or drop the map in favour of the bar charts. The 6 bins and the equal-area projection are already good.</p>
+<p><strong>Resolution (24 Nov 2026).</strong> The Sample page’s map is now a tabset with two versions under “Map of participants by country”:</p>
+<ul>
+<li><strong>Shaded countries:</strong> the existing choropleth, unchanged.</li>
+<li><strong>Proportional symbols</strong> (<code>country-count-symbol-map</code>, also <code>figures/country_work_participant_symbol_map.png</code>): countries in grey, one blue circle per country of work whose <strong>area</strong> is proportional to the count. Each circle sits at the area-weighted centroid of the country’s mainland, computed in the equal-area projection, so Alaska or overseas territories do not pull it away.</li>
+<li><strong>Europe inset:</strong> an enlarged Europe panel on the same circle scale, framed on the world map, with counts of 5 or more written in the circles (Germany 35, UK 13, Italy 9, …); the size legend sits under it.</li>
+<li><strong>No wasted space:</strong> the world map’s extent ignores specks near the antimeridian, and the column widths, row heights and figure height are computed from the maps’ aspect ratios (chunk <code>country-symbol-map-geometry</code>).</li>
+</ul>
+</section>
+<section id="v5" class="level2">
+<h2 class="anchored" data-anchor-id="v5">V5. Visualization names differ between figures</h2>
+<div class="finding-meta sev-moderate status-resolved">
+<p><strong>Severity:</strong> Moderate · <strong>Principle:</strong> ch.&nbsp;21 (consistency); ch.&nbsp;22 (unambiguous labels)</p>
+</div>
+<p><strong>Problem.</strong> The same visualizations appear under different names:</p>
+<ul>
+<li>“Bivariate corner” and “Bivariate corners”;</li>
+<li>“Confidence interval” and “Confidence intervals”;</li>
+<li>“Basic” and “Basic topoplot”;</li>
+<li>“Adjacent” and “Adjacent plots”.</li>
+</ul>
+<p>In the Task 2 gradient plot, “Confidence intervals” also wraps onto two lines with a large gap.</p>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Use one label vector (<code>vistype_labels</code>) for every R figure and the Makie exports.</li>
+<li>Use a short-name variant only where space requires it, and then use it everywhere.</li>
+</ul>
+<p><strong>Resolution (24 Nov 2026).</strong> Every R figure takes its names from the shared <code>vistype_labels</code> (Adjacent plots, Animation, Bivariate corner, Bivariate range, Confidence intervals, Uncertainty markers, Basic topoplot) through new helpers in <code>scripts/analysis_setup.R</code>: <code>figure_vistype()</code> gives the one-line name, or one word per line (<code>stacked = TRUE</code>) for narrow axes. Page-local label vectors with other spellings (for example “Bivariate corners” in the Task 1 contrast figure) are removed. Changed figures: Task 1 gradient, accuracy, contrast and hard-trials figures; Task 2 gradient, detection-score, contrast, PPC and peak-contrast figures; the time estimate and violin figures; the Likert labels; both feedback figures, whose codebook labels (Basic, Adjacent, Confidence interval, …) are mapped to the canonical names on the axis only (the coding data are unchanged). The Makie hit/miss figures already used the canonical names. Horizontal axes now use one-line names, which also removes the wrapped “Confidence intervals” gap in the Task 2 gradient plot.</p>
+</section>
+<section id="v6" class="level2">
+<h2 class="anchored" data-anchor-id="v6">V6. Basic topoplot is highlighted only in some figures</h2>
+<div class="finding-meta sev-moderate status-resolved">
+<p><strong>Severity:</strong> Moderate · <strong>Principle:</strong> ch.&nbsp;4 “Make baseline colors recede behind highlights”; ch.&nbsp;21</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li>The blue Basic accent appears in the accuracy, score and Likert figures.</li>
+<li>It is missing from the time estimates, the gradient plots, the PPC figure, the peak contrasts and the hit/miss bars.</li>
+</ul>
+<p><strong>Fix.</strong> Apply the same accent to Basic in every figure that shows all seven conditions.</p>
+<p><strong>Resolution (24 Nov 2026).</strong> Shared constants <code>basic_accent</code> (#377EB8) and <code>basic_accent_fill</code> (#B9D8F2) and helpers <code>vistype_label_colours()</code>, <code>markdown_vistype()</code> and <code>basic_axis_caption()</code> in <code>scripts/analysis_setup.R</code>.</p>
+<ul>
+<li><strong>Time estimates (both tasks):</strong> blue axis label, point, interval and value, as in the accuracy figure.</li>
+<li><strong>Time violin, both gradient plots, PPC figure:</strong> blue axis label; their marks keep their own colours (a blue line would not show on the blue gradient).</li>
+<li><strong>Peak contrasts:</strong> caption “Difference (logit scale) from <strong>Basic topoplot</strong>” with Basic topoplot in blue, as in the main contrast figures.</li>
+<li><strong>Likert figures:</strong> Basic and the zero lines now use the same blue (was #3B78B4).</li>
+<li><strong>Makie hit/miss figures:</strong> Basic topoplot in blue in the bar chart’s labels and in the Basic column titles of the topoplot grids (re-run and copied to <code>figures/</code>).</li>
+</ul>
+<p>Figures without a Basic row (six-row contrast figures, Likert odds ratios) keep their blue zero line.</p>
+</section>
+<section id="v4" class="level2">
+<h2 class="anchored" data-anchor-id="v4">V4. Feedback panels re-sort the visualizations in each panel</h2>
+<div class="finding-meta sev-high status-resolved">
+<p><strong>Severity:</strong> High · <strong>Figures:</strong> <code>a305-intensity-theme-figure</code>, <code>…-general-bivariates</code> · <strong>Principle:</strong> ch.&nbsp;21 “Order panels by a logical sequence”; ch.&nbsp;6 (horizontal labels)</p>
+</div>
+<p><strong>Problem.</strong></p>
+<ul>
+<li>Every theme panel orders the visualizations differently, so Basic and the others move between panels.</li>
+<li>The general-bivariates version also has rotated labels.</li>
+</ul>
+<p><strong>Fix.</strong></p>
+<ul>
+<li>Use one fixed x order in all panels.</li>
+<li>Keep empty slots, so that columns line up vertically.</li>
+</ul>
+<p><strong>Resolution (24 Nov 2026).</strong> Both feedback figures now use one x axis for all panels (<code>scales = "fixed"</code>, <code>drop = FALSE</code>), in the page’s visualization order (Basic first), with empty slots kept, so the columns line up. The axis labels are repeated in every panel and are horizontal in both versions; the eight-column general-bivariates version uses slightly smaller labels instead of rotated ones. Cause of the re-sorting: each panel took its x categories first from the boxplot layer, which skips sparse cells, and appended the rest. The boxplots for small cells remain (V11).</p>
+</section>
+<section id="v9" class="level2">
+<h2 class="anchored" data-anchor-id="v9">V9. Task 2 gradient plot sorted by median, shows means</h2>
+<div class="finding-meta sev-moderate status-resolved">
+<p><strong>Severity:</strong> Moderate · <strong>Location:</strong> <code>pages/task2.qmd:317–320</code> (<code>task2_gradient_order</code> uses <code>arrange(median)</code>) · <strong>Principle:</strong> ch.&nbsp;6 “Order categories by a meaningful rule”</p>
+</div>
+<p><strong>Problem.</strong> The plot shows means but is ordered by medians. Bivariate corner (0.68) therefore sits above Basic (0.70).</p>
+<p><strong>Fix.</strong> Sort by <code>mean_score</code>.</p>
+<p><strong>Resolution (23 Nov 2026, <a href="./fixed.html#f28">F28</a>).</strong> The rows are ordered by the mean of participant means, the value the figure shows, and the in-figure title is removed.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

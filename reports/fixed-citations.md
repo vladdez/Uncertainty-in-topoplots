@@ -11,6 +11,7 @@ once the manuscript or supplement text is corrected. IDs keep their audit number
 |--|------------------|----|
 | [High]{.badge .sev-high} | [A2. Mikheev survey percentages did not exist in the paper](#a2) | Introduction |
 | [High]{.badge .sev-high} | [A17. Petek: "quantifying" counted rows where tools only draw](#a17) | Table 1 |
+| [Moderate]{.badge .sev-moderate} | [A41. ERP error bands were called "common"](#a41) | Related Work |
 | [High]{.badge .sev-high} | [C26. Sanyal 1D least uncertain: ranking reversed Table 1](#c26) | Supplement S3 |
 | [High]{.badge .sev-high} | [C27. Sanyal 1D most uncertain: unreported glyph size > error bars](#c27) | Supplement S3 |
 | [High]{.badge .sev-high} | [C43. Correll 2018 E2: VSUPs ranked best despite higher danger](#c43) | Supplement S3 |
@@ -108,6 +109,28 @@ as proposed in the audit, with two choices where the audit gave options: Greis's
 type is now `n.r.` with a caption note (C10), and Kale's E2 sample size carries a ‡
 note that it comes from the authors' released data (C17). `supplement.pdf` was
 recompiled and both tables were checked in the PDF.
+
+## A41. ERP error bands were called "common" {#a41}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Location:** `journal.typ:293–295`, Related Work (Uncertainty in EEG/ERP Visualization) · **Fixed:** 24 November 2026
+:::
+
+**Problem.** The sentence said: "In ERP waveforms, uncertainty is commonly shown using
+error bars or shaded confidence intervals @allen2012data @kappenman2021erp
+@pernet2011limo." The three sources only give examples, and none says how common the
+practice is. Kappenman shades ±1 SEM, not a confidence interval; Pernet shows bootstrap
+95% confidence intervals; Allen describes the typical ERP panel as having "no portrayal
+of uncertainty" and adds 95% bands as a recommendation. Mikheev et al. (2024), where
+40% of ERP plots had no error bars, points the other way.
+
+**Fix.** The sentence now reads: "In ERP waveforms, uncertainty can be shown, for
+example, with error bars or shaded bands for the standard error or a confidence interval
+@allen2012data @kappenman2021erp @pernet2011limo, although many published ERP plots omit
+it @mikheev2024art." It no longer claims a prevalence, covers both the SEM bands and the
+confidence intervals the sources show, and adds the counterpoint from Mikheev et al.
+(2024).
+`journal.pdf` was recompiled with `scripts/compile-journal.ps1`.
 
 ## C26. Sanyal 1D least uncertain: ranking reversed Table 1 {#c26}
 

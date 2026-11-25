@@ -90,3 +90,29 @@ body.quarto-dark .badge.status-partial,
 body.quarto-dark .badge.status-reopened { color: #ffb366; border-color: #ffb366; }
 body.quarto-dark .badge.status-resolved { color: #6fdc8c; border-color: #6fdc8c; }
 body.quarto-dark .finding-meta.status-resolved { background: rgba(111, 220, 140, 0.08); }
+
+/* Earlier issue ID under a finding heading ("formerly U6 → F13"); deliberately quiet */
+.lineage {
+  margin: -0.35rem 0 0.35rem;
+  font-size: 0.74rem;
+  line-height: 1.4;
+  color: var(--bs-secondary-color);
+  opacity: 0.75;
+}
+
+.lineage p { margin: 0; }
+
+.lineage .id-note {
+  font-style: italic;
+  margin-right: 0.3em;
+}
+
+.lineage .id-old,
+.lineage .id-new {
+  font-family: var(--bs-font-monospace);
+  padding: 0 0.45em;
+  border-radius: 999px;
+}
+
+.lineage .id-old { border: 1px dashed currentColor; }
+.lineage .id-new { border: 1px solid currentColor; }

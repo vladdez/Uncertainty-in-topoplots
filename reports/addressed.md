@@ -7,9 +7,8 @@ subtitle: "Issues where work has been done but something remains"
 |--|------------------|----|
 | [Moderate]{.badge .sev-moderate} | [A1. Model-adequacy checks](#a1) | All models |
 | [High]{.badge .sev-high} | [A2. Task 2 random-effects structure](#a2) | Task 2 |
-| [Moderate]{.badge .sev-moderate} | [A3. Feedback codes are linked by row position](#a3) | Feedback, data |
-| [Moderate]{.badge .sev-moderate} | [A4. Task 2 scores are not comparable across stimuli (was U7)](#a4) | Task 2 |
-| [Moderate]{.badge .sev-moderate} | [A5. Qualitative coding is not validated (was U12)](#a5) | Feedback |
+| [Moderate]{.badge .sev-moderate} | [A4. Task 2 scores are not comparable across stimuli](#a4) | Task 2 |
+| [Moderate]{.badge .sev-moderate} | [A5. Qualitative coding is not validated](#a5) | Feedback |
 
 : {.findings-table}
 
@@ -24,20 +23,21 @@ subtitle: "Issues where work has been done but something remains"
 - Task 2 has a posterior predictive check of exact-peak (score = 1) responses.
 - Task 2 has a two-part sensitivity model: a logistic model for finding the strongest
   region and a beta model for the remaining trials.
-- These show that Adjacent plots increase exact-peak hits (p = .006 with the image
-  intercept); Confidence intervals do so only marginally (p = .046). The ordered-beta
-  contrast does not detect this.
+- These show more exact-peak hits for Adjacent plots (Dunnett-adjusted p = .032 with
+  the image intercept; measured 24 Nov 2026, N = 150). No other contrast with Basic
+  survives the adjustment (Confidence intervals: p = .160). The ordered-beta contrast
+  does not detect this.
 - The fitted Task 1 and Task 2 models are checked for convergence and a
   positive-definite Hessian.
+- The rating models' proportional-odds check: [F15](fixed.md#f15), with a
+  participant random effect since [F29](fixed.md#f29) (24 Nov 2026).
+- Matching TMB/`glmmTMB` versions: [F21](fixed.md#f21); the mismatch warning is gone.
 
 **Remaining.**
 
 - Simulated residual diagnostics for all models.
 - Influence checks for participants, stimuli, and comparison pairs.
 - Residual behaviour of the time models.
-- The proportional-odds check (U9).
-- Restoring matching TMB/`glmmTMB` versions. The page YAML suppresses the
-  version-mismatch warning.
 
 ## A2. Task 2 random-effects structure {#a2}
 
@@ -61,10 +61,12 @@ subtitle: "Issues where work has been done but something remains"
   | Exact hit (logistic) | 2497 → 2448 | 0.82 | χ²(6) = 14.6, p = .023 → χ²(6) = 8.6, p = .20 |
   | Hit or near hit (logistic) | 3347 → 3161 | 1.12 | χ²(6) = 19.9, p = .003 → χ²(6) = 9.0, p = .17 |
 
-  Point estimates barely move; standard errors grow 1.5–2.2×. Contrasts with Basic
-  that remain at p < .05 (unadjusted): exact hit, Adjacent plots (p = .006) and
-  Confidence intervals (p = .046); hit or near hit, Uncertainty markers (p = .029)
-  and Bivariate range (p = .032). The Bivariate corner score deficit does not
+  Point estimates barely move; standard errors grow 1.5–2.2×. After Dunnett adjustment
+  for the six comparisons with Basic (measured 24 Nov 2026, N = 150), only one contrast
+  remains below .05: exact hit, Adjacent plots (p = .032). Three that were below .05
+  unadjusted no longer are: exact hit, Confidence intervals (p = .160); hit or near hit,
+  Uncertainty markers (p = .118) and Bivariate range (p = .123). The Bivariate corner
+  score deficit does not
   (p = .005 → .093); it is concentrated in three images (MMN_30, N170_16, N170_27).
 - The page checks that no responses are lost and that each stimulus maps to one
   pattern.
@@ -83,26 +85,11 @@ subtitle: "Issues where work has been done but something remains"
 - Manuscript: describe the visualization effects as weak overall; no omnibus test
   is significant once image-level variation is modelled.
 
-## A3. Feedback codes are linked by row position {#a3}
+## A4. Task 2 scores are not comparable across stimuli {#a4}
 
-::: {.finding-meta .sev-moderate .status-partial}
-**Severity:** Moderate · **Area:** Open-ended feedback, data preparation
+::: lineage
+[formerly]{.id-note} [U7]{.id-old} → [A4]{.id-new}
 :::
-
-**Problem.** Participant `ID` is `row_number()` after the inclusion filters. The A305
-coding workbook is keyed by this ID, so a reordered or differently filtered export
-would silently attach codes to the wrong participants.
-
-**Done.**
-
-- `scripts/check_data_refresh.R` checks, after every data update, that each coded unit
-  appears in the response of the participant it is filed under. It stops if not.
-- The `data-refresh` agent runs this check before re-rendering.
-
-**Remaining.** Key the workbook on the survey's `CASE` number instead of the row
-position.
-
-## A4. Task 2 scores are not comparable across stimuli (was U7) {#a4}
 
 ::: {.finding-meta .sev-moderate .status-partial}
 **Severity:** Moderate · **Area:** Task 2 outcome
@@ -130,7 +117,11 @@ rather than the SNR peak. The page states this, with a per-stimulus table of the
 selected region and its rank, but does not answer it. It needs a decision on how the
 task and its scoring should be described in the manuscript.
 
-## A5. Qualitative coding is not validated (was U12) {#a5}
+## A5. Qualitative coding is not validated {#a5}
+
+::: lineage
+[formerly]{.id-note} [U12]{.id-old} → [A5]{.id-new}
+:::
 
 ::: {.finding-meta .sev-moderate .status-partial}
 **Severity:** Moderate · **Area:** Open-ended feedback
@@ -160,9 +151,11 @@ agreement statistic.
   stratified by visualization. It has empty columns for the second coder and does not
   contain the first coder's codes. The page computes percent agreement and Cohen's kappa
   as soon as the codes are filled in.
+- **IDs 74 and 102 decided.** Both responses name both bivariate variants, so their
+  units keep both codes (Corner and Range). This follows coding rule 4 and is stated
+  on the Feedback page, which lists these two IDs as the only such cases.
 
 **Remaining.**
 
 - A human fills in the double-coding file; the page then reports agreement.
-- Decide on IDs 74 and 102, which mention both bivariate versions and keep both codes.
 - Agreement on where units begin and end (unitizing) is not assessed.
