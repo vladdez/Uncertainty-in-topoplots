@@ -62,7 +62,7 @@
     "hard_trials_per_vis_min": 27,
     "hard_trials_per_vis_max": 36,
     "n_hard_trials": "218",
-    "overall_p_all": ".050",
+    "overall_p_all": ".0497",
     "overall_p_without": ".024",
     "without_hard_any_excludes_zero": false,
     "comparison": [

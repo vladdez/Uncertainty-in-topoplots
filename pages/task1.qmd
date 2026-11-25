@@ -7,7 +7,7 @@ params:
   export_artifacts: false
 ---
 
-## Explanation of the task 1
+## Task design {#explanation-of-the-task-1}
 
 Task 1 examined whether adding uncertainty information made the underlying spatial
 pattern in an EEG topoplot more difficult to recognize. On each trial, participants
@@ -30,7 +30,7 @@ most closely matched the target.](<../The Art of Uncertain Topoplots/figures/tas
 source("scripts/analysis_setup.R")
 ```
 
-### Trial reconstruction and presentation order
+### Trial reconstruction and order {#trial-reconstruction-and-presentation-order}
 
 - Trial information was reconstructed from the survey records and joined with each
   participant's responses using participant, trial, and question identifiers.
@@ -109,7 +109,7 @@ task1_n_responses_per_vistype <- first(task1_vistype_counts$responses)
 task1_n_patterns <- n_distinct(task1_model$pattern)
 ```
 
-### Accuracy by visualisation type
+### Observed accuracy by visualization {#accuracy-by-visualisation-type}
 
 - Accuracy was calculated as correct responses divided by all responses
   (`correct / (correct + incorrect)`). Each visualization type had
@@ -120,8 +120,8 @@ task1_n_patterns <- n_distinct(task1_model$pattern)
 - For each visualization type, accuracy was first averaged across three trials
  within each participant and then summarized across participants.
 
-- The dark-blue region shows the two-sided 95% *t*-confidence interval around the
-  across-participant mean; opacity decreases beyond that interval.
+- Both views show the across-participant mean and its two-sided 95% *t*-confidence
+  interval.
 
 ```{r}
 task1_gradient_participants <- task1_model |>
@@ -131,12 +131,10 @@ task1_gradient_participants <- task1_model |>
     .groups = "drop"
   )
 
-task1_gradient_order <- task1_gradient_participants |>
-  group_by(vistype) |>
-  summarise(mean_accuracy = mean(participant_accuracy), .groups = "drop") |>
-  arrange(mean_accuracy) |>
-  pull(vistype) |>
-  as.character()
+# Canonical visualization order (audit V1), Basic topoplot at the top.
+task1_gradient_order <- levels(
+  order_vistype(task1_gradient_participants$vistype, top_first = TRUE)
+)
 
 task1_gradient_summary <- task1_gradient_participants |>
   group_by(vistype) |>
@@ -182,6 +180,7 @@ stopifnot(
 )
 
 vistype_table |>
+  arrange(order_vistype(vistype)) |>
   mutate(
     vistype = table_vistype(vistype),
     mean_accuracy = scales::percent(mean_accuracy, accuracy = 0.1),
@@ -205,6 +204,10 @@ vistype_table |>
   )
 ```
 
+::: {.panel-tabset}
+
+#### Gradient
+
 ```{r task1-descriptive-gradient-plot}
 #| fig-cap: >-
 #|   The black line and label show the across-participant mean. The blue band is fully
@@ -223,6 +226,70 @@ task1_gradient_data <- task1_gradient_summary |>
     )
   )
 
+task1_accuracy_plot_layers <- function(mean_tick_colour = "#111111", mean_tick_half_height = 0.31) {
+  list(
+    geom_segment(
+      data = task1_gradient_summary,
+      aes(
+        x = mean_accuracy,
+        xend = mean_accuracy,
+        y = y_position - mean_tick_half_height,
+        yend = y_position + mean_tick_half_height
+      ),
+      inherit.aes = FALSE,
+      linewidth = 0.8,
+      colour = mean_tick_colour
+    ),
+    geom_text(
+      data = task1_gradient_summary,
+      # Baseline just above the band (top at +0.31), so the numbers no longer
+      # touch it (audit V17f).
+      aes(
+        x = mean_accuracy,
+        y = y_position + 0.43,
+        label = sprintf("%.1f%%", 100 * mean_accuracy)
+      ),
+      inherit.aes = FALSE,
+      vjust = 0,
+      size = 6
+    ),
+    scale_x_continuous(
+      "Participant-level mean accuracy",
+      limits = c(0.60, 0.90),
+      breaks = seq(0.60, 0.90, 0.10),
+      labels = scales::label_percent(),
+      # Keep the end ticks clear of the break marks.
+      expand = expansion(add = 0.0025)
+    ),
+    scale_y_continuous(
+      breaks = task1_gradient_summary$y_position,
+      labels = figure_vistype(task1_gradient_summary$vistype),
+      expand = expansion(add = c(0.5, 0.85))
+    ),
+    labs(
+      title = "Comparison task accuracy",
+      y = NULL
+    ),
+    x_axis_end_mark(side = "left"),
+    x_axis_end_mark(),
+    coord_cartesian(clip = "off"),
+    plot_theme(base_size = 20),
+    theme(
+      plot.title = element_text(
+        hjust = 0.5,
+        face = "bold",
+        size = 22
+      ),
+      axis.text = element_text(size = 20),
+      axis.text.y = element_text(
+        colour = vistype_label_colours(task1_gradient_summary$vistype, other = "black")
+      ),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank()
+    )
+  )
+}
+
 task1_gradient_figure <- ggplot(
   task1_gradient_data,
   aes(x = accuracy, y = y_position)
@@ -233,64 +300,59 @@ task1_gradient_figure <- ggplot(
     height = 0.62,
     fill = "#6BAED6"
   ) +
-  geom_segment(
-    data = task1_gradient_summary,
-    aes(
-      x = mean_accuracy,
-      xend = mean_accuracy,
-      y = y_position - 0.31,
-      yend = y_position + 0.31
-    ),
-    inherit.aes = FALSE,
-    linewidth = 0.8,
-    colour = "#111111"
-  ) +
-  geom_text(
-    data = task1_gradient_summary,
-    aes(
-      x = mean_accuracy,
-      y = y_position + 0.42,
-      label = sprintf("%.1f%%", 100 * mean_accuracy)
-    ),
-    inherit.aes = FALSE,
-    size = 6
-  ) +
   scale_alpha_identity() +
-  scale_x_continuous(
-    "Participant-level mean accuracy",
-    limits = c(0.60, 0.90),
-    breaks = seq(0.60, 0.90, 0.10),
-    labels = scales::label_percent(),
-    expand = expansion(mult = c(0, 0))
-  ) +
-  scale_y_continuous(
-    breaks = task1_gradient_summary$y_position,
-    labels = figure_vistype(task1_gradient_summary$vistype),
-    expand = expansion(add = c(0.5, 0.65))
-  ) +
-  labs(
-    title = "Comparison task accuracy",
-    y = NULL
-  ) +
-  plot_theme(base_size = 20) +
-  theme(
-    plot.title = element_text(
-      hjust = 0.5,
-      face = "bold",
-      size = 22
-    ),
-    axis.text = element_text(size = 20),
-    axis.text.y = element_text(
-      colour = vistype_label_colours(task1_gradient_summary$vistype, other = "black")
-    ),
-    axis.ticks.y = element_blank(),
-    axis.line.y = element_blank()
-  )
+  task1_accuracy_plot_layers()
 
 task1_gradient_figure
 ```
 
-### Population-average accuracy
+#### 95% CI whiskers
+
+```{r task1-descriptive-whisker-plot}
+#| dependson: task1-descriptive-gradient-plot
+#| fig-cap: >-
+#|   The black tick and percentage label show the across-participant mean. The
+#|   whiskers show its two-sided 95% t-confidence interval.
+#| fig-alt: >-
+#|   Mean comparison-task accuracy and 95% confidence intervals for seven
+#|   visualisation types, shown as horizontal capped intervals.
+
+ggplot(task1_gradient_summary, aes(x = mean_accuracy, y = y_position)) +
+  geom_errorbar(
+    aes(
+      xmin = lower_95,
+      xmax = upper_95,
+      colour = vistype_label_colours(vistype, other = "black")
+    ),
+    orientation = "y",
+    width = 0.28,
+    linewidth = 0.8
+  ) +
+  scale_colour_identity() +
+  task1_accuracy_plot_layers()
+```
+
+#### Ambiguation
+
+```{r task1-descriptive-ambiguation-plot}
+#| cache: false
+#| fig-cap: >-
+#|   The dark band spans the two-sided 95% t-confidence interval for the mean.
+#|   The lighter ends extend to the 99% interval. The white tick and percentage
+#|   label show the mean. Design adapted from panel (f) of
+#|   [Gschwandtner et al. (2016)](https://doi.org/10.1109/TVCG.2015.2467752).
+#| fig-alt: >-
+#|   Mean comparison-task accuracy by visualisation type. Each horizontal bar has
+#|   a dark 95% confidence interval and lighter ends reaching the 99% limits.
+
+source("scripts/ambiguation_plot.R", local = TRUE)
+make_ambiguation_plot(task1_gradient_summary, mean_accuracy, se_accuracy) +
+  task1_accuracy_plot_layers(mean_tick_colour = "white", mean_tick_half_height = 0.20)
+```
+
+:::
+
+### Model-estimated accuracy {#population-average-accuracy}
 
 - A logistic mixed-effects model estimated the probability of a correct response:
 
@@ -526,10 +588,11 @@ accuracy_estimates <- tibble::tibble(
   lower_ci = task1_probability_intervals[1, ],
   upper_ci = task1_probability_intervals[2, ]
 ) |>
-  arrange(desc(accuracy)) |>
-  mutate(
-    vistype = factor(vistype, levels = rev(vistype))
-  )
+  # Canonical visualization order (audit V1): the levels run bottom to top in
+  # the horizontal figures (Basic topoplot at the top); the rows of the table
+  # start with Basic topoplot.
+  mutate(vistype = order_vistype(vistype, top_first = TRUE)) |>
+  arrange(desc(vistype))
 
 task1_conditional_gap <- max(abs(
   task1_estimand_comparison$population_average -
@@ -736,7 +799,7 @@ ggsave_print(
 )
 ```
 
-### Accuracy differences relative to Basic topoplot
+### Differences vs Basic topoplot {#accuracy-differences-relative-to-basic-topoplot}
 
 ::: {.callout-note title="What is a contrast? — Expand" collapse="true"}
 A **contrast** is one comparison computed from a model, for example "Confidence
@@ -1010,6 +1073,12 @@ task1_coefficient_results <- task1_model_coefficients |>
   )
 
 task1_coefficient_results |>
+  # Visualization rows in the canonical order (audit V1), then the covariates.
+  arrange(match(
+    term,
+    c("(Intercept)", paste0("vistype", vistype_order), "patternN170", "patternP3",
+      "position_c")
+  )) |>
   transmute(
     term = term_label,
     estimate,
@@ -1071,6 +1140,10 @@ task1_position_result <- task1_coefficient_results |>
 # no difference.
 task1_format_p <- function(p) {
   formatted <- format.pval(p, digits = 2, eps = 0.001)
+  # A p below .05 that rounds to "0.05" (e.g. .0497) gets four decimals, so the
+  # printed value stays on the same side of .05 as the test.
+  borderline <- !is.na(p) & p < 0.05 & suppressWarnings(as.numeric(formatted)) >= 0.05
+  formatted[borderline] <- sprintf("%.4f", p[borderline])
   if_else(startsWith(formatted, "<"), formatted, paste("=", formatted))
 }
 task1_number_words <- c("one", "two", "three", "four", "five", "six")
@@ -1180,6 +1253,7 @@ task1_dunnett_or <- emmeans::emmeans(task1_fit, ~ vistype) |>
   )
 
 task1_dunnett_or |>
+  arrange(order_vistype(vistype)) |>
   transmute(
     comparison = paste(label, "vs Basic topoplot"),
     odds_ratio = sprintf("%.2f", odds.ratio),
@@ -1223,7 +1297,7 @@ task1_dunnett_or_sentence <- task1_effect_sentence(
 `r task1_pattern_sentence(task1_n170_result, "N170")`. The overall
 visualization-type test is reported below.
 
-### Model fit comparison
+### Model comparison {#model-fit-comparison}
 
 - A likelihood-ratio test compares the model containing visualization type with a reduced
   model that retains ERP pattern, presentation position, and the same random effects. It
@@ -1398,10 +1472,10 @@ The reduced and full models had AIC values of
 model. Thus, after accounting for ERP
 pattern, presentation position, participant baseline accuracy, and target- and
 distractor-stimulus difficulty, the analysis
-`r if (task1_vistype_lrt[["Pr(>Chisq)"]] < 0.05) "provided evidence" else "did not provide clear evidence"`
+`r p <- task1_vistype_lrt[["Pr(>Chisq)"]]; if (p < 0.01) "provided evidence" else if (p < 0.05) "provided only weak evidence" else "did not provide clear evidence"`
 that comparison-task accuracy differed overall among the seven visualization types.
 
-## Conditional logistic paired-choice sensitivity analysis
+## Paired-choice sensitivity analysis {#conditional-logistic-paired-choice-sensitivity-analysis}
 
 Task 1 is a paired-choice experiment: every trial presents one matching and one
 nonmatching candidate image. We therefore fitted a conditional logistic paired-choice
@@ -1634,6 +1708,12 @@ task1_bt_results <- task1_bt_results |>
   )
 
 task1_bt_results |>
+  # Canonical visualization order (audit V1); task1_bt_results itself keeps the
+  # order of task1_bt_visual_terms, which task1_lowest_bt relies on.
+  arrange(match(
+    comparison,
+    paste(table_vistype(vistype_order), "vs Basic topoplot")
+  )) |>
   transmute(
     Comparison = comparison,
     `Odds ratio` = sprintf("%.2f", odds_ratio),
@@ -1716,13 +1796,13 @@ $\chi^2(`r task1_bt_wald_df`) = `r sprintf("%.2f", task1_bt_wald_chisq)`$,
 The sensitivity analysis separates matching performance from images' general tendency
 to be selected; it does not replace the primary mixed-effects accuracy analysis.
 
-## Item-level diagnostics {#task1-item-diagnostics}
+## Target-image diagnostics {#task1-item-diagnostics}
 
 In Task 1, participants pick which of two maps matches the target, so guessing gives
 50%. This section checks whether any target image was matched correctly less often than
 that, why, and whether it changes the main comparison.
 
-### Target images below chance {#task1-below-chance}
+### Images matched correctly less than 50% of the time {#task1-below-chance}
 
 ```{r task1-item-diagnostic}
 #| cache: false
@@ -1874,7 +1954,7 @@ task1_class_accuracy |>
 - **For the manuscript.** The Stimuli section should say that some single-participant
   MMN and N170 maps look alike, which makes MMN–N170 pairs harder.
 
-### Visualizations with and without these trials {#task1-hard-refit}
+### Accuracy comparisons excluding those trials {#task1-hard-refit}
 
 ```{r task1-item-sensitivity}
 #| include: false
@@ -2131,7 +2211,7 @@ write_manuscript_numbers("task1", list(
 ))
 ```
 
-## Summary of the Task 1 accuracy evidence
+## Key findings {#summary-of-the-task-1-accuracy-evidence}
 
 ```{r task1-summary-text}
 #| include: false
@@ -2199,8 +2279,8 @@ task1_interpretation <- if (task1_any_primary_effect) {
 ```
 
 - **Overall test.** Adding visualization type
-  `r if (task1_lrt_p < 0.05) "improved" else "did not clearly improve"` the primary
-  model, $\chi^2(`r task1_vistype_lrt[["Chi Df"]]`) =
+  `r if (task1_lrt_p >= 0.05) "did not clearly improve" else "improved"` the primary
+  model`r if (task1_lrt_p < 0.05 && task1_lrt_p >= 0.01 && !task1_any_primary_effect) " only marginally" else ""`, $\chi^2(`r task1_vistype_lrt[["Chi Df"]]`) =
   `r sprintf("%.2f", task1_vistype_lrt[["Chisq"]])`$, *p* `r task1_format_p(task1_lrt_p)`.
 - **Primary contrasts** (population-average accuracy, Dunnett-adjusted for six
   comparisons with Basic). `r task1_primary_sentence`
@@ -2209,6 +2289,6 @@ task1_interpretation <- if (task1_any_primary_effect) {
   `r task1_bt_adjusted_sentence`
 - **Interpretation.** `r task1_interpretation`
 
-## Completion-time analysis
+## Completion time {#completion-time-analysis}
 
 Completion time is analysed on the [Time analysis](time.qmd) page.
