@@ -325,7 +325,7 @@ uncertainty-aware judgments. Addressing this question requires evidence about pe
 well as participants' explanations of why they prefer particular representations or struggle
 to interpret them.
 
-= Formative Qualitative Study
+= Formative Qualitative Study <sec:formative>
 
 At the beginning we conducted a formative qualitative study to understand how EEG/ERP
 researchers currently use topoplots, how they conceptualize uncertainty, and which barriers
@@ -531,6 +531,13 @@ whereas regions that vary strongly indicate greater uncertainty.
 
 = Quantitative User Study
 
+Following Lam et al.'s evaluation framework @lam2012seven, the formative interviews
+(@sec:formative) addressed environments and work practices, and this study addressed user
+performance and user experience. Following design-study guidance @sedlmair2012design, we
+consulted experts before fixing the designs (PF-1), compared six alternatives instead of
+committing to one (PF-20), kept the conventional topoplot as the baseline (PF-15), and did
+not treat preference alone as evidence of effectiveness (PF-26).
+
 == Research Questions
 
 The quantitative study addressed three research questions:
@@ -558,9 +565,15 @@ Participation was voluntary.
 #let nq = num.quality
 #let nr = num.subjective
 #let nt = num.task1
+#let n2 = num.task2
+#let nh = num.hit_miss
+#let ntm = num.time
+#let nf = num.feedback
 #assert(
   ns.n_participants == nq.n_participants and ns.n_participants == nr.n_participants
-    and ns.n_participants == nt.n_participants,
+    and ns.n_participants == nt.n_participants and ns.n_participants == n2.n_participants
+    and ns.n_participants == nh.n_participants and ns.n_participants == ntm.n_participants
+    and ns.n_participants == nf.n_participants_total,
   message: "numbers.json sections come from different samples; re-render the pages",
 )
 #assert(ns.n_country_missing == 0, message: "Some country answers are missing; update the Participants text")
@@ -687,13 +700,54 @@ unhelpful."
 
 == Measures
 
-[TODO: Measures]
+_Accuracy (Task 1)._ A trial was correct when the selected alternative showed the same ERP
+pattern as the target.
+
+_Detection score (Task 2)._ The score is the SNR of the selected region, rescaled within
+each stimulus from 0 (weakest region) to 1 (strongest region). We also classified each
+click. An _exact hit_ selects the peak region. A _neighbor hit_ selects a region that shares
+a border with the peak region. A _runner-up hit_ selects one of the four next-strongest
+regions; a runner-up can also be a neighbor.
+
+_Completion time._ We recorded the time spent on each trial page. Pages that took longer
+than 3 minutes were excluded.
+
+_Ratings (Task 3)._ The four 5-point items described above.
+
+_Open-ended feedback._ The coded meaning units (@sec:content-analysis). For each
+participant, visualization and theme, we took the median evaluation intensity; we call this
+an _entry_.
 
 == Statistical Analysis
 
-[TODO: Statistical analysis]
+We analyzed each outcome with a mixed-effects model. Visualization type was the predictor of
+interest. The models of accuracy, detection score and hits also included the ERP pattern and
+the trial position. Every model had a random intercept for each participant. The Task 1
+model added random intercepts for the target and the distractor stimulus. The Task 2 models
+added random intercepts for the stimulus and for each image, that is, a stimulus shown with
+one visualization. About 15 participants saw each image, so their answers are not
+independent.
 
-== Open-ended Feedback Content Analysis
+Accuracy and the hit outcomes used logistic models. The detection score used an ordered beta
+model, which allows scores of exactly 0 and 1. Completion time used a linear model of log
+time with trial position, so we report ratios of geometric means. Ratings used cumulative
+link models.
+
+We tested visualization type with a likelihood-ratio test against the same model without it.
+We then compared each visualization with the basic topoplot and adjusted for the six
+comparisons (Dunnett). When the overall test was not significant, we treat single
+comparisons as exploratory. Accuracy, scores and hit rates are averaged over participants,
+stimuli and images. Ratings are expected values for a typical participant on the 1--5 scale.
+
+The centre-bias analysis was exploratory. A quasi-Poisson model of the clicks per region,
+with one intercept per stimulus and visualization, asked whether regions on the edge of the
+head were chosen less often than their score predicts.
+
+Sensitivity analyses and model checks are reported in the supplement. All analyses were run
+in R @rcoreteam2026r with lme4 @bates2015lme4, glmmTMB @brooks2017glmmtmb, ordinal
+@christensen2026ordinal and emmeans @lenth2026emmeans.
+
+== Open-ended Feedback Content Analysis <sec:content-analysis>
 
 Responses to the open-ended feedback question were coded with large language model
 assistance (GPT-5.6 Sol @openai2026gpt56sol and Claude Opus 5.5 @anthropic2026opus55),
@@ -710,84 +764,294 @@ recoded (13 of 274).
 
 = Results
 
-== Task Performance
-
-// Task 1 values come from numbers.json; the Task 2 values below are typed by hand
-// (task2.qmd and hit_miss.qmd, N = 150) until those pages write them to numbers.json.
+// Every number below comes from numbers.json (written by the analysis pages). The
+// asserts stop the build when new data would make a sentence wrong.
 #assert(
   nt.comparison.all(c => c.p_all.starts-with("1") or float("0" + c.p_all) >= 0.05),
-  message: "A Task 1 contrast with Basic is now below .05; update the Task Performance text",
+  message: "A Task~1 contrast with Basic is now below .05; update Task Performance",
+)
+#assert(
+  not n2.overall_significant and n2.n_contrasts_significant == 0,
+  message: "A Task~2 detection-score test is now significant; update Task Performance",
+)
+#assert(
+  not (nh.overall_hit.significant or nh.overall_neighbour.significant
+    or nh.overall_runner.significant),
+  message: "A hit-or-miss overall test is now significant; update Task Performance",
+)
+#let nh-adj = nh.clear_contrasts.at(0, default: none)
+#assert(
+  nh.clear_contrasts.len() == 1 and nh-adj.outcome == "Hit"
+    and nh-adj.vistype == "Adjacent plots" and nh-adj.higher,
+  message: "The clear hit-or-miss contrasts changed; update Task Performance",
+)
+#let nc = nh.centre
+#assert(
+  nc.ratio_below_one and nc.all_vistypes_below_one,
+  message: "The centre bias no longer holds for all visualizations; update Centre Bias",
+)
+#assert(
+  ntm.task1.all_slower and ntm.task2.all_slower and ntm.task1.slowest == "Bivariate corner"
+    and ntm.task2.slowest == "Bivariate corner",
+  message: "Completion-time results changed; update Completion Time",
+)
+#let rating-set(item, higher) = nr.items.at(item).clear.filter(c => c.higher == higher).map(c => c.vistype).sorted()
+#let rating(item, vis) = nr.items.at(item).clear.find(c => c.vistype == vis).difference
+#assert(
+  rating-set("A302", true).len() == 6 and nr.items.A302.n_lower == 0
+    and rating-set("A301", false) == ("Bivariate corner", "Bivariate range", "Uncertainty markers")
+    and nr.items.A301.n_higher == 0
+    and rating-set("A303", true) == ("Adjacent plots", "Confidence intervals")
+    and nr.items.A303.n_lower == 0
+    and rating-set("A304", true) == ("Adjacent plots", "Animation")
+    and rating-set("A304", false) == ("Bivariate corner", "Bivariate range", "Uncertainty markers"),
+  message: "Rating contrasts changed; update Subjective Evaluation",
+)
+#let fdir(vis) = nf.direction.find(r => r.vistype == vis)
+#let fcell(key) = nf.cells.at(key)
+#assert(
+  fdir("Adjacent plots").direction == "mostly positive"
+    and fdir("Confidence intervals").direction == "mostly positive"
+    and fdir("Uncertainty markers").direction == "mixed"
+    and fdir("Animation").direction == "mixed"
+    and fdir("Bivariate corner").direction == "mostly negative"
+    and fcell("Interpretability | Bivariate corner").positive == 0
+    and fcell("Interpretability | Adjacent plots").positive == fcell("Interpretability | Adjacent plots").n
+    and fcell("Interpretability | Animation").negative > 0
+    and fcell("Interpretability | Animation").at_plus2 > 0,
+  message: "Feedback directions or cells changed; update Qualitative Feedback",
 )
 
-Overall, the effects of visualization type on task performance were weak. In Task 1, the
-overall likelihood-ratio test of visualization type was borderline ($chi^2 (6) = 12.61$,
-_p_~=~#nt.overall_p_all), and none of the six Dunnett-adjusted comparisons with the basic
-topoplot was significant. In Task 2, once each image (stimulus $times$ visualization)
-received its own random intercept, no overall test of visualization type was significant:
-detection score $chi^2 (6) = 8.7$, _p_~=~.19; exact hit $chi^2 (6) = 8.4$, _p_~=~.21; hit or
-neighbor hit $chi^2 (6) = 9.3$, _p_~=~.16. After Dunnett adjustment for the six comparisons
-with the basic topoplot, only one contrast remained below .05: adjacent plots yielded more
-exact hits than the basic topoplot (odds ratio 2.48, simultaneous 95% CI 1.06--5.83,
-adjusted _p_~=~.032). Because the corresponding overall test was not significant, we treat
-this contrast as exploratory.
+== Task Performance
 
-[TODO: Task-performance results]
+The seven visualizations performed similarly in both tasks (@fig:performance).
+
+In Task~1, the overall test of visualization type was borderline ($chi^2 (#nt.overall_df) =
+#nt.overall_chi$, _p_~=~#nt.overall_p_all). No comparison with the basic topoplot was
+significant.
+
+In Task~2, the overall test on the detection score was not significant ($chi^2
+(#n2.overall_df) = #n2.overall_chi$, _p_~=~#n2.overall_p), and no comparison with the basic
+topoplot was. Expected scores ranged from #n2.score_lowest for
+#lower(n2.score_lowest_vistype) to
+#n2.score_highest for #lower(n2.score_highest_vistype)\; the basic topoplot reached #n2.score_basic.
+
+Exact hits were rare for every visualization (#nh.hit_min to #nh.hit_max), although far
+above chance (#nh.hit_chance). The overall test was not significant ($chi^2
+(#nh.overall_hit.df) =
+#nh.overall_hit.chi$, _p_~=~#nh.overall_hit.p). Counting neighbor hits or runner-up hits did
+not change this (_p_~=~#nh.overall_neighbour.p and _p_~=~#nh.overall_runner.p). One
+comparison remained below .05 after adjustment: adjacent plots yielded more exact hits than
+the basic topoplot (odds ratio #nh-adj.odds_ratio, 95% CI #(nh-adj.lower)--#(nh-adj.upper),
+_p_~=~#nh-adj.p). Because the overall test was not significant, we treat it as exploratory.
+The stimulus mattered more than the visualization: hit rates ranged from
+#nh.stimulus_hit_min to #nh.stimulus_hit_max across stimuli.
+
+#figure(
+  grid(
+    columns: (1fr, 1fr),
+    gutter: 10pt,
+    [(a) Task~1 #image("figures/comparison_accuracy_contrast_figure.pdf", width: 100%)],
+    [(b) Task~2 #image("figures/detection_score_contrast_figure.pdf", width: 100%)],
+  ),
+  caption: [Difference from the basic topoplot in accuracy (a, Task~1) and in expected
+    detection score (b, Task~2), in percentage points, averaged over participants and
+    stimuli. Bars: Dunnett-adjusted 95% confidence intervals for the six comparisons.
+    Dashed line: no difference.],
+  placement: top,
+  scope: "parent",
+) <fig:performance>
+
+== Additional Finding: Centre Bias <sec:centre-bias>
+
+Participants avoided the edge of the head (@fig:centre-bias). In #nc.peak_border_stimuli of
+the #nc.n_stimuli stimuli, the peak lay on the border of the head. Yet border regions
+received only #nc.border_click_share of the clicks, about their share of the grid
+(#nc.border_region_share). For regions with the same score, a border region received
+#nc.ratio times as many clicks as an interior one (95% CI #(nc.lower)--#(nc.upper)). Every
+visualization showed this bias, from #nc.vistype_min for #lower(nc.vistype_min_name) to
+#nc.vistype_max for #lower(nc.vistype_max_name). This centre bias likely explains much of why exact
+hits were rare.
+
+#figure(
+  image("figures/centre_bias_head_map.pdf", width: 100%),
+  caption: [Clicks on each region relative to what its score predicts, pooled over all
+    stimuli and visualizations. Green: chosen more often than the score predicts; brown:
+    less often.],
+  placement: auto,
+) <fig:centre-bias>
+
+== Completion Time
+
+Every uncertainty visualization took longer than the basic topoplot (@fig:time). The basic
+topoplot took #ntm.task1.basic_time s per trial in Task~1 and #ntm.task2.basic_time s in
+Task~2 . The other visualizations took #ntm.task1.longer_min to #ntm.task1.longer_max longer
+in Task~1
+ and #ntm.task2.longer_min to #ntm.task2.longer_max longer in Task~2. Bivariate corner was
+the slowest in both tasks (#sym.times#ntm.task1.slowest_ratio and
+#sym.times#ntm.task2.slowest_ratio).
+
+#figure(
+  image("figures/time_ratio_figure.pdf", width: 100%),
+  caption: [Ratio of each visualization's geometric mean completion time to the basic
+    topoplot in Task~1 (left) and Task~2 (right). Bars: Dunnett-adjusted 95% confidence
+    intervals. Dashed line: no difference.],
+  placement: top,
+  scope: "parent",
+) <fig:time>
 
 == Subjective Evaluation
 
-[TODO: Subjective-evaluation results]
+Ratings differed much more than performance (@fig:ratings). All six uncertainty
+visualizations were rated more helpful for detection than the basic topoplot (from
+#nr.items.A302.clear.last().difference to #nr.items.A302.clear.first().difference points on
+the 1--5 scale). For comparison, however, the two bivariate maps and uncertainty markers
+were rated less helpful (corner #rating("A301", "Bivariate corner"), range
+#rating("A301", "Bivariate range"), markers #rating("A301", "Uncertainty markers")).
+
+Only adjacent plots (#rating("A303", "Adjacent plots")) and confidence intervals
+(#rating("A303", "Confidence intervals")) were more likely to be used in a publication.
+Adjacent plots (#rating("A304", "Adjacent plots")) and animation
+(#rating("A304", "Animation")) were rated more appealing. Uncertainty markers
+(#rating("A304", "Uncertainty markers")) and both bivariate maps (corner
+#rating("A304", "Bivariate corner"), range #rating("A304", "Bivariate range")) were rated
+less appealing.
+
+#figure(
+  image("figures/likert_contrast_figure.pdf", width: 100%),
+  caption: [Difference in expected rating from the basic topoplot for each item.
+    Dunnett-adjusted 95% confidence intervals; filled points: the interval excludes zero.],
+  placement: top,
+  scope: "parent",
+) <fig:ratings>
 
 == Qualitative Feedback
 
-[TODO: Qualitative-feedback results]
+#nf.n_participants_coded of #nf.n_participants_total participants commented on the
+visualizations (@fig:feedback). Comments were mostly positive for adjacent plots
+(#fdir("Adjacent plots").positive positive and #fdir("Adjacent plots").negative negative
+entries) and confidence intervals (#fdir("Confidence intervals").positive and
+#fdir("Confidence intervals").negative). They were mixed for uncertainty markers
+(#fdir("Uncertainty markers").positive and #fdir("Uncertainty markers").negative) and
+animation (#fdir("Animation").positive and #fdir("Animation").negative), and mostly negative
+for bivariate corner (#fdir("Bivariate corner").positive and
+#fdir("Bivariate corner").negative).
+
+Some judgments were nearly unanimous. Of the #fcell("Interpretability | Bivariate corner").n
+participants who discussed how interpretable bivariate corner is,
+#fcell("Interpretability | Bivariate corner").at_minus2 gave the strongest negative rating.
+All #fcell("Interpretability | Adjacent plots").n who discussed the interpretability of
+adjacent plots were positive. Animation split opinion: on interpretability,
+#fcell("Interpretability | Animation").negative participants were negative and
+#fcell("Interpretability | Animation").at_plus2 strongly positive.
+
+#figure(
+  image("figures/a305_intensity_distribution_figure.pdf", width: 100%),
+  caption: [Open-ended comments by theme and visualization. Each dot is one participant, in
+    the row of their median evaluation intensity (+2 at the top, −2 at the bottom); cell
+    colour is the median across participants.],
+  placement: top,
+  scope: "parent",
+) <fig:feedback>
 
 = Discussion
 
-Following Lam et al.'s evaluation framework @lam2012seven, our study combines understanding
-of environments and work practices (UWP) through formative expert interviews with controlled
-evaluation of user performance (UP) and user experience (UE) in the subsequent quantitative
-study.
+== Uncertainty Kept the Pattern Readable but Did Not Help Integration
 
-Our study design was informed by several pitfalls identified in design study methodology
-@sedlmair2012design. We aimed to avoid #emph[premature advance] and #emph[premature design
-commitment] (PF-1, PF-20) by conducting formative interviews with EEG/ERP researchers before
-finalizing the visualization designs and quantitative tasks, grounding the study in domain
-practices. We also retained the conventional topoplot as a baseline and preserved familiar
-aspects of its encoding in several conditions, reflecting the recommendation not to ignore
-existing practices that already work well (PF-15). Finally, we did not treat subjective
-preference as sufficient evidence of effectiveness: objective task performance was combined
-with subjective ratings and open-ended feedback, addressing the concern captured by PF-26.
-At the same time, the controlled quantitative tasks do not reproduce the full complexity of
-real EEG/ERP analysis workflows, so the study should not be interpreted as a full real-world
-case study, consistent with the caution expressed in PF-25.
+None of the six uncertainty visualizations measurably impaired pattern comparison. Adding
+uncertainty to a topoplot therefore need not break the map that EEG researchers know how to
+read. However, no design clearly helped participants find the region with the strongest
+signal either. We see three likely reasons. First, participants avoided the edge of the
+head, where #nc.peak_border_stimuli of the #nc.n_stimuli peaks lay (@sec:centre-bias).
+Second, some participants may have looked for the voltage peak rather than the SNR peak: for
+#n2.p3_low_modal_n of #n2.p3_n P3 stimuli, the most chosen region ranked only
+#n2.p3_rank_min to #n2.p3_rank_max by score. Third, participants are practised at reading
+plain topoplots and had little time to learn the new designs.
 
-In both objective tasks, the visualizations differed little in performance. The evidence for
-an overall effect of visualization type was weak in Task 1 and not significant in Task 2
-once image-level variation was modelled, and the single contrast that survived the
-adjustment for multiple comparisons (more exact hits with adjacent plots) should be
-confirmed in an independent study.
+Uncertainty did cost time: every design was slower than the basic topoplot, by up to
+#ntm.task2.longer_max. Uncertainty displays are therefore most useful where uncertainty can
+change a decision.
 
-[TODO: Discussion]
+== Preferences Diverged from Performance
+
+Ratings and comments differed much more than performance. Designs that keep the familiar
+voltage map intact, adjacent plots and confidence intervals, were preferred. Designs that
+change its colors or cover it, the bivariate maps and uncertainty markers, were rated less
+helpful for comparison and less appealing. Since accuracy hardly differed, these preferences
+likely reflect familiarity, reading effort and legend complexity. They still matter: a
+display that researchers find hard to read is unlikely to be used. Animation divided
+participants, and its value depends on the medium.
+
+== Reading the Edge of a Topoplot
+
+The centre bias suggests that EEG researchers discount maxima at the rim of a topoplot. This
+may be sensible, because values there are extrapolated beyond the outermost electrodes.
+Designs could make this explicit, for example by marking the extrapolated area. Future
+studies of topoplot reading should balance target positions between the centre and the rim.
+
+== Recommendations
+
+@tab:recommendations summarizes when to use each design. Because performance hardly
+differed, the recommendations rest mainly on completion time, ratings and comments. Two
+general rules follow: keep the familiar voltage map intact, and do not mix uncertainty into
+the voltage color scale.
+
+#figure(
+  {
+  set text(size: 8pt)
+  set par(justify: false)
+  table(
+    columns: (auto, 1fr, 1fr),
+    align: left,
+    stroke: none,
+    inset: (x: 3pt, y: 2pt),
+    table.hline(),
+    table.header([*Design*], [*Recommended use*], [*Main drawback*]),
+    table.hline(stroke: 0.5pt),
+    [Basic topoplot], [Uncertainty shown elsewhere; quick pattern comparison], [Shows no uncertainty],
+    [Adjacent plots], [Default for papers and reports], [Slower; two maps to compare],
+    [Bivariate corner], [Not recommended], [Hardest to read; slowest],
+    [Bivariate range], [Only when a single map is required], [Less helpful for comparison],
+    [Uncertainty markers], [Exploring where effects are reliable], [Least appealing; markers cover the map],
+    [Confidence intervals], [When the range of plausible maps matters], [Three maps; state that bounds are ±1 SE],
+    [Animation], [Talks, web pages and teaching], [Unsuited to print; divides opinion],
+    table.hline(),
+  )
+  },
+  kind: table,
+  caption: [When to use each design. These recommendations are interpretations of the
+    completion times, ratings and comments.],
+  placement: auto,
+) <tab:recommendations>
 
 = Limitations
 
-In every rating item the visualizations were listed in the same order, with the basic
-topoplot always last. Because the order was not varied, position effects cannot be separated
-from differences between visualizations; this particularly affects the basic topoplot, the
-reference for all rating comparisons. Future studies should randomize or counterbalance the
-item order. The comparison rating was also collected at a different point in the study than
-the other three ratings (after Task 1 rather than after Task 2).
+_Setting._ Participants were a self-selected online sample and used their own screens, so
+display size and color rendering varied. The tasks were controlled and do not reproduce full
+EEG/ERP analysis workflows, so the study is not a real-world case study @sedlmair2012design
+(PF-25). Participants also saw each design only briefly and without training. Performance
+after practice may differ.
 
-The corner palette was rated by Bernard et al. for black backgrounds, whereas our stimuli
-used a white one. We expect little effect, because the background touches only the rim of
-the head, but we cannot rule it out.
+_Stimuli._ The stimuli were #nc.n_stimuli sampled ERP topographies, ten per pattern. The
+conclusions generalize to new stimuli only as far as these represent the topographies that
+researchers encounter. Most peaks lay on the rim of the head (@sec:centre-bias), which
+limits the hit rates.
 
-The stimuli were 30 sampled ERP topographies, ten for each of the three patterns, and the
-models treated them as random effects. The conclusions therefore generalize to new stimuli
-only as far as these 30 topographies represent the ERP topographies that researchers
-encounter.
+_Ratings._ The visualizations were listed in the same order in every rating item, with the
+basic topoplot last. Position effects therefore cannot be separated from differences between
+designs, and this affects the basic topoplot, the reference for all comparisons. The
+comparison item was also asked after Task~1, the other three after Task~2.
 
-[TODO: Further limitations]
+_Corner palette._ Bernard et al. rated the palette for black backgrounds, whereas our
+stimuli used a white one. We expect little effect, because the background touches only the
+rim of the head, but we cannot rule it out.
+
+_Feedback coding._ The comments were coded with language-model assistance and checked
+against the coding rules, but not yet coded by a second human coder. We therefore report no
+agreement statistic.
+
+_Exploratory analyses._ The centre-bias analysis was not planned. It should be confirmed
+with stimuli whose peaks are balanced between the centre and the rim.
 
 = Conclusion
 
