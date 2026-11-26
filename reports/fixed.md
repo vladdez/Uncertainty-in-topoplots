@@ -5,6 +5,7 @@ subtitle: "Resolved issues and how they were resolved"
 
 | | Issue | Area | Fixed on |
 |--|------------------|----|----|
+| [High]{.badge .sev-high} | [F32. Task 2 random-effects structure](#f32) | Task 2, manuscript | 26 Nov 2026 |
 | [Moderate]{.badge .sev-moderate} | [F31. Feedback codes were linked by row position](#f31) | Feedback, data | 24 Nov 2026 |
 | [Low]{.badge .sev-low} | [F30. Cache and duplicate-filter hazards](#f30) | Ratings, Task 2 | 24 Nov 2026 |
 | [Low]{.badge .sev-low} | [F29. Rating models: test ignored clustering; estimates were conditional](#f29) | Ratings | 24 Nov 2026 |
@@ -40,6 +41,64 @@ subtitle: "Resolved issues and how they were resolved"
 : {.findings-table}
 
 Dates are when the fix was committed (from Git history).
+
+## F32. Task 2 random-effects structure {#f32}
+
+::: lineage
+[formerly]{.id-note} [U2]{.id-old} → [A2]{.id-old} → [F32]{.id-new}
+:::
+
+::: {.finding-meta .sev-high .status-resolved}
+**Severity:** High · **Area:** Task 2 detection-score model; manuscript
+:::
+
+**Problem.** Each image (one stimulus shown with one visualization) was answered by
+about 15 participants, but the Task 2 models treated those answers as independent. Some
+images were simply harder than others, so differences between visualizations looked more
+certain than they were, and the manuscript described effects that did not survive a
+correct model.
+
+**Resolution (26 Nov 2026).**
+
+- **Model.** The primary model is
+  `score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)`,
+  with an intercept for each of the 210 images; the two-part sensitivity model and the
+  three hit-or-miss models use the same structure. Evidence for the image intercept
+  (N = 146):
+
+  | Model | AIC without → with | Image SD | Overall visualization LRT, without → with |
+  |---|---|---|---|
+  | Score (ordered beta) | 1178 → 1107 | 0.27 | χ²(6) = 23.1, p = .0008 → χ²(6) = 8.0, p = .23 |
+  | Exact hit (logistic) | 2497 → 2448 | 0.82 | χ²(6) = 14.6, p = .023 → χ²(6) = 8.6, p = .20 |
+  | Hit or near hit (logistic) | 3347 → 3161 | 1.12 | χ²(6) = 19.9, p = .003 → χ²(6) = 9.0, p = .17 |
+
+  Point estimates barely move; standard errors grow 1.5–2.2×. After Dunnett adjustment
+  (N = 150), only one contrast remains below .05: exact hit, Adjacent plots (p = .032),
+  from an outcome whose overall test is not significant, so it is reported as
+  exploratory.
+- **Participant slopes.** Tested; their omission is explained on the Task 2 page (the
+  full correlated structure does not converge; the position slope is computed, SD 0.013
+  logit per trial).
+- **Task 1 has no image-level variation to model.** The same term (target stimulus ×
+  visualization) added to the Task 1 model changes nothing (N = 150):
+
+  | | Without | With |
+  |---|---|---|
+  | AIC | 2839.3 | 2841.1 |
+  | Image SD (logit) | — | 0.15, against 1.01 for stimulus and 1.10 for distractor |
+  | Overall visualization LRT | χ²(6) = 12.61, p = .0497 | χ²(6) = 12.19, p = .058 |
+
+  The term itself is not supported (χ²(1) = 0.16, p = .69), standard errors grow by about
+  3%, and all six Dunnett-adjusted contrasts stay above .10, so Task 1 keeps
+  `(1 | ID) + (1 | stimulus) + (1 | wrong_image)`.
+- **Manuscript.** *Results → Task Performance* now says that the effects of visualization
+  type were weak overall: the Task 1 overall test is borderline with no significant
+  contrast, and no Task 2 overall test is significant once each image has its own
+  intercept; the single adjusted contrast below .05 is labelled exploratory. Task 1
+  values come from `numbers.json`, and an `#assert` stops the build if a Task 1 contrast
+  drops below .05. *Limitations* says that the conclusions generalize to new stimuli
+  only as far as the 30 sampled topographies represent those researchers encounter.
+  Compiled through `scripts/compile-journal.ps1` on 26 Nov 2026.
 
 ## F31. Feedback codes were linked by row position {#f31}
 
@@ -258,7 +317,7 @@ changed.
 :::
 
 ::: {.finding-meta .sev-moderate .status-resolved}
-**Severity:** Moderate · **Area:** Hit or miss page; Task 2 two-part model; [A1](addressed.md#a1), [A2](addressed.md#a2)
+**Severity:** Moderate · **Area:** Hit or miss page; Task 2 two-part model; [A1](addressed.md#a1), [A2 (now F32)](#f32)
 :::
 
 **Problem.** Every page compares each visualization with Basic topoplot and corrects the

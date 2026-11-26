@@ -36,9 +36,9 @@ website:
           - href: index.md
             text: "Unresolved (0)"
           - href: addressed.md
-            text: "Addressed (4)"
+            text: "Addressed (3)"
           - href: fixed.md
-            text: "Fixed (31)"
+            text: "Fixed (32)"
       - section: "Literature"
         contents:
           - href: manuscript-citations-audit.md

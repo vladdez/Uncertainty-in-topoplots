@@ -549,8 +549,10 @@ Participation was voluntary.
 #let ns = num.sample
 #let nq = num.quality
 #let nr = num.subjective
+#let nt = num.task1
 #assert(
-  ns.n_participants == nq.n_participants and ns.n_participants == nr.n_participants,
+  ns.n_participants == nq.n_participants and ns.n_participants == nr.n_participants
+    and ns.n_participants == nt.n_participants,
   message: "numbers.json sections come from different samples; re-render the pages",
 )
 #assert(ns.n_country_missing == 0, message: "Some country answers are missing; update the Participants text")
@@ -702,6 +704,25 @@ recoded (13 of 274).
 
 == Task Performance
 
+// Task 1 values come from numbers.json; the Task 2 values below are typed by hand
+// (task2.qmd and hit_miss.qmd, N = 150) until those pages write them to numbers.json.
+#assert(
+  nt.comparison.all(c => c.p_all.starts-with("1") or float("0" + c.p_all) >= 0.05),
+  message: "A Task 1 contrast with Basic is now below .05; update the Task Performance text",
+)
+
+Overall, the effects of visualization type on task performance were weak. In Task 1, the
+overall likelihood-ratio test of visualization type was borderline ($chi^2 (6) = 12.61$,
+_p_~=~#nt.overall_p_all), and none of the six Dunnett-adjusted comparisons with the basic
+topoplot was significant. In Task 2, once each image (stimulus $times$ visualization)
+received its own random intercept, no overall test of visualization type was significant:
+detection score $chi^2 (6) = 8.7$, _p_~=~.19; exact hit $chi^2 (6) = 8.4$, _p_~=~.21; hit or
+neighbor hit $chi^2 (6) = 9.3$, _p_~=~.16. After Dunnett adjustment for the six comparisons
+with the basic topoplot, only one contrast remained below .05: adjacent plots yielded more
+exact hits than the basic topoplot (odds ratio 2.48, simultaneous 95% CI 1.06--5.83,
+adjusted _p_~=~.032). Because the corresponding overall test was not significant, we treat
+this contrast as exploratory.
+
 [TODO: Task-performance results]
 
 == Subjective Evaluation
@@ -732,6 +753,12 @@ At the same time, the controlled quantitative tasks do not reproduce the full co
 real EEG/ERP analysis workflows, so the study should not be interpreted as a full real-world
 case study, consistent with the caution expressed in PF-25.
 
+In both objective tasks, the visualizations differed little in performance. The evidence for
+an overall effect of visualization type was weak in Task 1 and not significant in Task 2
+once image-level variation was modelled, and the single contrast that survived the
+adjustment for multiple comparisons (more exact hits with adjacent plots) should be
+confirmed in an independent study.
+
 [TODO: Discussion]
 
 = Limitations
@@ -742,6 +769,11 @@ from differences between visualizations; this particularly affects the basic top
 reference for all rating comparisons. Future studies should randomize or counterbalance the
 item order. The comparison rating was also collected at a different point in the study than
 the other three ratings (after Task 1 rather than after Task 2).
+
+The stimuli were 30 sampled ERP topographies, ten for each of the three patterns, and the
+models treated them as random effects. The conclusions therefore generalize to new stimuli
+only as far as these 30 topographies represent the ERP topographies that researchers
+encounter.
 
 [TODO: Further limitations]
 

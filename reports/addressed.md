@@ -6,7 +6,6 @@ subtitle: "Issues where work has been done but something remains"
 | | Issue | Area |
 |--|------------------|----|
 | [Moderate]{.badge .sev-moderate} | [A1. Model-adequacy checks](#a1) | All models |
-| [High]{.badge .sev-high} | [A2. Task 2 random-effects structure](#a2) | Task 2 |
 | [Moderate]{.badge .sev-moderate} | [A4. Task 2 scores are not comparable across stimuli](#a4) | Task 2 |
 | [Moderate]{.badge .sev-moderate} | [A5. Qualitative coding is not validated](#a5) | Feedback |
 
@@ -38,77 +37,6 @@ subtitle: "Issues where work has been done but something remains"
 - Simulated residual diagnostics for all models.
 - Influence checks for participants, stimuli, and comparison pairs.
 - Residual behaviour of the time models.
-
-## A2. Task 2 random-effects structure {#a2}
-
-::: {.finding-meta .sev-high .status-partial}
-**Severity:** High · **Area:** Task 2 detection-score model
-:::
-
-**Done.**
-
-- The primary model is
-  `score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)`,
-  adjusting for ERP pattern and presentation position, with crossed participant and
-  stimulus intercepts and an intercept for each of the 210 images (formerly U2). The
-  same structure is used in the two-part sensitivity model and in the hit / near-hit
-  models on the Hit or miss page.
-- Evidence for the image intercept (N = 146):
-
-  | Model | AIC without → with | Image SD | Overall visualization LRT, without → with |
-  |---|---|---|---|
-  | Score (ordered beta) | 1178 → 1107 | 0.27 | χ²(6) = 23.1, p = .0008 → χ²(6) = 8.0, p = .23 |
-  | Exact hit (logistic) | 2497 → 2448 | 0.82 | χ²(6) = 14.6, p = .023 → χ²(6) = 8.6, p = .20 |
-  | Hit or near hit (logistic) | 3347 → 3161 | 1.12 | χ²(6) = 19.9, p = .003 → χ²(6) = 9.0, p = .17 |
-
-  Point estimates barely move; standard errors grow 1.5–2.2×. After Dunnett adjustment
-  for the six comparisons with Basic (measured 24 Nov 2026, N = 150), only one contrast
-  remains below .05: exact hit, Adjacent plots (p = .032). Three that were below .05
-  unadjusted no longer are: exact hit, Confidence intervals (p = .160); hit or near hit,
-  Uncertainty markers (p = .118) and Bivariate range (p = .123). The Bivariate corner
-  score deficit does not
-  (p = .005 → .093); it is concentrated in three images (MMN_30, N170_16, N170_27).
-- The page checks that no responses are lost and that each stimulus maps to one
-  pattern.
-- Participant-specific slopes were tested and their omission is explained on the page:
-  - the full correlated visualization structure does not converge;
-  - the position slope is now computed on the page (SD 0.013 logit per trial, against
-    a fixed position effect of 0.002), not asserted to be negligible (F20);
-  - a diagonal visualization structure was tried during model building, but it is not
-    refitted on the page, so the page no longer cites it as a sensitivity model.
-
-**Done (25–26 Nov 2026).**
-
-- **Task 1 has no image-level variation to model.** The analogous term, one intercept
-  per target stimulus × visualization (210 images, 5–25 trials each), was added to the
-  primary model in a check script (N = 150, 3150 trials; not on the Task 1 page):
-
-  | | Without | With |
-  |---|---|---|
-  | AIC | 2839.3 | 2841.1 |
-  | Image SD (logit) | — | 0.15, against 1.01 for stimulus and 1.10 for distractor |
-  | Overall visualization LRT | χ²(6) = 12.61, p = .0497 | χ²(6) = 12.19, p = .058 |
-
-  The term itself is not supported (χ²(1) = 0.16, p = .69). Standard errors grow by
-  about 3%, and all six Dunnett-adjusted contrasts with Basic stay above .10 with or
-  without it, so the primary model keeps
-  `(1 | ID) + (1 | stimulus) + (1 | wrong_image)`.
-- **Manuscript, drafted (not yet committed).** In `journal.typ`:
-  - *Results → Task Performance* (from line 714) describes the visualization effects as
-    weak overall: the Task 1 overall test is borderline, no Task 1 contrast is
-    significant, and no Task 2 overall test is significant once each image has its own
-    intercept. The one adjusted Task 2 contrast below .05 (exact hit, Adjacent plots,
-    p = .032) is labelled exploratory. Task 1 values come from `numbers.json`, and
-    an `#assert` stops the build if a Task 1 contrast drops below .05; the Task 2
-    values are still typed by hand.
-  - *Limitations* (line 773) says that the conclusions generalize to new stimuli only
-    as far as the 30 sampled topographies (ten per pattern) represent the ones
-    researchers encounter.
-
-**Remaining.**
-
-- Review and commit the two manuscript paragraphs, then compile through
-  `scripts/compile-journal.ps1`. A2 then moves to [Fixed](fixed.md).
 
 ## A4. Task 2 scores are not comparable across stimuli {#a4}
 
