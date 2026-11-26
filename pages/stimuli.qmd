@@ -1,0 +1,50 @@
+---
+title: "Stimuli preparation"
+---
+
+This page shows how the stimuli and the Task 2 scoring were built. The figures were drawn
+with UnfoldMakie in the project's worktree (`uncertainty_project/figures/`) and copied
+here; they are illustrations of the pipeline, not results.
+
+## Task 2: from a topoplot to region scores
+
+In Task 2, participants clicked one of 64 regions. Each region gets a score from the
+signal-to-noise ratio (SNR) of the stimulus: the mean SNR inside the region, rescaled
+within each stimulus so that the weakest region scores 0 and the strongest scores 1.
+
+![Scoring pipeline: the topoplot (1), the clickable grid of 64 regions (2), the grid laid over the topoplot (3), and the normalised SNR score of each region (4).](../figures/stimuli_preparation/example_pipeline_illustration.png){fig-alt="Four head maps in a row: a voltage topoplot, an empty grid of 64 regions, the grid over the topoplot, and the grid coloured by normalised SNR with a score in each region."}
+
+The SNR divides the absolute voltage by its standard error (SE) at every point of the
+head.
+
+![Signal voltage (1) divided by its standard error (2) gives the raw SNR (3), here for one MMN stimulus.](../figures/stimuli_preparation/example_pipeline_mmn2.png){fig-alt="Three head maps: signal voltage, standard error, and raw SNR, connected by a division sign and an arrow."}
+
+## Signal, standard error and SNR
+
+The standard error changes where the strongest signal-to-noise region lies. Without it,
+the SNR simply follows the voltage; with it, regions with a large but uncertain voltage
+lose weight.
+
+![Effect of the standard error on the signal for stimulus P3_20. Top: the signal and the SNR computed from the signal alone. Bottom: the signal divided by its standard error gives a different SNR map.](../figures/stimuli_preparation/P3_20_signal_se_snr_layout.png){fig-alt="Head maps of signal and signal-only SNR in the top row, and signal, standard error and signal-plus-standard-error SNR in the bottom row."}
+
+## The 64-region grid
+
+The clickable grid divides the head into 64 regions of equal area, aligned with the
+electrode montage. Six candidate layouts were compared on how equal the region areas
+are, how elongated the regions are, and how far electrodes sit from region borders; the
+layout with ten midline seed points ("rows10_base") was selected.
+
+![Six candidate grids. Each title gives the area coefficient of variation (area CV), the mean and maximum aspect ratio, and the minimum electrode-to-border clearance; the selected layout is marked with a star.](../figures/stimuli_preparation/candidate_comparison.png){fig-alt="Six head-shaped grids of 64 coloured regions in two rows of three, each with its quality metrics; the first grid of the second row is marked as selected."}
+
+The selected grid with its region labels. The labels (R01–R64) are used on the Task 2
+and Hit or miss pages.
+
+![Final grid with region labels R01 to R64.](../figures/stimuli_preparation/preview_labels.png){fig-alt="A head-shaped grid of 64 coloured regions, each labelled from R01 at the front to R64 at the back."}
+
+## Bivariate maps
+
+The bivariate corner design combines voltage and standard error in one colour. Each
+electrode's pair of values is placed in a two-dimensional colour box, and the colours are
+then interpolated over the head.
+
+![Bivariate pipeline for stimulus MMN_1: signal (1) and uncertainty (2) per electrode, the electrode pairs in the colour box (3), the bivariate topoplot without interpolation (4), the interpolated head-grid points (5), and the final bivariate topoplot (6).](../figures/stimuli_preparation/MMN_1_bivariate_pipeline.png){fig-alt="Six panels showing how electrode voltages and standard errors are mapped to a two-dimensional colour box and interpolated into a bivariate topoplot."}

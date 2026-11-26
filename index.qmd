@@ -24,6 +24,7 @@ This study compares seven uncertainty-visualization approaches using comparison,
 
 - [**Summary**](pages/summary.qmd)**:** conclusions for each research question, recommendations for each visualization, and the publication figures with their print PDFs.
 - [**Sample**](pages/sample.qmd)**:** participants and background characteristics.
+- [**Stimuli preparation**](pages/stimuli.qmd)**:** how the stimuli, the 64-region grid and the Task 2 scores were built.
 - [**Quality control**](pages/quality.qmd)**:** participants flagged for answering too fast or giving the same rating everywhere.
 - [**Task 1**](pages/task1.qmd)**:** visualization comparison.
 - [**Task 2**](pages/task2.qmd)**:** pattern detection.

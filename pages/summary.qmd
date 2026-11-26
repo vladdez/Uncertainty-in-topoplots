@@ -43,7 +43,7 @@ Each finding has a label:
 ## Who took part
 
 ::: {.publication-figures}
-![Self-assessed level and research field as parts of a whole (A); country of work (B) and software used (C), with smaller categories pooled into Other. Flags indicate country of work, not nationality. Multiple software selections were permitted in C. An asterisk denotes the survey answer "My own code in …".](../figures/participant_characteristics_icons_compact.png){fig-alt="Participant characteristics: stacked bars for self-assessed level and research field, and bar charts of country of work with flags and software used with tool logos."}
+![Self-assessed level and research field as parts of a whole (A); country of work (B), with countries of one or two respondents pooled into two rows shown by their flags; and software used (C), with tools below 4% pooled into Other. Flags indicate country of work, not nationality. Multiple software selections were permitted in C. An asterisk denotes the survey answer "My own code in …".](../figures/participant_characteristics_icons_compact.png){fig-alt="Participant characteristics: stacked bars for self-assessed level and research field, and bar charts of country of work with flags and software used with tool logos."}
 
 ::: {.print-pdf}
 Print PDF, full width: [participant_characteristics_icons_compact.pdf](../figures/participant_characteristics_icons_compact.pdf)
