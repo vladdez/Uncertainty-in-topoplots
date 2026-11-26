@@ -608,7 +608,7 @@ Responses were collected using a separate 64-region selectable scalp layout disp
 to the stimulus. We constructed this layout as a fixed SVG representation of the scalp
 divided into 64 individually selectable polygonal regions, labelled internally from R01 to
 R64. The regions have nearly equal area, are mirrored left to right, and are aligned with
-the electrode montage; the same layout was used for every trial. Section 1.8 and Figure S4
+the electrode montage; the same layout was used for every trial. Section 1.8 and Figure S3
 of the supplementary material show how the layout was chosen. Participants selected one
 region by clicking directly on the corresponding polygon.
 
@@ -898,7 +898,7 @@ Only adjacent plots (#rating("A303", "Adjacent plots")) and confidence intervals
 Adjacent plots (#rating("A304", "Adjacent plots")) and animation
 (#rating("A304", "Animation")) were rated more appealing. Uncertainty markers
 (#rating("A304", "Uncertainty markers")) and both bivariate maps (corner
-#rating("A304", "Bivariate corner"), range #rating("A304", "Bivariate range")) were rated less appealing. Expected ratings and model checks are given in Section 1.6 and Figure S3 of the supplementary material.
+#rating("A304", "Bivariate corner"), range #rating("A304", "Bivariate range")) were rated less appealing. Expected ratings and model checks are given in Section 1.6 and Figure S2 of the supplementary material.
 
 #figure(
   image("figures/likert_contrast_figure.pdf", width: 100%),

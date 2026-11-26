@@ -38,6 +38,8 @@
 = Supplementary Material
 
 #set figure(numbering: n => [S#n])
+// The template's empty teaser counts as an image figure; restart at S1.
+#counter(figure.where(kind: image)).update(0)
 
 #figure(
   kind: table,
