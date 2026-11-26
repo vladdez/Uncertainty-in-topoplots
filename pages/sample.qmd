@@ -846,7 +846,10 @@ software_names <- legend %>%
   pivot_longer(everything(), names_to = "item", values_to = "software")  %>%
   mutate(
     software = stringr::word(software, 2, -1),
-    software = if_else(item == "A006_27", "Other", software)
+    software = if_else(item == "A006_27", "Other", software),
+    # The survey listed it in lowercase; the tool (a GUI for MNE-Python, a
+    # separate project) is written MNELAB.
+    software = if_else(software == "mnelab", "MNELAB", software)
   )
 
 
@@ -978,6 +981,7 @@ software_logo_labels <- c(
   "Brain Vision Analyser" = logo("brainvision_analyzer_text.png", 32),
   "Brainstorm" = logo("brainstorm_text.png", 18),
   "LIMO" = logo("limo_text.png", 17),
+  "MNELAB" = logo("mnelab_text.png", 16),
   "My own code in MATLAB" = paste0(star, logo("matlab_text.png", 17)),
   "My own code in Python" = paste0(star, logo("python_text.png", 21)),
   "My own code in R" = paste0(star, logo("r.png", 18)),
