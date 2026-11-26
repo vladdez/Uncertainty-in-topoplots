@@ -710,7 +710,7 @@ a border with the peak region. A _runner-up hit_ selects one of the four next-st
 regions; a runner-up can also be a neighbor.
 
 _Completion time._ We recorded the time spent on each trial page. Pages that took longer
-than 3 minutes were excluded.
+than 3 minutes were excluded (Section 1.5 of the supplementary material).
 
 _Ratings (Task 3)._ The four 5-point items described above.
 
@@ -743,8 +743,9 @@ The centre-bias analysis was exploratory. A quasi-Poisson model of the clicks pe
 with one intercept per stimulus and visualization, asked whether regions on the edge of the
 head were chosen less often than their score predicts.
 
-Sensitivity analyses and model checks are reported in the supplement. All analyses were run
-in R @rcoreteam2026r with lme4 @bates2015lme4, glmmTMB @brooks2017glmmtmb, ordinal
+Section 1.2 and Table S6 of the supplementary material list the models. Table S7 shows why
+the Task~2 models need the intercept per image and the Task~1 model does not. All analyses
+were run in R @rcoreteam2026r with lme4 @bates2015lme4, glmmTMB @brooks2017glmmtmb, ordinal
 @christensen2026ordinal and emmeans @lenth2026emmeans.
 
 == Open-ended Feedback Content Analysis <sec:content-analysis>
@@ -760,7 +761,8 @@ For example, the meaning unit "couldn't distinguish colors mapping from legend t
 assigned to "Bivariate corner", coded under "Legend/color mapping", and given an evaluation
 intensity of -2. Missing, blank, and non-substantive responses were excluded. All codes were
 then checked for compliance with the coding rules, and units that violated a rule were
-recoded (13 of 274).
+recoded (13 of 274). The codebook is given in Section 1.7 and Table S9 of the supplementary
+material.
 
 = Results
 
@@ -784,6 +786,15 @@ recoded (13 of 274).
   nh.clear_contrasts.len() == 1 and nh-adj.outcome == "Hit"
     and nh-adj.vistype == "Adjacent plots" and nh-adj.higher,
   message: "The clear hit-or-miss contrasts changed; update Task Performance",
+)
+#assert(
+  n2.two_part.overall.all(r => not r.p.starts-with("<") and float("0" + r.p) >= 0.05)
+    and n2.scale_free_n_significant == 0,
+  message: "Task 2 robustness checks now disagree; update Task Performance",
+)
+#assert(
+  ntm.sensitivity_n_changed == 1,
+  message: "The number of time comparisons that depend on the outlier rule changed; update Completion Time",
 )
 #let nc = nh.centre
 #assert(
@@ -834,7 +845,7 @@ In Task~2, the overall test on the detection score was not significant ($chi^2
 (#n2.overall_df) = #n2.overall_chi$, _p_~=~#n2.overall_p), and no comparison with the basic
 topoplot was. Expected scores ranged from #n2.score_lowest for
 #lower(n2.score_lowest_vistype) to
-#n2.score_highest for #lower(n2.score_highest_vistype)\; the basic topoplot reached #n2.score_basic.
+#n2.score_highest for #lower(n2.score_highest_vistype)\; the basic topoplot reached #n2.score_basic. A two-part model of exact peaks and misses and the rank of the chosen region led to the same conclusion (Section 1.3 of the supplementary material).
 
 Exact hits were rare for every visualization (#nh.hit_min to #nh.hit_max), although far
 above chance (#nh.hit_chance). The overall test was not significant ($chi^2
@@ -845,7 +856,8 @@ comparison remained below .05 after adjustment: adjacent plots yielded more exac
 the basic topoplot (odds ratio #nh-adj.odds_ratio, 95% CI #(nh-adj.lower)--#(nh-adj.upper),
 _p_~=~#nh-adj.p). Because the overall test was not significant, we treat it as exploratory.
 The stimulus mattered more than the visualization: hit rates ranged from
-#nh.stimulus_hit_min to #nh.stimulus_hit_max across stimuli.
+#nh.stimulus_hit_min to #nh.stimulus_hit_max across stimuli. Table S8 of the supplementary
+material gives the rates per visualization.
 
 #figure(
   grid(
@@ -870,7 +882,7 @@ received only #nc.border_click_share of the clicks, about their share of the gri
 (#nc.border_region_share). For regions with the same score, a border region received
 #nc.ratio times as many clicks as an interior one (95% CI #(nc.lower)--#(nc.upper)). Every
 visualization showed this bias, from #nc.vistype_min for #lower(nc.vistype_min_name) to
-#nc.vistype_max for #lower(nc.vistype_max_name). This centre bias likely explains much of why exact
+#nc.vistype_max for #lower(nc.vistype_max_name) (Table S8 of the supplementary material). This centre bias likely explains much of why exact
 hits were rare.
 
 #figure(
@@ -889,7 +901,7 @@ Task~2 . The other visualizations took #ntm.task1.longer_min to #ntm.task1.longe
 in Task~1
  and #ntm.task2.longer_min to #ntm.task2.longer_max longer in Task~2. Bivariate corner was
 the slowest in both tasks (#sym.times#ntm.task1.slowest_ratio and
-#sym.times#ntm.task2.slowest_ratio).
+#sym.times#ntm.task2.slowest_ratio). Only one comparison depended on the outlier rule (Section 1.5 of the supplementary material).
 
 #figure(
   image("figures/time_ratio_figure.pdf", width: 100%),
@@ -914,8 +926,7 @@ Only adjacent plots (#rating("A303", "Adjacent plots")) and confidence intervals
 Adjacent plots (#rating("A304", "Adjacent plots")) and animation
 (#rating("A304", "Animation")) were rated more appealing. Uncertainty markers
 (#rating("A304", "Uncertainty markers")) and both bivariate maps (corner
-#rating("A304", "Bivariate corner"), range #rating("A304", "Bivariate range")) were rated
-less appealing.
+#rating("A304", "Bivariate corner"), range #rating("A304", "Bivariate range")) were rated less appealing. Expected ratings and model checks are given in Section 1.6 and Figure S3 of the supplementary material.
 
 #figure(
   image("figures/likert_contrast_figure.pdf", width: 100%),
