@@ -134,7 +134,7 @@ data$A001 %>% table() %>%  data.frame() %>% dplyr::rename(level = !!names(.)[1])
     axis.text = element_text(size = 20),
     axis.ticks.y = element_blank(),
     legend.position = "none"
-  )  + coord_cartesian(clip = "off")
+  )  + x_axis_end_mark() + coord_cartesian(clip = "off")
 ```
 
 ## Country of work
@@ -756,7 +756,8 @@ continent <- country_responses %>%
   count(continent, name = "Freq") %>%
   mutate(percent_score = Freq / sum(Freq) * 100)
 
-make_geography_plot(continent, continent, "Continent of work")
+make_geography_plot(continent, continent, "Continent of work") +
+  x_axis_end_mark()
 ```
 
 ### Diagnostic: responses grouped as “Other”
@@ -826,6 +827,7 @@ field %>%
   ) +
   scale_y_discrete(labels = format_category_labels) +
   labs(title = "Research field", y = NULL) +
+  x_axis_end_mark() +
   coord_cartesian(clip = "off") +
   plot_theme(base_size = 20) +
   theme(
@@ -921,6 +923,7 @@ software_reduced_plot <- function(plot_data, label_column = "software") {
       expand = expansion(mult = c(0, 0.10))
     ) +
     labs(y = NULL) +  # section heading is the title (Wilke ch. 22)
+    x_axis_end_mark() +
     coord_cartesian(clip = "off") +
     plot_theme(base_size = 20) +
     theme(
@@ -1008,6 +1011,7 @@ software %>% filter(Freq != 0) %>%
   ) +
   scale_y_discrete(labels = format_category_labels) +
   labs(y = NULL) +  # section heading is the title (Wilke ch. 22)
+  x_axis_end_mark() +
   coord_cartesian(clip = "off") +
   plot_theme(base_size = 20) +
   theme(
