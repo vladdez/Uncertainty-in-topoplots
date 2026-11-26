@@ -640,9 +640,10 @@ $ "SNR" = abs("Voltage" / "Standard Error"). $
 Responses were collected using a separate 64-region selectable scalp layout displayed next
 to the stimulus. We constructed this layout as a fixed SVG representation of the scalp
 divided into 64 individually selectable polygonal regions, labelled internally from R01 to
-R64. The polygon layer was aligned with a scalp-montage reference, and the same spatial
-layout was used for every trial. Participants selected one region by clicking directly on
-the corresponding polygon.
+R64. The regions have nearly equal area, are mirrored left to right, and are aligned with
+the electrode montage; the same layout was used for every trial. Section 1.8 and Figure S4
+of the supplementary material show how the layout was chosen. Participants selected one
+region by clicking directly on the corresponding polygon.
 
 As in Task 1, the complete design contained each combination of the seven visualization
 techniques and three ERP patterns, giving 21 trials, each presented on a separate page. For

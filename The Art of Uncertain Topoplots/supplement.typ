@@ -830,6 +830,37 @@ unit that evaluates several visualizations counts once for each, giving #nf.n_ro
   caption: [Codebook of the open-ended feedback.],
 ) <tab:codebook>
 
+== Task~2 response grid <sec:region-grid>
+
+In Task~2, participants clicked one of 64 regions on a grid next to the stimulus. The
+regions have nearly equal area (coefficient of variation of the areas 0.3%). They are cells
+of a power diagram, a weighted Voronoi partition, whose seeds lie in rows, mirrored left to
+right, with one column of seeds on the midline. Midline electrodes fall inside midline
+regions, and the grid is aligned with the electrode montage of the stimuli.
+
+We compared six seed layouts with eight or ten midline seeds (@fig:grid-candidates) on three
+criteria: equal area, elongation (aspect ratio) and the distance from each electrode to the
+nearest region border. All six had nearly equal areas. The selected layout, with ten midline
+seeds, kept the electrodes farthest from region borders (minimum distance 0.031 against at
+most 0.014 for the others, in head-template units), and its regions were among the least
+elongated (mean aspect ratio 1.27, maximum 1.72). @fig:grid-labels shows the final grid with
+the region labels used in the data. Participants saw the grid without labels.
+
+#figure(
+  image("figures/candidate_comparison.png", width: 100%),
+  caption: [Six candidate grids of 64 regions. Each title gives the coefficient of
+    variation of the region areas, the mean and maximum aspect ratio, and the minimum
+    distance from an electrode (dots) to a region border. The selected layout is marked with
+    a star.],
+  placement: auto,
+  scope: "parent",
+) <fig:grid-candidates>
+
+#figure(
+  image("figures/preview_labels.png", width: 75%),
+  caption: [Final Task~2 grid with the region labels R01 (front) to R64 (back).],
+) <fig:grid-labels>
+
 #set text(size: 8pt)
 #bibliography(
   "refs.bib",
