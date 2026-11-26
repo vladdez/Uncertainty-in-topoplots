@@ -161,6 +161,10 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../pages/summary.html"> 
+<span class="menu-text">Summary</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../pages/sample.html"> 
 <span class="menu-text">Sample</span></a>
   </li>  
@@ -191,10 +195,6 @@ window.Quarto = {
   <li class="nav-item">
     <a class="nav-link" href="../pages/feedback.html"> 
 <span class="menu-text">Open-ended feedback</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../pages/figures.html"> 
-<span class="menu-text">Publication figures</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -2863,21 +2863,25 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a>      ),</span>
 <span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="cn">NULL</span></span>
 <span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_theme</span>(<span class="at">base_size =</span> s<span class="sc">$</span>base) <span class="sc">+</span></span>
-<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb28-61"><a href="#cb28-61" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>axis_x),</span>
-<span id="cb28-62"><a href="#cb28-62" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(</span>
-<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> s<span class="sc">$</span>axis_y,</span>
-<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a>        <span class="at">colour =</span> <span class="fu">vistype_label_colours</span>(<span class="fu">levels</span>(task2_estimates<span class="sc">$</span>vistype)),</span>
-<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a>        <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">r =</span> s<span class="sc">$</span>margin)</span>
-<span id="cb28-66"><a href="#cb28-66" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb28-67"><a href="#cb28-67" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb28-68"><a href="#cb28-68" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb28-69"><a href="#cb28-69" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb28-70"><a href="#cb28-70" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb28-71"><a href="#cb28-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-72"><a href="#cb28-72" aria-hidden="true" tabindex="-1"></a>detection_score_figure <span class="ot">&lt;-</span> <span class="fu">make_detection_score_figure</span>()</span>
-<span id="cb28-73"><a href="#cb28-73" aria-hidden="true" tabindex="-1"></a>detection_score_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The axis covers only part of the 0-100% scale: double slashes at both ends.</span></span>
+<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">x_axis_end_mark</span>(s<span class="sc">$</span>base, <span class="at">size =</span> <span class="cf">if</span> (print) <span class="fl">0.55</span> <span class="cf">else</span> <span class="dv">1</span>, <span class="at">side =</span> <span class="st">"left"</span>) <span class="sc">+</span></span>
+<span id="cb28-61"><a href="#cb28-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">x_axis_end_mark</span>(s<span class="sc">$</span>base, <span class="at">size =</span> <span class="cf">if</span> (print) <span class="fl">0.55</span> <span class="cf">else</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb28-62"><a href="#cb28-62" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
+<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_theme</span>(<span class="at">base_size =</span> s<span class="sc">$</span>base) <span class="sc">+</span></span>
+<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>axis_x),</span>
+<span id="cb28-66"><a href="#cb28-66" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(</span>
+<span id="cb28-67"><a href="#cb28-67" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> s<span class="sc">$</span>axis_y,</span>
+<span id="cb28-68"><a href="#cb28-68" aria-hidden="true" tabindex="-1"></a>        <span class="at">colour =</span> <span class="fu">vistype_label_colours</span>(<span class="fu">levels</span>(task2_estimates<span class="sc">$</span>vistype)),</span>
+<span id="cb28-69"><a href="#cb28-69" aria-hidden="true" tabindex="-1"></a>        <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">r =</span> s<span class="sc">$</span>margin)</span>
+<span id="cb28-70"><a href="#cb28-70" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb28-71"><a href="#cb28-71" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb28-72"><a href="#cb28-72" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb28-73"><a href="#cb28-73" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-74"><a href="#cb28-74" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-75"><a href="#cb28-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-76"><a href="#cb28-76" aria-hidden="true" tabindex="-1"></a>detection_score_figure <span class="ot">&lt;-</span> <span class="fu">make_detection_score_figure</span>()</span>
+<span id="cb28-77"><a href="#cb28-77" aria-hidden="true" tabindex="-1"></a>detection_score_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -3321,27 +3325,32 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <span id="cb33-60"><a href="#cb33-60" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Share of exact-peak responses"</span>,</span>
 <span id="cb33-61"><a href="#cb33-61" aria-hidden="true" tabindex="-1"></a>  scales<span class="sc">::</span><span class="fu">label_percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)</span>
 <span id="cb33-62"><a href="#cb33-62" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb33-63"><a href="#cb33-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">r =</span> <span class="fl">2.5</span> <span class="sc">*</span> <span class="dv">18</span>))</span>
-<span id="cb33-64"><a href="#cb33-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-65"><a href="#cb33-65" aria-hidden="true" tabindex="-1"></a><span class="co"># y axis shared with the share panel: no tick labels here.</span></span>
-<span id="cb33-66"><a href="#cb33-66" aria-hidden="true" tabindex="-1"></a>task2_peak_ppc_difference_panel <span class="ot">&lt;-</span> <span class="fu">task2_peak_ppc_panel</span>(</span>
-<span id="cb33-67"><a href="#cb33-67" aria-hidden="true" tabindex="-1"></a>  <span class="st">"share_one_vs_basic"</span>,</span>
-<span id="cb33-68"><a href="#cb33-68" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Difference from Basic topoplot"</span>,</span>
-<span id="cb33-69"><a href="#cb33-69" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) <span class="fu">ifelse</span>(<span class="fu">abs</span>(x) <span class="sc">&lt;</span> <span class="fl">0.0005</span>, <span class="st">"0 pp"</span>, <span class="fu">sprintf</span>(<span class="st">"%+.0f pp"</span>, <span class="dv">100</span> <span class="sc">*</span> x))</span>
-<span id="cb33-70"><a href="#cb33-70" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb33-71"><a href="#cb33-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb33-72"><a href="#cb33-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-73"><a href="#cb33-73" aria-hidden="true" tabindex="-1"></a>task2_peak_ppc_share_panel <span class="sc">+</span> task2_peak_ppc_difference_panel <span class="sc">+</span></span>
-<span id="cb33-74"><a href="#cb33-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">"collect"</span>) <span class="sc">+</span></span>
-<span id="cb33-75"><a href="#cb33-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(</span>
-<span id="cb33-76"><a href="#cb33-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Blue: median and 95% interval of simulated data sets. Dots: observed values."</span>,</span>
-<span id="cb33-77"><a href="#cb33-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(</span>
-<span id="cb33-78"><a href="#cb33-78" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.caption =</span> <span class="fu">element_text</span>(</span>
-<span id="cb33-79"><a href="#cb33-79" aria-hidden="true" tabindex="-1"></a>        <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"grey30"</span>, <span class="at">family =</span> <span class="st">"Lato"</span>, <span class="at">size =</span> <span class="dv">17</span></span>
-<span id="cb33-80"><a href="#cb33-80" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb33-81"><a href="#cb33-81" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb33-82"><a href="#cb33-82" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">&amp;</span></span>
-<span id="cb33-83"><a href="#cb33-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb33-63"><a href="#cb33-63" aria-hidden="true" tabindex="-1"></a>  <span class="co"># The share axis covers only part of the 0-100% scale: double slashes at both</span></span>
+<span id="cb33-64"><a href="#cb33-64" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ends. The difference panel has no natural range, so it gets none.</span></span>
+<span id="cb33-65"><a href="#cb33-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">x_axis_end_mark</span>(<span class="at">base_size =</span> <span class="dv">18</span>, <span class="at">side =</span> <span class="st">"left"</span>) <span class="sc">+</span></span>
+<span id="cb33-66"><a href="#cb33-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">x_axis_end_mark</span>(<span class="at">base_size =</span> <span class="dv">18</span>) <span class="sc">+</span></span>
+<span id="cb33-67"><a href="#cb33-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
+<span id="cb33-68"><a href="#cb33-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">r =</span> <span class="fl">2.5</span> <span class="sc">*</span> <span class="dv">18</span>))</span>
+<span id="cb33-69"><a href="#cb33-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-70"><a href="#cb33-70" aria-hidden="true" tabindex="-1"></a><span class="co"># y axis shared with the share panel: no tick labels here.</span></span>
+<span id="cb33-71"><a href="#cb33-71" aria-hidden="true" tabindex="-1"></a>task2_peak_ppc_difference_panel <span class="ot">&lt;-</span> <span class="fu">task2_peak_ppc_panel</span>(</span>
+<span id="cb33-72"><a href="#cb33-72" aria-hidden="true" tabindex="-1"></a>  <span class="st">"share_one_vs_basic"</span>,</span>
+<span id="cb33-73"><a href="#cb33-73" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Difference from Basic topoplot"</span>,</span>
+<span id="cb33-74"><a href="#cb33-74" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) <span class="fu">ifelse</span>(<span class="fu">abs</span>(x) <span class="sc">&lt;</span> <span class="fl">0.0005</span>, <span class="st">"0 pp"</span>, <span class="fu">sprintf</span>(<span class="st">"%+.0f pp"</span>, <span class="dv">100</span> <span class="sc">*</span> x))</span>
+<span id="cb33-75"><a href="#cb33-75" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb33-76"><a href="#cb33-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb33-77"><a href="#cb33-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-78"><a href="#cb33-78" aria-hidden="true" tabindex="-1"></a>task2_peak_ppc_share_panel <span class="sc">+</span> task2_peak_ppc_difference_panel <span class="sc">+</span></span>
+<span id="cb33-79"><a href="#cb33-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">"collect"</span>) <span class="sc">+</span></span>
+<span id="cb33-80"><a href="#cb33-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(</span>
+<span id="cb33-81"><a href="#cb33-81" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Blue: median and 95% interval of simulated data sets. Dots: observed values."</span>,</span>
+<span id="cb33-82"><a href="#cb33-82" aria-hidden="true" tabindex="-1"></a>    <span class="at">theme =</span> <span class="fu">theme</span>(</span>
+<span id="cb33-83"><a href="#cb33-83" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.caption =</span> <span class="fu">element_text</span>(</span>
+<span id="cb33-84"><a href="#cb33-84" aria-hidden="true" tabindex="-1"></a>        <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"grey30"</span>, <span class="at">family =</span> <span class="st">"Lato"</span>, <span class="at">size =</span> <span class="dv">17</span></span>
+<span id="cb33-85"><a href="#cb33-85" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb33-86"><a href="#cb33-86" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb33-87"><a href="#cb33-87" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">&amp;</span></span>
+<span id="cb33-88"><a href="#cb33-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -3485,7 +3494,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 </table>
 </div>
 </div>
-<p><strong>Overall test of visualization type</strong> (likelihood ratio against the same model without it): exact peak &lt;U+03C7&gt;&lt;U+00B2&gt;(6) = 8.4, p = 0.21; misses &lt;U+03C7&gt;&lt;U+00B2&gt;(6) = 8.7, p = 0.19. When the overall test is not significant, read the single comparisons with Basic below as exploratory.</p>
+<p><strong>Overall test of visualization type</strong> (likelihood ratio against the same model without it): exact peak χ²(6) = 8.4, p = 0.21; misses χ²(6) = 8.7, p = 0.19. When the overall test is not significant, read the single comparisons with Basic below as exploratory.</p>
 </section>
 <section id="visualization-effects-across-models" class="level3">
 <h3 class="anchored" data-anchor-id="visualization-effects-across-models">Visualization effects by model</h3>
@@ -4339,7 +4348,7 @@ S_k = \frac{R_k - \min_j R_j}{\max_j R_j - \min_j R_j}.
 <li><strong>Overall test.</strong> Adding visualization type did not clearly improve the primary ordered-beta model, <span class="math inline">\(\chi^2(6) = 8.68\)</span>, <em>p</em> = .192.</li>
 <li><strong>Expected detection scores</strong> (E[y], averaged over participants, stimuli and images). They ranged from 67.8% for Bivariate corner to 72.7% for Adjacent plots; Basic topoplot had 71.2%.</li>
 <li><strong>Primary contrasts</strong> (expected-score difference, Dunnett-adjusted for six comparisons with Basic). No visualization type differed clearly from Basic topoplot: all six intervals included 0. The largest of these was for Bivariate corner (-3.4 pp, simultaneous 95% CI -8.4 to +1.7 pp, adjusted <em>p</em> = .311), but its interval also included 0.</li>
-<li><strong>Two-part model, overall tests.</strong> Visualization type did not clearly improve the exact-peak part (&lt;U+03C7&gt;&lt;U+00B2&gt;(6) = 8.4, p = 0.21) and did not clearly improve the part for the closeness of misses (&lt;U+03C7&gt;&lt;U+00B2&gt;(6) = 8.7, p = 0.19).</li>
+<li><strong>Two-part model, overall tests.</strong> Visualization type did not clearly improve the exact-peak part (χ²(6) = 8.4, p = 0.21) and did not clearly improve the part for the closeness of misses (χ²(6) = 8.7, p = 0.19).</li>
 <li><strong>Two-part model, exact peak</strong> (logistic, Dunnett-adjusted). Relative to Basic topoplot, the log-odds of selecting the strongest region were clearly higher for Adjacent plots (+0.91 logit, Dunnett-adjusted 95% CI +0.05 to +1.76). The intervals for the other five visualization types included 0. The largest of these was for Confidence intervals (+0.69 logit, Dunnett-adjusted 95% CI -0.16 to +1.54), but its interval also included 0.</li>
 <li><strong>Two-part model, closeness of misses</strong> (beta, Dunnett-adjusted). No visualization type differed clearly from Basic topoplot: all six intervals included 0. The largest of these was for Bivariate corner (-0.20 logit, Dunnett-adjusted 95% CI -0.43 to +0.03), but its interval also included 0.</li>
 <li><strong>Posterior predictive check.</strong> The observed share of exact-peak responses lay inside the 95% interval of 1,000 data sets simulated from the primary model for all seven visualization types, and the observed difference from Basic topoplot for five of six. Outside the interval: Bivariate corner difference from Basic (observed +4.2 pp, simulated 95% interval -7.8 to +3.1 pp). The single ordered-beta predictor does not fully reproduce this exact-peak difference, which is why the two-part model is reported.</li>

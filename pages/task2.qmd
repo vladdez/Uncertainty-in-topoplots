@@ -1775,6 +1775,11 @@ task2_peak_ppc_share_panel <- task2_peak_ppc_panel(
   "Share of exact-peak responses",
   scales::label_percent(accuracy = 1)
 ) +
+  # The share axis covers only part of the 0-100% scale: double slashes at both
+  # ends. The difference panel has no natural range, so it gets none.
+  x_axis_end_mark(base_size = 18, side = "left") +
+  x_axis_end_mark(base_size = 18) +
+  coord_cartesian(clip = "off") +
   theme(plot.margin = margin(r = 2.5 * 18))
 
 # y axis shared with the share panel: no tick labels here.
