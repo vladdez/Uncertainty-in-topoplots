@@ -667,8 +667,18 @@ their answers are not independent. @tab:image-term compares the Task~2 models wi
 without an intercept per image. The intercept improved the fit of every model, and no
 overall test of visualization type remained significant once it was included.
 
+#let image-rows = (n2.image_term, nh.image_term.Hit, nh.image_term.at("Hit or neighbour hit"))
+#assert(
+  image-rows.all(x => float(x.aic_with) < float(x.aic_without)),
+  message: "The image intercept no longer improves every Task 2 model; update Statistical models",
+)
+#assert(
+  image-rows.all(x => not x.overall_with.p.starts-with("<") and float("0" + x.overall_with.p) >= 0.05),
+  message: "An overall test with the image intercept is now significant; update Statistical models",
+)
+
 #let it(x) = [#x.aic_without → #x.aic_with]
-#let lrt(x) = [$chi^2 (#x.df) = #x.chi$, $p = #x.p$]
+#let lrt(x) = [$chi^2 (#x.df) = #x.chi$, #p-eq(x.p)]
 #figure(
   kind: table,
   tbl(table(
@@ -710,10 +720,12 @@ participant, target and distractor only.
 
 *Two-part model.* The detection score mixes exact hits with the closeness of misses. A
 logistic model of exact peaks and a beta model of the misses gave these overall tests:
-#n2.two_part.overall.map(r => [#lower(r.part) $chi^2 (#r.df) = #r.chi$, $p = #r.p$]).join("; ").
+#n2.two_part.overall.map(r => [#lower(r.part) $chi^2 (#r.df) = #r.chi$, #p-eq(r.p)]).join("; ").
 #if n2.two_part.clear.len() == 0 [No comparison with the basic topoplot excluded zero in
-either part.] else [Comparisons with the basic topoplot that excluded zero:
-#n2.two_part.clear.map(r => [#r.vistype (#lower(r.model), #if r.higher [higher] else [lower])]).join("; ").]
+either part.] else [#if n2.two_part.clear.len() == 1 [One comparison] else [#n2.two_part.clear.len() comparisons]
+with the basic topoplot excluded zero:
+#n2.two_part.clear.map(r => [#r.vistype, #lower(r.model.split(" (").at(0)) model,
+#if r.higher [higher] else [lower]]).join("; ").]
 
 *Rank and top-3 outcomes.* The score is rescaled within each stimulus, so we also analyzed
 the rank of the chosen region and whether it was among the three strongest.
