@@ -97,9 +97,9 @@ stopifnot(!anyNA(hit_miss$outcome), all(hit_miss$hit == (hit_miss$score == 1)))
 ## Definitions
 
 - **Hit** — the selected region is the peak (region score = 1). For one stimulus two regions are tied at 1.00, and either counts.
-- **Near hit** — the selected region shares a border with the peak region. Regions have `r min(neighbour_counts$n)`–`r max(neighbour_counts$n)` neighbours (mean `r round(mean(neighbour_counts$n), 1)`); touching only at a corner does not count.
+- **Neighbour hit** — the selected region shares a border with the peak region. Regions have `r min(neighbour_counts$n)`–`r max(neighbour_counts$n)` neighbours (mean `r round(mean(neighbour_counts$n), 1)`); touching only at a corner does not count.
 - **Miss** — any other region.
-- A random click would give `r scales::percent(mean(hit_miss$chance_hit), 0.1)` hits and `r scales::percent(mean(hit_miss$chance_near), 0.1)` near hits.
+- A random click would give `r scales::percent(mean(hit_miss$chance_hit), 0.1)` hits and `r scales::percent(mean(hit_miss$chance_near), 0.1)` neighbour hits.
 
 ## Overview
 
@@ -108,36 +108,36 @@ outcome_shares <- hit_miss |>
   group_by(vistype) |>
   summarise(
     Hit = mean(outcome == "hit"),
-    `Near hit` = mean(outcome == "near"),
+    `Neighbour hit` = mean(outcome == "near"),
     Miss = mean(outcome == "miss"),
-    `Hit or near hit` = mean(close == 1),
+    `Hit or neighbour hit` = mean(close == 1),
     n = n(),
     .groups = "drop"
   ) |>
-  arrange(desc(`Hit or near hit`))
+  arrange(desc(`Hit or neighbour hit`))
 
 outcome_shares |>
   mutate(vistype = table_vistype(vistype)) |>
   bind_rows(tibble(
     vistype = "Random click (chance)",
     Hit = mean(hit_miss$chance_hit),
-    `Near hit` = mean(hit_miss$chance_near),
+    `Neighbour hit` = mean(hit_miss$chance_near),
     Miss = 1 - mean(hit_miss$chance_hit) - mean(hit_miss$chance_near),
-    `Hit or near hit` = mean(hit_miss$chance_hit + hit_miss$chance_near)
+    `Hit or neighbour hit` = mean(hit_miss$chance_hit + hit_miss$chance_near)
   )) |>
   mutate(
-    across(c(Hit, `Near hit`, Miss, `Hit or near hit`), \(x) scales::percent(x, 0.1)),
+    across(c(Hit, `Neighbour hit`, Miss, `Hit or neighbour hit`), \(x) scales::percent(x, 0.1)),
     n = ifelse(is.na(n), "—", scales::comma(n))
   ) |>
   knitr::kable(
     format = "html",
-    col.names = c("Visualization", "Hit", "Near hit", "Miss", "Hit or near hit", "n"),
-    caption = "Share of responses, all ERP patterns pooled; sorted by hit or near hit.",
+    col.names = c("Visualization", "Hit", "Neighbour hit", "Miss", "Hit or neighbour hit", "n"),
+    caption = "Share of responses, all ERP patterns pooled; sorted by hit or neighbour hit.",
     table.attr = kable_table_attributes
   )
 ```
 
-![Hits and near hits per visualization type, for all patterns and each ERP pattern. Misses are the remainder (see the table above). Whiskers are Wilson 95% intervals for each share; they treat responses as independent, so they are somewhat too narrow (the models below account for participants and stimuli).](../figures/task2_hit_near_miss_by_vistype.png){#fig-hit-near-miss-bars width="100%" fig-alt="Side-by-side horizontal bars with 95% interval whiskers showing the share of hits and near hits for each of the seven visualization types, in four panels: all patterns, MMN, N170 and P3."}
+![Hits and neighbour hits per visualization type, for all patterns and each ERP pattern. Misses are the remainder (see the table above). Whiskers are Wilson 95% intervals for each share; they treat responses as independent, so they are somewhat too narrow (the models below account for participants and stimuli).](../figures/task2_hit_near_miss_by_vistype.png){#fig-hit-near-miss-bars width="100%" fig-alt="Side-by-side horizontal bars with 95% interval whiskers showing the share of hits and neighbour hits for each of the seven visualization types, in four panels: all patterns, MMN, N170 and P3."}
 
 ## Where participants clicked
 
@@ -146,7 +146,7 @@ Each topoplot uses the survey's clickable grid. Region fill shows the ground tru
 ::: panel-tabset
 ### By stimulus
 
-![Every stimulus, all visualizations pooled. The peak region has an orange outline and its neighbours a light-orange one; dots are hits, near hits or misses. Within each pattern, stimuli are sorted by hit rate.](../figures/task2_hit_near_miss_by_stimulus.png){#fig-hit-near-miss-stimulus width="100%" fig-alt="Thirty topoplots in three blocks (MMN, N170, P3) of two rows of five, each showing where participants clicked relative to the peak region and its neighbours."}
+![Every stimulus, all visualizations pooled. The peak region has an orange outline and its neighbours a light-orange one; dots are hits, neighbour hits or misses. Within each pattern, stimuli are sorted by hit rate.](../figures/task2_hit_near_miss_by_stimulus.png){#fig-hit-near-miss-stimulus width="100%" fig-alt="Thirty topoplots in three blocks (MMN, N170, P3) of two rows of five, each showing where participants clicked relative to the peak region and its neighbours."}
 
 ### Same stimulus, each visualization
 
@@ -163,7 +163,7 @@ The topoplots and bar chart are rendered with UnfoldMakie by `uncertainty_projec
 
 ## Models
 
-Two logistic mixed models with the predictors of the Task 2 models, `vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)`: one for an exact **hit**, one for a **hit or near hit**. The last term gives each of the 210 images (stimulus × visualization) its own intercept, because the ~15 responses to one image are not independent.
+Two logistic mixed models with the predictors of the Task 2 models, `vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)`: one for an exact **hit**, one for a **hit or neighbour hit**. The last term gives each of the 210 images (stimulus × visualization) its own intercept, because the ~15 responses to one image are not independent.
 
 ```{r hit-miss-models}
 hit_miss_models <- list(
@@ -172,7 +172,7 @@ hit_miss_models <- list(
       (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype),
     family = binomial(link = "logit"), data = hit_miss
   ),
-  `Hit or near hit` = glmmTMB(
+  `Hit or neighbour hit` = glmmTMB(
     close ~ vistype + pattern + position_c +
       (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype),
     family = binomial(link = "logit"), data = hit_miss
@@ -250,12 +250,12 @@ hit_miss_estimates |>
     vistype = table_vistype(vistype),
     across(ends_with(" p"), \(x) tidyr::replace_na(x, "reference"))
   ) |>
-  select(vistype, `Hit`, `Hit p`, `Hit or near hit`, `Hit or near hit p`) |>
+  select(vistype, `Hit`, `Hit p`, `Hit or neighbour hit`, `Hit or neighbour hit p`) |>
   knitr::kable(
     format = "html",
     escape = FALSE,
     col.names = c("Visualization", "Hit [95% CI]", "p vs Basic",
-                  "Hit or near hit [95% CI]", "p vs Basic"),
+                  "Hit or neighbour hit [95% CI]", "p vs Basic"),
     caption = paste(
       "Model-estimated probabilities, averaged equally over ERP patterns at the middle",
       "presentation position and over participants, stimuli and images (random",
@@ -269,8 +269,8 @@ hit_miss_estimates |>
 ```
 
 **Overall test of visualization type** (likelihood ratio against the same model
-without it): hit `r overall_text("Hit")`; hit or near hit
-`r overall_text("Hit or near hit")`. When the overall test is not significant, read the
+without it): hit `r overall_text("Hit")`; hit or neighbour hit
+`r overall_text("Hit or neighbour hit")`. When the overall test is not significant, read the
 single comparisons with Basic above as exploratory.
 
 ```{r hit-miss-model-ambiguation-plot}
@@ -287,7 +287,7 @@ single comparisons with Basic above as exploratory.
 #|   [Gschwandtner et al. (2016)](https://doi.org/10.1109/TVCG.2015.2467752).
 #| fig-alt: >-
 #|   Two panels compare model-estimated probabilities of an exact hit and of a
-#|   hit or near hit across seven visualisation types. Each blue band shows the
+#|   hit or neighbour hit across seven visualisation types. Each blue band shows the
 #|   95% interval in dark blue and extends to the 99% limits in light blue.
 
 source("scripts/ambiguation_plot.R", local = TRUE)
@@ -295,8 +295,8 @@ hit_miss_plot_data <- hit_miss_estimates |>
   transmute(
     outcome = factor(
       outcome,
-      levels = c("Hit", "Hit or near hit"),
-      labels = c("Exact hit", "Hit or near hit")
+      levels = c("Hit", "Hit or neighbour hit"),
+      labels = c("Exact hit", "Hit or neighbour hit")
     ),
     vistype = order_vistype(vistype, top_first = TRUE),
     y_position = as.numeric(vistype),
@@ -361,7 +361,7 @@ plot_ambiguation_intervals(hit_miss_plot_data) +
 #|   4,000 joint parameter draws. The dashed blue line marks zero difference.
 #| fig-alt: >-
 #|   Two panels show the estimated change in exact-hit probability and in
-#|   hit-or-near-hit probability relative to Basic topoplot for each of the
+#|   hit-or-neighbour-hit probability relative to Basic topoplot for each of the
 #|   six other visualisation types, with horizontal confidence intervals.
 
 hit_miss_probability_contrasts <- purrr::imap_dfr(
@@ -394,8 +394,8 @@ hit_miss_probability_contrasts <- purrr::imap_dfr(
   mutate(
     outcome = factor(
       outcome,
-      levels = c("Hit", "Hit or near hit"),
-      labels = c("Exact hit", "Hit or near hit")
+      levels = c("Hit", "Hit or neighbour hit"),
+      labels = c("Exact hit", "Hit or neighbour hit")
     ),
     vistype = order_vistype(vistype, top_first = TRUE)
   )
@@ -478,12 +478,119 @@ hit_miss_contrasts |>
 ```
 :::
 
+## Centre bias (exploratory) {#centre-bias}
+
+```{r centre-bias}
+#| include: false
+# Region geometry from the survey's clickable grid: distance of each region's
+# centre (mean of its vertices) from the head centre, as a share of the head
+# radius, and whether the region touches the head outline.
+vertex_xy <- lapply(grid_vertices, \(v) {
+  m <- do.call(rbind, strsplit(v, ","))
+  matrix(as.numeric(m), ncol = 2)
+})
+all_xy <- do.call(rbind, vertex_xy)
+head_centre <- c(mean(range(all_xy[, 1])), mean(range(all_xy[, 2])))
+radius_of <- \(m) sqrt((m[, 1] - head_centre[1])^2 + (m[, 2] - head_centre[2])^2)
+head_radius <- max(radius_of(all_xy))
+region_geometry <- tibble(
+  region = names(vertex_xy),
+  dist = vapply(vertex_xy, \(m) radius_of(matrix(colMeans(m), ncol = 2)), numeric(1)) / head_radius,
+  border = vapply(vertex_xy, \(m) any(radius_of(m) / head_radius > 0.97), logical(1))
+) |>
+  mutate(ring = cut(dist, c(0, 0.35, 0.6, 0.8, 1.01),
+                    labels = c("Centre", "Inner", "Middle", "Outer (border)")))
+stopifnot(nrow(region_geometry) == 64L, all(region_geometry$border == (region_geometry$ring == "Outer (border)")))
+
+# Clicks per region in every stimulus x visualization set (0 where nobody clicked).
+centre_counts <- distinct(hit_miss, stimulus, vistype) |>
+  mutate(stimulus = as.character(stimulus)) |>
+  inner_join(select(region_scores, stimulus, region, score), by = "stimulus",
+             relationship = "many-to-many") |>
+  left_join(count(mutate(hit_miss, stimulus = as.character(stimulus)), stimulus, vistype, region, name = "n"),
+            by = c("stimulus", "vistype", "region")) |>
+  mutate(n = coalesce(n, 0L), peak = score == 1, set = interaction(stimulus, vistype, drop = TRUE)) |>
+  left_join(region_geometry, by = "region")
+stopifnot(sum(centre_counts$n) == nrow(hit_miss), !anyNA(centre_counts$border))
+
+centre_peaks <- distinct(filter(centre_counts, peak), stimulus, region, border, ring)
+centre_ring_table <- region_geometry |>
+  count(ring, name = "regions") |>
+  left_join(count(centre_peaks, ring, name = "peaks"), by = "ring") |>
+  left_join(summarise(group_by(centre_counts, ring), clicks = sum(n), .groups = "drop"), by = "ring") |>
+  mutate(peaks = coalesce(peaks, 0L),
+         across(c(regions, peaks, clicks), \(x) x / sum(x)))
+
+# Choice model: the click among the 64 regions of a set as a multinomial logit,
+# fitted as a Poisson model with one intercept per set (equivalent), with the
+# region's score (cubic) and the border flag. Quasi-Poisson: the clicks are
+# overdispersed (participants differ), which widens the intervals.
+centre_border_effect <- function(d) {
+  m <- glm(n ~ set + poly(score, 3) + border, family = quasipoisson, data = d)
+  est <- coef(summary(m))["borderTRUE", ]
+  tibble(ratio = exp(est[["Estimate"]]),
+         lower = exp(est[["Estimate"]] - 1.96 * est[["Std. Error"]]),
+         upper = exp(est[["Estimate"]] + 1.96 * est[["Std. Error"]]),
+         p = est[[4]], dispersion = summary(m)$dispersion)
+}
+centre_all <- centre_border_effect(centre_counts)
+centre_by_vistype <- centre_counts |>
+  group_by(vistype) |>
+  group_modify(\(d, k) centre_border_effect(d)) |>
+  ungroup() |>
+  mutate(vistype = order_vistype(vistype)) |>
+  arrange(vistype)
+
+# Hit rate by where the peak is.
+centre_hit_by_location <- hit_miss |>
+  mutate(stimulus = as.character(stimulus)) |>
+  left_join(summarise(group_by(centre_peaks, stimulus), peak_border = any(border)), by = "stimulus") |>
+  group_by(peak_border) |>
+  summarise(stimuli = n_distinct(stimulus), hit = mean(hit), .groups = "drop")
+centre_pct <- \(x) scales::percent(x, 1)
+```
+
+This analysis was not planned: it checks whether participants avoided regions at the edge of the head, independent of how strong the signal there was. **Border regions** are the `r sum(region_geometry$border)` regions that touch the head outline; rings group the regions by the distance of their centre from the centre of the head.
+
+```{r centre-bias-ring-table}
+centre_ring_table |>
+  transmute(ring, regions = centre_pct(regions), peaks = centre_pct(peaks),
+            clicks = centre_pct(clicks)) |>
+  knitr::kable(
+    format = "html",
+    col.names = c("Ring", "Regions", "Peak regions", "Clicks"),
+    caption = "Share of the 64 regions, of the peak regions of the 30 stimuli, and of all clicks in each ring.",
+    table.attr = kable_table_attributes
+  )
+```
+
+- **Where the peaks were** (descriptive): `r sum(centre_peaks$border)` of the `r nrow(centre_peaks)` peak regions lie on the border, in `r n_distinct(centre_peaks$stimulus[centre_peaks$border])` of the 30 stimuli. Border regions held `r centre_pct(centre_ring_table$peaks[centre_ring_table$ring == "Outer (border)"])` of the peaks but received only `r centre_pct(sum(centre_counts$n[centre_counts$border]) / sum(centre_counts$n))` of the clicks, about their share of the grid (`r centre_pct(mean(region_geometry$border))`); the centre ring, which holds no peak, received `r centre_pct(centre_ring_table$clicks[centre_ring_table$ring == "Centre"])`.
+- **Border regions are chosen less than their score predicts** (choice model, exploratory): for regions with the same score, a border region received `r sprintf("%.2f", centre_all$ratio)` times as many clicks as an interior one (95% CI `r sprintf("%.2f", centre_all$lower)`–`r sprintf("%.2f", centre_all$upper)`; the interval allows for the overdispersion of the clicks, a factor of `r sprintf("%.1f", centre_all$dispersion)`).
+- **Every visualization shows it** (table below), most strongly `r table_vistype(centre_by_vistype$vistype[which.min(centre_by_vistype$ratio)])` and least `r table_vistype(centre_by_vistype$vistype[which.max(centre_by_vistype$ratio)])`.
+- **Hit rate by peak location** (descriptive): `r centre_pct(centre_hit_by_location$hit[centre_hit_by_location$peak_border])` when the peak is on the border (`r centre_hit_by_location$stimuli[centre_hit_by_location$peak_border]` stimuli) and `r centre_pct(centre_hit_by_location$hit[!centre_hit_by_location$peak_border])` when it is inside (`r centre_hit_by_location$stimuli[!centre_hit_by_location$peak_border]` stimuli). With so few inner peaks this difference is not tested.
+
+```{r centre-bias-vistype-table}
+centre_by_vistype |>
+  transmute(
+    vistype = table_vistype(vistype),
+    ratio = sprintf("%.2f [%.2f, %.2f]", ratio, lower, upper)
+  ) |>
+  knitr::kable(
+    format = "html",
+    col.names = c("Visualization", "Clicks on a border region vs an interior region with the same score [95% CI]"),
+    caption = "Centre bias by visualization: ratio below 1 = border regions chosen less often. Quasi-Poisson choice model within each visualization; intervals not adjusted for comparisons.",
+    table.attr = kable_table_attributes
+  )
+```
+
+**Interpretation.** Two explanations fit these data, and the study cannot separate them. Participants may avoid the edge of the map, as viewers tend to look at the centre of an image. Or, as EEG researchers, they may distrust maxima at the edge of a topoplot, where the values are extrapolated beyond the outermost electrodes. Either way, the centre bias likely explains much of why exact hits were rare, because most peaks were on the border. That the peaks lay mostly on the border is a property of the 30 stimuli and limits how far the hit rates generalize.
+
 ## Summary of the hit-or-miss results
 
 ```{r hit-miss-takeaways}
 #| include: false
-best_close <- slice_max(outcome_shares, `Hit or near hit`, n = 1)
-worst_close <- slice_min(outcome_shares, `Hit or near hit`, n = 1)
+best_close <- slice_max(outcome_shares, `Hit or neighbour hit`, n = 1)
+worst_close <- slice_min(outcome_shares, `Hit or neighbour hit`, n = 1)
 best_hit <- slice_max(outcome_shares, Hit, n = 1)
 stimulus_hits <- hit_miss |>
   group_by(stimulus) |>
@@ -600,16 +707,16 @@ hit_miss_interpretation <- paste0(
 ```
 
 - Exact hits are rare for every visualization (`r scales::percent(min(outcome_shares$Hit), 1)`–`r scales::percent(max(outcome_shares$Hit), 1)`), but well above chance (`r scales::percent(mean(hit_miss$chance_hit), 0.1)`). `r table_vistype(best_hit$vistype)` has the most exact hits.
-- Counting near hits `r if (best_close$vistype != best_hit$vistype) "changes the ranking" else "keeps the same leader"`: `r table_vistype(best_close$vistype)` lands on or next to the peak most often (`r scales::percent(best_close[["Hit or near hit"]], 1)`), and `r table_vistype(worst_close$vistype)` least often (`r scales::percent(worst_close[["Hit or near hit"]], 1)`).
+- Counting neighbour hits `r if (best_close$vistype != best_hit$vistype) "changes the ranking" else "keeps the same leader"`: `r table_vistype(best_close$vistype)` lands on or next to the peak most often (`r scales::percent(best_close[["Hit or neighbour hit"]], 1)`), and `r table_vistype(worst_close$vistype)` least often (`r scales::percent(worst_close[["Hit or neighbour hit"]], 1)`).
 - **Model-estimated probabilities** (averaged over participants, stimuli and images).
   The probability of a hit ranged `r hit_miss_range_text("Hit")`. The probability of
-  a hit or near hit ranged `r hit_miss_range_text("Hit or near hit")`.
+  a hit or neighbour hit ranged `r hit_miss_range_text("Hit or neighbour hit")`.
 - Once each image gets its own intercept, the overall effect of visualization type is
   `r if (all(hit_miss_overall$p >= 0.05)) "not statistically significant for either outcome" else if (all(hit_miss_overall$p < 0.05)) "significant for both outcomes" else "significant for only one outcome"`
-  (hit `r overall_text("Hit")`; hit or near hit `r overall_text("Hit or near hit")`).
+  (hit `r overall_text("Hit")`; hit or neighbour hit `r overall_text("Hit or neighbour hit")`).
 - **Hit vs Basic topoplot** (odds ratios, Dunnett-adjusted).
   `r hit_miss_effects("Hit", "the odds of a hit were")`
-- **Hit or near hit vs Basic topoplot** (odds ratios, Dunnett-adjusted).
-  `r hit_miss_effects("Hit or near hit", "the odds of a hit or near hit were")`
+- **Hit or neighbour hit vs Basic topoplot** (odds ratios, Dunnett-adjusted).
+  `r hit_miss_effects("Hit or neighbour hit", "the odds of a hit or neighbour hit were")`
 - The stimulus matters more than the visualization: hit rates range from `r scales::percent(min(stimulus_hits$hit), 1)` to `r scales::percent(max(stimulus_hits$hit), 1)` across the 30 stimuli, against `r scales::percent(min(outcome_shares$Hit), 1)`–`r scales::percent(max(outcome_shares$Hit), 1)` across the seven visualization types.
 - **Interpretation.** `r hit_miss_interpretation`

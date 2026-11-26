@@ -132,6 +132,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../pages/summary.html"> 
+<span class="menu-text">Summary</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../pages/sample.html"> 
 <span class="menu-text">Sample</span></a>
   </li>  
@@ -163,10 +167,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="../pages/feedback.html"> 
 <span class="menu-text">Open-ended feedback</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../pages/figures.html"> 
-<span class="menu-text">Publication figures</span></a>
-  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
@@ -194,6 +194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#where-participants-clicked" id="toc-where-participants-clicked" class="nav-link" data-scroll-target="#where-participants-clicked">Where participants clicked</a></li>
   <li><a href="#models" id="toc-models" class="nav-link" data-scroll-target="#models">Models</a></li>
+  <li><a href="#centre-bias" id="toc-centre-bias" class="nav-link" data-scroll-target="#centre-bias">Centre bias (exploratory)</a></li>
   <li><a href="#summary-of-the-hit-or-miss-results" id="toc-summary-of-the-hit-or-miss-results" class="nav-link" data-scroll-target="#summary-of-the-hit-or-miss-results">Summary of the hit-or-miss results</a></li>
   </ul>
 </nav>
@@ -225,9 +226,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="definitions">Definitions</h2>
 <ul>
 <li><strong>Hit</strong> — the selected region is the peak (region score = 1). For one stimulus two regions are tied at 1.00, and either counts.</li>
-<li><strong>Near hit</strong> — the selected region shares a border with the peak region. Regions have 3–8 neighbours (mean 5.2); touching only at a corner does not count.</li>
+<li><strong>Neighbour hit</strong> — the selected region shares a border with the peak region. Regions have 3–8 neighbours (mean 5.2); touching only at a corner does not count.</li>
 <li><strong>Miss</strong> — any other region.</li>
-<li>A random click would give 1.6% hits and 6.3% near hits.</li>
+<li>A random click would give 1.6% hits and 6.3% neighbour hits.</li>
 </ul>
 </section>
 <section id="overview" class="level2">
@@ -239,44 +240,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(vistype) <span class="sc">|&gt;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Hit =</span> <span class="fu">mean</span>(outcome <span class="sc">==</span> <span class="st">"hit"</span>),</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Near hit</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(outcome <span class="sc">==</span> <span class="st">"near"</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Neighbour hit</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(outcome <span class="sc">==</span> <span class="st">"near"</span>),</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Miss =</span> <span class="fu">mean</span>(outcome <span class="sc">==</span> <span class="st">"miss"</span>),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Hit or near hit</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(close <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Hit or neighbour hit</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(close <span class="sc">==</span> <span class="dv">1</span>),</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">Hit or near hit</span><span class="st">`</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">Hit or neighbour hit</span><span class="st">`</span>))</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>outcome_shares <span class="sc">|&gt;</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vistype =</span> <span class="fu">table_vistype</span>(vistype)) <span class="sc">|&gt;</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="fu">tibble</span>(</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">vistype =</span> <span class="st">"Random click (chance)"</span>,</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">Hit =</span> <span class="fu">mean</span>(hit_miss<span class="sc">$</span>chance_hit),</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Near hit</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(hit_miss<span class="sc">$</span>chance_near),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Neighbour hit</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(hit_miss<span class="sc">$</span>chance_near),</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">Miss =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(hit_miss<span class="sc">$</span>chance_hit) <span class="sc">-</span> <span class="fu">mean</span>(hit_miss<span class="sc">$</span>chance_near),</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Hit or near hit</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(hit_miss<span class="sc">$</span>chance_hit <span class="sc">+</span> hit_miss<span class="sc">$</span>chance_near)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Hit or neighbour hit</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">mean</span>(hit_miss<span class="sc">$</span>chance_hit <span class="sc">+</span> hit_miss<span class="sc">$</span>chance_near)</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">|&gt;</span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(Hit, <span class="st">`</span><span class="at">Near hit</span><span class="st">`</span>, Miss, <span class="st">`</span><span class="at">Hit or near hit</span><span class="st">`</span>), \(x) scales<span class="sc">::</span><span class="fu">percent</span>(x, <span class="fl">0.1</span>)),</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(Hit, <span class="st">`</span><span class="at">Neighbour hit</span><span class="st">`</span>, Miss, <span class="st">`</span><span class="at">Hit or neighbour hit</span><span class="st">`</span>), \(x) scales<span class="sc">::</span><span class="fu">percent</span>(x, <span class="fl">0.1</span>)),</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(n), <span class="st">"—"</span>, scales<span class="sc">::</span><span class="fu">comma</span>(n))</span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Visualization"</span>, <span class="st">"Hit"</span>, <span class="st">"Near hit"</span>, <span class="st">"Miss"</span>, <span class="st">"Hit or near hit"</span>, <span class="st">"n"</span>),</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Share of responses, all ERP patterns pooled; sorted by hit or near hit."</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Visualization"</span>, <span class="st">"Hit"</span>, <span class="st">"Neighbour hit"</span>, <span class="st">"Miss"</span>, <span class="st">"Hit or neighbour hit"</span>, <span class="st">"n"</span>),</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Share of responses, all ERP patterns pooled; sorted by hit or neighbour hit."</span>,</span>
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-striped table-hover table-sm caption-top small">
-<caption>Share of responses, all ERP patterns pooled; sorted by hit or near hit.</caption>
+<caption>Share of responses, all ERP patterns pooled; sorted by hit or neighbour hit.</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Visualization</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Hit</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Near hit</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Neighbour hit</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Miss</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Hit or near hit</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Hit or neighbour hit</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">n</th>
 </tr>
 </thead>
@@ -343,19 +344,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">6.3%</td>
 <td style="text-align: left;">92.1%</td>
 <td style="text-align: left;">7.9%</td>
-<td style="text-align: left;">&lt;U+2014&gt;</td>
+<td style="text-align: left;">—</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="fig-hit-near-miss-bars" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Side-by-side horizontal bars with 95% interval whiskers showing the share of hits and near hits for each of the seven visualization types, in four panels: all patterns, MMN, N170 and P3.">
+<div id="fig-hit-near-miss-bars" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Side-by-side horizontal bars with 95% interval whiskers showing the share of hits and neighbour hits for each of the seven visualization types, in four panels: all patterns, MMN, N170 and P3.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-hit-near-miss-bars-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figures/task2_hit_near_miss_by_vistype.png" class="img-fluid figure-img" style="width:100.0%" alt="Side-by-side horizontal bars with 95% interval whiskers showing the share of hits and near hits for each of the seven visualization types, in four panels: all patterns, MMN, N170 and P3.">
+<img src="../figures/task2_hit_near_miss_by_vistype.png" class="img-fluid figure-img" style="width:100.0%" alt="Side-by-side horizontal bars with 95% interval whiskers showing the share of hits and neighbour hits for each of the seven visualization types, in four panels: all patterns, MMN, N170 and P3.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hit-near-miss-bars-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Hits and near hits per visualization type, for all patterns and each ERP pattern. Misses are the remainder (see the table above). Whiskers are Wilson 95% intervals for each share; they treat responses as independent, so they are somewhat too narrow (the models below account for participants and stimuli).
+Figure&nbsp;1: Hits and neighbour hits per visualization type, for all patterns and each ERP pattern. Misses are the remainder (see the table above). Whiskers are Wilson 95% intervals for each share; they treat responses as independent, so they are somewhat too narrow (the models below account for participants and stimuli).
 </figcaption>
 </figure>
 </div>
@@ -373,7 +374,7 @@ Figure&nbsp;1: Hits and near hits per visualization type, for all patterns and e
 <img src="../figures/task2_hit_near_miss_by_stimulus.png" class="img-fluid figure-img" style="width:100.0%" alt="Thirty topoplots in three blocks (MMN, N170, P3) of two rows of five, each showing where participants clicked relative to the peak region and its neighbours.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hit-near-miss-stimulus-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Every stimulus, all visualizations pooled. The peak region has an orange outline and its neighbours a light-orange one; dots are hits, near hits or misses. Within each pattern, stimuli are sorted by hit rate.
+Figure&nbsp;2: Every stimulus, all visualizations pooled. The peak region has an orange outline and its neighbours a light-orange one; dots are hits, neighbour hits or misses. Within each pattern, stimuli are sorted by hit rate.
 </figcaption>
 </figure>
 </div>
@@ -423,7 +424,7 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 </section>
 <section id="models" class="level2">
 <h2 class="anchored" data-anchor-id="models">Models</h2>
-<p>Two logistic mixed models with the predictors of the Task 2 models, <code>vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>: one for an exact <strong>hit</strong>, one for a <strong>hit or near hit</strong>. The last term gives each of the 210 images (stimulus × visualization) its own intercept, because the ~15 responses to one image are not independent.</p>
+<p>Two logistic mixed models with the predictors of the Task 2 models, <code>vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>: one for an exact <strong>hit</strong>, one for a <strong>hit or neighbour hit</strong>. The last term gives each of the 210 images (stimulus × visualization) its own intercept, because the ~15 responses to one image are not independent.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -433,7 +434,7 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      (<span class="dv">1</span> <span class="sc">|</span> ID) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus<span class="sc">:</span>vistype),</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> hit_miss</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Hit or near hit</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">glmmTMB</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Hit or neighbour hit</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">glmmTMB</span>(</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    close <span class="sc">~</span> vistype <span class="sc">+</span> pattern <span class="sc">+</span> position_c <span class="sc">+</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      (<span class="dv">1</span> <span class="sc">|</span> ID) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> stimulus<span class="sc">:</span>vistype),</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> hit_miss</span>
@@ -511,12 +512,12 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 <span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>    <span class="at">vistype =</span> <span class="fu">table_vistype</span>(vistype),</span>
 <span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">ends_with</span>(<span class="st">" p"</span>), \(x) tidyr<span class="sc">::</span><span class="fu">replace_na</span>(x, <span class="st">"reference"</span>))</span>
 <span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(vistype, <span class="st">`</span><span class="at">Hit</span><span class="st">`</span>, <span class="st">`</span><span class="at">Hit p</span><span class="st">`</span>, <span class="st">`</span><span class="at">Hit or near hit</span><span class="st">`</span>, <span class="st">`</span><span class="at">Hit or near hit p</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(vistype, <span class="st">`</span><span class="at">Hit</span><span class="st">`</span>, <span class="st">`</span><span class="at">Hit p</span><span class="st">`</span>, <span class="st">`</span><span class="at">Hit or neighbour hit</span><span class="st">`</span>, <span class="st">`</span><span class="at">Hit or neighbour hit p</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
 <span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
 <span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
 <span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>    <span class="at">escape =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Visualization"</span>, <span class="st">"Hit [95% CI]"</span>, <span class="st">"p vs Basic"</span>,</span>
-<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Hit or near hit [95% CI]"</span>, <span class="st">"p vs Basic"</span>),</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Hit or neighbour hit [95% CI]"</span>, <span class="st">"p vs Basic"</span>),</span>
 <span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="fu">paste</span>(</span>
 <span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Model-estimated probabilities, averaged equally over ERP patterns at the middle"</span>,</span>
 <span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>      <span class="st">"presentation position and over participants, stimuli and images (random"</span>,</span>
@@ -536,7 +537,7 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 <th style="text-align: left;" data-quarto-table-cell-role="th">Visualization</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Hit [95% CI]</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">p vs Basic</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Hit or near hit [95% CI]</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Hit or neighbour hit [95% CI]</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">p vs Basic</th>
 </tr>
 </thead>
@@ -594,7 +595,7 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 </table>
 </div>
 </div>
-<p><strong>Overall test of visualization type</strong> (likelihood ratio against the same model without it): hit &lt;U+03C7&gt;&lt;U+00B2&gt;(6) = 8.4, p = 0.21; hit or near hit &lt;U+03C7&gt;&lt;U+00B2&gt;(6) = 9.3, p = 0.16. When the overall test is not significant, read the single comparisons with Basic above as exploratory.</p>
+<p><strong>Overall test of visualization type</strong> (likelihood ratio against the same model without it): hit χ²(6) = 8.4, p = 0.21; hit or neighbour hit χ²(6) = 9.3, p = 0.16. When the overall test is not significant, read the single comparisons with Basic above as exploratory.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -603,8 +604,8 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">outcome =</span> <span class="fu">factor</span>(</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      outcome,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Hit"</span>, <span class="st">"Hit or near hit"</span>),</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Exact hit"</span>, <span class="st">"Hit or near hit"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Hit"</span>, <span class="st">"Hit or neighbour hit"</span>),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Exact hit"</span>, <span class="st">"Hit or neighbour hit"</span>)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    ),</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">vistype =</span> <span class="fu">order_vistype</span>(vistype, <span class="at">top_first =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y_position =</span> <span class="fu">as.numeric</span>(vistype),</span>
@@ -660,7 +661,7 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="hit_miss_files/figure-html/hit-miss-model-ambiguation-plot-1.png" class="img-fluid figure-img" alt="Two panels compare model-estimated probabilities of an exact hit and of a hit or near hit across seven visualisation types. Each blue band shows the 95% interval in dark blue and extends to the 99% limits in light blue." width="1800"></p>
+<p><img src="hit_miss_files/figure-html/hit-miss-model-ambiguation-plot-1.png" class="img-fluid figure-img" alt="Two panels compare model-estimated probabilities of an exact hit and of a hit or neighbour hit across seven visualisation types. Each blue band shows the 95% interval in dark blue and extends to the 99% limits in light blue." width="1800"></p>
 <figcaption>Model-estimated probabilities at the middle presentation position, averaged over ERP patterns, participants, stimuli, and images. The white tick and percentage label show the estimate. Dark blue spans the pointwise 95% confidence interval and the light blue ends reach the 99% limits. Both intervals use the same 4,000 model-parameter draws. Design adapted from panel (f) of <a href="https://doi.org/10.1109/TVCG.2015.2467752">Gschwandtner et al.&nbsp;(2016)</a>.</figcaption>
 </figure>
 </div>
@@ -699,8 +700,8 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">outcome =</span> <span class="fu">factor</span>(</span>
 <span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>      outcome,</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Hit"</span>, <span class="st">"Hit or near hit"</span>),</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Exact hit"</span>, <span class="st">"Hit or near hit"</span>)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Hit"</span>, <span class="st">"Hit or neighbour hit"</span>),</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Exact hit"</span>, <span class="st">"Hit or neighbour hit"</span>)</span>
 <span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    ),</span>
 <span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">vistype =</span> <span class="fu">order_vistype</span>(vistype, <span class="at">top_first =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  )</span>
@@ -759,7 +760,7 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="hit_miss_files/figure-html/hit-miss-model-probability-contrasts-1.png" class="img-fluid figure-img" alt="Two panels show the estimated change in exact-hit probability and in hit-or-near-hit probability relative to Basic topoplot for each of the six other visualisation types, with horizontal confidence intervals." width="1800"></p>
+<p><img src="hit_miss_files/figure-html/hit-miss-model-probability-contrasts-1.png" class="img-fluid figure-img" alt="Two panels show the estimated change in exact-hit probability and in hit-or-neighbour-hit probability relative to Basic topoplot for each of the six other visualisation types, with horizontal confidence intervals." width="1800"></p>
 <figcaption>Difference in model-estimated probabilities versus Basic topoplot, in percentage points (pp). Whiskers show approximate simultaneous 95% confidence intervals for the six comparisons within each model, based on 4,000 joint parameter draws. The dashed blue line marks zero difference.</figcaption>
 </figure>
 </div>
@@ -851,37 +852,37 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 <td style="text-align: left;">0.3837</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Hit or near hit</td>
+<td style="text-align: left;">Hit or neighbour hit</td>
 <td style="text-align: left;">Adjacent plots</td>
 <td style="text-align: left;">1.95 [0.78, 4.90]</td>
 <td style="text-align: left;">0.2454</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Hit or near hit</td>
+<td style="text-align: left;">Hit or neighbour hit</td>
 <td style="text-align: left;">Bivariate corner</td>
 <td style="text-align: left;">1.29 [0.51, 3.25]</td>
 <td style="text-align: left;">0.9557</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Hit or near hit</td>
+<td style="text-align: left;">Hit or neighbour hit</td>
 <td style="text-align: left;">Bivariate range</td>
 <td style="text-align: left;">2.20 [0.88, 5.55]</td>
 <td style="text-align: left;">0.1234</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Hit or near hit</td>
+<td style="text-align: left;">Hit or neighbour hit</td>
 <td style="text-align: left;">Uncertainty markers</td>
 <td style="text-align: left;">2.23 [0.88, 5.63]</td>
 <td style="text-align: left;">0.1179</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Hit or near hit</td>
+<td style="text-align: left;">Hit or neighbour hit</td>
 <td style="text-align: left;">Confidence intervals</td>
 <td style="text-align: left;">1.35 [0.53, 3.43]</td>
 <td style="text-align: left;">0.9099</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Hit or near hit</td>
+<td style="text-align: left;">Hit or neighbour hit</td>
 <td style="text-align: left;">Animation</td>
 <td style="text-align: left;">1.26 [0.50, 3.18]</td>
 <td style="text-align: left;">0.9730</td>
@@ -894,15 +895,136 @@ Figure&nbsp;4: Stimuli pooled within each ERP pattern. Region fill is the share 
 </div>
 </div>
 </section>
+<section id="centre-bias" class="level2">
+<h2 class="anchored" data-anchor-id="centre-bias">Centre bias (exploratory)</h2>
+<p>This analysis was not planned: it checks whether participants avoided regions at the edge of the head, independent of how strong the signal there was. <strong>Border regions</strong> are the 22 regions that touch the head outline; rings group the regions by the distance of their centre from the centre of the head.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>centre_ring_table <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(ring, <span class="at">regions =</span> <span class="fu">centre_pct</span>(regions), <span class="at">peaks =</span> <span class="fu">centre_pct</span>(peaks),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">clicks =</span> <span class="fu">centre_pct</span>(clicks)) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Ring"</span>, <span class="st">"Regions"</span>, <span class="st">"Peak regions"</span>, <span class="st">"Clicks"</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Share of the 64 regions, of the peak regions of the 30 stimuli, and of all clicks in each ring."</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-sm caption-top small">
+<caption>Share of the 64 regions, of the peak regions of the 30 stimuli, and of all clicks in each ring.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Ring</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Regions</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Peak regions</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Clicks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Centre</td>
+<td style="text-align: left;">12%</td>
+<td style="text-align: left;">0%</td>
+<td style="text-align: left;">16%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Inner</td>
+<td style="text-align: left;">25%</td>
+<td style="text-align: left;">13%</td>
+<td style="text-align: left;">25%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Middle</td>
+<td style="text-align: left;">28%</td>
+<td style="text-align: left;">3%</td>
+<td style="text-align: left;">22%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Outer (border)</td>
+<td style="text-align: left;">34%</td>
+<td style="text-align: left;">84%</td>
+<td style="text-align: left;">36%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul>
+<li><strong>Where the peaks were</strong> (descriptive): 26 of the 31 peak regions lie on the border, in 26 of the 30 stimuli. Border regions held 84% of the peaks but received only 36% of the clicks, about their share of the grid (34%); the centre ring, which holds no peak, received 16%.</li>
+<li><strong>Border regions are chosen less than their score predicts</strong> (choice model, exploratory): for regions with the same score, a border region received 0.23 times as many clicks as an interior one (95% CI 0.20–0.28; the interval allows for the overdispersion of the clicks, a factor of 2.6).</li>
+<li><strong>Every visualization shows it</strong> (table below), most strongly Uncertainty markers and least Bivariate corner.</li>
+<li><strong>Hit rate by peak location</strong> (descriptive): 15% when the peak is on the border (26 stimuli) and 40% when it is inside (4 stimuli). With so few inner peaks this difference is not tested.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>centre_by_vistype <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">vistype =</span> <span class="fu">table_vistype</span>(vistype),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ratio =</span> <span class="fu">sprintf</span>(<span class="st">"%.2f [%.2f, %.2f]"</span>, ratio, lower, upper)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Visualization"</span>, <span class="st">"Clicks on a border region vs an interior region with the same score [95% CI]"</span>),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Centre bias by visualization: ratio below 1 = border regions chosen less often. Quasi-Poisson choice model within each visualization; intervals not adjusted for comparisons."</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.attr =</span> kable_table_attributes</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-sm caption-top small">
+<caption>Centre bias by visualization: ratio below 1 = border regions chosen less often. Quasi-Poisson choice model within each visualization; intervals not adjusted for comparisons.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Visualization</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Clicks on a border region vs an interior region with the same score [95% CI]</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Basic topoplot</td>
+<td style="text-align: left;">0.14 [0.08, 0.24]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Adjacent plots</td>
+<td style="text-align: left;">0.22 [0.15, 0.34]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bivariate corner</td>
+<td style="text-align: left;">0.49 [0.35, 0.69]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bivariate range</td>
+<td style="text-align: left;">0.32 [0.21, 0.49]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Uncertainty markers</td>
+<td style="text-align: left;">0.12 [0.07, 0.22]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Confidence intervals</td>
+<td style="text-align: left;">0.22 [0.14, 0.34]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Animation</td>
+<td style="text-align: left;">0.24 [0.15, 0.38]</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Interpretation.</strong> Two explanations fit these data, and the study cannot separate them. Participants may avoid the edge of the map, as viewers tend to look at the centre of an image. Or, as EEG researchers, they may distrust maxima at the edge of a topoplot, where the values are extrapolated beyond the outermost electrodes. Either way, the centre bias likely explains much of why exact hits were rare, because most peaks were on the border. That the peaks lay mostly on the border is a property of the 30 stimuli and limits how far the hit rates generalize.</p>
+</section>
 <section id="summary-of-the-hit-or-miss-results" class="level2">
 <h2 class="anchored" data-anchor-id="summary-of-the-hit-or-miss-results">Summary of the hit-or-miss results</h2>
 <ul>
 <li>Exact hits are rare for every visualization (15%–21%), but well above chance (1.6%). Adjacent plots has the most exact hits.</li>
-<li>Counting near hits changes the ranking: Uncertainty markers lands on or next to the peak most often (49%), and Basic topoplot least often (38%).</li>
-<li><strong>Model-estimated probabilities</strong> (averaged over participants, stimuli and images). The probability of a hit ranged from 13% for Basic topoplot to 22% for Adjacent plots (Basic topoplot 13%, 95% CI 8%&lt;U+2013&gt;20%). The probability of a hit or near hit ranged from 35% for Basic topoplot to 46% for Uncertainty markers (Basic topoplot 35%, 95% CI 26%&lt;U+2013&gt;46%).</li>
-<li>Once each image gets its own intercept, the overall effect of visualization type is not statistically significant for either outcome (hit &lt;U+03C7&gt;&lt;U+00B2&gt;(6) = 8.4, p = 0.21; hit or near hit &lt;U+03C7&gt;&lt;U+00B2&gt;(6) = 9.3, p = 0.16).</li>
-<li><strong>Hit vs Basic topoplot</strong> (odds ratios, Dunnett-adjusted). Relative to Basic topoplot, the odds of a hit were clearly higher for Adjacent plots (OR = 2.48, simultaneous 95% CI 1.06&lt;U+2013&gt;5.83, adjusted <em>p</em> = 0.032). The intervals for the other five visualization types included 1. The largest of these was for Confidence intervals (OR = 1.99, simultaneous 95% CI 0.85&lt;U+2013&gt;4.66, adjusted <em>p</em> = 0.16), but its interval also included 1.</li>
-<li><strong>Hit or near hit vs Basic topoplot</strong> (odds ratios, Dunnett-adjusted). No visualization type differed clearly from Basic topoplot: all six intervals included 1. The largest of these was for Uncertainty markers (OR = 2.23, simultaneous 95% CI 0.88&lt;U+2013&gt;5.63, adjusted <em>p</em> = 0.12), but its interval also included 1.</li>
+<li>Counting neighbour hits changes the ranking: Uncertainty markers lands on or next to the peak most often (49%), and Basic topoplot least often (38%).</li>
+<li><strong>Model-estimated probabilities</strong> (averaged over participants, stimuli and images). The probability of a hit ranged from 13% for Basic topoplot to 22% for Adjacent plots (Basic topoplot 13%, 95% CI 8%–20%). The probability of a hit or neighbour hit ranged from 35% for Basic topoplot to 46% for Uncertainty markers (Basic topoplot 35%, 95% CI 26%–46%).</li>
+<li>Once each image gets its own intercept, the overall effect of visualization type is not statistically significant for either outcome (hit χ²(6) = 8.4, p = 0.21; hit or neighbour hit χ²(6) = 9.3, p = 0.16).</li>
+<li><strong>Hit vs Basic topoplot</strong> (odds ratios, Dunnett-adjusted). Relative to Basic topoplot, the odds of a hit were clearly higher for Adjacent plots (OR = 2.48, simultaneous 95% CI 1.06–5.83, adjusted <em>p</em> = 0.032). The intervals for the other five visualization types included 1. The largest of these was for Confidence intervals (OR = 1.99, simultaneous 95% CI 0.85–4.66, adjusted <em>p</em> = 0.16), but its interval also included 1.</li>
+<li><strong>Hit or neighbour hit vs Basic topoplot</strong> (odds ratios, Dunnett-adjusted). No visualization type differed clearly from Basic topoplot: all six intervals included 1. The largest of these was for Uncertainty markers (OR = 2.23, simultaneous 95% CI 0.88–5.63, adjusted <em>p</em> = 0.12), but its interval also included 1.</li>
 <li>The stimulus matters more than the visualization: hit rates range from 0% to 70% across the 30 stimuli, against 15%–21% across the seven visualization types.</li>
 <li><strong>Interpretation.</strong> The comparison that excluded 1 (Adjacent plots for hit) comes from an outcome whose overall test was not significant, so it is exploratory and should not be read as evidence that this visualization improved peak detection. The results should be reported as estimates with intervals.</li>
 </ul>
