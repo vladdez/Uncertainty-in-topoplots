@@ -7,7 +7,9 @@
   category: "Supplementary Material",
   title: [The Art of Uncertain Topoplots: Designing and Evaluating Uncertainty
     Visualizations for EEG/ERP Data],
-  abstract: [TODO: Supplementary-material overview],
+  abstract: [This supplement contains the interview guide, the literature tables, the data
+    quality checks, the model specifications, robustness analyses for both tasks, completion
+    time and ratings, and the codebook of the open-ended feedback.],
   authors: (
     (
       name: "Vladimir Mikheev",
@@ -25,7 +27,7 @@
       orcid: "0000-0002-6276-3332",
     ),
   ),
-  index-terms: ("TODO: Supplementary Material",),
+  index-terms: ("Supplementary Material",),
   teaser: (
     image: box(),
     caption: none,
@@ -613,6 +615,206 @@ the data, this refit does not replace the primary analysis.
     six comparisons; $p$ values are adjusted in the same way.
   ],
 ) <tab:task1-hard-items>
+
+
+#let n2 = num.task2
+#let nh = num.hit_miss
+#let ntm = num.time
+#let nf = num.feedback
+#let tbl(body) = {
+  set text(size: 7.5pt, hyphenate: false)
+  set par(justify: false)
+  body
+}
+
+== Statistical models <sec:models>
+
+@tab:model-specs lists the models. Every comparison with the basic topoplot used
+`emmeans` @lenth2026emmeans with Dunnett adjustment for the six comparisons. The overall test
+of visualization type was a likelihood-ratio test against the same model without it. For
+accuracy, detection score and hits, estimates average over the random intercepts (a new
+participant, stimulus and image) at the middle trial position and over the three ERP
+patterns. For ratings, estimates are expected ratings for a typical participant.
+
+#figure(
+  kind: table,
+  tbl(table(
+    columns: (1.1fr, 1fr, 1.1fr, 1.2fr),
+    align: left,
+    inset: (x: 4pt, y: 3.5pt),
+    stroke: 0.4pt + luma(210),
+    table.header([*Outcome*], [*Model*], [*Fixed effects*], [*Random intercepts*]),
+    [Task~1 accuracy], [Logistic (lme4, glmmTMB)], [Visualization, pattern, trial position],
+    [Participant, target stimulus, distractor stimulus],
+    [Task~2 detection score], [Ordered beta (glmmTMB)], [Visualization, pattern, trial position],
+    [Participant, stimulus, image (stimulus × visualization)],
+    [Exact hit; hit or neighbor hit; hit or runner-up hit], [Logistic (glmmTMB)],
+    [Visualization, pattern, trial position], [Participant, stimulus, image],
+    [Completion time (log seconds)], [Linear (lme4)], [Visualization, trial position],
+    [Participant],
+    [Ratings (four items)], [Cumulative link (ordinal)], [Visualization], [Participant],
+    [Centre bias (exploratory)], [Quasi-Poisson on clicks per region], [Region score (cubic),
+      border region], [Fixed intercept per stimulus × visualization],
+  )),
+  caption: [Model specifications. Software: R @rcoreteam2026r with lme4 @bates2015lme4,
+    glmmTMB @brooks2017glmmtmb, ordinal @christensen2026ordinal and emmeans
+    @lenth2026emmeans.],
+) <tab:model-specs>
+
+*Why Task~2 models have an intercept per image.* Each image (one stimulus in one
+visualization) was seen by about 15 participants. Some images were harder than others, so
+their answers are not independent. @tab:image-term compares the Task~2 models with and
+without an intercept per image. The intercept improved the fit of every model, and no
+overall test of visualization type remained significant once it was included.
+
+#let it(x) = [#x.aic_without → #x.aic_with]
+#let lrt(x) = [$chi^2 (#x.df) = #x.chi$, $p = #x.p$]
+#figure(
+  kind: table,
+  tbl(table(
+    columns: (1.2fr, 0.9fr, 0.6fr, 1.2fr, 1.2fr),
+    align: (left, left, right, left, left),
+    inset: (x: 4pt, y: 3.5pt),
+    stroke: 0.4pt + luma(210),
+    table.header([*Outcome*], [*AIC without → with*], [*Image SD*],
+      [*Overall test without*], [*Overall test with*]),
+    [Detection score], it(n2.image_term), n2.image_term.image_sd,
+    lrt(n2.image_term.overall_without), lrt(n2.image_term.overall_with),
+    [Exact hit], it(nh.image_term.Hit), nh.image_term.Hit.image_sd,
+    lrt(nh.image_term.Hit.overall_without), lrt(nh.image_term.Hit.overall_with),
+    [Hit or neighbor hit], it(nh.image_term.at("Hit or neighbour hit")),
+    nh.image_term.at("Hit or neighbour hit").image_sd,
+    lrt(nh.image_term.at("Hit or neighbour hit").overall_without),
+    lrt(nh.image_term.at("Hit or neighbour hit").overall_with),
+  )),
+  caption: [Task~2 models without and with an intercept per image. Image SD on the logit
+    scale. Overall test: likelihood-ratio test of visualization type.],
+) <tab:image-term>
+
+*Task~1 needs no intercept per image.* Adding the same term (target stimulus ×
+visualization) to the Task~1 model did not improve it: AIC #nt.image_term.aic_without →
+#nt.image_term.aic_with, image SD #nt.image_term.image_sd against #nt.image_term.stimulus_sd
+for the stimulus, $chi^2 (#nt.image_term.term_df) = #nt.image_term.term_chi$,
+$p = #nt.image_term.term_p$. The overall test of visualization type changed only from
+$chi^2 (#nt.overall_df) = #nt.overall_chi$, #p-eq(nt.overall_p_all) to
+$chi^2 (#nt.image_term.overall_df_with) = #nt.image_term.overall_chi_with$,
+#p-eq(nt.image_term.overall_p_with). The Task~1 model therefore keeps intercepts for
+participant, target and distractor only.
+
+#assert(
+  not nt.image_term.supported,
+  message: "The Task 1 image term is now supported; update Statistical models",
+)
+
+== Task 2 robustness <sec:task2-robustness>
+
+*Two-part model.* The detection score mixes exact hits with the closeness of misses. A
+logistic model of exact peaks and a beta model of the misses gave these overall tests:
+#n2.two_part.overall.map(r => [#lower(r.part) $chi^2 (#r.df) = #r.chi$, $p = #r.p$]).join("; ").
+#if n2.two_part.clear.len() == 0 [No comparison with the basic topoplot excluded zero in
+either part.] else [Comparisons with the basic topoplot that excluded zero:
+#n2.two_part.clear.map(r => [#r.vistype (#lower(r.model), #if r.higher [higher] else [lower])]).join("; ").]
+
+*Rank and top-3 outcomes.* The score is rescaled within each stimulus, so we also analyzed
+the rank of the chosen region and whether it was among the three strongest.
+#if n2.scale_free_n_significant == 0 [For neither outcome did any visualization differ
+from the basic topoplot.] else [#n2.scale_free_n_significant comparisons differed from the
+basic topoplot.]
+
+*Posterior predictive check.* In #n2.ppc.n_sim data sets simulated from the primary model,
+the observed share of exact-peak responses lay inside the 95% interval for
+#n2.ppc.level_inside of #n2.ppc.level_n visualizations, and the observed difference from the
+basic topoplot for #n2.ppc.diff_inside of #n2.ppc.diff_n (@fig:ppc).
+#if n2.ppc.outside.len() > 0 [Outside the interval:
+#n2.ppc.outside.map(r => [#r.vistype #r.statistic (observed #r.observed pp, simulated
+#r.lower to #r.upper pp)]).join("; "). The single ordered-beta predictor does not fully
+reproduce exact peaks, which is why the two-part model is reported.]
+
+#figure(
+  image("figures/task2_peak_ppc_figure.png", width: 100%),
+  caption: [Posterior predictive check of exact-peak responses in Task~2. Blue: median and
+    95% interval of the simulated data sets; dots: observed values.],
+) <fig:ppc>
+
+== Hits, neighbor hits and runner-up hits <sec:hit-miss>
+
+@tab:hit-rates gives the observed rates per visualization. A runner-up region can also
+border the peak (#nh.runner_neighbour_share of runner-up regions do), so the neighbor and
+runner-up columns overlap. The last column is the centre bias per visualization: clicks on
+a border region relative to an interior region with the same score.
+
+#let centre-of(vis) = nh.centre_by_vistype.find(r => r.vistype == vis)
+#figure(
+  kind: table,
+  tbl(table(
+    columns: (1.3fr, 0.6fr, 0.8fr, 0.8fr, 1.2fr),
+    align: (left, right, right, right, left),
+    inset: (x: 4pt, y: 3.5pt),
+    stroke: 0.4pt + luma(210),
+    table.header([*Visualization*], [*Hit*], [*Neighbor hit*], [*Runner-up hit*],
+      [*Border ÷ interior [95% CI]*]),
+    ..nh.rates.map(r => {
+      let c = centre-of(r.vistype)
+      (r.vistype, r.hit, r.neighbour, r.runner, [#c.ratio [#c.lower, #c.upper]])
+    }).flatten(),
+    [Random click], nh.chance.hit, nh.chance.neighbour, nh.chance.runner, [--],
+  )),
+  caption: [Observed share of responses per visualization (#nh.rates.at(0).n responses each)
+    and the centre bias per visualization (quasi-Poisson choice model; intervals not
+    adjusted for comparisons).],
+) <tab:hit-rates>
+
+== Completion time <sec:time-checks>
+
+*Outlier rule.* Trial pages longer than #ntm.cap_sec s were excluded:
+#ntm.rule_task1.removed of #ntm.rule_task1.trials pages in Task~1
+(#ntm.rule_task1.participants participants) and #ntm.rule_task2.removed of
+#ntm.rule_task2.trials in Task~2 (#ntm.rule_task2.participants participants). Refitting with
+all pages kept, or with a 1.5 × IQR rule within each visualization, #if ntm.sensitivity_n_changed == 0 [left every comparison with the basic topoplot unchanged] else [changed #ntm.sensitivity_n_changed comparison#if ntm.sensitivity_n_changed > 1 [s] with the basic topoplot].
+
+*Time and accuracy (Task~1).* Within participants, a trial that took twice the usual time
+had an odds ratio of #ntm.time_accuracy.log_time_within.odds_ratio for a correct answer (95% CI
+#ntm.time_accuracy.log_time_within.lower to #ntm.time_accuracy.log_time_within.upper).
+Between participants, twice the typical completion time gave an odds ratio of
+#ntm.time_accuracy.log_time_between_c.odds_ratio (#ntm.time_accuracy.log_time_between_c.lower
+to #ntm.time_accuracy.log_time_between_c.upper). These are associations, not effects of time.
+
+== Subjective ratings <sec:ratings-checks>
+
+*Proportional odds.* A likelihood-ratio test rejected proportional odds for #nr.po_rejected
+of #nr.po_n items ($p$ from #nr.po_p_min to #nr.po_p_max): the visualizations differ in how
+ratings spread over the scale, not only in their location. We therefore report expected
+ratings, which stay within #nr.max_raw_model_difference scale points of the raw means
+(@fig:rating-estimates), rather than odds ratios.
+
+*Linear mixed model.* A linear mixed model of the 1--5 ratings, which does not assume
+proportional odds, reached the same conclusion (interval excluding zero or not) for
+#nr.lmm_agree of #nr.lmm_n comparisons with the basic topoplot.
+
+#figure(
+  image("figures/likert_estimate_figure.pdf", width: 100%),
+  caption: [Expected rating of a typical participant for each item, with pointwise 95%
+    confidence intervals.],
+) <fig:rating-estimates>
+
+== Open-ended feedback <sec:feedback-codebook>
+
+The coding produced #nf.n_units meaning units from #nf.n_participants_coded participants. A
+unit that evaluates several visualizations counts once for each, giving #nf.n_rows coded rows.
+@tab:codebook lists the #nf.n_themes themes.
+
+#figure(
+  kind: table,
+  tbl(table(
+    columns: (0.8fr, 2fr),
+    align: left,
+    inset: (x: 4pt, y: 3pt),
+    stroke: 0.4pt + luma(210),
+    table.header([*Theme*], [*Definition*]),
+    ..nf.codebook.map(r => (r.Theme, r.Explanation)).flatten(),
+  )),
+  caption: [Codebook of the open-ended feedback.],
+) <tab:codebook>
 
 #set text(size: 8pt)
 #bibliography(
