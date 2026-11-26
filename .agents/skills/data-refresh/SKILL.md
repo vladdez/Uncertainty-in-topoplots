@@ -156,8 +156,9 @@ old N. Prefer replacing numbers in `.qmd` files with inline `` `r ...` `` code.
   targets are no longer MMN_19 and MMN_29 (the supplement's description of
   those images would then need rewriting). New manuscript numbers go into
   `numbers.json` the same way, not into the `.typ` text.
-- The cross-references "Section 1.1", "Section 1.1.2", "Table S4" and
-  "Table S5" in `journal.typ` are typed: check them if the supplement changes.
+- The supplement cross-references in `journal.typ` ("Section 1.1" to "Section 1.8",
+  "Table S1" to "Table S10", "Figure S3", "Figure S4") are typed: check them against
+  the compiled supplement if the supplement changes.
 - `README.md` if it mentions N.
 - `reports/` are dated audit records: do not rewrite them; mention in the
   summary that their N is historical.

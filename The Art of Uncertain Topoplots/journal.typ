@@ -1,5 +1,17 @@
 #import "@preview/ieee-vgtc:0.0.4": journal
 
+// Numbers come from numbers.json, written by the analysis pages when they render
+// (write_manuscript_numbers() in scripts/analysis_setup.R); do not type them here.
+#let num = json("numbers.json")
+#let ns = num.sample
+#let nq = num.quality
+#let nr = num.subjective
+#let nt = num.task1
+#let n2 = num.task2
+#let nh = num.hit_miss
+#let ntm = num.time
+#let nf = num.feedback
+
 // TVCG regular-paper target: no more than 12 double-column pages,
 // including references.
 #show: journal.with(
@@ -11,7 +23,23 @@
     The Art of Uncertain Topoplots: Designing and Evaluating Uncertainty
     Visualizations for EEG/ERP Data
   ],
-  abstract: [TODO: Abstract],
+  abstract: [
+    Topographic maps (topoplots) are among the most common EEG/ERP visualizations, yet they
+    rarely show the uncertainty of the estimated voltage. We asked how uncertainty can be
+    added to a topoplot without hiding the pattern that researchers know how to read.
+    Interviews with nine EEG/ERP experts informed a design space, from which we selected six
+    uncertainty visualizations: adjacent plots, two bivariate color maps, uncertainty
+    markers, confidence-interval maps and a hypothetical-outcome animation. In an online
+    study, #ns.n_participants participants with EEG/ERP experience compared ERP patterns and
+    searched for the region with the highest signal-to-noise ratio, rated each design and
+    commented on it. No design impaired pattern comparison, and none clearly helped
+    participants find the strongest region. Participants avoided the edge of the head, where
+    most peaks lay. Every uncertainty design took longer than the basic topoplot.
+    Preferences differed much more than performance: adjacent plots and confidence
+    intervals were preferred, whereas bivariate maps and uncertainty markers were rated less
+    helpful for comparison and less appealing. We conclude with recommendations for
+    uncertainty-aware topoplots.
+  ],
   authors: (
     (
       name: "Vladimir Mikheev",
@@ -128,59 +156,9 @@ Boukhelifa and Duke describe a persistent divide between the recognized importan
 uncertainty in visualization research and its limited adoption in practice
 @boukhelifa2009uncertainty. Similarly, Hullman's survey of visualization authors found that,
 although authors generally acknowledged the value of communicating uncertainty, direct
-uncertainty depiction was routinely omitted @hullman2020why. @tab:uncertainty-reporting
-summarizes this observation with evidence from neuroscience, ecosystem science, geospatial
-mapping, and visualization software.
-
-#figure(
-  table(
-    columns: (1.1fr, 1.4fr, 1.8fr, 3fr),
-    inset: 5pt,
-    align: (left, left, left, left),
-    table.header([*Field*], [*Study*], [*Evidence and sample*], [*Main finding*]),
-    [Neuroscience],
-    [Allen et al. (2012) @allen2012data],
-    [Publication audit: 288 articles; 1,451 figures],
-    [Only about 20% of visualisations with three features represented
-    uncertainty.#footnote[In Allen et al.'s terminology, three-dimensional graphics
-    represent three data variables, which can be shown in a flat figure using two axes and
-    colour; the term does not necessarily imply a 3D spatial rendering
-    @allen2012data.]],
-    [Ecosystem science],
-    [Yanai et al. (2021) @yanai2021current],
-    [Publication audit: 132 articles],
-    [Studies reported numerical estimates for only 42% of relevant uncertainty sources on average; 
-    54% of studies reported such estimates for fewer than half.],
-    [ERP visualization practice],
-    [Mikheev et al. (2024) @mikheev2024art],
-    [Practitioner survey: 157 M/EEG practitioners who had published a paper with an
-    ERP plot],
-    [Among the 157 respondents who had published an ERP plot, 40% reported not including
-    error bars.],
-    [Geospatial / public-health mapping],
-    [Jain et al. (2026) @jain2026communicating],
-    [Publication audit: 66 articles containing maps of
-    climate-related infectious diseases
-    in the Asia-Pacific region],
-    [Only 3 of 66 studies (4.5%) visually integrated uncertainty into their maps;
-    26 studies (39%) did not report uncertainty at all.],
-    [Visualization software],
-    [Petek et al. (2026) @petek2026general],
-    [Software comparison: 5 visualization tools: Matplotlib, ggplot2, ggdist, Seaborn,
-    and ggdibbler;
-    18 example uncertainty visualization ],
-    [Only 3 of the 18 visualizations had a tool that both quantified and drew the
-     uncertainty; for 2 more, tools drew it but users had to quantify it. For the
-     remaining 13 (72%), users had to do both themselves.],
-    // Source: petek2026general, Table 3 (PDF p. 18): rows with a ✓ in any tool = 3;
-    // best symbol ◦ = 2 (binary heat map, bivariate means); × for all tools = 13.
-  ),
-  caption: [Representative evidence of incomplete uncertainty reporting and
-    visualization across scientific domains and limited software support.],
-  kind: table,
-  placement: top,
-  scope: "parent",
-) <tab:uncertainty-reporting>
+uncertainty depiction was routinely omitted @hullman2020why. Table S4 of the supplementary
+material summarizes this observation with evidence from neuroscience, ecosystem science,
+geospatial mapping, and visualization software.
 
 Limited software support is one practical reason why uncertainty visualizations may remain
 uncommon. Although many uncertainty visualization techniques have been proposed, they are
@@ -558,17 +536,6 @@ We recruited participants with experience in EEG/ERP research or analysis. The s
 targeted researchers and students familiar with EEG/ERP data and topographic visualizations.
 Participation was voluntary.
 
-// Numbers come from numbers.json, written by the analysis pages when they render
-// (write_manuscript_numbers() in scripts/analysis_setup.R); do not type them here.
-#let num = json("numbers.json")
-#let ns = num.sample
-#let nq = num.quality
-#let nr = num.subjective
-#let nt = num.task1
-#let n2 = num.task2
-#let nh = num.hit_miss
-#let ntm = num.time
-#let nf = num.feedback
 #assert(
   ns.n_participants == nq.n_participants and ns.n_participants == nr.n_participants
     and ns.n_participants == nt.n_participants and ns.n_participants == n2.n_participants
@@ -590,7 +557,7 @@ fast completion (relative speed index above #nq.speed_cutoff @leiner2019too;
 (#nq.n_straight_liners_word participants). We kept all participants and repeated the rating
 analyses without the #nq.n_flagged_word flagged ones; #if nr.quality_n_changed == 0 [no
 conclusion changed] else [#nr.quality_n_changed of #nr.quality_n_contrasts comparisons
-changed] (Section 1.1 and Table S4 of the supplementary material).
+changed] (Section 1.1 and Table S5 of the supplementary material).
 
 // TODO: Report ethics approval or exemption and informed-consent procedures.
 
@@ -600,7 +567,7 @@ We used three characteristic ERP topographic patterns: mismatch negativity (MMN)
 N170 @kappenman2021erp. For each pattern, we prepared a pool of ten pattern variations, from
 which individual stimuli were selected during the experiment. Some single-participant MMN
 and N170 variations look alike, which made a few Task 1 items hard (Section 1.1.2 and Table
-S5 of the supplementary material).
+S6 of the supplementary material).
 
 The patterns were displayed using seven visualization conditions: a basic topoplot and six
 uncertainty visualizations selected from the design pool described above. Each visualization
@@ -744,7 +711,7 @@ The centre-bias analysis was exploratory. A quasi-Poisson model of the clicks pe
 with one intercept per stimulus and visualization, asked whether regions on the edge of the
 head were chosen less often than their score predicts.
 
-Section 1.2 and Table S6 of the supplementary material list the models. Table S7 shows why
+Section 1.2 and Table S7 of the supplementary material list the models. Table S8 shows why
 the Task~2 models need the intercept per image and the Task~1 model does not. All analyses
 were run in R @rcoreteam2026r with lme4 @bates2015lme4, glmmTMB @brooks2017glmmtmb, ordinal
 @christensen2026ordinal and emmeans @lenth2026emmeans.
@@ -762,7 +729,7 @@ For example, the meaning unit "couldn't distinguish colors mapping from legend t
 assigned to "Bivariate corner", coded under "Legend/color mapping", and given an evaluation
 intensity of -2. Missing, blank, and non-substantive responses were excluded. All codes were
 then checked for compliance with the coding rules, and units that violated a rule were
-recoded (13 of 274). The codebook is given in Section 1.7 and Table S9 of the supplementary
+recoded (13 of 274). The codebook is given in Section 1.7 and Table S10 of the supplementary
 material.
 
 = Results
@@ -798,6 +765,10 @@ material.
   message: "The number of time comparisons that depend on the outlier rule changed; update Completion Time",
 )
 #let nc = nh.centre
+#assert(
+  int(nc.peak_border_stimuli) * 2 > int(nc.n_stimuli),
+  message: "Most peaks no longer lie on the border; update Abstract and Limitations",
+)
 #assert(
   nc.ratio_below_one and nc.all_vistypes_below_one,
   message: "The centre bias no longer holds for all visualizations; update Centre Bias",
@@ -857,7 +828,7 @@ comparison remained below .05 after adjustment: adjacent plots yielded more exac
 the basic topoplot (odds ratio #nh-adj.odds_ratio, 95% CI #(nh-adj.lower)--#(nh-adj.upper),
 _p_~=~#nh-adj.p). Because the overall test was not significant, we treat it as exploratory.
 The stimulus mattered more than the visualization: hit rates ranged from
-#nh.stimulus_hit_min to #nh.stimulus_hit_max across stimuli. Table S8 of the supplementary
+#nh.stimulus_hit_min to #nh.stimulus_hit_max across stimuli. Table S9 of the supplementary
 material gives the rates per visualization.
 
 #figure(
@@ -883,7 +854,7 @@ received only #nc.border_click_share of the clicks, about their share of the gri
 (#nc.border_region_share). For regions with the same score, a border region received
 #nc.ratio times as many clicks as an interior one (95% CI #(nc.lower)--#(nc.upper)). Every
 visualization showed this bias, from #nc.vistype_min for #lower(nc.vistype_min_name) to
-#nc.vistype_max for #lower(nc.vistype_max_name) (Table S8 of the supplementary material). This centre bias likely explains much of why exact
+#nc.vistype_max for #lower(nc.vistype_max_name) (Table S9 of the supplementary material). This centre bias likely explains much of why exact
 hits were rare.
 
 #figure(
@@ -1067,7 +1038,14 @@ with stimuli whose peaks are balanced between the centre and the rim.
 
 = Conclusion
 
-[TODO: Conclusion]
+Uncertainty can be added to EEG/ERP topoplots without measurably impairing pattern
+comparison. However, none of the six designs helped participants find the region with the
+highest signal-to-noise ratio, and all of them cost time. Participants preferred designs
+that leave the familiar voltage map intact, adjacent plots and confidence intervals, over
+designs that recolor or cover it. We therefore recommend showing uncertainty next to the
+voltage map rather than inside it. Future studies should test the designs after practice,
+balance peak positions between the center and the rim of the head, and evaluate uncertainty
+displays in real analysis workflows.
 
 // References are generated automatically from refs.bib by the journal template.
 // TODO: Add and cite all manuscript references.

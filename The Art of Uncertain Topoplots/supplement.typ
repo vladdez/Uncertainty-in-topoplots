@@ -456,6 +456,56 @@
   ],
 ) <tab:uncertainty-ranking>
 
+#figure(
+  table(
+    columns: (1.1fr, 1.4fr, 1.8fr, 3fr),
+    inset: 5pt,
+    align: (left, left, left, left),
+    table.header([*Field*], [*Study*], [*Evidence and sample*], [*Main finding*]),
+    [Neuroscience],
+    [Allen et al. (2012) @allen2012data],
+    [Publication audit: 288 articles; 1,451 figures],
+    [Only about 20% of visualisations with three features represented
+    uncertainty.#footnote[In Allen et al.'s terminology, three-dimensional graphics
+    represent three data variables, which can be shown in a flat figure using two axes and
+    colour; the term does not necessarily imply a 3D spatial rendering
+    @allen2012data.]],
+    [Ecosystem science],
+    [Yanai et al. (2021) @yanai2021current],
+    [Publication audit: 132 articles],
+    [Studies reported numerical estimates for only 42% of relevant uncertainty sources on average; 
+    54% of studies reported such estimates for fewer than half.],
+    [ERP visualization practice],
+    [Mikheev et al. (2024) @mikheev2024art],
+    [Practitioner survey: 157 M/EEG practitioners who had published a paper with an
+    ERP plot],
+    [Among the 157 respondents who had published an ERP plot, 40% reported not including
+    error bars.],
+    [Geospatial / public-health mapping],
+    [Jain et al. (2026) @jain2026communicating],
+    [Publication audit: 66 articles containing maps of
+    climate-related infectious diseases
+    in the Asia-Pacific region],
+    [Only 3 of 66 studies (4.5%) visually integrated uncertainty into their maps;
+    26 studies (39%) did not report uncertainty at all.],
+    [Visualization software],
+    [Petek et al. (2026) @petek2026general],
+    [Software comparison: 5 visualization tools: Matplotlib, ggplot2, ggdist, Seaborn,
+    and ggdibbler;
+    18 example uncertainty visualization ],
+    [Only 3 of the 18 visualizations had a tool that both quantified and drew the
+     uncertainty; for 2 more, tools drew it but users had to quantify it. For the
+     remaining 13 (72%), users had to do both themselves.],
+    // Source: petek2026general, Table 3 (PDF p. 18): rows with a ✓ in any tool = 3;
+    // best symbol ◦ = 2 (binary heat map, bivariate means); × for all tools = 13.
+  ),
+  caption: [Representative evidence of incomplete uncertainty reporting and
+    visualization across scientific domains and limited software support.],
+  kind: table,
+  placement: top,
+  scope: "parent",
+) <tab:uncertainty-reporting>
+
 #place.flush()
 
 == Data quality checks <sec:quality-checks>

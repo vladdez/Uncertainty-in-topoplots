@@ -2268,7 +2268,7 @@ task1_basic_contrasts |>
 #| include: false
 #| cache: false
 # Numbers quoted in supplement.typ (Data quality checks: item-level checks and
-# Table S5); see write_manuscript_numbers(). The supplement's description of
+# Table S6); see write_manuscript_numbers(). The supplement's description of
 # why the hard images are hard (voltage range, lateral positivity, look-alike
 # N170 maps) is written for MMN_19 and MMN_29; stop if the set changes.
 stopifnot(identical(sort(as.character(task1_hard_targets)), c("MMN_19", "MMN_29")))
