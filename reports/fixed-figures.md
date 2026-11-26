@@ -8,6 +8,7 @@ fixed. IDs keep their review numbers.
 
 | | Issue | Figures | Fixed on |
 |--|------------------|----|----|
+| [High]{.badge .sev-high} | [V1. The seven visualizations appear in a different order in every figure](#v1) | All pages | 26 Nov 2026 |
 | [High]{.badge .sev-high} | [V3. Hit/miss "most correct / most missed" frames highlight noise and ties](#v3) | Hit or miss | 25 Nov 2026 |
 | [Low]{.badge .sev-low} | [V17d. Task 2 peak contrasts: open circles, alphabetical order](#v17d) | Task 2 | 25 Nov 2026 |
 | [Low]{.badge .sev-low} | [V17e. Task 2 score histogram looks like a comb](#v17e) | Task 2 | 25 Nov 2026 |
@@ -36,6 +37,47 @@ fixed. IDs keep their review numbers.
 | [Moderate]{.badge .sev-moderate} | [V9. Task 2 gradient plot sorted by median, shows means](#v9) | Task 2 | 23 Nov 2026 |
 
 : {.findings-table}
+
+## V1. The seven visualizations appear in a different order in every figure {#v1}
+
+::: {.finding-meta .sev-high .status-resolved}
+**Severity:** High (for the paper) · **Fixed:** 26 Nov 2026 · **Figures:** all pages and `figures/` · **Principle:** ch. 21 "Use one visual language across compound panels"; ch. 29 "Keep semantics consistent"; ch. 6
+:::
+
+**Problem.**
+
+- **Sorted by value:** Task 1 accuracy, Task 2 score and the time estimates.
+- **Fixed order with Basic first:** the Likert estimate and contrast figures.
+- **Alphabetical with Basic last:** the hit/miss bars, `task2-peak-ppc-figure`, `task2-peak-contrast-figure` and the time violins.
+- **Re-sorted inside every panel:** the feedback figures.
+
+Readers have to find each condition again in every figure.
+
+**Fix.** Choose one canonical order and use it everywhere: Basic first, then the six
+alternatives grouped by design family. Where sorting by value tells the story (ch. 6
+allows "another story-relevant criterion"), keep Basic pinned and highlighted.
+
+**Resolution (26 Nov 2026).** Every figure and table now uses one order: Basic topoplot,
+then the order of the paper's Figure 1 (Adjacent plots, Bivariate corner, Bivariate range,
+Uncertainty markers, Confidence intervals, Animation).
+
+- The order is defined once, as `vistype_order` in `scripts/analysis_setup.R`;
+  `order_vistype()` applies it, with Basic at the top in horizontal figures and first
+  in tables and columns.
+- It covers the Task 1, Task 2, Time, Subjective, Feedback and Hit or miss pages and the
+  publication figures in `figures/`. Basic keeps its blue accent ([V6](#v6)).
+- Figures that were sorted by value now use the fixed order, including the Task 2
+  gradient plot ([V9](#v9)), the time violin ([V16](#v16)) and the Task 2 peak contrasts
+  ([V17d](#v17d)).
+- The hit/miss figures drawn with UnfoldMakie use the same order (`T2_VISTYPES` in
+  `plot_task2_hits_misses.jl`, worktree commit `de8f84c`): columns run left to right
+  and bar rows top to bottom.
+
+::: {layout-ncol=2}
+![Before](img/v1-task2-hits-misses-pattern-by-vistype-before.png){fig-alt="Hit/miss pattern grid, alphabetical columns with Basic topoplot last, before"}
+
+![After](img/v1-task2-hits-misses-pattern-by-vistype-after.png){fig-alt="Hit/miss pattern grid, Basic topoplot first and then the Figure 1 order, after"}
+:::
 
 ## V3. Hit/miss "most correct / most missed" frames highlight noise and ties {#v3}
 
@@ -91,9 +133,8 @@ now says why no panel is singled out.
 
 **Fix.** Same neutral encoding as [V17c](#v17c): a filled dark point and bar when the
 Dunnett-adjusted interval excludes zero, an open point with a grey bar when it includes
-zero; no red. Rows follow the Task 2 contrast figure on the same page (highest expected
-score at the top) in all three panels; one order for all figures is still open
-([V1](figures-wilke.md#v1)). In-figure caption: "Filled points: Dunnett-adjusted 95%
+zero; no red. Rows were first sorted like the Task 2 contrast figure on the same page;
+since 26 Nov 2026 all three panels use the canonical order ([V1](#v1)). In-figure caption: "Filled points: Dunnett-adjusted 95%
 confidence interval excludes zero; open grey points: interval includes zero." The table
 above the figure still marks such intervals in dark red, like the other tables.
 
@@ -322,8 +363,8 @@ tabs:
 The log scale is already right.
 
 **Resolution (25 Nov 2026).** The violins are horizontal, so the labels read without
-rotation. Rows follow the time figures below them on the page (observed geometric
-mean, slowest at the top); one order for all figures is still open ([V1](figures-wilke.md#v1)).
+rotation. Rows were first sorted by observed geometric mean (slowest at the top); since
+26 Nov 2026 they use the canonical order ([V1](#v1)).
 The title is "Comparison task", the geometric-mean line is now vertical ("Vertical line:
 observed geometric mean"), and the log scale is unchanged, now with a tick at 1 s
 (a log axis cannot show 0; the shortest trial is just under 1 s). Visualization names are

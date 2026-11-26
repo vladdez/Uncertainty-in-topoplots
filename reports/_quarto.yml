@@ -50,9 +50,9 @@ website:
       - section: "Visualization"
         contents:
           - href: figures-wilke.md
-            text: "Figures vs Wilke (1 open)"
+            text: "Figures vs Wilke (0 open)"
           - href: fixed-figures.md
-            text: "Fixed figures (26)"
+            text: "Fixed figures (27)"
           - href: requested-changes.md
             text: "Requested changes (6)"
 

@@ -14,30 +14,8 @@ hand. This page lists the open items; fixed ones move to
 [Fixed figures](fixed-figures.md).
 :::
 
-| | Issue | Figures |
-|--|------------------|----|
-| [High]{.badge .sev-high} | [V1. The seven visualizations appear in a different order in every figure](#v1) | All pages |
-
-: {.findings-table}
-
-## V1. The seven visualizations appear in a different order in every figure {#v1}
-
-::: {.finding-meta .sev-high}
-**Severity:** High (for the paper) · **Principle:** ch. 21 "Use one visual language across compound panels"; ch. 29 "Keep semantics consistent"; ch. 6
-:::
-
-**Problem.**
-
-- **Sorted by value:** Task 1 accuracy, Task 2 score and the time estimates.
-- **Fixed order with Basic first:** the Likert estimate and contrast figures.
-- **Alphabetical with Basic last:** the hit/miss bars, `task2-peak-ppc-figure`, `task2-peak-contrast-figure` and the time violins.
-- **Re-sorted inside every panel:** the feedback figures.
-
-Readers have to find each condition again in every figure.
-
-**Fix.** Choose one canonical order and use it everywhere: Basic first, then the six
-alternatives grouped by design family. Where sorting by value tells the story (ch. 6
-allows "another story-relevant criterion"), keep Basic pinned and highlighted.
+No open items. The last one, V1 (one order for the seven visualizations), was fixed on
+26 Nov 2026; all findings are now on [Fixed figures](fixed-figures.md).
 
 ## Done well
 
