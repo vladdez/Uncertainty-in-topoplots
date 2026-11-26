@@ -360,13 +360,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./figures-wilke.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Figures vs Wilke (1 open)</span></a>
+ <span class="menu-text">Figures vs Wilke (0 open)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./fixed-figures.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Fixed figures (26)</span></a>
+ <span class="menu-text">Fixed figures (27)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -524,11 +524,50 @@ ul.task-list li input[type="checkbox"] {
 <li>a diagonal visualization structure was tried during model building, but it is not refitted on the page, so the page no longer cites it as a sensitivity model.</li>
 </ul></li>
 </ul>
+<p><strong>Done (25–26 Nov 2026).</strong></p>
+<ul>
+<li><p><strong>Task 1 has no image-level variation to model.</strong> The analogous term, one intercept per target stimulus × visualization (210 images, 5–25 trials each), was added to the primary model in a check script (N = 150, 3150 trials; not on the Task 1 page):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Without</th>
+<th>With</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AIC</td>
+<td>2839.3</td>
+<td>2841.1</td>
+</tr>
+<tr class="even">
+<td>Image SD (logit)</td>
+<td>—</td>
+<td>0.15, against 1.01 for stimulus and 1.10 for distractor</td>
+</tr>
+<tr class="odd">
+<td>Overall visualization LRT</td>
+<td>χ²(6) = 12.61, p = .0497</td>
+<td>χ²(6) = 12.19, p = .058</td>
+</tr>
+</tbody>
+</table>
+<p>The term itself is not supported (χ²(1) = 0.16, p = .69). Standard errors grow by about 3%, and all six Dunnett-adjusted contrasts with Basic stay above .10 with or without it, so the primary model keeps <code>(1 | ID) + (1 | stimulus) + (1 | wrong_image)</code>.</p></li>
+<li><p><strong>Manuscript, drafted (not yet committed).</strong> In <code>journal.typ</code>:</p>
+<ul>
+<li><em>Results → Task Performance</em> (from line 714) describes the visualization effects as weak overall: the Task 1 overall test is borderline, no Task 1 contrast is significant, and no Task 2 overall test is significant once each image has its own intercept. The one adjusted Task 2 contrast below .05 (exact hit, Adjacent plots, p = .032) is labelled exploratory. Task 1 values come from <code>numbers.json</code>, and an <code>#assert</code> stops the build if a Task 1 contrast drops below .05; the Task 2 values are still typed by hand.</li>
+<li><em>Limitations</em> (line 773) says that the conclusions generalize to new stimuli only as far as the 30 sampled topographies (ten per pattern) represent the ones researchers encounter.</li>
+</ul></li>
+</ul>
 <p><strong>Remaining.</strong></p>
 <ul>
-<li>Check the analogous term in Task 1 (target stimulus × visualization); Task 1 already has <code>(1 | wrong_image)</code>.</li>
-<li>State that generalization to new stimuli rests on 30 sampled stimuli.</li>
-<li>Manuscript: describe the visualization effects as weak overall; no omnibus test is significant once image-level variation is modelled.</li>
+<li>Review and commit the two manuscript paragraphs, then compile through <code>scripts/compile-journal.ps1</code>. A2 then moves to <a href="./fixed.html">Fixed</a>.</li>
 </ul>
 </section>
 <section id="a4" class="level2">

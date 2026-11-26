@@ -81,21 +81,10 @@
     "href": "figures-wilke.html",
     "title": "Figures vs Wilke",
     "section": "",
-    "text": "NoteScope and method (18 November 2026)\n\n\n\nAn independent, read-only review of the PNGs that the rendered pages reference, plus the publication set in figures/. Each figure was checked against Wilke’s principles using the archived text (llm-wiki/handbooks/wilke2019fundamentals-readable.md); chapter numbers refer to that book. Two headline findings (V3, V9) were re-checked by hand. This page lists the open items; fixed ones move to Fixed figures.",
+    "text": "NoteScope and method (18 November 2026)\n\n\n\nAn independent, read-only review of the PNGs that the rendered pages reference, plus the publication set in figures/. Each figure was checked against Wilke’s principles using the archived text (llm-wiki/handbooks/wilke2019fundamentals-readable.md); chapter numbers refer to that book. Two headline findings (V3, V9) were re-checked by hand. This page lists the open items; fixed ones move to Fixed figures.\nNo open items. The last one, V1 (one order for the seven visualizations), was fixed on 26 Nov 2026; all findings are now on Fixed figures.",
     "crumbs": [
       "Visualization",
-      "Figures vs Wilke (1 open)"
-    ]
-  },
-  {
-    "objectID": "figures-wilke.html#v1",
-    "href": "figures-wilke.html#v1",
-    "title": "Figures vs Wilke",
-    "section": "V1. The seven visualizations appear in a different order in every figure",
-    "text": "V1. The seven visualizations appear in a different order in every figure\n\nSeverity: High (for the paper) · Principle: ch. 21 “Use one visual language across compound panels”; ch. 29 “Keep semantics consistent”; ch. 6\n\nProblem.\n\nSorted by value: Task 1 accuracy, Task 2 score and the time estimates.\nFixed order with Basic first: the Likert estimate and contrast figures.\nAlphabetical with Basic last: the hit/miss bars, task2-peak-ppc-figure, task2-peak-contrast-figure and the time violins.\nRe-sorted inside every panel: the feedback figures.\n\nReaders have to find each condition again in every figure.\nFix. Choose one canonical order and use it everywhere: Basic first, then the six alternatives grouped by design family. Where sorting by value tells the story (ch. 6 allows “another story-relevant criterion”), keep Basic pinned and highlighted.",
-    "crumbs": [
-      "Visualization",
-      "Figures vs Wilke (1 open)"
+      "Figures vs Wilke (0 open)"
     ]
   },
   {
@@ -106,7 +95,7 @@
     "text": "Done well\n\nModel estimates are dots with CIs on a restricted axis, not bars, and the CI type is always stated (ch. 6, ch. 16, ch. 17).\nThe contrast-vs-Basic plots, with simultaneous CIs and a zero line, are close to Wilke Fig. 16-8 (ch. 16, ch. 23).\nBar charts:\n\nstart at zero;\nare horizontal, which suits the long labels;\nare sorted by value with “Other” last.\n\nThe participant multipanel uses a shared 0–100% scale (ch. 6, ch. 17, ch. 21).\nThe section heading serves as the figure title on the Sample page (ch. 22).\nThe map uses 6 bins and an equal-area projection (ch. 15).\nTime violins use a log scale, and the line is labelled as the geometric mean (ch. 3, ch. 8).\nEverything is generated in code, with a cache tied to the data (ch. 28).",
     "crumbs": [
       "Visualization",
-      "Figures vs Wilke (1 open)"
+      "Figures vs Wilke (0 open)"
     ]
   },
   {
@@ -117,7 +106,7 @@
     "text": "Priorities\n\nOne canonical order, one set of names, and the Basic accent everywhere (V1, V5, V6).\nRe-export the publication figures at column size with balanced text, as vector files, without in-figure titles (V2, V7).\nRemove or fix the hit/miss frames (V3).\nFeedback figure: a fixed order across panels and no boxplots for tiny n (V4, V11).\nTask 2 gradient sorted by mean, one score name and unit, and a time contrast figure (V8–V10).",
     "crumbs": [
       "Visualization",
-      "Figures vs Wilke (1 open)"
+      "Figures vs Wilke (0 open)"
     ]
   },
   {
@@ -576,7 +565,7 @@
     "href": "addressed.html#a2",
     "title": "Addressed",
     "section": "A2. Task 2 random-effects structure",
-    "text": "A2. Task 2 random-effects structure\n\nSeverity: High · Area: Task 2 detection-score model\n\nDone.\n\nThe primary model is score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype), adjusting for ERP pattern and presentation position, with crossed participant and stimulus intercepts and an intercept for each of the 210 images (formerly U2). The same structure is used in the two-part sensitivity model and in the hit / near-hit models on the Hit or miss page.\nEvidence for the image intercept (N = 146):\n\n\n\n\n\n\n\n\n\nModel\nAIC without → with\nImage SD\nOverall visualization LRT, without → with\n\n\n\n\nScore (ordered beta)\n1178 → 1107\n0.27\nχ²(6) = 23.1, p = .0008 → χ²(6) = 8.0, p = .23\n\n\nExact hit (logistic)\n2497 → 2448\n0.82\nχ²(6) = 14.6, p = .023 → χ²(6) = 8.6, p = .20\n\n\nHit or near hit (logistic)\n3347 → 3161\n1.12\nχ²(6) = 19.9, p = .003 → χ²(6) = 9.0, p = .17\n\n\n\nPoint estimates barely move; standard errors grow 1.5–2.2×. After Dunnett adjustment for the six comparisons with Basic (measured 24 Nov 2026, N = 150), only one contrast remains below .05: exact hit, Adjacent plots (p = .032). Three that were below .05 unadjusted no longer are: exact hit, Confidence intervals (p = .160); hit or near hit, Uncertainty markers (p = .118) and Bivariate range (p = .123). The Bivariate corner score deficit does not (p = .005 → .093); it is concentrated in three images (MMN_30, N170_16, N170_27).\nThe page checks that no responses are lost and that each stimulus maps to one pattern.\nParticipant-specific slopes were tested and their omission is explained on the page:\n\nthe full correlated visualization structure does not converge;\nthe position slope is now computed on the page (SD 0.013 logit per trial, against a fixed position effect of 0.002), not asserted to be negligible (F20);\na diagonal visualization structure was tried during model building, but it is not refitted on the page, so the page no longer cites it as a sensitivity model.\n\n\nRemaining.\n\nCheck the analogous term in Task 1 (target stimulus × visualization); Task 1 already has (1 | wrong_image).\nState that generalization to new stimuli rests on 30 sampled stimuli.\nManuscript: describe the visualization effects as weak overall; no omnibus test is significant once image-level variation is modelled.",
+    "text": "A2. Task 2 random-effects structure\n\nSeverity: High · Area: Task 2 detection-score model\n\nDone.\n\nThe primary model is score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype), adjusting for ERP pattern and presentation position, with crossed participant and stimulus intercepts and an intercept for each of the 210 images (formerly U2). The same structure is used in the two-part sensitivity model and in the hit / near-hit models on the Hit or miss page.\nEvidence for the image intercept (N = 146):\n\n\n\n\n\n\n\n\n\nModel\nAIC without → with\nImage SD\nOverall visualization LRT, without → with\n\n\n\n\nScore (ordered beta)\n1178 → 1107\n0.27\nχ²(6) = 23.1, p = .0008 → χ²(6) = 8.0, p = .23\n\n\nExact hit (logistic)\n2497 → 2448\n0.82\nχ²(6) = 14.6, p = .023 → χ²(6) = 8.6, p = .20\n\n\nHit or near hit (logistic)\n3347 → 3161\n1.12\nχ²(6) = 19.9, p = .003 → χ²(6) = 9.0, p = .17\n\n\n\nPoint estimates barely move; standard errors grow 1.5–2.2×. After Dunnett adjustment for the six comparisons with Basic (measured 24 Nov 2026, N = 150), only one contrast remains below .05: exact hit, Adjacent plots (p = .032). Three that were below .05 unadjusted no longer are: exact hit, Confidence intervals (p = .160); hit or near hit, Uncertainty markers (p = .118) and Bivariate range (p = .123). The Bivariate corner score deficit does not (p = .005 → .093); it is concentrated in three images (MMN_30, N170_16, N170_27).\nThe page checks that no responses are lost and that each stimulus maps to one pattern.\nParticipant-specific slopes were tested and their omission is explained on the page:\n\nthe full correlated visualization structure does not converge;\nthe position slope is now computed on the page (SD 0.013 logit per trial, against a fixed position effect of 0.002), not asserted to be negligible (F20);\na diagonal visualization structure was tried during model building, but it is not refitted on the page, so the page no longer cites it as a sensitivity model.\n\n\nDone (25–26 Nov 2026).\n\nTask 1 has no image-level variation to model. The analogous term, one intercept per target stimulus × visualization (210 images, 5–25 trials each), was added to the primary model in a check script (N = 150, 3150 trials; not on the Task 1 page):\n\n\n\n\n\n\n\n\n\nWithout\nWith\n\n\n\n\nAIC\n2839.3\n2841.1\n\n\nImage SD (logit)\n—\n0.15, against 1.01 for stimulus and 1.10 for distractor\n\n\nOverall visualization LRT\nχ²(6) = 12.61, p = .0497\nχ²(6) = 12.19, p = .058\n\n\n\nThe term itself is not supported (χ²(1) = 0.16, p = .69). Standard errors grow by about 3%, and all six Dunnett-adjusted contrasts with Basic stay above .10 with or without it, so the primary model keeps (1 | ID) + (1 | stimulus) + (1 | wrong_image).\nManuscript, drafted (not yet committed). In journal.typ:\n\nResults → Task Performance (from line 714) describes the visualization effects as weak overall: the Task 1 overall test is borderline, no Task 1 contrast is significant, and no Task 2 overall test is significant once each image has its own intercept. The one adjusted Task 2 contrast below .05 (exact hit, Adjacent plots, p = .032) is labelled exploratory. Task 1 values come from numbers.json, and an #assert stops the build if a Task 1 contrast drops below .05; the Task 2 values are still typed by hand.\nLimitations (line 773) says that the conclusions generalize to new stimuli only as far as the 30 sampled topographies (ten per pattern) represent the ones researchers encounter.\n\n\nRemaining.\n\nReview and commit the two manuscript paragraphs, then compile through scripts/compile-journal.ps1. A2 then moves to Fixed.",
     "crumbs": [
       "Statistical analysis",
       "Addressed (4)"
@@ -986,7 +975,18 @@
     "text": "Findings move here from Figures vs Wilke once the figure is fixed. IDs keep their review numbers.",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
+    ]
+  },
+  {
+    "objectID": "fixed-figures.html#v1",
+    "href": "fixed-figures.html#v1",
+    "title": "Fixed figures",
+    "section": "V1. The seven visualizations appear in a different order in every figure",
+    "text": "V1. The seven visualizations appear in a different order in every figure\n\nSeverity: High (for the paper) · Fixed: 26 Nov 2026 · Figures: all pages and figures/ · Principle: ch. 21 “Use one visual language across compound panels”; ch. 29 “Keep semantics consistent”; ch. 6\n\nProblem.\n\nSorted by value: Task 1 accuracy, Task 2 score and the time estimates.\nFixed order with Basic first: the Likert estimate and contrast figures.\nAlphabetical with Basic last: the hit/miss bars, task2-peak-ppc-figure, task2-peak-contrast-figure and the time violins.\nRe-sorted inside every panel: the feedback figures.\n\nReaders have to find each condition again in every figure.\nFix. Choose one canonical order and use it everywhere: Basic first, then the six alternatives grouped by design family. Where sorting by value tells the story (ch. 6 allows “another story-relevant criterion”), keep Basic pinned and highlighted.\nResolution (26 Nov 2026). Every figure and table now uses one order: Basic topoplot, then the order of the paper’s Figure 1 (Adjacent plots, Bivariate corner, Bivariate range, Uncertainty markers, Confidence intervals, Animation).\n\nThe order is defined once, as vistype_order in scripts/analysis_setup.R; order_vistype() applies it, with Basic at the top in horizontal figures and first in tables and columns.\nIt covers the Task 1, Task 2, Time, Subjective, Feedback and Hit or miss pages and the publication figures in figures/. Basic keeps its blue accent (V6).\nFigures that were sorted by value now use the fixed order, including the Task 2 gradient plot (V9), the time violin (V16) and the Task 2 peak contrasts (V17d).\nThe hit/miss figures drawn with UnfoldMakie use the same order (T2_VISTYPES in plot_task2_hits_misses.jl, worktree commit de8f84c): columns run left to right and bar rows top to bottom.\n\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
+    "crumbs": [
+      "Visualization",
+      "Fixed figures (27)"
     ]
   },
   {
@@ -997,7 +997,7 @@
     "text": "V3. Hit/miss “most correct / most missed” frames highlight noise and ties\n\nSeverity: High · Fixed: 25 Nov 2026 · Figures: figures/task2_hits_misses_stimulus_by_vistype.png, task2_hits_misses_pattern_by_vistype.png · Principle: ch. 16 (no differences without uncertainty); ch. 4 (keep the accent for real emphasis)\n\nProblem.\n\nRow P3_16 (checked): every panel has 0% hits, yet Confidence intervals is framed “Most correct in row” and Basic topoplot “Most missed in row”.\nRows MMN_1 and N170_12: one “most missed” panel is framed out of several tied at 0%.\nCell sizes: cells hold n = 7–26, so these winners are mostly noise.\nPattern grid: it singles out differences such as 16% vs 12%.\n\nFix.\n\nPreferred: remove the frames.\nOtherwise:\n\nname the metric (hit rate or mean score);\nskip rows where the extreme value is tied;\nprint n or an interval.\n\n\nThe plotting code is in the UnfoldMakie worktree (uncertainty_project/working/task2_results/plot_task2_hits_misses.jl).\nResolution (25 Nov 2026). The frames are removed (the preferred fix): no panel is marked as most correct or most missed, and the legend’s “Panels” block is gone. Each panel’s subtitle keeps its hit rate and n. In the plotting script the frames are behind one switch (T2_SHOW_MARKS = false), so they can be restored. The Hit or miss page text now says why no panel is singled out.\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter\n\n\n\n\n\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1005,10 +1005,10 @@
     "href": "fixed-figures.html#v17d",
     "title": "Fixed figures",
     "section": "V17d. Task 2 peak contrasts: open circles, alphabetical order",
-    "text": "V17d. Task 2 peak contrasts: open circles, alphabetical order\n\nSeverity: Low · Figure: task2-peak-contrast-figure (Task 2) · Fixed: 25 Nov 2026\n\nProblem. Open circles and alphabetical order (ch. 25, V1). Part of the smaller issues (V17).\nFix. Same neutral encoding as V17c: a filled dark point and bar when the Dunnett-adjusted interval excludes zero, an open point with a grey bar when it includes zero; no red. Rows follow the Task 2 contrast figure on the same page (highest expected score at the top) in all three panels; one order for all figures is still open (V1). In-figure caption: “Filled points: Dunnett-adjusted 95% confidence interval excludes zero; open grey points: interval includes zero.” The table above the figure still marks such intervals in dark red, like the other tables.\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
+    "text": "V17d. Task 2 peak contrasts: open circles, alphabetical order\n\nSeverity: Low · Figure: task2-peak-contrast-figure (Task 2) · Fixed: 25 Nov 2026\n\nProblem. Open circles and alphabetical order (ch. 25, V1). Part of the smaller issues (V17).\nFix. Same neutral encoding as V17c: a filled dark point and bar when the Dunnett-adjusted interval excludes zero, an open point with a grey bar when it includes zero; no red. Rows were first sorted like the Task 2 contrast figure on the same page; since 26 Nov 2026 all three panels use the canonical order (V1). In-figure caption: “Filled points: Dunnett-adjusted 95% confidence interval excludes zero; open grey points: interval includes zero.” The table above the figure still marks such intervals in dark red, like the other tables.\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1019,7 +1019,7 @@
     "text": "V17e. Task 2 score histogram looks like a comb\n\nSeverity: Low · Figure: task2-score-distribution (Task 2) · Fixed: 25 Nov 2026\n\nProblem. The 0.01-bin histogram looks like a comb (ch. 7–8). Part of the smaller issues (V17).\nFix. A cumulative distribution (ECDF) in a first tab, one step line per visualization, Basic topoplot in blue on top and the other six in greys, with a legend ordered like the lines near 100%; the histogram stays in a second tab. The six greys are hard to tell apart where the lines overlap; the figure mainly contrasts Basic with the rest.\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter: cumulative distribution",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1030,7 +1030,7 @@
     "text": "V17h. Sample charts: the same “1%” for different bars\n\nSeverity: Low · Figure: all-tools chart, full participant figure, continent chart (Sample) · Fixed: 25 Nov 2026\n\nProblem. Bars of different lengths carried the same “1%” label (for example 1.4% and 0.7%) (ch. 22). Part of the smaller issues (V17).\nFix. Values that round below 2% get one decimal (shared helper percent_label()): the all-tools chart now shows 1.3% and 0.7%, the full participant figure 1.4%, 1.3% and 0.7%, and the continent chart 1.4% for Oceania. The all-countries chart needed no change: it already merges the smallest countries into “1 respondent” and “2 respondents” rows.\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1041,7 +1041,7 @@
     "text": "V17i. Reduced figure: country labels larger than the rest\n\nSeverity: Low · Figure: reduced participant figure (Sample) · Fixed: 25 Nov 2026\n\nProblem. The country panel’s labels were larger than the other panels’ labels (ch. 21). Part of the smaller issues (V17).\nFix. The country panel’s axis labels now have the same size as the other panels (site version; the print version already used 8 pt throughout).\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1052,7 +1052,7 @@
     "text": "V14. Logo labels carry unequal visual weight\n\nSeverity: Moderate · Fixed: 25 Nov 2026 · Figures: participant-characteristics-icons-figure, -icons-compact, software-reduced-logos · Principle: ch. 29 “Add distinctiveness without sacrificing quick comprehension”; ch. 4, ch. 19\n\nProblem.\n\nThe logos differ in visual weight in ways unrelated to the data: multicolour MNE, the red BrainVision block, the dark Brainstorm block.\nSome logos are harder to read than plain names (“erplab”, the R logo with an asterisk).\n\nFix. Keep text labels for the journal, as in the reduced figure. The logo version can stay on the web as an extra.\nResolution (25 Nov 2026). The Sample page’s “Figure with icons” now opens with the compact layout (“(alternative)” dropped) and has a third tab with the same compact figure in plain text labels: country names, and “MATLAB (own code)” etc. for the “My own code in …” answers, so no asterisk is needed. The logo version stays on the web. Open: the exported print PDF (participant_characteristics_icons_compact.pdf) is still the logo version; switch it to text labels if this figure goes into the journal.\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1063,7 +1063,7 @@
     "text": "V17b. Rating contrast labels on the zero line\n\nSeverity: Low · Figure: rating contrast figure (Subjective, Figures page) · Fixed: 25 Nov 2026\n\nProblem. The value labels (“+0.1”, “0.0”, “+0.2”) were centred above each point and overlapped the dashed zero line (ch. 24). Part of the smaller issues (V17).\nFix. Each label sits beside its point on the side away from zero, as in the Task 1 and Task 2 contrast figures. PNG and print PDF re-exported. The after image also shows V17c.\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1074,7 +1074,7 @@
     "text": "V17c. Rating contrast figure: red for gains and losses alike\n\nSeverity: Low · Figure: rating contrast figure (Subjective, Figures page) · Fixed: 25 Nov 2026\n\nProblem. Red marked “interval excludes zero” for gains and losses alike. Red reads as “bad”, and colour was the only cue (ch. 20, ch. 4). Part of the smaller issues (V17).\nFix. Neutral encoding: a filled dark point, bar and label when the interval excludes zero; an open point with grey bar and label when it includes zero. No red; works in greyscale. Captions on the Subjective and Figures pages updated (“Filled points: interval excludes zero; open grey points: interval includes zero”).\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1085,7 +1085,7 @@
     "text": "V17f. Task 1 gradient plot: mean labels touch the band\n\nSeverity: Low · Figure: task1-descriptive-gradient-plot (Task 1) · Fixed: 25 Nov 2026\n\nProblem. The mean labels collided with the top of the band (ch. 24); the wrap of “Confidence intervals” was already fixed under V5. Part of the smaller issues (V17).\nFix. Each label’s baseline now sits clearly above its band and below the band of the row above it.\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1096,7 +1096,7 @@
     "text": "V17g. Sample experience chart: Beginner on top\n\nSeverity: Low · Figure: self-assessed level bar chart (Sample) · Fixed: 25 Nov 2026\n\nProblem. Beginner → Expert ran top to bottom, while the multipanel figures put Expert on top (ch. 21). Part of the smaller issues (V17).\nFix. Expert on top, as in the multipanel figures.\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1107,7 +1107,7 @@
     "text": "V11. Boxplots for 3–10 ordinal values\n\nSeverity: Moderate · Fixed: 25 Nov 2026 · Principle: ch. 9 “Show observations when smoothed group shapes may overstate evidence”\n\nProblem. The feedback figures draw boxplots for 3–10 values on a 5-point scale. A box suggests more distributional detail than the data hold.\nFix.\n\nShow the points with a median tick.\nAlternatively, use a theme × visualization matrix: diverging colour for the median intensity, with n printed in each cell (ch. 6, ch. 4).\nAlso:\n\nlighten the boxed strips (ch. 23);\nadd a reference line at 0 (ch. 23);\nenlarge the caption (ch. 24).\n\n\nResolution (25 Nov 2026). Both fixes were made, and the Feedback page shows them in tabs:\n\nTheme × visualization matrix (first tab). Colour: median of the participant-level medians, binned in half-point steps (9 colours, brown negative to green positive; blue stays the Basic accent). One dot per participant, growing as a square from the lower-right corner; “● 1 participant” in the legend; empty cells white. Other tabs keep variants for comparison: grey cut-off for 1–2 participants, all cells with n, dots centred under the value.\nPoints with a median tick instead of boxplots, a dashed reference line at 0, light grey strips and a larger caption. Cells with 1–2 participants keep faded points and get no tick, as they get no median in the table.\n\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter: points with median tick\n\n\n\n\n\n\n\n\nAfter: theme × visualization matrix",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1115,10 +1115,10 @@
     "href": "fixed-figures.html#v16",
     "title": "Fixed figures",
     "section": "V16. Time violin: alphabetical, rotated labels, no task in title",
-    "text": "V16. Time violin: alphabetical, rotated labels, no task in title\n\nSeverity: Moderate · Fixed: 25 Nov 2026 · Figure: task1-time-violin · Principle: ch. 6 “Turn bars horizontal when category labels are long”, “Order categories by a meaningful rule”; ch. 22\n\nProblem.\n\nThe violins are in alphabetical order.\nThe labels are rotated 35°.\nThe title does not name the task.\n\nFix.\n\nMake the violins horizontal, in the canonical order (V1).\nTitle the plot “Comparison task”.\n\nThe log scale is already right.\nResolution (25 Nov 2026). The violins are horizontal, so the labels read without rotation. Rows follow the time figures below them on the page (observed geometric mean, slowest at the top); one order for all figures is still open (V1). The title is “Comparison task”, the geometric-mean line is now vertical (“Vertical line: observed geometric mean”), and the log scale is unchanged, now with a tick at 1 s (a log axis cannot show 0; the shortest trial is just under 1 s). Visualization names are larger than the tick numbers and the axis title (ch. 24).\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
+    "text": "V16. Time violin: alphabetical, rotated labels, no task in title\n\nSeverity: Moderate · Fixed: 25 Nov 2026 · Figure: task1-time-violin · Principle: ch. 6 “Turn bars horizontal when category labels are long”, “Order categories by a meaningful rule”; ch. 22\n\nProblem.\n\nThe violins are in alphabetical order.\nThe labels are rotated 35°.\nThe title does not name the task.\n\nFix.\n\nMake the violins horizontal, in the canonical order (V1).\nTitle the plot “Comparison task”.\n\nThe log scale is already right.\nResolution (25 Nov 2026). The violins are horizontal, so the labels read without rotation. Rows were first sorted by observed geometric mean (slowest at the top); since 26 Nov 2026 they use the canonical order (V1). The title is “Comparison task”, the geometric-mean line is now vertical (“Vertical line: observed geometric mean”), and the log scale is unchanged, now with a tick at 1 s (a log axis cannot show 0; the shortest trial is just under 1 s). Visualization names are larger than the tick numbers and the axis title (ch. 24).\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1129,7 +1129,7 @@
     "text": "V15. Compact figure: nominal field on a sequential ramp\n\nSeverity: Moderate · Fixed: 25 Nov 2026 · Figure: participant-characteristics-icons-compact, panel A · Principle: ch. 4 “Use equal-prominence colors for unordered categories”\n\nProblem. Research field is a nominal variable, but it is coloured light to dark blue, which implies an order. Self-assessed level is ordered, so its ramp is fine.\nFix. Give field a qualitative palette, or a single colour with direct labels.\nResolution (25 Nov 2026). Research field is one flat mid-blue (#6BAED6, the bar colour of panels B and C), its segments separated by white gaps and named by their labels. Self-assessed level keeps its light-to-dark ramp, so only the ordered variable is shown as ordered. PNG and print PDF re-exported.\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1140,7 +1140,7 @@
     "text": "V8. No time contrast-vs-Basic figure\n\nSeverity: Moderate · Fixed: 25 Nov 2026 · Principle: ch. 16 “Plot uncertainty for the comparison you actually want to make”; ch. 3, ch. 17 (log axes start at 1)\n\nProblem. The time-estimate plots show intervals for levels and say they are “not for differences”. The Dunnett ratios exist only as tables.\nFix. Plot the ratios to Basic with Dunnett CIs on a log axis centred at 1.\nResolution (25 Nov 2026). Both tasks on the Time page now have a figure of the ratios to Basic topoplot with their Dunnett-adjusted 95% CIs, just above the ratio table. The axis is logarithmic (a ratio and its inverse lie equally far from 1) and covers only the intervals plus the reference line at 1, so it does not leave an empty half when all ratios lie above 1; dashed line at 1 in the Basic accent; rows in the order of the estimate figure above (slowest at the top); value labels on the side away from 1. Same style as the Task 1 contrast figure.\n\n\n\n\n\n\nComparison task\n\n\n\n\n\n\n\nDetection task",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1151,7 +1151,7 @@
     "text": "V17a. Time-position checks: tiny ticks, no ribbon, linear axis\n\nSeverity: Low · Figures: time-position checks (Time page, both tasks) · Fixed: 24 Nov 2026\n\nProblem. The time-position checks had tiny tick labels, no 95% ribbon around the line, and a linear axis for geometric means (ch. 24, ch. 16, ch. 3). Part of the smaller issues (V17).\nFix. Larger ticks (V2), a 95% ribbon and a log time axis.\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1162,7 +1162,7 @@
     "text": "V17j. Two typefaces across the figures\n\nSeverity: Low · Figures: all · Fixed: 24 Nov 2026\n\nProblem. The Makie figures used a Helvetica-like font and the R figures used Lato; each R chunk restated theme_classic() (ch. 21, ch. 28). Part of the smaller issues (V17).\nFix. plot_theme() sets Lato and replaces the 24 restated theme_classic() calls; the Makie figures use Lato (lato_fonts(), downloaded into a git-ignored cache). Figures are unchanged except the two Quality figures, now in Lato.",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1173,7 +1173,7 @@
     "text": "V10. One score, several names and units\n\nSeverity: Moderate · Principle: ch. 22 “Label quantitative axes … with variables and units”; ch. 21\n\nProblem. The same Task 2 score is described differently in different figures:\n\nThe gradient plot is titled “Detection task accuracy”, its axis says “score”, and its values are 0–1 decimals.\nThe model figures say “Detection task score” and use %.\ntask2-peak-ppc-figure labels a difference axis “%” where “pp” is meant.\n\nFix. Use one name and one unit for the score, and “pp” for differences. Define the fade beyond 95% in the gradient plots, e.g. “fades from 95% to 99.9% confidence” (ch. 16).\nResolution (24 Nov 2026). One name (“detection score”) and one unit (%) in every Task 2 figure, “pp” for differences.\n\nHistogram: axis “Detection score (0% = weakest region, 100% = strongest region)”; the in-figure title is removed (the caption is the title).\nGradient plot: axis “Detection score (mean of participant means)” in %.\nPPC figure: rebuilt as two panels; the share panel keeps %, the difference panel shows pp.\nFade defined: the gradient captions (Task 1 and Task 2) say the band is opaque inside the 95% interval and fades to transparent between 95% and 100% confidence.\n\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter\n\n\n\n\n\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter\n\n\n\n\n\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1184,7 +1184,7 @@
     "text": "V12. Hit/near-miss bars show no uncertainty\n\nSeverity: Moderate · Figure: figures/task2_hit_near_miss_by_vistype.png · Principle: ch. 16; ch. 19 (dot size)\n\nProblem.\n\nSome differences between bars are 2–5 pp, yet the bars carry no intervals.\nThe small orange and black dots on blue fills are hard to tell apart.\n\nFix.\n\nAdd Wilson 95% whiskers, or point the caption to the contrast models.\nSet a minimum dot size, or give the dots a white halo.\n\nResolution (24 Nov 2026).\n\nIntervals: every hit and near-hit bar has a Wilson 95% whisker (450 responses per bar for all patterns, 150 per pattern). The caption says they treat responses as independent, so they are somewhat too narrow; the models on the page account for participants and stimuli.\nDots: the hit/miss dots on the topoplots have a minimum size and a thicker white outline, so they stay visible on blue fills.\n\n\n\n\n\n\n\nBefore\n\n\n\n\n\n\n\nAfter",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1195,7 +1195,7 @@
     "text": "V18. Orphaned figure files in pages/*_files\n\nSeverity: Low · Area: Project hygiene · Fixed: 24 Nov 2026\n\nProblem. Several tracked PNGs under pages/*_files/figure-html/ are referenced by no page and produced by no chunk:\n\nTask 1: unnamed-chunk-4/7/11/12;\nTask 2: task2-descriptive-plot-1, unnamed-chunk-9/10/11;\nSample: unnamed-chunk-6/8;\nSubjective: likert-basic-contrast-figure-1, unnamed-chunk-3-1.\n\nOne of them, Task 1 unnamed-chunk-4, is an old bar chart with ±1 SD error bars, a literal &lt;U+00B1&gt; in its caption, and bars cut off at 100%. It could be reused by mistake.\nFix. Check each file against the current chunks, then remove the stale ones with git rm. Not done: deleting files needs your go-ahead.\nResolution (24 Nov 2026). A check of every figure file found:\n\nPublished site (docs/pages/*_files/, tracked): no orphans; every PNG there is used by its page (Quarto cleans that folder on each render).\npages/*_files/: git-ignored render leftovers, not tracked (the “tracked” in the problem statement was wrong). 19 of them were used by no page, including the files listed above, two Quality figures left in sample_files/ and old time figures in task1_files/ and task2_files/. They were deleted; the 35 files that the current renders still use were kept.",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1206,7 +1206,7 @@
     "text": "V2. Text sizes are unbalanced at final size\n\nSeverity: High (for the journal) · Principle: ch. 24 “Judge text and mark balance at final reproduction size”\n\nProblem.\n\nLikert figures (figures/likert_estimate_figure.png, figures/likert_contrast_figure.png): panel titles are 50 pt and y labels 40 pt, but the 1–5 and ±2 tick numbers are tiny.\nTiny tick text elsewhere: the PPC and peak-contrast figures, the time-position plots, the feedback y axes and the feedback caption.\nSizes not as coded: exports use showtext at 96 dpi on 180-dpi devices, so the point sizes in the code are not the printed sizes.\n\nFix.\n\nExport at the journal column widths (about 3.5 in or 7 in).\nSet real point sizes: ticks 8–9 pt, labels 9–10 pt.\nDrop the dpi-ratio workaround for exports.\nAdd anchor labels to the rating axis (what 1 and 5 mean).\n\nResolution (24 Nov 2026).\n\nPrint sizes. The publication figures have print PDFs at the journal widths with real point sizes (8 pt text, 7 pt ticks), exported with cairo_pdf rather than the showtext dpi workaround (V7).\nWebsite figures rebalanced (sizes at the ~1100 px display width):\n\nTask 2 PPC figure: ticks about 9.5 → 13 px, panel titles, legend and caption larger.\nTask 2 peak-contrast figure: ticks about 8.7 → 13 px, panel titles and captions larger.\nTime-position checks: ticks and axis titles larger.\nFeedback figures: y ticks about 8.7 → 12 px; caption 14 → 22 (two lines); panel and axis titles 40 → 28.\nLikert figures: panel titles 50 → 36, tick numbers 20 → 28, labels 40 → 34.\n\nRating anchors. Every panel of the Likert estimate figure shows its 1–5 axis with the item’s anchors at the ends: very unhelpful / very helpful (comparison, detection), very unlikely / very likely (publication use), very unappealing / very appealing (aesthetics). Web and print (7 pt).",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1217,7 +1217,7 @@
     "text": "V7. Publication figures: 180-dpi PNG, in-figure titles and subtitles\n\nSeverity: Moderate (for the journal) · Figures: figures/comparison_accuracy*, detection_score*, likert_* · Principle: ch. 27 “Match vector or bitmap storage to figure complexity”, “Preserve a maximum-quality master”; ch. 22 “Give every figure one title in the location its medium expects”\n\nProblem.\n\nThe publication figures are 180-dpi PNGs.\nThey carry their own titles and subtitles. One subtitle, for example, defines the CI (“Dunnett-adjusted simultaneous 95% CIs”).\n\nFix.\n\nExport the ggplot figures as PDF or SVG (cairo_pdf, svglite).\nExport the Makie grids as PDF, or as PNG/TIFF at 300 dpi or more.\nAdd a title = FALSE switch for the exports and move the CI definition into the manuscript caption.\n\nThe Sample page already works this way.\nResolution (24 Nov 2026).\n\nPrint PDFs at the template’s widths. Every figure on the Figures page has a PDF in figures/ laid out at its print size (IEEE VGTC template: full width 504 pt = 7.0 in, one column 246 pt), with 8 pt text, 7 pt ticks and value labels, and Lato embedded: participant characteristics, both Likert figures (full width); comparison accuracy and its contrasts, detection score and its contrasts (one column). Helpers in scripts/analysis_setup.R: print_width, print_text, ggsave_print() (cairo_pdf); each figure is built by one function with a print switch, so the web PNG and the PDF come from the same code.\nNo in-figure titles. The titles and subtitles of the accuracy and detection figures are removed (web and print). Their definitions moved into figure captions, for example “Bars: Dunnett-adjusted simultaneous 95% confidence intervals for the six comparisons” (Task 2 contrast figure); the same text belongs in the manuscript captions.\nMakie grids. The four hit/miss figures also get print PDFs at 504 pt width (one narrower to stay under 9 in tall), with the smallest text at 7 pt and Lato.\nFigures page. Each figure shows its caption and a link to its print PDF.",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1228,7 +1228,7 @@
     "text": "V13. Country map is a choropleth of raw counts\n\nSeverity: Moderate · Figure: country-count-map · Principle: ch. 15 “Use choropleths primarily for densities, and check area bias”\n\nProblem. Russia, Canada, Australia, Brazil and China dominate the map visually with 1–6 participants each. Europe, at about two-thirds of the sample, is barely visible.\nFix. Use proportional symbols at the country centroids, or add a Europe inset, or drop the map in favour of the bar charts. The 6 bins and the equal-area projection are already good.\nResolution (24 Nov 2026). The Sample page’s map is now a tabset with two versions under “Map of participants by country”:\n\nShaded countries: the existing choropleth, unchanged.\nProportional symbols (country-count-symbol-map, also figures/country_work_participant_symbol_map.png): countries in grey, one blue circle per country of work whose area is proportional to the count. Each circle sits at the area-weighted centroid of the country’s mainland, computed in the equal-area projection, so Alaska or overseas territories do not pull it away.\nEurope inset: an enlarged Europe panel on the same circle scale, framed on the world map, with counts of 5 or more written in the circles (Germany 35, UK 13, Italy 9, …); the size legend sits under it.\nNo wasted space: the world map’s extent ignores specks near the antimeridian, and the column widths, row heights and figure height are computed from the maps’ aspect ratios (chunk country-symbol-map-geometry).",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1239,7 +1239,7 @@
     "text": "V5. Visualization names differ between figures\n\nSeverity: Moderate · Principle: ch. 21 (consistency); ch. 22 (unambiguous labels)\n\nProblem. The same visualizations appear under different names:\n\n“Bivariate corner” and “Bivariate corners”;\n“Confidence interval” and “Confidence intervals”;\n“Basic” and “Basic topoplot”;\n“Adjacent” and “Adjacent plots”.\n\nIn the Task 2 gradient plot, “Confidence intervals” also wraps onto two lines with a large gap.\nFix.\n\nUse one label vector (vistype_labels) for every R figure and the Makie exports.\nUse a short-name variant only where space requires it, and then use it everywhere.\n\nResolution (24 Nov 2026). Every R figure takes its names from the shared vistype_labels (Adjacent plots, Animation, Bivariate corner, Bivariate range, Confidence intervals, Uncertainty markers, Basic topoplot) through new helpers in scripts/analysis_setup.R: figure_vistype() gives the one-line name, or one word per line (stacked = TRUE) for narrow axes. Page-local label vectors with other spellings (for example “Bivariate corners” in the Task 1 contrast figure) are removed. Changed figures: Task 1 gradient, accuracy, contrast and hard-trials figures; Task 2 gradient, detection-score, contrast, PPC and peak-contrast figures; the time estimate and violin figures; the Likert labels; both feedback figures, whose codebook labels (Basic, Adjacent, Confidence interval, …) are mapped to the canonical names on the axis only (the coding data are unchanged). The Makie hit/miss figures already used the canonical names. Horizontal axes now use one-line names, which also removes the wrapped “Confidence intervals” gap in the Task 2 gradient plot.",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1250,7 +1250,7 @@
     "text": "V6. Basic topoplot is highlighted only in some figures\n\nSeverity: Moderate · Principle: ch. 4 “Make baseline colors recede behind highlights”; ch. 21\n\nProblem.\n\nThe blue Basic accent appears in the accuracy, score and Likert figures.\nIt is missing from the time estimates, the gradient plots, the PPC figure, the peak contrasts and the hit/miss bars.\n\nFix. Apply the same accent to Basic in every figure that shows all seven conditions.\nResolution (24 Nov 2026). Shared constants basic_accent (#377EB8) and basic_accent_fill (#B9D8F2) and helpers vistype_label_colours(), markdown_vistype() and basic_axis_caption() in scripts/analysis_setup.R.\n\nTime estimates (both tasks): blue axis label, point, interval and value, as in the accuracy figure.\nTime violin, both gradient plots, PPC figure: blue axis label; their marks keep their own colours (a blue line would not show on the blue gradient).\nPeak contrasts: caption “Difference (logit scale) from Basic topoplot” with Basic topoplot in blue, as in the main contrast figures.\nLikert figures: Basic and the zero lines now use the same blue (was #3B78B4).\nMakie hit/miss figures: Basic topoplot in blue in the bar chart’s labels and in the Basic column titles of the topoplot grids (re-run and copied to figures/).\n\nFigures without a Basic row (six-row contrast figures, Likert odds ratios) keep their blue zero line.",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1261,7 +1261,7 @@
     "text": "V4. Feedback panels re-sort the visualizations in each panel\n\nSeverity: High · Figures: a305-intensity-theme-figure, …-general-bivariates · Principle: ch. 21 “Order panels by a logical sequence”; ch. 6 (horizontal labels)\n\nProblem.\n\nEvery theme panel orders the visualizations differently, so Basic and the others move between panels.\nThe general-bivariates version also has rotated labels.\n\nFix.\n\nUse one fixed x order in all panels.\nKeep empty slots, so that columns line up vertically.\n\nResolution (24 Nov 2026). Both feedback figures now use one x axis for all panels (scales = \"fixed\", drop = FALSE), in the page’s visualization order (Basic first), with empty slots kept, so the columns line up. The axis labels are repeated in every panel and are horizontal in both versions; the eight-column general-bivariates version uses slightly smaller labels instead of rotated ones. Cause of the re-sorting: each panel took its x categories first from the boxplot layer, which skips sparse cells, and appended the rest. The boxplots for small cells remain (V11).",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   },
   {
@@ -1272,7 +1272,7 @@
     "text": "V9. Task 2 gradient plot sorted by median, shows means\n\nSeverity: Moderate · Location: pages/task2.qmd:317–320 (task2_gradient_order uses arrange(median)) · Principle: ch. 6 “Order categories by a meaningful rule”\n\nProblem. The plot shows means but is ordered by medians. Bivariate corner (0.68) therefore sits above Basic (0.70).\nFix. Sort by mean_score.\nResolution (23 Nov 2026, F28). The rows are ordered by the mean of participant means, the value the figure shows, and the in-figure title is removed.",
     "crumbs": [
       "Visualization",
-      "Fixed figures (26)"
+      "Fixed figures (27)"
     ]
   }
 ]
