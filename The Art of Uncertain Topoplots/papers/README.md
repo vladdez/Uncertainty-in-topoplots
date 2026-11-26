@@ -81,3 +81,15 @@ change; these files record what the page showed on that day.
 | [anthropic2026opus55](anthropic2026opus55.pdf) | <https://platform.claude.com/docs/en/models/overview> (the entry's old URL, docs.anthropic.com/en/docs/about-claude/models, redirects here) |
 | [openai2026codex](openai2026codex.pdf) | <https://developers.openai.com/codex> (the entry's URL since 26 November 2026) |
 | [openai2026codex_api_guide](openai2026codex_api_guide.pdf) | <https://developers.openai.com/api/docs/guides/code-generation> (the entry's URL before 26 November 2026) |
+
+## Statistical software (26 November 2026)
+
+Cited in Statistical Analysis. BibTeX from R's `citation()` for the installed versions.
+
+| File | Source |
+| --- | --- |
+| [rcoreteam2026r](rcoreteam2026r.pdf) | <https://www.r-project.org/> (homepage printed with headless Edge; R 4.6.1 was used) |
+| [bates2015lme4](bates2015lme4.pdf) | <https://www.jstatsoft.org/article/view/v067i01/v67i01.pdf> |
+| [brooks2017glmmtmb](brooks2017glmmtmb.pdf) | <https://journal.r-project.org/archive/2017/RJ-2017-066/RJ-2017-066.pdf> |
+| [christensen2026ordinal](christensen2026ordinal.pdf) | <https://cran.r-project.org/web/packages/ordinal/ordinal.pdf> (reference manual, version 2026.7-26, the installed version) |
+| [lenth2026emmeans](lenth2026emmeans.pdf) | <https://cran.r-project.org/web/packages/emmeans/emmeans.pdf> (reference manual, version 2.0.5; the analysis used 2.0.4, whose manual CRAN no longer serves) |
