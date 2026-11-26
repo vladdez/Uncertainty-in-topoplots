@@ -83,10 +83,10 @@ signal-to-noise structure. On the other hand, adding another visual variable to 
 familiar spatial representation may hinder the perception of the underlying ERP pattern.
 This creates a broader visualization question: #strong[how can uncertainty be added to an
 established spatial visualization while preserving the primary signal that users already
-know how to read?] This difficulty is reflected by @allen2012data: they reviewed 1,451
-figures from six neuroscience journals, finding that uncertainty was particularly
-underrepresented in visualizations of data with more than three features, with only 20%
-indicating uncertainty.
+know how to read?] This difficulty is reflected by @allen2012data. They reviewed 1,451
+figures from six neuroscience journals. Figures of three-variable data showed uncertainty
+less often than figures of two-variable data: only 20% of them did. These are 2D plots in
+which color or another feature shows a third variable, the same structure as a topoplot.
 
 Before the quantitative evaluation, we conducted qualitative interviews with nine EEG/ERP
 experts to understand how topoplots are used in practice, how researchers think about
@@ -456,16 +456,24 @@ The corner encoding adapts the corners model described by Strode et al.
 The corners model is intended for analyses that emphasize extreme combinations of two
 variables while de-emphasizing intermediate values @strode2019operationalizing. This makes
 it suitable for our study tasks, in which viewers must locate and compare regions combining
-strongly positive or negative voltage with low or high uncertainty.
+strongly positive or negative voltage with low or high uncertainty. Strode et al. add two
+cautions @strode2019operationalizing. First, readers of a corners map may need to look at
+the legend more often. Second, the authors could not build a $4 times 4$ palette with
+clearly distinct colors, so they used a $3 times 3$ grid. Our $5 times 5$ grid therefore
+makes the colors harder to tell apart.
 
-We selected this palette because it received the highest assessment category for elementary
+We selected this palette because Bernard et al. rated it in the top category for elementary
 localization and identification (ER1), equal visual importance (ER2), and elementary
-comparison (ER3) on dark backgrounds in Bernard et al.'s task-based evaluation
-@bernard2015colormaps. Its corners use distinct hues so that the four joint extrema can be
-identified and compared. We further adjusted the palette to improve separation between
-neighboring combinations, following the broader warning that blue--violet mixtures in
-bivariate maps can be difficult to distinguish @strode2019operationalizing. Hatched legend
-cells mark combinations absent from the displayed topoplot.
+comparison (ER3) in their task-based evaluation @bernard2015colormaps. This rating holds for
+black backgrounds. On white backgrounds, they did not rate it as suitable for ER1 and ER3.
+Our stimuli used a white background, as most EEG publications do. We expect the background
+to matter little here: inside a filled topoplot, most colors border other colors, and the
+background touches only the outer rim of the head. Its corners use distinct hues so that the
+four joint extrema can be identified and compared. We further adjusted the palette to
+improve separation between neighboring combinations, following the broader warning that
+blue--violet mixtures in bivariate maps can be difficult to distinguish
+@strode2019operationalizing. Hatched legend cells mark combinations absent from the
+displayed topoplot.
 
 == Bivariate color: range
 
@@ -769,6 +777,10 @@ from differences between visualizations; this particularly affects the basic top
 reference for all rating comparisons. Future studies should randomize or counterbalance the
 item order. The comparison rating was also collected at a different point in the study than
 the other three ratings (after Task 1 rather than after Task 2).
+
+The corner palette was rated by Bernard et al. for black backgrounds, whereas our stimuli
+used a white one. We expect little effect, because the background touches only the rim of
+the head, but we cannot rule it out.
 
 The stimuli were 30 sampled ERP topographies, ten for each of the three patterns, and the
 models treated them as random effects. The conclusions therefore generalize to new stimuli
