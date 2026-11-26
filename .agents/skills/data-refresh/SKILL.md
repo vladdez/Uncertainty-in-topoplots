@@ -112,7 +112,7 @@ quarto render
 ```
 
 - The first command regenerates the participant-characteristics PNGs that
-  `pages/figures.qmd` embeds; a plain render leaves them stale.
+  `pages/summary.qmd` embeds; a plain render leaves them stale.
 - Chunk caches are keyed on the MD5 of the CSV, `scripts/analysis_setup.R` and
   (feedback page) the A305 workbook, so they invalidate automatically. If a
   page still shows old numbers, delete that page's `pages/<page>_cache/` and
@@ -123,7 +123,7 @@ quarto render
 - Mixed models can change convergence behaviour with new data. Search the
   render output for `convergence`, `singular`, `Warning`, `Error`.
 
-Exit: render succeeds; every PNG in `figures/` used by `pages/figures.qmd` has
+Exit: render succeeds; every PNG in `figures/` used by `pages/summary.qmd` has
 a fresh modification time (except `example_topoplots.gif` and the task example
 PDFs, which are stimuli).
 

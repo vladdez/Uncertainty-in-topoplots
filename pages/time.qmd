@@ -189,13 +189,20 @@ time_contrast_table <- function(contrasts, caption) {
 # the plot stays empty when all ratios lie on one side.
 # Rows follow the estimate figure above it: the canonical order (audit V1),
 # Adjacent plots at the top (there is no Basic topoplot row).
-time_contrast_plot <- function(contrasts, estimates) {
-  s <- interval_figure_sizes()
+# `limits` lets several panels share one x range; `title` names a panel; with
+# caption = FALSE the bare panel is returned, for combining (see the two-task
+# figure in the summary section).
+time_contrast_limits <- function(...) {
+  range_log <- range(log(c(unlist(list(...)), 1)))
+  exp(range_log + c(-1, 1) * 0.08 * diff(range_log))
+}
+
+time_contrast_plot <- function(contrasts, estimates, print = FALSE, limits = NULL,
+                               title = NULL, caption = TRUE) {
+  s <- interval_figure_sizes(print)
   d <- contrasts |>
     mutate(vistype = factor(vistype, levels = levels(estimates$vistype)))
-  range_log <- range(log(c(d$lower_ci, d$upper_ci, 1)))
-  pad <- 0.08 * diff(range_log)
-  limits <- exp(range_log + c(-pad, pad))
+  if (is.null(limits)) limits <- time_contrast_limits(d$lower_ci, d$upper_ci)
   candidates <- c(0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.8, 2)
   breaks <- candidates[candidates >= limits[1] & candidates <= limits[2]]
   plot <- ggplot(d, aes(x = ratio, y = vistype)) +
@@ -223,15 +230,17 @@ time_contrast_plot <- function(contrasts, estimates) {
       labels = \(x) sub("\\.?0+$", "", sprintf("%.2f", x)),
       expand = expansion(mult = 0)
     ) +
-    labs(x = NULL, y = NULL) +
+    labs(x = NULL, y = NULL, title = title) +
     plot_theme(base_size = s$base) +
     theme(
+      plot.title = element_text(size = s$axis_y, face = "bold", hjust = 0.5),
       axis.text.y = element_text(size = s$axis_y, margin = margin(r = s$margin)),
       axis.text.x = element_text(size = s$axis_x),
       axis.ticks.y = element_blank(),
       axis.line.y = element_blank()
     )
 
+  if (!caption) return(plot)
   plot /
     basic_axis_caption("Ratio of geometric mean time to", size = s$caption) +
     plot_layout(heights = c(1, 0.10))
@@ -1227,6 +1236,45 @@ time_accuracy_sensitivity %>%
 `r if (nrow(time_accuracy_changes) == 0) "The direction and clarity of both time–accuracy associations are the same under all three rules." else if (nrow(time_accuracy_changes) == 1) "The verdict of one time–accuracy association depends on the outlier rule; see the table." else "The verdicts of both time–accuracy associations depend on the outlier rule; see the table."`
 
 :::
+
+```{r time-ratio-figure}
+#| include: false
+# Both tasks side by side on one x range, for the Summary page: the two ratio
+# figures above as panels. Saved to figures/ with a print PDF (full width).
+make_time_ratio_figure <- function(print = FALSE) {
+  s <- interval_figure_sizes(print)
+  limits <- time_contrast_limits(
+    task1_time_contrasts$lower_ci, task1_time_contrasts$upper_ci,
+    task2_time_contrasts$lower_ci, task2_time_contrasts$upper_ci
+  )
+  task1_panel <- time_contrast_plot(task1_time_contrasts, time_estimates, print,
+                                    limits, "Comparison task", caption = FALSE)
+  task2_panel <- time_contrast_plot(task2_time_contrasts, task2_time_estimates, print,
+                                    limits, "Detection task", caption = FALSE) +
+    theme(axis.text.y = element_blank())
+  (task1_panel | task2_panel) /
+    basic_axis_caption("Ratio of geometric mean time to", size = s$caption) +
+    plot_layout(heights = c(1, 0.10))
+}
+
+ggsave_st(
+  project_path("figures", "time_ratio_figure.png"),
+  make_time_ratio_figure(),
+  width = 14,
+  height = 5.5,
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
+)
+
+ggsave_print(
+  project_path("figures", "time_ratio_figure.pdf"),
+  make_time_ratio_figure(print = TRUE),
+  width = print_width[["full"]],
+  height = 2.6
+)
+```
 
 ## Summary of the completion-time results
 

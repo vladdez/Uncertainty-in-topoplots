@@ -22,13 +22,13 @@ This study compares seven uncertainty-visualization approaches using comparison,
 
 ## Site structure
 
+- [**Summary**](pages/summary.qmd)**:** conclusions for each research question, recommendations for each visualization, and the publication figures with their print PDFs.
 - [**Sample**](pages/sample.qmd)**:** participants and background characteristics.
 - [**Quality control**](pages/quality.qmd)**:** participants flagged for answering too fast or giving the same rating everywhere.
 - [**Task 1**](pages/task1.qmd)**:** visualization comparison.
 - [**Task 2**](pages/task2.qmd)**:** pattern detection.
-- [**Hit or miss**](pages/hit_miss.qmd)**:** hits, near hits and misses in Task 2.
+- [**Hit or miss**](pages/hit_miss.qmd)**:** hits, neighbour hits and misses in Task 2.
 - [**Time analysis**](pages/time.qmd)**:** completion time in both tasks.
 - [**Subjective evaluation**](pages/subjective.qmd)**:** participant ratings of the visualizations.
 - [**Open-ended feedback**](pages/feedback.qmd)**:** visualization-specific and general written comments.
-- [**Publication figures**](pages/figures.qmd)**:** final figures for reuse.
 - [**Audit**](audit/index.html)**:** open issues in the statistical analysis and a source-to-claim check of the manuscript's literature.

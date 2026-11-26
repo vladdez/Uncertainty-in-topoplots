@@ -9,6 +9,7 @@ project:
     - "audit/**"
   render:
     - index.qmd
+    - pages/summary.qmd
     - pages/sample.qmd
     - pages/quality.qmd
     - pages/task1.qmd
@@ -17,7 +18,6 @@ project:
     - pages/time.qmd
     - pages/subjective.qmd
     - pages/feedback.qmd
-    - pages/figures.qmd
 
 execute:
   cache: true
@@ -34,6 +34,8 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: pages/summary.qmd
+        text: Summary
       - href: pages/sample.qmd
         text: Sample
       - href: pages/quality.qmd
@@ -50,8 +52,6 @@ website:
         text: Subjective evaluation
       - href: pages/feedback.qmd
         text: Open-ended feedback
-      - href: pages/figures.qmd
-        text: Publication figures
     right:
       - icon: github
         text: GitHub project
