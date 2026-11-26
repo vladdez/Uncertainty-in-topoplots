@@ -204,16 +204,10 @@ vistype_table |>
   )
 ```
 
-::: {.panel-tabset}
-
-#### Gradient
-
-```{r task1-descriptive-gradient-plot}
-#| fig-cap: >-
-#|   The black line and label show the across-participant mean. The blue band is fully
-#|   opaque inside its two-sided 95% t-confidence interval and fades linearly to
-#|   transparent as the confidence level rises from 95% to 100%.
-
+```{r task1-descriptive-setup}
+#| include: false
+# Data and shared layers for the Task 1 descriptive plots below (Ambiguation,
+# Gradient, 95% CI whiskers), so the tabs can come in any order.
 task1_gradient_data <- task1_gradient_summary |>
   tidyr::crossing(accuracy = seq(0.60, 0.90, length.out = 241)) |>
   mutate(
@@ -289,7 +283,35 @@ task1_accuracy_plot_layers <- function(mean_tick_colour = "#111111", mean_tick_h
     )
   )
 }
+```
 
+::: {.panel-tabset}
+
+#### Ambiguation
+
+```{r task1-descriptive-ambiguation-plot}
+#| cache: false
+#| fig-cap: >-
+#|   The dark band spans the two-sided 95% t-confidence interval for the mean.
+#|   The lighter ends extend to the 99% interval. The white tick and percentage
+#|   label show the mean. Design adapted from panel (f) of
+#|   [Gschwandtner et al. (2016)](https://doi.org/10.1109/TVCG.2015.2467752).
+#| fig-alt: >-
+#|   Mean comparison-task accuracy by visualisation type. Each horizontal bar has
+#|   a dark 95% confidence interval and lighter ends reaching the 99% limits.
+
+source("scripts/ambiguation_plot.R", local = TRUE)
+make_ambiguation_plot(task1_gradient_summary, mean_accuracy, se_accuracy) +
+  task1_accuracy_plot_layers(mean_tick_colour = "white", mean_tick_half_height = 0.20)
+```
+
+#### Gradient
+
+```{r task1-descriptive-gradient-plot}
+#| fig-cap: >-
+#|   The black line and label show the across-participant mean. The blue band is fully
+#|   opaque inside its two-sided 95% t-confidence interval and fades linearly to
+#|   transparent as the confidence level rises from 95% to 100%.
 task1_gradient_figure <- ggplot(
   task1_gradient_data,
   aes(x = accuracy, y = y_position)
@@ -331,25 +353,6 @@ ggplot(task1_gradient_summary, aes(x = mean_accuracy, y = y_position)) +
   scale_colour_identity() +
   task1_accuracy_plot_layers()
 ```
-
-#### Ambiguation
-
-```{r task1-descriptive-ambiguation-plot}
-#| cache: false
-#| fig-cap: >-
-#|   The dark band spans the two-sided 95% t-confidence interval for the mean.
-#|   The lighter ends extend to the 99% interval. The white tick and percentage
-#|   label show the mean. Design adapted from panel (f) of
-#|   [Gschwandtner et al. (2016)](https://doi.org/10.1109/TVCG.2015.2467752).
-#| fig-alt: >-
-#|   Mean comparison-task accuracy by visualisation type. Each horizontal bar has
-#|   a dark 95% confidence interval and lighter ends reaching the 99% limits.
-
-source("scripts/ambiguation_plot.R", local = TRUE)
-make_ambiguation_plot(task1_gradient_summary, mean_accuracy, se_accuracy) +
-  task1_accuracy_plot_layers(mean_tick_colour = "white", mean_tick_half_height = 0.20)
-```
-
 :::
 
 ### Model-estimated accuracy {#population-average-accuracy}
@@ -582,11 +585,22 @@ task1_probability_intervals <- apply(
   na.rm = TRUE
 )
 
+# 99% limits from the same draws, for the two-tone (ambiguation) figure.
+task1_probability_intervals_99 <- apply(
+  task1_population_draws,
+  2,
+  quantile,
+  probs = c(0.005, 0.995),
+  na.rm = TRUE
+)
+
 accuracy_estimates <- tibble::tibble(
   vistype = factor(task1_vistype_levels, levels = task1_vistype_levels),
   accuracy = task1_estimand_comparison$population_average,
   lower_ci = task1_probability_intervals[1, ],
-  upper_ci = task1_probability_intervals[2, ]
+  upper_ci = task1_probability_intervals[2, ],
+  lower_99 = task1_probability_intervals_99[1, ],
+  upper_99 = task1_probability_intervals_99[2, ]
 ) |>
   # Canonical visualization order (audit V1): the levels run bottom to top in
   # the horizontal figures (Basic topoplot at the top); the rows of the table
@@ -662,6 +676,7 @@ that these data cannot reliably estimate how those effects differ between partic
 
 ```{r}
 accuracy_estimates |>
+  select(-lower_99, -upper_99) |>  # 99% limits: only for the two-tone figure
   mutate(
     vistype = table_vistype(vistype),
     across(
@@ -706,6 +721,91 @@ model_table_note(
   label = "Model details"
 )
 ```
+
+::: {.panel-tabset}
+
+#### Ambiguation
+
+```{r task1-estimate-ambiguation}
+#| cache: false
+#| fig-cap: "Population-average comparison-task accuracy of each visualization. Dark band: pointwise 95% confidence interval; light ends: 99%; white tick: estimate. Both intervals from the same 4,000 parameter draws."
+#| fig-alt: "Two-tone bands of model-estimated comparison accuracy for the seven visualizations, all between about 70% and 85%, widely overlapping; Basic topoplot at 78%."
+
+# Two-tone version of the estimate figure (ambiguation, Gschwandtner et al.
+# 2016, Fig. 1f): dark band = pointwise 95% interval, light ends = 99%, white
+# tick = estimate. The figure used on the Summary page.
+make_estimate_ambiguation_figure <- function(estimates, estimate, x_title, print = FALSE) {
+  s <- interval_figure_sizes(print)
+  d <- estimates |>
+    transmute(
+      vistype, prob = {{ estimate }}, lower_95 = lower_ci, upper_95 = upper_ci,
+      lower_99, upper_99, y_position = as.numeric(vistype)
+    ) |>
+    # Bottom row first, so the label colours below match the axis breaks.
+    arrange(y_position)
+  limits <- c(floor(min(d$lower_99) / 0.05) * 0.05, ceiling(max(d$upper_99) / 0.05) * 0.05)
+  band <- if (print) 0.28 else 0.31
+  source("scripts/ambiguation_plot.R", local = TRUE)
+  plot_ambiguation_intervals(d) +
+    geom_segment(
+      aes(x = prob, xend = prob, y = y_position - band * 0.65, yend = y_position + band * 0.65),
+      colour = "white", linewidth = s$line * 1.4
+    ) +
+    geom_text(
+      aes(x = prob, y = y_position + band + 0.08, label = scales::percent(prob, accuracy = 1)),
+      vjust = 0, size = s$label
+    ) +
+    scale_x_continuous(
+      x_title,
+      limits = limits,
+      breaks = scales::breaks_width(0.05),
+      labels = scales::label_percent(accuracy = 1),
+      expand = expansion(mult = 0.01)
+    ) +
+    scale_y_continuous(
+      breaks = d$y_position,
+      labels = figure_vistype(d$vistype),
+      expand = expansion(add = c(0.5, 0.7))
+    ) +
+    labs(y = NULL) +
+    x_axis_end_mark(s$base, size = if (print) 0.55 else 1, side = "left") +
+    x_axis_end_mark(s$base, size = if (print) 0.55 else 1) +
+    coord_cartesian(clip = "off") +
+    plot_theme(base_size = s$base) +
+    theme(
+      axis.text.y = element_text(
+        size = s$axis_y,
+        colour = vistype_label_colours(as.character(d$vistype)),
+        margin = margin(r = s$margin)
+      ),
+      axis.text.x = element_text(size = s$axis_x),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank()
+    )
+}
+
+comparison_accuracy_ambiguation <- make_estimate_ambiguation_figure(
+  accuracy_estimates, accuracy, "Model-estimated comparison-task accuracy"
+)
+comparison_accuracy_ambiguation
+
+ggsave_st(
+  project_path("figures", "comparison_accuracy_ambiguation_figure.png"),
+  comparison_accuracy_ambiguation,
+  width = 9, height = 5, units = "in", dpi = 180,
+  device = ragg::agg_png, bg = "white"
+)
+ggsave_print(
+  project_path("figures", "comparison_accuracy_ambiguation_figure.pdf"),
+  make_estimate_ambiguation_figure(
+    accuracy_estimates, accuracy, "Model-estimated comparison-task accuracy", print = TRUE
+  ),
+  width = print_width[["column"]],
+  height = 2.5
+)
+```
+
+#### Whiskers
 
 ```{r}
 #| cache: false
@@ -802,6 +902,7 @@ ggsave_print(
   height = 2.5
 )
 ```
+:::
 
 ### Differences vs Basic topoplot {#accuracy-differences-relative-to-basic-topoplot}
 

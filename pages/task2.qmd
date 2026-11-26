@@ -391,19 +391,10 @@ ggsave_st(
 
 :::
 
-::: {.panel-tabset}
-
-### Gradient
-
-```{r task2-descriptive-gradient-plot}
-#| cache: false
-#| fig-cap: >-
-#|   Detection scores summarized from participant-level means, with gradient uncertainty.
-#|   For each visualization, the black line and number show the mean across participants.
-#|   The blue band is fully opaque inside the two-sided 95% t-confidence interval around
-#|   that mean and fades linearly to transparent as the confidence level rises from 95% to
-#|   100%.
-
+```{r task2-descriptive-setup}
+#| include: false
+# Data and shared layers for the Task 2 descriptive plots below (Ambiguation,
+# Gradient, 95% CI whiskers), so the tabs can come in any order.
 task2_gradient_participants <- task2_model |>
   group_by(ID, vistype) |>
   summarise(
@@ -523,7 +514,52 @@ task2_score_plot_layers <- function(mean_tick_colour = "#111111", mean_tick_half
     )
   )
 }
+```
 
+::: {.panel-tabset}
+
+### Ambiguation
+
+```{r task2-descriptive-ambiguation-plot}
+#| cache: false
+#| fig-cap: >-
+#|   The dark band spans the two-sided 95% t-confidence interval for the mean.
+#|   The lighter ends extend to the 99% interval. The white tick and percentage
+#|   label show the mean. Design adapted from panel (f) of
+#|   [Gschwandtner et al. (2016)](https://doi.org/10.1109/TVCG.2015.2467752).
+#| fig-alt: >-
+#|   Mean detection scores by visualisation type. Each horizontal bar has
+#|   a dark 95% confidence interval and lighter ends reaching the 99% limits.
+
+source("scripts/ambiguation_plot.R", local = TRUE)
+task2_ambiguation_figure <-
+  make_ambiguation_plot(task2_gradient_summary, mean_score, se_score) +
+  task2_score_plot_layers(mean_tick_colour = "white", mean_tick_half_height = 0.20)
+task2_ambiguation_figure
+
+# Copy in figures/: the Ambiguation version is the one for publication.
+ggsave_st(
+  project_path("figures", "task2_ambiguation_figure.png"),
+  task2_ambiguation_figure,
+  width = 9,
+  height = 5.5,
+  units = "in",
+  dpi = 180,
+  device = ragg::agg_png,
+  bg = "white"
+)
+```
+
+### Gradient
+
+```{r task2-descriptive-gradient-plot}
+#| cache: false
+#| fig-cap: >-
+#|   Detection scores summarized from participant-level means, with gradient uncertainty.
+#|   For each visualization, the black line and number show the mean across participants.
+#|   The blue band is fully opaque inside the two-sided 95% t-confidence interval around
+#|   that mean and fades linearly to transparent as the confidence level rises from 95% to
+#|   100%.
 task2_gradient_figure <- ggplot(
   task2_gradient_data,
   aes(x = score, y = y_position)
@@ -539,16 +575,6 @@ task2_gradient_figure <- ggplot(
 
 task2_gradient_figure
 
-ggsave_st(
-  project_path("figures", "task2_gradient_figure.png"),
-  task2_gradient_figure,
-  width = 9,
-  height = 5.5,
-  units = "in",
-  dpi = 180,
-  device = ragg::agg_png,
-  bg = "white"
-)
 ```
 
 ### 95% CI whiskers
@@ -576,25 +602,6 @@ ggplot(task2_gradient_summary, aes(x = mean_score, y = y_position)) +
   scale_colour_identity() +
   task2_score_plot_layers()
 ```
-
-### Ambiguation
-
-```{r task2-descriptive-ambiguation-plot}
-#| cache: false
-#| fig-cap: >-
-#|   The dark band spans the two-sided 95% t-confidence interval for the mean.
-#|   The lighter ends extend to the 99% interval. The white tick and percentage
-#|   label show the mean. Design adapted from panel (f) of
-#|   [Gschwandtner et al. (2016)](https://doi.org/10.1109/TVCG.2015.2467752).
-#| fig-alt: >-
-#|   Mean detection scores by visualisation type. Each horizontal bar has
-#|   a dark 95% confidence interval and lighter ends reaching the 99% limits.
-
-source("scripts/ambiguation_plot.R", local = TRUE)
-make_ambiguation_plot(task2_gradient_summary, mean_score, se_score) +
-  task2_score_plot_layers(mean_tick_colour = "white", mean_tick_half_height = 0.20)
-```
-
 :::
 
 ## Detection-score analysis
@@ -1049,6 +1056,8 @@ task2_expected_summary <- task2_expected_draws |>
     conditional_upper = quantile(conditional, 0.975),
     marginal_lower = quantile(marginal, 0.025),
     marginal_upper = quantile(marginal, 0.975),
+    marginal_lower_99 = quantile(marginal, 0.005),
+    marginal_upper_99 = quantile(marginal, 0.995),
     .groups = "drop"
   ) |>
   left_join(task2_expected_point, by = "vistype") |>
@@ -1064,7 +1073,9 @@ task2_estimates <- task2_expected_summary |>
     vistype = as.character(vistype),
     predicted_score = marginal,
     lower_ci = marginal_lower,
-    upper_ci = marginal_upper
+    upper_ci = marginal_upper,
+    lower_99 = marginal_lower_99,
+    upper_99 = marginal_upper_99
   ) |>
   # Rows in the display order of every figure (audit V1), Basic topoplot at the top
   # of the horizontal figure.
@@ -1365,6 +1376,93 @@ the middle presentation position (`position_c = 0`, corresponding to position 11
 averaged equally over the MMN, N170, and P3 patterns. Error bars are pointwise 95%
 intervals from the parameter draws.
 
+::: {.panel-tabset}
+
+#### Ambiguation
+
+```{r task2-estimate-ambiguation}
+#| cache: false
+#| fig-cap: "Expected detection score E[y] of each visualization, averaged over participants, stimuli and images. Dark band: pointwise 95% confidence interval; light ends: 99%; white tick: estimate. Both intervals from the same 4,000 parameter draws."
+#| fig-alt: "Two-tone bands of expected detection score for the seven visualizations, all between about 65% and 78%, overlapping; Basic topoplot at 71%."
+
+# Two-tone version of the estimate figure (ambiguation, Gschwandtner et al.
+# 2016, Fig. 1f): dark band = pointwise 95% interval, light ends = 99%, white
+# tick = estimate. The figure used on the Summary page.
+make_estimate_ambiguation_figure <- function(estimates, estimate, x_title, print = FALSE) {
+  s <- interval_figure_sizes(print)
+  d <- estimates |>
+    transmute(
+      vistype, prob = {{ estimate }}, lower_95 = lower_ci, upper_95 = upper_ci,
+      lower_99, upper_99, y_position = as.numeric(vistype)
+    ) |>
+    # Bottom row first, so the label colours below match the axis breaks.
+    arrange(y_position)
+  limits <- c(floor(min(d$lower_99) / 0.05) * 0.05, ceiling(max(d$upper_99) / 0.05) * 0.05)
+  band <- if (print) 0.28 else 0.31
+  source("scripts/ambiguation_plot.R", local = TRUE)
+  plot_ambiguation_intervals(d) +
+    geom_segment(
+      aes(x = prob, xend = prob, y = y_position - band * 0.65, yend = y_position + band * 0.65),
+      colour = "white", linewidth = s$line * 1.4
+    ) +
+    geom_text(
+      aes(x = prob, y = y_position + band + 0.08, label = scales::percent(prob, accuracy = 1)),
+      vjust = 0, size = s$label
+    ) +
+    scale_x_continuous(
+      x_title,
+      limits = limits,
+      breaks = scales::breaks_width(0.05),
+      labels = scales::label_percent(accuracy = 1),
+      expand = expansion(mult = 0.01)
+    ) +
+    scale_y_continuous(
+      breaks = d$y_position,
+      labels = figure_vistype(d$vistype),
+      expand = expansion(add = c(0.5, 0.7))
+    ) +
+    labs(y = NULL) +
+    x_axis_end_mark(s$base, size = if (print) 0.55 else 1, side = "left") +
+    x_axis_end_mark(s$base, size = if (print) 0.55 else 1) +
+    coord_cartesian(clip = "off") +
+    plot_theme(base_size = s$base) +
+    theme(
+      axis.text.y = element_text(
+        size = s$axis_y,
+        colour = vistype_label_colours(as.character(d$vistype)),
+        margin = margin(r = s$margin)
+      ),
+      axis.text.x = element_text(size = s$axis_x),
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank()
+    )
+}
+
+detection_score_ambiguation <- make_estimate_ambiguation_figure(
+  task2_estimates, predicted_score,
+  "Expected detection score (averaged over participants and stimuli)"
+)
+detection_score_ambiguation
+
+ggsave_st(
+  project_path("figures", "detection_score_ambiguation_figure.png"),
+  detection_score_ambiguation,
+  width = 9, height = 5, units = "in", dpi = 180,
+  device = ragg::agg_png, bg = "white"
+)
+ggsave_print(
+  project_path("figures", "detection_score_ambiguation_figure.pdf"),
+  make_estimate_ambiguation_figure(
+    task2_estimates, predicted_score,
+    "Expected detection score\n(averaged over participants and stimuli)", print = TRUE
+  ),
+  width = print_width[["column"]],
+  height = 2.6
+)
+```
+
+#### Whiskers
+
 ```{r}
 #| cache: false
 #| fig-cap: "Expected detection score E[y] of each visualization, averaged over participants, stimuli and images. Bars: pointwise 95% confidence intervals (one per visualization, not adjusted for comparisons)."
@@ -1465,6 +1563,7 @@ ggsave_print(
   height = 2.6
 )
 ```
+:::
 
 ### Differences vs Basic topoplot {#detection-score-differences-relative-to-basic-topoplot}
 
