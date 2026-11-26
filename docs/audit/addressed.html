@@ -251,7 +251,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Statistical analysis</a></li><li class="breadcrumb-item"><a href="./addressed.html">Addressed (4)</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Statistical analysis</a></li><li class="breadcrumb-item"><a href="./addressed.html">Addressed (3)</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -308,13 +308,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./addressed.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Addressed (4)</span></a>
+ <span class="menu-text">Addressed (3)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./fixed.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Fixed (31)</span></a>
+ <span class="menu-text">Fixed (32)</span></a>
   </div>
 </li>
       </ul>
@@ -388,7 +388,6 @@ ul.task-list li input[type="checkbox"] {
    
   <ul class="collapse">
   <li><a href="#a1" id="toc-a1" class="nav-link active" data-scroll-target="#a1">A1. Model-adequacy checks</a></li>
-  <li><a href="#a2" id="toc-a2" class="nav-link" data-scroll-target="#a2">A2. Task 2 random-effects structure</a></li>
   <li><a href="#a4" id="toc-a4" class="nav-link" data-scroll-target="#a4">A4. Task 2 scores are not comparable across stimuli</a></li>
   <li><a href="#a5" id="toc-a5" class="nav-link" data-scroll-target="#a5">A5. Qualitative coding is not validated</a></li>
   </ul>
@@ -398,7 +397,7 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Statistical analysis</a></li><li class="breadcrumb-item"><a href="./addressed.html">Addressed (4)</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Statistical analysis</a></li><li class="breadcrumb-item"><a href="./addressed.html">Addressed (3)</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Addressed</h1>
 <p class="subtitle lead">Issues where work has been done but something remains</p>
@@ -433,16 +432,11 @@ ul.task-list li input[type="checkbox"] {
 <td>All models</td>
 </tr>
 <tr class="even">
-<td><span class="badge sev-high">High</span></td>
-<td><a href="#a2">A2. Task 2 random-effects structure</a></td>
-<td>Task 2</td>
-</tr>
-<tr class="odd">
 <td><span class="badge sev-moderate">Moderate</span></td>
 <td><a href="#a4">A4. Task 2 scores are not comparable across stimuli</a></td>
 <td>Task 2</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><span class="badge sev-moderate">Moderate</span></td>
 <td><a href="#a5">A5. Qualitative coding is not validated</a></td>
 <td>Feedback</td>
@@ -468,106 +462,6 @@ ul.task-list li input[type="checkbox"] {
 <li>Simulated residual diagnostics for all models.</li>
 <li>Influence checks for participants, stimuli, and comparison pairs.</li>
 <li>Residual behaviour of the time models.</li>
-</ul>
-</section>
-<section id="a2" class="level2">
-<h2 class="anchored" data-anchor-id="a2">A2. Task 2 random-effects structure</h2>
-<div class="finding-meta sev-high status-partial">
-<p><strong>Severity:</strong> High · <strong>Area:</strong> Task 2 detection-score model</p>
-</div>
-<p><strong>Done.</strong></p>
-<ul>
-<li><p>The primary model is <code>score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus) + (1 | stimulus:vistype)</code>, adjusting for ERP pattern and presentation position, with crossed participant and stimulus intercepts and an intercept for each of the 210 images (formerly U2). The same structure is used in the two-part sensitivity model and in the hit / near-hit models on the Hit or miss page.</p></li>
-<li><p>Evidence for the image intercept (N = 146):</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Model</th>
-<th>AIC without → with</th>
-<th>Image SD</th>
-<th>Overall visualization LRT, without → with</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Score (ordered beta)</td>
-<td>1178 → 1107</td>
-<td>0.27</td>
-<td>χ²(6) = 23.1, p = .0008 → χ²(6) = 8.0, p = .23</td>
-</tr>
-<tr class="even">
-<td>Exact hit (logistic)</td>
-<td>2497 → 2448</td>
-<td>0.82</td>
-<td>χ²(6) = 14.6, p = .023 → χ²(6) = 8.6, p = .20</td>
-</tr>
-<tr class="odd">
-<td>Hit or near hit (logistic)</td>
-<td>3347 → 3161</td>
-<td>1.12</td>
-<td>χ²(6) = 19.9, p = .003 → χ²(6) = 9.0, p = .17</td>
-</tr>
-</tbody>
-</table>
-<p>Point estimates barely move; standard errors grow 1.5–2.2×. After Dunnett adjustment for the six comparisons with Basic (measured 24 Nov 2026, N = 150), only one contrast remains below .05: exact hit, Adjacent plots (p = .032). Three that were below .05 unadjusted no longer are: exact hit, Confidence intervals (p = .160); hit or near hit, Uncertainty markers (p = .118) and Bivariate range (p = .123). The Bivariate corner score deficit does not (p = .005 → .093); it is concentrated in three images (MMN_30, N170_16, N170_27).</p></li>
-<li><p>The page checks that no responses are lost and that each stimulus maps to one pattern.</p></li>
-<li><p>Participant-specific slopes were tested and their omission is explained on the page:</p>
-<ul>
-<li>the full correlated visualization structure does not converge;</li>
-<li>the position slope is now computed on the page (SD 0.013 logit per trial, against a fixed position effect of 0.002), not asserted to be negligible (F20);</li>
-<li>a diagonal visualization structure was tried during model building, but it is not refitted on the page, so the page no longer cites it as a sensitivity model.</li>
-</ul></li>
-</ul>
-<p><strong>Done (25–26 Nov 2026).</strong></p>
-<ul>
-<li><p><strong>Task 1 has no image-level variation to model.</strong> The analogous term, one intercept per target stimulus × visualization (210 images, 5–25 trials each), was added to the primary model in a check script (N = 150, 3150 trials; not on the Task 1 page):</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th></th>
-<th>Without</th>
-<th>With</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>AIC</td>
-<td>2839.3</td>
-<td>2841.1</td>
-</tr>
-<tr class="even">
-<td>Image SD (logit)</td>
-<td>—</td>
-<td>0.15, against 1.01 for stimulus and 1.10 for distractor</td>
-</tr>
-<tr class="odd">
-<td>Overall visualization LRT</td>
-<td>χ²(6) = 12.61, p = .0497</td>
-<td>χ²(6) = 12.19, p = .058</td>
-</tr>
-</tbody>
-</table>
-<p>The term itself is not supported (χ²(1) = 0.16, p = .69). Standard errors grow by about 3%, and all six Dunnett-adjusted contrasts with Basic stay above .10 with or without it, so the primary model keeps <code>(1 | ID) + (1 | stimulus) + (1 | wrong_image)</code>.</p></li>
-<li><p><strong>Manuscript, drafted (not yet committed).</strong> In <code>journal.typ</code>:</p>
-<ul>
-<li><em>Results → Task Performance</em> (from line 714) describes the visualization effects as weak overall: the Task 1 overall test is borderline, no Task 1 contrast is significant, and no Task 2 overall test is significant once each image has its own intercept. The one adjusted Task 2 contrast below .05 (exact hit, Adjacent plots, p = .032) is labelled exploratory. Task 1 values come from <code>numbers.json</code>, and an <code>#assert</code> stops the build if a Task 1 contrast drops below .05; the Task 2 values are still typed by hand.</li>
-<li><em>Limitations</em> (line 773) says that the conclusions generalize to new stimuli only as far as the 30 sampled topographies (ten per pattern) represent the ones researchers encounter.</li>
-</ul></li>
-</ul>
-<p><strong>Remaining.</strong></p>
-<ul>
-<li>Review and commit the two manuscript paragraphs, then compile through <code>scripts/compile-journal.ps1</code>. A2 then moves to <a href="./fixed.html">Fixed</a>.</li>
 </ul>
 </section>
 <section id="a4" class="level2">
