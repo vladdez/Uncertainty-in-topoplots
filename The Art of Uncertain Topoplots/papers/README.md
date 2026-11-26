@@ -65,5 +65,19 @@ No accessible standalone full-text PDF was found in the sources checked.
 These bibliography entries cite software or documentation rather than standalone papers.
 
 - `ehinger2018eegvis`: [EEGVIS repository](https://github.com/behinger/eegvis) and [archived release](https://doi.org/10.5281/zenodo.1312813). This citation identifies software; its repository provides no standalone paper.
-- `gwdgVoiceAI`: [Voice AI documentation](https://docs.hpc.gwdg.de/services/ai-services/voice-ai/); the official GWDG article describing the service is archived above.
+- `gwdgVoiceAI`: the entry cites the GWDG-Nachrichten 7/2024 article archived above (author named under "Text and Contact"); the [Voice AI documentation](https://docs.hpc.gwdg.de/services/ai-services/voice-ai/) it pointed to before 26 November 2026 is not archived.
 - `gerslova2026diegr`: [plot_topo_mean documentation](https://gerslovaz.github.io/diegr/reference/plot_topo_mean.html); the matching CRAN package manual is archived above.
+
+## Archived web pages (26 November 2026)
+
+Printed to PDF with headless Edge (temporary profile, no header or footer). Web pages
+change; these files record what the page showed on that day.
+
+| File | Page |
+| --- | --- |
+| [ehinger2018eegvis](ehinger2018eegvis.pdf) | <https://github.com/behinger/eegvis> (README figure: a butterfly plot above three adjacent rows of topoplot series, one row per quantity, each with its own colour scale) |
+| [ehinger2018eegvis_zenodo](ehinger2018eegvis_zenodo.pdf) | <https://zenodo.org/records/1312813> (release 0.1, 16 July 2018) |
+| [openai2026gpt56sol](openai2026gpt56sol.pdf) | <https://developers.openai.com/api/docs/models/gpt-5.6-sol> |
+| [anthropic2026opus55](anthropic2026opus55.pdf) | <https://platform.claude.com/docs/en/models/overview> (the entry's old URL, docs.anthropic.com/en/docs/about-claude/models, redirects here) |
+| [openai2026codex](openai2026codex.pdf) | <https://developers.openai.com/codex> (the entry's URL since 26 November 2026) |
+| [openai2026codex_api_guide](openai2026codex_api_guide.pdf) | <https://developers.openai.com/api/docs/guides/code-generation> (the entry's URL before 26 November 2026) |

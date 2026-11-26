@@ -1,10 +1,16 @@
+% Bibliography for journal.typ and supplement.typ. Typst prints only cited entries.
+% Eight entries are not cited (blenkinsop200alternative, gelman2020regression,
+% kangas2023understanding, openai2026codex, perrin1989spherical, pocock2007figures,
+% ristovski2014uncertainty, tennant2025human). They are kept on purpose: the
+% literature wiki (llm-wiki/tools/build_wiki.py) takes the bibliographic fields of
+% each archived PDF in papers/ from this file. Decided 26 November 2026.
+
 @article{yanai2021current,
   author  = {Yanai, Ruth D. and Mann, Thomas A. and Hong, Sunghoon D. and Pu, Ge and Zukswert, Jenna M.},
   title   = {The Current State of Uncertainty Reporting in Ecosystem Studies: A Systematic Evaluation of Peer-Reviewed Literature},
   journal = {Ecosphere},
   volume  = {12},
   number  = {6},
-  pages   = {e03535},
   year    = {2021},
   doi     = {10.1002/ecs2.3535}
 }
@@ -56,7 +62,7 @@
   title     = {Fundamentals of Data Visualization},
   publisher = {O'Reilly Media},
   year      = {2019},
-  isbn      = {9781492031079}
+  isbn      = {9781492031086}
 }
 
 @article{allen2012data,
@@ -160,7 +166,7 @@
   journal = {Cartographic Perspectives},
   number  = {94},
   pages   = {5--24},
-  year    = {2020},
+  year    = {2019},
   doi     = {10.14714/CP94.1538}
 }
 
@@ -273,12 +279,15 @@
   doi       = {10.1007/978-1-4471-2804-5_6}
 }
 
-@misc{gwdgVoiceAI,
-  author       = {{Gesellschaft für wissenschaftliche Datenverarbeitung mbH Göttingen (GWDG)}},
-  title        = {Voice AI},
-  howpublished = {Academic Cloud},
-  url          = {https://docs.hpc.gwdg.de/services/ai-services/voice-ai/},
-  note         = {Accessed: August 30, 2026}
+@article{gwdgVoiceAI,
+  author  = {Lux, Narges},
+  title   = {Introducing {Voice-AI}: Advanced Transcription and Captioning Service},
+  journal = {GWDG-Nachrichten},
+  volume  = {47},
+  number  = {7},
+  year    = {2024},
+  issn    = {0940-4686},
+  url     = {https://gwdg.de/en/about-us/gwdg-news/2024/GN_07-2024_www.pdf}
 }
 
 @article{pernet2011limo,
@@ -489,6 +498,7 @@
   booktitle = {Proceedings of the 2018 CHI Conference on Human Factors in Computing Systems},
   publisher = {Association for Computing Machinery},
   year      = {2018},
+  pages     = {144:1--144:12},
   doi       = {10.1145/3173574.3173718}
 }
 
@@ -550,17 +560,17 @@
   title        = {Claude Opus 5.5 Model},
   year         = {2026},
   howpublished = {Anthropic Models Documentation},
-  url          = {https://docs.anthropic.com/en/docs/about-claude/models},
+  url          = {https://platform.claude.com/docs/en/models/overview},
   note         = {Accessed: November 19, 2026}
 }
 
 @misc{openai2026codex,
   author       = {{OpenAI}},
-  title        = {Code Generation: Codex},
+  title        = {Codex},
   year         = {2026},
-  howpublished = {OpenAI API Documentation},
-  url          = {https://developers.openai.com/api/docs/guides/code-generation},
-  note         = {Accessed: November 5, 2026}
+  howpublished = {OpenAI Developer Documentation},
+  url          = {https://developers.openai.com/codex},
+  note         = {Accessed: November 26, 2026}
 }
 
 @article{leiner2019too,
