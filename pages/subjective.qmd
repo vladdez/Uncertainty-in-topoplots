@@ -1216,8 +1216,42 @@ subjective_n_lower <- sum(likert_contrasts$upper_ci < 0)
 #| include: false
 #| cache: false
 # Numbers quoted in supplement.typ (Data quality checks: sensitivity without the
-# flagged participants); see write_manuscript_numbers().
+# flagged participants) and in journal.typ (Results, Subjective Evaluation: the
+# Dunnett-adjusted differences from Basic whose interval excludes zero); see
+# write_manuscript_numbers().
+likert_item_key <- setNames(names(question_labels), unname(question_labels))
+likert_item_numbers <- likert_contrasts |>
+  mutate(key = coalesce(unname(likert_item_key[as.character(question)]), as.character(question))) |>
+  group_by(key) |>
+  group_map(\(d, k) {
+    clear <- d |>
+      filter(excludes_zero) |>
+      arrange(desc(difference)) |>
+      transmute(
+        vistype = table_vistype(as.character(vistype)),
+        higher = difference > 0,  # before the difference becomes text
+        difference = signed_text(difference, 2)
+      )
+    list(
+      key = k$key,
+      n_compared = nrow(d),
+      n_higher = sum(d$excludes_zero & d$difference > 0),
+      n_lower = sum(d$excludes_zero & d$difference < 0),
+      clear = purrr::transpose(as.list(clear))
+    )
+  })
+names(likert_item_numbers) <- purrr::map_chr(likert_item_numbers, "key")
+
 write_manuscript_numbers("subjective", list(
+  items = likert_item_numbers,
+  # Supplement: proportional-odds test, model vs raw means, linear-model check.
+  po_rejected = sum(po_tests$p_value < .05),
+  po_n = nrow(po_tests),
+  po_p_min = p_text(min(po_tests$p_value)),
+  po_p_max = p_text(max(po_tests$p_value)),
+  max_raw_model_difference = sprintf("%.2f", max_raw_model_difference),
+  lmm_agree = sum(likert_sensitivity$agree),
+  lmm_n = nrow(likert_sensitivity),
   n_participants = nrow(data),
   quality_max_shift = sprintf("%.2f", max(abs(likert_quality_sensitivity$shift))),
   quality_n_changed = sum(!likert_quality_sensitivity$agree),

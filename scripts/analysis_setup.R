@@ -31,6 +31,27 @@ ggsave_st <- function(...) {
   ggplot2::ggsave(...)
 }
 
+# Large site layouts (feedback matrix, head map, hit-or-miss bands) are also
+# exported as vector PDFs at the same size. ggsave_st() draws their text at
+# 96/180 of the nominal size (showtext at 96 dpi in a 180-dpi PNG), while a PDF
+# with real fonts uses the nominal size. Scaling every text size by the same
+# factor gives the PDF the proportions of the PNG; points and lines are unchanged.
+print_like_png <- function(plot, factor = 96 / 180) {
+  for (name in names(plot$theme)) {
+    element <- plot$theme[[name]]
+    if (inherits(element, "element_text") && is.numeric(element$size)) {
+      plot$theme[[name]]$size <- element$size * factor
+    }
+  }
+  for (i in seq_along(plot$layers)) {
+    layer <- plot$layers[[i]]
+    if (inherits(layer$geom, c("GeomText", "GeomLabel")) && is.numeric(layer$aes_params$size)) {
+      plot$layers[[i]]$aes_params$size <- layer$aes_params$size * factor
+    }
+  }
+  plot
+}
+
 # Print figures (audit V7): vector PDFs laid out at their final size in the
 # journal (IEEE VGTC template, US letter, 54 pt side margins, 2 columns with a
 # 12.24 pt gutter): full width 504 pt = 7 in, one column about 246 pt. Body text

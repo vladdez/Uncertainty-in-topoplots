@@ -1364,3 +1364,48 @@ time_summary_or <- function(i) {
   `r if (time_summary_all_slower) paste0("With the main rule, every uncertainty visualization took longer than Basic topoplot in both tasks. ", if (time_summary_slowest[["task1"]] == time_summary_slowest[["task2"]]) paste0(table_vistype(time_summary_slowest[["task1"]]), " was the slowest in both tasks. ") else "") else "Not every visualization differed clearly from Basic topoplot; see the task bullets above. "`The
   time–accuracy results are associations, not effects of time: a harder trial can both
   take longer and be answered incorrectly more often.
+
+```{r manuscript-numbers-time}
+#| include: false
+#| cache: false
+# Main-text numbers for journal.typ (Results, completion time); see
+# write_manuscript_numbers(). Outlier-handling and time-accuracy checks stay on this
+# page and in the supplement.
+time_numbers_task <- function(estimates, contrasts) {
+  basic <- estimates |> filter(vistype == "basic")
+  slowest <- contrasts |> slice_max(ratio, n = 1, with_ties = FALSE)
+  list(
+    basic_time = sprintf("%.1f", basic$estimated_time),
+    all_slower = all(contrast_verdict(contrasts$lower_ci, contrasts$upper_ci) == "slower"),
+    longer_min = sprintf("%.0f%%", 100 * (min(contrasts$ratio) - 1)),
+    longer_max = sprintf("%.0f%%", 100 * (max(contrasts$ratio) - 1)),
+    slowest = table_vistype(as.character(slowest$vistype)),
+    slowest_ratio = sprintf("%.2f", slowest$ratio)
+  )
+}
+# Supplement: the outlier rule, its sensitivity check, and the time-accuracy
+# association in Task 1.
+time_rule_numbers <- function(i) list(
+  trials = format(time_rule_counts$trials[i], big.mark = ","),
+  removed = time_rule_counts$removed[i],
+  participants = time_rule_counts$participants_affected[i],
+  iqr_removed = time_rule_counts$iqr_removed[i]
+)
+time_accuracy_numbers <- purrr::transpose(as.list(task1_time_accuracy_effects |> transmute(
+  term, odds_ratio = sprintf("%.2f", odds_ratio), lower = sprintf("%.2f", lower_ci),
+  upper = sprintf("%.2f", upper_ci), p = p_text(p_value),
+  excludes_one = lower_ci > 1 | upper_ci < 1
+)))
+names(time_accuracy_numbers) <- task1_time_accuracy_effects$term
+
+write_manuscript_numbers("time", list(
+  n_participants = n_distinct(task1_time$ID),
+  cap_sec = time_cap_sec,
+  rule_task1 = time_rule_numbers(1),
+  rule_task2 = time_rule_numbers(2),
+  sensitivity_n_changed = nrow(time_sensitivity_changes),
+  time_accuracy = time_accuracy_numbers,
+  task1 = time_numbers_task(time_estimates, task1_time_contrasts),
+  task2 = time_numbers_task(task2_time_estimates, task2_time_contrasts)
+))
+```

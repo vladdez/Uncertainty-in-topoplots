@@ -2299,7 +2299,28 @@ task1_comparison_rows <- task1_basic_contrasts |>
     p_without = p_text(p_adjusted_without)
   )
 
+# Supplement (statistical models): does Task 1 need an intercept per image
+# (target stimulus x visualization), as Task 2 does? Refit the primary model with it.
+task1_fit_image <- update(task1_fit, . ~ . + (1 | stimulus:vistype))
+task1_image_lrt <- anova(task1_fit, task1_fit_image)
+task1_image_null <- update(task1_fit_image, . ~ . - vistype)
+task1_image_overall <- anova(task1_image_null, task1_fit_image)
+task1_image_term <- list(
+  aic_without = sprintf("%.1f", AIC(task1_fit)),
+  aic_with = sprintf("%.1f", AIC(task1_fit_image)),
+  image_sd = sprintf("%.2f", attr(lme4::VarCorr(task1_fit_image)[["stimulus:vistype"]], "stddev")),
+  stimulus_sd = sprintf("%.2f", attr(lme4::VarCorr(task1_fit_image)[["stimulus"]], "stddev")),
+  term_chi = sprintf("%.2f", task1_image_lrt[["Chisq"]][2]),
+  term_df = task1_image_lrt[["Df"]][2],
+  term_p = p_text(task1_image_lrt[["Pr(>Chisq)"]][2]),
+  overall_chi_with = sprintf("%.2f", task1_image_overall[["Chisq"]][2]),
+  overall_df_with = task1_image_overall[["Df"]][2],
+  overall_p_with = p_text(task1_image_overall[["Pr(>Chisq)"]][2]),
+  supported = task1_image_lrt[["Pr(>Chisq)"]][2] < 0.05
+)
+
 write_manuscript_numbers("task1", list(
+  image_term = task1_image_term,
   n_participants = n_distinct(task1_model$ID),
   n_trials = format(nrow(task1_key_checks), big.mark = ","),
   n_key_failures = task1_key_failures,
@@ -2309,6 +2330,9 @@ write_manuscript_numbers("task1", list(
   hard_trials_per_vis_min = min(task1_hard_vistype_counts$n),
   hard_trials_per_vis_max = max(task1_hard_vistype_counts$n),
   n_hard_trials = format(nrow(task1_model) - nrow(task1_model_without_hard), big.mark = ","),
+  overall_chi = sprintf("%.2f", task1_vistype_lrt[["Chisq"]]),
+  # glmmTMB's anova table: "Df" counts model parameters, "Chi Df" is the test's df.
+  overall_df = task1_vistype_lrt[["Chi Df"]],
   overall_p_all = p_text(task1_vistype_lrt[["Pr(>Chisq)"]]),
   overall_p_without = p_text(task1_without_hard_p),
   without_hard_any_excludes_zero = task1_without_hard_contrast_any,

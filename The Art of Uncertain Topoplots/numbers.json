@@ -1,4 +1,416 @@
 {
+  "feedback": {
+    "codebook": [
+      {
+        "Theme": "Accessibility",
+        "Explanation": "Usability across color vision, devices, or other viewer needs."
+      },
+      {
+        "Theme": "Aesthetics",
+        "Explanation": "Visual attractiveness, cleanliness, or perceived ugliness."
+      },
+      {
+        "Theme": "Information integration",
+        "Explanation": "How well multiple quantities are combined without obscuring one another."
+      },
+      {
+        "Theme": "Informativeness",
+        "Explanation": "Amount or usefulness of information communicated."
+      },
+      {
+        "Theme": "Interpretability",
+        "Explanation": "Ease or difficulty of understanding what the visualization means."
+      },
+      {
+        "Theme": "Learnability",
+        "Explanation": "Whether interpretation becomes easier with exposure or practice."
+      },
+      {
+        "Theme": "Legend/color mapping",
+        "Explanation": "Clarity and intuitiveness of colors, scales, and their legends."
+      },
+      {
+        "Theme": "Medium compatibility",
+        "Explanation": "Suitability for print, papers, presentations, screens, or animation."
+      },
+      {
+        "Theme": "Preference",
+        "Explanation": "An explicit choice, ranking, liking, or dislike."
+      },
+      {
+        "Theme": "Reading effort",
+        "Explanation": "Time, attention, or cognitive effort required to extract information."
+      },
+      {
+        "Theme": "SNR visibility",
+        "Explanation": "How clearly signal-to-noise ratio or uncertainty can be identified."
+      },
+      {
+        "Theme": "Space/scalability",
+        "Explanation": "Figure size, visual density, or ability to accommodate multiple plots."
+      },
+      {
+        "Theme": "Task suitability",
+        "Explanation": "Usefulness for a particular analytical or comparison task."
+      }
+    ],
+    "n_units": 277,
+    "n_rows": 291,
+    "n_themes": 13,
+    "n_participants_total": 150,
+    "n_participants_coded": 70,
+    "n_participants_with_entries": 60,
+    "direction": [
+      {
+        "vistype": "Adjacent plots",
+        "positive": 29,
+        "negative": 4,
+        "direction": "mostly positive"
+      },
+      {
+        "vistype": "Confidence intervals",
+        "positive": 22,
+        "negative": 4,
+        "direction": "mostly positive"
+      },
+      {
+        "vistype": "Basic topoplot",
+        "positive": 12,
+        "negative": 5,
+        "direction": "mostly positive"
+      },
+      {
+        "vistype": "Bivariate range",
+        "positive": 16,
+        "negative": 10,
+        "direction": "mixed"
+      },
+      {
+        "vistype": "Animation",
+        "positive": 16,
+        "negative": 20,
+        "direction": "mixed"
+      },
+      {
+        "vistype": "Uncertainty markers",
+        "positive": 20,
+        "negative": 30,
+        "direction": "mixed"
+      },
+      {
+        "vistype": "Bivariate corner",
+        "positive": 10,
+        "negative": 28,
+        "direction": "mostly negative"
+      }
+    ],
+    "cells": {
+      "Aesthetics | Bivariate corner": {
+        "n": 6,
+        "negative": 2,
+        "positive": 4,
+        "at_minus2": 1,
+        "at_plus2": 2
+      },
+      "Aesthetics | Uncertainty markers": {
+        "n": 14,
+        "negative": 13,
+        "positive": 1,
+        "at_minus2": 6,
+        "at_plus2": 0
+      },
+      "Information integration | Adjacent plots": {
+        "n": 5,
+        "negative": 1,
+        "positive": 4,
+        "at_minus2": 0,
+        "at_plus2": 1
+      },
+      "Information integration | Uncertainty markers": {
+        "n": 8,
+        "negative": 5,
+        "positive": 2,
+        "at_minus2": 0,
+        "at_plus2": 0
+      },
+      "Informativeness | Uncertainty markers": {
+        "n": 5,
+        "negative": 1,
+        "positive": 4,
+        "at_minus2": 0,
+        "at_plus2": 1
+      },
+      "Interpretability | Basic topoplot": {
+        "n": 5,
+        "negative": 0,
+        "positive": 5,
+        "at_minus2": 0,
+        "at_plus2": 4
+      },
+      "Interpretability | Adjacent plots": {
+        "n": 7,
+        "negative": 0,
+        "positive": 7,
+        "at_minus2": 0,
+        "at_plus2": 6
+      },
+      "Interpretability | Bivariate corner": {
+        "n": 11,
+        "negative": 11,
+        "positive": 0,
+        "at_minus2": 10,
+        "at_plus2": 0
+      },
+      "Interpretability | Bivariate range": {
+        "n": 7,
+        "negative": 4,
+        "positive": 3,
+        "at_minus2": 3,
+        "at_plus2": 1
+      },
+      "Interpretability | Uncertainty markers": {
+        "n": 8,
+        "negative": 5,
+        "positive": 3,
+        "at_minus2": 2,
+        "at_plus2": 2
+      },
+      "Interpretability | Confidence intervals": {
+        "n": 8,
+        "negative": 1,
+        "positive": 6,
+        "at_minus2": 1,
+        "at_plus2": 4
+      },
+      "Interpretability | Animation": {
+        "n": 13,
+        "negative": 9,
+        "positive": 4,
+        "at_minus2": 5,
+        "at_plus2": 4
+      },
+      "Legend/color mapping | Bivariate corner": {
+        "n": 5,
+        "negative": 5,
+        "positive": 0,
+        "at_minus2": 4,
+        "at_plus2": 0
+      },
+      "Medium compatibility | Animation": {
+        "n": 11,
+        "negative": 7,
+        "positive": 3,
+        "at_minus2": 5,
+        "at_plus2": 1
+      },
+      "Preference | Adjacent plots": {
+        "n": 7,
+        "negative": 0,
+        "positive": 6,
+        "at_minus2": 0,
+        "at_plus2": 5
+      },
+      "Preference | Confidence intervals": {
+        "n": 6,
+        "negative": 0,
+        "positive": 6,
+        "at_minus2": 0,
+        "at_plus2": 5
+      },
+      "Preference | Animation": {
+        "n": 5,
+        "negative": 1,
+        "positive": 4,
+        "at_minus2": 0,
+        "at_plus2": 3
+      }
+    }
+  },
+  "hit_miss": {
+    "n_participants": 150,
+    "image_term": {
+      "Hit": {
+        "aic_without": "2569",
+        "aic_with": "2514",
+        "image_sd": "0.84",
+        "overall_without": {
+          "chi": "14.3",
+          "df": 6,
+          "p": ".026"
+        },
+        "overall_with": {
+          "chi": "8.4",
+          "df": 6,
+          "p": ".212"
+        }
+      },
+      "Hit or neighbour hit": {
+        "aic_without": "3434",
+        "aic_with": "3240",
+        "image_sd": "1.11",
+        "overall_without": {
+          "chi": "20.6",
+          "df": 6,
+          "p": ".002"
+        },
+        "overall_with": {
+          "chi": "9.3",
+          "df": 6,
+          "p": ".155"
+        }
+      }
+    },
+    "rates": [
+      {
+        "vistype": "Basic topoplot",
+        "hit": "15%",
+        "neighbour": "23%",
+        "runner": "33%",
+        "n": 450
+      },
+      {
+        "vistype": "Adjacent plots",
+        "hit": "21%",
+        "neighbour": "23%",
+        "runner": "35%",
+        "n": 450
+      },
+      {
+        "vistype": "Bivariate corner",
+        "hit": "19%",
+        "neighbour": "21%",
+        "runner": "27%",
+        "n": 450
+      },
+      {
+        "vistype": "Bivariate range",
+        "hit": "18%",
+        "neighbour": "27%",
+        "runner": "34%",
+        "n": 450
+      },
+      {
+        "vistype": "Uncertainty markers",
+        "hit": "18%",
+        "neighbour": "31%",
+        "runner": "36%",
+        "n": 450
+      },
+      {
+        "vistype": "Confidence intervals",
+        "hit": "20%",
+        "neighbour": "23%",
+        "runner": "37%",
+        "n": 450
+      },
+      {
+        "vistype": "Animation",
+        "hit": "18%",
+        "neighbour": "23%",
+        "runner": "36%",
+        "n": 450
+      }
+    ],
+    "chance": {
+      "hit": "1.6%",
+      "neighbour": "6.3%",
+      "runner": "6.6%"
+    },
+    "runner_neighbour_share": "53%",
+    "centre_by_vistype": [
+      {
+        "vistype": "Basic topoplot",
+        "ratio": "0.14",
+        "lower": "0.08",
+        "upper": "0.24"
+      },
+      {
+        "vistype": "Adjacent plots",
+        "ratio": "0.22",
+        "lower": "0.15",
+        "upper": "0.34"
+      },
+      {
+        "vistype": "Bivariate corner",
+        "ratio": "0.49",
+        "lower": "0.35",
+        "upper": "0.69"
+      },
+      {
+        "vistype": "Bivariate range",
+        "ratio": "0.32",
+        "lower": "0.21",
+        "upper": "0.49"
+      },
+      {
+        "vistype": "Uncertainty markers",
+        "ratio": "0.12",
+        "lower": "0.07",
+        "upper": "0.22"
+      },
+      {
+        "vistype": "Confidence intervals",
+        "ratio": "0.22",
+        "lower": "0.14",
+        "upper": "0.34"
+      },
+      {
+        "vistype": "Animation",
+        "ratio": "0.24",
+        "lower": "0.15",
+        "upper": "0.38"
+      }
+    ],
+    "overall_hit": {
+      "chi": "8.4",
+      "df": 6,
+      "p": ".212",
+      "significant": false
+    },
+    "overall_neighbour": {
+      "chi": "9.3",
+      "df": 6,
+      "p": ".155",
+      "significant": false
+    },
+    "overall_runner": {
+      "chi": "7.4",
+      "df": 6,
+      "p": ".289",
+      "significant": false
+    },
+    "clear_contrasts": [
+      {
+        "outcome": "Hit",
+        "vistype": "Adjacent plots",
+        "odds_ratio": "2.48",
+        "lower": "1.06",
+        "upper": "5.83",
+        "p": ".032",
+        "higher": true
+      }
+    ],
+    "hit_min": "15%",
+    "hit_max": "21%",
+    "hit_chance": "1.6%",
+    "stimulus_hit_min": "0%",
+    "stimulus_hit_max": "70%",
+    "centre": {
+      "n_stimuli": 30,
+      "peak_border_stimuli": 26,
+      "border_region_share": "34%",
+      "border_click_share": "36%",
+      "ratio": "0.23",
+      "lower": "0.20",
+      "upper": "0.28",
+      "ratio_below_one": true,
+      "all_vistypes_below_one": true,
+      "vistype_min": "0.12",
+      "vistype_min_name": "Uncertainty markers",
+      "vistype_max": "0.49",
+      "vistype_max_name": "Bivariate corner"
+    }
+  },
   "quality": {
     "n_participants": 150,
     "speed_cutoff": 2,
@@ -31,6 +443,127 @@
     "n_country_missing": 0
   },
   "subjective": {
+    "items": {
+      "A301": {
+        "key": "A301",
+        "n_compared": 6,
+        "n_higher": 0,
+        "n_lower": 3,
+        "clear": [
+          {
+            "vistype": "Uncertainty markers",
+            "higher": false,
+            "difference": "−0.64"
+          },
+          {
+            "vistype": "Bivariate range",
+            "higher": false,
+            "difference": "−1.42"
+          },
+          {
+            "vistype": "Bivariate corner",
+            "higher": false,
+            "difference": "−1.62"
+          }
+        ]
+      },
+      "A302": {
+        "key": "A302",
+        "n_compared": 6,
+        "n_higher": 6,
+        "n_lower": 0,
+        "clear": [
+          {
+            "vistype": "Adjacent plots",
+            "higher": true,
+            "difference": "+1.77"
+          },
+          {
+            "vistype": "Uncertainty markers",
+            "higher": true,
+            "difference": "+1.39"
+          },
+          {
+            "vistype": "Confidence intervals",
+            "higher": true,
+            "difference": "+1.23"
+          },
+          {
+            "vistype": "Bivariate range",
+            "higher": true,
+            "difference": "+1.19"
+          },
+          {
+            "vistype": "Bivariate corner",
+            "higher": true,
+            "difference": "+1.18"
+          },
+          {
+            "vistype": "Animation",
+            "higher": true,
+            "difference": "+1.13"
+          }
+        ]
+      },
+      "A303": {
+        "key": "A303",
+        "n_compared": 6,
+        "n_higher": 2,
+        "n_lower": 0,
+        "clear": [
+          {
+            "vistype": "Adjacent plots",
+            "higher": true,
+            "difference": "+1.48"
+          },
+          {
+            "vistype": "Confidence intervals",
+            "higher": true,
+            "difference": "+0.79"
+          }
+        ]
+      },
+      "A304": {
+        "key": "A304",
+        "n_compared": 6,
+        "n_higher": 2,
+        "n_lower": 3,
+        "clear": [
+          {
+            "vistype": "Adjacent plots",
+            "higher": true,
+            "difference": "+0.66"
+          },
+          {
+            "vistype": "Animation",
+            "higher": true,
+            "difference": "+0.55"
+          },
+          {
+            "vistype": "Bivariate range",
+            "higher": false,
+            "difference": "−0.68"
+          },
+          {
+            "vistype": "Bivariate corner",
+            "higher": false,
+            "difference": "−0.94"
+          },
+          {
+            "vistype": "Uncertainty markers",
+            "higher": false,
+            "difference": "−1.01"
+          }
+        ]
+      }
+    },
+    "po_rejected": 4,
+    "po_n": 4,
+    "po_p_min": "< .001",
+    "po_p_max": ".014",
+    "max_raw_model_difference": "0.08",
+    "lmm_agree": 24,
+    "lmm_n": 24,
     "n_participants": 150,
     "quality_max_shift": "0.07",
     "quality_n_changed": 0,
@@ -38,6 +571,19 @@
     "quality_n_contrasts": 24
   },
   "task1": {
+    "image_term": {
+      "aic_without": "2839.3",
+      "aic_with": "2841.1",
+      "image_sd": "0.15",
+      "stimulus_sd": "1.01",
+      "term_chi": "0.16",
+      "term_df": 1,
+      "term_p": ".690",
+      "overall_chi_with": "12.19",
+      "overall_df_with": 6,
+      "overall_p_with": ".058",
+      "supported": false
+    },
     "n_participants": 150,
     "n_trials": "3,150",
     "n_key_failures": 0,
@@ -62,6 +608,8 @@
     "hard_trials_per_vis_min": 27,
     "hard_trials_per_vis_max": 36,
     "n_hard_trials": "218",
+    "overall_chi": "12.61",
+    "overall_df": 6,
     "overall_p_all": ".0497",
     "overall_p_without": ".024",
     "without_hard_any_excludes_zero": false,
@@ -109,5 +657,128 @@
         "p_without": ".059"
       }
     ]
+  },
+  "task2": {
+    "image_term": {
+      "aic_without": "1201",
+      "aic_with": "1127",
+      "image_sd": "0.27",
+      "overall_without": {
+        "chi": "24.5",
+        "df": 6,
+        "p": "< .001"
+      },
+      "overall_with": {
+        "chi": "8.7",
+        "df": 6,
+        "p": ".192"
+      }
+    },
+    "two_part": {
+      "overall": [
+        {
+          "part": "Exact peak",
+          "chi": "8.4",
+          "df": 6,
+          "p": ".212"
+        },
+        {
+          "part": "Misses",
+          "chi": "8.7",
+          "df": 6,
+          "p": ".190"
+        }
+      ],
+      "clear": [
+        {
+          "model": "Exact peak (logistic)",
+          "vistype": "Adjacent plots",
+          "higher": true
+        }
+      ]
+    },
+    "scale_free_n_significant": 0,
+    "ppc": {
+      "n_sim": "1,000",
+      "level_inside": 7,
+      "level_n": 7,
+      "diff_inside": 5,
+      "diff_n": 6,
+      "outside": [
+        {
+          "vistype": "Bivariate corner",
+          "statistic": "difference from the basic topoplot",
+          "observed": "+4.2",
+          "lower": "-7.8",
+          "upper": "+3.1"
+        }
+      ]
+    },
+    "n_participants": 150,
+    "overall_chi": "8.7",
+    "overall_df": 6,
+    "overall_p": ".192",
+    "overall_significant": false,
+    "score_lowest_vistype": "Bivariate corner",
+    "score_lowest": "67.8%",
+    "score_highest_vistype": "Adjacent plots",
+    "score_highest": "72.7%",
+    "score_basic": "71.2%",
+    "n_contrasts_significant": 0,
+    "p3_low_modal_n": 4,
+    "p3_n": 10,
+    "p3_rank_min": "10th",
+    "p3_rank_max": "14th"
+  },
+  "time": {
+    "n_participants": 150,
+    "cap_sec": 180,
+    "rule_task1": {
+      "trials": "3,150",
+      "removed": 19,
+      "participants": 11,
+      "iqr_removed": 260
+    },
+    "rule_task2": {
+      "trials": "3,150",
+      "removed": 21,
+      "participants": 15,
+      "iqr_removed": 226
+    },
+    "sensitivity_n_changed": 1,
+    "time_accuracy": {
+      "log_time_within": {
+        "term": "log_time_within",
+        "odds_ratio": "0.75",
+        "lower": "0.66",
+        "upper": "0.85",
+        "p": "< .001",
+        "excludes_one": true
+      },
+      "log_time_between_c": {
+        "term": "log_time_between_c",
+        "odds_ratio": "1.19",
+        "lower": "0.99",
+        "upper": "1.44",
+        "p": ".068",
+        "excludes_one": false
+      }
+    },
+    "task1": {
+      "basic_time": "10.4",
+      "all_slower": true,
+      "longer_min": "12%",
+      "longer_max": "39%",
+      "slowest": "Bivariate corner",
+      "slowest_ratio": "1.39"
+    },
+    "task2": {
+      "basic_time": "10.1",
+      "all_slower": true,
+      "longer_min": "28%",
+      "longer_max": "59%",
+      "slowest": "Bivariate corner",
+      "slowest_ratio": "1.59"
+    }
   }
 }

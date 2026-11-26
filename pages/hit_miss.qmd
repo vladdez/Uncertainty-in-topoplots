@@ -403,7 +403,7 @@ ggsave_st(
 )
 ggsave_print(
   project_path("figures", "hit_miss_ambiguation_figure.pdf"),
-  hit_miss_ambiguation_figure,
+  print_like_png(hit_miss_ambiguation_figure),
   width = 14, height = 5.5
 )
 ```
@@ -697,8 +697,17 @@ ggsave_st(
 )
 ggsave_print(
   project_path("figures", "centre_bias_head_map.pdf"),
-  centre_head_map,
-  width = 7.5, height = 6.5
+  # One journal column (246 pt) with the print text sizes (8 pt title, 7 pt labels).
+  centre_head_map +
+    theme(
+      legend.title = element_text(size = print_text$text, lineheight = 1),
+      legend.text = element_text(size = print_text$small),
+      legend.key.height = grid::unit(0.32, "cm"),
+      legend.key.width = grid::unit(0.32, "cm"),
+      plot.margin = margin(0, 0, 0, 0)
+    ),
+  width = print_width[["column"]],
+  height = 2.35
 )
 ```
 
@@ -865,3 +874,104 @@ hit_miss_interpretation <- paste0(
   `r hit_miss_effects("Hit or runner-up hit", "the odds of a hit or runner-up hit were")`
 - The stimulus matters more than the visualization: hit rates range from `r scales::percent(min(stimulus_hits$hit), 1)` to `r scales::percent(max(stimulus_hits$hit), 1)` across the 30 stimuli, against `r scales::percent(min(outcome_shares$Hit), 1)`–`r scales::percent(max(outcome_shares$Hit), 1)` across the seven visualization types.
 - **Interpretation.** `r hit_miss_interpretation`
+```{r manuscript-numbers-hit-miss}
+#| include: false
+#| cache: false
+# Main-text numbers for journal.typ (Results, Task Performance and the centre-bias
+# finding); see write_manuscript_numbers(). Per-visualization tables and the
+# runner-up details stay on this page and in the supplement.
+hm_pct <- \(x, accuracy = 1) scales::percent(x, accuracy = accuracy)
+hm_or <- \(x) sprintf("%.2f", x)
+hm_overall <- \(name) {
+  r <- hit_miss_overall[hit_miss_overall$outcome == name, ]
+  list(chi = sprintf("%.1f", r$chi), df = r$df, p = p_text(r$p), significant = r$p < 0.05)
+}
+# Every comparison with Basic whose Dunnett-adjusted interval excludes 1.
+hm_clear <- hit_miss_contrasts |>
+  filter(lower > 1 | upper < 1) |>
+  transmute(
+    outcome, vistype = table_vistype(vistype), odds_ratio = hm_or(odds.ratio),
+    lower = hm_or(lower), upper = hm_or(upper), p = p_text(p.value),
+    higher = odds.ratio > 1
+  )
+centre_peak_stimuli <- n_distinct(centre_peaks$stimulus[centre_peaks$border])
+
+# Supplement (statistical models): exact-hit and hit-or-neighbour models without
+# the image intercept.
+hm_lrt_values <- function(full, reduced) {
+  chi <- as.numeric(2 * (logLik(full) - logLik(reduced)))
+  df <- attr(logLik(full), "df") - attr(logLik(reduced), "df")
+  list(chi = sprintf("%.1f", chi), df = df, p = p_text(pchisq(chi, df, lower.tail = FALSE)))
+}
+hm_image_term <- purrr::imap(
+  list(Hit = "hit", `Hit or neighbour hit` = "close"),
+  \(outcome, name) {
+    with_image <- hit_miss_models[[name]]
+    fit <- \(rhs) glmmTMB(
+      reformulate(rhs, response = outcome),
+      family = binomial(link = "logit"), data = hit_miss
+    )
+    no_image <- fit(c("vistype", "pattern", "position_c", "(1 | ID)", "(1 | stimulus)"))
+    no_image_null <- fit(c("pattern", "position_c", "(1 | ID)", "(1 | stimulus)"))
+    with_null <- update(with_image, . ~ . - vistype)
+    list(
+      aic_without = sprintf("%.0f", AIC(no_image)),
+      aic_with = sprintf("%.0f", AIC(with_image)),
+      image_sd = sprintf("%.2f", attr(VarCorr(with_image)$cond[["stimulus:vistype"]], "stddev")),
+      overall_without = hm_lrt_values(no_image, no_image_null),
+      overall_with = hm_lrt_values(with_image, with_null)
+    )
+  }
+)
+# Supplement (hit or miss): observed shares per visualization and the centre bias
+# per visualization.
+hm_rates <- outcome_shares |>
+  mutate(vistype = order_vistype(vistype)) |>
+  arrange(vistype) |>
+  transmute(
+    vistype = table_vistype(as.character(vistype)),
+    hit = hm_pct(Hit), neighbour = hm_pct(`Neighbour hit`),
+    runner = hm_pct(`Runner-up hit`), n = n
+  )
+hm_centre_vis <- centre_by_vistype |>
+  transmute(
+    vistype = table_vistype(as.character(vistype)),
+    ratio = sprintf("%.2f", ratio), lower = sprintf("%.2f", lower), upper = sprintf("%.2f", upper)
+  )
+write_manuscript_numbers("hit_miss", list(
+  n_participants = n_distinct(hit_miss$ID),
+  image_term = hm_image_term,
+  rates = purrr::transpose(as.list(hm_rates)),
+  chance = list(
+    hit = hm_pct(mean(hit_miss$chance_hit), 0.1),
+    neighbour = hm_pct(mean(hit_miss$chance_near), 0.1),
+    runner = hm_pct(mean(hit_miss$chance_runner), 0.1)
+  ),
+  runner_neighbour_share = hm_pct(runner_neighbour_share),
+  centre_by_vistype = purrr::transpose(as.list(hm_centre_vis)),
+  overall_hit = hm_overall("Hit"),
+  overall_neighbour = hm_overall("Hit or neighbour hit"),
+  overall_runner = hm_overall("Hit or runner-up hit"),
+  clear_contrasts = purrr::transpose(as.list(hm_clear)),
+  hit_min = hm_pct(min(outcome_shares$Hit)),
+  hit_max = hm_pct(max(outcome_shares$Hit)),
+  hit_chance = hm_pct(mean(hit_miss$chance_hit), 0.1),
+  stimulus_hit_min = hm_pct(min(stimulus_hits$hit)),
+  stimulus_hit_max = hm_pct(max(stimulus_hits$hit)),
+  centre = list(
+    n_stimuli = n_distinct(centre_counts$stimulus),
+    peak_border_stimuli = centre_peak_stimuli,
+    border_region_share = hm_pct(mean(region_geometry$border)),
+    border_click_share = hm_pct(sum(centre_counts$n[centre_counts$border]) / sum(centre_counts$n)),
+    ratio = sprintf("%.2f", centre_all$ratio),
+    lower = sprintf("%.2f", centre_all$lower),
+    upper = sprintf("%.2f", centre_all$upper),
+    ratio_below_one = centre_all$upper < 1,
+    all_vistypes_below_one = all(centre_by_vistype$upper < 1),
+    vistype_min = sprintf("%.2f", min(centre_by_vistype$ratio)),
+    vistype_min_name = table_vistype(as.character(centre_by_vistype$vistype[which.min(centre_by_vistype$ratio)])),
+    vistype_max = sprintf("%.2f", max(centre_by_vistype$ratio)),
+    vistype_max_name = table_vistype(as.character(centre_by_vistype$vistype[which.max(centre_by_vistype$ratio)]))
+  )
+))
+```

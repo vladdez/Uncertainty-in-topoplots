@@ -1889,7 +1889,7 @@ task2_peak_ppc_difference_panel <- task2_peak_ppc_panel(
 ) +
   theme(axis.text.y = element_blank(), axis.line.y = element_blank())
 
-task2_peak_ppc_share_panel + task2_peak_ppc_difference_panel +
+task2_peak_ppc_figure <- task2_peak_ppc_share_panel + task2_peak_ppc_difference_panel +
   plot_layout(guides = "collect") +
   plot_annotation(
     caption = "Blue: median and 95% interval of simulated data sets. Dots: observed values.",
@@ -1900,6 +1900,15 @@ task2_peak_ppc_share_panel + task2_peak_ppc_difference_panel +
     )
   ) &
   theme(legend.position = "bottom")
+task2_peak_ppc_figure
+
+# Copy for the supplement (site figure; text drawn as on this page).
+ggsave_st(
+  project_path("figures", "task2_peak_ppc_figure.png"),
+  task2_peak_ppc_figure,
+  width = 11, height = 5.5, units = "in", dpi = 180,
+  device = ragg::agg_png, bg = "white"
+)
 ```
 
 ### Two-part model for hits and misses {#two-part-model}
@@ -2656,6 +2665,84 @@ task2_interpretation <- if (task2_any_primary_effect) {
   by score. Participants may have targeted the voltage peak rather than the SNR peak;
   this is not resolved here.
 - **Interpretation.** `r task2_interpretation`
+
+```{r manuscript-numbers-task2}
+#| include: false
+#| cache: false
+# Main-text numbers for journal.typ (Results, Task Performance); see
+# write_manuscript_numbers(). Supporting analyses (two-part model, rank and
+# top-3 outcomes, predictive checks) are reported in the supplement, not here.
+task2_score_text <- \(x) sprintf("%.1f%%", 100 * x)
+
+# Supplement (statistical models): the primary model without the image intercept.
+task2_lrt_values <- function(full, reduced) {
+  chi <- as.numeric(2 * (logLik(full) - logLik(reduced)))
+  df <- attr(logLik(full), "df") - attr(logLik(reduced), "df")
+  list(chi = sprintf("%.1f", chi), df = df, p = p_text(pchisq(chi, df, lower.tail = FALSE)))
+}
+task2_no_image <- glmmTMB(
+  score ~ vistype + pattern + position_c + (1 | ID) + (1 | stimulus),
+  family = ordbeta(link = "logit"), data = task2_model
+)
+task2_no_image_null <- glmmTMB(
+  score ~ pattern + position_c + (1 | ID) + (1 | stimulus),
+  family = ordbeta(link = "logit"), data = task2_model
+)
+task2_image_term <- list(
+  aic_without = sprintf("%.0f", AIC(task2_no_image)),
+  aic_with = sprintf("%.0f", AIC(model_task2)),
+  image_sd = sprintf("%.2f", attr(VarCorr(model_task2)$cond[["stimulus:vistype"]], "stddev")),
+  overall_without = task2_lrt_values(task2_no_image, task2_no_image_null),
+  overall_with = task2_lrt_values(model_task2, model_task2_no_vistype)
+)
+
+# Supplement (Task 2 robustness): two-part model, rank and top-3 outcomes, and the
+# posterior predictive check of exact-peak responses. The figure is copied to
+# figures/ for the supplement.
+task2_two_part <- list(
+  overall = purrr::transpose(as.list(task2_peak_overall |> transmute(
+    part = as.character(part), chi = sprintf("%.1f", chi), df = df, p = p_text(p)
+  ))),
+  clear = purrr::transpose(as.list(task2_part_effects |> transmute(
+    model = as.character(model), vistype = table_vistype(as.character(vistype)),
+    higher = estimate > 0
+  )))
+)
+task2_ppc_numbers <- list(
+  n_sim = format(task2_peak_n_sim, big.mark = ","),
+  level_inside = sum(task2_ppc_level$inside), level_n = nrow(task2_ppc_level),
+  diff_inside = sum(task2_ppc_diff$inside), diff_n = nrow(task2_ppc_diff),
+  outside = purrr::transpose(as.list(task2_ppc_outside |> transmute(
+    vistype = table_vistype(as.character(vistype)),
+    statistic = if_else(statistic == "share_one", "share", "difference from the basic topoplot"),
+    observed = sprintf("%+.1f", 100 * observed),
+    lower = sprintf("%+.1f", 100 * lower), upper = sprintf("%+.1f", 100 * upper)
+  )))
+)
+
+write_manuscript_numbers("task2", list(
+  image_term = task2_image_term,
+  two_part = task2_two_part,
+  scale_free_n_significant = nrow(task2_scale_free_significant),
+  ppc = task2_ppc_numbers,
+  n_participants = n_distinct(task2_model$ID),
+  overall_chi = sprintf("%.1f", task2_lrt_chi),
+  overall_df = task2_lrt_df,
+  overall_p = p_text(task2_lrt_p),
+  overall_significant = task2_lrt_p < 0.05,
+  score_lowest_vistype = table_vistype(as.character(task2_summary_lowest$vistype)),
+  score_lowest = task2_score_text(task2_summary_lowest$predicted_score),
+  score_highest_vistype = table_vistype(as.character(task2_summary_highest$vistype)),
+  score_highest = task2_score_text(task2_summary_highest$predicted_score),
+  score_basic = task2_score_text(task2_expected_value("basic", "marginal")),
+  n_contrasts_significant = nrow(task2_dunnett_significant),
+  # Discussion: P3 stimuli whose most chosen region ranked low by score.
+  p3_low_modal_n = task2_p3_low_modal_top_region_n,
+  p3_n = n_distinct(task2_model$stimulus[task2_model$pattern == "P3"]),
+  p3_rank_min = scales::ordinal(min(task2_p3_low_modal_top_ranks)),
+  p3_rank_max = scales::ordinal(max(task2_p3_low_modal_top_ranks))
+))
+```
 
 ## Completion time {#completion-time-analysis}
 

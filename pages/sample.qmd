@@ -1232,7 +1232,8 @@ software_over_3 <- software_combined %>%
   bind_rows(software_other)
 ```
 
-Countries below 2% and software below 4% are grouped into Other. Flags identify
+Countries with one or two respondents are pooled into two rows, with their flags in
+the icon versions; software below 4% is grouped into Other. Flags identify
 countries, and lettering or logos identify software. The last tab shows the
 compact layout with plain text labels
 (audit V14: logos differ in visual weight in ways unrelated to the data).
@@ -1353,7 +1354,8 @@ scale_markup <- function(labels, text_k, img_k) {
 # software allows several answers), so a shared 0-100% axis only wasted space.
 make_participant_characteristics_icons_compact <- function(print = FALSE, icons = TRUE,
                                                          country_max = 40,
-                                                         software_max = 75) {
+                                                         software_max = 75,
+                                                         country_other_row = FALSE) {
   # Site sizes are nominal (drawn at 96/180 by showtext); print sizes are true pt.
   s <- if (print) {
     list(base = print_text$text, question = print_text$text, ticks = print_text$small,
@@ -1436,11 +1438,40 @@ make_participant_characteristics_icons_compact <- function(print = FALSE, icons 
 
   axis_end_mark <- x_axis_end_mark(s$base, size = if (print) 0.55 else 1)
 
+  # Countries as in the "All countries" tab: those with one or two respondents
+  # are pooled into two rows, each followed by the flags of its countries (only
+  # with icons; the plain-text version names no countries in these rows).
+  flag_step <- 2.5      # % of the axis between flags (gaps between flags)
+  # % after the bar end, clear of the value label (print text is relatively larger)
+  flag_start <- if (print) 6.5 else 5
+  row_flags <- small_countries %>%
+    transmute(
+      x = group_percent + flag_start + flag_step * (flag_index - 1),
+      y = if_else(n == 1, "1 respondent", "2 respondents"),
+      label = flag_tag(iso, height = 9, width = 14)
+    )
+  if (print) {
+    # 0.7: in print the flags otherwise come out relatively larger than on the site.
+    row_flags$label <- scale_markup(
+      row_flags$label, 1, 0.7 * img_shrink * s$country / (22 * 96 / 180)
+    )
+  }
+  stopifnot(max(row_flags$x) < country_max)
+
+  # country_other_row = TRUE: the previous layout, all countries below 2% in one
+  # "Other (each <2%)" row (kept as a tab on this page).
   p_country <- make_characteristic_plot(
-    country_over_3, "country_work", "Country of work", print = print,
+    if (country_other_row) country_over_3 else country_all,
+    "country_work", "Country of work", print = print,
     x_max = country_max
   ) +
     axis_end_mark +
+    (if (icons && !country_other_row) ggtext::geom_richtext(
+      data = row_flags,
+      aes(x, y, label = label),
+      inherit.aes = FALSE, fill = NA, label.colour = NA,
+      label.padding = grid::unit(0, "pt")
+    )) +
     scale_y_discrete(labels = country_labels) +
     theme(axis.text.y = ggtext::element_markdown(
       size = s$country, lineheight = s$lineheight
@@ -1490,6 +1521,16 @@ if (isTRUE(params$export_artifacts)) {
     height = 5.6
   )
 }
+```
+
+#### Compact, Other row
+
+```{r participant-characteristics-icons-compact-other}
+#| cache: false
+#| fig-width: 15
+#| fig-height: 9.2
+#| fig-cap: 'Previous compact layout: countries below 2% pooled into one Other row (B). Flags indicate country of work, not nationality. Multiple software selections were permitted in C.'
+make_participant_characteristics_icons_compact(country_other_row = TRUE)
 ```
 
 #### Bars
