@@ -161,6 +161,10 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../pages/summary.html"> 
+<span class="menu-text">Summary</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../pages/sample.html"> 
 <span class="menu-text">Sample</span></a>
   </li>  
@@ -191,10 +195,6 @@ window.Quarto = {
   <li class="nav-item">
     <a class="nav-link" href="../pages/feedback.html"> 
 <span class="menu-text">Open-ended feedback</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../pages/figures.html"> 
-<span class="menu-text">Publication figures</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -1019,21 +1019,25 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Model-estimated comparison-task accuracy"</span>,</span>
 <span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="cn">NULL</span></span>
 <span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_theme</span>(<span class="at">base_size =</span> s<span class="sc">$</span>base) <span class="sc">+</span></span>
-<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(</span>
-<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> s<span class="sc">$</span>axis_y,</span>
-<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>        <span class="at">colour =</span> <span class="fu">vistype_label_colours</span>(<span class="fu">levels</span>(accuracy_estimates<span class="sc">$</span>vistype)),</span>
-<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>        <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">r =</span> s<span class="sc">$</span>margin)</span>
-<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>axis_x),</span>
-<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_figure <span class="ot">&lt;-</span> <span class="fu">make_comparison_accuracy_figure</span>()</span>
-<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The axis covers only part of the 0-100% scale: double slashes at both ends.</span></span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">x_axis_end_mark</span>(s<span class="sc">$</span>base, <span class="at">size =</span> <span class="cf">if</span> (print) <span class="fl">0.55</span> <span class="cf">else</span> <span class="dv">1</span>, <span class="at">side =</span> <span class="st">"left"</span>) <span class="sc">+</span></span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">x_axis_end_mark</span>(s<span class="sc">$</span>base, <span class="at">size =</span> <span class="cf">if</span> (print) <span class="fl">0.55</span> <span class="cf">else</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot_theme</span>(<span class="at">base_size =</span> s<span class="sc">$</span>base) <span class="sc">+</span></span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(</span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> s<span class="sc">$</span>axis_y,</span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>        <span class="at">colour =</span> <span class="fu">vistype_label_colours</span>(<span class="fu">levels</span>(accuracy_estimates<span class="sc">$</span>vistype)),</span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>        <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">r =</span> s<span class="sc">$</span>margin)</span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> s<span class="sc">$</span>axis_x),</span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.line.y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_figure <span class="ot">&lt;-</span> <span class="fu">make_comparison_accuracy_figure</span>()</span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>comparison_accuracy_figure</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -1811,8 +1815,8 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 </div>
 <section id="coefficient-conclusion" class="level4">
 <h4 class="anchored" data-anchor-id="coefficient-conclusion">Coefficient conclusion</h4>
-<p><strong>Dunnett-adjusted odds ratios.</strong> No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.66, simultaneous 95% CI 0.41&lt;U+2013&gt;1.05, adjusted <em>p</em> = 0.10) and Bivariate corner (OR = 0.71, simultaneous 95% CI 0.44&lt;U+2013&gt;1.14, adjusted <em>p</em> = 0.25), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</p>
-<p><strong>Covariates.</strong> P3 trials had higher odds of a correct response than MMN trials (OR = 3.49, 95% CI 1.37&lt;U+2013&gt;8.89, <em>p</em> = 0.0088); N170 trials did not differ clearly from MMN trials (OR = 1.11, 95% CI 0.43&lt;U+2013&gt;2.83, <em>p</em> = 0.83). The overall visualization-type test is reported below.</p>
+<p><strong>Dunnett-adjusted odds ratios.</strong> No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.66, simultaneous 95% CI 0.41–1.05, adjusted <em>p</em> = 0.10) and Bivariate corner (OR = 0.71, simultaneous 95% CI 0.44–1.14, adjusted <em>p</em> = 0.25), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</p>
+<p><strong>Covariates.</strong> P3 trials had higher odds of a correct response than MMN trials (OR = 3.49, 95% CI 1.37–8.89, <em>p</em> = 0.0088); N170 trials did not differ clearly from MMN trials (OR = 1.11, 95% CI 0.43–2.83, <em>p</em> = 0.83). The overall visualization-type test is reported below.</p>
 </section>
 </section>
 <section id="model-fit-comparison" class="level3">
@@ -2456,7 +2460,7 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <section id="sensitivity-analysis-conclusion" class="level4">
 <h4 class="anchored" data-anchor-id="sensitivity-analysis-conclusion">Sensitivity-analysis conclusion</h4>
 <p>After accounting for candidate-image attractiveness, option position, ERP pattern, and presentation position, the joint participant-clustered Wald test indicated that visualization type changed preference for the matching candidate, <span class="math inline">\(\chi^2(6) = 12.96\)</span>, <em>p</em> = 0.044.</p>
-<p><strong>Dunnett-adjusted.</strong> No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.67, simultaneous 95% CI 0.43&lt;U+2013&gt;1.03, adjusted <em>p</em> = 0.081) and Bivariate corner (OR = 0.71, simultaneous 95% CI 0.45&lt;U+2013&gt;1.12, adjusted <em>p</em> = 0.216), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</p>
+<p><strong>Dunnett-adjusted.</strong> No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.67, simultaneous 95% CI 0.43–1.03, adjusted <em>p</em> = 0.081) and Bivariate corner (OR = 0.71, simultaneous 95% CI 0.45–1.12, adjusted <em>p</em> = 0.216), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</p>
 <p>The sensitivity analysis separates matching performance from images’ general tendency to be selected; it does not replace the primary mixed-effects accuracy analysis.</p>
 </section>
 </section>
@@ -2856,8 +2860,8 @@ Figure&nbsp;1: Example comparison trial. Participants selected the alternative w
 <li><strong>Overall test.</strong> Adding visualization type improved the primary model only marginally, <span class="math inline">\(\chi^2(6) =
 12.61\)</span>, <em>p</em> = 0.0497.</li>
 <li><strong>Primary contrasts</strong> (population-average accuracy, Dunnett-adjusted for six comparisons with Basic). No visualization type differed clearly from Basic topoplot: all six intervals included 0. The lowest point estimates were for Bivariate range (-5.3 pp, simultaneous 95% CI -11.5 to +0.8 pp, adjusted <em>p</em> = 0.12) and Bivariate corner (-4.3 pp, simultaneous 95% CI -10.5 to +1.8 pp, adjusted <em>p</em> = 0.26), but these intervals also included 0, so the data are compatible both with no difference and with a moderate accuracy cost.</li>
-<li><strong>Odds-ratio scale</strong> (Dunnett-adjusted). No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.66, simultaneous 95% CI 0.41&lt;U+2013&gt;1.05, adjusted <em>p</em> = 0.10) and Bivariate corner (OR = 0.71, simultaneous 95% CI 0.44&lt;U+2013&gt;1.14, adjusted <em>p</em> = 0.25), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</li>
-<li><strong>Sensitivity analysis</strong> (conditional logit, Dunnett-adjusted). No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.67, simultaneous 95% CI 0.43&lt;U+2013&gt;1.03, adjusted <em>p</em> = 0.081) and Bivariate corner (OR = 0.71, simultaneous 95% CI 0.45&lt;U+2013&gt;1.12, adjusted <em>p</em> = 0.216), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</li>
+<li><strong>Odds-ratio scale</strong> (Dunnett-adjusted). No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.66, simultaneous 95% CI 0.41–1.05, adjusted <em>p</em> = 0.10) and Bivariate corner (OR = 0.71, simultaneous 95% CI 0.44–1.14, adjusted <em>p</em> = 0.25), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</li>
+<li><strong>Sensitivity analysis</strong> (conditional logit, Dunnett-adjusted). No visualization type differed clearly from Basic topoplot: all six intervals included 1. The lowest point estimates were for Bivariate range (OR = 0.67, simultaneous 95% CI 0.43–1.03, adjusted <em>p</em> = 0.081) and Bivariate corner (OR = 0.71, simultaneous 95% CI 0.45–1.12, adjusted <em>p</em> = 0.216), but these intervals also included 1, so the data are compatible both with no difference and with a moderate reduction in the odds.</li>
 <li><strong>Interpretation.</strong> Taken together, the evidence that any uncertainty visualization changed matching accuracy is weak: the overall test gave <em>p</em> = 0.0497, and no Dunnett-adjusted contrast with Basic excluded zero. Bivariate range and Bivariate corner had the lowest estimates in both the primary model and the conditional-logit sensitivity analysis, so they are candidates for a small accuracy cost, but this study cannot distinguish that cost from no difference. The results should be reported as estimates with intervals, not as evidence that a visualization lowered accuracy.</li>
 </ul>
 </section>

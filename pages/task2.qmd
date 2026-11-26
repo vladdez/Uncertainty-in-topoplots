@@ -1426,6 +1426,10 @@ make_detection_score_figure <- function(print = FALSE) {
       ),
       y = NULL
     ) +
+    # The axis covers only part of the 0-100% scale: double slashes at both ends.
+    x_axis_end_mark(s$base, size = if (print) 0.55 else 1, side = "left") +
+    x_axis_end_mark(s$base, size = if (print) 0.55 else 1) +
+    coord_cartesian(clip = "off") +
     plot_theme(base_size = s$base) +
     theme(
       axis.text.x = element_text(size = s$axis_x),
