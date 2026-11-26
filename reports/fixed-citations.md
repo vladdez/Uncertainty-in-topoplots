@@ -10,9 +10,13 @@ once the manuscript or supplement text is corrected. IDs keep their audit number
 | | Finding | Location |
 |--|------------------|----|
 | [High]{.badge .sev-high} | [A2. Mikheev survey percentages did not exist in the paper](#a2) | Introduction |
+| [High]{.badge .sev-high} | [A4. Allen's 20% was attributed to "more than three features"](#a4) | Introduction |
 | [High]{.badge .sev-high} | [A17. Petek: "quantifying" counted rows where tools only draw](#a17) | Table 1 |
 | [Moderate]{.badge .sev-moderate} | [A36. Perceptual studies were cited to a probability-judgment study](#a36) | Related Work |
 | [Moderate]{.badge .sev-moderate} | [A41. ERP error bands were called "common"](#a41) | Related Work |
+| [Moderate]{.badge .sev-moderate} | [B5. EEGVIS attribution had no archived source](#b5) | Design Space |
+| [Moderate]{.badge .sev-moderate} | [B7. Strode corners model: legend and grid-size caveats were missing](#b7) | Design Space |
+| [Moderate]{.badge .sev-moderate} | [B8. Bernard: palette top-rated only on black backgrounds; stimuli were white](#b8) | Design Space, Limitations |
 | [High]{.badge .sev-high} | [C26. Sanyal 1D least uncertain: ranking reversed Table 1](#c26) | Supplement S3 |
 | [High]{.badge .sev-high} | [C27. Sanyal 1D most uncertain: unreported glyph size > error bars](#c27) | Supplement S3 |
 | [High]{.badge .sev-high} | [C43. Correll 2018 E2: VSUPs ranked best despite higher danger](#c43) | Supplement S3 |
@@ -39,6 +43,8 @@ once the manuscript or supplement text is corrected. IDs keep their audit number
 | [Low]{.badge .sev-low} | [C41. Gschwandtner: E3a/E3b labels clashed with the paper's tasks](#c41) | Supplement S3 |
 | [Low]{.badge .sev-low} | [C45. Fernandes: text-interval results simplified](#c45) | Supplement S3 |
 
+| [Low]{.badge .sev-low} | [BB1, BB2, BB9, BB10. Bibliography metadata did not match the archived sources](#bb-metadata) | `refs.bib` |
+| [Low]{.badge .sev-low} | [BB3, BB16–BB18. Unarchived web sources, undated GWDG entry, uncited entries](#bb-sources) | `refs.bib`, `papers/` |
 : {.findings-table}
 
 ## A2. Mikheev survey percentages did not exist in the paper {#a2}
@@ -455,3 +461,155 @@ to the two approaches just described.
 **Evidence.** [`raw/fernandes2018uncertainty.md#p008-b002`](../The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/fernandes2018uncertainty.md#p008-b002): dot50, cdf and dot20 beat **most** other conditions. Both text99 **and text60** "performed nearly as well as dot20". Only text99's higher variance is quantified, and text85 resembled the no-uncertainty baseline.
 
 **Fix.** → `*E1:* CDF ≈ 20-dot quantile dotplot > most remaining displays; 99% and 60% text intervals approached 20-dot mean performance (99% text with higher variability), while 85% text resembled the no-uncertainty baseline; no complete lower-order ranking was reported.`
+
+## BB1, BB2, BB9, BB10. Bibliography metadata did not match the archived sources {#bb-metadata}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Location:** `refs.bib` (journal and supplement reference lists) · **Fixed:** 26 November 2026
+:::
+
+**Problem.** Four entries disagreed with the archived sources or printed wrongly:
+Strode et al. had `year = {2020}`, but the archived article (and its key) say 2019
+(BB1); the Wilke ISBN was 9781492031079, but the archived copyright page gives
+978-1-492-03108-6 (BB2); Fernandes et al. (CHI 2018) had no pages, while the PDF shows
+"Paper 144", 12 pages (BB9); and Yanai et al. printed as "p. e3535" instead of the article
+number e03535 (BB10).
+
+**Fix.**
+
+- **BB1.** `year = {2019}`; the reference now prints "Cartographic Perspectives, no. 94,
+  pp. 5–24, 2019".
+- **BB2.** `isbn = {9781492031086}` (the style does not print ISBNs, so only the file
+  changes).
+- **BB9.** `pages = {144:1--144:12}`, ACM's article-number pagination; prints as
+  "pp. 144:1–144:12".
+- **BB10.** The Typst bibliography engine reads the field as a number and drops the
+  leading zero in every form tested (braces, zero-width characters, `eid`), short of
+  printing "p. Art. e03535". The `pages` field is removed; the reference keeps volume,
+  issue and the DOI 10.1002/ecs2.3535, which identifies the article.
+
+Journal compiled through `scripts/compile-journal.ps1`; supplement recompiled.
+
+## B7. Strode corners model: legend and grid-size caveats were missing {#b7}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Location:** `journal.typ`, Design Space → Bivariate color: corners · **Fixed:** 26 November 2026
+:::
+
+**Problem.** The manuscript said that the corners model suits our tasks, citing Strode et
+al. In the same passage Strode et al. warn that the corners model may require map readers
+to consult the legend more often, and that they could not blend a 4×4 palette with enough
+distinctness, so they used 3×3. Our design uses 5×5, and neither caution was mentioned.
+
+**Evidence.** [`raw/strode2019operationalizing.md#p011-b001`](../The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/strode2019operationalizing.md#p011-b001).
+
+**Fix.** Four short sentences follow the "suitable for our study tasks" sentence:
+"Strode et al. add two cautions @strode2019operationalizing. First, readers of a corners
+map may need to look at the legend more often. Second, the authors could not build a
+4 × 4 palette with clearly distinct colors, so they used a 3 × 3 grid. Our 5 × 5 grid
+therefore makes the colors harder to tell apart." Journal compiled through
+`scripts/compile-journal.ps1`.
+
+## BB3, BB16–BB18. Unarchived web sources, undated GWDG entry, uncited entries {#bb-sources}
+
+::: {.finding-meta .sev-low .status-resolved}
+**Severity:** Low · **Location:** `refs.bib`, `papers/` · **Fixed:** 26 November 2026
+:::
+
+**Problem.** Four cited sources were web pages with no archived copy (EEGVIS,
+GPT-5.6 Sol, Codex, and the GWDG Voice-AI documentation), so their claims could not be
+checked. The GWDG entry had no year and pointed to a different document from the one
+archived. Seven bibliography entries were not cited anywhere.
+
+**Fix.**
+
+- **Archived** (printed to PDF with headless Edge on 26 November 2026, listed in
+  `papers/README.md`): `ehinger2018eegvis.pdf` (GitHub README) and
+  `ehinger2018eegvis_zenodo.pdf` (release record), `openai2026gpt56sol.pdf`,
+  `openai2026codex.pdf` (Codex product page) and `openai2026codex_api_guide.pdf` (the old
+  URL), and `anthropic2026opus55.pdf` (the Claude models page, cited in the journal since
+  the audit; its old URL redirects to platform.claude.com, which the entry now uses).
+- **GWDG (BB3).** The entry now cites the archived article: N. Lux, "Introducing
+  Voice-AI: Advanced Transcription and Captioning Service", *GWDG-Nachrichten* 47(7),
+  2024, ISSN 0940-4686. The author is the person named under "Text and Contact".
+- **Codex (BB18).** The entry points to the Codex product documentation instead of the
+  generic API code-generation guide. The journal no longer cites it.
+- **Uncited entries.** Kept by decision, with a comment at the top of `refs.bib`: the
+  literature wiki (`llm-wiki/tools/build_wiki.py`) takes the bibliographic fields of every
+  archived PDF from this file, and Typst prints only cited entries.
+- **EEGVIS content.** The README's figure shows adjacent rows of topoplot series, which
+  supports claim B5 (see [B5](#b5)).
+
+Journal compiled through `scripts/compile-journal.ps1`; supplement recompiled.
+
+## B8. Bernard: palette top-rated only on black backgrounds; stimuli were white {#b8}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Location:** `journal.typ`, Design Space → Bivariate color: corners; Limitations · **Fixed:** 26 November 2026
+:::
+
+**Problem.** The manuscript justified the TeulingFig3 palette by its top rating (++) for
+ER1–ER3 in Bernard et al.'s Table 3. That rating holds for black backgrounds; on white
+backgrounds the same table excludes the palette for ER1 and ER3. The stimuli were shown
+on a white background (confirmed by the author), and the manuscript did not say so.
+
+**Evidence.** Bernard et al. (2015), Table 3 (PDF p. 11, visually inspected);
+[`raw/bernard2015colormaps.md#p009-b003`](../The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/bernard2015colormaps.md#p009-b003).
+
+**Fix.** The choice is stated and justified, without changing the stimuli:
+
+- *Design Space:* "…in their task-based evaluation @bernard2015colormaps. This rating
+  holds for black backgrounds. On white backgrounds, they did not rate it as suitable for
+  ER1 and ER3. Our stimuli used a white background, as most EEG publications do. We expect
+  the background to matter little here: inside a filled topoplot, most colors border other
+  colors, and the background touches only the outer rim of the head."
+- *Limitations:* "The corner palette was rated by Bernard et al. for black backgrounds,
+  whereas our stimuli used a white one. We expect little effect, because the background
+  touches only the rim of the head, but we cannot rule it out."
+
+Journal compiled through `scripts/compile-journal.ps1`.
+
+## B5. EEGVIS attribution had no archived source {#b5}
+
+::: {.finding-meta .sev-moderate .status-resolved}
+**Severity:** Moderate · **Location:** `journal.typ`, Design Space → Adjacent plots · **Fixed:** 26 November 2026
+:::
+
+**Problem.** The manuscript says the adjacent-plots design was inspired by the EEGVIS
+toolbox. No EEGVIS documentation was archived, so the claim could not be checked; the
+only archived mention (Mikheev et al. 2024) links EEGVIS to 2D colour maps.
+
+**Evidence.** [`papers/ehinger2018eegvis.pdf`](../The%20Art%20of%20Uncertain%20Topoplots/papers/ehinger2018eegvis.pdf)
+(GitHub README, archived 26 November 2026), PDF p. 2: the "Butterfly + Topoplots" figure
+shows a butterfly plot above three adjacent rows of topoplot series, one row per quantity,
+each with its own colour scale. The README text does not name the quantities in the
+lower rows.
+
+**Fix.** No text change needed: the archived source shows adjacent topoplots of several
+quantities, the layout the adjacent-plots design builds on. (An earlier note on 26 Nov
+said the opposite; it was based on the extracted text only, which does not include the
+figure, and has been corrected.)
+
+## A4. Allen's 20% was attributed to "more than three features" {#a4}
+
+::: {.finding-meta .sev-high .status-resolved}
+**Severity:** High · **Location:** `journal.typ`, Introduction · **Fixed:** 26 November 2026
+:::
+
+**Problem.** The Introduction said that in Allen et al.'s review uncertainty was "particularly
+underrepresented in visualizations of data with more than three features, with only 20%
+indicating uncertainty". Allen et al.'s 20% concerns "3D" graphics, which have exactly
+three variables: two independent variables and one dependent variable shown by colour.
+As the author notes, these are not true 3D displays but 2D plots with one extra encoded
+feature.
+
+**Evidence.** [`raw/allen2012data.md#p001-b007`](../The%20Art%20of%20Uncertain%20Topoplots/llm-wiki/raw/allen2012data.md#p001-b007)
+("Compared to 2D data, 3D displays … rarely provide an indication of uncertainty … only
+20% portray the uncertainty of reported effects"); Fig. 1A, PDF p. 3.
+
+**Fix.** The sentence is replaced by short sentences in Allen et al.'s own scope: "This
+difficulty is reflected by @allen2012data. They reviewed 1,451 figures from six
+neuroscience journals. Figures of three-variable data showed uncertainty less often than
+figures of two-variable data: only 20% of them did. These are 2D plots in which color or
+another feature shows a third variable, the same structure as a topoplot." Journal
+compiled through `scripts/compile-journal.ps1`.

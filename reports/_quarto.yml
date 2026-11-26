@@ -44,7 +44,7 @@ website:
           - href: manuscript-citations-audit.md
             text: "Manuscript citations (21 open)"
           - href: fixed-citations.md
-            text: "Fixed citations (29)"
+            text: "Fixed citations (35)"
           - href: table-s3-literature-audit.md
             text: "Table S3 rankings"
       - section: "Visualization"
