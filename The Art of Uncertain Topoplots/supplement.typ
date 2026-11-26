@@ -782,7 +782,9 @@ a border region relative to an interior region with the same score.
 #ntm.rule_task1.removed of #ntm.rule_task1.trials pages in Task~1
 (#ntm.rule_task1.participants participants) and #ntm.rule_task2.removed of
 #ntm.rule_task2.trials in Task~2 (#ntm.rule_task2.participants participants). Refitting with
-all pages kept, or with a 1.5 × IQR rule within each visualization, #if ntm.sensitivity_n_changed == 0 [left every comparison with the basic topoplot unchanged] else [changed #ntm.sensitivity_n_changed comparison#if ntm.sensitivity_n_changed > 1 [s] with the basic topoplot].
+all pages kept, or with a 1.5 × IQR rule within each visualization, #if ntm.sensitivity_n_changed == 0 [left every comparison with the basic topoplot unchanged] else [changed the result for #ntm.sensitivity_n_changed comparison#if ntm.sensitivity_n_changed > 1 [s]
+with the basic topoplot: #ntm.sensitivity_changes.map(r => [#lower(r.vistype) in
+#r.task (main rule: #r.cap\; all pages kept: #r.all\; IQR rule: #r.iqr)]).join("; ")].
 
 *Time and accuracy (Task~1).* Within participants, a trial that took twice the usual time
 had an odds ratio of #ntm.time_accuracy.log_time_within.odds_ratio for a correct answer (95% CI

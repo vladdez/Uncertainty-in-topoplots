@@ -746,6 +746,15 @@
       "iqr_removed": 226
     },
     "sensitivity_n_changed": 1,
+    "sensitivity_changes": [
+      {
+        "task": "Task 1",
+        "vistype": "Uncertainty markers",
+        "cap": "slower",
+        "all": "slower",
+        "iqr": "not clearly different"
+      }
+    ],
     "time_accuracy": {
       "log_time_within": {
         "term": "log_time_within",

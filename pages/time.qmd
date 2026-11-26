@@ -1404,6 +1404,10 @@ write_manuscript_numbers("time", list(
   rule_task1 = time_rule_numbers(1),
   rule_task2 = time_rule_numbers(2),
   sensitivity_n_changed = nrow(time_sensitivity_changes),
+  sensitivity_changes = purrr::transpose(as.list(time_sensitivity_changes |> transmute(
+    task = as.character(task), vistype = table_vistype(as.character(vistype)),
+    cap = as.character(cap), all = as.character(all), iqr = as.character(iqr)
+  ))),
   time_accuracy = time_accuracy_numbers,
   task1 = time_numbers_task(time_estimates, task1_time_contrasts),
   task2 = time_numbers_task(task2_time_estimates, task2_time_contrasts)
