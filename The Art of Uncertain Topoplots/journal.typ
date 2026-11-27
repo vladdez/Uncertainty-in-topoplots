@@ -373,7 +373,7 @@ ERP patterns, comparing experimental conditions, assessing plausible spatial dis
 and locating relevant signals. We used these common practices as the basis for constructing
 the tasks in the quantitative study.
 
-Participants also proposed possible uncertainty representations. For example, R2 suggested
+Participants also proposed possible uncertainty representations. For example, R1 suggested
 showing three topoplots representing an uncertainty interval together with the estimate.
 This suggestion helped motivate the inclusion of an interval-based representation with
 precedent in EEG visualization. We combined these interview-derived requirements with
@@ -391,7 +391,7 @@ original designs: we used these color-model concepts as starting points and adap
 spatially continuous EEG/ERP topoplots that jointly encode signed voltage and standard
 error. Adjacent plots, uncertainty markers, and hypothetical outcome animation were also
 informed by existing visualization approaches and adapted for our study. The interval-based
-representation was suggested by participant R2 and has precedent in the three-map display
+representation was suggested by participant R1 and has precedent in the three-map display
 provided by `diegr` @gerslova2026diegr. We included a conventional topoplot without
 uncertainty information as a baseline.
 
