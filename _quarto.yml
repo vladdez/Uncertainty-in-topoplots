@@ -19,6 +19,7 @@ project:
     - pages/time.qmd
     - pages/subjective.qmd
     - pages/feedback.qmd
+    - pages/interviews.qmd
 
 execute:
   cache: true
@@ -55,6 +56,8 @@ website:
         text: Subjective evaluation
       - href: pages/feedback.qmd
         text: Open-ended feedback
+      - href: pages/interviews.qmd
+        text: Formative interviews
     right:
       - icon: github
         text: GitHub project

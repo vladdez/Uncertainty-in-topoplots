@@ -1,0 +1,433 @@
+---
+title: "Formative interviews"
+execute:
+  warning: false
+  message: false
+  cache: false
+---
+
+```{r shared-setup}
+#| include: false
+source("scripts/analysis_setup.R")
+
+interview_guide <- readr::read_csv(
+  project_path("data", "interviews", "interview_guide.csv"), show_col_types = FALSE
+)
+interview_participants <- readr::read_csv(
+  project_path("data", "interviews", "interview_participants.csv"),
+  col_types = readr::cols(.default = "c")
+)
+interview_codebook <- readr::read_csv(
+  project_path("data", "interviews", "interview_codebook.csv"),
+  col_types = readr::cols(.default = "c")
+)
+interview_n <- nrow(interview_participants)
+interview_n_clinicians <- sum(interview_participants$Group == "Clinician")
+```
+
+Before the quantitative study, we interviewed `r interview_n` people who work with EEG, MEG or clinical EEG. The interviews asked how they use topoplots, what uncertainty means to them, and what keeps them from showing it on topoplots. This page describes the material and the coding scheme. The coded results follow once the coding is done.
+
+::: {.callout-note}
+## Status (27 Nov 2026)
+
+All nine interviews are coded. Two interviews were coded first as a pilot, and the rules and the codebook were revised before the other seven. The coded units, the figures and the sensitivity analysis follow on this page.
+:::
+
+## Participants
+
+`r interview_n - interview_n_clinicians` participants are researchers and `r interview_n_clinicians` are clinicians. The clinicians use EEG for diagnosis and reports, not for group statistics. A pilot interview (R0) tested the guide and is not analysed.
+
+```{r interview-participants}
+interview_participants |>
+  knitr::kable(format = "html", table.attr = kable_table_attributes)
+```
+
+## Interviews and transcripts
+
+The interviews followed a structured guide of 14 questions and lasted about 15 to 30 minutes. Participants received the main questions in advance. At the start of each interview, they consented to the recording, to the public sharing of an anonymised transcript and to the use of anonymised quotations. The recordings were transcribed with Voice AI (Academic Cloud/GWDG). In the transcripts, names of people, institutions and cities are replaced by black squares (■■■■■); countries are kept.
+
+```{r interview-guide}
+interview_guide |>
+  knitr::kable(format = "html", table.attr = kable_table_attributes)
+```
+
+## Coding
+
+The transcripts are coded with one fixed prompt ([`data/interviews/interview_content_analysis_prompt.md`](https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/data/interviews/interview_content_analysis_prompt.md)), as for the open-ended feedback in the survey. The main rules:
+
+- Only the participant's speech is coded. Each meaning unit expresses one idea and keeps the participant's wording.
+- Each unit records the guide question it answered, but its code follows its content. A reason for not showing uncertainty, named while answering Q8, is coded under *Why it is not shown on topoplots*.
+- **Prompted** marks a unit whose idea the interviewer had named or given as an example before the participant mentioned it.
+- **Stance** (−2 to +2) is coded only for units that evaluate something: the value of uncertainty on topoplots, or a specific encoding or practice.
+
+### Codebook
+
+The `r nrow(interview_codebook)` codes are grouped into `r dplyr::n_distinct(interview_codebook$Category)` categories that follow the guide. In the *Ideas for showing uncertainty on topoplots* tab, the last column links each encoding to the design in the quantitative study that it resembles.
+
+::: {.panel-tabset}
+
+```{r interview-codebook}
+#| results: asis
+# One tab per category; "Study design" only where a category uses it.
+for (category in unique(interview_codebook$Category)) {
+  codes <- interview_codebook |>
+    dplyr::filter(Category == category) |>
+    dplyr::select(Code, Definition, `Usual questions`, `Study design`)
+  if (all(is.na(codes$`Study design`))) codes$`Study design` <- NULL
+  cat("\n\n## ", category, "\n\n", sep = "")
+  cat(knitr::kable(codes, format = "html", table.attr = kable_table_attributes))
+}
+```
+
+:::
+
+```{r interview-units-setup}
+#| include: false
+interview_units <- readxl::read_xlsx(
+  project_path("data", "interviews", "interview_content_analysis.xlsx"),
+  sheet = "Interview content analysis",
+  col_types = "text"
+)
+# Every unit uses a code of the codebook, under its category.
+stopifnot(
+  all(paste(interview_units$Category, interview_units$Code) %in%
+        paste(interview_codebook$Category, interview_codebook$Code)),
+  all(interview_units$Respondent %in% interview_participants$Respondent)
+)
+
+# One row per participant and code. A reason for not showing uncertainty that the
+# participant rejects (all its units have Stance -1) is not a mention; shown apart.
+interview_presence <- interview_units |>
+  dplyr::group_by(Respondent, Category, Code) |>
+  dplyr::summarise(
+    rejected = Category[1] == "Why it is not shown on topoplots" && all(Stance %in% "-1"),
+    spontaneous = any(Prompted == "No"),
+    .groups = "drop"
+  ) |>
+  dplyr::mutate(mark = dplyr::case_when(
+    rejected ~ "Rejected reason",
+    spontaneous ~ "Mentioned spontaneously",
+    TRUE ~ "Mentioned after a prompt"
+  )) |>
+  dplyr::left_join(
+    dplyr::select(interview_participants, Respondent, Group), by = "Respondent"
+  )
+
+# Participants per code (rejections not counted), all codes of the codebook.
+interview_code_counts <- interview_codebook |>
+  dplyr::select(Category, Code) |>
+  dplyr::left_join(
+    interview_presence |>
+      dplyr::filter(!rejected) |>
+      dplyr::count(Category, Code, name = "n"),
+    by = c("Category", "Code")
+  ) |>
+  dplyr::mutate(n = dplyr::coalesce(n, 0L))
+
+# Columns: researchers, then clinicians; rows: codebook categories in codebook
+# order, codes by number of participants within each category.
+interview_respondent_levels <- interview_participants |>
+  dplyr::arrange(Group != "Researcher", Respondent) |>
+  dplyr::pull(Respondent)
+interview_group_levels <- c(Researcher = "Researchers", Clinician = "Clinicians")
+interview_category_levels <- unique(interview_codebook$Category)
+
+# Light grey band behind every second facet row, so the sections of a tall
+# dot matrix stay apart. `facet` is the row facet variable, `levels` its levels.
+section_bands <- function(facet, levels) {
+  bands <- tibble::tibble(!!facet := factor(levels[c(TRUE, FALSE)], levels = levels))
+  geom_rect(
+    data = bands, inherit.aes = FALSE,
+    xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf,
+    # Translucent, so the grid lines below stay visible.
+    fill = "#000000", alpha = 0.05
+  )
+}
+```
+
+## Coded meaning units
+
+The coding produced `r nrow(interview_units)` meaning units from `r dplyr::n_distinct(interview_units$Respondent)` interviews (between `r min(table(interview_units$Respondent))` and `r max(table(interview_units$Respondent))` per interview). `r sum(interview_units$Prompted == "Yes")` units are prompted and `r sum(!is.na(interview_units$Stance))` carry a stance. Use the search box or the column filters to explore the table.
+
+[Download the coded units as an Excel workbook](../data/interviews/interview_content_analysis.xlsx)
+
+```{r interview-units-table}
+interview_units |>
+  reactable::reactable(
+    searchable = TRUE,
+    filterable = TRUE,
+    striped = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    defaultPageSize = 20,
+    showPageSizeOptions = TRUE,
+    pageSizeOptions = c(10, 20, 50, 100, 250),
+    columns = list(
+      Respondent = reactable::colDef(name = "Participant", minWidth = 80, align = "center"),
+      Question = reactable::colDef(minWidth = 75, align = "center"),
+      `Meaning unit` = reactable::colDef(minWidth = 420),
+      Category = reactable::colDef(minWidth = 150),
+      Code = reactable::colDef(minWidth = 170),
+      Prompted = reactable::colDef(minWidth = 80, align = "center"),
+      Stance = reactable::colDef(minWidth = 70, align = "center")
+    )
+  )
+```
+
+## Codes by participant
+
+Each row is a code and each column a participant. A dot means that the participant expressed the idea at least once: filled if at least once without a prompt, open if only after the interviewer had named the idea. Researchers and clinicians are shown apart. The number after each code counts the participants who mentioned it. In *Why it is not shown on topoplots*, a cross marks a reason that the participant explicitly rejected (for example "I don't think people do it because they want to hide something"); it is not counted.
+
+```{r interview-code-matrix-setup}
+#| include: false
+interview_code_order <- interview_code_counts |>
+  dplyr::mutate(Category = factor(Category, levels = interview_category_levels)) |>
+  dplyr::arrange(Category, dplyr::desc(n)) |>
+  dplyr::mutate(label = paste0(Code, "  ", n))
+
+interview_matrix_data <- interview_presence |>
+  dplyr::left_join(interview_code_counts, by = c("Category", "Code")) |>
+  dplyr::mutate(
+    label = factor(paste0(Code, "  ", n), levels = rev(interview_code_order$label)),
+    Category = factor(Category, levels = interview_category_levels),
+    Respondent = factor(Respondent, levels = interview_respondent_levels),
+    Group = factor(interview_group_levels[Group], levels = interview_group_levels),
+    mark = factor(mark, levels = c(
+      "Mentioned spontaneously", "Mentioned after a prompt", "Rejected reason"
+    ))
+  )
+
+# Codes mentioned by at least `min_n` participants (rejections not counted).
+interview_matrix_subset <- function(min_n = 0) {
+  d <- dplyr::filter(interview_matrix_data, n >= min_n)
+  dplyr::mutate(d, Category = droplevels(Category), label = droplevels(label))
+}
+
+# Figure height (inches) from the number of code rows and sections.
+interview_matrix_height <- function(min_n = 0) {
+  d <- interview_matrix_subset(min_n)
+  0.27 * nlevels(d$label) + 0.5 * nlevels(d$Category) + 2
+}
+
+make_interview_code_matrix <- function(min_n = 0) {
+  d <- interview_matrix_subset(min_n)
+  ggplot(d, aes(Respondent, label)) +
+  section_bands("Category", levels(d$Category)) +
+  geom_point(
+    aes(shape = mark, fill = mark),
+    size = 5, stroke = 1.2, colour = "#222222"
+  ) +
+  scale_shape_manual(values = c(21, 21, 4), drop = FALSE, name = NULL) +
+  scale_fill_manual(values = c("#222222", "white", NA), drop = FALSE, name = NULL) +
+  scale_x_discrete(position = "top") +
+  facet_grid(
+    Category ~ Group, scales = "free", space = "free",
+    labeller = labeller(Category = label_wrap_gen(14))
+  ) +
+  labs(x = NULL, y = NULL) +
+  plot_theme(base_size = 24) +
+  theme(
+    axis.line = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.x = element_text(size = 24),
+    axis.text.y = element_text(size = 22),
+    panel.grid.major = element_line(colour = "#DADADA", linewidth = 0.4),
+    panel.spacing.y = grid::unit(1.6, "lines"),
+    panel.spacing.x = grid::unit(1.2, "lines"),
+    strip.background = element_blank(),
+    strip.placement = "outside",
+    strip.text.x = element_text(size = 24, face = "bold"),
+    strip.text.y = element_text(size = 22, angle = 0, hjust = 0, face = "bold", lineheight = 0.5),
+    legend.position = "top",
+    legend.justification = "left",
+    legend.text = element_text(size = 22)
+  )
+}
+```
+
+::: {.panel-tabset}
+
+### All codes
+
+```{r interview-code-matrix}
+#| fig-width: 14
+#| fig-height: !expr interview_matrix_height(0)
+#| out-width: 100%
+#| fig-alt: "Dot matrix of all 68 interview codes in nine categories (rows) by nine participants (columns, seven researchers and two clinicians). A filled dot marks a spontaneous mention, an open dot a mention after an interviewer prompt, and a cross a rejected reason for not showing uncertainty. Each code label ends with the number of participants who mentioned it."
+make_interview_code_matrix(0)
+```
+
+### Mentioned by 3 or more
+
+Only the `r nlevels(interview_matrix_subset(3)$label)` codes that at least 3 of the 9 participants mentioned.
+
+```{r interview-code-matrix-3}
+#| fig-width: 14
+#| fig-height: !expr interview_matrix_height(3)
+#| out-width: 100%
+#| fig-alt: "Dot matrix of the interview codes mentioned by at least three participants (rows, grouped by category) by nine participants (columns, seven researchers and two clinicians). A filled dot marks a spontaneous mention, an open dot a mention after an interviewer prompt, and a cross a rejected reason for not showing uncertainty. Each code label ends with the number of participants who mentioned it."
+make_interview_code_matrix(3)
+```
+
+### Bar chart (3 or more)
+
+The same `r nlevels(interview_matrix_subset(3)$label)` codes as bars: the number of participants who mentioned each code. Prompted mentions count; rejected reasons do not.
+
+```{r interview-code-bars}
+#| fig-width: 14
+#| fig-height: !expr interview_matrix_height(3)
+#| out-width: 100%
+#| fig-alt: "Horizontal stacked bar chart of the interview codes mentioned by at least three of nine participants, grouped by category. Each blue bar shows the number of participants who mentioned the code, with the number at the end of the bar."
+# A softer blue than the Basic topoplot accent (basic_accent), so the bars do
+# not read as that visualization.
+interview_bar_colour <- "#6A9AC8"
+interview_bar_data <- interview_matrix_subset(3) |>
+  dplyr::distinct(Category, Code, n) |>
+  dplyr::mutate(Code = factor(Code, levels = rev(unique(
+    interview_code_order$Code[interview_code_order$n >= 3]
+  ))))
+
+ggplot(interview_bar_data, aes(n, Code)) +
+  section_bands("Category", levels(interview_bar_data$Category)) +
+  geom_col(width = 0.7, fill = interview_bar_colour) +
+  geom_text(
+    aes(label = n),
+    hjust = -0.4, family = "Lato", size = 8, colour = "#222222"
+  ) +
+  scale_x_continuous(
+    limits = c(0, 9.6), breaks = c(0, 3, 6, 9), expand = c(0, 0),
+    name = "Participants (of 9)", position = "top"
+  ) +
+  facet_grid(
+    Category ~ ., scales = "free_y", space = "free_y",
+    labeller = labeller(Category = label_wrap_gen(14))
+  ) +
+  labs(y = NULL) +
+  plot_theme(base_size = 24) +
+  theme(
+    axis.line = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.x = element_text(size = 22),
+    axis.text.y = element_text(size = 22),
+    axis.title.x = element_text(size = 22, margin = margin(b = 8)),
+    panel.grid.major.x = element_line(colour = "#DADADA", linewidth = 0.4),
+    panel.spacing.y = grid::unit(1.6, "lines"),
+    strip.background = element_blank(),
+    strip.text.y = element_text(size = 22, angle = 0, hjust = 0, face = "bold", lineheight = 0.5),
+    legend.position = "top",
+    legend.justification = "left",
+    legend.text = element_text(size = 22)
+  )
+```
+
+:::
+
+## Proposed encodings and the study designs
+
+The encodings that participants proposed when asked how they would show uncertainty on a topoplot (Q9), grouped by the design of the quantitative study that they resemble. The colour shows the stance where the participant also evaluated the encoding; a small dot marks an encoding proposed without an evaluation.
+
+```{r interview-encodings}
+#| fig-width: 14
+#| fig-height: 7
+#| out-width: 100%
+#| fig-alt: "Dot matrix of the uncertainty encodings proposed in the interviews (rows), grouped by the study design they resemble, by participant (columns). Large dots are coloured by stance from strongly negative (brown) to strongly positive (green); small black dots mark encodings proposed without an evaluation."
+interview_design_levels <- c(
+  "Adjacent plots", "Confidence intervals", "Bivariate corner and range",
+  "Uncertainty markers", "Animation", "Not in the study"
+)
+interview_stance_colours <- setNames(
+  scales::div_gradient_pal("#A6611A", "#F5F5F5", "#018571")(
+    scales::rescale(-2:2, from = c(-2, 2))
+  ),
+  c("−2", "−1", "0", "+1", "+2")
+)
+interview_encodings <- interview_units |>
+  dplyr::filter(Category == "Ideas for showing uncertainty on topoplots", Code != "No idea") |>
+  dplyr::left_join(
+    dplyr::select(interview_codebook, Code, `Study design`), by = "Code"
+  ) |>
+  dplyr::group_by(Respondent, Code, `Study design`) |>
+  dplyr::summarise(
+    # The most negative stance if a participant evaluated it more than once.
+    stance = suppressWarnings(min(as.integer(Stance), na.rm = TRUE)),
+    .groups = "drop"
+  ) |>
+  dplyr::mutate(
+    stance = dplyr::if_else(is.finite(stance), stance, NA_integer_),
+    design = factor(
+      dplyr::coalesce(`Study design`, "Not in the study"),
+      levels = interview_design_levels
+    ),
+    stance_label = factor(
+      chartr("-", "−", ifelse(stance > 0, paste0("+", stance), as.character(stance))),
+      levels = names(interview_stance_colours)
+    ),
+    Respondent = factor(Respondent, levels = interview_respondent_levels)
+  ) |>
+  dplyr::left_join(
+    dplyr::select(interview_participants, Respondent, Group), by = "Respondent"
+  ) |>
+  dplyr::mutate(Group = factor(interview_group_levels[Group], levels = interview_group_levels)) |>
+  dplyr::add_count(Code, name = "n") |>
+  dplyr::mutate(label = paste0(Code, "  ", n))
+
+ggplot(interview_encodings, aes(Respondent, label)) +
+  section_bands("design", interview_design_levels) +
+  geom_point(
+    data = \(d) dplyr::filter(d, is.na(stance)),
+    aes(shape = "Proposed, not evaluated"),
+    size = 3, colour = "#222222"
+  ) +
+  geom_point(
+    data = \(d) dplyr::filter(d, !is.na(stance)),
+    aes(fill = stance_label),
+    shape = 21, size = 8, stroke = 0.8, colour = "#222222",
+    # Every stance keeps its swatch, also one no participant used.
+    show.legend = c(fill = TRUE, shape = FALSE)
+  ) +
+  scale_fill_manual(
+    values = interview_stance_colours, drop = FALSE, name = "Stance",
+    limits = rev(names(interview_stance_colours))
+  ) +
+  scale_shape_manual(values = c(`Proposed, not evaluated` = 16), name = NULL) +
+  guides(
+    fill = guide_legend(order = 1, override.aes = list(shape = 21, size = 8, colour = "#222222")),
+    shape = guide_legend(order = 2)
+  ) +
+  # Every participant of the group keeps a column, also one who proposed no
+  # encoding (each group panel holds at least one point).
+  scale_x_discrete(
+    position = "top",
+    limits = \(x) {
+      group <- interview_participants$Group[match(x[1], interview_participants$Respondent)]
+      intersect(
+        interview_respondent_levels,
+        interview_participants$Respondent[interview_participants$Group == group]
+      )
+    }
+  ) +
+  facet_grid(
+    design ~ Group, scales = "free", space = "free",
+    labeller = labeller(design = label_wrap_gen(14))
+  ) +
+  labs(x = NULL, y = NULL) +
+  plot_theme(base_size = 24) +
+  theme(
+    axis.line = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text = element_text(size = 22),
+    panel.grid.major = element_line(colour = "#DADADA", linewidth = 0.4),
+    panel.spacing.y = grid::unit(1, "lines"),
+    panel.spacing.x = grid::unit(1.2, "lines"),
+    strip.background = element_blank(),
+    strip.placement = "outside",
+    strip.text.x = element_text(size = 24, face = "bold"),
+    strip.text.y = element_text(size = 22, angle = 0, hjust = 0, face = "bold", lineheight = 0.5),
+    legend.text = element_text(size = 22),
+    legend.title = element_text(size = 22)
+  )
+```
+
+## Next steps
+
+- **Sensitivity analysis:** whether the main findings hold for researchers only (without the two clinicians), for spontaneous mentions only, and when counting units instead of participants; and agreement with a second, independent coding.

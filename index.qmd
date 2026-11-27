@@ -32,4 +32,5 @@ This study compares seven uncertainty-visualization approaches using comparison,
 - [**Time analysis**](pages/time.qmd)**:** completion time in both tasks.
 - [**Subjective evaluation**](pages/subjective.qmd)**:** participant ratings of the visualizations.
 - [**Open-ended feedback**](pages/feedback.qmd)**:** visualization-specific and general written comments.
+- [**Formative interviews**](pages/interviews.qmd)**:** the nine expert interviews before the survey: participants, interview guide and coding scheme.
 - [**Audit**](audit/index.html)**:** open issues in the statistical analysis and a source-to-claim check of the manuscript's literature.

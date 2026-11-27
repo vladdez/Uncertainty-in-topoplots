@@ -1,0 +1,10 @@
+Respondent,Group,Field,Years with EEG,Main software,Continent
+R1,Researcher,Cognitive ERP research,about 18,EEGLAB; Unfold; R,Europe
+R2,Researcher,Language ERP research (now industry),about 15,MNE-Python; in-house tools,North America
+R3,Researcher,MEG localisation of epileptic spikes,about 1,MNE-Python,Eurasia
+R4,Clinician,Clinical neurology (paediatric epileptology),about 10,Neurosoft; MITSAR; Encephalan,Europe
+R5,Clinician,Functional diagnostics (paediatric EEG),about 8,Neurosoft,Europe
+R6,Researcher,"Time-frequency and ERP research (formerly BCI, now TMS)",about 13,MNE-Python,Europe
+R7,Researcher,Motor neuroscience (EEG/MEG oscillations and decoding),since 2008 with gaps,FieldTrip,not stated
+R8,Researcher,EEG/MEG and intracranial EEG,about 10,MNE-Python,not stated
+R9,Researcher,Visual perception ERP research,about 26,MATLAB,not stated

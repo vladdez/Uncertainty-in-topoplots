@@ -1,0 +1,2114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Formative interviews – Uncertainty in topoplots</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-8dccdcbb03bb7b7d2c84fc59fef643f4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../site_libs/core-js-2.5.3/shim.min.js"></script>
+
+<script src="../site_libs/react-18.2.0/react.min.js"></script>
+
+<script src="../site_libs/react-18.2.0/react-dom.min.js"></script>
+
+<script src="../site_libs/reactwidget-2.0.0/react-tools.js"></script>
+
+<link href="../site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<link href="../site_libs/reactable-0.4.5/reactable.css" rel="stylesheet">
+
+<script src="../site_libs/reactable-binding-0.4.5/reactable.js"></script>
+
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Uncertainty in topoplots</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/summary.html"> 
+<span class="menu-text">Summary</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/sample.html"> 
+<span class="menu-text">Sample</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/stimuli.html"> 
+<span class="menu-text">Stimuli preparation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/quality.html"> 
+<span class="menu-text">Quality control</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/task1.html"> 
+<span class="menu-text">Task 1</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/task2.html"> 
+<span class="menu-text">Task 2</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/time.html"> 
+<span class="menu-text">Time analysis</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/hit_miss.html"> 
+<span class="menu-text">Hit or miss</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/subjective.html"> 
+<span class="menu-text">Subjective evaluation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/feedback.html"> 
+<span class="menu-text">Open-ended feedback</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../pages/interviews.html" aria-current="page"> 
+<span class="menu-text">Formative interviews</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/vladdez/Uncertainty-in-topoplots" target="_blank"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text">GitHub project</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#participants" id="toc-participants" class="nav-link active" data-scroll-target="#participants">Participants</a></li>
+  <li><a href="#interviews-and-transcripts" id="toc-interviews-and-transcripts" class="nav-link" data-scroll-target="#interviews-and-transcripts">Interviews and transcripts</a></li>
+  <li><a href="#coding" id="toc-coding" class="nav-link" data-scroll-target="#coding">Coding</a>
+  <ul class="collapse">
+  <li><a href="#codebook" id="toc-codebook" class="nav-link" data-scroll-target="#codebook">Codebook</a></li>
+  </ul></li>
+  <li><a href="#coded-meaning-units" id="toc-coded-meaning-units" class="nav-link" data-scroll-target="#coded-meaning-units">Coded meaning units</a></li>
+  <li><a href="#codes-by-participant" id="toc-codes-by-participant" class="nav-link" data-scroll-target="#codes-by-participant">Codes by participant</a></li>
+  <li><a href="#proposed-encodings-and-the-study-designs" id="toc-proposed-encodings-and-the-study-designs" class="nav-link" data-scroll-target="#proposed-encodings-and-the-study-designs">Proposed encodings and the study designs</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next steps</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Formative interviews</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Before the quantitative study, we interviewed 9 people who work with EEG, MEG or clinical EEG. The interviews asked how they use topoplots, what uncertainty means to them, and what keeps them from showing it on topoplots. This page describes the material and the coding scheme. The coded results follow once the coding is done.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Status (27 Nov 2026)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>All nine interviews are coded. Two interviews were coded first as a pilot, and the rules and the codebook were revised before the other seven. The coded units, the figures and the sensitivity analysis follow on this page.</p>
+</div>
+</div>
+<section id="participants" class="level2">
+<h2 class="anchored" data-anchor-id="participants">Participants</h2>
+<p>7 participants are researchers and 2 are clinicians. The clinicians use EEG for diagnosis and reports, not for group statistics. A pilot interview (R0) tested the guide and is not analysed.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>interview_participants <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">format =</span> <span class="st">"html"</span>, <span class="at">table.attr =</span> kable_table_attributes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-sm caption-top small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Respondent</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Group</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Field</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Years with EEG</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Main software</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Continent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">R1</td>
+<td style="text-align: left;">Researcher</td>
+<td style="text-align: left;">Cognitive ERP research</td>
+<td style="text-align: left;">about 18</td>
+<td style="text-align: left;">EEGLAB; Unfold; R</td>
+<td style="text-align: left;">Europe</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R2</td>
+<td style="text-align: left;">Researcher</td>
+<td style="text-align: left;">Language ERP research (now industry)</td>
+<td style="text-align: left;">about 15</td>
+<td style="text-align: left;">MNE-Python; in-house tools</td>
+<td style="text-align: left;">North America</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R3</td>
+<td style="text-align: left;">Researcher</td>
+<td style="text-align: left;">MEG localisation of epileptic spikes</td>
+<td style="text-align: left;">about 1</td>
+<td style="text-align: left;">MNE-Python</td>
+<td style="text-align: left;">Eurasia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R4</td>
+<td style="text-align: left;">Clinician</td>
+<td style="text-align: left;">Clinical neurology (paediatric epileptology)</td>
+<td style="text-align: left;">about 10</td>
+<td style="text-align: left;">Neurosoft; MITSAR; Encephalan</td>
+<td style="text-align: left;">Europe</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R5</td>
+<td style="text-align: left;">Clinician</td>
+<td style="text-align: left;">Functional diagnostics (paediatric EEG)</td>
+<td style="text-align: left;">about 8</td>
+<td style="text-align: left;">Neurosoft</td>
+<td style="text-align: left;">Europe</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R6</td>
+<td style="text-align: left;">Researcher</td>
+<td style="text-align: left;">Time-frequency and ERP research (formerly BCI, now TMS)</td>
+<td style="text-align: left;">about 13</td>
+<td style="text-align: left;">MNE-Python</td>
+<td style="text-align: left;">Europe</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R7</td>
+<td style="text-align: left;">Researcher</td>
+<td style="text-align: left;">Motor neuroscience (EEG/MEG oscillations and decoding)</td>
+<td style="text-align: left;">since 2008 with gaps</td>
+<td style="text-align: left;">FieldTrip</td>
+<td style="text-align: left;">not stated</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R8</td>
+<td style="text-align: left;">Researcher</td>
+<td style="text-align: left;">EEG/MEG and intracranial EEG</td>
+<td style="text-align: left;">about 10</td>
+<td style="text-align: left;">MNE-Python</td>
+<td style="text-align: left;">not stated</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R9</td>
+<td style="text-align: left;">Researcher</td>
+<td style="text-align: left;">Visual perception ERP research</td>
+<td style="text-align: left;">about 26</td>
+<td style="text-align: left;">MATLAB</td>
+<td style="text-align: left;">not stated</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="interviews-and-transcripts" class="level2">
+<h2 class="anchored" data-anchor-id="interviews-and-transcripts">Interviews and transcripts</h2>
+<p>The interviews followed a structured guide of 14 questions and lasted about 15 to 30 minutes. Participants received the main questions in advance. At the start of each interview, they consented to the recording, to the public sharing of an anonymised transcript and to the use of anonymised quotations. The recordings were transcribed with Voice AI (Academic Cloud/GWDG). In the transcripts, names of people, institutions and cities are replaced by black squares (■■■■■); countries are kept.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>interview_guide <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">format =</span> <span class="st">"html"</span>, <span class="at">table.attr =</span> kable_table_attributes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-sm caption-top small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Question</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Section</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Wording</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q1</td>
+<td style="text-align: left;">Warm-up</td>
+<td style="text-align: left;">Could you briefly describe your background in EEG/ERP research?</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q2</td>
+<td style="text-align: left;">Warm-up</td>
+<td style="text-align: left;">What types of EEG visualizations do you most commonly use in your work and for what purpose?</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q3</td>
+<td style="text-align: left;">Thinking about uncertainty</td>
+<td style="text-align: left;">When you think about quantifying uncertainty in EEG or ERP data, what kinds of methods come to mind?</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q4</td>
+<td style="text-align: left;">Thinking about uncertainty</td>
+<td style="text-align: left;">Do you currently include uncertainty information when you visualize EEG/ERP data? If yes, what type of uncertainty and why?</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q5</td>
+<td style="text-align: left;">Use of topoplots</td>
+<td style="text-align: left;">At which stage of your research do you use topoplots, and for which audience?</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q6</td>
+<td style="text-align: left;">Use of topoplots</td>
+<td style="text-align: left;">When you choose to create a topoplot, what functions does it serve for you?</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q7</td>
+<td style="text-align: left;">Use of topoplots</td>
+<td style="text-align: left;">What do you think other researchers use topoplots for?</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q8</td>
+<td style="text-align: left;">Uncertainty in topoplots</td>
+<td style="text-align: left;">Do you ever show uncertainty on topoplots specifically? If no, why not?</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q9</td>
+<td style="text-align: left;">Uncertainty in topoplots</td>
+<td style="text-align: left;">If you wanted to show uncertainty on a topoplot, how might you visualize it?</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q10</td>
+<td style="text-align: left;">Value and barriers</td>
+<td style="text-align: left;">Do you think visualizing uncertainty on topoplots would be helpful? Why or why not?</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q11</td>
+<td style="text-align: left;">Value and barriers</td>
+<td style="text-align: left;">Why do you think many researchers currently do not include uncertainty in their topoplots?</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q12</td>
+<td style="text-align: left;">Future needs</td>
+<td style="text-align: left;">Is there anything you wish topoplot tools did better?</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q13</td>
+<td style="text-align: left;">Future needs</td>
+<td style="text-align: left;">What would be your requirements for an ideal topoplot?</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q14</td>
+<td style="text-align: left;">Closing</td>
+<td style="text-align: left;">Is there anything I didn't ask about that you think is important regarding topoplots or uncertainty visualization?</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="coding" class="level2">
+<h2 class="anchored" data-anchor-id="coding">Coding</h2>
+<p>The transcripts are coded with one fixed prompt (<a href="https://github.com/vladdez/Uncertainty-in-topoplots/blob/main/data/interviews/interview_content_analysis_prompt.md"><code>data/interviews/interview_content_analysis_prompt.md</code></a>), as for the open-ended feedback in the survey. The main rules:</p>
+<ul>
+<li>Only the participant’s speech is coded. Each meaning unit expresses one idea and keeps the participant’s wording.</li>
+<li>Each unit records the guide question it answered, but its code follows its content. A reason for not showing uncertainty, named while answering Q8, is coded under <em>Why it is not shown on topoplots</em>.</li>
+<li><strong>Prompted</strong> marks a unit whose idea the interviewer had named or given as an example before the participant mentioned it.</li>
+<li><strong>Stance</strong> (−2 to +2) is coded only for units that evaluate something: the value of uncertainty on topoplots, or a specific encoding or practice.</li>
+</ul>
+<section id="codebook" class="level3">
+<h3 class="anchored" data-anchor-id="codebook">Codebook</h3>
+<p>The 68 codes are grouped into 9 categories that follow the guide. In the <em>Ideas for showing uncertainty on topoplots</em> tab, the last column links each encoding to the design in the quantitative study that it resembles.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Plots they use</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">What uncertainty means to them</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Uncertainty on other plots</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Uncertainty on topoplots now</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Why it is not shown on topoplots</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">What topoplots are used for</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false" href="">Ideas for showing uncertainty on topoplots</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-8-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-8" role="tab" aria-controls="tabset-1-8" aria-selected="false" href="">Would uncertainty on topoplots help?</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-9-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-9" role="tab" aria-controls="tabset-1-9" aria-selected="false" href="">Wishes for topoplots and their tools</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<table class="table table-striped table-hover table-sm">
+<thead>
+<tr>
+<th style="text-align:left;">
+Code
+</th>
+<th style="text-align:left;">
+Definition
+</th>
+<th style="text-align:left;">
+Usual questions
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Time-course plots
+</td>
+<td style="text-align:left;">
+ERP or EEG waveforms over time for one or a few channels, including grand averages and model predictions.
+</td>
+<td style="text-align:left;">
+Q1-Q2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Butterfly and multi-channel plots
+</td>
+<td style="text-align:left;">
+All channels or all participants superimposed in one time-course plot.
+</td>
+<td style="text-align:left;">
+Q1-Q2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Topoplots
+</td>
+<td style="text-align:left;">
+Scalp maps of voltage, power, a statistic or a component.
+</td>
+<td style="text-align:left;">
+Q1-Q2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Time-frequency and spectral plots
+</td>
+<td style="text-align:left;">
+Time-frequency representations, spectra and coherence displays.
+</td>
+<td style="text-align:left;">
+Q1-Q2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Source and 3D brain plots
+</td>
+<td style="text-align:left;">
+Source reconstructions or activity on a 3D brain or head.
+</td>
+<td style="text-align:left;">
+Q1-Q2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Other EEG plots
+</td>
+<td style="text-align:left;">
+ERP images, epoch heatmaps, channel images and similar plots.
+</td>
+<td style="text-align:left;">
+Q1-Q2
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<table class="table table-striped table-hover table-sm">
+<thead>
+<tr>
+<th style="text-align:left;">
+Code
+</th>
+<th style="text-align:left;">
+Definition
+</th>
+<th style="text-align:left;">
+Usual questions
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Spread and precision
+</td>
+<td style="text-align:left;">
+SD, SE, confidence intervals, IQR, MAD or bootstrap intervals of an estimate.
+</td>
+<td style="text-align:left;">
+Q3-Q4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Statistical evidence
+</td>
+<td style="text-align:left;">
+Test statistics, p-values, permutation or cluster tests, Bayes factors.
+</td>
+<td style="text-align:left;">
+Q3-Q4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Individual data
+</td>
+<td style="text-align:left;">
+Showing single participants or single trials so that the spread is visible.
+</td>
+<td style="text-align:left;">
+Q3-Q4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Levels of variability
+</td>
+<td style="text-align:left;">
+Within- versus between-participant variability, or which variability is relevant for an effect.
+</td>
+<td style="text-align:left;">
+Q3-Q4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Signal versus artefact
+</td>
+<td style="text-align:left;">
+Uncertainty as doubt whether a feature is real or an artefact, judged by eye or by montage.
+</td>
+<td style="text-align:left;">
+Q3-Q4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Concept unfamiliar
+</td>
+<td style="text-align:left;">
+The participant does not know or does not use the concept of uncertainty.
+</td>
+<td style="text-align:left;">
+Q3-Q4
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<table class="table table-striped table-hover table-sm">
+<thead>
+<tr>
+<th style="text-align:left;">
+Code
+</th>
+<th style="text-align:left;">
+Definition
+</th>
+<th style="text-align:left;">
+Usual questions
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Shown (e.g.&nbsp;error bands)
+</td>
+<td style="text-align:left;">
+Uncertainty is shown on time-course or spectral plots (always or sometimes).
+</td>
+<td style="text-align:left;">
+Q4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Not shown or not consistently
+</td>
+<td style="text-align:left;">
+Uncertainty is not shown, or only inconsistently, on non-topographic plots.
+</td>
+<td style="text-align:left;">
+Q4
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<table class="table table-striped table-hover table-sm">
+<thead>
+<tr>
+<th style="text-align:left;">
+Code
+</th>
+<th style="text-align:left;">
+Definition
+</th>
+<th style="text-align:left;">
+Usual questions
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+No uncertainty on topoplots
+</td>
+<td style="text-align:left;">
+The participant does not show uncertainty on topoplots.
+</td>
+<td style="text-align:left;">
+Q8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Significance masking or marking
+</td>
+<td style="text-align:left;">
+Masking non-significant areas, marking channels, contours or marker size.
+</td>
+<td style="text-align:left;">
+Q8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Statistic map
+</td>
+<td style="text-align:left;">
+A topoplot of t, F or p values instead of the estimate.
+</td>
+<td style="text-align:left;">
+Q8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Separate spread map
+</td>
+<td style="text-align:left;">
+A separate topoplot of SD or another spread measure.
+</td>
+<td style="text-align:left;">
+Q8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Individual or normalised maps
+</td>
+<td style="text-align:left;">
+Maps of single participants or normalised individual maps.
+</td>
+<td style="text-align:left;">
+Q8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Companion plot
+</td>
+<td style="text-align:left;">
+Spread shown in a separate plot next to the topoplot (for example a scatter of cluster values).
+</td>
+<td style="text-align:left;">
+Q8
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<table class="table table-striped table-hover table-sm">
+<thead>
+<tr>
+<th style="text-align:left;">
+Code
+</th>
+<th style="text-align:left;">
+Definition
+</th>
+<th style="text-align:left;">
+Usual questions
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Do not know how
+</td>
+<td style="text-align:left;">
+No known method or idea how to do it.
+</td>
+<td style="text-align:left;">
+Q11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Tools and defaults
+</td>
+<td style="text-align:left;">
+Software does not offer it; people use the defaults.
+</td>
+<td style="text-align:left;">
+Q11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Not expected
+</td>
+<td style="text-align:left;">
+Not established as a standard, not asked for by reviewers.
+</td>
+<td style="text-align:left;">
+Q11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Habit and training
+</td>
+<td style="text-align:left;">
+Researchers follow what they were taught and what their field does.
+</td>
+<td style="text-align:left;">
+Q11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Significance seen as enough
+</td>
+<td style="text-align:left;">
+Statistical tests or other plots are thought to carry the uncertainty already.
+</td>
+<td style="text-align:left;">
+Q11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Clutter and dimensions
+</td>
+<td style="text-align:left;">
+A topoplot has no free visual dimension, or more information clutters it.
+</td>
+<td style="text-align:left;">
+Q11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Wish to appear certain
+</td>
+<td style="text-align:left;">
+Researchers or clinicians prefer to present a finished, certain result.
+</td>
+<td style="text-align:left;">
+Q11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+No audience need
+</td>
+<td style="text-align:left;">
+The intended readers would not use the information.
+</td>
+<td style="text-align:left;">
+Q11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Uncertainty thought small
+</td>
+<td style="text-align:left;">
+Researchers may think the uncertainty is too small to be worth showing.
+</td>
+<td style="text-align:left;">
+Q11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Timing matters more than space
+</td>
+<td style="text-align:left;">
+The timing of effects matters more than their location, so spatial uncertainty gets little attention.
+</td>
+<td style="text-align:left;">
+Q11
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
+<table class="table table-striped table-hover table-sm">
+<thead>
+<tr>
+<th style="text-align:left;">
+Code
+</th>
+<th style="text-align:left;">
+Definition
+</th>
+<th style="text-align:left;">
+Usual questions
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Sanity check against known patterns
+</td>
+<td style="text-align:left;">
+Comparing a map with patterns expected from physiology, the literature, a ground truth or the baseline interval.
+</td>
+<td style="text-align:left;">
+Q5-Q7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Exploration for oneself
+</td>
+<td style="text-align:left;">
+Looking at the data for oneself or close colleagues, for example to find peaks, before anything is reported.
+</td>
+<td style="text-align:left;">
+Q5-Q7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Data quality
+</td>
+<td style="text-align:left;">
+Judging noise, bad channels or patchy maps.
+</td>
+<td style="text-align:left;">
+Q5-Q7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ICA and artefacts
+</td>
+<td style="text-align:left;">
+Classifying independent components or detecting artefacts by their topography.
+</td>
+<td style="text-align:left;">
+Q5-Q7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Comparing conditions
+</td>
+<td style="text-align:left;">
+Showing where effects or condition differences occur, including amplitude versus distribution.
+</td>
+<td style="text-align:left;">
+Q5-Q7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Identifying ERP components
+</td>
+<td style="text-align:left;">
+Showing that an effect has the topography of a known ERP component.
+</td>
+<td style="text-align:left;">
+Q5-Q7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Showing statistical results
+</td>
+<td style="text-align:left;">
+Displaying significant clusters, channels or statistic maps.
+</td>
+<td style="text-align:left;">
+Q5-Q7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Localisation and interpretation
+</td>
+<td style="text-align:left;">
+Locating activity or relating it to anatomy or brain function.
+</td>
+<td style="text-align:left;">
+Q5-Q7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Communication and reporting
+</td>
+<td style="text-align:left;">
+Figures for papers, talks, teaching, collaborators or clinical reports.
+</td>
+<td style="text-align:left;">
+Q5-Q7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Aesthetics
+</td>
+<td style="text-align:left;">
+The map is used because it looks attractive or impressive.
+</td>
+<td style="text-align:left;">
+Q5-Q7
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
+<table class="table table-striped table-hover table-sm">
+<thead>
+<tr>
+<th style="text-align:left;">
+Code
+</th>
+<th style="text-align:left;">
+Definition
+</th>
+<th style="text-align:left;">
+Usual questions
+</th>
+<th style="text-align:left;">
+Study design
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Adjacent uncertainty map
+</td>
+<td style="text-align:left;">
+A second topoplot of the uncertainty next to the estimate.
+</td>
+<td style="text-align:left;">
+Q9
+</td>
+<td style="text-align:left;">
+Adjacent plots
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Interval maps
+</td>
+<td style="text-align:left;">
+Maps of the lower and upper interval bounds, with or without the estimate.
+</td>
+<td style="text-align:left;">
+Q9
+</td>
+<td style="text-align:left;">
+Confidence intervals
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Transparency or saturation
+</td>
+<td style="text-align:left;">
+Uncertainty lowers opacity or saturation, so uncertain areas fade.
+</td>
+<td style="text-align:left;">
+Q9
+</td>
+<td style="text-align:left;">
+Bivariate corner and range
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Masking or greying out
+</td>
+<td style="text-align:left;">
+Uncertain or non-significant areas are hidden or grey.
+</td>
+<td style="text-align:left;">
+Q9
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Texture or glyph overlay
+</td>
+<td style="text-align:left;">
+Dots, crosses, grain or a grid laid over uncertain areas.
+</td>
+<td style="text-align:left;">
+Q9
+</td>
+<td style="text-align:left;">
+Uncertainty markers
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Per-channel plots
+</td>
+<td style="text-align:left;">
+A waveform, interval or violin per channel instead of a map.
+</td>
+<td style="text-align:left;">
+Q9
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Distributions of maps
+</td>
+<td style="text-align:left;">
+Many maps (participants, quantiles, samples), browsed interactively or animated.
+</td>
+<td style="text-align:left;">
+Q9
+</td>
+<td style="text-align:left;">
+Animation
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3D or interactive display
+</td>
+<td style="text-align:left;">
+A rotatable 3D head or other interaction.
+</td>
+<td style="text-align:left;">
+Q9
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+No idea
+</td>
+<td style="text-align:left;">
+The participant has no idea how to show uncertainty on a topoplot.
+</td>
+<td style="text-align:left;">
+Q9
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabset-1-8" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-8-tab">
+<table class="table table-striped table-hover table-sm">
+<thead>
+<tr>
+<th style="text-align:left;">
+Code
+</th>
+<th style="text-align:left;">
+Definition
+</th>
+<th style="text-align:left;">
+Usual questions
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Yes, it would help
+</td>
+<td style="text-align:left;">
+The participant says that showing uncertainty on topoplots would help (stance +1 or +2). A mixed answer is coded as a caveat.
+</td>
+<td style="text-align:left;">
+Q10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Reason: robustness and trust
+</td>
+<td style="text-align:left;">
+It shows how reliable a pattern is, or separates effects from noise.
+</td>
+<td style="text-align:left;">
+Q10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Reason: scientific norm
+</td>
+<td style="text-align:left;">
+Every estimate should be shown with its uncertainty.
+</td>
+<td style="text-align:left;">
+Q10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Reason: clinical decisions
+</td>
+<td style="text-align:left;">
+It would help to localise foci or judge artefacts in patients.
+</td>
+<td style="text-align:left;">
+Q10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Caveat: complexity
+</td>
+<td style="text-align:left;">
+Uncertainty makes the map harder to read or more cluttered.
+</td>
+<td style="text-align:left;">
+Q10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabset-1-9" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-9-tab">
+<table class="table table-striped table-hover table-sm">
+<thead>
+<tr>
+<th style="text-align:left;">
+Code
+</th>
+<th style="text-align:left;">
+Definition
+</th>
+<th style="text-align:left;">
+Usual questions
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Perceptual colormap
+</td>
+<td style="text-align:left;">
+A colormap that does not distort, for example not jet.
+</td>
+<td style="text-align:left;">
+Q12-Q14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Honest range and legend
+</td>
+<td style="text-align:left;">
+Meaningful, comparable and clearly labelled colour ranges.
+</td>
+<td style="text-align:left;">
+Q12-Q14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Readable uncertainty
+</td>
+<td style="text-align:left;">
+Uncertainty shown without clutter and without hiding the estimate.
+</td>
+<td style="text-align:left;">
+Q12-Q14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Relevant uncertainty
+</td>
+<td style="text-align:left;">
+The uncertainty shown must match the question, for example within-participant effects.
+</td>
+<td style="text-align:left;">
+Q12-Q14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Significance shown
+</td>
+<td style="text-align:left;">
+Significant areas or clusters are marked.
+</td>
+<td style="text-align:left;">
+Q12-Q14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Interpolation and projection
+</td>
+<td style="text-align:left;">
+Awareness or choice of the interpolation method and the 3D-to-2D projection.
+</td>
+<td style="text-align:left;">
+Q12-Q14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Group-map options
+</td>
+<td style="text-align:left;">
+Normalising individual maps, medians, quantiles or distributions of maps.
+</td>
+<td style="text-align:left;">
+Q12-Q14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Reference maps
+</td>
+<td style="text-align:left;">
+Baseline, permuted or null maps that show what no effect looks like.
+</td>
+<td style="text-align:left;">
+Q12-Q14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Good defaults and ease
+</td>
+<td style="text-align:left;">
+Good-looking defaults, a simple switch, speed and accessibility.
+</td>
+<td style="text-align:left;">
+Q12-Q14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Customisation
+</td>
+<td style="text-align:left;">
+Easy control of colour bars, layout and statistics.
+</td>
+<td style="text-align:left;">
+Q12-Q14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Temporal and 3D views
+</td>
+<td style="text-align:left;">
+Showing change over time or a rotatable 3D head.
+</td>
+<td style="text-align:left;">
+Q12-Q14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Standards and reporting
+</td>
+<td style="text-align:left;">
+Standard colour scales, and reporting the software and its version.
+</td>
+<td style="text-align:left;">
+Q12-Q14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Interpretation guidance
+</td>
+<td style="text-align:left;">
+Practical guidance on how to read the maps, for example for clinicians.
+</td>
+<td style="text-align:left;">
+Q12-Q14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Topographic inference
+</td>
+<td style="text-align:left;">
+Formal tests of whether two maps differ, not only visual comparison.
+</td>
+<td style="text-align:left;">
+Q12-Q14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="coded-meaning-units" class="level2">
+<h2 class="anchored" data-anchor-id="coded-meaning-units">Coded meaning units</h2>
+<p>The coding produced 239 meaning units from 9 interviews (between 18 and 38 per interview). 10 units are prompted and 19 carry a stance. Use the search box or the column filters to explore the table.</p>
+<p><a href="../data/interviews/interview_content_analysis.xlsx">Download the coded units as an Excel workbook</a></p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>interview_units <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  reactable<span class="sc">::</span><span class="fu">reactable</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">searchable =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">filterable =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">striped =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">highlight =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">bordered =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">defaultPageSize =</span> <span class="dv">20</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">showPageSizeOptions =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">pageSizeOptions =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">250</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">list</span>(</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">Respondent =</span> reactable<span class="sc">::</span><span class="fu">colDef</span>(<span class="at">name =</span> <span class="st">"Participant"</span>, <span class="at">minWidth =</span> <span class="dv">80</span>, <span class="at">align =</span> <span class="st">"center"</span>),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">Question =</span> reactable<span class="sc">::</span><span class="fu">colDef</span>(<span class="at">minWidth =</span> <span class="dv">75</span>, <span class="at">align =</span> <span class="st">"center"</span>),</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Meaning unit</span><span class="st">`</span> <span class="ot">=</span> reactable<span class="sc">::</span><span class="fu">colDef</span>(<span class="at">minWidth =</span> <span class="dv">420</span>),</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">Category =</span> reactable<span class="sc">::</span><span class="fu">colDef</span>(<span class="at">minWidth =</span> <span class="dv">150</span>),</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">Code =</span> reactable<span class="sc">::</span><span class="fu">colDef</span>(<span class="at">minWidth =</span> <span class="dv">170</span>),</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">Prompted =</span> reactable<span class="sc">::</span><span class="fu">colDef</span>(<span class="at">minWidth =</span> <span class="dv">80</span>, <span class="at">align =</span> <span class="st">"center"</span>),</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">Stance =</span> reactable<span class="sc">::</span><span class="fu">colDef</span>(<span class="at">minWidth =</span> <span class="dv">70</span>, <span class="at">align =</span> <span class="st">"center"</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="reactable html-widget html-fill-item" id="htmlwidget-40e1b8681a112da4bf8f" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-40e1b8681a112da4bf8f">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Respondent":["R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R1","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R2","R3","R3","R3","R3","R3","R3","R3","R3","R3","R3","R3","R3","R3","R3","R3","R3","R3","R3","R3","R4","R4","R4","R4","R4","R4","R4","R4","R4","R4","R4","R4","R4","R4","R4","R4","R4","R4","R4","R4","R4","R4","R4","R5","R5","R5","R5","R5","R5","R5","R5","R5","R5","R5","R5","R5","R5","R5","R5","R5","R5","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R6","R7","R7","R7","R7","R7","R7","R7","R7","R7","R7","R7","R7","R7","R7","R7","R7","R7","R7","R7","R7","R7","R7","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R8","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9","R9"],"Question":["Q2","Q2","Q2","Q2","Q2","Q2","Q3","Q3","Q4","Q4","Q5","Q5","Q5","Q6","Q7","Q7","Q7","Q8","Q8","Q8","Q8","Q8","Q9","Q9","Q9","Q10","Q10","Q11","Q11","Q11","Q11","Q12","Q13","Q13","Q13","Q2","Q2","Q3","Q3","Q3","Q3","Q3","Q4","Q4","Q5","Q5","Q5","Q5","Q5","Q6","Q6","Q6","Q7","Q7","Q8","Q8","Q8","Q9","Q9","Q9","Q10","Q10","Q11","Q11","Q11","Q11","Q11","Q12","Q12","Q13","Q13","Q13","Q13","Q2","Q2","Q2","Q2","Q2","Q3","Q4","Q5","Q7","Q7","Q8","Q9","Q9","Q10","Q10","Q11","Q11","Q13","Q14","Q2","Q2","Q2","Q2","Q2","Q3","Q3","Q4","Q5","Q5","Q7","Q8","Q8","Q9","Q10","Q10","Q10","Q11","Q11","Q12","Q12","Q13","Q14","Q1","Q1","Q2","Q2","Q2","Q3","Q3","Q3","Q3","Q5","Q6","Q8","Q8","Q9","Q10","Q10","Q13","Q14","Q2","Q2","Q2","Q2","Q2","Q2","Q3","Q3","Q4","Q5","Q5","Q5","Q6","Q7","Q7","Q8","Q8","Q9","Q9","Q9","Q10","Q10","Q11","Q11","Q12","Q13","Q13","Q13","Q2","Q2","Q2","Q2","Q3","Q3","Q4","Q5","Q5","Q6","Q6","Q8","Q8","Q9","Q10","Q10","Q10","Q11","Q11","Q11","Q12","Q13","Q2","Q2","Q2","Q2","Q2","Q3","Q3","Q4","Q4","Q5","Q6","Q8","Q8","Q8","Q9","Q9","Q10","Q11","Q11","Q12","Q12","Q13","Q14","Q14","Q2","Q2","Q2","Q3","Q3","Q3","Q3","Q4","Q5","Q5","Q5","Q7","Q7","Q7","Q8","Q8","Q8","Q9","Q9","Q9","Q10","Q10","Q11","Q11","Q12","Q12","Q12","Q13","Q13","Q13","Q13","Q14"],"Meaning unit":["\"usually what I have is a grand average ERPs per condition\"","\"and then topographies of effects of interest\"","\"I've plotted beta topographies ... to verify that the effect that I'm assuming is underlying the difference in the ERP that I have exported actually has the distribution that I would expect for that ERP\"","\"this is also what goes in the paper ... the same visuals is also what I'm showing when I'm ... presenting my work at conferences or teaching students about it\"","\"for time course stuff, you could show something like a, like a standard deviation, like an error band or something like that ... I don't think I've consistently done that.\"","\"in the clusters that were significant. I've shown the entire distributions of the relevant T values across people to visualize the uncertainty in those effects.\"","\"Like plotting standard errors or standard deviations or something as error bands around these time course, like line plots basically.\"","\"in addition to betas, I have also plotted things like T values, which are more sensitive ... Topographies of T values? Yeah.\"","\"If I plot average ERPs, I'll have an error bar.\"","\"No, no. So I've never been asked to do this. It's something that I've thought about and I think it's better to do\"","\"verifying that the data look the way they should based on like simple things that are like standard, like visually evoked potentials ... If those things don't look normal, then the data shouldn't be published.\"","\"if you do cluster-based permutation test ... we would like indicate the significant electrodes that contribute to the cluster in space and in time\"","\"And this is mainly for myself and for like whatever lab members or maybe collaborators.\"","\"to look at like whether the distribution ... can help understand or visualize differences in magnitude versus differences in distribution\"","\"the most common things are just to, you know, like visualize the difference between experimental conditions\"","\"of course, we cannot infer brain areas per se ... if they've been properly trained, they know that that's not a thing.\"","\"if you want to make claims that a specific ERP component ... is being modulated by an experimental manipulation, then you need to show that it actually happens in the time range and at the sites specifically that define this ERP component.\"","\"So on the topo plot itself, no.\"","\"And I don't, because I don't know how.\"","\"you could plot like a standard deviation topo plot next to it, right? ... but that looks weird and it's difficult to interpret. Like it's not intuitive to read. Like that's very, it's very weird.\"","\"only plotting activity at the electrodes in the cluster ... Everything that is not in the cluster.\"","\"next to that, basically, um, I have plotted individual subject values ... like for each cluster, I have like a little dot cloud ... And that shows you a spread.\"","\"you can have two topos and show like the upper and lower range of a confidence interval ... a triad of topo plots, one that visualizes the mean or whatever estimator you have of the effect\"","\"if you are not confined to print ... you'll have like the individual subjects and you like go, go through to see like how it, how it varies\"","\"The saturation varies by the density of the of the subject overlap ... So you could like scroll through the topography and see like where most of the data live\"","\"I mean, I'm, I'm, uh, I think it is helpful.\"","\"you do want to have a sense of the robustness of what you're looking at.\"","\"I think because they don't know how\"","\"or because it maybe hasn't been established as a standard.\"","\"So I don't, I don't think people do it because they want to hide something.\"","\"they don't even think of it because it's just not, that's not what they've learned.\"","\"if ... the topoplot plot in EEGlab, um, would easily allow me to like visualize uncertainty and it gave me ... different ways of doing that ... And I could just ... add a flag or set a toggle\"","\"It should like use a color map that doesn't artificially amplify effects. Like it shouldn't use jet, for example.\"","\"now that you, you know, you're kind of nudging me in the way ... it would clearly visualize the effect, but it would also clearly visualize the uncertainty without one interfering with the other.\"","\"if you have a within subject effect, then you care about the variability in the effect and not unrelated variability between subjects.\"","\"I really liked so-called butterfly plots ... when all of them are doing the same thing, it's really obvious, and when they differ, then it's really obvious.\"","\"and then topographic plots where the electrode time course is different\"","\"in terms of visualization, I like to see error bars plotted where possible ... error bars or confidence intervals.\"","\"It can be very hard with EEG because if you have, for example, multiple electrodes plotted at the same time\"","\"I've always wanted to have a better way to plot uncertainty for topographic plots, but I've never found one.\"","\"I think it'd be great to have a way to kind of visually display the uncertainty when you're actually looking at the scalp topography.\"","\"the very initial portion of the ERP would have very small confidence bands ... further out ... the confidence spans gets much broader ... that's the part where we have the most uncertainty in language research.\"","\"I always try to have in my visualization some measure of uncertainty.\"","\"if you're plotting any type of aggregate statistic, and you don't have error bars or confidence intervals or bands, I find it super suspicious.\"","\"I'll do the difference wave as a butterfly plot. And then I'll have a topoplot of the difference.\"","\"And then kind of like a zoomed in single electrode plot, or maybe an average across five electrodes in a small region, using kind of the time series plots.\"","\"I included the paper. So I think it's important to see that.\"","\"I have seen people talk about an N400 ... And I look at their topoplots and the negativity is left in interior ... I think it's very important from that perspective to plot it to see what the actual distribution is.\"","\"I start off with kind of, as I mentioned, the so-called butterfly plot, where all the traces are plotted on top of each other for the entire scalp. And then I will do topoplots for each of the peaks in that trace.\"","\"researchers had found a surprising effect. And it was actually just the mirror image of their baseline interval ... if you had not plotted as a topoplot, you would not have caught that.\"","\"I've seen topoplots used also for ICA to see if you have meaningful components. Because components from the brain have a dipole structure.\"","\"Sometimes I've seen very strong effects centered around where there's major muscles in the scalp. And I'm like, that may not be brain activity.\"","\"topoplots are popular for people who are using the cluster-based permutation methods to see what the clusters look like.\"","\"And then I think largely just visualizing their ERP component of interest, like in a given time window.\"","\"No\"","\"because I don't know how.\"","\"in topoplots, you have colors showing the value you care about ... And then the topography itself is converting X and Y. And I don't know how to add an uncertainty dimension to that.\"","\"you could apply alpha, so like the transparency to indicate uncertainty ... if you have something that you're very uncertain about, then just don't highlight it\"","\"I have seen in some topoplots, like masking applied ... they'll just gray out like stuff on the plot.\"","\"You could also have a topoplot that is like one that is the actual, let's say the means, right? And another that is the variances ... the one spot where I have a really large mean is also where I have a really large variance. That's probably not a true effect\"","\"Yes. So as a rule, I think we should embrace uncertainty and admit it.\"","\"That is the heart of science, right? Is saying that we don't know.\"","\"They don't know how. They don't have good ideas.\"","\"It's not expected. Right. So it's not expected, actually, is a huge one.\"","\"One, it's default in some versions of the software. And defaults matter a lot in science ... statistics is the science of defaults.\"","\"why aren't reviewers pushing back on it? Why don't reviewers demand more? ... And so we need reviewers to demand this.\"","\"And because for topoplots at least, there's not a widely accepted way to do it.\"","\"there are different ways of doing interpolation ... certain visual things can be a result of interpolation ... For most things, they'll give the same plot, more or less. But for a few things, they'll give very different plots.\"","\"these 2D topoplots are necessarily a projection of the 3D scalp ... make us aware of like how it can go wrong ... I wish we had a better way to know when something is going wrong in that type of visualization.\"","\"So a color map that is visually appropriate, so not jet, first and foremost.\"","\"A range that is indicative of actual things going on ... You shouldn't try to mislead your reader by, say, having like a half microvolts range on your legend\"","\"if you have multiple topo plots in a paper, make sure the color ranges are approximately comparable. Or if they're not ... State that explicitly in your captions.\"","\"I think you should also clearly state what software you used. And versions and all this.\"","\"I mainly use the MNE class “brain” to visualize the detected sources.\"","\"In my classical understanding, a topographic plot is the one with blue and red colors showing activity from above. We do look at those sometimes, but mainly during selection.\"","\"One is the time-series plot showing activity over time, where we check whether the shape looks like a spike or just noise.\"","\"Then there’s a heatmap showing all detected spikes, how stable they are, whether they look uniform or if one out of ten was detected by chance.\"","\"when selecting clusters, we look at how the spike topoplots look, at epoch heatmaps, how stable they are, whether they look reasonably consistent. That’s how we select them.\"","\"I’m not sure I’m familiar with the concept. ... Yes, I think I don’t really know what it means.\"","\"No.\"","\"That’s why we look at topoplots, to see whether the location makes sense, especially since we work with patients who already have stereo-EEG, so we know roughly what to expect.\"","\"To see where activity is located in the brain—for ERPs\"","\"and also for preprocessing, for example when removing artifacts by inspecting component topographies.\"","\"No, I don’t think so. And I can’t really say why, since I don’t work on that stage.\"","\"I think maybe via tone or color saturation ... Perhaps saturation could show confidence\"","\"but tone usually encodes amplitude, so that scale is already taken.\"","\"Yes, probably—especially for final visualizations\"","\"to understand how much trust we can place in the data and which locations are more or less reliable.\"","\"Maybe because uncertainty is low\"","\"or they don’t want to show it clearly on an attractive plot.\"","\"I sometimes find it hard to mentally map electrodes that extend beyond the drawn head.\"","\"I don’t like topoplots without a color scale, but that’s usually included in publications.\"","\"Probably mapping is the main one: a color distribution of the leading rhythms at a given moment in time.\"","\"for the specialist doing EEG, the overall “curve picture” gives more information than mapping itself.\"","\"If in mapping we see the maximum red in frontal leads, we see an inversion of alpha rhythm, meaning there may be problems.\"","\"If it’s analysis of spike activity, it lets us predict where the epileptic focus is: left temporal, right temporal, frontal, etc.\"","\"if 80% of cases show something and 20% don’t, for science 80% is significant. But for an individual patient, whether they fall into the 80% or the 20% is 50/50.\"","\"No, I probably can’t answer, because we don’t have “uncertainty variants” like that.\"","\"The functional diagnostician writes: there is such a wave, one cannot exclude artifact; and the final interpretation is mine.\"","\"No, I definitely haven’t used that.\"","\"We use them mostly to print the results—when we provide an interpretation.\"","\"But for issuing reports—for the “picture”—it looks impressive, very beautiful.\"","\"For understanding processes—how excitability spreads in the brain is a very good indicator.\"","\"If we’re talking about the evaluation I do—no, I don’t use that.\"","\"Probably because I’m more a clinician, and I evaluate EEG in terms of the curves, and mapping to a lesser extent.\"","\"I would visualize it as a grid/mesh overlay. ... The zones that are unclear—I would overlay something like a cloud with dots inside, or some raster element, like a grid.\"","\"Absolutely. Absolutely.\"","\"if we search for a focus as a potential surgical target, those uncertainties—where one says “probably here,” another says “no, probably there”—matter.\"","\"It’s important to know whether that’s real or an artifact that misleads. There uncertainty is very important.\"","\"If you publish something that has uncertainty, it immediately raises the question: why publish it if you’re not sure?\"","\"But when using it clinically, people want to say “we confirmed, we proved.” So psychologically—finished product, no uncertainty.\"","\"For me, an ideal variant would be a 3D model—on a flash drive or something—so you could rotate the brain with the mouse, not just a flat image.\"","\"if it’s not paper but digital: the ability to evaluate change over time. For example, over 10 seconds, how dominance of rhythms changes.\"","\"each specialist configures color scales and frequency bands for themselves. There’s no universality ... So I’d like some universal, standardized variant.\"","\"I would orient it toward clinical interpretation. ... This connection between results and application to the actual person is important.\"","\"this amplitude analysis—we really use it—and it seems to me a wonderful tool for localizing a pathological process in the brain.\"","\"there is practically no literature. I mean, there is literature, but it only describes what the analysis is. There’s no bridge to practice.\"","\"Well, look: pictures are the most accessible form, and neurologists like them the most.\"","\"I sent you, for example, coherence analysis done in Neurosoft. Unfortunately, it isn’t done as “pictures.” It’s done only as color scales.\"","\"So yes—mostly it ends up being mapping.\"","\"The main principle underlying the translation of uncertainty is facts versus artifacts. This is a true pathological characteristic—or it’s recording artifacts\"","\"No—variance, I don’t know what that is. You see, this again is the word we were talking about—“uncertainty.” You explained it to me, but honestly it still doesn’t really get through to me.\"","\"we clearly have norms for each type of curve. ... And if these numbers go beyond the limits, then we know it’s not normal.\"","\"When we talk about a specific person, we talk about the individual. I have to remember: statistics don’t work here at all.\"","\"I prepare it for neurologists. But I should tell you—we now have another very interesting audience. Speech therapists. Neuropsychologists. Special-education specialists.\"","\"It helps confirm my hypothesis. For example, if I say there is delayed psychomotor speech development due to alpha rhythm inversion—from occipital to frontal or temporal regions—I demonstrate it visually.\"","\"No.\"","\"Because—to whom? Neurologists who don’t understand mapping—why would they need it?\"","\"That’s a question for scientists.\"","\"Absolutely yes.\"","\"It allows pathological foci to be seen in a completely new way. It expands diagnostic possibilities.\"","\"One that immediately produces a report. That works instead of the doctor.\"","\"Software developers must create methodological guides. Not theory—but practical interpretation. That’s what’s missing.\"","\"if I’m doing time–frequency analysis, then it’s those “scribbly” matrices—time–frequency representations.\"","\"And then, within whatever window/band I care about, I’ll show topomaps.\"","\"If it’s ERPs, roughly the same idea: an averaged ERP waveform and topographic maps at the peak.\"","\"there can also be a topographic map of some F-statistic—averaged not at the peak I pointed to with my finger, but over the time window where significant differences were found.\"","\"For further speculation about which areas are involved in the task/paradigm.\"","\"First of all: publications. Teaching too, yes.\"","\"Ah, spread. Then yes: standard deviation, or interquartile range.\"","\"Also it’s good to look at all single subjects—literally plot them—because SD and other metrics can be shifted by one or two outlier participants.\"","\"Yes, of course.\"","\"first, pilot analysis of the first data—somewhere mid-experiment—just to look at data quality.\"","\"Audience there is me, and maybe my supervisor.\"","\"to keep them from immediately tying things to anatomy, because interpolation of colors between channels can lead to wrong conclusions—like “something in the temporal area,” when it’s just cubic interpolation painting half the head.\"","\"if the subject did a motor task and we see a red spot around C3/C4, we can relate it to relevant anatomy given the task.\"","\"visualizing final results\"","\"and doing some functional–anatomical interpretation.\"","\"Significance can also be seen as a kind of uncertainty.\"","\"there was a task where I plotted standard deviation on the head. Also… yes: standard deviation, or MAD—median absolute deviation.\"","\"you can color the head by standard deviation.\"","\"In one single topomap, I haven’t really figured out a good encoding.\"","\"at each channel location on the head, you draw the ERP waveform itself. If you draw ERPs with SD ribbons around them at every electrode—then you’re showing uncertainty everywhere. But the little waveforms would be tiny.\"","\"Yes. Same reason I use uncertainty visualization on time-series plots—to show spread\"","\"electrodes without the effect may have strong variability because it’s random or non-specific fluctuations.\"","\"If they’ve decided they don’t want to reveal spread\"","\"and they already show SD around ERP curves for two or three channels, maybe they think that’s enough to assess spread.\"","\"More customization. ... If I want median with interquartile range, that won’t be possible with standard tools.\"","\"Beautiful. ... Yes. That’s its main function in the end.\"","\"Beautiful colormaps. And being able to easily rotate the colorbar horizontal/vertical—without digging deep into code. And being able to scale it conveniently\"","\"maybe there are cooler methods for interpolation between channels. Cubic interpolation makes it look beautiful, but lately—especially with fNIRS—it sometimes looks very distorting\"","\"So TFRs\"","\"primarily topoplots that relate to oscillatory information\"","\"source reconstruction\"","\"Yeah, obviously time series related to say decoding, accuracy, et cetera.\"","\"the primary methods that we use in the lab are really non-parametric permutation tests. And so we use them for all of this data, basically TFRs, on topoplots, in terms of cluster correction\"","\"For simple visualization of time series, we use standard error.\"","\"Yes. Yeah. Throughout. So either on topoplots, it would be cluster corrections, on time series - standard error.\"","\"usually that's one of the things we use quite early as part of sanity testing. So, for example, you would expect for certain tasks of interest that we have to be able to see certain types of activations.\"","\"it can be very useful to produce both surface-based analyses and report them in the paper as well as source reconstructed analyses. So side by side, just for transparency.\"","\"there are so many studies utilizing topoplots. So we have a good kind of baseline comparison as well of what would we expect.\"","\"Of course, the ICA is the very first time we used topoplots.\"","\"we would either mark the electrodes that are significant for a particular contrast of interest. ... But what we've done in the past is just mark the ones that survive the threshold.\"","\"It's the t-value, but also that's the significance, right?\"","\"So you would have kind of an outline, which is interpolated between the electrodes that would outline where the surviving cluster is. So that is certainly also an elegant way of doing that.\"","\"Yeah, definitely.\"","\"it basically applies to all data, right? So you need to find a way to do that.\"","\"Otherwise you don't know whether it's just complete noise or not.\"","\"The only reason I could suspect is that they just don't know how.\"","\"I don't think they necessarily want to hide because there will be some stats that they will need to show anyways, right?\"","\"So I think maybe it's more of a kind of technical software issue or lack of experience of how to do that with topoplots as well as other things.\"","\"if we present topoplots, we also present uncertainty or the uncertainty is very clearly linked to another graph that evaluates that, right?\"","\"If the topoplot of interest is, is something that is part of your main results, you should display, uh, clusters that were significant.\"","\"I use a lot of traces\"","\"as well as topoplots\"","\"and 3D brains—things like that.\"","\"The goal is to illustrate the data and to show what effects are in the data.\"","\"Yes, for myself.\"","\"Every measure has a standard deviation, and you need to give the audience some feeling for the uncertainty. You can illustrate confidence intervals for some types of visualizations.\"","\"In general, you have to do some kind of statistics to show that your main effect is actually present and not some noisy artifact—permutation testing, or standard statistical analysis.\"","\"Yes. For some types of plots it’s easier than for others.\"","\"If you visualize a topoplot, it’s hard to add a third dimension.\"","\"In exploratory analysis, definitely—to get a feel for data quality.\"","\"In EEG you often have very typical patterns informed by physiology. Alpha power is most pronounced at posterior channels. ERPs often have a very specific topography. It’s an intuitive way to see whether these expectations match.\"","\"It’s not common to do that. The standard topoplot functions in toolboxes are 2D maps—they don’t have an axis of uncertainty.\"","\"Sometimes people use masking: greying out non-significant channels, or marking significant channels specifically. That’s a little bit related to uncertainty, but it’s not the same thing.\"","\"I would say no, because it’s not there in the standard functions.\"","\"You could draw two topoplots: one with the mean of the measure you’re looking at, and one with the standard deviation.\"","\"In the literature there were some weird 3D-type topoplots. I’m not sure that’s the right direction.\"","\"You have to balance it. Generally it’s helpful to show uncertainty, but it makes things more complex.\"","\"They don’t even include uncertainty in ERP traces, where it’s easy to do. So maybe they don’t aim at visualizing uncertainty in general, and it’s not specific to topoplots.\"","\"Maybe they feel it’s not necessary, because whether something is significant will be reflected in statistical measures, and you don’t need to show it in the graphs.\"","\"Sometimes I wasn’t happy with the interpolation of colors for atypical electrode configurations.\"","\"There, I often remove interpolation and just show colored dots without any interpolation, because I feel interpolation is more misleading.\"","\"Appropriate colormap. If your measure has positive and negative values, fine—but if your measure only has values from zero to some maximum, don’t use a bipolar colormap\"","\"it needs to be a concise representation. If it becomes too complex, people may have trouble interpreting it.\"","\"Maybe it would be great if those people started using topoplots in the first place. But if you now put uncertainty onto them, maybe they’re more confused—I’m not sure.\"","\"Yeah, showing information over time or effects over time.\"","\"So I'll have either all the participants' data superimposed with some measure of central tendency on top\"","\"And I do show maps, but it's not the main focus.\"","\"Well, the main method I would use is percentile bootstrap to quantify uncertainty.\"","\"So if it's a group inference, I would show individual participants.\"","\"you can do hierarchical sampling of participants and trials. So you can get confidence interval for group effects that give you an indication of the variability that comes from the two levels of analysis.\"","\"The uncertainty in terms of location on the scalp is not something I typically consider in the analysis because my focus is mostly on the timing of the effects.\"","\"Always.\"","\"the topoplots would be used in the preprocessing when I do independent component analysis. It's essential to clean up the data.\"","\"The main focus is using the maps at the participant level really to do some sanity checks. Quite often we know where the effects are located, so it's not really an empirical question, but it's more like to check that everything makes sense.\"","\"So I did some comparison of topographic maps, but simple things like looking at the lateralization. So looking at the left-right difference.\"","\"Most of the time, I think it's just really cosmetic.\"","\"They're just like, oh, it's an attention task. We expect a fronto-central topography. And it's just comparing to those vague expectations from the researcher.\"","\"they can be a good indication of the quality of the data. Because if you see maps that are really patchy, really bumpy, you know, with stuff everywhere, you realize, well, there's some bunch of noisy electrodes in there.\"","\"So instead of just showing the map of the average, I might show the maps for each participant.\"","\"I've never created a map that has uncertainty on it.\"","\"get the map from each participant, normalize it, so that they're all on the same scale. ... So that way the map for the group is not dominated by a few participants\"","\"you could use transparency in addition to the color coding so that areas where you have more consistency across participants would show up more clearly ... But it's tricky because it's not really easy to see.\"","\"you could show your data as a time course. So instead of having time on the x-axis, you would have your electrodes on the x-axis.\"","\"you could just plot the difference between these two groups of electrodes and then have a confidence interval for that difference.\"","\"Well, we need measures of uncertainty for everything we show, everything we quantify. So it's not an option.\"","\"In ERP research, the situation is just absolutely catastrophic. Because you can still publish papers where there's not a single measure of uncertainty on anything.\"","\"Well, like everything else people do, it's out of habit. People work in their own little culture, their subdivision of neuroscience and psychology, and that's how they've been taught.\"","\"And when they get to be reviewed, they get comments from people who do similar things. So they never challenge on the standards.\"","\"it's also because of the tools that are available to them. And that usually have this sort of default. So people will just go for the default.\"","\"by default, there should be some option to normalize the data from individual participants before they are averaged to form a group map.\"","\"But I think for general users, you need to have some functions that give you some good defaults.\"","\"You want to have some meaningful color maps, so you want to have some linear color maps. Not the awful defaults we had in EEGLAB for decades\"","\"And some measure of uncertainty that could be easy to understand.\"","\"I'd like to have a map of the quantiles. I'd like to have a map of the median activity. ... I want to be able to explore distributions of maps.\"","\"you'd want to show maps of data that have been permuted between conditions to get an idea of what random maps could look like.\"","\"How do you quantify the topographic information? Because typically we just use our visual system to assess the maps ... Usually, we don't have statistical inferences on those topographic differences.\""],"Category":["Plots they use","Plots they use","What topoplots are used for","What topoplots are used for","Uncertainty on other plots","What uncertainty means to them","What uncertainty means to them","Uncertainty on topoplots now","Uncertainty on other plots","Why it is not shown on topoplots","What topoplots are used for","What topoplots are used for","What topoplots are used for","What topoplots are used for","What topoplots are used for","What topoplots are used for","What topoplots are used for","Uncertainty on topoplots now","Why it is not shown on topoplots","Ideas for showing uncertainty on topoplots","Uncertainty on topoplots now","Uncertainty on topoplots now","Ideas for showing uncertainty on topoplots","Ideas for showing uncertainty on topoplots","Ideas for showing uncertainty on topoplots","Would uncertainty on topoplots help?","Would uncertainty on topoplots help?","Why it is not shown on topoplots","Why it is not shown on topoplots","Why it is not shown on topoplots","Why it is not shown on topoplots","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Plots they use","Plots they use","What uncertainty means to them","Why it is not shown on topoplots","Why it is not shown on topoplots","Would uncertainty on topoplots help?","What uncertainty means to them","Uncertainty on other plots","Would uncertainty on topoplots help?","What topoplots are used for","Plots they use","What topoplots are used for","What topoplots are used for","What topoplots are used for","What topoplots are used for","What topoplots are used for","What topoplots are used for","What topoplots are used for","What topoplots are used for","Uncertainty on topoplots now","Why it is not shown on topoplots","Why it is not shown on topoplots","Ideas for showing uncertainty on topoplots","Ideas for showing uncertainty on topoplots","Ideas for showing uncertainty on topoplots","Would uncertainty on topoplots help?","Would uncertainty on topoplots help?","Why it is not shown on topoplots","Why it is not shown on topoplots","Why it is not shown on topoplots","Why it is not shown on topoplots","Why it is not shown on topoplots","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Plots they use","Plots they use","Plots they use","Plots they use","What topoplots are used for","What uncertainty means to them","Uncertainty on other plots","What topoplots are used for","What topoplots are used for","What topoplots are used for","Uncertainty on topoplots now","Ideas for showing uncertainty on topoplots","Why it is not shown on topoplots","Would uncertainty on topoplots help?","Would uncertainty on topoplots help?","Why it is not shown on topoplots","Why it is not shown on topoplots","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Plots they use","Plots they use","What topoplots are used for","What topoplots are used for","What uncertainty means to them","What uncertainty means to them","What uncertainty means to them","Uncertainty on other plots","What topoplots are used for","What topoplots are used for","What topoplots are used for","Uncertainty on topoplots now","Why it is not shown on topoplots","Ideas for showing uncertainty on topoplots","Would uncertainty on topoplots help?","Would uncertainty on topoplots help?","Would uncertainty on topoplots help?","Why it is not shown on topoplots","Why it is not shown on topoplots","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools","What topoplots are used for","Wishes for topoplots and their tools","What topoplots are used for","Plots they use","Plots they use","What uncertainty means to them","What uncertainty means to them","What uncertainty means to them","What uncertainty means to them","What topoplots are used for","What topoplots are used for","Uncertainty on topoplots now","Why it is not shown on topoplots","Ideas for showing uncertainty on topoplots","Would uncertainty on topoplots help?","Would uncertainty on topoplots help?","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Plots they use","Plots they use","Plots they use","What topoplots are used for","What topoplots are used for","What topoplots are used for","What uncertainty means to them","What uncertainty means to them","Uncertainty on other plots","What topoplots are used for","What topoplots are used for","Wishes for topoplots and their tools","What topoplots are used for","What topoplots are used for","What topoplots are used for","What uncertainty means to them","Uncertainty on topoplots now","Ideas for showing uncertainty on topoplots","Why it is not shown on topoplots","Ideas for showing uncertainty on topoplots","Would uncertainty on topoplots help?","Would uncertainty on topoplots help?","Why it is not shown on topoplots","Why it is not shown on topoplots","Wishes for topoplots and their tools","What topoplots are used for","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Plots they use","Plots they use","Plots they use","Plots they use","What uncertainty means to them","What uncertainty means to them","Uncertainty on other plots","What topoplots are used for","What topoplots are used for","What topoplots are used for","What topoplots are used for","Uncertainty on topoplots now","Uncertainty on topoplots now","Uncertainty on topoplots now","Would uncertainty on topoplots help?","Would uncertainty on topoplots help?","Would uncertainty on topoplots help?","Why it is not shown on topoplots","Why it is not shown on topoplots","Why it is not shown on topoplots","Uncertainty on topoplots now","Wishes for topoplots and their tools","Plots they use","Plots they use","Plots they use","What topoplots are used for","What topoplots are used for","What uncertainty means to them","What uncertainty means to them","Uncertainty on other plots","Why it is not shown on topoplots","What topoplots are used for","What topoplots are used for","Why it is not shown on topoplots","Uncertainty on topoplots now","Uncertainty on topoplots now","Ideas for showing uncertainty on topoplots","Ideas for showing uncertainty on topoplots","Would uncertainty on topoplots help?","Why it is not shown on topoplots","Why it is not shown on topoplots","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Would uncertainty on topoplots help?","Plots they use","Plots they use","Plots they use","What uncertainty means to them","What uncertainty means to them","What uncertainty means to them","Why it is not shown on topoplots","Uncertainty on other plots","What topoplots are used for","What topoplots are used for","What topoplots are used for","What topoplots are used for","What topoplots are used for","What topoplots are used for","Uncertainty on topoplots now","Uncertainty on topoplots now","Uncertainty on topoplots now","Ideas for showing uncertainty on topoplots","Ideas for showing uncertainty on topoplots","Ideas for showing uncertainty on topoplots","Would uncertainty on topoplots help?","Would uncertainty on topoplots help?","Why it is not shown on topoplots","Why it is not shown on topoplots","Why it is not shown on topoplots","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools","Wishes for topoplots and their tools"],"Code":["Time-course plots","Topoplots","Identifying ERP components","Communication and reporting","Not shown or not consistently","Individual data","Spread and precision","Statistic map","Shown (e.g. error bands)","Not expected","Sanity check against known patterns","Showing statistical results","Exploration for oneself","Comparing conditions","Comparing conditions","Localisation and interpretation","Identifying ERP components","No uncertainty on topoplots","Do not know how","Adjacent uncertainty map","Significance masking or marking","Companion plot","Interval maps","Distributions of maps","Transparency or saturation","Yes, it would help","Reason: robustness and trust","Do not know how","Not expected","Wish to appear certain","Habit and training","Good defaults and ease","Perceptual colormap","Readable uncertainty","Relevant uncertainty","Butterfly and multi-channel plots","Topoplots","Spread and precision","Clutter and dimensions","Do not know how","Yes, it would help","Spread and precision","Shown (e.g. error bands)","Reason: scientific norm","Comparing conditions","Time-course plots","Communication and reporting","Identifying ERP components","Exploration for oneself","Sanity check against known patterns","ICA and artefacts","ICA and artefacts","Showing statistical results","Identifying ERP components","No uncertainty on topoplots","Do not know how","Clutter and dimensions","Transparency or saturation","Masking or greying out","Adjacent uncertainty map","Yes, it would help","Reason: scientific norm","Do not know how","Not expected","Tools and defaults","Not expected","Not expected","Interpolation and projection","Interpolation and projection","Perceptual colormap","Honest range and legend","Honest range and legend","Standards and reporting","Source and 3D brain plots","Topoplots","Time-course plots","Other EEG plots","Data quality","Concept unfamiliar","Not shown or not consistently","Sanity check against known patterns","Localisation and interpretation","ICA and artefacts","No uncertainty on topoplots","Transparency or saturation","Clutter and dimensions","Yes, it would help","Reason: robustness and trust","Uncertainty thought small","Wish to appear certain","Interpolation and projection","Honest range and legend","Topoplots","Time-course plots","Sanity check against known patterns","Localisation and interpretation","Levels of variability","Concept unfamiliar","Signal versus artefact","Not shown or not consistently","Communication and reporting","Aesthetics","Localisation and interpretation","No uncertainty on topoplots","No audience need","Texture or glyph overlay","Yes, it would help","Reason: clinical decisions","Reason: robustness and trust","Wish to appear certain","Wish to appear certain","Temporal and 3D views","Temporal and 3D views","Standards and reporting","Interpretation guidance","Localisation and interpretation","Interpretation guidance","Communication and reporting","Time-frequency and spectral plots","Topoplots","Signal versus artefact","Concept unfamiliar","Spread and precision","Levels of variability","Communication and reporting","Localisation and interpretation","No uncertainty on topoplots","No audience need","No idea","Yes, it would help","Reason: clinical decisions","Good defaults and ease","Interpretation guidance","Time-frequency and spectral plots","Topoplots","Time-course plots","Showing statistical results","Localisation and interpretation","Communication and reporting","Spread and precision","Individual data","Shown (e.g. error bands)","Data quality","Exploration for oneself","Interpolation and projection","Localisation and interpretation","Communication and reporting","Localisation and interpretation","Statistical evidence","Separate spread map","Adjacent uncertainty map","Do not know how","Per-channel plots","Yes, it would help","Reason: robustness and trust","Wish to appear certain","Significance seen as enough","Customisation","Aesthetics","Customisation","Interpolation and projection","Time-frequency and spectral plots","Topoplots","Source and 3D brain plots","Time-course plots","Statistical evidence","Spread and precision","Shown (e.g. error bands)","Sanity check against known patterns","Communication and reporting","Sanity check against known patterns","ICA and artefacts","Significance masking or marking","Statistic map","Significance masking or marking","Yes, it would help","Reason: scientific norm","Reason: robustness and trust","Do not know how","Wish to appear certain","Tools and defaults","Companion plot","Significance shown","Time-course plots","Topoplots","Source and 3D brain plots","Communication and reporting","Exploration for oneself","Spread and precision","Statistical evidence","Shown (e.g. error bands)","Clutter and dimensions","Data quality","Sanity check against known patterns","Tools and defaults","Significance masking or marking","No uncertainty on topoplots","Adjacent uncertainty map","3D or interactive display","Caveat: complexity","Not expected","Significance seen as enough","Interpolation and projection","Interpolation and projection","Perceptual colormap","Readable uncertainty","Caveat: complexity","Time-course plots","Butterfly and multi-channel plots","Topoplots","Spread and precision","Individual data","Levels of variability","Timing matters more than space","Shown (e.g. error bands)","ICA and artefacts","Sanity check against known patterns","Comparing conditions","Aesthetics","Sanity check against known patterns","Data quality","Individual or normalised maps","No uncertainty on topoplots","Individual or normalised maps","Transparency or saturation","Per-channel plots","Per-channel plots","Yes, it would help","Reason: scientific norm","Habit and training","Not expected","Tools and defaults","Group-map options","Good defaults and ease","Perceptual colormap","Readable uncertainty","Group-map options","Reference maps","Topographic inference"],"Prompted":["No","No","No","Yes","No","No","No","No","No","Yes","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","Yes","Yes","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","Yes","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","Yes","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","Yes","Yes","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","Yes","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","Yes","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No"],"Stance":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"-1",null,null,null,"-2",null,null,null,null,null,"+1",null,null,null,"-1",null,null,null,null,null,null,null,null,null,null,"+2",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"+2",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"+1",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"+2",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"+2",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"0","+1",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"+1","+2",null,null,null,"-1",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"0",null,null,"-1",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"-1",null,null,null,null,null,"0",null,null,"+2",null,null,null,null,null,null,null,null,null,null,null]},"columns":[{"id":"Respondent","name":"Participant","type":"character","minWidth":80,"align":"center"},{"id":"Question","name":"Question","type":"character","minWidth":75,"align":"center"},{"id":"Meaning unit","name":"Meaning unit","type":"character","minWidth":420},{"id":"Category","name":"Category","type":"character","minWidth":150},{"id":"Code","name":"Code","type":"character","minWidth":170},{"id":"Prompted","name":"Prompted","type":"character","minWidth":80,"align":"center"},{"id":"Stance","name":"Stance","type":"character","minWidth":70,"align":"center"}],"filterable":true,"searchable":true,"defaultPageSize":20,"showPageSizeOptions":true,"pageSizeOptions":[10,20,50,100,250],"highlight":true,"bordered":true,"striped":true,"dataKey":"a74d70d4cdbf92d0c6c8f704eac487d5"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="codes-by-participant" class="level2">
+<h2 class="anchored" data-anchor-id="codes-by-participant">Codes by participant</h2>
+<p>Each row is a code and each column a participant. A dot means that the participant expressed the idea at least once: filled if at least once without a prompt, open if only after the interviewer had named the idea. Researchers and clinicians are shown apart. The number after each code counts the participants who mentioned it. In <em>Why it is not shown on topoplots</em>, a cross marks a reason that the participant explicitly rejected (for example “I don’t think people do it because they want to hide something”); it is not counted.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">All codes</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Mentioned by 3 or more</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false" href="">Bar chart (3 or more)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make_interview_code_matrix</span>(<span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="interviews_files/figure-html/interview-code-matrix-1.png" class="img-fluid figure-img" style="width:100.0%" alt="Dot matrix of all 68 interview codes in nine categories (rows) by nine participants (columns, seven researchers and two clinicians). A filled dot marks a spontaneous mention, an open dot a mention after an interviewer prompt, and a cross a rejected reason for not showing uncertainty. Each code label ends with the number of participants who mentioned it."></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<p>Only the 36 codes that at least 3 of the 9 participants mentioned.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make_interview_code_matrix</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="interviews_files/figure-html/interview-code-matrix-3-1.png" class="img-fluid figure-img" style="width:100.0%" alt="Dot matrix of the interview codes mentioned by at least three participants (rows, grouped by category) by nine participants (columns, seven researchers and two clinicians). A filled dot marks a spontaneous mention, an open dot a mention after an interviewer prompt, and a cross a rejected reason for not showing uncertainty. Each code label ends with the number of participants who mentioned it."></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<p>The same 36 codes as bars: the number of participants who mentioned each code. Prompted mentions count; rejected reasons do not.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A softer blue than the Basic topoplot accent (basic_accent), so the bars do</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># not read as that visualization.</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>interview_bar_colour <span class="ot">&lt;-</span> <span class="st">"#6A9AC8"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>interview_bar_data <span class="ot">&lt;-</span> <span class="fu">interview_matrix_subset</span>(<span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(Category, Code, n) <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">Code =</span> <span class="fu">factor</span>(Code, <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">unique</span>(</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    interview_code_order<span class="sc">$</span>Code[interview_code_order<span class="sc">$</span>n <span class="sc">&gt;=</span> <span class="dv">3</span>]</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  ))))</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(interview_bar_data, <span class="fu">aes</span>(n, Code)) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">section_bands</span>(<span class="st">"Category"</span>, <span class="fu">levels</span>(interview_bar_data<span class="sc">$</span>Category)) <span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.7</span>, <span class="at">fill =</span> interview_bar_colour) <span class="sc">+</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> n),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.4</span>, <span class="at">family =</span> <span class="st">"Lato"</span>, <span class="at">size =</span> <span class="dv">8</span>, <span class="at">colour =</span> <span class="st">"#222222"</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">9.6</span>), <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">9</span>), <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Participants (of 9)"</span>, <span class="at">position =</span> <span class="st">"top"</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    Category <span class="sc">~</span> ., <span class="at">scales =</span> <span class="st">"free_y"</span>, <span class="at">space =</span> <span class="st">"free_y"</span>,</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">Category =</span> <span class="fu">label_wrap_gen</span>(<span class="dv">14</span>))</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_theme</span>(<span class="at">base_size =</span> <span class="dv">24</span>) <span class="sc">+</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">22</span>),</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">22</span>),</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">22</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">8</span>)),</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"#DADADA"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>),</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.spacing.y =</span> grid<span class="sc">::</span><span class="fu">unit</span>(<span class="fl">1.6</span>, <span class="st">"lines"</span>),</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">22</span>, <span class="at">angle =</span> <span class="dv">0</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">lineheight =</span> <span class="fl">0.5</span>),</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.justification =</span> <span class="st">"left"</span>,</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">22</span>)</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="interviews_files/figure-html/interview-code-bars-1.png" class="img-fluid figure-img" style="width:100.0%" alt="Horizontal stacked bar chart of the interview codes mentioned by at least three of nine participants, grouped by category. Each blue bar shows the number of participants who mentioned the code, with the number at the end of the bar."></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="proposed-encodings-and-the-study-designs" class="level2">
+<h2 class="anchored" data-anchor-id="proposed-encodings-and-the-study-designs">Proposed encodings and the study designs</h2>
+<p>The encodings that participants proposed when asked how they would show uncertainty on a topoplot (Q9), grouped by the design of the quantitative study that they resemble. The colour shows the stance where the participant also evaluated the encoding; a small dot marks an encoding proposed without an evaluation.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>interview_design_levels <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Adjacent plots"</span>, <span class="st">"Confidence intervals"</span>, <span class="st">"Bivariate corner and range"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Uncertainty markers"</span>, <span class="st">"Animation"</span>, <span class="st">"Not in the study"</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>interview_stance_colours <span class="ot">&lt;-</span> <span class="fu">setNames</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  scales<span class="sc">::</span><span class="fu">div_gradient_pal</span>(<span class="st">"#A6611A"</span>, <span class="st">"#F5F5F5"</span>, <span class="st">"#018571"</span>)(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    scales<span class="sc">::</span><span class="fu">rescale</span>(<span class="sc">-</span><span class="dv">2</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">from =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"−2"</span>, <span class="st">"−1"</span>, <span class="st">"0"</span>, <span class="st">"+1"</span>, <span class="st">"+2"</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>interview_encodings <span class="ot">&lt;-</span> interview_units <span class="sc">|&gt;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(Category <span class="sc">==</span> <span class="st">"Ideas for showing uncertainty on topoplots"</span>, Code <span class="sc">!=</span> <span class="st">"No idea"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(interview_codebook, Code, <span class="st">`</span><span class="at">Study design</span><span class="st">`</span>), <span class="at">by =</span> <span class="st">"Code"</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(Respondent, Code, <span class="st">`</span><span class="at">Study design</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The most negative stance if a participant evaluated it more than once.</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">stance =</span> <span class="fu">suppressWarnings</span>(<span class="fu">min</span>(<span class="fu">as.integer</span>(Stance), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">stance =</span> dplyr<span class="sc">::</span><span class="fu">if_else</span>(<span class="fu">is.finite</span>(stance), stance, <span class="cn">NA_integer_</span>),</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">design =</span> <span class="fu">factor</span>(</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">coalesce</span>(<span class="st">`</span><span class="at">Study design</span><span class="st">`</span>, <span class="st">"Not in the study"</span>),</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> interview_design_levels</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">stance_label =</span> <span class="fu">factor</span>(</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">chartr</span>(<span class="st">"-"</span>, <span class="st">"−"</span>, <span class="fu">ifelse</span>(stance <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="fu">paste0</span>(<span class="st">"+"</span>, stance), <span class="fu">as.character</span>(stance))),</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">names</span>(interview_stance_colours)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">Respondent =</span> <span class="fu">factor</span>(Respondent, <span class="at">levels =</span> interview_respondent_levels)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(interview_participants, Respondent, Group), <span class="at">by =</span> <span class="st">"Respondent"</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">Group =</span> <span class="fu">factor</span>(interview_group_levels[Group], <span class="at">levels =</span> interview_group_levels)) <span class="sc">|&gt;</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">add_count</span>(Code, <span class="at">name =</span> <span class="st">"n"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">label =</span> <span class="fu">paste0</span>(Code, <span class="st">"  "</span>, n))</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(interview_encodings, <span class="fu">aes</span>(Respondent, label)) <span class="sc">+</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">section_bands</span>(<span class="st">"design"</span>, interview_design_levels) <span class="sc">+</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> \(d) dplyr<span class="sc">::</span><span class="fu">filter</span>(d, <span class="fu">is.na</span>(stance)),</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">shape =</span> <span class="st">"Proposed, not evaluated"</span>),</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span>, <span class="at">colour =</span> <span class="st">"#222222"</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> \(d) dplyr<span class="sc">::</span><span class="fu">filter</span>(d, <span class="sc">!</span><span class="fu">is.na</span>(stance)),</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">fill =</span> stance_label),</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">8</span>, <span class="at">stroke =</span> <span class="fl">0.8</span>, <span class="at">colour =</span> <span class="st">"#222222"</span>,</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Every stance keeps its swatch, also one no participant used.</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> <span class="fu">c</span>(<span class="at">fill =</span> <span class="cn">TRUE</span>, <span class="at">shape =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> interview_stance_colours, <span class="at">drop =</span> <span class="cn">FALSE</span>, <span class="at">name =</span> <span class="st">"Stance"</span>,</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">rev</span>(<span class="fu">names</span>(interview_stance_colours))</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">Proposed, not evaluated</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">16</span>), <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">order =</span> <span class="dv">1</span>, <span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">8</span>, <span class="at">colour =</span> <span class="st">"#222222"</span>)),</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="fu">guide_legend</span>(<span class="at">order =</span> <span class="dv">2</span>)</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Every participant of the group keeps a column, also one who proposed no</span></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>  <span class="co"># encoding (each group panel holds at least one point).</span></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(</span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">"top"</span>,</span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> \(x) {</span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>      group <span class="ot">&lt;-</span> interview_participants<span class="sc">$</span>Group[<span class="fu">match</span>(x[<span class="dv">1</span>], interview_participants<span class="sc">$</span>Respondent)]</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>      <span class="fu">intersect</span>(</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>        interview_respondent_levels,</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>        interview_participants<span class="sc">$</span>Respondent[interview_participants<span class="sc">$</span>Group <span class="sc">==</span> group]</span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>    design <span class="sc">~</span> Group, <span class="at">scales =</span> <span class="st">"free"</span>, <span class="at">space =</span> <span class="st">"free"</span>,</span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">design =</span> <span class="fu">label_wrap_gen</span>(<span class="dv">14</span>))</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_theme</span>(<span class="at">base_size =</span> <span class="dv">24</span>) <span class="sc">+</span></span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">22</span>),</span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"#DADADA"</span>, <span class="at">linewidth =</span> <span class="fl">0.4</span>),</span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.spacing.y =</span> grid<span class="sc">::</span><span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">"lines"</span>),</span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.spacing.x =</span> grid<span class="sc">::</span><span class="fu">unit</span>(<span class="fl">1.2</span>, <span class="st">"lines"</span>),</span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.placement =</span> <span class="st">"outside"</span>,</span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">24</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">22</span>, <span class="at">angle =</span> <span class="dv">0</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">lineheight =</span> <span class="fl">0.5</span>),</span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">22</span>),</span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">22</span>)</span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="interviews_files/figure-html/interview-encodings-1.png" class="img-fluid figure-img" style="width:100.0%" alt="Dot matrix of the uncertainty encodings proposed in the interviews (rows), grouped by the study design they resemble, by participant (columns). Large dots are coloured by stance from strongly negative (brown) to strongly positive (green); small black dots mark encodings proposed without an evaluation."></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next steps</h2>
+<ul>
+<li><strong>Sensitivity analysis:</strong> whether the main findings hold for researchers only (without the two clinicians), for spontaneous mentions only, and when counting units instead of participants; and agreement with a second, independent coding.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<button type="button" class="back-to-top" aria-label="Back to top" title="Back to top">
+  <span class="back-to-top-arrow" aria-hidden="true">↑</span>
+  <span>Top</span>
+</button>
+
+<script>
+(() => {
+  const button = document.querySelector(".back-to-top");
+
+  if (!button) {
+    return;
+  }
+
+  const updateVisibility = () => {
+    button.classList.toggle("is-visible", window.scrollY > 400);
+  };
+
+  button.addEventListener("click", () => {
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    window.scrollTo({
+      top: 0,
+      behavior: reduceMotion ? "auto" : "smooth"
+    });
+  });
+
+  window.addEventListener("scroll", updateVisibility, { passive: true });
+  updateVisibility();
+})();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

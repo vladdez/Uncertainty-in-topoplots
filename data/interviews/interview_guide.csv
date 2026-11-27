@@ -1,0 +1,15 @@
+Question,Section,Wording
+Q1,Warm-up,Could you briefly describe your background in EEG/ERP research?
+Q2,Warm-up,What types of EEG visualizations do you most commonly use in your work and for what purpose?
+Q3,Thinking about uncertainty,"When you think about quantifying uncertainty in EEG or ERP data, what kinds of methods come to mind?"
+Q4,Thinking about uncertainty,"Do you currently include uncertainty information when you visualize EEG/ERP data? If yes, what type of uncertainty and why?"
+Q5,Use of topoplots,"At which stage of your research do you use topoplots, and for which audience?"
+Q6,Use of topoplots,"When you choose to create a topoplot, what functions does it serve for you?"
+Q7,Use of topoplots,What do you think other researchers use topoplots for?
+Q8,Uncertainty in topoplots,"Do you ever show uncertainty on topoplots specifically? If no, why not?"
+Q9,Uncertainty in topoplots,"If you wanted to show uncertainty on a topoplot, how might you visualize it?"
+Q10,Value and barriers,Do you think visualizing uncertainty on topoplots would be helpful? Why or why not?
+Q11,Value and barriers,Why do you think many researchers currently do not include uncertainty in their topoplots?
+Q12,Future needs,Is there anything you wish topoplot tools did better?
+Q13,Future needs,What would be your requirements for an ideal topoplot?
+Q14,Closing,Is there anything I didn't ask about that you think is important regarding topoplots or uncertainty visualization?
