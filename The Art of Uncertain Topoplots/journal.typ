@@ -1050,7 +1050,16 @@ displays in real analysis workflows.
 // References are generated automatically from refs.bib by the journal template.
 // TODO: Add and cite all manuscript references.
 
-// TODO: Add funding and acknowledgments statement.
+#heading(numbering: none)[Acknowledgments]
+
+Funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) --
+Project-ID 251654672 -- TRR 161.
+
+#heading(numbering: none)[Declaration of Competing Interests]
+
+No competing interests.
+
+// TODO: Add further acknowledgments if needed (funding above is final).
 // TODO: Add data and code availability statement.
 // TODO: Add an AI-use disclosure if required by IEEE or the venue.
 // TODO: Describe and cite the separate supplementary material where relevant.
