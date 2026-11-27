@@ -729,8 +729,8 @@ For example, the meaning unit "couldn't distinguish colors mapping from legend t
 assigned to "Bivariate corner", coded under "Legend/color mapping", and given an evaluation
 intensity of -2. Missing, blank, and non-substantive responses were excluded. All codes were
 then checked for compliance with the coding rules, and units that violated a rule were
-recoded (13 of 274). The codebook is given in Section 1.7 and Table S10 of the supplementary
-material.
+recoded (#nf.n_recoded of #nf.n_units). The codebook is given in Section 1.7 and Table S10
+of the supplementary material.
 
 = Results
 

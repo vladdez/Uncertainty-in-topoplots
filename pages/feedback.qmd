@@ -51,6 +51,18 @@ stopifnot(!anyNA(a305_content_analysis$ID))
 
 a305_n_units <- n_distinct(a305_content_analysis$unit_id)
 a305_n_rows <- nrow(a305_content_analysis)
+
+# Units recoded in the rule-compliance check (18 Nov 2026): units that named
+# neither bivariate variant but were coded to both Corner and Range, now coded
+# once to General bivariates. The corrections are merged into the workbook; the
+# list with a reason per unit is data/a305_coding_corrections.csv in commit
+# 182d840. Fixed count: later participants were coded under the rules directly.
+a305_n_recoded <- 13L
+stopifnot(
+  n_distinct(a305_content_analysis$unit_id[
+    a305_content_analysis$Visualization == "General bivariates"
+  ]) >= a305_n_recoded
+)
 a305_shared_units <- a305_content_analysis |>
   count(unit_id) |>
   filter(n > 1)
@@ -1341,6 +1353,7 @@ write_manuscript_numbers("feedback", list(
   # Supplement: codebook and unit counts.
   codebook = purrr::transpose(as.list(a305_codebook)),
   n_units = a305_n_units,
+  n_recoded = a305_n_recoded,
   n_rows = nrow(a305_content_analysis),
   n_themes = nrow(a305_codebook),
   # Coded at all (the page's count) vs with at least one entry on a specific
